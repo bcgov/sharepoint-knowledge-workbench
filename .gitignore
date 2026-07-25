@@ -1,0 +1,10 @@
+.DS_Store
+
+# Installed skill copies — regenerable from plugin-sources.json via the documented install
+# command in CLAUDE.md. Not committing these is the point of this repo: prove that a fresh
+# clone + the install command reproduces a working skill setup, not a vendored snapshot.
+.agents/
+.claude/
+
+# Local scratch/session context, not part of the demonstrated setup.
+context/

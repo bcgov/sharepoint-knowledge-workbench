@@ -1,0 +1,21 @@
+{
+  "sources": [
+    {
+      "source": "obra/superpowers",
+      "plugins": [
+        "superpowers"
+      ]
+    },
+    {
+      "source": "richfrem/agent-plugins-skills",
+      "plugins": [
+        "agent-agentic-os",
+        "agent-scaffolders",
+        "cli-agents",
+        "dependency-management",
+        "dev-utils",
+        "plugin-manager"
+      ]
+    }
+  ]
+}
