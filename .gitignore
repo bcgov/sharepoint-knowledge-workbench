@@ -1,4 +1,5 @@
 .DS_Store
+~$*
 
 # Installed skill copies — regenerable from plugin-sources.json via the documented install
 # command in CLAUDE.md. Not committing these is the point of this repo: prove that a fresh
