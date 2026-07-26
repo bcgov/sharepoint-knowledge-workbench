@@ -46,6 +46,7 @@ _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
+import analyze_structure  # noqa: E402
 import contracts  # noqa: E402
 import dependencies  # noqa: E402
 
@@ -152,12 +153,10 @@ def _require_confirmed_plan(plan_path: Path) -> contracts.ConversionPlan:
 # ---------------------------------------------------------------------------
 
 def cmd_analyze(args):
-    _require_source(args.source)
+    source_path = _require_source(args.source)
     _require_pandoc()
-    raise NotImplementedError(
-        "analyze business logic (running pandoc + producing a draft "
-        "conversion plan) is implemented in Task 6"
-    )
+    analyze_structure.analyze_document(source_path, Path(args.output))
+    return EXIT_PASS
 
 
 def cmd_confirm(args):
