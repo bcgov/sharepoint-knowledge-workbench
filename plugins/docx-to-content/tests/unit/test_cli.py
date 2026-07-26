@@ -253,6 +253,80 @@ def test_run_invalid_plan_contract_exits_2(tmp_path):
 
 
 # ---------------------------------------------------------------------------
+# confirm command
+# ---------------------------------------------------------------------------
+
+def _write_draft_plan_dict(source_path):
+    return {
+        "schema_version": "1.0",
+        "plan_id": "",
+        "source": {"path": str(source_path), "sha256": "a" * 64, "size_bytes": 10},
+        "strategy": "heading-split",
+        "chunk_level": 1,
+        "chunk_anchors": [],
+        "content_type": "manual",
+        "template_profile": "source-structure-v1",
+        "confirmation": {"status": "draft", "confirmed_by": "", "confirmed_at": ""},
+        "analysis_warnings": [],
+    }
+
+
+def test_confirm_missing_draft_plan_exits_3(tmp_path):
+    rc = cli.main([
+        "confirm",
+        "--draft-plan", str(tmp_path / "no-such-draft.json"),
+        "--output", str(tmp_path / "confirmed.json"),
+    ])
+    assert rc == 3
+
+
+def test_confirm_malformed_plan_json_exits_2(tmp_path):
+    draft_path = tmp_path / "bad-draft.json"
+    draft_path.write_text(json.dumps({"schema_version": "1.0"}))  # missing required fields
+
+    rc = cli.main([
+        "confirm",
+        "--draft-plan", str(draft_path),
+        "--output", str(tmp_path / "confirmed.json"),
+    ])
+    assert rc == 2
+
+
+def test_confirm_writes_new_file_and_succeeds(tmp_path):
+    source = tmp_path / "source.docx"
+    source.write_text("fake docx")
+    draft_path = tmp_path / "draft.json"
+    draft_path.write_text(json.dumps(_write_draft_plan_dict(source)))
+    output_path = tmp_path / "confirmed.json"
+
+    rc = cli.main([
+        "confirm",
+        "--draft-plan", str(draft_path),
+        "--output", str(output_path),
+    ])
+    assert rc == 0
+    written = json.loads(output_path.read_text())
+    assert written["confirmation"]["status"] == "confirmed"
+    assert written["plan_id"]
+
+
+def test_confirm_already_confirmed_plan_exits_4(tmp_path):
+    """Double-confirming a plan whose confirmation.status is already
+    "confirmed" is rejected (exit 4, unsupported input) rather than
+    silently allowed -- confirming should be a one-way, deliberate action
+    tied to the draft it reviewed, not idempotent over an already-confirmed
+    plan (which could re-stamp confirmed_by/confirmed_at unexpectedly)."""
+    already_confirmed = _write_plan(tmp_path / "already-confirmed.json", status="confirmed")
+
+    rc = cli.main([
+        "confirm",
+        "--draft-plan", str(already_confirmed),
+        "--output", str(tmp_path / "confirmed-again.json"),
+    ])
+    assert rc == 4
+
+
+# ---------------------------------------------------------------------------
 # --help contract tests
 # ---------------------------------------------------------------------------
 

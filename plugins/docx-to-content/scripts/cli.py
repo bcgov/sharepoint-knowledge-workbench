@@ -49,6 +49,7 @@ if str(_THIS_DIR) not in sys.path:
 import analyze_structure  # noqa: E402
 import contracts  # noqa: E402
 import dependencies  # noqa: E402
+import plans  # noqa: E402
 
 
 EXIT_PASS = 0
@@ -137,14 +138,20 @@ def _require_confirmed_plan(plan_path: Path) -> contracts.ConversionPlan:
     not already confirmed. This is the sole enforcement point for the
     "no all-in-one command may bypass plan confirmation" rule: `run` never
     performs the confirm step itself and never silently promotes a draft.
+
+    Delegates the actual "is this plan confirmed" check to
+    `plans.require_confirmed` so there is exactly one implementation of
+    that rule; this wrapper's only job is mapping the plans.py-level
+    PlanVerificationError to the CLI's exit-code-4 UsageError.
     """
     plan = _load_plan_from_file(plan_path)
-    if plan.confirmation.status != "confirmed":
+    try:
+        plans.require_confirmed(plan)
+    except plans.PlanVerificationError as exc:
         raise UsageError(
-            f"plan {plan_path} is not confirmed (confirmation.status="
-            f"{plan.confirmation.status!r}); run the `confirm` command first "
-            "-- `run` never auto-confirms a draft plan"
-        )
+            f"plan {plan_path} is not confirmed: {exc} -- `run`/`convert` "
+            "never auto-confirm a draft plan"
+        ) from exc
     return plan
 
 
@@ -161,12 +168,24 @@ def cmd_analyze(args):
 
 def cmd_confirm(args):
     draft_plan_path = Path(args.draft_plan)
-    if not draft_plan_path.exists():
-        raise PreconditionError(f"draft plan file not found: {args.draft_plan}")
-    raise NotImplementedError(
-        "confirm business logic (draft-plan review + promotion to "
-        "confirmed) is implemented in Task 7"
-    )
+    draft_plan = _load_plan_from_file(draft_plan_path)  # exit 3 missing / 2 malformed
+    if draft_plan.confirmation.status == "confirmed":
+        # Double-confirming is rejected rather than allowed idempotently:
+        # confirming is a deliberate, one-way action tied to reviewing a
+        # specific draft. Silently "allowing" it again would re-stamp
+        # confirmed_by/confirmed_at over an existing confirmed plan for no
+        # reason -- if the caller wants a fresh confirmation they should
+        # confirm the *draft* it came from, not an already-confirmed file.
+        raise UsageError(
+            f"{draft_plan_path} is already confirmed "
+            f"(confirmation.status={draft_plan.confirmation.status!r}); "
+            "confirm expects a draft plan, not an already-confirmed one"
+        )
+    confirmed_plan = plans.confirm_plan(draft_plan)
+    output_path = Path(args.output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(confirmed_plan.to_dict(), indent=2))
+    return EXIT_PASS
 
 
 def cmd_convert(args):
