@@ -16,6 +16,8 @@ import hashlib
 import json
 from typing import Any
 
+from contracts import ConversionPlan
+
 
 def canonical_json_bytes(payload: Any) -> bytes:
     """Serialize `payload` to canonical JSON bytes with stable key ordering
@@ -29,7 +31,7 @@ def content_hash(canonical_json: bytes) -> str:
     return hashlib.sha256(canonical_json).hexdigest()
 
 
-def compute_plan_id(plan: "ConversionPlan") -> str:
+def compute_plan_id(plan: ConversionPlan) -> str:
     """Compute a `sha256:`-prefixed content hash for a ConversionPlan.
 
     Excludes:
