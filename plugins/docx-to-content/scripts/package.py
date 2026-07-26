@@ -103,13 +103,26 @@ class UnsupportedLegacyMediaError(MediaError):
 # Media copy / dedupe / rewrite
 # ---------------------------------------------------------------------------
 
+_WINDOWS_DRIVE_ROOT_RE = re.compile(r"^[A-Za-z]:[\\/]")
+
+
 def _decode_and_validate(raw_ref: str) -> str:
     decoded = unquote(raw_ref)
     posix = PurePosixPath(decoded)
-    if posix.is_absolute() or ".." in posix.parts:
+    is_windows_style = (
+        _WINDOWS_DRIVE_ROOT_RE.match(decoded) is not None
+        or decoded.startswith("\\\\")
+    )
+    # Windows-style traversal (`..\..\secret`) is not caught by PurePosixPath,
+    # which only splits on '/'. Normalize backslashes to forward slashes for
+    # the '..' segment check so backslash-separated traversal is caught too.
+    has_backslash_traversal = ".." in decoded.replace("\\", "/").split("/")
+    if posix.is_absolute() or ".." in posix.parts or is_windows_style or has_backslash_traversal:
         raise MediaPathViolation(
-            f"rejected media reference {raw_ref!r}: absolute paths and "
-            "'..' traversal segments are not allowed in media references"
+            f"rejected media reference {raw_ref!r}: absolute paths (including "
+            "Windows drive-letter roots and UNC paths) and '..' traversal "
+            "segments (POSIX or backslash-separated) are not allowed in "
+            "media references"
         )
     return decoded
 
@@ -219,7 +232,7 @@ def build_canonical_package(
 
     chunk_items = [
         (chunk_slice.anchor.stable_key, chunk_slice.content)
-        for _idx, chunk_slice in ordered
+        for chunk_slice in sliced_document.chunks
     ]
     rewritten_by_chunk_id, media_filenames = rewrite_media_and_copy(
         chunk_items, raw_media_dir, media_dir

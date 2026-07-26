@@ -226,7 +226,7 @@ def test_duplicate_media_names_different_content_disambiguated(tmp_path):
         ],
     )
     output_dir = tmp_path / "canonical-content"
-    manifest = package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+    package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
 
     media_files = sorted(p.name for p in (output_dir / "media").iterdir())
     assert len(media_files) == 2
@@ -326,6 +326,51 @@ def test_dotdot_traversal_media_path_rejected(tmp_path):
     sliced = SlicedDocument(
         preamble="",
         chunks=[_slice(anchor, "# Alpha\n\n![a](../secret.txt)\n")],
+    )
+    output_dir = tmp_path / "canonical-content"
+    with pytest.raises(package.MediaPathViolation):
+        package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+
+def test_windows_drive_letter_absolute_path_rejected(tmp_path):
+    anchor = _anchor(["Alpha"])
+    plan = _confirmed_plan([anchor])
+    raw_media_dir = tmp_path / "raw_media"
+    raw_media_dir.mkdir()
+
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[_slice(anchor, r"# Alpha\n\n![a](C:\Windows\System32\secret.png)\n")],
+    )
+    output_dir = tmp_path / "canonical-content"
+    with pytest.raises(package.MediaPathViolation):
+        package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+
+def test_windows_unc_path_rejected(tmp_path):
+    anchor = _anchor(["Alpha"])
+    plan = _confirmed_plan([anchor])
+    raw_media_dir = tmp_path / "raw_media"
+    raw_media_dir.mkdir()
+
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[_slice(anchor, r"# Alpha\n\n![a](\\server\share\secret.png)\n")],
+    )
+    output_dir = tmp_path / "canonical-content"
+    with pytest.raises(package.MediaPathViolation):
+        package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+
+def test_windows_backslash_traversal_rejected(tmp_path):
+    anchor = _anchor(["Alpha"])
+    plan = _confirmed_plan([anchor])
+    raw_media_dir = tmp_path / "sub" / "raw_media"
+    raw_media_dir.mkdir(parents=True)
+
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[_slice(anchor, r"# Alpha\n\n![a](..\..\secret.png)\n")],
     )
     output_dir = tmp_path / "canonical-content"
     with pytest.raises(package.MediaPathViolation):
