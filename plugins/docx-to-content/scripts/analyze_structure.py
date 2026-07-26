@@ -76,18 +76,21 @@ class AnalysisResult:
 # Heading parsing / structural paths
 # ---------------------------------------------------------------------------
 
-def parse_headings(markdown_text: str) -> list:
-    """Parse ATX headings from pandoc markdown output into an ordered list
-    of dicts: {"level": int, "text": str, "path": list[str], "occurrence": int}.
+def iter_heading_matches(markdown_text: str):
+    """Low-level ATX heading walk shared by `parse_headings` (this module,
+    Task 6 draft-plan analysis) and `chunking.py`'s cleaned-document heading
+    index (Task 8, post-cleanup anchor reconciliation), so the path/
+    occurrence computation exists in exactly one place rather than being
+    copy-pasted into a second implementation.
 
-    `path` is the full heading path (ancestor chain + this heading's text),
-    reconstructed with a level-based stack so that skipped levels (e.g. an
-    H1 followed directly by an H3) are handled gracefully. `occurrence`
+    Yields `(match, level, text, path, occurrence)` in document order, where
+    `path` is the full heading path (ancestor chain + this heading's text,
+    reconstructed with a level-based stack so skipped levels -- e.g. an H1
+    followed directly by an H3 -- are handled gracefully) and `occurrence`
     disambiguates two headings that share an identical full path.
     """
     stack = []  # list of (level, text)
     occurrence_counts = {}  # tuple(path) -> count seen so far
-    headings = []
 
     for match in _HEADING_LINE.finditer(markdown_text):
         level = len(match.group(1))
@@ -104,14 +107,21 @@ def parse_headings(markdown_text: str) -> list:
         occurrence_counts[path_key] = occurrence_counts.get(path_key, 0) + 1
         occurrence = occurrence_counts[path_key]
 
-        headings.append({
-            "level": level,
-            "text": text,
-            "path": path,
-            "occurrence": occurrence,
-        })
+        yield match, level, text, path, occurrence
 
-    return headings
+
+def parse_headings(markdown_text: str) -> list:
+    """Parse ATX headings from pandoc markdown output into an ordered list
+    of dicts: {"level": int, "text": str, "path": list[str], "occurrence": int}.
+
+    Thin wrapper over `iter_heading_matches` that drops the regex match
+    object (callers needing source position -- e.g. `chunking.py` -- should
+    use `iter_heading_matches` directly instead of re-parsing).
+    """
+    return [
+        {"level": level, "text": text, "path": path, "occurrence": occurrence}
+        for _match, level, text, path, occurrence in iter_heading_matches(markdown_text)
+    ]
 
 
 def _counts_by_level(headings: list) -> dict:
