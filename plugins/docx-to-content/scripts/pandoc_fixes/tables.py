@@ -117,7 +117,4 @@ def fix_malformed_tables(markdown_text: str) -> str:
         in_table = True
         continue
 
-        output.append(line)
-        i += 1
-
     return "".join(output)

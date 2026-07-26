@@ -53,3 +53,22 @@ class TestStripRawToc:
         )
         expected = "# Section One\n\nBody text.\n"
         assert strip_raw_toc(text) == expected
+
+    def test_strips_toc_preceded_by_title_heading(self):
+        # A common real-world document shape: a title/cover-page heading
+        # appears before the Word-generated TOC block, so the TOC does not
+        # start at line 1.
+        text = (
+            "# Company Manual\n\n"
+            "[]{#_Toc1 .anchor}\n\n"
+            "[Section One](#_Toc111111)\n\n"
+            "[Section Two](#_Toc222222)\n\n"
+            "# Section One\n\n"
+            "Body text.\n"
+        )
+        expected = (
+            "# Company Manual\n\n"
+            "# Section One\n\n"
+            "Body text.\n"
+        )
+        assert strip_raw_toc(text) == expected
