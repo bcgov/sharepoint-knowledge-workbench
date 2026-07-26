@@ -1,0 +1,20 @@
+flowchart LR
+    Source["Source Word Document"]
+    Analyze["1. Analyze and Plan\nTemporary extraction\nStructure and statistics\nOrganization recommendation"]
+    Confirm{"User Confirms\nor Overrides"}
+    Convert["2. Create Canonical Content\nClean, organize, chunk\nand package"]
+    Canonical["Validated Canonical Content\nAuthor-maintained knowledge\n+ metadata + media"]
+    Generate["3. Generate Derived Elements\nTOC, navigation, indexes\nkeyword summaries"]
+    Render["4. Apply Template and Render"]
+    Output["Validated Desired Outputs"]
+    Evidence["Evidence and Human Review"]
+
+    Source --> Analyze --> Confirm
+    Confirm -- "Override" --> Analyze
+    Confirm -- "Confirm" --> Convert --> Canonical
+    Canonical --> Generate --> Render --> Output --> Evidence
+
+    style Analyze fill:#fff3cd,stroke:#856404,stroke-width:2px
+    style Canonical fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
+    style Generate fill:#e2d9f3,stroke:#59359a,stroke-width:2px
+    style Output fill:#d9edf7,stroke:#31708f,stroke-width:3px

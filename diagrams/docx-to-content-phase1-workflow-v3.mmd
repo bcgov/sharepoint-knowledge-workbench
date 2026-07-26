@@ -1,0 +1,75 @@
+flowchart TD
+    Source["Source .docx<BR>(e.g. CEIS Manual)"]
+
+    subgraph Phase1["Phase 1 — Evidence-producing canonical content pipeline"]
+        direction TB
+
+        Analyze["1. Analyze document<BR>- verify source + dependencies<BR>- fingerprint source<BR>- transitory pandoc extraction<BR>- headings, hierarchy, TOC, media, defect signals<BR>- recommend single vs. chunked strategy"]
+        Raw["Transitory analysis package<BR>analysis-report.json<BR>conversion-plan.draft.json<BR>raw/extracted.md + raw/media<BR><BR>NOT canonical content"]
+        Present["Present findings + recommendation<BR>with assumptions, warnings, and reasoning"]
+        Confirm{"User or supervising agent<BR>confirms or overrides?"}
+        Revise["Revise structural strategy<BR>and regenerate draft plan"]
+        ConfirmedPlan["Confirmed conversion plan<BR>- schema version + plan ID<BR>- source SHA-256<BR>- structural chunk anchors<BR>- content type + template profile<BR>- explicit confirmation record"]
+
+        Convert["2. Convert document in staging<BR>pandoc extraction<BR>→ attrs → images → TOC → tables → footnotes<BR>→ legacy media conversion"]
+        Reconcile["Reconcile confirmed structural anchors<BR>after cleanup<BR>FAIL on missing or ambiguous anchors"]
+        Package["Build versioned canonical package<BR>- cleaned chunks<BR>- stable path/hash-based chunk IDs<BR>- metadata sidecars + content hashes<BR>- manifest + lineage<BR>- copied/re-written media"]
+        CanonicalValidate{"Canonical validation<BR>contracts, hashes, counts, links, media,<BR>orphans, traversal, content loss/duplication"}
+        WarningDisposition["Explicit warning disposition<BR>accept or resolve every warning"]
+        Canonical["Accepted Canonical Content Package<BR>manifest.json + validation.json<BR>chunks/*.md + chunks/*.meta.json + media/<BR><BR>Artifact of value for future consumers"]
+
+        Render["3. Render from canonical package only<BR>Renderer protocol + validated package loader<BR>(no DOCX or raw-analysis dependency)"]
+        RendererImpl["multipage_markdown.py<BR>ONE concrete Phase 1 renderer<BR>- manifest ordering<BR>- path-aware index<BR>- pages + rewritten media links"]
+        RenderValidate{"Rendered-output validation<BR>index/page/media links, counts, traceability,<BR>orphans, stale files, manifest hash"}
+        Output["Accepted Rendered Output<BR>index.md + pages/ + media/<BR>renderer-validation.json"]
+
+        Evidence["Phase 1 Evidence Report<BR>- source/tool fingerprints<BR>- heading + media reconciliation<BR>- normalized content comparison<BR>- link results<BR>- warnings/dispositions<BR>- human spot-check record"]
+    end
+
+    subgraph Safety["Integrity and promotion rules"]
+        direction TB
+        Staging["Unique staging directories<BR>never overlay accepted output"]
+        Fail["FAIL<BR>retain staging for diagnosis<BR>return non-zero exit code<BR>leave accepted output unchanged"]
+        Promote["Atomic promotion<BR>replace accepted directory only<BR>after validation succeeds"]
+    end
+
+    subgraph Later["Later phases — named, not implemented in Phase 1"]
+        direction TB
+        TemplateLibrary[("Generalized Template Library<BR>Policy / Procedure / Manual / Training")]
+        TemplateCreator["Template authoring + semantic mapping"]
+        OtherRenderers["Other Renderer implementations<BR>Word/PDF, PowerPoint, audio, quiz,<BR>Copilot Studio/retrieval export"]
+        Destination["Destination interview<BR>where, format, governance, approval"]
+        Publish["Publish/upload workflow"]
+        SharePoint["SharePoint Online / OneDrive<BR>native editing and consumption"]
+        CopilotAgent["Copilot/M365 knowledge experience<BR>Q&A, guided procedures, training support"]
+    end
+
+    Source --> Analyze --> Raw --> Present --> Confirm
+    Confirm -- "override" --> Revise --> Analyze
+    Confirm -- "confirm" --> ConfirmedPlan
+    ConfirmedPlan --> Convert --> Reconcile --> Package --> CanonicalValidate
+
+    CanonicalValidate -- "FAIL" --> Fail
+    CanonicalValidate -- "WARN" --> WarningDisposition --> CanonicalValidate
+    CanonicalValidate -- "PASS or fully dispositioned WARN" --> Promote --> Canonical
+
+    Staging -. "used by conversion and rendering" .-> Convert
+    Staging -.-> Render
+
+    Canonical --> Render --> RendererImpl --> RenderValidate
+    RenderValidate -- "FAIL" --> Fail
+    RenderValidate -- "PASS" --> Promote
+    Promote --> Output --> Evidence
+
+    Canonical -. "future template-aware mapping input" .-> TemplateLibrary
+    TemplateCreator --> TemplateLibrary
+    Canonical -. "same versioned contract" .-> OtherRenderers
+    OtherRenderers -. "implement Renderer protocol" .-> RendererImpl
+    Output --> Destination --> Publish --> SharePoint
+    Canonical == "future grounding source<BR>never raw extraction" ==> CopilotAgent
+
+    style Raw fill:#fff3cd,stroke:#856404,stroke-width:1px,stroke-dasharray: 5 5
+    style Canonical fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
+    style Output fill:#d9edf7,stroke:#31708f,stroke-width:2px
+    style Fail fill:#f8d7da,stroke:#842029,stroke-width:2px
+    style Evidence fill:#e2d9f3,stroke:#59359a,stroke-width:2px

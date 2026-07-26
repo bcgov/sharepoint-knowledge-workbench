@@ -1,0 +1,25 @@
+flowchart TD
+    Canonical["Accepted Canonical Content Package\nMaintained content + metadata + media"]
+    Load{"Load and Validate Package\nSchema, hashes, references\nand acceptance status"}
+    Derived["Generate Derived Elements by Code\nTable of contents\nNavigation\nIndexes\nKeyword summaries\nCross-document listings"]
+    Select["Use Confirmed Output Choice\nDestination format + template profile"]
+    Protocol["Renderer Protocol\nCanonical package is the only content input"]
+    Renderer["Phase 1 Renderer\nMultipage Markdown"]
+    Pages["Create Pages in Manifest Order"]
+    Index["Create Path-Aware Index\nfrom canonical structure"]
+    Media["Copy and Rewrite Media\nfor output-relative paths"]
+    Validate{"Validate Rendered Output\nPage, index and media links\nCounts, traceability, orphans and stale files"}
+    Fail["FAIL\nRetain staging\nProtect accepted output"]
+    Promote["Atomic Promotion"]
+    Output["Accepted Rendered Output\nindex.md + pages + media\nrenderer-validation.json"]
+
+    Canonical --> Load
+    Load -- "Invalid" --> Fail
+    Load -- "Valid" --> Derived --> Select --> Protocol --> Renderer --> Pages --> Index --> Media --> Validate
+    Validate -- "FAIL" --> Fail
+    Validate -- "PASS" --> Promote --> Output
+
+    style Canonical fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
+    style Derived fill:#e2d9f3,stroke:#59359a,stroke-width:2px
+    style Fail fill:#f8d7da,stroke:#842029,stroke-width:2px
+    style Output fill:#d9edf7,stroke:#31708f,stroke-width:3px

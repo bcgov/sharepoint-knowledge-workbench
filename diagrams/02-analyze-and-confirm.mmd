@@ -1,0 +1,19 @@
+flowchart TD
+    Source["Source Word Document"]
+    Verify["Verify source and dependencies\nRecord tool versions"]
+    Fingerprint["Calculate source fingerprint\nSHA-256 + file size"]
+    Temporary["Create Temporary Markdown Extraction\nText, headings, tables, image links\nand separately extracted images\n\nNOT maintained content"]
+    Compare["Analyze Word Source + Temporary Extraction\nDocument size and statistics\nHeading hierarchy and topics\nTables, images, links and references\nExtraction defects or potential content loss"]
+    Distinguish["Distinguish Maintained vs. Generated Content\n\nMaintained: business content, headings, tables,\nimage links, essential references\n\nGenerated: TOC, navigation, keyword summaries,\nindexes and derived metadata"]
+    Recommend["Recommend Content Organization\nOne file or smaller topic files\nStructural anchors and metadata\nBest maintainable source format"]
+    Ask["Ask User About Desired Results\nOutput formats\nTemplates to apply\nSingle or multiple outputs"]
+    Decision{"Confirm or Override?"}
+    Revise["Revise organization, outputs\nor template choices"]
+    Plan["Confirmed Conversion Plan\nSource fingerprint + plan ID\nStructural anchors\nContent organization\nDesired formats + template profile"]
+
+    Source --> Verify --> Fingerprint --> Temporary --> Compare --> Distinguish --> Recommend --> Ask --> Decision
+    Decision -- "Override" --> Revise --> Recommend
+    Decision -- "Confirm" --> Plan
+
+    style Temporary fill:#fff3cd,stroke:#856404,stroke-width:2px,stroke-dasharray:5 5
+    style Plan fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px

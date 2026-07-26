@@ -1,0 +1,37 @@
+flowchart LR
+    Source["Source Word Document<br/><br/>One large document containing:<br/>• Content and formatting<br/>• Embedded images<br/>• Tables and headings<br/>• Table of contents<br/>• Other generated document elements"]
+
+    Temporary["1. Temporary Markdown Extraction<br/><br/>Intermediate working artifact containing:<br/>• Extracted text<br/>• Headings and subheadings<br/>• Tables<br/>• Image links<br/>• Separately extracted image files<br/><br/>NOT maintained content<br/>NOT a published output"]
+
+    Analyze["2. Analyze Source and Temporary Extraction<br/><br/>Assess:<br/>• Document size and structure<br/>• Heading hierarchy and topics<br/>• Tables, images, links and references<br/>• Authored content vs. generated elements<br/>• Potential content loss or extraction defects"]
+
+    Recommend["3. Recommend Content Organization<br/><br/>Determine whether content should be:<br/>• Maintained as one file<br/>• Split into smaller topic files<br/>• Organized with separate metadata<br/><br/>Recommend suitable maintainable format"]
+
+    Decide{"4. User Decision<br/><br/>• Accept or override organization?<br/>• Desired output formats?<br/>• Templates to apply?<br/>• One document or multiple outputs?"}
+
+    Canonical["5. Create Maintainable Canonical Content<br/><br/>Content authors maintain only:<br/>• Business content<br/>• Simple headings and subheadings<br/>• Tables<br/>• Image links<br/>• Essential links and references<br/><br/>Markdown may be the canonical format"]
+
+    Generated["Generate Derived Elements by Code<br/><br/>Not maintained manually:<br/>• Table of contents<br/>• Navigation<br/>• Keyword summaries<br/>• Indexes<br/>• Cross-document listings<br/>• Other derived metadata"]
+
+    Templates["Apply Reusable Templates<br/><br/>Presentation kept separate:<br/>• Manual<br/>• Procedure<br/>• Policy<br/>• Training material"]
+
+    Outputs["Produce Desired Outputs<br/><br/>Canonical Content<br/>+ Generated Elements<br/>+ Template<br/><br/>• Markdown pages<br/>• SharePoint / HTML<br/>• Word / PDF<br/>• Training content<br/>• Future Copilot knowledge source"]
+
+    Source --> Temporary --> Analyze --> Recommend --> Decide
+
+    Decide -- "Override" --> Analyze
+    Decide -- "Confirm" --> Canonical
+
+    Canonical --> Generated
+    Canonical --> Templates
+
+    Canonical --> Outputs
+    Generated --> Outputs
+    Templates --> Outputs
+
+    style Source fill:#f8d7da,stroke:#842029,stroke-width:2px
+    style Temporary fill:#fff3cd,stroke:#856404,stroke-width:2px,stroke-dasharray:5 5
+    style Canonical fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
+    style Generated fill:#e2d9f3,stroke:#59359a,stroke-width:2px
+    style Templates fill:#d9edf7,stroke:#31708f,stroke-width:2px
+    style Outputs fill:#d9edf7,stroke:#31708f,stroke-width:3px

@@ -1,0 +1,54 @@
+flowchart TD
+    Run["Phase 1 Conversion and Render Run"]
+    Automated["Automated Validation"]
+    Contracts["Schemas and Contract Checks"]
+    Integrity["Hashes, Counts, Identity and Lineage"]
+    Structure["Heading and Structural-Anchor Reconciliation"]
+    Content["Content Loss and Duplication Comparison"]
+    References["Local Links and Media Resolution"]
+    Hygiene["Orphan, Stale and Unsafe-Path Checks"]
+    Human["Human Evidence Review"]
+    Front["Title and Front Matter"]
+    Table["Table-Heavy Section"]
+    Image["Image-Heavy Section"]
+    Hierarchy["Deep Heading Hierarchy"]
+    CrossRef["Footnote or Cross-Reference"]
+    Coverage["Beginning, Middle and End"]
+    Evidence["Phase 1 Evidence Report\nSource and tool fingerprints\nStatistics and reconciliation\nValidation results\nWarnings and dispositions\nHuman observations"]
+    Decision{"Does the Evidence Support\nthe Phase 1 Hypothesis?"}
+    Accepted["Phase 1 Accepted"]
+    Rework["Hypothesis Not Yet Supported\nCorrect defects or revise approach"]
+
+    Run --> Automated
+    Run --> Human
+    Automated --> Contracts
+    Automated --> Integrity
+    Automated --> Structure
+    Automated --> Content
+    Automated --> References
+    Automated --> Hygiene
+    Human --> Front
+    Human --> Table
+    Human --> Image
+    Human --> Hierarchy
+    Human --> CrossRef
+    Human --> Coverage
+    Contracts --> Evidence
+    Integrity --> Evidence
+    Structure --> Evidence
+    Content --> Evidence
+    References --> Evidence
+    Hygiene --> Evidence
+    Front --> Evidence
+    Table --> Evidence
+    Image --> Evidence
+    Hierarchy --> Evidence
+    CrossRef --> Evidence
+    Coverage --> Evidence
+    Evidence --> Decision
+    Decision -- "Yes" --> Accepted
+    Decision -- "No" --> Rework
+
+    style Evidence fill:#e2d9f3,stroke:#59359a,stroke-width:3px
+    style Accepted fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
+    style Rework fill:#f8d7da,stroke:#842029,stroke-width:2px

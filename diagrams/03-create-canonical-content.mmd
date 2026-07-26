@@ -1,0 +1,30 @@
+flowchart TD
+    Input["Source Word Document\n+ Confirmed Conversion Plan"]
+    Verify{"Verify Preconditions\nPlan confirmed?\nSource fingerprint matches?\nSchema supported?"}
+    Stage["Create Unique Staging Area\nDo not alter accepted output"]
+    Extract["Pandoc Extraction\nTemporary working representation"]
+    Clean["Cleanup Pipeline\nAttributes → image placement → TOC artifacts\n→ tables → footnotes → legacy media"]
+    Reconcile{"Reconcile Structural Anchors\nafter cleanup"}
+    Organize["Organize Maintainable Content\nOne file or smaller topic files\nPreserve headings, tables, image links\nand essential references"]
+    Identity["Create Stable Content Identities\nFull heading path + occurrence + hash"]
+    Media["Copy Media and Rewrite References\nSafe relative paths"]
+    Metadata["Create Metadata Sidecars\nLineage, source path, hashes, links and media"]
+    Manifest["Create Versioned Manifest"]
+    Validate{"Validate Canonical Package\nContracts, hashes and counts\nContent loss or duplication\nLinks, media, orphans and unsafe paths"}
+    Warn["Explicitly Accept or Resolve\nEvery Warning"]
+    Fail["FAIL\nRetain staging for diagnosis\nLeave accepted output unchanged"]
+    Promote["Atomically Promote Validated Package"]
+    Canonical["Accepted Canonical Content Package\nAuthor-maintained Markdown content\n+ metadata + media + validation"]
+
+    Input --> Verify
+    Verify -- "No" --> Fail
+    Verify -- "Yes" --> Stage --> Extract --> Clean --> Reconcile
+    Reconcile -- "Missing or ambiguous" --> Fail
+    Reconcile -- "Resolved" --> Organize --> Identity --> Media --> Metadata --> Manifest --> Validate
+    Validate -- "FAIL" --> Fail
+    Validate -- "WARN" --> Warn --> Validate
+    Validate -- "PASS or dispositioned WARN" --> Promote --> Canonical
+
+    style Extract fill:#fff3cd,stroke:#856404,stroke-width:2px,stroke-dasharray:5 5
+    style Fail fill:#f8d7da,stroke:#842029,stroke-width:2px
+    style Canonical fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
