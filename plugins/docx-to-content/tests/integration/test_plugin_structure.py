@@ -8,18 +8,17 @@ Validates that all required directories, metadata files, and skill definitions e
 and are well-formed.
 
 Usage:
-    pytest tests/integration/test_plugin_structure.py -v
+    pytest plugins/docx-to-content/tests/integration/test_plugin_structure.py -v
 """
 
 import json
-import sys
 from pathlib import Path
 
 import pytest
 import yaml
 
 
-PLUGIN_ROOT = Path(__file__).parent.parent.parent / "plugins" / "docx-to-content"
+PLUGIN_ROOT = Path(__file__).parent.parent.parent
 EXPECTED_SKILLS = ["analyze-document", "convert-document", "render-content"]
 
 
