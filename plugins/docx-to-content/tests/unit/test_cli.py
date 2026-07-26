@@ -9,6 +9,8 @@ parsing, exit-code wiring, dependency-precondition checks, and the
 """
 
 import json
+import shutil
+from pathlib import Path
 
 import pytest
 
@@ -235,6 +237,68 @@ def test_run_missing_confirmed_plan_file_exits_3(tmp_path):
         "--output", str(tmp_path / "out"),
     ])
     assert rc == 3
+
+
+# ---------------------------------------------------------------------------
+# `convert` (Task 9): real end-to-end wiring through cli.main
+# ---------------------------------------------------------------------------
+
+_FIXTURES = Path(__file__).parent.parent / "fixtures"
+_REPEATED_HEADINGS_DOCX = _FIXTURES / "repeated_headings.docx"
+
+
+def test_convert_end_to_end_via_cli_writes_canonical_package(tmp_path):
+    analysis_dir = tmp_path / "analysis"
+    rc = cli.main([
+        "analyze", "--source", str(_REPEATED_HEADINGS_DOCX), "--output", str(analysis_dir),
+    ])
+    assert rc == 0
+
+    confirmed_path = tmp_path / "confirmed.json"
+    rc = cli.main([
+        "confirm",
+        "--draft-plan", str(analysis_dir / "conversion-plan.draft.json"),
+        "--output", str(confirmed_path),
+    ])
+    assert rc == 0
+
+    out_dir = tmp_path / "run"
+    rc = cli.main([
+        "convert",
+        "--source", str(_REPEATED_HEADINGS_DOCX),
+        "--plan", str(confirmed_path),
+        "--output", str(out_dir),
+    ])
+    assert rc == 0
+
+    manifest = json.loads((out_dir / "canonical-content" / "manifest.json").read_text())
+    assert manifest["chunk_count"] > 1
+    assert (out_dir / "canonical-content" / "validation.json").exists()
+
+
+def test_convert_rejects_stale_source_exit_4(tmp_path):
+    source = tmp_path / "source.docx"
+    shutil.copy(_REPEATED_HEADINGS_DOCX, source)
+
+    analysis_dir = tmp_path / "analysis"
+    cli.main(["analyze", "--source", str(source), "--output", str(analysis_dir)])
+    confirmed_path = tmp_path / "confirmed.json"
+    cli.main([
+        "confirm",
+        "--draft-plan", str(analysis_dir / "conversion-plan.draft.json"),
+        "--output", str(confirmed_path),
+    ])
+
+    # Source modified after confirmation.
+    source.write_bytes(source.read_bytes() + b"\x00")
+
+    rc = cli.main([
+        "convert",
+        "--source", str(source),
+        "--plan", str(confirmed_path),
+        "--output", str(tmp_path / "run"),
+    ])
+    assert rc == 4
 
 
 def test_run_invalid_plan_contract_exits_2(tmp_path):

@@ -48,7 +48,9 @@ if str(_THIS_DIR) not in sys.path:
 
 import analyze_structure  # noqa: E402
 import contracts  # noqa: E402
+import convert  # noqa: E402
 import dependencies  # noqa: E402
+import package  # noqa: E402
 import plans  # noqa: E402
 
 
@@ -189,13 +191,27 @@ def cmd_confirm(args):
 
 
 def cmd_convert(args):
-    _require_source(args.source)
+    source_path = _require_source(args.source)
     _require_pandoc()
-    _require_confirmed_plan(Path(args.plan))
-    raise NotImplementedError(
-        "convert business logic (canonical content package build + media "
-        "rewriting) is implemented in Task 9"
-    )
+    plan = _require_confirmed_plan(Path(args.plan))
+    try:
+        convert.convert_document(source_path, plan, Path(args.output))
+    except plans.PlanVerificationError as exc:
+        # verify_plan_against_source / verify_plan_integrity failures:
+        # a stale or tampered plan, surfaced as exit 4 (usage error) --
+        # matching _require_confirmed_plan's mapping for the same class
+        # of "this plan cannot be trusted as-is" problem.
+        raise UsageError(str(exc)) from exc
+    except (
+        convert.chunking.AnchorReconciliationError,
+        package.MediaError,
+    ) as exc:
+        # Malformed/unsupported content discovered while building the
+        # canonical package (missing anchors, ambiguous anchors, illegal
+        # media references, unconverted legacy media, ...) is a contract/
+        # validation failure, not a dependency or usage problem.
+        raise ValidationFailError(str(exc)) from exc
+    return EXIT_PASS
 
 
 def cmd_render(args):
