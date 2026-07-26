@@ -12,7 +12,7 @@
 
 - Work only under `manual-conversion-poc/plugins/docx-to-content/` plus documented output/evidence paths.
 - Inspect the actual repo and a working plugin scaffold before creating metadata or symlinks.
-- Preserve relocated cleanup code and tests; change behavior only after a failing regression test.
+- The cleanup pipeline is new code, built from scratch under TDD (see Task 0/Task 2 v3.1 Deviation Notice — the originally-referenced pipeline was never built anywhere). Once merged, preserve its behavior; change it only after a failing regression test.
 - Raw pandoc output is transitory.
 - Conversion requires a confirmed plan whose source hash matches.
 - Chunk identity is structural and hash-based, not ordinal-only.
