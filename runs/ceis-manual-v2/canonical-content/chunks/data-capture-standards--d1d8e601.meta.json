@@ -1,0 +1,45 @@
+{
+  "anchors": [
+    {
+      "heading_level": 2,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DATA CAPTURE STANDARDS"
+      ],
+      "stable_key": "data-capture-standards--7b89b1e4"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DATA CAPTURE STANDARDS",
+        "Data Capture Requirements"
+      ],
+      "stable_key": "data-capture-standards-data-capture-requirements--6eaa3803"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DATA CAPTURE STANDARDS",
+        "Data Element Requirements"
+      ],
+      "stable_key": "data-capture-standards-data-element-requirements--d9fe05f0"
+    }
+  ],
+  "chunk_id": "data-capture-standards--d1d8e601",
+  "content_file": "chunks/data-capture-standards--d1d8e601.md",
+  "content_sha256": "c72e3ca522cff7a91ff7acbe4026ccc298c06f83beb58217e47ec92f96f5e1aa",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "DATA CAPTURE STANDARDS"
+  ],
+  "source_order": 0,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "DATA CAPTURE STANDARDS"
+}

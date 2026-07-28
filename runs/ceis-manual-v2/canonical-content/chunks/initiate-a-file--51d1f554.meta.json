@@ -1,0 +1,57 @@
+{
+  "anchors": [
+    {
+      "heading_level": 2,
+      "occurrence": 1,
+      "source_heading_path": [
+        "INITIATE A FILE"
+      ],
+      "stable_key": "initiate-a-file--69c68e35"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "INITIATE A FILE",
+        "How to Initiate a File"
+      ],
+      "stable_key": "initiate-a-file-how-to-initiate-a-file--2ee3f855"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "INITIATE A FILE",
+        "Re-Initiating Old or Destroyed Files"
+      ],
+      "stable_key": "initiate-a-file-re-initiating-old-or-destroyed-files--d789695b"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "INITIATE A FILE",
+        "Provincial Family Files"
+      ],
+      "stable_key": "initiate-a-file-provincial-family-files--dc11bf14"
+    }
+  ],
+  "chunk_id": "initiate-a-file--51d1f554",
+  "content_file": "chunks/initiate-a-file--51d1f554.md",
+  "content_sha256": "c3d184ed238bed3c6f423f117951410e060b3ebe4f0faf9fecd0563e844714e2",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [
+    "../media/image17.gif",
+    "../media/image18.png"
+  ],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "INITIATE A FILE"
+  ],
+  "source_order": 4,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "INITIATE A FILE"
+}

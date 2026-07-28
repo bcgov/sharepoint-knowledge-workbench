@@ -1,0 +1,54 @@
+{
+  "anchors": [
+    {
+      "heading_level": 1,
+      "occurrence": 1,
+      "source_heading_path": [
+        "CEIS ACCESS LEVELS"
+      ],
+      "stable_key": "ceis-access-levels--e36ea4be"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "CEIS ACCESS LEVELS",
+        "User Role (Type)"
+      ],
+      "stable_key": "ceis-access-levels-user-role-type--e5cb1bbf"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "CEIS ACCESS LEVELS",
+        "Sheriff Access"
+      ],
+      "stable_key": "ceis-access-levels-sheriff-access--9ec8e251"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "CEIS ACCESS LEVELS",
+        "Extended Access"
+      ],
+      "stable_key": "ceis-access-levels-extended-access--6f09cc2d"
+    }
+  ],
+  "chunk_id": "ceis-access-levels--42edb397",
+  "content_file": "chunks/ceis-access-levels--42edb397.md",
+  "content_sha256": "6a139760371fcfcb64cf434abf2e8d4d664219815f7402bb2331101662e8e7e1",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "CEIS ACCESS LEVELS"
+  ],
+  "source_order": 23,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "CEIS ACCESS LEVELS"
+}

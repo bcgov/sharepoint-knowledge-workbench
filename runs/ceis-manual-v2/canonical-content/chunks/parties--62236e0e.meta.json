@@ -1,0 +1,127 @@
+{
+  "anchors": [
+    {
+      "heading_level": 2,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES"
+      ],
+      "stable_key": "parties--675beeee"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Name Format"
+      ],
+      "stable_key": "parties-name-format--3a053b2a"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Party Details"
+      ],
+      "stable_key": "parties-party-details--ce943164"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Party Roles"
+      ],
+      "stable_key": "parties-party-roles--9110e72f"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Also Known As"
+      ],
+      "stable_key": "parties-also-known-as--5d1e6e46"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Legal Reps"
+      ],
+      "stable_key": "parties-legal-reps--6b96741f"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Addresses"
+      ],
+      "stable_key": "parties-addresses--876c43df"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Party Summary"
+      ],
+      "stable_key": "parties-party-summary--ca138a21"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "**Child on File** (Family Law Act Files)"
+      ],
+      "stable_key": "parties-child-on-file-family-law-act-files--91b39f06"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PARTIES",
+        "Changing Party Roles"
+      ],
+      "stable_key": "parties-changing-party-roles--2f77cf3a"
+    }
+  ],
+  "chunk_id": "parties--62236e0e",
+  "content_file": "chunks/parties--62236e0e.md",
+  "content_sha256": "e034cda12f60127bc66c5268b9055f1cc6953786070d80a4cf4d7edb4c8ebe13",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [
+    "../media/image40.png",
+    "../media/image41.png",
+    "../media/image43.png",
+    "../media/image44.png",
+    "../media/image45.png",
+    "../media/image46.png",
+    "../media/image47.png",
+    "../media/image48.png",
+    "../media/image50.png",
+    "../media/image52.png",
+    "../media/image51.png",
+    "../media/image53.png",
+    "../media/image54.png",
+    "../media/image56.png",
+    "../media/image57.png",
+    "../media/image58.png",
+    "../media/image59.png",
+    "../media/image60.png"
+  ],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "PARTIES"
+  ],
+  "source_order": 6,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "PARTIES"
+}
