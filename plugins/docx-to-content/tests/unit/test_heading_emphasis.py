@@ -70,6 +70,17 @@ class TestStripWholeHeadingEmphasis:
         expected = "# Just Italic\n\nBody text.\n"
         assert strip_whole_heading_emphasis(text) == expected
 
+    def test_leaves_mismatched_marker_boundary_untouched_open_two_close_three(self):
+        # Opened with `**`, closed with `***` -- a marker-type mismatch.
+        # Must be left completely untouched, not partially stripped into a
+        # heading with a stray trailing asterisk.
+        text = "# **Text***\n\nBody.\n"
+        assert strip_whole_heading_emphasis(text) == text
+
+    def test_leaves_mismatched_marker_boundary_untouched_open_three_close_two(self):
+        text = "# ***Text**\n\nBody.\n"
+        assert strip_whole_heading_emphasis(text) == text
+
     def test_leaves_single_asterisk_italic_whole_heading_untouched_if_ambiguous(self):
         # Single-asterisk italic wrapping a whole heading is scoped out
         # (see module docstring): `*` is also used for list-item markers

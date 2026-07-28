@@ -38,31 +38,78 @@ Usage:
 
 import re
 
-# An ATX heading line whose entire text content (after the leading '#'
-# markers and surrounding whitespace) is wrapped in one matching pair of
-# emphasis markers. Longest marker (`***`) tried first so `***text***` is
-# not misread as `**` wrapping `*text*`.
-_WHOLE_HEADING_EMPHASIS = re.compile(
-    r'^(#{1,6})[ \t]+(\*\*\*|\*\*|_)(?!\s)(.+?)(?<!\s)\2[ \t]*$',
-    re.MULTILINE,
-)
+# An ATX heading line: '#' markers, whitespace, then the rest of the line
+# as heading text (trailing whitespace trimmed). Marker-boundary validity
+# (whether the text is symmetrically wrapped in a matching emphasis pair)
+# is checked separately in `_fully_wrapped`, NOT by this regex alone --
+# see that function's docstring for why a pure regex/backreference
+# approach is unsafe here.
+_HEADING_LINE = re.compile(r'^(#{1,6})[ \t]+(.+?)[ \t]*$', re.MULTILINE)
+
+# (marker_char, allowed run-lengths in order to try) -- longest first so
+# `***text***` is checked against a length-3 run before a length-2 run.
+# Single-asterisk (`*`) whole-heading wrapping is intentionally out of
+# scope (see module docstring); underscore only ever occurs as a
+# length-1 italic marker.
+_MARKER_OPTIONS = (('*', (3, 2)), ('_', (1,)))
+
+
+def _fully_wrapped(text: str):
+    """Return the inner text if `text` is symmetrically wrapped in exactly
+    one matching pair of emphasis markers of the SAME type and length on
+    both sides, else return None.
+
+    This exists because a regex using a backreference to only the OPENING
+    marker (e.g. `(\\*\\*\\*|\\*\\*)...\\2`) can match a mismatched pair --
+    e.g. text opened with `**` and closed with `***` -- because the
+    non-greedy inner-text capture will happily absorb the extra marker
+    character as if it were heading text, silently corrupting the heading
+    (`**Text***` -> `Text*`) instead of leaving it untouched. Checking the
+    exact run-length of marker characters at BOTH boundaries explicitly
+    (via `text[L]`/`text[-L-1]` not being the marker character) closes
+    that gap: a mismatched or overlong marker run is rejected outright and
+    the heading is left completely untouched, per this module's contract
+    that "not normalized" is always safe and "silently corrupted" never
+    is.
+    """
+    for marker_char, lengths in _MARKER_OPTIONS:
+        for length in lengths:
+            marker = marker_char * length
+            if not (text.startswith(marker) and text.endswith(marker)):
+                continue
+            if len(text) < 2 * length + 1:
+                continue  # no room for non-empty inner content
+            # Reject if the marker run at either boundary is actually
+            # LONGER than `length` (i.e. the character just inside the
+            # boundary is still the marker character) -- this is exactly
+            # the mismatched-marker case that corrupted headings before.
+            if text[length] == marker_char:
+                continue
+            if text[-length - 1] == marker_char:
+                continue
+            inner = text[length:-length]
+            if inner.strip() == "":
+                continue
+            return inner
+    return None
 
 
 def strip_whole_heading_emphasis(markdown_text: str) -> str:
     """Strip whole-heading-wrapping emphasis markers from ATX headings.
 
-    Only applies when the marker pair wraps the ENTIRE heading text (no
-    leftover text outside the markers on the line); partial emphasis
-    inside otherwise-plain heading text is left untouched, as is emphasis
-    appearing outside of headings.
+    Only applies when a marker pair symmetrically wraps the ENTIRE heading
+    text with no leftover/mismatched marker characters at either boundary
+    (see `_fully_wrapped`); partial emphasis inside otherwise-plain
+    heading text, emphasis outside of headings, and mismatched-marker
+    boundaries (e.g. `**Text***`, `***Text**`) are all left completely
+    untouched rather than partially/incorrectly stripped.
     """
 
     def _strip(match: "re.Match[str]") -> str:
-        hashes, _marker, inner = match.group(1), match.group(2), match.group(3)
-        # Reject a match where the "inner" text itself still contains the
-        # closing marker sequence unbalanced (defensive; the non-greedy
-        # capture plus negative lookbehind/lookahead already prevent this
-        # in practice for well-formed input).
+        hashes, text = match.group(1), match.group(2)
+        inner = _fully_wrapped(text)
+        if inner is None:
+            return match.group(0)
         return f"{hashes} {inner}"
 
-    return _WHOLE_HEADING_EMPHASIS.sub(_strip, markdown_text)
+    return _HEADING_LINE.sub(_strip, markdown_text)
