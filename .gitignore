@@ -9,3 +9,11 @@
 
 # Local scratch/session context, not part of the demonstrated setup.
 context/
+
+# Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
