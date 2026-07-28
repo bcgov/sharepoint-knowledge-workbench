@@ -113,6 +113,9 @@ def _warning(code: str, message: str, path: "str | None" = None) -> "contracts.V
 # Normalized aggregate comparison (content-loss / duplication)
 # ---------------------------------------------------------------------------
 
+_IMAGE_REF_FOR_COMPARISON = re.compile(r"(!\[[^\]]*\]\()[^)]+(\))")
+
+
 def _normalize_for_comparison(text: str) -> str:
     """Normalize whitespace for aggregate content comparison: strip
     trailing whitespace on every line, collapse runs of 2+ blank lines
@@ -121,7 +124,22 @@ def _normalize_for_comparison(text: str) -> str:
     lowercase, or strip punctuation, so a genuine content difference
     (missing paragraph, duplicated section) still shows up as a mismatch;
     it only absorbs the whitespace churn that chunk slicing/reassembly is
-    expected to introduce (e.g. a chunk boundary landing mid-blank-line)."""
+    expected to introduce (e.g. a chunk boundary landing mid-blank-line).
+
+    Also blanks out image reference PATHS (`![alt](media/x.png)` ->
+    `![alt]()`) before comparing. `package.py`'s `rewrite_media_and_copy`
+    (Task 9) rewrites every staged chunk's media reference from
+    `media/<file>` to `../media/<file>` (chunks/ and media/ are sibling
+    dirs under the package root) and can additionally rename a file on a
+    hash collision -- so a staged chunk's image path is EXPECTED to
+    differ from `cleaned_markdown_text`'s pre-rewrite path even when no
+    content was lost. Media-reference correctness (that the path actually
+    resolves to a real file) is already verified separately by
+    `_check_media_references`; this aggregate check only needs to confirm
+    no body text/alt text was lost or duplicated, so path differences are
+    deliberately ignored here rather than re-deriving the exact rewrite
+    rule `package.py` applies."""
+    text = _IMAGE_REF_FOR_COMPARISON.sub(r"\1\2", text)
     lines = [line.rstrip() for line in text.splitlines()]
     collapsed: list = []
     blank_run = 0

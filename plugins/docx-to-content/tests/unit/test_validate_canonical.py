@@ -382,6 +382,98 @@ def test_pass_when_aggregate_matches_after_whitespace_normalization(tmp_path):
     assert "content_loss_or_duplication" not in _codes(report)
 
 
+def test_pass_on_clean_package_with_image_despite_media_path_rewrite(tmp_path):
+    """Regression test (Task 10b): `package.build_canonical_package` (via
+    `rewrite_media_and_copy`) rewrites every staged chunk's media
+    reference from `media/<file>` to `../media/<file>` (chunks/ and
+    media/ are sibling dirs). `cleaned_markdown_text` is the PRE-rewrite
+    text and still says `media/<file>`. Before the Task 10b fix, the
+    aggregate comparison in `_check_content_loss_and_duplication` compared
+    these two forms verbatim and always FAILed on any document containing
+    an image, even though no real content was lost or duplicated."""
+    a1 = _anchor(["Widget Setup"])
+    plan = _confirmed_plan([a1])
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[_slice(a1, "# Widget Setup\n\nBody one.\n\n![a diagram](media/diagram.png)\n")],
+    )
+    raw_media_dir = tmp_path / "raw_media"
+    (raw_media_dir / "media").mkdir(parents=True)
+    (raw_media_dir / "media" / "diagram.png").write_bytes(b"fake-png-bytes")
+    output_dir = tmp_path / "canonical-content"
+    package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+    # cleaned_markdown_text is the pre-rewrite text: still `media/...`,
+    # not `../media/...` like the staged chunk now contains.
+    cleaned = "# Widget Setup\n\nBody one.\n\n![a diagram](media/diagram.png)\n"
+    report = vc.validate_canonical_package(
+        output_dir, plan, cleaned_markdown_text=cleaned
+    )
+    assert "content_loss_or_duplication" not in _codes(report)
+    assert report.status == "PASS", report.issues
+
+
+def test_fail_on_real_content_loss_still_detected_when_image_present(tmp_path):
+    """The Task 10b fix must not weaken real content-loss detection: an
+    actually-missing paragraph must still FAIL even when an image
+    reference (with its expected path-prefix rewrite) is also present."""
+    a1 = _anchor(["Widget Setup"])
+    plan = _confirmed_plan([a1])
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[_slice(a1, "# Widget Setup\n\nBody one.\n\n![a diagram](media/diagram.png)\n")],
+    )
+    raw_media_dir = tmp_path / "raw_media"
+    (raw_media_dir / "media").mkdir(parents=True)
+    (raw_media_dir / "media" / "diagram.png").write_bytes(b"fake-png-bytes")
+    output_dir = tmp_path / "canonical-content"
+    package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+    # cleaned_markdown_text has an extra paragraph that never made it
+    # into the staged chunk -- a genuine content loss, not just a media
+    # path difference.
+    cleaned = (
+        "# Widget Setup\n\nBody one.\n\n![a diagram](media/diagram.png)\n\n"
+        "This paragraph was lost during chunking.\n"
+    )
+    report = vc.validate_canonical_package(
+        output_dir, plan, cleaned_markdown_text=cleaned
+    )
+    assert report.status == "FAIL"
+    assert "content_loss_or_duplication" in _codes(report)
+
+
+def test_fail_on_real_content_duplication_still_detected_when_image_present(tmp_path):
+    """The Task 10b fix must not weaken real duplication detection: an
+    actually-duplicated paragraph in the staged chunks must still FAIL
+    even when an image reference (with its expected path-prefix rewrite)
+    is also present."""
+    a1 = _anchor(["Widget Setup"])
+    plan = _confirmed_plan([a1])
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[
+            _slice(
+                a1,
+                "# Widget Setup\n\nBody one.\n\n![a diagram](media/diagram.png)\n\n"
+                "Body one.\n",  # duplicated paragraph
+            )
+        ],
+    )
+    raw_media_dir = tmp_path / "raw_media"
+    (raw_media_dir / "media").mkdir(parents=True)
+    (raw_media_dir / "media" / "diagram.png").write_bytes(b"fake-png-bytes")
+    output_dir = tmp_path / "canonical-content"
+    package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+    cleaned = "# Widget Setup\n\nBody one.\n\n![a diagram](media/diagram.png)\n"
+    report = vc.validate_canonical_package(
+        output_dir, plan, cleaned_markdown_text=cleaned
+    )
+    assert report.status == "FAIL"
+    assert "content_loss_or_duplication" in _codes(report)
+
+
 # ---------------------------------------------------------------------------
 # Unresolved structural anchors
 # ---------------------------------------------------------------------------
