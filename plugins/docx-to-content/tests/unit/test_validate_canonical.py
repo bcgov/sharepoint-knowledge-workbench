@@ -768,3 +768,91 @@ def test_validate_ungrouped_package_unaffected_by_new_grouped_checks(tmp_path):
         output_dir, plan, cleaned_markdown_text=cleaned
     )
     assert report.status == "PASS", report.issues
+
+
+# ---------------------------------------------------------------------------
+# Media-decision reconciliation (Task 18 general media-disposition
+# mechanism): a pending ("requires-human-review") media decision blocks;
+# a human-confirmed omission does not.
+# ---------------------------------------------------------------------------
+
+def _plan_with_media_decision(record):
+    source_fp = contracts.SourceFingerprint(
+        path="sourcedocuments/widget.docx", sha256="b" * 64, size_bytes=123
+    )
+    draft = build_draft_plan(
+        source_fingerprint=source_fp,
+        strategy="grouped",
+        chunk_level=1,
+        chunk_anchors=[],
+        media_decisions=[record],
+    )
+    return confirm_plan(draft, confirmed_by="tester")
+
+
+def test_pending_media_decision_is_blocking():
+    plan = _plan_with_media_decision({
+        "source_media_id": "image1.png",
+        "classification": "requires-human-review",
+        "disposition": "requires-human-decision",
+    })
+    issues = vc._check_media_decisions(plan)
+    assert any(i.code == "unclassified_media" for i in issues)
+
+
+def test_reviewed_media_omission_is_not_blocking():
+    plan = _plan_with_media_decision({
+        "source_media_id": "image1.png",
+        "classification": "obsolete-source-layout-artifact",
+        "disposition": "omit-as-reviewed-artifact",
+        "decision_authority": "human-confirmed",
+    })
+    issues = vc._check_media_decisions(plan)
+    assert issues == []
+
+
+def test_no_media_decisions_is_not_blocking():
+    source_fp = contracts.SourceFingerprint(
+        path="sourcedocuments/widget.docx", sha256="b" * 64, size_bytes=123
+    )
+    draft = build_draft_plan(
+        source_fingerprint=source_fp, strategy="grouped", chunk_level=1, chunk_anchors=[],
+    )
+    plan = confirm_plan(draft, confirmed_by="tester")
+    assert vc._check_media_decisions(plan) == []
+
+
+# ---------------------------------------------------------------------------
+# Preamble-aware content-loss comparison (Task 18): package builders never
+# copy SlicedDocument.preamble into any chunk (chunking.py's documented
+# design), so the content-loss/duplication comparison must be made against
+# preamble-stripped cleaned text, not the full cleaned document -- a real
+# pilot document's non-empty preamble (title page/TOC) would otherwise
+# always FAIL this check for content that was deliberately excluded from
+# canonical chunks, not actually lost.
+# ---------------------------------------------------------------------------
+
+def test_content_loss_check_passes_when_compared_against_preamble_stripped_text(tmp_path):
+    a1 = _anchor(["Widget Setup"])
+    plan = _confirmed_plan([a1])
+    preamble = "**Widget Manual**\n\n**Version 1.0**\n\n"
+    sliced = SlicedDocument(preamble=preamble, chunks=[_slice(a1, "# Widget Setup\n\nBody one.\n")])
+    output_dir = tmp_path / "canonical-content"
+    package.build_canonical_package(plan, sliced, tmp_path / "raw_media", output_dir)
+
+    full_cleaned_text = preamble + "# Widget Setup\n\nBody one.\n"
+    text_without_preamble = full_cleaned_text[len(preamble):]
+
+    # Mirrors the pre-fix bug: comparing against the FULL cleaned text
+    # (preamble included) reports content loss for content that was never
+    # meant to be in any chunk.
+    report_with_preamble = vc.validate_canonical_package(
+        output_dir, plan, cleaned_markdown_text=full_cleaned_text
+    )
+    assert "content_loss_or_duplication" in _codes(report_with_preamble)
+
+    # The fix: compare against preamble-stripped text instead.
+    report_without_preamble = vc.validate_canonical_package(
+        output_dir, plan, cleaned_markdown_text=text_without_preamble
+    )
+    assert "content_loss_or_duplication" not in _codes(report_without_preamble)

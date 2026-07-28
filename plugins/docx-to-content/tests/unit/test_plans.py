@@ -240,3 +240,95 @@ def test_convert_cli_rejects_draft_plan_status_exit_4(tmp_path):
         "--output", str(tmp_path / "out"),
     ])
     assert rc == 4
+
+
+# ---------------------------------------------------------------------------
+# apply_media_decision (Task 18 general media-disposition mechanism)
+# ---------------------------------------------------------------------------
+
+def _draft_plan_with_pending_media(tmp_path):
+    source = tmp_path / "source.docx"
+    source.write_bytes(b"fake docx bytes")
+    sha256 = hashing.content_hash(source.read_bytes())
+    fingerprint = contracts.SourceFingerprint(
+        path=str(source), sha256=sha256, size_bytes=source.stat().st_size,
+    )
+    return plans.build_draft_plan(
+        source_fingerprint=fingerprint,
+        strategy="grouped",
+        chunk_level=1,
+        chunk_anchors=[],
+        media_decisions=[
+            {
+                "source_media_id": "image1.png",
+                "source_position": "preamble-before-first-heading",
+                "source_hash": "deadbeef",
+                "media_type": "image/png",
+                "classification": "requires-human-review",
+                "disposition": "requires-human-decision",
+                "canonical_inclusion": False,
+                "publication_inclusion": False,
+                "derived_asset_allowed": False,
+                "reason": "preamble media requires human review",
+                "decision_authority": "pending",
+                "requires_alt_text": None,
+            }
+        ],
+    )
+
+
+def test_apply_media_decision_overrides_pending_record(tmp_path):
+    draft = _draft_plan_with_pending_media(tmp_path)
+    updated = plans.apply_media_decision(
+        draft,
+        source_media_id="image1.png",
+        classification="obsolete-source-layout-artifact",
+        disposition="omit-as-reviewed-artifact",
+        reason="stale browser screenshot, not an authoritative branding asset",
+    )
+    record = updated.media_decisions[0]
+    assert record["classification"] == "obsolete-source-layout-artifact"
+    assert record["disposition"] == "omit-as-reviewed-artifact"
+    assert record["decision_authority"] == "human-confirmed"
+    # never mutates the original draft
+    assert draft.media_decisions[0]["classification"] == "requires-human-review"
+    # plan_id recomputed over the new content
+    assert updated.plan_id != draft.plan_id
+
+
+def test_apply_media_decision_raises_for_unknown_media_id(tmp_path):
+    draft = _draft_plan_with_pending_media(tmp_path)
+    with pytest.raises(ValueError):
+        plans.apply_media_decision(
+            draft,
+            source_media_id="does-not-exist.png",
+            classification="decorative",
+            disposition="omit-as-reviewed-artifact",
+            reason="n/a",
+        )
+
+
+def test_apply_media_decision_raises_on_already_confirmed_plan(tmp_path):
+    draft = _draft_plan_with_pending_media(tmp_path)
+    confirmed = plans.confirm_plan(draft, confirmed_by="tester")
+    with pytest.raises(ValueError):
+        plans.apply_media_decision(
+            confirmed,
+            source_media_id="image1.png",
+            classification="decorative",
+            disposition="omit-as-reviewed-artifact",
+            reason="n/a",
+        )
+
+
+def test_confirm_plan_carries_media_decisions_forward_unchanged(tmp_path):
+    draft = _draft_plan_with_pending_media(tmp_path)
+    reviewed = plans.apply_media_decision(
+        draft,
+        source_media_id="image1.png",
+        classification="obsolete-source-layout-artifact",
+        disposition="omit-as-reviewed-artifact",
+        reason="stale browser screenshot",
+    )
+    confirmed = plans.confirm_plan(reviewed, confirmed_by="tester")
+    assert confirmed.media_decisions == reviewed.media_decisions

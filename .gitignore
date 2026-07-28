@@ -11,7 +11,7 @@
 context/
 
 temp/
-docs/superpowers/
+#docs/superpowers/
 
 # Superpowers transient working state
 .superpowers/

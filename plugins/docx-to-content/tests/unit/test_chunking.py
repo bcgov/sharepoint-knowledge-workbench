@@ -287,3 +287,31 @@ def test_anchor_identity_survives_whole_heading_emphasis_normalization():
     assert "**" not in all_content
     assert "PROTECTION ORDERS" in sliced.chunks[0].content
     assert "Data Capture Requirements" in all_content
+
+
+# ---------------------------------------------------------------------------
+# Regression (Task 18, discovered against a real pilot document): a heading
+# with an image glued directly onto its own line has that image stripped by
+# convert-time cleanup (pandoc_fixes.images.fix_glued_images) before
+# reconciliation. Analysis-time identity must strip it too, the same way it
+# already had to for whole-heading emphasis stripping above.
+# ---------------------------------------------------------------------------
+
+def test_anchor_identity_survives_glued_image_normalization():
+    from pandoc_fixes.images import fix_glued_images
+
+    raw = (
+        "# Locate A File\n"
+        "Intro body text.\n"
+        "### ![](media/image12.png){width=\"5in\"}**Central Divorce**\n"
+        "Body text.\n"
+    )
+    anchors = _anchors_for(raw)
+    assert len(anchors) == 2
+    for anchor in anchors:
+        assert "media/image12.png" not in anchor.stable_key
+        assert all("media/image12.png" not in part for part in anchor.source_heading_path)
+
+    cleaned = fix_glued_images(raw)
+    reconciled = reconcile_anchors(anchors, cleaned)
+    assert len(reconciled) == 2

@@ -181,6 +181,7 @@ def validate_canonical_package(
 
     # plan fingerprint / source fingerprint checks (reuse plans.py)
     issues.extend(_check_plan_and_source(plan, source_path))
+    issues.extend(_check_media_decisions(plan))
 
     if manifest is not None:
         issues.extend(_check_manifest_consistency(manifest, plan))
@@ -271,6 +272,30 @@ def _check_plan_and_source(plan: "contracts.ConversionPlan", source_path: "Path 
             plans.verify_plan_against_source(plan, source_path)
         except plans.PlanVerificationError as exc:
             issues.append(_error("source_fingerprint_mismatch", str(exc)))
+    return issues
+
+
+# ---------------------------------------------------------------------------
+# Media-decision reconciliation (Task 18 general media-disposition
+# mechanism): every proposed preamble media record on the confirmed plan
+# must have been reviewed -- a record left at "requires-human-review"/
+# "requires-human-decision" blocks conversion; a human-confirmed omission
+# does not (it's a reviewed decision, not a silent loss).
+# ---------------------------------------------------------------------------
+
+def _check_media_decisions(plan: "contracts.ConversionPlan") -> list:
+    issues = []
+    for record in (plan.media_decisions or []):
+        if (
+            record.get("classification") == "requires-human-review"
+            or record.get("disposition") == "requires-human-decision"
+        ):
+            issues.append(_error(
+                "unclassified_media",
+                f"media {record.get('source_media_id')!r} has not been reviewed "
+                "(classification/disposition still pending) -- confirm a "
+                "disposition before converting",
+            ))
     return issues
 
 
