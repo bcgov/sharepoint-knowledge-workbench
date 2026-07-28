@@ -42,6 +42,29 @@ class TestFixGluedImages:
         text = "## Section One\n\nA normal paragraph.\n"
         assert fix_glued_images(text) == text
 
+    def test_separates_image_glued_to_start_of_heading(self):
+        # Real-world shape (CEIS Manual): the image is glued to the START
+        # of the heading text, with (often bold) text following on the
+        # same line, no separating space.
+        text = (
+            "### ![](media/image12.png){width=\"5.45in\" height=\"2.2in\"}"
+            "**Central Divorce** (Supreme Court Divorce Files only*)*\n"
+        )
+        expected = (
+            "### **Central Divorce** (Supreme Court Divorce Files only*)*\n\n"
+            "![](media/image12.png){width=\"5.45in\" height=\"2.2in\"}\n"
+        )
+        assert fix_glued_images(text) == expected
+
+    def test_separates_image_glued_to_start_of_list_item(self):
+        text = "- ![](media/image3.png) First item\n- Second item\n"
+        expected = (
+            "- First item\n\n"
+            "![](media/image3.png)\n\n"
+            "- Second item\n"
+        )
+        assert fix_glued_images(text) == expected
+
     def test_handles_multiple_headings_with_glued_images(self):
         text = (
             "## Section One ![](media/image1.png)\n\n"
