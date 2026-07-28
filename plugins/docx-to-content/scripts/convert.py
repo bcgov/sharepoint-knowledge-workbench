@@ -41,11 +41,14 @@ _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
+import atomic_output  # noqa: E402
 import chunking  # noqa: E402
 import contracts  # noqa: E402
+import dispositions  # noqa: E402
 import emf_convert  # noqa: E402
 import package  # noqa: E402
 import plans  # noqa: E402
+import validate_canonical  # noqa: E402
 from pandoc_fixes.attrs import strip_pandoc_attrs  # noqa: E402
 from pandoc_fixes.footnotes import clean_orphaned_footnotes  # noqa: E402
 from pandoc_fixes.images import fix_glued_images  # noqa: E402
@@ -145,14 +148,21 @@ def run_pandoc_extraction(source: Path, staging_dir: Path) -> Path:
     return extracted_md
 
 
-def convert_document(
+def _run_conversion_pipeline(
     source: Path,
     plan: "contracts.ConversionPlan",
-    output_dir: Path,
-) -> "contracts.Manifest":
-    """Convert `source` (a real .docx) into a staged canonical-content
-    package under `output_dir/canonical-content`, using `plan` (a
-    CONFIRMED ConversionPlan) to drive chunk boundaries.
+    staging_root: Path,
+    canonical_dir: Path,
+):
+    """Shared core of `convert_document`/`convert_and_promote`: pandoc
+    extraction -> cleanup -> legacy media -> reconcile/slice -> package
+    build, writing the canonical package to `canonical_dir` and pandoc's
+    raw extraction under `staging_root / "_staging" / "raw"`. Returns
+    `(manifest, cleaned_markdown_text)` -- the cleaned text is needed by
+    `validate_canonical.validate_canonical_package`'s content-loss/
+    duplication check, which `convert_document` (Task 9's original,
+    narrower contract) does not expose but `convert_and_promote` (Task 11)
+    does.
 
     Preconditions (all three enforced before any pandoc/file work
     happens, reusing Task 7's plans.py so there is exactly one
@@ -164,13 +174,14 @@ def convert_document(
         - plans.require_confirmed: plan.confirmation.status == "confirmed".
     """
     source = Path(source)
-    output_dir = Path(output_dir)
+    staging_root = Path(staging_root)
+    canonical_dir = Path(canonical_dir)
 
     plans.verify_plan_against_source(plan, source)
     plans.verify_plan_integrity(plan)
     plans.require_confirmed(plan)
 
-    staging_dir = output_dir / "_staging" / "raw"
+    staging_dir = staging_root / "_staging" / "raw"
     extracted_md_path = run_pandoc_extraction(source, staging_dir)
     media_dir = staging_dir / "media"
 
@@ -184,7 +195,6 @@ def convert_document(
 
     sliced_document = chunking.reconcile_and_slice(plan.chunk_anchors, text)
 
-    canonical_dir = output_dir / "canonical-content"
     # `staging_dir` (not `media_dir`) is passed as the media reference base:
     # cleaned markdown refs look like "media/imageN.png", i.e. relative to
     # the raw extraction dir that CONTAINS the media/ subfolder, not
@@ -192,4 +202,80 @@ def convert_document(
     manifest = package.build_canonical_package(
         plan, sliced_document, staging_dir, canonical_dir
     )
+    return manifest, text
+
+
+def convert_document(
+    source: Path,
+    plan: "contracts.ConversionPlan",
+    output_dir: Path,
+) -> "contracts.Manifest":
+    """Convert `source` (a real .docx) into a staged canonical-content
+    package under `output_dir/canonical-content`, using `plan` (a
+    CONFIRMED ConversionPlan) to drive chunk boundaries.
+
+    This is Task 9's original entry point: it writes directly to
+    `output_dir/canonical-content` with no validation or promotion step
+    (those are `validate_canonical.py` and `convert_and_promote` below).
+    Preserved unchanged so existing callers/tests keep working; new
+    callers that want the full validate-then-atomically-promote pipeline
+    should use `convert_and_promote` instead.
+    """
+    output_dir = Path(output_dir)
+    manifest, _cleaned_text = _run_conversion_pipeline(
+        source, plan, output_dir, output_dir / "canonical-content"
+    )
     return manifest
+
+
+def convert_and_promote(
+    source: Path,
+    plan: "contracts.ConversionPlan",
+    output_root: Path,
+    final_dir: "Path | None" = None,
+    disposition_path: "Path | None" = None,
+    plugin_version: str = atomic_output.DEFAULT_PLUGIN_VERSION,
+):
+    """Full spec Section 13 pipeline: build the canonical package in a
+    fresh unique staging directory under `output_root`, validate it
+    there, and only promote it to `final_dir` (default
+    `output_root / "canonical-content"`) if validation allows it --
+    PASS outright, or WARN with every warning dispositioned via
+    `disposition_path`. A FAIL (or an undispositioned WARN) leaves
+    `final_dir` completely untouched and retains the staging directory
+    on disk for diagnosis.
+
+    Returns `(manifest, validation_report, promoted: bool, staging_dir)`.
+    `staging_dir` here is the package directory itself (i.e. what would
+    become `final_dir` on success) -- always returned so a caller can
+    inspect a failed run's staged output.
+    """
+    source = Path(source)
+    output_root = Path(output_root)
+    final_dir = Path(final_dir) if final_dir is not None else output_root / "canonical-content"
+
+    run_staging_root = atomic_output.create_staging_dir(output_root, prefix="run")
+    package_staging_dir = run_staging_root / "canonical-content"
+
+    manifest, cleaned_text = _run_conversion_pipeline(
+        source, plan, run_staging_root, package_staging_dir
+    )
+
+    atomic_output.write_generator_info(package_staging_dir, plugin_version=plugin_version)
+
+    validation_report = validate_canonical.validate_canonical_package(
+        package_staging_dir, plan, source_path=source, cleaned_markdown_text=cleaned_text
+    )
+    validate_canonical.write_validation_report(validation_report, package_staging_dir)
+
+    promotable = validation_report.status == "PASS"
+    if validation_report.status == "WARN":
+        disp_path = disposition_path or (package_staging_dir / "warning-disposition.json")
+        check = dispositions.apply_disposition(validation_report, disp_path)
+        promotable = check.promotable
+
+    if promotable:
+        atomic_output.promote(package_staging_dir, final_dir)
+        return manifest, validation_report, True, final_dir
+
+    return manifest, validation_report, False, package_staging_dir

@@ -83,11 +83,13 @@ def test_full_cleanup_order_matters():
 def test_cleanup_pipeline_is_a_named_ordered_sequence_not_reimplemented():
     """convert_document must call apply_cleanup_pipeline rather than
     inlining pandoc_fixes calls a second time -- assert by construction
-    that apply_cleanup_pipeline exists and convert_document's source
-    references it exactly once."""
+    that apply_cleanup_pipeline exists and the shared pipeline core
+    (`_run_conversion_pipeline`, factored out in Task 11 so both
+    `convert_document` and `convert_and_promote` share one
+    implementation) references it exactly once."""
     import inspect
 
-    source = inspect.getsource(convert.convert_document)
+    source = inspect.getsource(convert._run_conversion_pipeline)
     assert "apply_cleanup_pipeline" in source
     assert source.count("strip_pandoc_attrs(") == 0  # not re-inlined here
 
