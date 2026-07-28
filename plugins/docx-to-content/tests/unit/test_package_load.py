@@ -53,6 +53,29 @@ def _accepted_package_dir(tmp_path) -> Path:
     return final_dir
 
 
+REPEATED_HEADINGS_DOCX = FIXTURES / "repeated_headings.docx"
+
+
+def test_load_attaches_publication_map_for_grouped(tmp_path):
+    import dataclasses
+
+    analysis_dir = tmp_path / "analysis"
+    result = analyze_structure.analyze_document(REPEATED_HEADINGS_DOCX, analysis_dir)
+    grouped_draft = dataclasses.replace(result.plan, strategy="grouped")
+    confirmed = plans.confirm_plan(grouped_draft, confirmed_by="test-suite")
+
+    output_root = tmp_path / "out"
+    manifest, report, promoted, final_dir = convert.convert_and_promote(
+        REPEATED_HEADINGS_DOCX, confirmed, output_root
+    )
+    assert promoted is True, report.issues
+    assert manifest.strategy == "grouped"
+
+    loaded = package.CanonicalPackage.load(final_dir)
+    assert loaded.publication_map is not None
+    assert len(loaded.publication_map.entries) == manifest.chunk_count
+
+
 def test_load_returns_package_with_manifest_chunks_and_media(tmp_path):
     final_dir = _accepted_package_dir(tmp_path)
 
@@ -63,6 +86,7 @@ def test_load_returns_package_with_manifest_chunks_and_media(tmp_path):
     assert len(loaded.chunks) == loaded.manifest.chunk_count
     assert loaded.media_dir == final_dir / "media"
     assert loaded.package_dir == final_dir
+    assert loaded.publication_map is None
     # Every chunk's content and metadata was actually loaded into memory.
     for chunk in loaded.chunks:
         assert isinstance(chunk.content, str)

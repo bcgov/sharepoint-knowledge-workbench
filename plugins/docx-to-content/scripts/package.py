@@ -532,6 +532,7 @@ class CanonicalPackage:
     chunks: list  # list[LoadedChunk], in manifest order
     media_dir: Path
     package_dir: Path
+    publication_map: "object" = None  # contracts.PublicationMap | None; populated by load() for strategy="grouped"
 
     @classmethod
     def load(cls, package_dir: Path) -> "CanonicalPackage":
@@ -647,10 +648,15 @@ class CanonicalPackage:
 
             loaded_chunks.append(LoadedChunk(metadata=metadata, content=content))
 
+        pub_map = None
+        if manifest.strategy == "grouped":
+            pub_map = publication_map.load_publication_map(package_dir)
+
         return cls(
             manifest=manifest,
             validation_report=validation_report,
             chunks=loaded_chunks,
             media_dir=package_dir / "media",
             package_dir=package_dir,
+            publication_map=pub_map,
         )
