@@ -213,9 +213,14 @@ def _run_conversion_pipeline(
     # cleaned markdown refs look like "media/imageN.png", i.e. relative to
     # the raw extraction dir that CONTAINS the media/ subfolder, not
     # relative to media/ itself.
-    manifest = package.build_canonical_package(
-        plan, sliced_document, staging_dir, canonical_dir
-    )
+    if plan.strategy == "grouped":
+        manifest = package.build_grouped_canonical_package(
+            plan, sliced_document, staging_dir, canonical_dir
+        )
+    else:
+        manifest = package.build_canonical_package(
+            plan, sliced_document, staging_dir, canonical_dir
+        )
     return manifest, text
 
 
