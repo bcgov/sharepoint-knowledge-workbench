@@ -1,108 +1,118 @@
 # Architecture Overview
 
 This is a proof-of-concept repo, not a running application — there is no frontend, backend,
-database, or deployed service. It exists to validate the content-centric knowledge management
-vision in `vision.md` (which merges `plan.md` and `plan-part2.md`): pulling content out of Word
-documents (where content and formatting are baked together) into structured, template-mapped
-content that can be rendered into many outputs — and eventually ground a Copilot Studio/M365
-agent. The CEIS Manual is the pilot document. Update this file as the repo's actual shape
-changes — don't let it drift into describing a system that isn't here.
+database, or deployed service. It is **Phase 1** ("Structured Knowledge Conversion and Canonical
+Content POC") of a broader initiative, the **AI-Assisted Structured Knowledge Workbench**: pulling
+content out of Word documents (where content and formatting are baked together) into structured,
+canonical content that can be rendered into many outputs and eventually ground knowledge-access
+agents. The **CEIS Manual** is the Phase 1 pilot document. Phase 1's scope is deliberately narrow
+— the full initiative's direction (repository/plugin boundaries beyond Phase 1, SharePoint
+delivery, native skills, agents, publication, evaluation) is described in `docs/vision/`, not here.
+Update this file as the repo's actual shape changes — don't let it drift into describing a system
+that isn't here.
 
 ## 1. Project Structure
 
 ```
 manual-conversion-poc/
-├── sourcedocuments/        # Original .docx source files (read-only inputs, never edited)
-│   └── CEIS MANUAL - working version.docx   # pilot document
-├── output/                 # Conversion output, one directory per source document
+├── intake/                  # Source .docx files awaiting/pending conversion (read-only inputs)
+│   └── CEIS MANUAL - working version.docx   # Phase 1 pilot document
+├── runs/                    # Per-document-run conversion output
 │   └── ceis-manual/
-│       ├── CEIS-Manual.md  # first-pass pandoc conversion (pre-plugin, known-broken — see §3)
-│       └── images/media/   # images extracted from the .docx, referenced by the markdown
-├── plugins/                # Self-contained plugin source tree — see §3. NOT installed skills;
-│   └── docx-to-content/    #   this is authored directly in this repo, not the sibling monorepo.
-├── plan.md                 # original executive proposal (content-centric model)
-├── plan-part2.md           # follow-on proposal (Copilot Studio/M365 agent knowledge access)
-├── vision.md                # merges plan.md + plan-part2.md into one vision, maps to the
-│                            #   workflow diagram (see docs/superpowers/specs/diagrams/)
-├── docs/superpowers/
-│   ├── specs/               # design specs (brainstorming skill output)
-│   │   ├── 2026-07-25-docx-to-content-plugin-design.md   # current, authoritative
-│   │   └── diagrams/docx-to-content-workflow.{mmd,png}    # the workflow diagram
-│   └── plans/                # implementation plans (writing-plans skill output)
-├── architecture.md          # this file
-├── JOURNAL.md               # chronological, learning-oriented log — what was tried, what broke,
-│                            #   what fixed it, decisions made and why (including reversed ones)
-├── DEPENDENCIES.md          # running log of required external CLI tools (pandoc, LibreOffice)
+│       ├── CEIS-Manual.md   # pre-plugin, known-broken first-pass conversion — see §3
+│       └── images/media/    # images extracted from the .docx, referenced by that markdown
+├── plugins/
+│   └── docx-to-content/     # the self-contained conversion plugin — see §3
+├── docs/
+│   ├── vision/               # broader-initiative direction: naming, phases, plugin/agent
+│   │                          #   boundaries, open questions — see docs/vision/README.md
+│   ├── research/              # product research / field notes feeding the broader vision
+│   └── superpowers/
+│       ├── specs/             # design specs (brainstorming skill output)
+│       └── plans/             # implementation plans (writing-plans skill output)
+├── architecture.md           # this file
+├── JOURNAL.md                # chronological, learning-oriented log — what was tried, what broke,
+│                              #   what fixed it, decisions made and why (including reversed ones)
+├── start-here.md             # authoritative, kept-current resume document for Phase 1 work
+├── DEPENDENCIES.md           # running log of required external CLI tools (pandoc, LibreOffice)
 ├── CLAUDE.md                 # behavioral guidelines + this repo's actual conventions
 ├── .gitignore                # excludes .agents/, .claude/, context/ (regenerable/session-local)
 ├── plugin-sources.json       # which upstream skill sources are tracked (see §3)
-├── skills-lock.json           # machine-generated install record for .agents/skills/ — never hand-edit
+├── skills-lock.json          # machine-generated install record for .agents/skills/ — never hand-edit
 ├── .agent/rules/             # authoritative rule files (dependency management, git ops, TDD, etc.)
-└── .agents/skills/            # installed skills (superpowers, agent-scaffolders, dev-utils, etc.) —
+└── .agents/skills/           # installed skills (superpowers, agent-scaffolders, dev-utils, etc.) —
                                #   gitignored, reproducible from plugin-sources.json
 ```
 
-This repo **is** a git repository (initialized 2026-07-25, remote `github.com/richfrem/
-manual-conversion-poc`, not yet pushed) — that has changed since this file was first written.
+`intake/`/`runs/` are Phase 1's own working directories; the plugin itself takes `--source`/
+`--output` as arbitrary CLI arguments with no hardcoded dependency on either name. A later phase
+(per `docs/vision/`) may reorganize per-document work under `examples/<name>/` alongside other
+pilot documents — not authorized by this file alone, requires its own reviewed plan.
 
-There is no `src/`, `backend/`, `frontend/`, or `Dockerfile` — none of that applies. `plugins/` is
-new structure, added deliberately for the reason in §3, not scaffolded speculatively.
+This repo **is** a git repository, pushed to `github.com/richfrem/manual-conversion-poc` (`main`
+is the default branch).
 
-## 2. High-Level Flow
+There is no `src/`, `backend/`, `frontend/`, or `Dockerfile` — none of that applies.
 
-Still no live system, no request/response cycle, no database. But the flow is now a multi-stage
-pipeline, not a single conversion — see `docs/superpowers/specs/diagrams/docx-to-content-workflow.png`
-for the full picture. Summarized:
+## 2. High-Level Flow (Phase 1)
+
+Still no live system, no request/response cycle, no database. The flow is a multi-stage,
+CLI-driven pipeline, gated by explicit human plan confirmation between analysis and conversion:
 
 ```
-sourcedocuments/<doc>.docx
+intake/<doc>.docx
         |
-        v  pandoc + cleanup pipeline (analyze-document / convert-document skills)
+        v  analyze-document skill: real pandoc extraction, structural analysis
+        |     (headings, defect signals, statistics, proposed_topics preview),
+        |     writes a DRAFT ConversionPlan
         |
-Raw extracted markdown  ── TRANSITORY, not the content artifact itself
+Draft ConversionPlan  ── requires explicit human confirmation before proceeding
         |
-        v  analysis maps raw sections onto a content template's defined slots
+        v  convert-document skill: confirm (draft -> confirmed) then convert
+        |     (pandoc + cleanup pipeline -> structural-anchor reconciliation/chunking
+        |      -> canonical package build -> validate_canonical.py -> atomic promotion)
         |
-Canonical Content + Metadata (chunk_id, source_heading_path, topic)
+Canonical Content Package (manifest.json, validated chunks + sidecars, media/,
+publication-map.json for the "grouped" strategy)
         |
-        v  render-content skill, base.py contract
+        v  render-content skill: CanonicalPackage.load() -> a registered renderer
+        |     (currently multipage-markdown) -> renderers/validate_rendered.py -> atomic promotion
         |
-Published Output (Phase 1: multipage_markdown.py — a navigable folder of pages + index)
+Published Output (a navigable folder of pages + index)
 ```
 
-Later phases (not built, named in the design spec): other renderers sharing the same contract
-(Word/PDF, PowerPoint, audio scripts), a destination-interview skill, an actual publish step into
-SharePoint/OneDrive, and using the canonical Content (not the raw extraction) to ground a Copilot
-Studio/M365 agent per `plan-part2.md`.
+Three chunking strategies are supported end to end: `"single"`, `"chunked"` (one canonical chunk
+per heading), and `"grouped"` (headings folded into ~topic-sized files, with per-heading identity
+preserved as sidecar metadata and ordering driven by `publication-map.json`) — see
+`docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md` and
+`docs/superpowers/plans/2026-07-28-docx-to-content-topic-grouping.md`.
 
 ## 3. Plugin — self-contained in this repo, not the sibling monorepo
 
-**This is a reversal of an earlier decision, worth stating explicitly so it isn't rediscovered by
-surprise:** work on a Word-conversion skill was originally started in the sibling monorepo
-`/Users/richardfremmerlid/Projects/agent-plugins-skills` (source of truth for that repo's
-published, shared plugins). That work — a design spec, implementation plan, and working
-`pandoc_fixes/*` cleanup modules — was deliberately relocated here per explicit instruction: this
-repo's actual purpose is to demonstrate the concept end-to-end, including the plugin itself, not
-just consume one built elsewhere. The sibling repo was fully cleaned up (all uncommitted additions
-removed, `symlinks.json` reverted) before the move.
+Word-conversion work is authored directly in this repo's `plugins/docx-to-content/`, built from
+scratch under TDD, not relocated from the sibling monorepo `agent-plugins-skills` (an earlier plan
+to build it there and pull it in was superseded — see the v3.1 Deviation Notice in the plugin
+design spec). This repo's actual purpose is to demonstrate the concept end-to-end, including the
+plugin itself, not just consume one built elsewhere.
 
-`plugins/docx-to-content/` is scaffolded using the same structural conventions as
-`agent-plugins-skills` (`.claude-plugin/plugin.json`, `plugin.yaml`, `skills/<skill>/SKILL.md`,
-hub-and-spoke `scripts/` via file-level symlinks) — but it is authored, tested, and lives only in
-this repo. No PR/merge/reinstall cycle applies to it (that protocol, still documented in
-`CLAUDE.md`, governs the *installed* skills in `.agents/skills/`, which remain sourced from the
-sibling monorepo — this plugin is a separate, first-party thing this repo builds directly).
+`plugins/docx-to-content/` uses the same structural conventions as `agent-plugins-skills`
+(`.claude-plugin/plugin.json`, `plugin.yaml`, `skills/<skill>/SKILL.md`, hub-and-spoke `scripts/`)
+but is authored, tested, and lives only in this repo. No PR/merge/reinstall cycle applies to it
+(that protocol, documented in `CLAUDE.md`, governs the *installed* skills in `.agents/skills/`,
+sourced from the sibling monorepo — a separate concern from this first-party plugin).
 
-**Three skills, Phase 1** (design: `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design.md`):
-- `analyze-document` — structural analysis + chunking/template recommendation, user confirms/overrides
-- `convert-document` — executes the confirmed plan; relocated `pandoc_fixes/*`, `emf_convert.py`,
-  `pandoc_validate.py` do the actual cleanup (attrs → images → toc → tables → footnotes, corrected
-  order — see the spec for why that order matters)
-- `render-content` — the render contract (`renderers/base.py`) plus one concrete proof renderer
-  (`renderers/multipage_markdown.py`)
+**Three skills, fully implemented** (design: `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md`):
+- `analyze-document` — real pandoc extraction, structural analysis, defect-signal detection,
+  proposed-topic preview, draft `ConversionPlan` — never converts content, never writes canonical
+  output.
+- `convert-document` — `confirm` (draft → confirmed plan) then `convert` (cleanup pipeline →
+  chunking → canonical package build → `validate_canonical.py` → atomic promotion, only if
+  validation allows it).
+- `render-content` — `CanonicalPackage.load()` (full re-validation) → a registered renderer
+  (`renderers/multipage_markdown.py`) → `renderers/validate_rendered.py` → atomic promotion.
 
 **Installed skills remain a separate concern:** `.agents/skills/` (superpowers, agent-scaffolders,
-cli-agents, dependency-management, dev-utils) are still consumed from `agent-plugins-skills` and
+cli-agents, dependency-management, dev-utils) are consumed from `agent-plugins-skills` and
 `obra/superpowers` via `plugin-sources.json`/`skills-lock.json`, gitignored, reproducible via the
 protocol in `CLAUDE.md`. The Anthropic `docx` skill was removed from this set (2026-07-25) — its
 `.docx`→Markdown path was a bare `pandoc -t markdown` call with no cleanup, and its license
@@ -111,44 +121,46 @@ prohibits building derivative works on it. See `JOURNAL.md`, 2026-07-25 Session 
 ## 4. Dependencies
 
 Tracked in `DEPENDENCIES.md` — external CLI tools (pandoc, LibreOffice/`soffice`), not Python
-packages, for the same reason as before: do not install/upgrade system tools without checking with
-the user first, outside the scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt`
-lockfiles only). The plugin's own Python dependencies (pytest, test-only) follow that rule and are
-tracked in `plugins/docx-to-content/requirements.in`/`.txt` once scaffolded.
+packages: do not install/upgrade system tools without checking with the user first, outside the
+scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles only).
 
-## 5. What This Repo Deliberately Does Not Have (updated)
+## 5. What This Repo Deliberately Does Not Have (Phase 1 scope)
 
-- No running service, no API, no database.
-- No CI/CD pipeline.
+- No running service, no API, no database, no CI/CD pipeline.
 - No preview/editing tool for content — SharePoint Online already provides native markdown
-  preview/editing at the eventual destination (confirmed via a live screenshot); building one here
-  would be redundant.
-- No destination-interview skill, no actual publish step into SharePoint/OneDrive yet — the
-  `manual-conversion-poc` folder visible in SharePoint/OneDrive today is a manually-created
-  separate copy, not synced to this repo.
-- No renderers beyond the one (`multipage_markdown.py`) built to prove the render contract.
+  preview/editing at the eventual destination.
+- No actual publish step into SharePoint/OneDrive — that and native SharePoint skills,
+  publication-map-driven multi-target rendering, and knowledge-access agents are later-phase
+  concerns described in `docs/vision/`, not built or authorized here.
+- No renderers beyond `multipage_markdown.py` — see
+  `plugins/docx-to-content/references/future-output-profiles.md` for the surveyed-but-not-built
+  candidates (PDF, Word, PowerPoint, HTML, SharePoint, etc.).
 
 ## 6. Roadmap / Open Questions
 
-- Scaffold `plugins/docx-to-content/` via `create-plugin`, relocate the proven `pandoc_fixes/*`
-  code into it, and implement `analyze-document`, `convert-document`, `render-content` per the
-  design spec and its (not-yet-written) implementation plan.
-- Re-convert the CEIS Manual through the finished plugin, replacing the current
-  `output/ceis-manual/CEIS-Manual.md` (known-broken: raw TOC dump, glued images, pandoc attribute
-  artifacts — see `JOURNAL.md`).
-- Later phases, explicitly deferred and named in the design spec: other renderers (Word/PDF,
-  PowerPoint, audio), destination-interview skill, actual SharePoint/OneDrive publish step, and
-  using canonical Content+Metadata to ground a Copilot Studio/M365 agent (`plan-part2.md`).
-- Whether/when to push this repo's initial commits to `github.com/richfrem/manual-conversion-poc`
-  is still open — confirm with the user before any push (per general practice, not yet done).
+- **Immediate (Phase 1, in progress):** Task 18 — cut over the real CEIS Manual through the
+  finished plugin, replacing `runs/ceis-manual/CEIS-Manual.md` (known-broken pre-plugin output).
+  Gated on explicit human confirmation of the proposed topic-grouping plan — see `start-here.md`
+  for exact status.
+- **Beyond Phase 1:** the phased roadmap (Phase 2 — publication/renderer separation, Phase 3 —
+  governed SharePoint knowledge pilot, Phase 4 — native SharePoint skills, Phase 5 — SharePoint
+  knowledge agent, Phase 6 — multi-target capability model, Phase 7 — Cowork/Copilot Studio
+  evaluation, Phase 8 — scale/operations), proposed plugin boundaries (`sharepoint-knowledge`,
+  `knowledge-publication`, `knowledge-evaluation`), and repository rename/restructure options are
+  described in `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. That
+  document proposes future direction; it does not itself authorize renaming the repository, moving
+  files beyond what's already been agreed, or scaffolding new plugins — each requires its own
+  reviewed decision.
+- Open architecture/governance questions (knowledge-unit boundaries, publication-map reuse,
+  metadata authority, security boundaries, stable identity, and more) are tracked in
+  `docs/vision/key-unanswered-questions.md`.
 
 ## 7. Project Identification
 
 Project Name: manual-conversion-poc
 
-Repository: git-initialized locally (`main` branch), remote `github.com/richfrem/
-manual-conversion-poc` configured but not yet pushed
+Repository: `github.com/richfrem/manual-conversion-poc`, `main` branch (default, pushed)
 
 Primary Contact: Richard Fremmerlid
 
-Date of Last Update: 2026-07-25
+Date of Last Update: 2026-07-28

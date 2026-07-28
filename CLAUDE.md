@@ -45,10 +45,15 @@ grep for image links / headings and confirm counts before saying it's complete).
 
 ### Purpose
 
-This is a proof-of-concept for the "content-centric knowledge management" proposal in
-`vision/plan-content-management-proposal.md`: moving Word/PDF manuals from a document-centric
-model (content + formatting baked together) to a content-centric model (Content + Template +
-Renderer = Published Output). The **CEIS Manual** is the pilot document.
+This repo is Phase 1 of a broader initiative — the **AI-Assisted Structured Knowledge
+Workbench** — moving Word/PDF manuals from a document-centric model (content + formatting baked
+together) to a content-centric model (Content + Template + Renderer = Published Output). Phase 1's
+scope is narrower than the full initiative: prove structured knowledge conversion and canonical
+content on one pilot document (the **CEIS Manual**) via a self-contained plugin. The full
+initiative — repository/plugin boundaries beyond Phase 1, SharePoint delivery, native skills,
+agents, publication, and evaluation — is described in `docs/vision/README.md` and
+`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`; those documents propose
+future direction but do not themselves authorize work beyond the current approved phase plan.
 
 The active implementation is the `docx-to-content` plugin at `plugins/docx-to-content/` — a
 self-contained Claude Code plugin (built from scratch under TDD, see
@@ -69,30 +74,34 @@ inside that worktree.
 ### Layout
 
 ```
-sourcedocuments/        ← original .docx source files (read-only inputs)
-output/<doc-name>/      ← conversion output per source document
-  <Doc-Name>.md         ← pandoc-converted markdown
-  images/media/         ← images extracted from the .docx, referenced by the markdown
-plan.md                 ← the executive proposal this POC is validating
-DEPENDENCIES.md         ← running log of required external tools (non-Python) and install commands
-.agent/rules/           ← authoritative rule files (see below)
-.agents/skills/         ← installed skills (from richfrem/agent-plugins-skills + obra/superpowers)
+intake/                 ← source .docx files awaiting/pending conversion (read-only inputs)
+runs/<doc-name>/         ← per-document-run output (staged and promoted, via the plugin CLI)
+plugins/docx-to-content/ ← the self-contained conversion plugin — see Purpose above
+docs/vision/             ← broader initiative direction (naming, phases, plugin/agent boundaries)
+docs/superpowers/        ← plugin design specs, implementation plans, SDD ledgers
+DEPENDENCIES.md          ← running log of required external tools (non-Python) and install commands
+.agent/rules/            ← authoritative rule files (see below)
+.agents/skills/          ← installed skills (from richfrem/agent-plugins-skills + obra/superpowers)
 ```
 
-### Conversion workflow (current pattern — follow for new source documents)
+`intake/`/`runs/` are this repo's own working directories for the Phase 1 CEIS pilot — the plugin
+itself takes `--source`/`--output` as arbitrary CLI arguments and has no hardcoded dependency on
+either name. A later phase (per `docs/vision/`) may reorganize per-document work under
+`examples/<name>/` alongside other pilot documents; that reorganization is not authorized by this
+file alone and requires its own reviewed plan (see `docs/vision/README.md`'s change-control rules).
 
-```bash
-mkdir -p output/<doc-name>/images
-pandoc -t markdown --extract-media=output/<doc-name>/images --wrap=none \
-  "sourcedocuments/<source>.docx" -o output/<doc-name>/<Doc-Name>.md
-```
+### Conversion workflow — via the plugin (current, authoritative)
 
-- `--extract-media` pulls embedded images out and rewrites the markdown links to point at them in place — this is what keeps images positioned where they appear in the original document.
-- Legacy `.emf` images (older Word documents can contain these) do not render in browsers/GitHub/most markdown viewers. They require LibreOffice (`soffice`) to convert to `.png` — see `DEPENDENCIES.md`. Check for `.emf` files after every conversion:
-  ```bash
-  find output/<doc-name>/images -iname '*.emf'
-  ```
-- After converting, verify: check image link count matches extracted file count, and skim heading structure (`grep '^#'`) against the source document's TOC/section list.
+Real document conversion runs through `plugins/docx-to-content/`'s CLI (`analyze` → `confirm` →
+`convert` → `render`), not a bare `pandoc` invocation — see that plugin's `skills/*/SKILL.md` for
+the exact commands, preconditions, and exit-code contract. The bare-`pandoc` snippet that used to
+live in this section predates the plugin and is superseded; `runs/ceis-manual/` still holds that
+pre-plugin, known-broken output (raw TOC dump, glued images, pandoc attribute artifacts — see
+`JOURNAL.md`) until the real CEIS pilot is cut over through the plugin (Task 18, gated on explicit
+human plan confirmation — see `start-here.md`).
+
+- Legacy `.emf` images (older Word documents can contain these) do not render in browsers/GitHub/most markdown viewers. The plugin's `convert` step converts them to `.png` via LibreOffice (`soffice`) automatically — see `DEPENDENCIES.md`.
+- Verification is built into the pipeline: `convert` validates the staged canonical package (content-loss/duplication, media references, structural-anchor completeness, etc.) before promoting it, and `render` validates rendered output before promoting that — see the plugin's `validate_canonical.py`/`renderers/validate_rendered.py`.
 
 ### Dependencies
 
