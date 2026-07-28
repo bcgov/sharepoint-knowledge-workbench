@@ -59,6 +59,7 @@ def build_draft_plan(
     content_type: str = DEFAULT_CONTENT_TYPE,
     template_profile: str = DEFAULT_TEMPLATE_PROFILE,
     analysis_warnings: "list | None" = None,
+    confirmed_topic_roots: "list | None" = None,
 ) -> "contracts.ConversionPlan":
     """Build a draft ConversionPlan (confirmation.status == "draft").
 
@@ -82,6 +83,9 @@ def build_draft_plan(
             confirmed_at="",
         ),
         analysis_warnings=list(analysis_warnings or []),
+        confirmed_topic_roots=(
+            list(confirmed_topic_roots) if confirmed_topic_roots is not None else None
+        ),
     )
     plan.plan_id = hashing.compute_plan_id(plan)
     return plan
@@ -121,6 +125,11 @@ def confirm_plan(
             confirmed_at=confirmed_at,
         ),
         analysis_warnings=list(draft_plan.analysis_warnings),
+        confirmed_topic_roots=(
+            list(draft_plan.confirmed_topic_roots)
+            if draft_plan.confirmed_topic_roots is not None
+            else None
+        ),
     )
     confirmed.plan_id = hashing.compute_plan_id(confirmed)
     return confirmed

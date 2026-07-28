@@ -404,8 +404,15 @@ def analyze_document(source, output_dir) -> AnalysisResult:
 
     candidate_chunk_level = 1
 
-    # --- proposed topic-grouping preview (Task 17-topic-grouping) ---
+    # --- proposed topic-grouping preview (Task 17-topic-grouping, refined
+    # by Task 18's mixed-level logical-root detection) ---
+    heading_classifications = topic_grouping.classify_headings(headings)
     topic_boundaries = topic_grouping.compute_topic_boundaries(headings)
+    root_classifications_by_path_occurrence = {
+        (tuple(c["path"]), c["occurrence"]): c
+        for c in heading_classifications
+        if c["physical_boundary"]
+    }
     proposed_topics = [
         {
             "topic_id": boundary.topic_id,
@@ -417,9 +424,23 @@ def analyze_document(source, output_dir) -> AnalysisResult:
             # chunk-body sizes aren't known until cleaned markdown is
             # sliced in convert; this previews relative topic weight only.
             "approx_size_chars": sum(len(m.text) for m in boundary.members),
+            "source_level": root_classifications_by_path_occurrence[
+                (tuple(boundary.members[0].path), boundary.members[0].occurrence)
+            ]["source_level"],
+            "classification": root_classifications_by_path_occurrence[
+                (tuple(boundary.members[0].path), boundary.members[0].occurrence)
+            ]["classification"],
         }
         for boundary in topic_boundaries
     ]
+    confirmed_topic_roots = [
+        {"source_heading_path": list(c["path"]), "occurrence": c["occurrence"]}
+        for c in heading_classifications
+        if c["physical_boundary"]
+    ]
+    root_levels_used = sorted({c["source_level"] for c in heading_classifications if c["physical_boundary"]})
+    ambiguous_roots = [c for c in heading_classifications if c["classification"] == "ambiguous-root"]
+    promoted_roots = [c for c in heading_classifications if c["classification"] == "promoted-root"]
 
     report = {
         "source": source_fingerprint.to_dict(),
@@ -472,6 +493,24 @@ def analyze_document(source, output_dir) -> AnalysisResult:
         analysis_warnings.append("pandoc attribute syntax detected")
     if defect_signals["bold_wrapped_headings"]:
         analysis_warnings.append("whole-heading-wrapped bold/italic emphasis detected")
+    if len(root_levels_used) > 1:
+        analysis_warnings.append(
+            "MIXED_LOGICAL_ROOT_LEVELS: proposed topic roots use inconsistent "
+            f"source heading levels {root_levels_used} -- review proposed_topics "
+            "before confirming the grouped strategy"
+        )
+    for c in promoted_roots:
+        analysis_warnings.append(
+            f"PROMOTED_TOPIC_ROOT: heading {c['text']!r} (source level {c['source_level']}) "
+            "treated as a topic root though its level differs from the document's "
+            "opening heading level"
+        )
+    for c in ambiguous_roots:
+        analysis_warnings.append(
+            f"AMBIGUOUS_TOPIC_ROOT: heading {c['text']!r} (source level {c['source_level']}) "
+            "could be a topic root or a genuine nested child -- treated as an internal "
+            "heading by default; review before confirming"
+        )
 
     plan = plans.build_draft_plan(
         source_fingerprint=source_fingerprint,
@@ -479,6 +518,7 @@ def analyze_document(source, output_dir) -> AnalysisResult:
         chunk_level=candidate_chunk_level,
         chunk_anchors=chunk_anchors,
         analysis_warnings=analysis_warnings,
+        confirmed_topic_roots=confirmed_topic_roots,
     )
 
     (output_dir / "analysis-report.json").write_text(

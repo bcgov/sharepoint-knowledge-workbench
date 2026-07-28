@@ -52,6 +52,7 @@ import convert  # noqa: E402
 import dependencies  # noqa: E402
 import package  # noqa: E402
 import plans  # noqa: E402
+import topic_grouping  # noqa: E402
 from renderers import multipage_markdown  # noqa: E402
 from renderers import protocol as renderer_protocol  # noqa: E402
 from renderers import validate_rendered  # noqa: E402
@@ -223,11 +224,14 @@ def cmd_convert(args):
     except (
         convert.chunking.AnchorReconciliationError,
         package.MediaError,
+        topic_grouping.UnassignableHeadingError,
     ) as exc:
         # Malformed/unsupported content discovered while building the
         # canonical package (missing anchors, ambiguous anchors, illegal
-        # media references, unconverted legacy media, ...) is a contract/
-        # validation failure, not a dependency or usage problem.
+        # media references, unconverted legacy media, a confirmed
+        # topic-root set that no longer reconciles with the current
+        # source headings, ...) is a contract/validation failure, not a
+        # dependency or usage problem.
         raise ValidationFailError(str(exc)) from exc
     if not promoted:
         # convert_and_promote() only withholds promotion when
