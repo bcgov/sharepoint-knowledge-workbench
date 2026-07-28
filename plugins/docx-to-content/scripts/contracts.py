@@ -201,6 +201,13 @@ class ChunkMetadata:
     content_sha256: str
     local_links: list = field(default_factory=list)
     media_refs: list = field(default_factory=list)
+    # Structural-anchor lineage folded into this chunk (Task 17-topic-
+    # grouping's "grouped" strategy only): list of {"stable_key",
+    # "source_heading_path", "occurrence", "heading_level"} dicts, one per
+    # structural anchor this topic chunk contains, in source order. None
+    # for ungrouped ("single"/"chunked") chunks, which map 1:1 to a
+    # single structural anchor already identified by chunk_id.
+    anchors: Optional[list] = None
 
     @classmethod
     def from_dict(cls, data: dict) -> "ChunkMetadata":
@@ -219,10 +226,11 @@ class ChunkMetadata:
             content_sha256=_require(data, "content_sha256"),
             local_links=list(_require(data, "local_links")),
             media_refs=list(_require(data, "media_refs")),
+            anchors=data.get("anchors"),
         )
 
     def to_dict(self) -> dict:
-        return {
+        result = {
             "schema_version": self.schema_version,
             "chunk_id": self.chunk_id,
             "source_order": self.source_order,
@@ -237,6 +245,9 @@ class ChunkMetadata:
             "local_links": list(self.local_links),
             "media_refs": list(self.media_refs),
         }
+        if self.anchors is not None:
+            result["anchors"] = self.anchors
+        return result
 
 
 # ---------------------------------------------------------------------------

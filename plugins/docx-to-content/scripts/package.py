@@ -71,6 +71,8 @@ if str(_THIS_DIR) not in sys.path:
 import contracts  # noqa: E402
 import dispositions  # noqa: E402
 import hashing  # noqa: E402
+import publication_map  # noqa: E402
+import topic_grouping  # noqa: E402
 
 _LEGACY_MEDIA_EXTENSIONS = {".emf", ".wmf"}
 
@@ -314,6 +316,151 @@ def build_canonical_package(
             indent=2,
         )
     )
+
+    return manifest
+
+
+def build_grouped_canonical_package(
+    plan: "contracts.ConversionPlan",
+    sliced_document,
+    raw_media_dir: Path,
+    output_dir: Path,
+) -> "contracts.Manifest":
+    """Build a staged canonical-content package under `output_dir` using
+    the "grouped" strategy (Task 17-topic-grouping): every level-1 heading
+    in `sliced_document.chunks` becomes one topic chunk file, with all of
+    its descendant structural anchors' content concatenated (in source
+    order) into that single file, and their lineage preserved as
+    `ChunkMetadata.anchors`. A `publication-map.json` sidecar is written
+    alongside the manifest, giving explicit, directory-order-independent
+    topic ordering for rendering.
+
+    Reuses `rewrite_media_and_copy`/`extract_media_refs` unchanged from the
+    ungrouped path -- media handling does not change with strategy.
+    """
+    output_dir = Path(output_dir)
+    chunks_dir = output_dir / "chunks"
+    media_dir = output_dir / "media"
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+
+    headings = [
+        {
+            "level": chunk_slice.anchor.heading_level,
+            "text": chunk_slice.anchor.heading_text,
+            "path": list(chunk_slice.anchor.source_heading_path),
+            "occurrence": chunk_slice.anchor.occurrence,
+        }
+        for chunk_slice in sliced_document.chunks
+    ]
+    boundaries = topic_grouping.compute_topic_boundaries(headings)
+
+    slices_by_path_occurrence = {
+        (tuple(chunk_slice.anchor.source_heading_path), chunk_slice.anchor.occurrence): chunk_slice
+        for chunk_slice in sliced_document.chunks
+    }
+
+    def _slice_for_member(member):
+        return slices_by_path_occurrence[(tuple(member.path), member.occurrence)]
+
+    chunk_items = [
+        (
+            boundary.topic_id,
+            "\n\n".join(_slice_for_member(m).content for m in boundary.members),
+        )
+        for boundary in boundaries
+    ]
+    rewritten_by_topic_id, media_filenames = rewrite_media_and_copy(
+        chunk_items, raw_media_dir, media_dir
+    )
+
+    source_sha256 = plan.source.sha256
+    manifest_chunks = []
+    topic_chunk_ids = {}
+    for source_order, boundary in enumerate(boundaries):
+        content = rewritten_by_topic_id[boundary.topic_id]
+        content_file = f"chunks/{boundary.topic_id}.md"
+        metadata_file = f"chunks/{boundary.topic_id}.meta.json"
+        topic_chunk_ids[boundary.topic_id] = content_file
+
+        (chunks_dir / f"{boundary.topic_id}.md").write_text(content)
+
+        anchors_meta = [
+            {
+                "stable_key": _slice_for_member(m).anchor.stable_key,
+                "source_heading_path": list(m.path),
+                "occurrence": m.occurrence,
+                "heading_level": m.level,
+            }
+            for m in boundary.members
+        ]
+        meta = contracts.ChunkMetadata(
+            schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+            chunk_id=boundary.topic_id,
+            source_order=source_order,
+            source_heading_path=[boundary.title],
+            topic=boundary.title,
+            content_type=plan.content_type,
+            template_profile=plan.template_profile,
+            source_sha256=source_sha256,
+            plan_id=plan.plan_id,
+            content_file=content_file,
+            content_sha256=hashing.content_hash(content.encode("utf-8")),
+            local_links=[],
+            media_refs=extract_media_refs(content),
+            anchors=anchors_meta,
+        )
+        (chunks_dir / f"{boundary.topic_id}.meta.json").write_text(
+            json.dumps(meta.to_dict(), indent=2, sort_keys=True)
+        )
+
+        manifest_chunks.append(
+            contracts.ManifestChunk(
+                chunk_id=boundary.topic_id,
+                content_file=content_file,
+                metadata_file=metadata_file,
+                source_order=source_order,
+                source_heading_path=[boundary.title],
+            )
+        )
+
+    manifest = contracts.Manifest(
+        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        generator=contracts.ManifestGenerator(
+            plugin="docx-to-content", plugin_version="0.1.0"
+        ),
+        source=contracts.ManifestSourceFingerprint(
+            path=plan.source.path, sha256=source_sha256
+        ),
+        plan_id=plan.plan_id,
+        content_type=plan.content_type,
+        template_profile=plan.template_profile,
+        strategy="grouped",
+        chunk_count=len(manifest_chunks),
+        chunks=manifest_chunks,
+        media=media_filenames,
+        validation_report="validation.json",
+    )
+
+    (output_dir / "manifest.json").write_text(
+        json.dumps(manifest.to_dict(), indent=2, sort_keys=True)
+    )
+    (output_dir / "validation.json").write_text(
+        json.dumps(
+            {
+                "status": "PENDING",
+                "issues": [],
+                "note": "placeholder written by the grouped package builder; "
+                        "validate_canonical.py overwrites this file with an "
+                        "actual ValidationReport.",
+            },
+            indent=2,
+        )
+    )
+
+    pub_map = publication_map.build_publication_map(
+        boundaries, topic_chunk_ids, package_identity=f"sha256:{manifest.plan_id}"
+    )
+    publication_map.write_publication_map(pub_map, output_dir)
 
     return manifest
 
