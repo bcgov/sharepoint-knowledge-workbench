@@ -180,4 +180,4 @@ Use the cheapest models possible where possible.  If the job doesn't require spa
 ### Scratch Output
 
 Write temporary files and intermediate analysis output to a `temp/` directory — never to the
-project root directly. Final conversion outputs belong under `output/<doc-name>/`.
+project root directly. Final conversion outputs belong under `runs/<doc-name>/`.
