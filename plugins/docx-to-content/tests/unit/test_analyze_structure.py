@@ -98,6 +98,35 @@ def test_no_images_in_small_single(tmp_path):
 
 
 # ---------------------------------------------------------------------------
+# Proposed topic-grouping preview (Task 17-topic-grouping, Task 3)
+# ---------------------------------------------------------------------------
+
+def test_analyze_report_includes_proposed_topics_preview(tmp_path):
+    result = analyze_structure.analyze_document(REPEATED_HEADINGS, tmp_path / "analysis")
+    proposed = result.report["proposed_topics"]
+    assert [t["title"] for t in proposed] == [
+        "Gadget Alpha Module",
+        "Gadget Beta Module",
+        "Gadget Gamma Module",
+    ]
+    alpha = proposed[0]
+    # Gadget Alpha Module: itself + Getting Started + Configuration +
+    # Advanced Options + Troubleshooting = 5 headings folded into the topic.
+    assert alpha["anchor_count"] == 5
+    assert alpha["child_heading_count"] == 4
+    assert alpha["first_anchor_path"] == ["Gadget Alpha Module"]
+    assert alpha["approx_size_chars"] > 0
+    assert alpha["topic_id"].startswith("gadget-alpha-module--")
+
+
+def test_analyze_report_proposed_topics_absent_for_no_headings_is_empty_list(tmp_path):
+    result = analyze_structure.analyze_document(SMALL_SINGLE, tmp_path / "analysis")
+    proposed = result.report["proposed_topics"]
+    assert isinstance(proposed, list)
+    assert len(proposed) >= 1
+
+
+# ---------------------------------------------------------------------------
 # Raw TOC evidence / known defect signals (reused from pandoc_fixes)
 # ---------------------------------------------------------------------------
 
