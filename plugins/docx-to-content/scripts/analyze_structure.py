@@ -42,6 +42,7 @@ import contracts  # noqa: E402
 import dependencies  # noqa: E402
 import hashing  # noqa: E402
 import identity  # noqa: E402
+import media_disposition  # noqa: E402
 import plans  # noqa: E402
 import topic_grouping  # noqa: E402
 from pandoc_fixes.attrs import strip_pandoc_attrs  # noqa: E402
@@ -69,25 +70,34 @@ _IMAGE_REF = re.compile(r"!\[[^\]]*\]\(([^)\s]+)")
 
 
 def _normalize_heading_text(text: str) -> str:
-    """Apply the same whole-heading-emphasis normalization that convert-time
-    cleanup applies, to a single heading's text.
+    """Apply the same convert-time cleanup normalizations that would alter
+    a single heading's text, to that heading's text alone.
 
     Structural anchor identity (`identity.make_chunk_id`) is computed from
     heading path text both at analysis time (this module, against RAW
     pandoc extraction) and at reconciliation time (`chunking.py`, against
-    the CLEANED document, after `pandoc_fixes.heading_emphasis.
-    strip_whole_heading_emphasis` has already run as part of the real
-    convert pipeline). If analysis computed identity from raw, un-normalized
-    text while reconciliation recomputed it from normalized text, the two
-    would never match and every affected heading would fail to reconcile
-    (MissingAnchorError) during a real conversion. Normalizing here, in the
-    single function both `parse_headings` (analysis) and `chunking.
-    parse_headings_with_lines` (reconciliation) call, guarantees both sides
-    always compute identity from the same normalized text -- reconciliation
-    call sites operate on already-cleaned text, so this is a no-op there.
+    the CLEANED document, after `convert.apply_cleanup_pipeline` has
+    already run as part of the real convert pipeline). If analysis computed
+    identity from raw, un-normalized text while reconciliation recomputed
+    it from normalized text, the two would never match and every affected
+    heading would fail to reconcile (MissingAnchorError) during a real
+    conversion -- this bit real pilot-document headings for
+    `strip_whole_heading_emphasis` (Task 17) and, discovered against a
+    real document again during Task 18, for `fix_glued_images` (a heading
+    with an image glued directly onto its own line has that image stripped
+    by convert-time cleanup before reconciliation, so analysis must strip
+    it too before computing identity). Normalizing here, in the single
+    function both
+    `parse_headings` (analysis) and `chunking.parse_headings_with_lines`
+    (reconciliation) call, guarantees both sides always compute identity
+    from the same normalized text -- reconciliation call sites operate on
+    already-cleaned text, so this is a no-op there.
     """
-    stripped = strip_whole_heading_emphasis(f"# {text}\n")
-    return stripped[2:].rstrip("\n")
+    synthetic_line = f"# {text}\n"
+    stripped = strip_whole_heading_emphasis(synthetic_line)
+    stripped = fix_glued_images(stripped)
+    first_line = stripped.split("\n", 1)[0]
+    return first_line[2:].rstrip()
 
 
 @dataclass
@@ -376,6 +386,14 @@ def analyze_document(source, output_dir) -> AnalysisResult:
     # --- images ---
     image_stats = _image_stats(raw_dir / "media")
 
+    # --- preamble media disposition proposal (Task 18 general media
+    # classification/disposition mechanism) ---
+    first_heading_match = next(iter(_HEADING_LINE.finditer(markdown_text)), None)
+    preamble_text = markdown_text[: first_heading_match.start()] if first_heading_match else markdown_text
+    proposed_media_decisions = media_disposition.propose_media_decisions(
+        preamble_text, raw_dir / "media"
+    )
+
     # --- defect signals ---
     defect_signals = detect_defect_signals(markdown_text)
 
@@ -467,6 +485,7 @@ def analyze_document(source, output_dir) -> AnalysisResult:
             "repeated_heading_paths": [list(p) for p in repeated_paths.keys()],
         },
         "proposed_topics": proposed_topics,
+        "proposed_preamble_media": proposed_media_decisions,
         "images": image_stats,
         "defect_signals": defect_signals,
         "statistics": statistics,
@@ -511,6 +530,12 @@ def analyze_document(source, output_dir) -> AnalysisResult:
             "could be a topic root or a genuine nested child -- treated as an internal "
             "heading by default; review before confirming"
         )
+    if proposed_media_decisions:
+        analysis_warnings.append(
+            f"MEDIA_REQUIRES_REVIEW: {len(proposed_media_decisions)} preamble media "
+            "item(s) require classification/disposition review before confirming "
+            "(see proposed_preamble_media)"
+        )
 
     plan = plans.build_draft_plan(
         source_fingerprint=source_fingerprint,
@@ -519,6 +544,7 @@ def analyze_document(source, output_dir) -> AnalysisResult:
         chunk_anchors=chunk_anchors,
         analysis_warnings=analysis_warnings,
         confirmed_topic_roots=confirmed_topic_roots,
+        media_decisions=proposed_media_decisions or None,
     )
 
     (output_dir / "analysis-report.json").write_text(

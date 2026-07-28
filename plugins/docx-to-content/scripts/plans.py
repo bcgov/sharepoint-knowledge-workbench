@@ -60,6 +60,7 @@ def build_draft_plan(
     template_profile: str = DEFAULT_TEMPLATE_PROFILE,
     analysis_warnings: "list | None" = None,
     confirmed_topic_roots: "list | None" = None,
+    media_decisions: "list | None" = None,
 ) -> "contracts.ConversionPlan":
     """Build a draft ConversionPlan (confirmation.status == "draft").
 
@@ -86,6 +87,7 @@ def build_draft_plan(
         confirmed_topic_roots=(
             list(confirmed_topic_roots) if confirmed_topic_roots is not None else None
         ),
+        media_decisions=list(media_decisions) if media_decisions is not None else None,
     )
     plan.plan_id = hashing.compute_plan_id(plan)
     return plan
@@ -130,9 +132,90 @@ def confirm_plan(
             if draft_plan.confirmed_topic_roots is not None
             else None
         ),
+        media_decisions=(
+            list(draft_plan.media_decisions) if draft_plan.media_decisions is not None else None
+        ),
     )
     confirmed.plan_id = hashing.compute_plan_id(confirmed)
     return confirmed
+
+
+# ---------------------------------------------------------------------------
+# Media-decision override (Task 18 general media-disposition mechanism)
+# ---------------------------------------------------------------------------
+
+def apply_media_decision(
+    draft_plan: "contracts.ConversionPlan",
+    source_media_id: str,
+    classification: str,
+    disposition: str,
+    reason: str,
+    decision_authority: str = "human-confirmed",
+    canonical_inclusion: bool = False,
+    publication_inclusion: bool = False,
+    derived_asset_allowed: bool = False,
+    requires_alt_text: "bool | None" = False,
+) -> "contracts.ConversionPlan":
+    """Return a NEW draft plan with the proposed media-decision record for
+    `source_media_id` replaced by a human-confirmed one (classification/
+    disposition/reason/decision_authority and the inclusion/derived-asset
+    flags). Never mutates `draft_plan`. Raises `ValueError` if
+    `source_media_id` isn't among `draft_plan.media_decisions` (nothing to
+    override) or if the plan is already confirmed (overrides belong on the
+    draft, before `confirm_plan`).
+    """
+    if draft_plan.confirmation.status != "draft":
+        raise ValueError(
+            "apply_media_decision requires a draft plan; the media decision "
+            "must be recorded before confirm_plan, not after"
+        )
+    existing = list(draft_plan.media_decisions or [])
+    matched = False
+    updated = []
+    for record in existing:
+        if record["source_media_id"] == source_media_id:
+            matched = True
+            updated.append(
+                {
+                    **record,
+                    "classification": classification,
+                    "disposition": disposition,
+                    "reason": reason,
+                    "decision_authority": decision_authority,
+                    "canonical_inclusion": canonical_inclusion,
+                    "publication_inclusion": publication_inclusion,
+                    "derived_asset_allowed": derived_asset_allowed,
+                    "requires_alt_text": requires_alt_text,
+                }
+            )
+        else:
+            updated.append(record)
+    if not matched:
+        raise ValueError(
+            f"no proposed media decision found for {source_media_id!r} on this "
+            "draft plan"
+        )
+
+    new_draft = contracts.ConversionPlan(
+        schema_version=draft_plan.schema_version,
+        plan_id="",
+        source=draft_plan.source,
+        strategy=draft_plan.strategy,
+        chunk_level=draft_plan.chunk_level,
+        chunk_anchors=list(draft_plan.chunk_anchors),
+        content_type=draft_plan.content_type,
+        template_profile=draft_plan.template_profile,
+        confirmation=contracts.Confirmation(status="draft", confirmed_by="", confirmed_at=""),
+        analysis_warnings=list(draft_plan.analysis_warnings),
+        confirmed_topic_roots=(
+            list(draft_plan.confirmed_topic_roots)
+            if draft_plan.confirmed_topic_roots is not None
+            else None
+        ),
+        media_decisions=updated,
+    )
+    new_draft.plan_id = hashing.compute_plan_id(new_draft)
+    return new_draft
 
 
 # ---------------------------------------------------------------------------

@@ -221,7 +221,19 @@ def _run_conversion_pipeline(
         manifest = package.build_canonical_package(
             plan, sliced_document, staging_dir, canonical_dir
         )
-    return manifest, text
+    # `sliced_document.preamble` (front matter before the first structural
+    # anchor's heading line) is never copied into any chunk by either
+    # package builder (chunking.py's documented design). The content-loss/
+    # duplication comparison in validate_canonical.py reconstructs its
+    # "original" side by concatenating staged chunk content only, so it
+    # must be compared against the same preamble-stripped text, not the
+    # full cleaned document -- otherwise every document with non-empty
+    # preamble content (a real title page/TOC, not just synthetic test
+    # fixtures with an empty preamble) would FAIL content-loss validation
+    # for content that was always, by design, excluded from canonical
+    # chunks rather than actually lost.
+    text_without_preamble = text[len(sliced_document.preamble):]
+    return manifest, text_without_preamble
 
 
 def convert_document(

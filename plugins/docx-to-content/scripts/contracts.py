@@ -158,6 +158,18 @@ class ConversionPlan:
     # present, convert MUST consume this set as-is rather than
     # independently re-deriving root classification from heading levels.
     confirmed_topic_roots: Optional[list] = None
+    # Human-reviewable, confirmed media-disposition records (general media
+    # classification/disposition mechanism, Task 18): list of dicts shaped
+    # like `{"source_media_id", "source_position", "source_hash",
+    # "media_type", "classification", "disposition", "canonical_inclusion",
+    # "publication_inclusion", "derived_asset_allowed", "reason",
+    # "decision_authority", "requires_alt_text"}` -- see
+    # scripts/media_disposition.py for the classification/disposition
+    # vocabularies and `plans.apply_media_decision` for how a proposed
+    # ("requires-human-review") record becomes a confirmed one before
+    # `confirm_plan`. None for plans that never proposed any (e.g. a
+    # document with no preamble media, or a plan predating this field).
+    media_decisions: Optional[list] = None
 
     @classmethod
     def from_dict(cls, data: dict) -> "ConversionPlan":
@@ -176,6 +188,7 @@ class ConversionPlan:
             confirmation=Confirmation.from_dict(_require(data, "confirmation")),
             analysis_warnings=list(_require(data, "analysis_warnings")),
             confirmed_topic_roots=data.get("confirmed_topic_roots"),
+            media_decisions=data.get("media_decisions"),
         )
 
     def to_dict(self) -> dict:
@@ -193,6 +206,8 @@ class ConversionPlan:
         }
         if self.confirmed_topic_roots is not None:
             result["confirmed_topic_roots"] = self.confirmed_topic_roots
+        if self.media_decisions is not None:
+            result["media_decisions"] = self.media_decisions
         return result
 
 
