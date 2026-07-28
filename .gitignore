@@ -9,3 +9,5 @@
 
 # Local scratch/session context, not part of the demonstrated setup.
 context/
+
+temp/

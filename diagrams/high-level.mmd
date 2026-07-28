@@ -1,37 +1,49 @@
 flowchart LR
-    Source["Source Word Document<br/><br/>One large document containing:<br/>• Content and formatting<br/>• Embedded images<br/>• Tables and headings<br/>• Table of contents<br/>• Other generated document elements"]
+    Source["<B>Source Word Document</B><br/><br/>One large document containing:<br/>• Business content<br/>• Meaningful structure<br/>• Presentation formatting<br/>• Embedded images and tables<br/>• Generated table of contents<br/>• Other document-specific elements"]
 
-    Temporary["1. Temporary Markdown Extraction<br/><br/>Intermediate working artifact containing:<br/>• Extracted text<br/>• Headings and subheadings<br/>• Tables<br/>• Image links<br/>• Separately extracted image files<br/><br/>NOT maintained content<br/>NOT a published output"]
+    Temporary["<B>1. Temporary Markdown Extraction</B><br/><br/>Working representation containing:<br/>• Extracted text<br/>• Headings and subheadings<br/>• Tables<br/>• Image links<br/>• Separately extracted media<br/>• Possible Word and pandoc artifacts<br/><br/>NOT maintained content<br/>NOT canonical content<br/>NOT a published output"]
 
-    Analyze["2. Analyze Source and Temporary Extraction<br/><br/>Assess:<br/>• Document size and structure<br/>• Heading hierarchy and topics<br/>• Tables, images, links and references<br/>• Authored content vs. generated elements<br/>• Potential content loss or extraction defects"]
+    Analyze["<B>2. Analyze Source and Temporary Extraction</B><br/><br/>Assess:<br/>• Document size and structure<br/>• Heading hierarchy and topics<br/>• Tables, images, links and references<br/>• Authored versus generated elements<br/>• Potential content loss or extraction defects<br/>• Suitability for ongoing maintenance"]
 
-    Recommend["3. Recommend Content Organization<br/><br/>Determine whether content should be:<br/>• Maintained as one file<br/>• Split into smaller topic files<br/>• Organized with separate metadata<br/><br/>Recommend suitable maintainable format"]
+    Classify["<B>3. Recommend Knowledge Type and Standard<br/><br/>Possible types:<br/>• Manual or manual topic<br/>• Procedure<br/>• Policy<br/>• Training topic<br/>• Other approved type<br/><br/>Select expected metadata, sections,<br/>semantic components and validation rules"]
 
-    Decide{"4. User Decision<br/><br/>• Accept or override organization?<br/>• Desired output formats?<br/>• Templates to apply?<br/>• One document or multiple outputs?"}
+    Recommend["4. Recommend Canonicalization Approach</B><br/><br/>A. Promote after mechanical cleanup<br/>B. Keep as one file<br/>C. Split into smaller topic files<br/>D. Map into a knowledge-type standard<br/>E. Require manual resolution<br/><br/>Recommend maintainable content structure"]
 
-    Canonical["5. Create Maintainable Canonical Content<br/><br/>Content authors maintain only:<br/>• Business content<br/>• Simple headings and subheadings<br/>• Tables<br/>• Image links<br/>• Essential links and references<br/><br/>Markdown may be the canonical format"]
+    Decide{"<B>5. User Decision</B><br/><br/>• Accept or override knowledge type?<br/>• Accept or override organization?<br/>• Confirm proposed content mapping?<br/>• Desired output formats?<br/>• Presentation templates to apply?"}
 
-    Generated["Generate Derived Elements by Code<br/><br/>Not maintained manually:<br/>• Table of contents<br/>• Navigation<br/>• Keyword summaries<br/>• Indexes<br/>• Cross-document listings<br/>• Other derived metadata"]
+    Plan["Confirmed Canonicalization Plan<br/><br/>• Source fingerprint<br/>• Knowledge type and standard<br/>• Structural anchors<br/>• Organization and mapping<br/>• Ambiguous-content decisions<br/>• Desired outputs"]
 
-    Templates["Apply Reusable Templates<br/><br/>Presentation kept separate:<br/>• Manual<br/>• Procedure<br/>• Policy<br/>• Training material"]
+    Canonicalize["<B>6. Canonicalize Knowledge</B><br/><br/>Depending on the approved plan:<br/>• Clean and promote<br/>• Organize and split<br/>• Map into standard sections<br/>• Preserve unresolved content for review"]
 
-    Outputs["Produce Desired Outputs<br/><br/>Canonical Content<br/>+ Generated Elements<br/>+ Template<br/><br/>• Markdown pages<br/>• SharePoint / HTML<br/>• Word / PDF<br/>• Training content<br/>• Future Copilot knowledge source"]
+    Validate{"<B>7. Validate Canonical Content</B><br/><br/>• No content loss or duplication<br/>• Required structure and metadata<br/>• Valid links and media<br/>• Generated artifacts removed<br/>• Ambiguities resolved or recorded"}
 
-    Source --> Temporary --> Analyze --> Recommend --> Decide
+    Canonical["Governed Canonical Content<br/><br/>Authors maintain:<br/>• Business knowledge<br/>• Meaningful headings and structure<br/>• Procedures, tables and semantic components<br/>• Images and essential references<br/>• Author-owned metadata<br/><br/>Markdown is the canonical prose format<br/>with machine metadata stored separately"]
+
+    Generated["<B>8. Generate Derived Elements by Code</B><br/><br/>Not maintained manually:<br/>• Table of contents<br/>• Navigation and breadcrumbs<br/>• Keyword summaries<br/>• Indexes<br/>• Related-topic listings<br/>• Publication metadata"]
+
+    Presentation["<B>9. Apply Destination Presentation Templates</B><br/><br/>Separate from knowledge standards:<br/>• Markdown publication profile<br/>• SharePoint or HTML layout<br/>• Word or PDF template<br/>• PowerPoint presentation profile<br/>• Audio or training profile"]
+
+    Outputs["<B>10. Produce Desired Outputs</B><br/><br/>Canonical Content<br/>+ Generated Elements<br/>+ Presentation Template<br/><br/>• Markdown pages<br/>• SharePoint-ready / HTML<br/>• Word / PDF<br/>• PowerPoint<br/>• Audio or training content<br/>• Future Copilot grounding package"]
+
+    Source --> Temporary --> Analyze --> Classify --> Recommend --> Decide
 
     Decide -- "Override" --> Analyze
-    Decide -- "Confirm" --> Canonical
+    Decide -- "Confirm" --> Plan --> Canonicalize --> Validate
+
+    Validate -- "Correction or review required" --> Recommend
+    Validate -- "Accepted" --> Canonical
 
     Canonical --> Generated
-    Canonical --> Templates
+    Canonical --> Presentation
 
     Canonical --> Outputs
     Generated --> Outputs
-    Templates --> Outputs
+    Presentation --> Outputs
 
     style Source fill:#f8d7da,stroke:#842029,stroke-width:2px
     style Temporary fill:#fff3cd,stroke:#856404,stroke-width:2px,stroke-dasharray:5 5
+    style Classify fill:#d9edf7,stroke:#31708f,stroke-width:2px
     style Canonical fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
     style Generated fill:#e2d9f3,stroke:#59359a,stroke-width:2px
-    style Templates fill:#d9edf7,stroke:#31708f,stroke-width:2px
+    style Presentation fill:#d9edf7,stroke:#31708f,stroke-width:2px
     style Outputs fill:#d9edf7,stroke:#31708f,stroke-width:3px

@@ -145,6 +145,11 @@ carries only the key non-negotiables:
 - `symlink-cross-platform.md` — symlink protocol if shared scripts are introduced
 - `github-issue-logging-policy.md` — issue logging conventions, if/when this repo tracks issues on GitHub
 
+
+## SUB-agent usage
+Use the cheapest models possible where possible.  If the job doesn't require spawning sub-agents don't do so.
+
+
 ### Scratch Output
 
 Write temporary files and intermediate analysis output to a `temp/` directory — never to the
