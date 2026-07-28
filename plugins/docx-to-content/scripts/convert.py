@@ -51,22 +51,36 @@ import plans  # noqa: E402
 import validate_canonical  # noqa: E402
 from pandoc_fixes.attrs import strip_pandoc_attrs  # noqa: E402
 from pandoc_fixes.footnotes import clean_orphaned_footnotes  # noqa: E402
+from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
 from pandoc_fixes.images import fix_glued_images  # noqa: E402
 from pandoc_fixes.tables import fix_malformed_tables  # noqa: E402
 from pandoc_fixes.toc import strip_raw_toc  # noqa: E402
 
 
 def apply_cleanup_pipeline(markdown_text: str) -> str:
-    """Apply the six pandoc_fixes cleanup steps in the exact spec Section
-    7.2 order: attrs -> images -> toc -> tables -> footnotes. Order
-    matters -- e.g. TOC-stripping must run after image-fixing so a raw
-    Word TOC dump doesn't get misidentified/mangled while an image is
-    still glued onto an adjacent heading line; running steps out of order
-    can produce a different (wrong) result even though each step is
-    individually correct in isolation. This is the sole place that order
-    is encoded; `convert_document` calls this function rather than
-    inlining the sequence a second time."""
+    """Apply the pandoc_fixes cleanup steps in the exact spec Section 7.2
+    order: attrs -> heading-emphasis -> images -> toc -> tables ->
+    footnotes. Order matters -- e.g. TOC-stripping must run after
+    image-fixing so a raw Word TOC dump doesn't get misidentified/mangled
+    while an image is still glued onto an adjacent heading line; running
+    steps out of order can produce a different (wrong) result even though
+    each step is individually correct in isolation.
+
+    `strip_whole_heading_emphasis` runs right after `strip_pandoc_attrs`
+    (both are narrow, heading/text-normalization passes) and BEFORE
+    image-fixing/TOC-stripping/anchor reconciliation: it only rewrites the
+    surrounding `**`/`***`/`_` markers on a heading line, never the
+    heading's text content, so it cannot affect whether a later step
+    recognizes a glued image or a TOC-shaped link on the same or an
+    adjacent line -- but running it early keeps every downstream step
+    (including chunking's post-cleanup anchor reconciliation, which keys
+    off heading text) working against the final, normalized heading text
+    rather than a still-decorated one.
+
+    This is the sole place that order is encoded; `convert_document` calls
+    this function rather than inlining the sequence a second time."""
     text = strip_pandoc_attrs(markdown_text)
+    text = strip_whole_heading_emphasis(text)
     text = fix_glued_images(text)
     text = strip_raw_toc(text)
     text = fix_malformed_tables(text)
