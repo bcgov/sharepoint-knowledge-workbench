@@ -74,9 +74,26 @@ if str(_THIS_DIR) not in sys.path:
 
 import contracts  # noqa: E402
 import hashing  # noqa: E402
-import package  # noqa: E402
 import pandoc_validate  # noqa: E402
 import plans  # noqa: E402
+# Note: package.py is deliberately NOT imported here for path-safety reuse.
+# `_check_media_references` below does its own path-traversal/absolute-path
+# check rather than calling `package._decode_and_validate` -- that function
+# enforces a stricter, differently-scoped policy ("reject ANY '..'
+# segment") that is correct for its own call site (validating RAW,
+# pre-rewrite media references at conversion time, before they are copied
+# into the package) but wrong here: Task 10 validates the FINAL, already
+# legitimately-rewritten references in staged `chunks/<id>.md` files, which
+# always look like `../media/<file>` by design (chunks/ and media/ are
+# sibling directories under canonical-content/, per package.py's own
+# docstring) -- i.e. every valid staged reference contains exactly one
+# '..' segment. Reusing `_decode_and_validate` unmodified was tried first
+# and flagged every legitimate reference as a violation (see
+# task-10-report.md's "Deviations" section for the discovery). The
+# reimplementation in `_check_media_references` below applies the same
+# underlying policy at the correct scope: an absolute path is always a
+# violation, and a '..'-containing relative path is a violation only when
+# it resolves OUTSIDE `package_dir` entirely.
 from pandoc_fixes.toc import _BOOKMARK_ANCHOR_LINE, _TOC_LINK_LINE  # noqa: E402
 
 
@@ -311,8 +328,18 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
             continue
 
         meta, meta_error = _load_chunk_meta(meta_path)
-        if meta_error is not None:
-            issues.append(meta_error)
+        if meta_error is not None or meta is None:
+            # `_load_chunk_meta`'s runtime contract is (meta, None) on
+            # success or (None, error) on failure, but that pairing isn't
+            # structurally guaranteed to a type checker -- an explicit
+            # `meta is None` guard here (rather than relying on
+            # `meta_error is not None` alone) makes the invariant visible
+            # to static analysis and keeps a future refactor from
+            # reintroducing a real AttributeError crash below instead of a
+            # reported ValidationIssue, which would be especially bad in a
+            # validator whose whole job is to report problems gracefully.
+            if meta_error is not None:
+                issues.append(meta_error)
             continue
         chunk_meta_by_id[chunk.chunk_id] = meta
 
