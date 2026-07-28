@@ -120,10 +120,73 @@ def test_raw_toc_evidence_detected_when_present(tmp_path):
     assert analyze_structure.detect_raw_toc("# Just a heading\n") is False
 
 
+def test_raw_toc_evidence_detected_for_slug_anchor_shape():
+    # Real-world shape (CEIS Manual): nested slug-anchor TOC links, not
+    # `_Toc`-bookmark links.
+    text = (
+        "**Table of Contents**\n\n"
+        "[Section Alpha [1](#section-alpha)](#section-alpha)\n\n"
+        "[Section Beta [2](#section-beta)](#section-beta)\n\n"
+        "# Section Alpha\n\nBody.\n"
+    )
+    assert analyze_structure.detect_raw_toc(text) is True
+    assert analyze_structure.detect_defect_signals(text)["raw_toc_detected"] is True
+
+
 def test_known_defect_signal_glued_image_detected():
     text = "## Heading ![](media/image1.png)\n"
     assert analyze_structure.detect_defect_signals(text)["glued_images"] is True
     assert analyze_structure.detect_defect_signals("## Heading\n\n![](media/image1.png)\n")["glued_images"] is False
+
+
+def test_known_defect_signal_leading_glued_image_detected():
+    # Real-world shape (CEIS Manual): image glued to the START of the
+    # heading text.
+    text = "### ![](media/image12.png){width=\"5.45in\"}**Central Divorce**\n"
+    assert analyze_structure.detect_defect_signals(text)["glued_images"] is True
+
+
+def test_known_defect_signal_bold_wrapped_heading_detected():
+    text = "# **PROTECTION ORDERS**\n\nBody.\n"
+    assert analyze_structure.detect_defect_signals(text)["bold_wrapped_headings"] is True
+    assert analyze_structure.detect_defect_signals("# Plain Heading\n")["bold_wrapped_headings"] is False
+    # Partial emphasis inside heading text must NOT trigger the signal.
+    assert analyze_structure.detect_defect_signals("# Getting **Started** Quickly\n")["bold_wrapped_headings"] is False
+
+
+# ---------------------------------------------------------------------------
+# Extended analysis statistics (Task 17A.1 #4)
+# ---------------------------------------------------------------------------
+
+def test_extended_statistics_present_in_report(tmp_path):
+    result = analyze_structure.analyze_document(SMALL_SINGLE, tmp_path / "analysis")
+    stats = result.report["statistics"]
+    for key in (
+        "table_count",
+        "footnote_reference_count",
+        "footnote_definition_count",
+        "local_link_count",
+        "image_reference_count",
+        "generated_toc_entries_detected",
+    ):
+        assert key in stats
+
+
+def test_extended_statistics_counts_are_measured_for_synthetic_text():
+    text = (
+        "# Heading\n\n"
+        "| a | b |\n| --- | --- |\n| 1 | 2 |\n\n"
+        "See [Other Heading](#other-heading).\n\n"
+        "A footnote reference[^1].\n\n"
+        "[^1]: A footnote definition.\n\n"
+        "![alt](media/image1.png)\n"
+    )
+    stats = analyze_structure.compute_statistics(text)
+    assert stats["table_count"] == 1
+    assert stats["footnote_reference_count"] == 1
+    assert stats["footnote_definition_count"] == 1
+    assert stats["local_link_count"] == 1
+    assert stats["image_reference_count"] == 1
 
 
 def test_known_defect_signal_pandoc_attrs_detected():

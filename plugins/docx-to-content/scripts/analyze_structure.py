@@ -44,8 +44,9 @@ import hashing  # noqa: E402
 import identity  # noqa: E402
 import plans  # noqa: E402
 from pandoc_fixes.attrs import strip_pandoc_attrs  # noqa: E402
+from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
 from pandoc_fixes.images import fix_glued_images  # noqa: E402
-from pandoc_fixes.toc import strip_raw_toc  # noqa: E402
+from pandoc_fixes.toc import _TOC_SLUG_LINE, _TOC_LINK_LINE, strip_raw_toc  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Recommendation heuristics -- advisory, configurable constants only.
@@ -169,13 +170,62 @@ def detect_raw_toc(markdown_text: str) -> bool:
 
 
 def detect_defect_signals(markdown_text: str) -> dict:
-    """Reuses pandoc_fixes.images.fix_glued_images and
-    pandoc_fixes.attrs.strip_pandoc_attrs detection logic (Task 2) rather
-    than re-implementing pattern matching from scratch."""
+    """Reuses pandoc_fixes.images.fix_glued_images,
+    pandoc_fixes.attrs.strip_pandoc_attrs, and
+    pandoc_fixes.heading_emphasis.strip_whole_heading_emphasis detection
+    logic (Task 2 / Task 17A.1) rather than re-implementing pattern
+    matching from scratch."""
     return {
         "raw_toc_detected": detect_raw_toc(markdown_text),
         "glued_images": fix_glued_images(markdown_text) != markdown_text,
         "pandoc_attrs": strip_pandoc_attrs(markdown_text) != markdown_text,
+        "bold_wrapped_headings": strip_whole_heading_emphasis(markdown_text) != markdown_text,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Extended analysis statistics (Task 17A.1 #4) -- measured directly from the
+# already-extracted markdown text; "not measured" is reported (never a
+# fabricated number) if a statistic cannot be measured with reasonable
+# effort using pure string/regex analysis (no re-invoking pandoc).
+# ---------------------------------------------------------------------------
+
+_TABLE_SEPARATOR_ROW = re.compile(r'^\s*\|?\s*:?-{1,}:?\s*(\|\s*:?-{1,}:?\s*)*\|?\s*$', re.MULTILINE)
+_FOOTNOTE_REFERENCE = re.compile(r'\[\^([\w-]+)\](?!:)')
+_FOOTNOTE_DEFINITION_LINE = re.compile(r'^\[\^([\w-]+)\]:', re.MULTILINE)
+_LOCAL_LINK = re.compile(r'(?<!\!)\[[^\]]*\]\(#[^)]*\)')
+_IMAGE_REFERENCE = re.compile(r'!\[[^\]]*\]\([^)]*\)')
+
+
+def compute_statistics(markdown_text: str) -> dict:
+    """Measure extended statistics directly from already-extracted
+    markdown text: table count (by counting separator rows), footnote
+    reference/definition counts, local document link count, total image
+    reference count, and generated-TOC-entries-detected. Each of these is
+    reliably measurable with plain regex analysis over the text pandoc
+    already produced, so none fall back to "not measured" here -- that
+    literal is reserved for a statistic this function cannot compute (none
+    currently), per the "where feasible" requirement.
+    """
+    table_count = len(_TABLE_SEPARATOR_ROW.findall(markdown_text))
+    footnote_reference_count = len(
+        [m for m in _FOOTNOTE_REFERENCE.finditer(markdown_text)]
+    )
+    footnote_definition_count = len(_FOOTNOTE_DEFINITION_LINE.findall(markdown_text))
+    local_link_count = len(_LOCAL_LINK.findall(markdown_text))
+    image_reference_count = len(_IMAGE_REFERENCE.findall(markdown_text))
+
+    toc_bookmark_entries = len(_TOC_LINK_LINE.findall(markdown_text))
+    toc_slug_entries = len(_TOC_SLUG_LINE.findall(markdown_text))
+    generated_toc_entries_detected = toc_bookmark_entries + toc_slug_entries
+
+    return {
+        "table_count": table_count,
+        "footnote_reference_count": footnote_reference_count,
+        "footnote_definition_count": footnote_definition_count,
+        "local_link_count": local_link_count,
+        "image_reference_count": image_reference_count,
+        "generated_toc_entries_detected": generated_toc_entries_detected,
     }
 
 
@@ -300,6 +350,9 @@ def analyze_document(source, output_dir) -> AnalysisResult:
     # --- defect signals ---
     defect_signals = detect_defect_signals(markdown_text)
 
+    # --- extended statistics (Task 17A.1 #4) ---
+    statistics = compute_statistics(markdown_text)
+
     # --- recommendation ---
     line_count = len(markdown_text.splitlines())
     recommendation = recommend_strategy(
@@ -348,10 +401,18 @@ def analyze_document(source, output_dir) -> AnalysisResult:
         },
         "images": image_stats,
         "defect_signals": defect_signals,
+        "statistics": statistics,
         "recommendation": {
             "strategy": recommendation["strategy"],
             "reasons": recommendation["reasons"],
             "candidate_chunk_level": candidate_chunk_level,
+            "chunk_level_note": (
+                "chunk_level/strategy are ADVISORY recommendations only. "
+                "chunk_anchors -- not chunk_level -- determine the actual "
+                "physical chunk boundaries used at convert time; every "
+                "heading becomes a chunk_anchor regardless of chunk_level's "
+                "value."
+            ),
         },
     }
 
@@ -362,6 +423,8 @@ def analyze_document(source, output_dir) -> AnalysisResult:
         analysis_warnings.append("images glued to heading/list lines detected")
     if defect_signals["pandoc_attrs"]:
         analysis_warnings.append("pandoc attribute syntax detected")
+    if defect_signals["bold_wrapped_headings"]:
+        analysis_warnings.append("whole-heading-wrapped bold/italic emphasis detected")
 
     plan = plans.build_draft_plan(
         source_fingerprint=source_fingerprint,
