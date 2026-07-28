@@ -211,7 +211,9 @@ def cmd_convert(args):
     _require_pandoc()
     plan = _require_confirmed_plan(Path(args.plan))
     try:
-        convert.convert_document(source_path, plan, Path(args.output))
+        _manifest, report, promoted, _final_dir = convert.convert_and_promote(
+            source_path, plan, Path(args.output)
+        )
     except plans.PlanVerificationError as exc:
         # verify_plan_against_source / verify_plan_integrity failures:
         # a stale or tampered plan, surfaced as exit 4 (usage error) --
@@ -227,6 +229,17 @@ def cmd_convert(args):
         # media references, unconverted legacy media, ...) is a contract/
         # validation failure, not a dependency or usage problem.
         raise ValidationFailError(str(exc)) from exc
+    if not promoted:
+        # convert_and_promote() only withholds promotion when
+        # validate_canonical's ValidationReport.status is FAIL, or WARN
+        # with an undispositioned warning (see its own docstring) --
+        # mapped to exit 2, mirroring cmd_render's identical promoted-flag
+        # handling for render_and_promote().
+        raise ValidationFailError(
+            f"canonical package validation FAILED for {args.source} "
+            f"(status={report.status}): "
+            f"{[issue.message for issue in report.issues]}"
+        )
     return EXIT_PASS
 
 

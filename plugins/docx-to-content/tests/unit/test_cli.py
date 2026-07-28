@@ -277,6 +277,57 @@ def test_convert_end_to_end_via_cli_writes_canonical_package(tmp_path):
     assert (out_dir / "canonical-content" / "validation.json").exists()
 
 
+def test_convert_end_to_end_via_cli_promotes_validated_package(tmp_path):
+    """Reproduces the cmd_convert -> convert_document wiring bug: the real
+    CLI `convert` subcommand must call `convert.convert_and_promote` (which
+    validates via validate_canonical.py and only promotes on PASS/
+    dispositioned-WARN), not the raw unvalidated `convert.convert_document`.
+    Before the fix, the package's validation.json is left at status
+    PENDING (convert_document's own placeholder, see package.py) and
+    CanonicalPackage.load() -- which Task 12 requires before any renderer
+    can consume the package -- cannot treat it as ACCEPTED. After the fix,
+    the CLI-produced package must show status PASS and load successfully.
+    """
+    analysis_dir = tmp_path / "analysis"
+    rc = cli.main([
+        "analyze", "--source", str(_REPEATED_HEADINGS_DOCX), "--output", str(analysis_dir),
+    ])
+    assert rc == 0
+
+    confirmed_path = tmp_path / "confirmed.json"
+    rc = cli.main([
+        "confirm",
+        "--draft-plan", str(analysis_dir / "conversion-plan.draft.json"),
+        "--output", str(confirmed_path),
+    ])
+    assert rc == 0
+
+    out_dir = tmp_path / "run"
+    rc = cli.main([
+        "convert",
+        "--source", str(_REPEATED_HEADINGS_DOCX),
+        "--plan", str(confirmed_path),
+        "--output", str(out_dir),
+    ])
+    assert rc == 0
+
+    canonical_dir = out_dir / "canonical-content"
+    validation = json.loads((canonical_dir / "validation.json").read_text())
+    assert validation["status"] in ("PASS", "WARN"), (
+        "cmd_convert must produce a validated (not PENDING) package via "
+        "convert_and_promote"
+    )
+    assert validation["status"] != "PENDING"
+
+    # CanonicalPackage.load() (Task 12) must be able to load the CLI's
+    # own output directly -- this is the actual end-to-end contract a
+    # subsequent `render` invocation depends on.
+    import package as package_module
+
+    loaded = package_module.CanonicalPackage.load(canonical_dir)
+    assert loaded.manifest.chunk_count > 1
+
+
 def test_convert_rejects_stale_source_exit_4(tmp_path):
     source = tmp_path / "source.docx"
     shutil.copy(_REPEATED_HEADINGS_DOCX, source)
@@ -361,6 +412,52 @@ def test_render_end_to_end_via_cli_produces_rendered_output(tmp_path):
     assert any((rendered_dir / "pages").glob("*.md"))
     assert (rendered_dir / "renderer-validation.json").exists()
 
+    report = json.loads((rendered_dir / "renderer-validation.json").read_text())
+    assert report["status"] == "PASS"
+
+
+def test_full_pipeline_analyze_confirm_convert_render_via_cli(tmp_path):
+    """The single most valuable regression test for this fix: proves the
+    ENTIRE documented CLI contract (spec Section 12) works end to end with
+    no Python-level shortcuts -- every stage invoked exactly as a real user
+    would invoke it, via `cli.main([...])`. Before the cmd_convert fix,
+    `convert` produced a PENDING-status package that `render`'s
+    `CanonicalPackage.load()` could not be trusted to treat as ACCEPTED;
+    this test is what actually proves the chain is unbroken now."""
+    analysis_dir = tmp_path / "analysis"
+    assert cli.main([
+        "analyze", "--source", str(_REPEATED_HEADINGS_DOCX), "--output", str(analysis_dir),
+    ]) == 0
+
+    confirmed_path = tmp_path / "confirmed.json"
+    assert cli.main([
+        "confirm",
+        "--draft-plan", str(analysis_dir / "conversion-plan.draft.json"),
+        "--output", str(confirmed_path),
+    ]) == 0
+
+    convert_out = tmp_path / "convert-run"
+    assert cli.main([
+        "convert",
+        "--source", str(_REPEATED_HEADINGS_DOCX),
+        "--plan", str(confirmed_path),
+        "--output", str(convert_out),
+    ]) == 0
+
+    render_out = tmp_path / "render-run"
+    rc = cli.main([
+        "render",
+        "--canonical", str(convert_out / "canonical-content"),
+        "--renderer", "multipage-markdown",
+        "--output", str(render_out),
+    ])
+    assert rc == 0
+
+    rendered_dir = render_out / "rendered-output"
+    assert (rendered_dir / "index.md").exists()
+    assert (rendered_dir / "pages").is_dir()
+    assert any((rendered_dir / "pages").glob("*.md"))
+    assert (rendered_dir / "renderer-validation.json").exists()
     report = json.loads((rendered_dir / "renderer-validation.json").read_text())
     assert report["status"] == "PASS"
 
