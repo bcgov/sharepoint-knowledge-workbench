@@ -45,14 +45,26 @@ grep for image links / headings and confirm counts before saying it's complete).
 
 ### Purpose
 
-This is a proof-of-concept for the "content-centric knowledge management" proposal in `plan.md`:
-moving Word/PDF manuals from a document-centric model (content + formatting baked together) to a
-content-centric model (Content + Template + Renderer = Published Output). The **CEIS Manual** is
-the pilot document (`plan.md`, "Pilot Candidate" section).
+This is a proof-of-concept for the "content-centric knowledge management" proposal in
+`vision/plan-content-management-proposal.md`: moving Word/PDF manuals from a document-centric
+model (content + formatting baked together) to a content-centric model (Content + Template +
+Renderer = Published Output). The **CEIS Manual** is the pilot document.
 
-Concretely, this repo currently does one thing: **convert source Word documents into structured
-Markdown**, preserving structure (headings) and inline image references, as a first step toward
-that content-centric model.
+The active implementation is the `docx-to-content` plugin at `plugins/docx-to-content/` — a
+self-contained Claude Code plugin (built from scratch under TDD, see
+`docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md` and its
+companion implementation plan) providing three CLI-backed skills — `analyze-document`,
+`convert-document`, `render-content` — that take a source `.docx` through analysis, human plan
+confirmation, cleanup/chunking/canonicalization, validation, and rendering to a multipage
+Markdown package, with atomic promotion and full test coverage at every stage.
+
+**Current status and how to resume:** read `start-here.md` at the repo root — it is the
+authoritative, kept-current resume document for this work (supersedes any stale in-conversation
+summary). Work happens in a git worktree (`.claude/worktrees/docx-to-content-phase1`, branch
+`worktree-docx-to-content-phase1`) and follows `superpowers:subagent-driven-development` —
+fresh implementer + fresh reviewer per task, TDD throughout, task-by-task ledger at
+`.superpowers/sdd/2026-07-25-docx-to-content-phase1-implementation-plan-v3-ammendments/progress.md`
+inside that worktree.
 
 ### Layout
 
@@ -96,8 +108,10 @@ Word↔Markdown conversion in this repo is built directly on **pandoc**, not a t
 skill — the Anthropic `docx` skill was evaluated and removed (2026-07-25): its read path was a
 bare, unpostprocessed `pandoc -t markdown` call that produced structurally broken output on a
 real document (see `JOURNAL.md`), and its license prohibits building derivative works on it
-anyway. A purpose-built replacement (`pandoc-docx-convert`) is being authored in the source
-monorepo — see the protocol below. `pdf`/`xlsx` skills remain installed for future source formats
+anyway. The purpose-built replacement is the `docx-to-content` plugin (see Purpose above) — built
+directly in this repo, from scratch under TDD, not relocated from the sibling monorepo (an
+earlier plan to build it there and pull it in was superseded; see the v3.1 Deviation Notice in
+the plugin design spec for why). `pdf`/`xlsx` skills remain installed for future source formats
 but are not yet used.
 
 ### Skill Development Protocol — authoring/updating skills for this repo
