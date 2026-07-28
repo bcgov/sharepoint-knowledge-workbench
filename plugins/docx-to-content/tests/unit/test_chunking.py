@@ -239,3 +239,51 @@ def test_single_anchor_plan_handled_uniformly_as_one_chunk():
     assert len(sliced.chunks) == 1
     assert sliced.chunks[0].content == cleaned
     assert sliced.preamble == ""
+
+
+# ---------------------------------------------------------------------------
+# Regression: analysis-time anchor identity must match convert-time
+# reconciliation identity even when a heading's raw text is affected by a
+# cleanup step that changes heading TEXT itself (not just trailing
+# attribute syntax) -- e.g. pandoc_fixes.heading_emphasis's whole-heading
+# bold/italic stripping. If analysis builds stable_key from the RAW
+# (un-normalized) heading text while reconciliation recomputes stable_key
+# from the CLEANED (normalized) text, the two will never match and
+# reconciliation will raise MissingAnchorError for every affected heading.
+# ---------------------------------------------------------------------------
+
+def test_anchor_identity_survives_whole_heading_emphasis_normalization():
+    from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis
+
+    raw = (
+        "# **PROTECTION ORDERS**\n"
+        "Intro body text.\n"
+        "### **Data Capture Requirements**\n"
+        "Body text.\n"
+    )
+    # Anchors as analysis-time code actually builds them: from RAW,
+    # un-cleaned heading text.
+    anchors = _anchors_for(raw)
+    assert len(anchors) == 2
+
+    # No raw "**" markers may survive into the anchor identity used for
+    # reconciliation.
+    for anchor in anchors:
+        assert "**" not in anchor.stable_key
+        assert all("**" not in part for part in anchor.source_heading_path)
+
+    cleaned = strip_whole_heading_emphasis(raw)
+    assert "**" not in cleaned  # sanity: cleanup actually stripped the markers
+
+    reconciled = reconcile_anchors(anchors, cleaned)
+    assert len(reconciled) == 2
+    # Exactly one cleaned heading resolves per anchor -- no ambiguity, no
+    # missing match.
+    resolved_keys = {r.anchor.stable_key for r in reconciled}
+    assert resolved_keys == {a.stable_key for a in anchors}
+
+    sliced = reconcile_and_slice(anchors, cleaned)
+    all_content = "".join(c.content for c in sliced.chunks)
+    assert "**" not in all_content
+    assert "PROTECTION ORDERS" in sliced.chunks[0].content
+    assert "Data Capture Requirements" in all_content

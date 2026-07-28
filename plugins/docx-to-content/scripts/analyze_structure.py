@@ -67,6 +67,28 @@ _HEADING_LINE = re.compile(_HEADING_RE_TEMPLATE.format(), re.MULTILINE)
 _IMAGE_REF = re.compile(r"!\[[^\]]*\]\(([^)\s]+)")
 
 
+def _normalize_heading_text(text: str) -> str:
+    """Apply the same whole-heading-emphasis normalization that convert-time
+    cleanup applies, to a single heading's text.
+
+    Structural anchor identity (`identity.make_chunk_id`) is computed from
+    heading path text both at analysis time (this module, against RAW
+    pandoc extraction) and at reconciliation time (`chunking.py`, against
+    the CLEANED document, after `pandoc_fixes.heading_emphasis.
+    strip_whole_heading_emphasis` has already run as part of the real
+    convert pipeline). If analysis computed identity from raw, un-normalized
+    text while reconciliation recomputed it from normalized text, the two
+    would never match and every affected heading would fail to reconcile
+    (MissingAnchorError) during a real conversion. Normalizing here, in the
+    single function both `parse_headings` (analysis) and `chunking.
+    parse_headings_with_lines` (reconciliation) call, guarantees both sides
+    always compute identity from the same normalized text -- reconciliation
+    call sites operate on already-cleaned text, so this is a no-op there.
+    """
+    stripped = strip_whole_heading_emphasis(f"# {text}\n")
+    return stripped[2:].rstrip("\n")
+
+
 @dataclass
 class AnalysisResult:
     report: dict
@@ -95,7 +117,7 @@ def iter_heading_matches(markdown_text: str):
 
     for match in _HEADING_LINE.finditer(markdown_text):
         level = len(match.group(1))
-        text = match.group(2).strip()
+        text = _normalize_heading_text(match.group(2).strip())
         if not text:
             continue
 
