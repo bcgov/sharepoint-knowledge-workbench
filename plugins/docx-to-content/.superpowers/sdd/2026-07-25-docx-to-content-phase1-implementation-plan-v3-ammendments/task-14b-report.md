@@ -156,8 +156,7 @@ is explicitly meant to close.
 
 ## Commit
 
-Commit hash: to be filled in after `git commit` (see below — recorded
-after the commit is created).
+Commit hash: `2768e9bd78827d28d484e0f96888121095449ea`
 
 ## Deviations, with rationale
 
