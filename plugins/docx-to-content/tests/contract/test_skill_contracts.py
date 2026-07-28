@@ -116,8 +116,10 @@ class TestRenderContentSkillContract:
     def test_documents_prohibited_shortcuts(self):
         assert "prohibited" in self.text.lower() or "must not" in self.text.lower()
 
-    def test_documents_known_gap_honestly(self):
-        # cmd_render is still a NotImplementedError stub as of this task
-        # (Task 14b wires it up later) -- the skill contract must say so
-        # rather than claim the render subcommand is already fully wired.
-        assert "not yet" in self.text.lower() or "notimplementederror" in self.text.lower()
+    def test_documents_cmd_render_as_fully_wired(self):
+        # Task 14b wired cmd_render up to the real render pipeline -- the
+        # skill contract must reflect that (no more "not yet implemented"
+        # gap language) and say so explicitly.
+        assert "wired" in self.text.lower()
+        assert "not yet" not in self.text.lower()
+        assert "notimplementederror" not in self.text.lower()

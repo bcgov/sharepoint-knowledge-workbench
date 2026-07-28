@@ -16,16 +16,13 @@ content package. It renders that package through a named, registered
 renderer (currently only `multipage-markdown`) into published output,
 running renderer-specific validation before promoting the rendered result.
 
-**Known gap**: as of this task, `cmd_render` in `scripts/cli.py` is a
-`NotImplementedError` stub — the CLI's argparse wiring for `render`
-(argument parsing, exit-code plumbing) exists, but the handler body that
-calls the real render pipeline has not been wired up yet (tracked
-separately as "Task 14b: Wire cmd_render in cli.py"). This document
-describes the INTENDED contract the `render` subcommand implements once
-that wiring lands; the underlying render logic itself
-(`renderers/multipage_markdown.py`'s `render_to_staging` and
-`renderers/validate_rendered.py`'s `render_and_promote`) is already
-implemented and tested — only the CLI handler is not yet calling it.
+`cmd_render` in `scripts/cli.py` is fully wired: it resolves `--renderer`
+through the Task 12 renderer registry, loads the canonical package via
+`CanonicalPackage.load()` (full schema/integrity/disposition
+revalidation), and calls `renderers/validate_rendered.py`'s
+`render_and_promote()` (which itself drives
+`renderers/multipage_markdown.py`'s `render_to_staging`). The behavior
+below is the actual, tested contract of the `render` subcommand.
 
 ## Exact CLI Invocation
 

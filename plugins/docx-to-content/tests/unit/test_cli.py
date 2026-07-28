@@ -16,6 +16,7 @@ import pytest
 
 import cli
 import contracts
+import convert as convert_module
 
 
 def _write_plan(path, status="confirmed"):
@@ -299,6 +300,100 @@ def test_convert_rejects_stale_source_exit_4(tmp_path):
         "--output", str(tmp_path / "run"),
     ])
     assert rc == 4
+
+
+# ---------------------------------------------------------------------------
+# `render` (Task 14b): real end-to-end wiring through cli.main
+# ---------------------------------------------------------------------------
+
+def _build_canonical_package(tmp_path):
+    """Analyze/confirm via the real CLI path, then build a fully
+    VALIDATED and PROMOTED canonical package via `convert.convert_and_promote`
+    (Task 9/10/11's own helper -- the same one `cmd_convert` itself does
+    NOT yet use, see convert.py's `convert_document` vs `convert_and_promote`
+    docstrings). `CanonicalPackage.load()` requires a package that has
+    actually passed `validate_canonical` (PASS/dispositioned-WARN), which
+    only `convert_and_promote` produces -- `cli.main(["convert", ...])`
+    currently calls the unvalidated `convert_document` entry point instead,
+    so it is not reused here for that reason (pre-existing, out of this
+    task's scope: cli.py `convert.py` wiring gap, not `cmd_render`'s)."""
+    analysis_dir = tmp_path / "analysis"
+    rc = cli.main([
+        "analyze", "--source", str(_REPEATED_HEADINGS_DOCX), "--output", str(analysis_dir),
+    ])
+    assert rc == 0
+
+    confirmed_path = tmp_path / "confirmed.json"
+    rc = cli.main([
+        "confirm",
+        "--draft-plan", str(analysis_dir / "conversion-plan.draft.json"),
+        "--output", str(confirmed_path),
+    ])
+    assert rc == 0
+
+    plan = contracts.ConversionPlan.from_dict(json.loads(confirmed_path.read_text()))
+    out_dir = tmp_path / "run"
+    _manifest, _report, promoted, final_dir = convert_module.convert_and_promote(
+        _REPEATED_HEADINGS_DOCX, plan, out_dir
+    )
+    assert promoted
+    return final_dir
+
+
+def test_render_end_to_end_via_cli_produces_rendered_output(tmp_path):
+    """Proves the CLI PATH works end to end -- not just render_and_promote()
+    called directly (that's already covered by test_validate_rendered.py) --
+    since the gap this task closes is specifically `cmd_render` wiring."""
+    canonical_dir = _build_canonical_package(tmp_path)
+    render_out = tmp_path / "rendered"
+
+    rc = cli.main([
+        "render",
+        "--canonical", str(canonical_dir),
+        "--renderer", "multipage-markdown",
+        "--output", str(render_out),
+    ])
+    assert rc == 0
+
+    rendered_dir = render_out / "rendered-output"
+    assert (rendered_dir / "index.md").exists()
+    assert (rendered_dir / "pages").is_dir()
+    assert any((rendered_dir / "pages").glob("*.md"))
+    assert (rendered_dir / "renderer-validation.json").exists()
+
+    report = json.loads((rendered_dir / "renderer-validation.json").read_text())
+    assert report["status"] == "PASS"
+
+
+def test_render_missing_canonical_dir_exits_3(tmp_path):
+    rc = cli.main([
+        "render",
+        "--canonical", str(tmp_path / "does-not-exist"),
+        "--renderer", "multipage-markdown",
+        "--output", str(tmp_path / "out"),
+    ])
+    assert rc == 3
+
+
+def test_render_validation_fail_exits_2(tmp_path):
+    """A canonical package that fails CanonicalPackage.load()'s own
+    validation (tampered chunk content, breaking its recorded
+    content_sha256) is rejected with exit 2, matching cmd_convert's
+    validation-FAIL mapping."""
+    canonical_dir = _build_canonical_package(tmp_path)
+
+    chunk_files = sorted((canonical_dir / "chunks").glob("*.md"))
+    assert chunk_files, "expected at least one chunk to tamper with"
+    target = chunk_files[0]
+    target.write_text(target.read_text() + "\ntampered content\n")
+
+    rc = cli.main([
+        "render",
+        "--canonical", str(canonical_dir),
+        "--renderer", "multipage-markdown",
+        "--output", str(tmp_path / "rendered"),
+    ])
+    assert rc == 2
 
 
 def test_run_invalid_plan_contract_exits_2(tmp_path):

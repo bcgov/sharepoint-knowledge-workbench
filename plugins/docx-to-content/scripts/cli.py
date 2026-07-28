@@ -52,6 +52,9 @@ import convert  # noqa: E402
 import dependencies  # noqa: E402
 import package  # noqa: E402
 import plans  # noqa: E402
+from renderers import multipage_markdown  # noqa: E402
+from renderers import protocol as renderer_protocol  # noqa: E402
+from renderers import validate_rendered  # noqa: E402
 
 
 EXIT_PASS = 0
@@ -60,7 +63,20 @@ EXIT_DEPENDENCY_FAIL = 3
 EXIT_USAGE_ERROR = 4
 EXIT_UNEXPECTED = 1
 
-SUPPORTED_RENDERERS = {"multipage-markdown"}
+# Renderer registry (Task 12's `RendererRegistry`) -- module-level singleton
+# for the CLI process, populated with every renderer this plugin ships.
+# `cmd_render` resolves `--renderer` through this registry rather than a
+# bare name set, so an unknown renderer name and a known-but-unregistered
+# one are both handled by the same `UnknownRendererError` -> `UsageError`
+# path (Task 12's own docstring already earmarked this wiring for Task 13/
+# this task).
+_RENDERER_REGISTRY = renderer_protocol.RendererRegistry()
+_RENDERER_REGISTRY.register(multipage_markdown.MultipageMarkdownRenderer())
+
+# Derived from the registry (not hand-maintained) so it cannot drift from
+# what is actually registered; kept as a public constant since
+# tests/contract/test_future_output_profiles.py asserts against it.
+SUPPORTED_RENDERERS = frozenset(_RENDERER_REGISTRY._renderers.keys())
 
 
 # ---------------------------------------------------------------------------
@@ -215,18 +231,37 @@ def cmd_convert(args):
 
 
 def cmd_render(args):
-    if args.renderer not in SUPPORTED_RENDERERS:
-        raise UsageError(
-            f"unsupported renderer: {args.renderer!r} "
-            f"(supported: {sorted(SUPPORTED_RENDERERS)})"
-        )
+    try:
+        renderer = _RENDERER_REGISTRY.get_renderer(args.renderer)
+    except renderer_protocol.UnknownRendererError as exc:
+        raise UsageError(str(exc)) from exc
+
     canonical_path = Path(args.canonical)
     if not canonical_path.exists():
         raise PreconditionError(f"canonical directory not found: {args.canonical}")
-    raise NotImplementedError(
-        "render business logic (multipage-markdown renderer) is "
-        "implemented in Task 13"
+
+    try:
+        loaded_package = package.CanonicalPackage.load(canonical_path)
+    except package.CanonicalPackageError as exc:
+        # Malformed/tampered/rejected canonical package -- a contract/
+        # validation failure, matching cmd_convert's mapping of the
+        # analogous "this content cannot be trusted as-is" class of error.
+        raise ValidationFailError(str(exc)) from exc
+
+    _result, report, promoted, _output_dir = validate_rendered.render_and_promote(
+        loaded_package, Path(args.output), renderer=renderer
     )
+    if not promoted:
+        # render_and_promote() only withholds promotion when the render
+        # validator's ValidationReport.status is FAIL (see its own
+        # docstring) -- mapped to exit 2, mirroring how cmd_convert maps
+        # validate_canonical's FAIL status to EXIT_VALIDATION_FAIL.
+        raise ValidationFailError(
+            f"render validation FAILED for canonical package {args.canonical} "
+            f"with renderer {args.renderer!r}: "
+            f"{[issue.message for issue in report.issues]}"
+        )
+    return EXIT_PASS
 
 
 def cmd_run(args):
