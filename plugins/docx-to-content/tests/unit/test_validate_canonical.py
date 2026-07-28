@@ -670,3 +670,101 @@ def test_write_validation_report_overwrites_placeholder(tmp_path):
     written = json.loads((output_dir / "validation.json").read_text())
     assert written["status"] == report.status
     assert written["status"] != "PENDING"
+
+
+# ---------------------------------------------------------------------------
+# Grouped-package validation (Task 17-topic-grouping, Task 7)
+# ---------------------------------------------------------------------------
+
+def _build_grouped_package(tmp_path):
+    file_access = _anchor(["File Access"], level=1)
+    how_to_seal = _anchor(["File Access", "How to Seal a File"], level=2)
+    overview = _anchor(["Overview"], level=1)
+    plan = _confirmed_plan([file_access, how_to_seal, overview], strategy="grouped")
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[
+            _slice(file_access, "# File Access\n\nIntro to file access.\n"),
+            _slice(how_to_seal, "## How to Seal a File\n\nSteps to seal a file.\n"),
+            _slice(overview, "# Overview\n\nOverview body.\n"),
+        ],
+    )
+    raw_media_dir = tmp_path / "raw_media"
+    raw_media_dir.mkdir()
+    output_dir = tmp_path / "canonical-content"
+    package.build_grouped_canonical_package(plan, sliced, raw_media_dir, output_dir)
+    return plan, output_dir
+
+
+def _grouped_cleaned_markdown():
+    return (
+        "# File Access\n\nIntro to file access.\n\n"
+        "## How to Seal a File\n\nSteps to seal a file.\n\n"
+        "# Overview\n\nOverview body.\n"
+    )
+
+
+def test_validate_grouped_package_passes_when_every_anchor_assigned_once(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    report = vc.validate_canonical_package(
+        output_dir, plan, cleaned_markdown_text=_grouped_cleaned_markdown()
+    )
+    assert report.status == "PASS", report.issues
+
+
+def test_validate_grouped_package_fails_when_an_anchor_is_missing(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    meta_path = next((output_dir / "chunks").glob("*.meta.json"))
+    meta = json.loads(meta_path.read_text())
+    if meta.get("anchors"):
+        meta["anchors"].pop()
+        content_path = output_dir / meta["content_file"]
+        meta["content_sha256"] = hashing.content_hash(
+            content_path.read_text().encode("utf-8")
+        )
+        meta_path.write_text(json.dumps(meta))
+    report = vc.validate_canonical_package(output_dir, plan)
+    assert report.status == "FAIL"
+    assert "unassigned_structural_anchor" in _codes(report)
+
+
+def test_validate_grouped_package_fails_when_an_anchor_is_duplicated_across_topics(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    meta_paths = sorted((output_dir / "chunks").glob("*.meta.json"))
+    metas = [json.loads(p.read_text()) for p in meta_paths]
+    first_with_anchors = next(m for m in metas if m.get("anchors"))
+    other = next(m for m in metas if m is not first_with_anchors)
+    other["anchors"].append(first_with_anchors["anchors"][0])
+    for path, meta in zip(meta_paths, metas):
+        path.write_text(json.dumps(meta))
+    report = vc.validate_canonical_package(output_dir, plan)
+    assert report.status == "FAIL"
+    assert "duplicate_structural_anchor_assignment" in _codes(report)
+
+
+def test_validate_grouped_package_fails_when_publication_map_missing(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    (output_dir / "publication-map.json").unlink()
+    report = vc.validate_canonical_package(output_dir, plan)
+    assert report.status == "FAIL"
+    assert "missing_publication_map" in _codes(report)
+
+
+def test_validate_grouped_package_fails_when_publication_map_order_has_gap(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    pub_map_path = output_dir / "publication-map.json"
+    data = json.loads(pub_map_path.read_text())
+    data["entries"][1]["order"] = 5
+    pub_map_path.write_text(json.dumps(data))
+    report = vc.validate_canonical_package(output_dir, plan)
+    assert report.status == "FAIL"
+    assert "publication_map_order_invalid" in _codes(report)
+
+
+def test_validate_ungrouped_package_unaffected_by_new_grouped_checks(tmp_path):
+    plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
+    cleaned = "# Widget Setup\n\nBody one.\n\n# Widget Configuration\n\nBody two.\n"
+    report = vc.validate_canonical_package(
+        output_dir, plan, cleaned_markdown_text=cleaned
+    )
+    assert report.status == "PASS", report.issues

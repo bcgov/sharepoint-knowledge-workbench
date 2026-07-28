@@ -47,6 +47,26 @@ def _make_draft_plan(source_path):
 
 
 # ---------------------------------------------------------------------------
+# "grouped" strategy (Task 17-topic-grouping, Task 6)
+# ---------------------------------------------------------------------------
+
+def test_build_draft_plan_accepts_grouped_strategy(tmp_path):
+    source = tmp_path / "source.docx"
+    source.write_bytes(b"fake docx bytes")
+    sha256 = hashing.content_hash(source.read_bytes())
+    fingerprint = contracts.SourceFingerprint(
+        path=str(source), sha256=sha256, size_bytes=source.stat().st_size,
+    )
+    plan = plans.build_draft_plan(
+        source_fingerprint=fingerprint,
+        strategy="grouped",
+        chunk_level=1,
+        chunk_anchors=[],
+    )
+    assert plan.strategy == "grouped"
+
+
+# ---------------------------------------------------------------------------
 # confirm_plan: new object, new file, not a mutation of the draft
 # ---------------------------------------------------------------------------
 

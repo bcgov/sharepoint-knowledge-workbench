@@ -47,6 +47,13 @@ python -m scripts.cli render --canonical <canonical-dir> --renderer multipage-ma
   page plus one page per chunk for `multipage-markdown`), a
   `render-result.json`, and a rendered-output `validation.json`.
 
+For a canonical package built with `strategy: "grouped"` (see
+convert-document's Grouped Strategy section), the loaded package carries a
+`publication_map` alongside its chunks; `multipage-markdown` renders pages
+and the index in the publication map's explicit `order`, not manifest
+order. For `"single"`/`"chunked"` packages (no publication map present),
+rendering is unchanged — manifest order, exactly as before this existed.
+
 ## Preconditions
 
 - `--canonical` must point at an existing directory.

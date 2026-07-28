@@ -413,3 +413,94 @@ def test_missing_media_file_is_rejected(tmp_path):
     output_dir = tmp_path / "canonical-content"
     with pytest.raises(package.UnsupportedLegacyMediaError):
         package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+
+# ---------------------------------------------------------------------------
+# build_grouped_canonical_package (Task 17-topic-grouping, Task 5)
+# ---------------------------------------------------------------------------
+
+def _two_topic_sliced_document():
+    file_access = _anchor(["File Access"], level=1)
+    how_to_seal = _anchor(["File Access", "How to Seal a File"], level=2)
+    overview = _anchor(["Overview"], level=1)
+    plan = _confirmed_plan([file_access, how_to_seal, overview], strategy="grouped")
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[
+            _slice(file_access, "# File Access\n\nIntro to file access.\n"),
+            _slice(how_to_seal, "## How to Seal a File\n\nSteps to seal a file.\n"),
+            _slice(overview, "# Overview\n\nOverview body.\n"),
+        ],
+    )
+    return plan, sliced
+
+
+def test_build_grouped_canonical_package_produces_one_file_per_topic(tmp_path):
+    plan, sliced = _two_topic_sliced_document()
+    manifest = package.build_grouped_canonical_package(
+        plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
+    )
+    assert manifest.strategy == "grouped"
+    assert manifest.chunk_count == 2
+    assert {c.source_heading_path[0] for c in manifest.chunks} == {"File Access", "Overview"}
+
+
+def test_grouped_topic_content_preserves_all_anchor_content_losslessly(tmp_path):
+    plan, sliced = _two_topic_sliced_document()
+    manifest = package.build_grouped_canonical_package(
+        plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
+    )
+    file_access_chunk = next(
+        c for c in manifest.chunks if c.source_heading_path == ["File Access"]
+    )
+    combined = (tmp_path / "out" / file_access_chunk.content_file).read_text()
+    for chunk_slice in sliced.chunks:
+        if chunk_slice.anchor.source_heading_path[0] == "File Access":
+            assert chunk_slice.content.strip() in combined
+
+
+def test_grouped_chunk_metadata_lists_every_folded_anchor(tmp_path):
+    plan, sliced = _two_topic_sliced_document()
+    manifest = package.build_grouped_canonical_package(
+        plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
+    )
+    file_access_chunk = next(
+        c for c in manifest.chunks if c.source_heading_path == ["File Access"]
+    )
+    meta = contracts.ChunkMetadata.from_dict(
+        json.loads((tmp_path / "out" / file_access_chunk.metadata_file).read_text())
+    )
+    anchor_keys = {a["stable_key"] for a in meta.anchors}
+    expected_keys = {
+        s.anchor.stable_key for s in sliced.chunks
+        if s.anchor.source_heading_path[0] == "File Access"
+    }
+    assert anchor_keys == expected_keys
+
+
+def test_grouped_package_writes_publication_map(tmp_path):
+    plan, sliced = _two_topic_sliced_document()
+    package.build_grouped_canonical_package(
+        plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
+    )
+    pub_map_path = tmp_path / "out" / "publication-map.json"
+    assert pub_map_path.exists()
+    data = json.loads(pub_map_path.read_text())
+    assert len(data["entries"]) == 2
+    assert data["entries"][0]["order"] == 0
+
+
+def test_grouped_every_anchor_assigned_exactly_once(tmp_path):
+    plan, sliced = _two_topic_sliced_document()
+    manifest = package.build_grouped_canonical_package(
+        plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
+    )
+    all_anchor_keys = []
+    for chunk in manifest.chunks:
+        meta = contracts.ChunkMetadata.from_dict(
+            json.loads((tmp_path / "out" / chunk.metadata_file).read_text())
+        )
+        all_anchor_keys.extend(a["stable_key"] for a in meta.anchors)
+    source_keys = [s.anchor.stable_key for s in sliced.chunks]
+    assert sorted(all_anchor_keys) == sorted(source_keys)
+    assert len(all_anchor_keys) == len(set(all_anchor_keys))

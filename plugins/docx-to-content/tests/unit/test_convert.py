@@ -176,3 +176,34 @@ def test_convert_document_end_to_end(tmp_path):
             if (canonical_dir / c.content_file).read_text().find("../media/") != -1
         ]
         assert referencing
+
+
+# ---------------------------------------------------------------------------
+# "grouped" strategy dispatch (Task 17-topic-grouping, Task 6)
+# ---------------------------------------------------------------------------
+
+@pytest.mark.skipif(not PANDOC_AVAILABLE, reason="pandoc not found on PATH")
+def test_convert_and_promote_dispatches_grouped_strategy_to_grouped_builder(tmp_path, monkeypatch):
+    import dataclasses
+
+    analysis_dir = tmp_path / "analysis"
+    result = analyze_structure.analyze_document(REPEATED_HEADINGS_DOCX, analysis_dir)
+    grouped_draft = dataclasses.replace(result.plan, strategy="grouped")
+    confirmed_plan = plans.confirm_plan(grouped_draft, confirmed_by="tester")
+
+    called = {}
+    original = package.build_grouped_canonical_package
+
+    def spy(*args, **kwargs):
+        called["invoked"] = True
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(package, "build_grouped_canonical_package", spy)
+
+    output_dir = tmp_path / "run"
+    manifest, report, promoted, final_dir = convert.convert_and_promote(
+        REPEATED_HEADINGS_DOCX, confirmed_plan, output_root=output_dir
+    )
+    assert called.get("invoked") is True
+    assert manifest.strategy == "grouped"
+    assert (final_dir / "publication-map.json").exists()

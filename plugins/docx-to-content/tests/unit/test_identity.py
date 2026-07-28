@@ -14,7 +14,7 @@ Fixture heading names are invented placeholders (e.g. "Section Alpha",
 
 import re
 
-from identity import make_chunk_id, normalize_heading_path
+from identity import make_chunk_id, make_topic_id, normalize_heading_path
 
 
 def test_normalize_heading_path_basic_ascii():
@@ -124,3 +124,30 @@ def test_chunk_id_position_independence_across_document_insertion():
     }
 
     assert before == after
+
+
+def test_make_topic_id_uses_only_top_level_path():
+    topic_id_a = make_topic_id(["File Access"])
+    topic_id_b = make_topic_id(["File Access"])
+    assert topic_id_a == topic_id_b
+    assert topic_id_a.startswith("file-access--")
+
+
+def test_make_topic_id_differs_by_occurrence():
+    first = make_topic_id(["Overview"], occurrence=1)
+    second = make_topic_id(["Overview"], occurrence=2)
+    assert first != second
+
+
+def test_make_topic_id_matches_slug_hash_shape():
+    topic_id = make_topic_id(["Protection Orders"])
+    slug, _, digest = topic_id.partition("--")
+    assert slug == "protection-orders"
+    assert len(digest) == 8
+
+
+def test_make_topic_id_differs_from_chunk_id_for_same_top_level_path():
+    topic_id = make_topic_id(["File Access"])
+    chunk_id_for_child = make_chunk_id(["File Access", "How to Seal a File"], occurrence=1)
+    assert topic_id != chunk_id_for_child
+    assert topic_id.split("--")[0] == "file-access"

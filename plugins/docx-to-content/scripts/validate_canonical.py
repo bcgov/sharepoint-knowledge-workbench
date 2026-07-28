@@ -76,6 +76,7 @@ import contracts  # noqa: E402
 import hashing  # noqa: E402
 import pandoc_validate  # noqa: E402
 import plans  # noqa: E402
+import publication_map  # noqa: E402
 # Note: package.py is deliberately NOT imported here for path-safety reuse.
 # `_check_media_references` below does its own path-traversal/absolute-path
 # check rather than calling `package._decode_and_validate` -- that function
@@ -186,7 +187,8 @@ def validate_canonical_package(
         chunk_meta_by_id, chunk_issues = _load_and_check_chunks(package_dir, manifest)
         issues.extend(chunk_issues)
         issues.extend(_check_orphans(package_dir, manifest))
-        issues.extend(_check_unresolved_anchors(manifest, plan))
+        issues.extend(_check_unresolved_anchors(manifest, plan, chunk_meta_by_id))
+        issues.extend(_check_publication_map_consistency(package_dir, manifest))
         issues.extend(
             _check_content_loss_and_duplication(
                 package_dir, manifest, cleaned_markdown_text
@@ -490,14 +492,26 @@ def _check_orphans(package_dir: "Path", manifest: "contracts.Manifest") -> list:
 # Unresolved structural anchors: manifest chunk_ids vs plan's anchors
 # ---------------------------------------------------------------------------
 
-def _check_unresolved_anchors(manifest: "contracts.Manifest", plan: "contracts.ConversionPlan") -> list:
+def _check_unresolved_anchors(
+    manifest: "contracts.Manifest",
+    plan: "contracts.ConversionPlan",
+    chunk_meta_by_id: dict = None,
+) -> list:
     """Defense-in-depth re-check (Task 8/9 already resolve anchors at
     conversion time, raising before a package is ever staged if they
-    can't): every manifest chunk_id must correspond to exactly one
-    anchor's stable_key in the confirmed plan's chunk_anchors, and every
-    plan anchor must be represented exactly once in the manifest. This is
-    identity/count matching only -- not anchor re-resolution against
-    markdown, which already happened in `chunking.py`."""
+    can't): every structural anchor in the confirmed plan's chunk_anchors
+    must be represented exactly once in the manifest, and vice versa. This
+    is identity/count matching only -- not anchor re-resolution against
+    markdown, which already happened in `chunking.py`.
+
+    Two strategies, two identity schemes: for "single"/"chunked" packages
+    a manifest chunk_id IS an anchor's stable_key (1:1). For "grouped"
+    packages a manifest chunk_id is a topic_id, and anchor identity lives
+    in each chunk's sidecar `anchors` list instead -- see
+    `_check_anchor_assignment_completeness`, which this delegates to."""
+    if manifest.strategy == "grouped":
+        return _check_anchor_assignment_completeness(plan, chunk_meta_by_id or {})
+
     issues = []
     plan_keys = [a.stable_key for a in plan.chunk_anchors]
     manifest_ids = [c.chunk_id for c in manifest.chunks]
@@ -519,6 +533,79 @@ def _check_unresolved_anchors(manifest: "contracts.Manifest", plan: "contracts.C
                 f"confirmed plan anchor {stable_key!r} has no corresponding "
                 "chunk in the manifest",
             ))
+    return issues
+
+
+def _check_anchor_assignment_completeness(
+    plan: "contracts.ConversionPlan", chunk_meta_by_id: dict
+) -> list:
+    """Grouped-strategy anchor identity check: every structural anchor in
+    the confirmed plan must appear in exactly one topic chunk's
+    `ChunkMetadata.anchors` list -- never zero (unassigned), never more
+    than one (duplicated across topics)."""
+    issues = []
+    plan_keys = {a.stable_key for a in plan.chunk_anchors}
+
+    owning_chunks: dict = {}
+    for meta in chunk_meta_by_id.values():
+        for anchor in (meta.anchors or []):
+            owning_chunks.setdefault(anchor["stable_key"], []).append(meta.chunk_id)
+
+    for stable_key, chunk_ids in owning_chunks.items():
+        if len(chunk_ids) > 1:
+            issues.append(_error(
+                "duplicate_structural_anchor_assignment",
+                f"structural anchor {stable_key!r} is assigned to multiple "
+                f"topic chunks: {chunk_ids}",
+            ))
+
+    missing = plan_keys - set(owning_chunks)
+    for stable_key in sorted(missing):
+        issues.append(_error(
+            "unassigned_structural_anchor",
+            f"confirmed plan anchor {stable_key!r} is not present in any "
+            "topic chunk's anchors list",
+        ))
+    return issues
+
+
+def _check_publication_map_consistency(
+    package_dir: "Path", manifest: "contracts.Manifest"
+) -> list:
+    """Grouped-strategy publication-map check: strategy="grouped" requires
+    a `publication-map.json` whose entries reference exactly the
+    manifest's chunk ids, with an explicit, gap-free, duplicate-free
+    `order` sequence (directory-order-independent by construction, since
+    `order` is read from the file, never inferred from listing order)."""
+    if manifest.strategy != "grouped":
+        return []
+
+    pub_map = publication_map.load_publication_map(package_dir)
+    if pub_map is None:
+        return [_error(
+            "missing_publication_map",
+            "strategy=grouped requires publication-map.json",
+            "publication-map.json",
+        )]
+
+    issues = []
+    manifest_chunk_ids = {c.chunk_id for c in manifest.chunks}
+    entry_chunk_ids = {e.topic_id for e in pub_map.entries}
+    if entry_chunk_ids != manifest_chunk_ids:
+        issues.append(_error(
+            "publication_map_chunk_mismatch",
+            "publication-map.json entries do not match manifest chunk ids",
+            "publication-map.json",
+        ))
+
+    orders = sorted(e.order for e in pub_map.entries)
+    if orders != list(range(len(orders))):
+        issues.append(_error(
+            "publication_map_order_invalid",
+            "publication-map.json entry order must be a contiguous "
+            "0..N-1 sequence with no gaps or duplicates",
+            "publication-map.json",
+        ))
     return issues
 
 

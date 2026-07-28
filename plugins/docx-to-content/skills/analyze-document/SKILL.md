@@ -38,6 +38,14 @@ artifact of the pipeline — it exists only to inform the draft plan and the
 human reviewing it. It is never treated as canonical content and is not
 promoted anywhere. Do not persist it as if it were a finished deliverable.
 
+The analysis report also includes a `proposed_topics` preview: every
+level-1 heading in the source, grouped with its descendant headings, with a
+deterministic `topic_id`, anchor count, and child-heading count. This is
+what a human reviews before deciding whether to set the draft plan's
+`strategy` to `"grouped"` (see convert-document's grouped-strategy section)
+instead of the default `"single"`/`"chunked"` recommendation — it does not
+change what `analyze` writes to the plan itself.
+
 ## Preconditions
 
 - The source file at `--source` must exist (missing file → exit code 3).

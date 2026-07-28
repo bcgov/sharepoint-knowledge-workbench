@@ -94,3 +94,18 @@ def make_chunk_id(heading_path: list, occurrence: int = 1) -> str:
     structural_key = f"{slug}\x00{occurrence}"
     digest = content_hash(structural_key.encode("utf-8"))[:_HASH_LENGTH]
     return f"{slug}--{digest}"
+
+
+def make_topic_id(top_level_heading_path: list, occurrence: int = 1) -> str:
+    """Produce the stable topic ID for a top-level (grouping) heading path.
+
+    Distinct from `make_chunk_id`: a topic groups one or more structural
+    anchors under a single top-level heading, so its identity must be
+    derived only from that top-level heading's own path (never a
+    descendant's path), keeping topic identity independent of which/how
+    many structural anchors happen to be folded into it.
+    """
+    slug = normalize_heading_path(top_level_heading_path)
+    structural_key = f"topic\x00{slug}\x00{occurrence}"
+    digest = content_hash(structural_key.encode("utf-8"))[:_HASH_LENGTH]
+    return f"{slug}--{digest}"
