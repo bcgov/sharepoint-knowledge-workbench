@@ -43,6 +43,7 @@ import dependencies  # noqa: E402
 import hashing  # noqa: E402
 import identity  # noqa: E402
 import plans  # noqa: E402
+import topic_grouping  # noqa: E402
 from pandoc_fixes.attrs import strip_pandoc_attrs  # noqa: E402
 from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
 from pandoc_fixes.images import fix_glued_images  # noqa: E402
@@ -403,6 +404,23 @@ def analyze_document(source, output_dir) -> AnalysisResult:
 
     candidate_chunk_level = 1
 
+    # --- proposed topic-grouping preview (Task 17-topic-grouping) ---
+    topic_boundaries = topic_grouping.compute_topic_boundaries(headings)
+    proposed_topics = [
+        {
+            "topic_id": boundary.topic_id,
+            "title": boundary.title,
+            "first_anchor_path": list(boundary.members[0].path),
+            "anchor_count": len(boundary.members),
+            "child_heading_count": len(boundary.members) - 1,
+            # Cheap heading-text-only size proxy at analysis time -- real
+            # chunk-body sizes aren't known until cleaned markdown is
+            # sliced in convert; this previews relative topic weight only.
+            "approx_size_chars": sum(len(m.text) for m in boundary.members),
+        }
+        for boundary in topic_boundaries
+    ]
+
     report = {
         "source": source_fingerprint.to_dict(),
         "dependencies": {
@@ -427,6 +445,7 @@ def analyze_document(source, output_dir) -> AnalysisResult:
             "repeated_heading_texts": repeated_heading_texts,
             "repeated_heading_paths": [list(p) for p in repeated_paths.keys()],
         },
+        "proposed_topics": proposed_topics,
         "images": image_stats,
         "defect_signals": defect_signals,
         "statistics": statistics,

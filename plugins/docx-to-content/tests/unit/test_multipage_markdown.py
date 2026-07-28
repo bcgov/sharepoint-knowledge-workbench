@@ -22,6 +22,7 @@ bottom exercises the full pipeline against the `repeated_headings.docx`
 fixture via `convert.convert_and_promote` + `CanonicalPackage.load()`.
 """
 
+import dataclasses
 import json
 import shutil
 from pathlib import Path
@@ -118,6 +119,36 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
         media_dir=media_dir,
         package_dir=package_dir,
     )
+
+
+def _build_synthetic_grouped_package(tmp_path):
+    """Two-topic grouped package: "Beta" appears first in manifest/chunks
+    order, but publication-map.json explicitly orders "Alpha" first --
+    proving render() follows the publication map, not manifest order,
+    when one is present."""
+    pkg = _build_synthetic_package(
+        tmp_path,
+        [
+            ("beta--11111111", ["Beta"], "# Beta\n\nBeta body.\n", []),
+            ("alpha--22222222", ["Alpha"], "# Alpha\n\nAlpha body.\n", []),
+        ],
+    )
+    pub_map = contracts.PublicationMap(
+        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        package_identity="sha256:deadbeef",
+        entries=[
+            contracts.PublicationMapEntry(
+                topic_id="alpha--22222222", title="Alpha", order=0,
+                chunk_id="chunks/alpha--22222222.md",
+            ),
+            contracts.PublicationMapEntry(
+                topic_id="beta--11111111", title="Beta", order=1,
+                chunk_id="chunks/beta--11111111.md",
+            ),
+        ],
+    )
+    grouped_manifest = dataclasses.replace(pkg.manifest, strategy="grouped")
+    return dataclasses.replace(pkg, manifest=grouped_manifest, publication_map=pub_map)
 
 
 # ---------------------------------------------------------------------------
@@ -445,3 +476,38 @@ def test_end_to_end_render_of_small_single_fixture(tmp_path):
     canonical_media = sorted(p.name for p in (final_dir / "media").glob("*") if p.is_file())
     rendered_media = sorted(p.name for p in (staging_dir / "media").glob("*") if p.is_file())
     assert rendered_media == canonical_media
+
+
+# ---------------------------------------------------------------------------
+# Publication-map-driven navigation (Task 17-topic-grouping, Task 8)
+# ---------------------------------------------------------------------------
+
+def test_render_uses_publication_map_order_when_present(tmp_path):
+    pkg = _build_synthetic_grouped_package(tmp_path)
+    output_dir = tmp_path / "rendered"
+    result = mpm.MultipageMarkdownRenderer().render(pkg, output_dir)
+
+    assert result.status == "PASS"
+    index_text = (output_dir / "index.md").read_text()
+    # Publication map orders Alpha (0) before Beta (1), even though the
+    # package's manifest/chunks order has Beta first.
+    assert index_text.index("Alpha") < index_text.index("Beta")
+    assert (output_dir / "pages" / "alpha--22222222.md").exists()
+    assert (output_dir / "pages" / "beta--11111111.md").exists()
+
+
+def test_render_falls_back_to_manifest_order_when_no_publication_map(tmp_path):
+    pkg = _build_synthetic_package(
+        tmp_path,
+        [
+            ("chunk-a", ["Section Alpha", "Intro"], "# Intro\n\nA.\n", []),
+            ("chunk-b", ["Section Alpha", "Details"], "# Details\n\nB.\n", []),
+        ],
+    )
+    assert pkg.publication_map is None
+    output_dir = tmp_path / "rendered"
+    result = mpm.MultipageMarkdownRenderer().render(pkg, output_dir)
+    assert result.status == "PASS"
+    assert (output_dir / "index.md").exists()
+    index_text = (output_dir / "index.md").read_text()
+    assert index_text.index("Intro") < index_text.index("Details")

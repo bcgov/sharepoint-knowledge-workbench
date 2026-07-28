@@ -179,16 +179,27 @@ class MultipageMarkdownRenderer:
 
         known_chunk_ids = {chunk.metadata.chunk_id for chunk in package.chunks}
 
-        # One page per chunk, in manifest order (package.chunks is already
-        # manifest-ordered by CanonicalPackage.load()).
-        for chunk in package.chunks:
+        # Render order: the publication map (when present -- "grouped"
+        # strategy) gives explicit, directory-order-independent topic
+        # order; otherwise fall back to manifest order (package.chunks is
+        # already manifest-ordered by CanonicalPackage.load()), unchanged
+        # from before publication maps existed.
+        if package.publication_map is not None:
+            chunk_by_id = {chunk.metadata.chunk_id: chunk for chunk in package.chunks}
+            ordered_entries = sorted(package.publication_map.entries, key=lambda e: e.order)
+            ordered_chunks = [chunk_by_id[e.topic_id] for e in ordered_entries]
+        else:
+            ordered_chunks = package.chunks
+
+        # One page per chunk, in render order.
+        for chunk in ordered_chunks:
             content = _rewrite_local_links(chunk.content, known_chunk_ids)
             page_path = pages_dir / f"{chunk.metadata.chunk_id}.md"
             page_path.write_text(content)
             output_files.append(str(page_path))
 
         index_path = output_dir / "index.md"
-        index_path.write_text(_build_index(package.chunks))
+        index_path.write_text(_build_index(ordered_chunks))
         output_files.append(str(index_path))
 
         return contracts.RenderResult(

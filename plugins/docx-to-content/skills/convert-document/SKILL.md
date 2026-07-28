@@ -89,6 +89,23 @@ report allows it:
 - Usage error (already-confirmed plan passed to `confirm`, draft plan
   passed to `convert`, stale/tampered plan): exit code `4`.
 
+## Grouped Strategy
+
+`convert` supports a third `plan.strategy` value alongside the default
+`"single"`/`"chunked"`: `"grouped"`. Instead of one canonical chunk file
+per heading (the `"single"`/`"chunked"` behavior, unchanged), `"grouped"`
+folds every heading under a top-level (level-1) section into a single
+**topic** chunk file — roughly 25 topic files for a document with ~159
+headings, rather than 159 files. Structural-anchor lineage is not lost:
+each topic chunk's sidecar carries an `anchors` list (`stable_key`,
+`source_heading_path`, `occurrence`, `heading_level` for every heading
+folded into it, in source order), so every original heading remains
+individually addressable. A `publication-map.json` sidecar is written
+alongside `manifest.json`, giving explicit topic ordering for rendering
+(see `references/publication-map-contract.md`). Set `strategy: "grouped"`
+on the draft plan (reviewing the analysis report's `proposed_topics`
+preview first) before running `confirm`.
+
 ## Prohibited Shortcuts
 
 - Must not bypass `confirm` and hand-write `confirmation.status:

@@ -618,3 +618,74 @@ def test_unexpected_exception_is_caught_and_reported(tmp_path, capsys, monkeypat
     assert rc != 0
     err = capsys.readouterr().err
     assert "kaboom" in err
+
+
+# ---------------------------------------------------------------------------
+# "grouped" strategy end-to-end via the real CLI chain
+# (Task 17-topic-grouping, Task 9)
+# ---------------------------------------------------------------------------
+
+def test_grouped_pipeline_end_to_end_via_real_cli(tmp_path):
+    """Proves analyze -> confirm(grouped) -> convert -> render works
+    end to end via the real CLI, the same rigor Task 16 applied to the
+    ungrouped chain, reusing the existing multi-top-level-heading fixture
+    (repeated_headings.docx: Gadget Alpha/Beta/Gamma Module) rather than
+    adding a redundant new fixture."""
+    analysis_dir = tmp_path / "analysis"
+    rc = cli.main([
+        "analyze", "--source", str(_REPEATED_HEADINGS_DOCX), "--output", str(analysis_dir),
+    ])
+    assert rc == 0
+
+    report = json.loads((analysis_dir / "analysis-report.json").read_text())
+    proposed_topics = report["proposed_topics"]
+    assert [t["title"] for t in proposed_topics] == [
+        "Gadget Alpha Module", "Gadget Beta Module", "Gadget Gamma Module",
+    ]
+
+    draft_path = analysis_dir / "conversion-plan.draft.json"
+    draft = json.loads(draft_path.read_text())
+    draft["strategy"] = "grouped"
+    draft_path.write_text(json.dumps(draft))
+
+    confirmed_path = tmp_path / "confirmed.json"
+    rc = cli.main([
+        "confirm", "--draft-plan", str(draft_path), "--output", str(confirmed_path),
+    ])
+    assert rc == 0
+
+    convert_out = tmp_path / "converted"
+    rc = cli.main([
+        "convert",
+        "--source", str(_REPEATED_HEADINGS_DOCX),
+        "--plan", str(confirmed_path),
+        "--output", str(convert_out),
+    ])
+    assert rc == 0
+
+    canonical_dir = convert_out / "canonical-content"
+    manifest = json.loads((canonical_dir / "manifest.json").read_text())
+    assert manifest["strategy"] == "grouped"
+    assert manifest["chunk_count"] == len(proposed_topics)
+    validation = json.loads((canonical_dir / "validation.json").read_text())
+    assert validation["status"] in ("PASS", "WARN")
+    assert (canonical_dir / "publication-map.json").exists()
+
+    render_out = tmp_path / "rendered"
+    rc = cli.main([
+        "render",
+        "--canonical", str(canonical_dir),
+        "--renderer", "multipage-markdown",
+        "--output", str(render_out),
+    ])
+    assert rc == 0
+    rendered_output_dir = render_out / "rendered-output"
+    index_text = (rendered_output_dir / "index.md").read_text()
+    for topic in proposed_topics:
+        assert topic["title"] in index_text
+
+    all_rendered_text = "\n".join(
+        p.read_text() for p in (rendered_output_dir / "pages").glob("*.md")
+    )
+    for topic in proposed_topics:
+        assert all_rendered_text.count(topic["title"]) >= 1

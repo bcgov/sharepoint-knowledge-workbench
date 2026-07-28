@@ -201,6 +201,13 @@ class ChunkMetadata:
     content_sha256: str
     local_links: list = field(default_factory=list)
     media_refs: list = field(default_factory=list)
+    # Structural-anchor lineage folded into this chunk (Task 17-topic-
+    # grouping's "grouped" strategy only): list of {"stable_key",
+    # "source_heading_path", "occurrence", "heading_level"} dicts, one per
+    # structural anchor this topic chunk contains, in source order. None
+    # for ungrouped ("single"/"chunked") chunks, which map 1:1 to a
+    # single structural anchor already identified by chunk_id.
+    anchors: Optional[list] = None
 
     @classmethod
     def from_dict(cls, data: dict) -> "ChunkMetadata":
@@ -219,10 +226,11 @@ class ChunkMetadata:
             content_sha256=_require(data, "content_sha256"),
             local_links=list(_require(data, "local_links")),
             media_refs=list(_require(data, "media_refs")),
+            anchors=data.get("anchors"),
         )
 
     def to_dict(self) -> dict:
-        return {
+        result = {
             "schema_version": self.schema_version,
             "chunk_id": self.chunk_id,
             "source_order": self.source_order,
@@ -237,6 +245,9 @@ class ChunkMetadata:
             "local_links": list(self.local_links),
             "media_refs": list(self.media_refs),
         }
+        if self.anchors is not None:
+            result["anchors"] = self.anchors
+        return result
 
 
 # ---------------------------------------------------------------------------
@@ -385,6 +396,64 @@ class ValidationReport:
             "issues": [i.to_dict() for i in self.issues],
             "source_sha256": self.source_sha256,
             "plan_id": self.plan_id,
+        }
+
+
+# ---------------------------------------------------------------------------
+# publication-map.json (Task 17-topic-grouping) — minimal publication order
+# contract for the "grouped" strategy.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class PublicationMapEntry:
+    topic_id: str
+    title: str
+    order: int
+    chunk_id: str
+    parent_topic_id: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "PublicationMapEntry":
+        return cls(
+            topic_id=_require(data, "topic_id"),
+            title=_require(data, "title"),
+            order=_require(data, "order"),
+            chunk_id=_require(data, "chunk_id"),
+            parent_topic_id=data.get("parent_topic_id"),
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "topic_id": self.topic_id,
+            "title": self.title,
+            "order": self.order,
+            "chunk_id": self.chunk_id,
+            "parent_topic_id": self.parent_topic_id,
+        }
+
+
+@dataclass
+class PublicationMap:
+    schema_version: str
+    package_identity: str
+    entries: list  # list[PublicationMapEntry]
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "PublicationMap":
+        schema_version = _check_schema_version(data)
+        return cls(
+            schema_version=schema_version,
+            package_identity=_require(data, "package_identity"),
+            entries=[
+                PublicationMapEntry.from_dict(e) for e in _require(data, "entries")
+            ],
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "schema_version": self.schema_version,
+            "package_identity": self.package_identity,
+            "entries": [e.to_dict() for e in self.entries],
         }
 
 
