@@ -1,0 +1,59 @@
+{
+  "anchors": [
+    {
+      "heading_level": 2,
+      "occurrence": 1,
+      "source_heading_path": [
+        "SESSION RESULTS"
+      ],
+      "stable_key": "session-results--095b5ddd"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "SESSION RESULTS",
+        "Record Session Results Manually"
+      ],
+      "stable_key": "session-results-record-session-results-manually--3db23b1b"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "SESSION RESULTS",
+        "Editing Session Details"
+      ],
+      "stable_key": "session-results-editing-session-details--983b41f0"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "SESSION RESULTS",
+        "Deleting Session Results"
+      ],
+      "stable_key": "session-results-deleting-session-results--123d04f2"
+    }
+  ],
+  "chunk_id": "session-results--f065df18",
+  "content_file": "chunks/session-results--f065df18.md",
+  "content_sha256": "c8e0c839bac0b09361e2e3917348fd33f7dceb45f383f3c82c8d21c82b7aa383",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [
+    "../media/image145.png",
+    "../media/image146.png",
+    "../media/image147.png",
+    "../media/image148.png"
+  ],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "SESSION RESULTS"
+  ],
+  "source_order": 11,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "SESSION RESULTS"
+}

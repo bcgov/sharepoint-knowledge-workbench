@@ -1,0 +1,36 @@
+{
+  "anchors": [
+    {
+      "heading_level": 1,
+      "occurrence": 1,
+      "source_heading_path": [
+        "CEIS TRAINING"
+      ],
+      "stable_key": "ceis-training--10f54240"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "CEIS TRAINING",
+        "CEIS Training Steps"
+      ],
+      "stable_key": "ceis-training-ceis-training-steps--25871f35"
+    }
+  ],
+  "chunk_id": "ceis-training--94f8aa2a",
+  "content_file": "chunks/ceis-training--94f8aa2a.md",
+  "content_sha256": "594377c6eddb7fc61075428f26b3fe2e5b211824f294ac0563bd895e52422407",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "CEIS TRAINING"
+  ],
+  "source_order": 22,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "CEIS TRAINING"
+}

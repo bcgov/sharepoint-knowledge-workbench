@@ -1,0 +1,93 @@
+{
+  "anchors": [
+    {
+      "heading_level": 2,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DOCUMENT PRODUCTION"
+      ],
+      "stable_key": "document-production--71862f09"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DOCUMENT PRODUCTION",
+        "Producing Forms"
+      ],
+      "stable_key": "document-production-producing-forms--4f918bca"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DOCUMENT PRODUCTION",
+        "How to Produce Adobe Forms in CEIS"
+      ],
+      "stable_key": "document-production-how-to-produce-adobe-forms-in-ceis--d7cf4fda"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DOCUMENT PRODUCTION",
+        "How to Scan Documents"
+      ],
+      "stable_key": "document-production-how-to-scan-documents--9f327d13"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DOCUMENT PRODUCTION",
+        "How to Upload Documents"
+      ],
+      "stable_key": "document-production-how-to-upload-documents--26144b7f"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "DOCUMENT PRODUCTION",
+        "How to Email Documents"
+      ],
+      "stable_key": "document-production-how-to-email-documents--f146883a"
+    }
+  ],
+  "chunk_id": "document-production--ad3390e0",
+  "content_file": "chunks/document-production--ad3390e0.md",
+  "content_sha256": "896d68acddca1c84727dac1ddc91217dbe3ccd33cef7d079bf1ace20a2632484",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [
+    "../media/image91.png",
+    "../media/image92.png",
+    "../media/image93.png",
+    "../media/image94.png",
+    "../media/image95.png",
+    "../media/image96.png",
+    "../media/image97.png",
+    "../media/image98.png",
+    "../media/image99.png",
+    "../media/image100.jpeg",
+    "../media/image101.jpeg",
+    "../media/image102.jpeg",
+    "../media/image103.jpeg",
+    "../media/image104.png",
+    "../media/image105.png",
+    "../media/image106.png",
+    "../media/image107.png",
+    "../media/image108.png",
+    "../media/image109.png",
+    "../media/image110.png"
+  ],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "DOCUMENT PRODUCTION"
+  ],
+  "source_order": 8,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "DOCUMENT PRODUCTION"
+}

@@ -1,4 +1,4 @@
-# Resume `docx-to-content` Phase 1 — Task 18 (real CEIS cutover), awaiting plan confirmation
+# Resume `docx-to-content` Phase 1 — Task 18 complete
 
 ## Authoritative Inputs
 
@@ -6,7 +6,7 @@ Before changing anything, read in full:
 
 1. `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md` — the authoritative v3 spec (includes the v3.1 Deviation Notice, Section 14a authoring guidance, Section 14b future-output-profiles/SharePoint boundary).
 2. `docs/superpowers/plans/2026-07-25-docx-to-content-phase1-implementation-plan-v3-ammendments.md` — the authoritative v3 plan for Tasks 0–16.
-3. `docs/superpowers/plans/2026-07-28-docx-to-content-topic-grouping.md` — the plan for the grouped-strategy work (Tasks 1–9 of that plan), **complete and merged** — see Actual Current Status below.
+3. `docs/superpowers/plans/2026-07-28-docx-to-content-topic-grouping.md` — the plan for the grouped-strategy work (Tasks 1–9 of that plan), **complete and merged**.
 4. `docs/implementation-baseline.md` — Task 0 reconnaissance findings (dated 2026-07-25; paths in it reference the pre-rename `sourcedocuments/`/`output/` directory names — historically accurate, not a live reference).
 5. This file — the actual, verified current status. Trust this over any other handoff summary; verify against `git log` regardless.
 
@@ -14,78 +14,58 @@ The v1 spec/plan (`2026-07-25-docx-to-content-plugin-design.md` / `...-implement
 
 **Broader context:** this repo is Phase 1 of a larger initiative — see `docs/vision/README.md` and `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md` for direction beyond Phase 1 (repository/plugin boundaries, SharePoint delivery, agents, publication, evaluation). Those documents propose future direction; they do not authorize work beyond the current approved Phase 1 plan.
 
-## Where the work lives (changed since the last resume)
+## Where the work lives
 
-**There is no separate worktree anymore.** The `docx-to-content-phase1` worktree (branch `worktree-docx-to-content-phase1`) that hosted Tasks 0–16 and the topic-grouping work has been merged into `main` and removed (both the worktree directory and the branch). All work now happens directly on `main` in this repo:
+Work happens directly on `main` in this repo — there is no separate worktree:
 
 ```text
 plugin path:   plugins/docx-to-content/
 run tests:     cd plugins/docx-to-content && python3 -m pytest tests/ -q
 ```
 
-`main` is **10 commits ahead of `origin/main`** as of this session (the topic-grouping work has not been pushed yet) — check `git log origin/main..main --oneline` before assuming remote state matches local.
+Two commits landed this session on top of the prior session's merge (`99faab2`):
+- `b325ae6` — mixed-level logical-root detection for the grouped topic strategy (topic_grouping.py's `classify_headings`, `confirmed_topic_roots` persisted on the plan, `.gitignore` hygiene: `.superpowers/`/`.pytest_cache/` at every depth, two tracked SDD reports preserved to `docs/reports/`).
+- `40bf069` — general media-disposition mechanism (`media_disposition.py`, `plans.apply_media_decision`, `ConversionPlan.media_decisions`, `validate_canonical._check_media_decisions`) plus two real-document convert fixes (glued-image heading-identity normalization; preamble-aware content-loss comparison).
 
-The old task-by-task SDD ledger for Tasks 0–16
-(`.superpowers/sdd/2026-07-25-docx-to-content-phase1-implementation-plan-v3-ammendments/progress.md`)
-lived inside that now-removed worktree under a gitignored (`.superpowers/`), uncommitted path — it
-no longer exists. This is expected per the `subagent-driven-development` skill's own design ("the
-git history is the record now"), not data loss: `git log` on `main` is the authoritative record for
-those tasks' commits. The topic-grouping plan (Tasks 1–9) was executed via `executing-plans`
-(inline), not SDD, so it never had a ledger file — the 9 commits on `main` (`b903224`..`90a6033`,
-merged via `99faab2`) are its record.
-
-Repo-root directory names changed this session: `sourcedocuments/` → `intake/`, `output/` →
-`runs/` (git-mv'd, history preserved). `CLAUDE.md`/`architecture.md` reflect the new names.
+Check `git log origin/main..main --oneline` before assuming remote state matches local — confirm with the user before pushing.
 
 ## Actual Current Status (verified, not reported)
 
-**Tasks 0–16 are complete** (Phase 1 core pipeline: analyze → confirm → convert → render, full CLI
-wiring, atomic promotion, generalization proven beyond CEIS via synthetic fixtures). See prior
-session detail in git history if needed — the ledger summarizing fix rounds/reviews is gone (see
-above), but every commit message on `main` up through `890e031` documents itself.
+**Tasks 0–16 and Task 17-topic-grouping are complete** (see prior session detail in git history; `main` up through `90a6033`/merge `99faab2` documents itself).
 
-**Task 17 (CEIS pilot analysis + defect-detection fixes) is complete:**
-- Real CEIS `analyze` run found and fixed two real analysis-stage defect-detection false negatives (TOC slug-anchor shape, image-before-text glued images), added whole-heading emphasis normalization, and fixed a critical anchor-identity divergence bug (analysis-time vs. reconcile-time heading normalization) that would have broken `convert` on ~133/159 real CEIS headings.
-- Table-fidelity bug fixed (a regex over-matched dash-only horizontal rules as table separators).
-- **User-approved decision, still binding:** constrained Option B — ~159 structural anchors retained for lineage, grouped into ~25 canonical topic files (one per normalized top-level section); a minimal `publication-map.json` contract; specific preamble/image dispositions (title/subtitle/version as publication metadata, `Ctrl+F` instruction omitted, Word TOC removed, `image1.png` needs classification before disposition).
+**Task 18 (real CEIS pilot cutover) is now complete**, run end-to-end through the plugin CLI against the real document (`intake/CEIS MANUAL - working version.docx`):
 
-**Task 17-topic-grouping is complete, reviewed via inline TDD execution, and merged to `main`**
-(commits `b903224`..`90a6033`, merge commit `99faab2`). Built exactly what Task 17's decision
-required:
-- `identity.make_topic_id` — deterministic topic identity, independent of structural-anchor identity.
-- `topic_grouping.compute_topic_boundaries` — every level-1 heading starts a topic; child headings fold in, in source order; every heading assigned to exactly one topic.
-- `proposed_topics` preview in `analyze-report.json` (topic_id, title, first_anchor_path, anchor_count, child_heading_count, approx_size_chars) — this is what a human reviews before confirming `strategy: "grouped"`.
-- `contracts.PublicationMap`/`PublicationMapEntry` + `publication_map.py` writer/loader — `publication-map.json` sidecar, explicit `order` (contiguous, gap-free), `parent_topic_id` reserved for future hierarchy.
-- `package.build_grouped_canonical_package` — one canonical chunk file per topic; `ChunkMetadata.anchors` preserves every folded structural anchor's `stable_key`/`source_heading_path`/`occurrence`/`heading_level`.
-- `convert.py`/`plans.py`/`cli.py` wiring — `plan.strategy == "grouped"` dispatches to the grouped builder; no new CLI flags needed (strategy already flows through the plan JSON).
-- `validate_canonical.py` grouped-aware checks — anchor-assignment completeness (`unassigned_structural_anchor`, `duplicate_structural_anchor_assignment`) and publication-map consistency (`missing_publication_map`, `publication_map_chunk_mismatch`, `publication_map_order_invalid`); existing content-loss/duplication check works unmodified (chunk-shape-agnostic).
-- `renderers/multipage_markdown.py` — renders in publication-map order when present, falls back to manifest order otherwise (unchanged) when absent.
-- Full real-CLI end-to-end proof (`analyze` → `confirm` with `strategy: "grouped"` → `convert` → `render`) against the `repeated_headings.docx` fixture, plus updated `SKILL.md`s and a new `references/publication-map-contract.md`.
-- The existing fine-grained (`"single"`/`"chunked"`, one-file-per-heading) mode is unchanged and fully still tested — grouped is additive.
-- Full plugin suite: **421 passed, 1 skipped** as of the merge.
+1. **`analyze` rerun** found a real crash: `topic_grouping.compute_topic_boundaries` hardcoded "every level-1 heading starts a topic," but the real document authors its first 14 top-level sections as Heading 2 and the remaining 11 as Heading 1 (verified against raw docx XML — standard Word styles, no pandoc bug, a genuine source-authoring inconsistency; every section's children are consistently Heading 3, never a genuine Heading 2 child beneath a Heading 1). Fixed via `classify_headings`'s dynamic root-level tracking (`root`/`promoted-root`/`ambiguous-root`/`internal-heading` classification), with the confirmed root set persisted on the plan (`confirmed_topic_roots`) so `convert` consumes it rather than recomputing the heuristic.
+2. **Real `proposed_topics` reviewed**: exactly 25 topics (14 at source level 2, 11 promoted from level 1), `MIXED_LOGICAL_ROOT_LEVELS`/`PROMOTED_TOPIC_ROOT` warnings surfaced and reviewed, zero ambiguous roots (the real document's inconsistency is one-directional).
+3. **`strategy: "grouped"` set** on the draft plan (a process bug during this session set it only after an initial confirm defaulted to `"chunked"` — caught before proceeding, plan rebuilt with `strategy=grouped` preserving the already-reviewed `confirmed_topic_roots`/`media_decisions`, then reconfirmed).
+4. **Preamble/image findings re-verified**: title ("Civil Electronic Information System")/subtitle ("SEARCHABLE GUIDE")/version ("Version 1.9") → publication metadata; `Ctrl+F` instruction → omitted; Word TOC → raw dump detected, removed and regenerated from the publication map; `image1.png` → directly inspected (not inferred from dimensions), found to be a stale (2021-02-11) Internet Explorer browser-window screenshot of the CEIS-in-Motion portal landing page (OS taskbar, tab bar, address bar, active Find-toolbar search state all visible; the CEIS wordmark is embedded within it, not a standalone branding asset) — classified `obsolete-source-layout-artifact`, dispositioned `omit-as-reviewed-artifact` (not cropped — cropping would have manufactured an unapproved derived branding asset). This is the first real use of the new general media-disposition mechanism (see below).
+5. **Explicit human plan confirmation obtained** before any `confirm`/`convert`/`render` ran (spec Section 7.1/7.2 gate honored).
+6. **`confirm` → `convert` → `render` run against the real document**: `convert` validation status **PASS**, 159 structural anchors retained for lineage, 25 topic chunks, every anchor assigned to exactly one topic, `publication-map.json` present (25 entries, contiguous order 0–24). `render` validation status **PASS**, 25 pages, `index.md` in publication-map order, no raw TOC survived, `image1.png` confirmed absent from both canonical and rendered media.
+7. Output lives at `runs/ceis-manual-v2/` (canonical-content + render/rendered-output). **Decision (user-confirmed): kept side by side with the old pre-plugin `runs/ceis-manual/`, not replaced** — the old directory is retained deliberately as historical evidence of the bare-pandoc problem the plugin was built to solve; `runs/ceis-manual-v2/` is the current, authoritative, plugin-produced output. `CLAUDE.md`'s "Conversion workflow" section has been updated to describe both and say so explicitly.
 
-### What is NOT done yet — explicitly withheld pending your decision
+**Two real, generalizable defects were found and fixed while running the real document for the first time** (every prior test used synthetic fixtures that happened not to exercise these paths):
+- Heading-identity divergence for a heading with an image glued directly onto its own line: `analyze_structure._normalize_heading_text` now also applies `pandoc_fixes.images.fix_glued_images` (previously only `strip_whole_heading_emphasis`, Task 17's fix for a different divergence of the same class), matching what convert's cleanup pipeline actually does before reconciliation.
+- Content-loss/duplication false positive on any document with non-empty preamble content: `convert.py`'s `_run_conversion_pipeline` now compares staged chunk content against **preamble-stripped** cleaned text (`sliced_document.preamble` is never copied into any chunk by design — chunking.py — but the validation comparison was using the full cleaned document, which every synthetic test fixture's empty preamble had masked).
 
-- **`confirm`/`convert`/`render` have NOT been run against the real CEIS document with the grouped strategy** (or any strategy, since Task 17A). No canonical or rendered CEIS output exists yet.
-- **Task 18 (cutover) has not started.**
-- **The interactive orchestration sub-agent has not been created** — explicitly sequenced after Task 18 completes, not invented ahead of time.
-- **The preamble/image1.png dispositions from Task 17's approved decision have not been re-verified against the real document** since the grouped-strategy engineering landed — do this as part of the Task 18 rerun, not assumed still accurate.
+**General media-disposition mechanism added** (`scripts/media_disposition.py`, `plans.apply_media_decision`, `ConversionPlan.media_decisions`, `validate_canonical._check_media_decisions`), scoped deliberately to preamble media only (the one concrete integration point that exists today — `SlicedDocument.preamble`, never copied into canonical output). `analyze` proposes objective-signal-only records (`requires-human-review`/`requires-human-decision`) for every preamble media reference; a human confirms the real classification/disposition via `plans.apply_media_decision` before `confirm`; a still-pending record blocks conversion (`unclassified_media`), a reviewed omission does not. **Full body-content media classification** (screenshots inside procedures, decorative-vs-meaningful, derived-asset authorization workflow) was explicitly scoped OUT as future work — not attempted this session.
+
+Full plugin suite as of this session's last commit (`40bf069`): **448 passed, 1 skipped**.
+
+### What is NOT done yet — explicitly withheld pending further direction
+
+- **The interactive orchestration sub-agent has not been created** — explicitly sequenced after Task 18 completes (now true), not invented ahead of time.
+- **General (non-preamble) media classification/disposition** — screenshots inside procedures, decorative-vs-meaningful classification, derived-asset authorization — is future work per the media-disposition mechanism's deliberately narrow Task 18 scope.
+- **Nothing has been pushed to `origin`** — `main` is ahead of `origin/main` (check exact count via `git log origin/main..main --oneline`); confirm with the user before pushing.
 
 ## Next action on resume — this is the actual remaining work
 
-**Task 18 — CEIS pilot cutover, gated on human confirmation:**
-
-1. Rerun `analyze` against the real CEIS document (`intake/CEIS MANUAL - working version.docx`) — cheap, a few minutes. Confirm the defect-signal/statistics output still matches Task 17's findings (nothing since then should have changed analysis-stage behavior for the ungrouped path).
-2. Review the real `proposed_topics` preview from `analysis-report.json` — present the actual ~25 topic boundaries (topic ID, title, first anchor, anchor count, approx size, child-heading count each) for explicit human review, per Task 17's approved decision. Do not assume the earlier ~25 estimate is exact; report the real count.
-3. Set `strategy: "grouped"` on the draft plan and produce a new draft plan identity.
-4. Present the preamble/image findings (title/subtitle/version, `Ctrl+F` omission, Word TOC removal, `image1.png` classification) re-verified against the current pipeline.
-5. **Stop for explicit plan confirmation** — same gate as before (spec Section 7.1/7.2: "no all-in-one command may bypass plan confirmation"). Do not run `confirm`/`convert`/`render` without it.
-6. Once confirmed: `confirm` → `convert` → `render` against the real CEIS document. Verify: validation status (PASS or a fully-dispositioned WARN — a FAIL on the real document is a real finding, not something to work around silently), chunk/topic counts match the confirmed plan, rendered index reflects all ~25 topics in the right order, no generated TOC survives, `publication-map.json` present and consistent.
-7. Only after a clean, human-reviewed real CEIS run: consider Task 18 complete and move to whatever's next (the interactive orchestration sub-agent, or Phase 2 per `docs/vision/`, per further direction).
+1. Either build the interactive orchestration sub-agent (deferred from before Task 18), or move to whatever's next per `docs/vision/` (Phase 2 direction) — per further user direction, not assumed.
+2. If/when broader (non-preamble) media classification becomes a real need on a future document, design it as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing beyond preamble media is implemented.
 
 ## Efficiency notes for continuing this session or a fresh one
 
-- Work directly on `main` — there is no worktree to re-enter. If isolation is wanted for Task 18 (e.g. to keep `main` clean until the real CEIS run is reviewed), create a fresh worktree via `superpowers:using-git-worktrees` rather than assuming the old one still exists.
-- This repo's `CLAUDE.md`: use the cheapest viable sub-agent model per dispatch, and don't spawn a sub-agent when the job doesn't need one. Several fixes across Tasks 17/17-topic-grouping were applied directly via Read/Edit/Bash rather than a dispatched agent because they were small, well-understood, and self-verifiable — use that same judgment for Task 18's real-document rerun (mechanical, not architecturally novel) versus anything that turns out to need new engineering (dispatch `superpowers:subagent-driven-development` for that, per the project's established pattern).
-- `origin` is `https://github.com/richfrem/manual-conversion-poc.git`. `main` is the default branch on GitHub. Local `main` is ahead of `origin/main` by 10 commits (the topic-grouping work) — confirm with the user before pushing.
+- Work directly on `main` — there is no worktree to re-enter. If isolation is wanted for further work, create a fresh worktree via `superpowers:using-git-worktrees` rather than assuming an old one still exists.
+- This repo's `CLAUDE.md`: use the cheapest viable sub-agent model per dispatch, and don't spawn a sub-agent when the job doesn't need one. This entire Task 18 session (mixed-level root detection, media-disposition mechanism, both real-document convert fixes) was done directly via Read/Edit/Bash, not dispatched sub-agents — the work was well-understood, self-verifiable via the test suite, and the human (via chat) was the actual source of the classification decisions the pipeline itself can't infer (e.g. image1.png's disposition required looking at the actual image, not just objective signals).
+- `origin` is `https://github.com/richfrem/manual-conversion-poc.git`. `main` is the default branch on GitHub.
 - A `temp/bundles/manifest.json` exists for bundling key files via the `context-bundler` skill into a single `.md` for external review — keep it updated as files change if that hand-off is still wanted.
+- The confirmed plan used for the real Task 18 run lives at `temp/ceis-manual-analysis/conversion-plan.confirmed.json` (and its draft counterpart) — `temp/` is gitignored (scratch), so this is not a durable artifact; re-run `analyze`/`confirm` fresh if resuming after `temp/` has been cleared.

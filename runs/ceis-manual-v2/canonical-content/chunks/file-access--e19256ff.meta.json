@@ -1,0 +1,74 @@
+{
+  "anchors": [
+    {
+      "heading_level": 2,
+      "occurrence": 1,
+      "source_heading_path": [
+        "FILE ACCESS"
+      ],
+      "stable_key": "file-access--c5d93673"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "FILE ACCESS",
+        "File Access Levels"
+      ],
+      "stable_key": "file-access-file-access-levels--c9d49d7a"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "FILE ACCESS",
+        "How to Seal a File"
+      ],
+      "stable_key": "file-access-how-to-seal-a-file--9917c748"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "FILE ACCESS",
+        "How to Seal a Document"
+      ],
+      "stable_key": "file-access-how-to-seal-a-document--8220fcf9"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "FILE ACCESS",
+        "How to unseal a File or Document"
+      ],
+      "stable_key": "file-access-how-to-unseal-a-file-or-document--e6579043"
+    }
+  ],
+  "chunk_id": "file-access--e19256ff",
+  "content_file": "chunks/file-access--e19256ff.md",
+  "content_sha256": "00a3bfc528c79a180bd75a437679510a154069ae1ec49c8ef54ba6de8ff85460",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [
+    "../media/image2.png",
+    "../media/image3.png",
+    "../media/image4.png",
+    "../media/image5.png",
+    "../media/image6.png",
+    "../media/image2.png",
+    "../media/image7.png",
+    "../media/image5.png",
+    "../media/image6.png",
+    "../media/image8.png"
+  ],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "FILE ACCESS"
+  ],
+  "source_order": 2,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "FILE ACCESS"
+}

@@ -250,3 +250,58 @@ vague dissatisfaction:
 5. **Verify link integrity programmatically** (not just visually) after any bulk rename/edit of
    image paths — a quick existence check across every `![]()` reference catches silent breakage
    immediately.
+
+---
+
+## 2026-07-28 — Task 18: real CEIS pilot cutover through the plugin
+
+Ran the plugin's full `analyze` → `confirm` → `convert` → `render` pipeline against the real
+document for the first time since the grouped-strategy engineering (Task 17-topic-grouping)
+landed. Every prior test — even the "prove conversion generalizes beyond CEIS" pass — used
+synthetic fixtures. Running the actual document surfaced three real defects that no fixture had
+exercised, each a genuine gap rather than a CEIS-specific quirk:
+
+1. **Mixed-level topic roots.** `topic_grouping.compute_topic_boundaries` hardcoded "every
+   level-1 heading starts a topic." The real document's first 14 top-level sections are styled
+   Heading 2, the remaining 11 Heading 1 — verified against raw docx XML (`styles.xml`/
+   `document.xml`) to rule out a pandoc bug before touching any code: standard Word outline
+   levels, no trickery, a genuine source-authoring inconsistency (every section's children are
+   consistently Heading 3, never a genuine Heading 2 child beneath a Heading 1). Fixed with
+   dynamic root-level tracking (`classify_headings`) instead of a fixed level check, with the
+   confirmed root set persisted on the plan so `convert` consumes it rather than recomputing.
+2. **Heading-identity divergence for a glued image.** A heading with an image glued directly onto
+   its own line normalizes differently at analyze time (raw pandoc text, image still embedded)
+   than at convert time (cleanup strips it via `fix_glued_images` before reconciliation) — the
+   same class of bug Task 17 already fixed for whole-heading emphasis stripping, just for a
+   different pandoc-fix that hadn't been extended to analysis-time normalization yet.
+3. **Content-loss false positive on real preamble content.** The aggregate content-loss
+   comparison checked staged chunk content against the *full* cleaned document, but
+   `SlicedDocument.preamble` (title page, TOC, version line) is never copied into any chunk by
+   design — every synthetic fixture's empty preamble had masked this. Fixed by comparing against
+   preamble-stripped cleaned text instead.
+
+Also built a general (if deliberately narrow-scoped) **media classification/disposition
+mechanism**: `analyze` proposes objective-signal-only records for preamble media (never a final
+decision — browser-chrome/branding/decorative judgment calls aren't something the pipeline can
+infer from text alone), a human confirms the real disposition before `confirm`, and a still-
+pending decision blocks conversion. First real use: `image1.png`, inspected directly (not
+inferred from its dimensions), turned out to be a stale 2021 Internet-Explorer screenshot of an
+internal portal page with the CEIS wordmark incidentally embedded in it — classified an
+`obsolete-source-layout-artifact` and omitted, rather than cropping out the wordmark (which would
+have manufactured an unapproved derived branding asset from a screenshot, not a supplied logo).
+
+**Result:** `convert` and `render` both PASS against the real document — 159 structural anchors
+retained for lineage, grouped into 25 topic chunks in the correct publication order, zero content
+loss, `image1.png` confirmed absent from canonical/rendered output. Output lives at
+`runs/ceis-manual-v2/`, kept deliberately side by side with the original pre-plugin
+`runs/ceis-manual/` (not replacing it) — the old broken output is retained as visible evidence of
+the actual problem this plugin was built to solve, not scrubbed away now that a working version
+exists. `CLAUDE.md` now describes both directories and why both are kept.
+
+**Lesson:** a plugin fully proven against synthetic fixtures is not the same claim as "works on
+the real document" — fixtures are, by construction, built to avoid exactly the messy
+inconsistencies (mixed heading styles, glued images, non-trivial preambles) that real legacy
+documents actually contain. The generalization tests proved the *mechanism* worked across
+document shapes the fixtures modeled; they couldn't prove it against shapes nobody had modeled
+yet. Running the real pilot document early and often — not just once at the very end — would have
+surfaced these three defects sooner.

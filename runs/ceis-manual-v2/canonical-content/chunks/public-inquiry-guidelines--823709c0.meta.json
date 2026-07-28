@@ -1,0 +1,45 @@
+{
+  "anchors": [
+    {
+      "heading_level": 2,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PUBLIC INQUIRY GUIDELINES"
+      ],
+      "stable_key": "public-inquiry-guidelines--4d806574"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PUBLIC INQUIRY GUIDELINES",
+        "Searching files at your own location"
+      ],
+      "stable_key": "public-inquiry-guidelines-searching-files-at-your-own-location--efb68018"
+    },
+    {
+      "heading_level": 3,
+      "occurrence": 1,
+      "source_heading_path": [
+        "PUBLIC INQUIRY GUIDELINES",
+        "Searching files at other locations"
+      ],
+      "stable_key": "public-inquiry-guidelines-searching-files-at-other-locations--f572fedc"
+    }
+  ],
+  "chunk_id": "public-inquiry-guidelines--823709c0",
+  "content_file": "chunks/public-inquiry-guidelines--823709c0.md",
+  "content_sha256": "921c646a079bfd14991fa0b05b1ef3bbcde12a1b547b479b2c944a60c2df67d8",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "PUBLIC INQUIRY GUIDELINES"
+  ],
+  "source_order": 1,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "PUBLIC INQUIRY GUIDELINES"
+}

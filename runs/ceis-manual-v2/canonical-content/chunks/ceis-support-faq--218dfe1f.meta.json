@@ -1,0 +1,32 @@
+{
+  "anchors": [
+    {
+      "heading_level": 1,
+      "occurrence": 1,
+      "source_heading_path": [
+        "CEIS SUPPORT FAQ"
+      ],
+      "stable_key": "ceis-support-faq--6910b285"
+    }
+  ],
+  "chunk_id": "ceis-support-faq--218dfe1f",
+  "content_file": "chunks/ceis-support-faq--218dfe1f.md",
+  "content_sha256": "1b48b40e945580eb5327750dcefa1ec0b2a86cb58a1ae2cc3ea4b9613c6f9159",
+  "content_type": "manual",
+  "local_links": [],
+  "media_refs": [
+    "../media/image332.png",
+    "../media/image333.png",
+    "../media/image334.jpeg",
+    "../media/image335.png"
+  ],
+  "plan_id": "sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3",
+  "schema_version": "1.0",
+  "source_heading_path": [
+    "CEIS SUPPORT FAQ"
+  ],
+  "source_order": 24,
+  "source_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "template_profile": "source-structure-v1",
+  "topic": "CEIS SUPPORT FAQ"
+}
