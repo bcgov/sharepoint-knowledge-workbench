@@ -12,7 +12,10 @@ context/
 
 temp/
 docs/superpowers/
+
+# Superpowers transient working state
 .superpowers/
+**/.superpowers/
 
 # Python bytecode and cache
 __pycache__/
@@ -21,3 +24,5 @@ __pycache__/
 *.pyd
 .Python
 *.so
+.pytest_cache/
+**/.pytest_cache/

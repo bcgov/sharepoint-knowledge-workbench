@@ -21,6 +21,7 @@ import pytest
 
 import contracts
 import package
+import topic_grouping
 from chunking import ChunkSlice, SlicedDocument
 from identity import make_chunk_id
 from plans import build_draft_plan, confirm_plan
@@ -36,7 +37,7 @@ def _anchor(path, occurrence=1, level=1):
     )
 
 
-def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked"):
+def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked", confirmed_topic_roots=None):
     source_fp = contracts.SourceFingerprint(
         path="sourcedocuments/widget.docx", sha256=source_sha256, size_bytes=123
     )
@@ -45,6 +46,7 @@ def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked"):
         strategy=strategy,
         chunk_level=1,
         chunk_anchors=chunk_anchors,
+        confirmed_topic_roots=confirmed_topic_roots,
     )
     return confirm_plan(draft, confirmed_by="tester")
 
@@ -504,3 +506,64 @@ def test_grouped_every_anchor_assigned_exactly_once(tmp_path):
     source_keys = [s.anchor.stable_key for s in sliced.chunks]
     assert sorted(all_anchor_keys) == sorted(source_keys)
     assert len(all_anchor_keys) == len(set(all_anchor_keys))
+
+
+# ---------------------------------------------------------------------------
+# Confirmed topic-root set consumption (Task 18 mixed-level logical-root
+# detection): convert must use the plan's confirmed_topic_roots as-is,
+# not independently recompute grouping from heading levels.
+# ---------------------------------------------------------------------------
+
+def test_grouped_package_uses_confirmed_topic_roots_for_mixed_level_document(tmp_path):
+    # A "File Access" (Heading 2) / "How to Seal a File" (Heading 3) /
+    # "Overview" (Heading 1) sequence: the default heuristic alone would
+    # treat "How to Seal a File" (level 2) as a child (2 > current root 1
+    # once "Overview" -- wait, order here is File Access first). What
+    # matters is that the *confirmed* root set, not a level==1-only
+    # assumption, decides which headings are roots.
+    file_access = _anchor(["File Access"], level=2)
+    how_to_seal = _anchor(["File Access", "How to Seal a File"], level=3)
+    overview = _anchor(["Overview"], level=1)
+    confirmed_topic_roots = [
+        {"source_heading_path": ["File Access"], "occurrence": 1},
+        {"source_heading_path": ["Overview"], "occurrence": 1},
+    ]
+    plan = _confirmed_plan(
+        [file_access, how_to_seal, overview],
+        strategy="grouped",
+        confirmed_topic_roots=confirmed_topic_roots,
+    )
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[
+            _slice(file_access, "## File Access\n\nIntro to file access.\n"),
+            _slice(how_to_seal, "### How to Seal a File\n\nSteps to seal a file.\n"),
+            _slice(overview, "# Overview\n\nOverview body.\n"),
+        ],
+    )
+    manifest = package.build_grouped_canonical_package(
+        plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
+    )
+    assert manifest.chunk_count == 2
+    assert {c.source_heading_path[0] for c in manifest.chunks} == {"File Access", "Overview"}
+
+
+def test_grouped_package_raises_when_confirmed_roots_no_longer_reconcile(tmp_path):
+    # A confirmed root set referencing a heading path/occurrence that no
+    # longer exists in the current headings must fail loudly, not
+    # silently fall back to recomputing a (possibly different) heuristic.
+    file_access = _anchor(["File Access"], level=1)
+    confirmed_topic_roots = [
+        {"source_heading_path": ["Some Other Heading"], "occurrence": 1},
+    ]
+    plan = _confirmed_plan(
+        [file_access], strategy="grouped", confirmed_topic_roots=confirmed_topic_roots
+    )
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[_slice(file_access, "# File Access\n\nIntro.\n")],
+    )
+    with pytest.raises(topic_grouping.UnassignableHeadingError):
+        package.build_grouped_canonical_package(
+            plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
+        )

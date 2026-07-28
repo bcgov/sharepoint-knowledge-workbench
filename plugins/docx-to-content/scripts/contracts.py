@@ -148,6 +148,16 @@ class ConversionPlan:
     template_profile: str
     confirmation: Confirmation
     analysis_warnings: list = field(default_factory=list)
+    # Human-reviewable, confirmed topic-root set for the "grouped" strategy
+    # (Task 18 mixed-level logical-root detection): list of
+    # {"source_heading_path": [...], "occurrence": int} dicts identifying
+    # which structural anchors are topic-root physical boundaries. None
+    # for plans that never proposed/confirmed a root set (ungrouped
+    # strategies, or older plans predating this field) -- convert falls
+    # back to recomputing the default heuristic in that case. When
+    # present, convert MUST consume this set as-is rather than
+    # independently re-deriving root classification from heading levels.
+    confirmed_topic_roots: Optional[list] = None
 
     @classmethod
     def from_dict(cls, data: dict) -> "ConversionPlan":
@@ -165,10 +175,11 @@ class ConversionPlan:
             template_profile=_require(data, "template_profile"),
             confirmation=Confirmation.from_dict(_require(data, "confirmation")),
             analysis_warnings=list(_require(data, "analysis_warnings")),
+            confirmed_topic_roots=data.get("confirmed_topic_roots"),
         )
 
     def to_dict(self) -> dict:
-        return {
+        result = {
             "schema_version": self.schema_version,
             "plan_id": self.plan_id,
             "source": self.source.to_dict(),
@@ -180,6 +191,9 @@ class ConversionPlan:
             "confirmation": self.confirmation.to_dict(),
             "analysis_warnings": list(self.analysis_warnings),
         }
+        if self.confirmed_topic_roots is not None:
+            result["confirmed_topic_roots"] = self.confirmed_topic_roots
+        return result
 
 
 # ---------------------------------------------------------------------------

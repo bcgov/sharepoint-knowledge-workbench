@@ -352,7 +352,17 @@ def build_grouped_canonical_package(
         }
         for chunk_slice in sliced_document.chunks
     ]
-    boundaries = topic_grouping.compute_topic_boundaries(headings)
+    if plan.confirmed_topic_roots:
+        root_keys = {
+            (tuple(r["source_heading_path"]), r["occurrence"])
+            for r in plan.confirmed_topic_roots
+        }
+        boundaries = topic_grouping.compute_topic_boundaries_from_roots(headings, root_keys)
+    else:
+        # No confirmed root set on this plan (e.g. a plan predating Task 18,
+        # or the "grouped" strategy chosen without a prior analyze pass) --
+        # fall back to recomputing the default heuristic.
+        boundaries = topic_grouping.compute_topic_boundaries(headings)
 
     slices_by_path_occurrence = {
         (tuple(chunk_slice.anchor.source_heading_path), chunk_slice.anchor.occurrence): chunk_slice
