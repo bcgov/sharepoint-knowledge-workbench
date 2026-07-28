@@ -54,6 +54,53 @@ class TestStripRawToc:
         expected = "# Section One\n\nBody text.\n"
         assert strip_raw_toc(text) == expected
 
+    def test_strips_slug_anchor_toc_block(self):
+        # Real-world shape (CEIS Manual): pandoc converts a Word-generated
+        # TOC field into nested markdown links -- an outer bracket-link
+        # wrapping an inner bracket-link (the page number), both targeting
+        # the same slugified-heading `#anchor`, repeated per TOC entry,
+        # preceded by a "Table of Contents" marker line.
+        text = (
+            "**Table of Contents**\n\n"
+            "[Section Alpha [1](#section-alpha)](#section-alpha)\n\n"
+            "[Section Beta [2](#section-beta)](#section-beta)\n\n"
+            "[Section Gamma [3](#section-gamma)](#section-gamma)\n\n"
+            "[Section Delta [4](#section-delta)](#section-delta)\n\n"
+            "[Section Epsilon [5](#section-epsilon)](#section-epsilon)\n\n"
+            "# Section Alpha\n\n"
+            "Body text.\n"
+        )
+        expected = (
+            "# Section Alpha\n\n"
+            "Body text.\n"
+        )
+        assert strip_raw_toc(text) == expected
+
+    def test_leaves_legitimate_internal_link_list_untouched(self):
+        # A legitimate list of internal cross-reference links -- NOT the
+        # double-nested-link-to-same-anchor TOC shape -- must survive.
+        text = (
+            "# Related Topics\n\n"
+            "[See Section Alpha](#section-alpha)\n\n"
+            "[See Section Beta](#section-beta)\n\n"
+            "[See Section Gamma](#section-gamma)\n"
+        )
+        assert strip_raw_toc(text) == text
+
+    def test_leaves_single_legitimate_link_adjacent_to_stripped_toc(self):
+        text = (
+            "**Table of Contents**\n\n"
+            "[Section Alpha [1](#section-alpha)](#section-alpha)\n\n"
+            "[Section Beta [2](#section-beta)](#section-beta)\n\n"
+            "# Section Alpha\n\n"
+            "See [Section Beta](#section-beta) for details.\n"
+        )
+        expected = (
+            "# Section Alpha\n\n"
+            "See [Section Beta](#section-beta) for details.\n"
+        )
+        assert strip_raw_toc(text) == expected
+
     def test_strips_toc_preceded_by_title_heading(self):
         # A common real-world document shape: a title/cover-page heading
         # appears before the Word-generated TOC block, so the TOC does not
