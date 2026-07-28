@@ -11,6 +11,8 @@
 context/
 
 temp/
+docs/superpowers/
+.superpowers/
 
 # Python bytecode and cache
 __pycache__/

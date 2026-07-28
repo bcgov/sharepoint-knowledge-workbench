@@ -5,7 +5,7 @@ description: Confirm a draft plan and convert a source Word document into a vali
 allowed-tools: Bash, Read, Write
 examples:
   - "python -m scripts.cli confirm --draft-plan analysis/Manual/plan.json --output analysis/Manual/plan.confirmed.json"
-  - "python -m scripts.cli convert --source sourcedocuments/Manual.docx --plan analysis/Manual/plan.confirmed.json --output runs/Manual"
+  - "python -m scripts.cli convert --source intake/Manual.docx --plan analysis/Manual/plan.confirmed.json --output runs/Manual"
 ---
 
 # Convert Document

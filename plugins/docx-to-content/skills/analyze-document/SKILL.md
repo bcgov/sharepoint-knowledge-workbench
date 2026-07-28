@@ -4,7 +4,7 @@ plugin: docx-to-content
 description: Analyze a source Word document's structure and produce a transitory raw analysis plus a draft conversion plan for human confirmation.
 allowed-tools: Bash, Read, Write
 examples:
-  - "python -m scripts.cli analyze --source sourcedocuments/Manual.docx --output analysis/Manual"
+  - "python -m scripts.cli analyze --source intake/Manual.docx --output analysis/Manual"
 ---
 
 # Analyze Document
