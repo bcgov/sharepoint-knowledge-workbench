@@ -212,7 +212,13 @@ def detect_defect_signals(markdown_text: str) -> dict:
 # effort using pure string/regex analysis (no re-invoking pandoc).
 # ---------------------------------------------------------------------------
 
-_TABLE_SEPARATOR_ROW = re.compile(r'^\s*\|?\s*:?-{1,}:?\s*(\|\s*:?-{1,}:?\s*)*\|?\s*$', re.MULTILINE)
+_TABLE_SEPARATOR_ROW = re.compile(
+    r'^\s*\|?\s*:?-{1,}:?\s*(\|\s*:?-{1,}:?\s*)+\|?\s*$', re.MULTILINE
+)
+# Note: the pattern above requires at least one `|` between two dash-runs,
+# so a bare horizontal-rule-shaped line of dashes with no pipe characters
+# at all (e.g. a divider pandoc emits for a Word horizontal rule) is never
+# mistaken for a table separator row.
 _FOOTNOTE_REFERENCE = re.compile(r'\[\^([\w-]+)\](?!:)')
 _FOOTNOTE_DEFINITION_LINE = re.compile(r'^\[\^([\w-]+)\]:', re.MULTILINE)
 _LOCAL_LINK = re.compile(r'(?<!\!)\[[^\]]*\]\(#[^)]*\)')

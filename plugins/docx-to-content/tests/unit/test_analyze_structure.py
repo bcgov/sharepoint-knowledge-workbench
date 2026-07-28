@@ -189,6 +189,21 @@ def test_extended_statistics_counts_are_measured_for_synthetic_text():
     assert stats["image_reference_count"] == 1
 
 
+def test_table_count_excludes_non_table_horizontal_rule_dash_lines():
+    # A dash-only horizontal-rule-shaped line (no pipe characters at all,
+    # as pandoc sometimes emits for a Word horizontal-rule or divider) must
+    # not be counted as a table separator row -- only genuine pipe-
+    # delimited `| --- | --- |` rows count as tables.
+    text = (
+        "Some prose line.\n\n"
+        "  ----------------------------------------------------------------\n\n"
+        "More prose after a divider, not a table.\n\n"
+        "| a | b |\n| --- | --- |\n| 1 | 2 |\n"
+    )
+    stats = analyze_structure.compute_statistics(text)
+    assert stats["table_count"] == 1
+
+
 def test_known_defect_signal_pandoc_attrs_detected():
     text = "![](media/image1.png){width=\"624\" height=\"325\"}\n"
     assert analyze_structure.detect_defect_signals(text)["pandoc_attrs"] is True
