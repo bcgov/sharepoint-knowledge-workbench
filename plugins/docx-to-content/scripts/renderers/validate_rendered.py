@@ -154,6 +154,40 @@ def _check_index_links(rendered_dir: Path) -> list:
 
 
 # ---------------------------------------------------------------------------
+# New: index completeness (Task 12)
+# ---------------------------------------------------------------------------
+
+def _check_index_completeness(rendered_dir: Path) -> list:
+    """index.md must link every page that actually exists under pages/ --
+    _check_index_links only catches links that ARE present and broken, not
+    an existing page index.md silently fails to mention at all."""
+    index_path = rendered_dir / "index.md"
+    pages_dir = rendered_dir / "pages"
+    if not index_path.exists() or not pages_dir.is_dir():
+        return []
+
+    index_text = index_path.read_text()
+    linked_stems = set()
+    for match in _LINK_REF.finditer(index_text):
+        raw_target = match.group(1).strip()
+        if raw_target.startswith(("http://", "https://", "#", "mailto:")):
+            continue
+        target = unquote(raw_target)
+        if target.startswith("pages/"):
+            linked_stems.add(Path(target).stem)
+
+    issues = []
+    for page_path in sorted(pages_dir.glob("*.md")):
+        if page_path.stem not in linked_stems:
+            issues.append(_error(
+                "page_not_linked_from_index",
+                f"pages/{page_path.name} exists but index.md does not link it",
+                "index.md",
+            ))
+    return issues
+
+
+# ---------------------------------------------------------------------------
 # 3 & 4. Missing / orphan pages, page count mismatch
 # ---------------------------------------------------------------------------
 
@@ -349,6 +383,7 @@ def validate_rendered_output(rendered_dir: Path, package) -> "contracts.Validati
 
     issues.extend(_check_index_and_pages_exist(rendered_dir))
     issues.extend(_check_index_links(rendered_dir))
+    issues.extend(_check_index_completeness(rendered_dir))
     issues.extend(_check_page_completeness(rendered_dir, package))
     issues.extend(_check_page_references(rendered_dir, package))
     issues.extend(_check_source_content_staleness(rendered_dir, package))
