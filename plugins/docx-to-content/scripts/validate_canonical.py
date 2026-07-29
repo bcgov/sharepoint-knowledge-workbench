@@ -627,9 +627,27 @@ def _check_publication_map_consistency(
     `order` sequence (directory-order-independent by construction, since
     `order` is read from the file, never inferred from listing order)."""
     if manifest.strategy != "grouped":
+        try:
+            unexpected = publication_map.load_publication_map(package_dir)
+        except publication_map.MalformedPublicationMapError:
+            # A malformed file on a non-grouped package is still an
+            # "unexpected file present" problem, not this check's job to
+            # diagnose further -- report the same unexpected-presence issue.
+            unexpected = True
+        if unexpected is not None:
+            return [_error(
+                "unexpected_publication_map",
+                "publication-map.json is present but strategy is not "
+                "'grouped' -- an unexpected file is not silently ignored",
+                "publication-map.json",
+            )]
         return []
 
-    pub_map = publication_map.load_publication_map(package_dir)
+    try:
+        pub_map = publication_map.load_publication_map(package_dir)
+    except publication_map.MalformedPublicationMapError as exc:
+        return [_error("malformed_publication_map", str(exc), "publication-map.json")]
+
     if pub_map is None:
         return [_error(
             "missing_publication_map",
@@ -639,11 +657,39 @@ def _check_publication_map_consistency(
 
     issues = []
     manifest_chunk_ids = {c.chunk_id for c in manifest.chunks}
-    entry_chunk_ids = {e.topic_id for e in pub_map.entries}
-    if entry_chunk_ids != manifest_chunk_ids:
+    # Round-3 review (Opus) caught a load-bearing defect in an earlier draft
+    # of this check: it compared `manifest_chunk_ids` against
+    # `{e.topic_id for e in pub_map.entries}`, while Task 4 made the
+    # RENDERER resolve entries via `entry.chunk_id` instead. That meant the
+    # renderer consumed a field this validator never checked at all --
+    # today harmless only because the grouped producer happens to set
+    # `chunk_id == topic_id`, but the moment they diverge the renderer
+    # keys off an unvalidated field. This check now validates `chunk_id`,
+    # matching what the renderer actually consumes, and separately confirms
+    # every `topic_id` is unique (the publication ordering identity) and
+    # every `chunk_id` resolves to exactly one manifest chunk.
+    entry_topic_ids = [e.topic_id for e in pub_map.entries]
+    if len(set(entry_topic_ids)) != len(entry_topic_ids):
+        issues.append(_error(
+            "publication_map_duplicate_topic_id",
+            "publication-map.json has a duplicate topic_id across entries",
+            "publication-map.json",
+        ))
+
+    entry_chunk_ids = [e.chunk_id for e in pub_map.entries]
+    if len(set(entry_chunk_ids)) != len(entry_chunk_ids):
+        issues.append(_error(
+            "publication_map_duplicate_chunk_id",
+            "publication-map.json has a duplicate chunk_id across entries",
+            "publication-map.json",
+        ))
+    if set(entry_chunk_ids) != manifest_chunk_ids:
         issues.append(_error(
             "publication_map_chunk_mismatch",
-            "publication-map.json entries do not match manifest chunk ids",
+            "publication-map.json entries' chunk_id values do not match "
+            "manifest chunk ids -- every entry.chunk_id must resolve to "
+            "exactly one manifest chunk, and every manifest chunk must be "
+            "covered exactly once",
             "publication-map.json",
         ))
 

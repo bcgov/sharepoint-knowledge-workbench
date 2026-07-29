@@ -79,3 +79,19 @@ def test_load_publication_map_round_trips(tmp_path):
     publication_map.write_publication_map(pub_map, tmp_path)
     loaded = publication_map.load_publication_map(tmp_path)
     assert loaded == pub_map
+
+
+def test_load_publication_map_raises_controlled_error_on_malformed_json(tmp_path):
+    (tmp_path / "publication-map.json").write_text("{not valid json")
+    import pytest
+
+    with pytest.raises(publication_map.MalformedPublicationMapError):
+        publication_map.load_publication_map(tmp_path)
+
+
+def test_load_publication_map_raises_controlled_error_on_missing_field(tmp_path):
+    (tmp_path / "publication-map.json").write_text(json.dumps({"schema_version": "1.0"}))
+    import pytest
+
+    with pytest.raises(publication_map.MalformedPublicationMapError):
+        publication_map.load_publication_map(tmp_path)
