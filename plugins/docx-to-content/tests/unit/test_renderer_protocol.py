@@ -70,7 +70,7 @@ class _ListChunksTestRenderer:
         return contracts.RenderResult(
             renderer_name=self.name,
             renderer_version="0.1.0",
-            source_manifest_hash=package_obj.manifest.source.sha256,
+            source_content_sha256=package_obj.manifest.source.sha256,
             output_files=[str(listing_path)],
             status="PASS",
             errors=[],

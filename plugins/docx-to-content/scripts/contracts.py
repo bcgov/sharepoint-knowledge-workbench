@@ -494,7 +494,7 @@ class PublicationMap:
 class RenderResult:
     renderer_name: str
     renderer_version: str
-    source_manifest_hash: str
+    source_content_sha256: str
     output_files: list
     status: str  # "PASS" | "WARN" | "FAIL"
     errors: list
@@ -505,7 +505,7 @@ class RenderResult:
         return cls(
             renderer_name=_require(data, "renderer_name"),
             renderer_version=_require(data, "renderer_version"),
-            source_manifest_hash=_require(data, "source_manifest_hash"),
+            source_content_sha256=_require(data, "source_content_sha256"),
             output_files=list(_require(data, "output_files")),
             status=_require(data, "status"),
             errors=list(_require(data, "errors")),
@@ -516,7 +516,7 @@ class RenderResult:
         return {
             "renderer_name": self.renderer_name,
             "renderer_version": self.renderer_version,
-            "source_manifest_hash": self.source_manifest_hash,
+            "source_content_sha256": self.source_content_sha256,
             "output_files": list(self.output_files),
             "status": self.status,
             "errors": list(self.errors),

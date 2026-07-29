@@ -271,13 +271,13 @@ def _check_page_references(rendered_dir: Path, package) -> list:
 # 8. Manifest hash mismatch
 # ---------------------------------------------------------------------------
 
-def _check_manifest_hash(rendered_dir: Path, package) -> list:
+def _check_source_content_staleness(rendered_dir: Path, package) -> list:
     result_path = rendered_dir / "render-result.json"
     if not result_path.exists():
         return [_error(
             "missing_render_result",
             "render-result.json does not exist -- cannot verify which "
-            "canonical package manifest this render was produced from",
+            "canonical package this render was produced from",
             "render-result.json",
         )]
 
@@ -291,12 +291,12 @@ def _check_manifest_hash(rendered_dir: Path, package) -> list:
         )]
 
     current_hash = package.manifest.source.sha256
-    if recorded.source_manifest_hash != current_hash:
+    if recorded.source_content_sha256 != current_hash:
         return [_error(
-            "manifest_hash_mismatch",
-            f"render-result.json records source_manifest_hash="
-            f"{recorded.source_manifest_hash!r}, but the supplied canonical "
-            f"package's current manifest source hash is {current_hash!r} -- "
+            "source_content_stale",
+            f"render-result.json records source_content_sha256="
+            f"{recorded.source_content_sha256!r}, but the supplied canonical "
+            f"package's current source content hash is {current_hash!r} -- "
             "the canonical package was reconverted after this render was "
             "staged",
             "render-result.json",
@@ -351,7 +351,7 @@ def validate_rendered_output(rendered_dir: Path, package) -> "contracts.Validati
     issues.extend(_check_index_links(rendered_dir))
     issues.extend(_check_page_completeness(rendered_dir, package))
     issues.extend(_check_page_references(rendered_dir, package))
-    issues.extend(_check_manifest_hash(rendered_dir, package))
+    issues.extend(_check_source_content_staleness(rendered_dir, package))
     issues.extend(_check_page_traceability(rendered_dir, package))
 
     status = "FAIL" if issues else "PASS"

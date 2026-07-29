@@ -308,7 +308,7 @@ def test_manifest_hash_mismatch_detected(tmp_path):
 
     report = vr.validate_rendered_output(staging_dir, stale_pkg)
     assert report.status == "FAIL"
-    assert any(i.code == "manifest_hash_mismatch" for i in report.issues)
+    assert any(i.code == "source_content_stale" for i in report.issues)
 
 
 # ---------------------------------------------------------------------------
