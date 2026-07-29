@@ -121,6 +121,8 @@ def _warning(code: str, message: str, path: "str | None" = None) -> "contracts.V
 # path at all, causing a false content-mismatch report.
 _IMAGE_REF_FOR_COMPARISON = re.compile(r"(!\[(?:[^\]\\]|\\.)*\]\()[^)]+(\))")
 
+_FIXTURE_GENERATOR_PLUGIN = "hand-authored-fixture"
+
 
 def _normalize_for_comparison(text: str) -> str:
     """Normalize whitespace for aggregate content comparison: strip
@@ -711,12 +713,19 @@ def _check_publication_map_consistency(
 def _check_content_loss_and_duplication(
     package_dir: "Path", manifest: "contracts.Manifest", cleaned_markdown_text: "str | None"
 ) -> list:
+    is_independent_fixture = manifest.generator.plugin == _FIXTURE_GENERATOR_PLUGIN
     if cleaned_markdown_text is None:
-        return [_warning(
+        if is_independent_fixture:
+            return []  # no source conversion exists to compare against; not a gap for this kind of package
+        return [_error(
             "content_comparison_skipped",
-            "no cleaned_markdown_text was supplied to the validator; the "
-            "normalized aggregate content-loss/duplication comparison was "
-            "not performed for this run",
+            "no cleaned_markdown_text was supplied for a producer-path "
+            "package (manifest.generator.plugin="
+            f"{manifest.generator.plugin!r}); the normalized aggregate "
+            "content-loss/duplication comparison did not run -- a "
+            "producer-generated package cannot be promoted as fully "
+            "accepted without this comparison having actually run and "
+            "passed",
         )]
 
     ordered_chunks = sorted(manifest.chunks, key=lambda c: c.source_order)
