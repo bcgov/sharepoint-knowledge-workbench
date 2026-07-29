@@ -398,7 +398,7 @@ def build_grouped_canonical_package(
         content = rewritten_by_topic_id[boundary.topic_id]
         content_file = f"chunks/{boundary.topic_id}.md"
         metadata_file = f"chunks/{boundary.topic_id}.meta.json"
-        topic_chunk_ids[boundary.topic_id] = content_file
+        topic_chunk_ids[boundary.topic_id] = boundary.topic_id
 
         (chunks_dir / f"{boundary.topic_id}.md").write_text(content)
 

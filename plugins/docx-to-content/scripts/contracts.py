@@ -451,7 +451,6 @@ class PublicationMapEntry:
     title: str
     order: int
     chunk_id: str
-    parent_topic_id: Optional[str] = None
 
     @classmethod
     def from_dict(cls, data: dict) -> "PublicationMapEntry":
@@ -460,7 +459,6 @@ class PublicationMapEntry:
             title=_require(data, "title"),
             order=_require(data, "order"),
             chunk_id=_require(data, "chunk_id"),
-            parent_topic_id=data.get("parent_topic_id"),
         )
 
     def to_dict(self) -> dict:
@@ -469,7 +467,6 @@ class PublicationMapEntry:
             "title": self.title,
             "order": self.order,
             "chunk_id": self.chunk_id,
-            "parent_topic_id": self.parent_topic_id,
         }
 
 

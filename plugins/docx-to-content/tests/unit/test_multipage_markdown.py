@@ -139,11 +139,11 @@ def _build_synthetic_grouped_package(tmp_path):
         entries=[
             contracts.PublicationMapEntry(
                 topic_id="alpha--22222222", title="Alpha", order=0,
-                chunk_id="chunks/alpha--22222222.md",
+                chunk_id="alpha--22222222",
             ),
             contracts.PublicationMapEntry(
                 topic_id="beta--11111111", title="Beta", order=1,
-                chunk_id="chunks/beta--11111111.md",
+                chunk_id="beta--11111111",
             ),
         ],
     )

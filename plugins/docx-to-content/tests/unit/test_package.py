@@ -544,6 +544,26 @@ def test_grouped_package_identity_is_not_double_prefixed(tmp_path):
     assert not pub_map_data["package_identity"].startswith("sha256:sha256:")
 
 
+def test_grouped_publication_map_chunk_id_is_not_a_path(tmp_path):
+    anchor = _anchor(["Alpha"], level=1)
+    plan = _confirmed_plan([anchor], strategy="grouped")
+    raw_media_dir = tmp_path / "raw_media"
+    raw_media_dir.mkdir()
+    sliced = SlicedDocument(
+        preamble="", chunks=[_slice(anchor, "# Alpha\n\nBody text.\n")]
+    )
+    output_dir = tmp_path / "canonical-content"
+    package.build_grouped_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+    pub_map_data = json.loads((output_dir / "publication-map.json").read_text())
+    entry = pub_map_data["entries"][0]
+    # chunk_id must be the real chunk identifier, never a "chunks/....md" path.
+    assert not entry["chunk_id"].startswith("chunks/")
+    assert not entry["chunk_id"].endswith(".md")
+    assert entry["chunk_id"] == entry["topic_id"]  # equal-in-practice for the grouped producer today
+    assert "parent_topic_id" not in entry
+
+
 def test_grouped_every_anchor_assigned_exactly_once(tmp_path):
     plan, sliced = _two_topic_sliced_document()
     manifest = package.build_grouped_canonical_package(

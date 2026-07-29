@@ -21,16 +21,13 @@ def build_publication_map(
     topic_boundaries: list,
     topic_chunk_ids: dict,
     package_identity: str,
-    parent_topic_ids: dict = None,
 ) -> contracts.PublicationMap:
-    parent_topic_ids = parent_topic_ids or {}
     entries = [
         contracts.PublicationMapEntry(
             topic_id=boundary.topic_id,
             title=boundary.title,
             order=index,
             chunk_id=topic_chunk_ids[boundary.topic_id],
-            parent_topic_id=parent_topic_ids.get(boundary.topic_id),
         )
         for index, boundary in enumerate(topic_boundaries)
     ]
