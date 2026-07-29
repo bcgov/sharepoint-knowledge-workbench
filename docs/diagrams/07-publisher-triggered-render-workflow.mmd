@@ -1,0 +1,20 @@
+flowchart LR
+    A["Content chunk approved<br/>in SharePoint"] -->
+    B["Power Automate sends<br/>publisher notification"]
+
+    B --> C["Publisher opens repository<br/>in VS Code or GitHub Copilot app"]
+
+    C --> D["PnP PowerShell retrieves<br/>approved SharePoint chunks"]
+
+    D --> E["GitHub Copilot runs<br/>repository render skills"]
+
+    E --> F["Publisher reviews<br/>validation and preview"]
+
+    F --> G{"Release accepted?"}
+
+    G -- "No" --> H["Correct issue<br/>and rerun"]
+    H --> E
+
+    G -- "Yes" --> I["PnP PowerShell publishes<br/>generated outputs to SharePoint"]
+
+    I --> J["Update publication status<br/>and notify stakeholders"]
