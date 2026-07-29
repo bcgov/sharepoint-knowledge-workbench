@@ -31,7 +31,11 @@ Usage:
 import re
 
 # An image reference, optionally followed by a pandoc attribute block.
-_IMAGE = r'!\[[^\]]*\]\([^)]*\)(?:\{[^}]*\})?'
+# Alt text uses `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- see
+# scripts/package.py's _IMAGE_REF docstring: a markdown-escaped `]` in alt
+# text otherwise terminates the character class early and the whole
+# reference is silently missed.
+_IMAGE = r'!\[(?:[^\]\\]|\\.)*\]\([^)]*\)(?:\{[^}]*\})?'
 
 # A heading line (1-6 '#') with trailing text then an image glued to the end.
 _HEADING_GLUED = re.compile(

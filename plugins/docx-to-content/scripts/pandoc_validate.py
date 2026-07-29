@@ -34,11 +34,15 @@ Usage:
 import re
 from pathlib import Path
 
-_IMAGE_LINK = re.compile(r'!\[[^\]]*\]\(([^)]+)\)')
+# Alt text uses `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- see
+# scripts/package.py's _IMAGE_REF docstring: a markdown-escaped `]` in alt
+# text (pandoc emits `\]` for a literal `]` byte) otherwise terminates the
+# character class early and the whole reference is silently missed.
+_IMAGE_LINK = re.compile(r'!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)')
 _ATTR_ARTIFACT = re.compile(
     r'\{(?:\s*(?:\.[\w-]+|#[\w-]+|[\w-]+="[^"]*"|[\w-]+=\S+))+\s*\}'
 )
-_HEADING_WITH_IMAGE = re.compile(r'^#{1,6} .*!\[[^\]]*\]\([^)]*\).*$', re.MULTILINE)
+_HEADING_WITH_IMAGE = re.compile(r'^#{1,6} .*!\[(?:[^\]\\]|\\.)*\]\([^)]*\).*$', re.MULTILINE)
 
 
 def validate_cleaned_markdown(markdown_text: str, base_dir: Path) -> dict:
