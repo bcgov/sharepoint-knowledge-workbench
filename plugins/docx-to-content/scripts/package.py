@@ -476,7 +476,7 @@ def build_grouped_canonical_package(
     )
 
     pub_map = publication_map.build_publication_map(
-        boundaries, topic_chunk_ids, package_identity=f"sha256:{manifest.plan_id}"
+        boundaries, topic_chunk_ids, package_identity=manifest.plan_id
     )
     publication_map.write_publication_map(pub_map, output_dir)
 
