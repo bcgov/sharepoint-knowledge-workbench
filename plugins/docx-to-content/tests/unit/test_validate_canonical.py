@@ -381,18 +381,45 @@ def test_warn_on_heading_missing_from_chunk_content(tmp_path):
 # ---------------------------------------------------------------------------
 
 
-def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-content"):
-    """Build a minimal, fully valid one-chunk canonical package for tests.
+def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-content", with_media: bool = False, strategy: str = "chunked", chunk_count: int = 1):
+    """Build a minimal, fully valid canonical package for tests.
     Returns the package directory Path. Writes the plan used to build to
     tmp_path / "plan.json" so `_load_plan_used_to_build` can retrieve it.
+
+    Backwards compatible with the prior single-arg form. New kwargs:
+    - with_media: if True, include a media file under raw_media/media and
+      reference it from the first chunk.
+    - strategy: passed to the confirmed plan ("chunked" or "grouped").
+    - chunk_count: number of distinct chunks to create (>=1).
     """
-    a = _anchor(["Minimal"])
-    plan = _confirmed_plan([a])
-    sliced = SlicedDocument(preamble="", chunks=[_slice(a, "# Minimal\n\nBody.\n")])
+    # Build anchors and sliced document with chunk_count distinct chunks
+    anchors = []
+    chunks = []
+    for i in range(chunk_count):
+        name = "Minimal" if chunk_count == 1 else f"Minimal {i+1}"
+        a = _anchor([name])
+        anchors.append(a)
+        content = f"# {name}\n\nBody {i+1}.\n"
+        # If requested, include a media reference in the first chunk
+        if with_media and i == 0:
+            content += "\n![diagram](media/diagram.png)\n"
+        chunks.append(_slice(a, content))
+
+    plan = _confirmed_plan(anchors, strategy=strategy)
+    sliced = SlicedDocument(preamble="", chunks=chunks)
     raw_media_dir = tmp_path / "raw_media"
+    # create raw_media and optional media file
     raw_media_dir.mkdir()
+    if with_media:
+        (raw_media_dir / "media").mkdir(parents=True, exist_ok=True)
+        (raw_media_dir / "media" / "diagram.png").write_bytes(b"fake-png-bytes")
+
     output_dir = tmp_path / "canonical-content"
-    package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+    # Use grouped vs chunked builder depending on strategy
+    if strategy == "grouped":
+        package.build_grouped_canonical_package(plan, sliced, raw_media_dir, output_dir)
+    else:
+        package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
 
     if generator_plugin != "docx-to-content":
         data = json.loads((output_dir / "manifest.json").read_text())
