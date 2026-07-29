@@ -105,11 +105,14 @@ governance note in `runs/ceis-manual-v2/evidence-report.md`'s header for the ful
 forward: any time a prior confirmed plan is reused rather than re-derived, say so explicitly
 before running `convert`/`render` again, even when re-analysis is genuinely unnecessary.
 
-**Not fixed, deliberately out of scope:** three other files contain structurally similar
-`[^\]]*` patterns not implicated in this specific defect (`pandoc_validate.py`,
-`analyze_structure.py`, `pandoc_fixes/images.py` — analysis-time detection and glued-image
-cleanup, not media copy/validation). Whether any of these has a live bug of the same class is
-unverified; a dedicated pass if a future document surfaces one, not opportunistic changes here.
+**Update: also fixed.** Three more files carried the identical `[^\]]*` bug
+(`pandoc_validate.py`'s `_IMAGE_LINK`/`_HEADING_WITH_IMAGE`, `analyze_structure.py`'s
+`_IMAGE_REF`/`_LOCAL_LINK`/`_IMAGE_REFERENCE`, `pandoc_fixes/images.py`'s `_IMAGE`). Initially
+left unfixed as "out of scope," which was a self-evolution-policy violation (Fix Forward, Never
+Skip) caught by the user — fixed instead of deferred. Full suite still 449/1. Rerunning `analyze`
+against the real document confirmed the fix: `image_reference_count` went from 341 → 342 (the
+same `image239` reference now correctly recognized at analysis time too), all other counts
+(159 headings, 185 local links, 25 topics) unchanged.
 
 **Remaining item:** the human spot-check checklist (spec Section 10's six categories) is still
 unfilled. Two of six are genuinely N/A for this document (zero tables, zero footnotes — verified
