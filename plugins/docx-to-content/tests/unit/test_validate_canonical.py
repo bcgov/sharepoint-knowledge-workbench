@@ -13,6 +13,7 @@ Setup", "Gadget Alpha") -- no real CEIS manual content appears here.
 """
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -95,8 +96,10 @@ def test_pass_on_a_clean_package_with_cleaned_markdown_supplied(tmp_path):
 def test_warn_when_cleaned_markdown_not_supplied(tmp_path):
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     report = vc.validate_canonical_package(output_dir, plan)
-    assert report.status == "WARN"
-    assert "content_comparison_skipped" in _codes(report)
+    # For real producer-path packages (manifest.generator.plugin=="docx-to-content"),
+    # omitting cleaned_markdown_text is now an ERROR per Task 7.
+    assert report.status == "FAIL"
+    assert any(i.code == "content_comparison_skipped" and i.severity == "error" for i in report.issues)
 
 
 def test_fail_when_manifest_missing(tmp_path):
@@ -360,7 +363,13 @@ def test_warn_on_heading_missing_from_chunk_content(tmp_path):
     meta = json.loads(meta_path.read_text())
     meta["content_sha256"] = hashing.content_hash(content_path.read_text().encode("utf-8"))
     meta_path.write_text(json.dumps(meta))
-    report = vc.validate_canonical_package(output_dir, plan)
+    # Supply cleaned_markdown_text so the content-comparison check runs and
+    # does not produce an error that would mask this heading-level warning.
+    cleaned = "\n".join(
+        (output_dir / "chunks" / f"{a.stable_key}.md").read_text()
+        for a in (a1, a2)
+    )
+    report = vc.validate_canonical_package(output_dir, plan, cleaned_markdown_text=cleaned)
     assert report.status == "WARN"
     matches = _codes(report, "heading_missing_from_content")
     assert len(matches) == 1
@@ -370,6 +379,60 @@ def test_warn_on_heading_missing_from_chunk_content(tmp_path):
 # ---------------------------------------------------------------------------
 # Content loss/duplication using normalized aggregate comparison
 # ---------------------------------------------------------------------------
+
+
+def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-content"):
+    """Build a minimal, fully valid one-chunk canonical package for tests.
+    Returns the package directory Path. Writes the plan used to build to
+    tmp_path / "plan.json" so `_load_plan_used_to_build` can retrieve it.
+    """
+    a = _anchor(["Minimal"])
+    plan = _confirmed_plan([a])
+    sliced = SlicedDocument(preamble="", chunks=[_slice(a, "# Minimal\n\nBody.\n")])
+    raw_media_dir = tmp_path / "raw_media"
+    raw_media_dir.mkdir()
+    output_dir = tmp_path / "canonical-content"
+    package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+    if generator_plugin != "docx-to-content":
+        data = json.loads((output_dir / "manifest.json").read_text())
+        data["generator"]["plugin"] = generator_plugin
+        (output_dir / "manifest.json").write_text(json.dumps(data))
+
+    # Persist the plan used so tests can re-load it
+    (tmp_path / "plan.json").write_text(json.dumps(plan.to_dict(), indent=2))
+    return output_dir
+
+
+def _load_plan_used_to_build(package_dir):
+    tmp_path = Path(package_dir).parent
+    data = json.loads((tmp_path / "plan.json").read_text())
+    return contracts.ConversionPlan.from_dict(data)
+
+
+def test_producer_path_content_comparison_skip_is_now_an_error(tmp_path):
+    package_dir = _build_minimal_valid_package(tmp_path)  # generator.plugin == "docx-to-content"
+    plan = _load_plan_used_to_build(package_dir)
+    # cleaned_markdown_text omitted -- this package's own manifest records
+    # generator.plugin == "docx-to-content", so it's a producer-path
+    # package regardless of what any caller might wish were true.
+    report = vc.validate_canonical_package(package_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(
+        i.code == "content_comparison_skipped" and i.severity == "error"
+        for i in report.issues
+    )
+
+
+def test_fixture_provenance_content_comparison_skip_is_not_an_error(tmp_path):
+    package_dir = _build_minimal_valid_package(tmp_path, generator_plugin="hand-authored-fixture")
+    plan = _load_plan_used_to_build(package_dir)
+    report = vc.validate_canonical_package(package_dir, plan)
+
+    assert report.status != "FAIL" or not any(
+        i.code == "content_comparison_skipped" for i in report.issues
+    )
 
 def test_fail_on_content_loss_detected_by_aggregate_comparison(tmp_path):
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
