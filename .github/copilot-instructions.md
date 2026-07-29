@@ -51,9 +51,17 @@ together) to a content-centric model (Content + Template + Renderer = Published 
 scope is narrower than the full initiative: prove structured knowledge conversion and canonical
 content on one pilot document (the **CEIS Manual**) via a self-contained plugin. The full
 initiative — repository/plugin boundaries beyond Phase 1, SharePoint delivery, native skills,
-agents, publication, and evaluation — is described in `docs/vision/README.md` and
-`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`; those documents propose
-future direction but do not themselves authorize work beyond the current approved phase plan.
+agents, publication, and evaluation — is planned in
+`docs/vision/master-initiative-plan-workstreams-and-phases.md` (the authoritative, phase/subphase/
+stage-level master plan, reviewed across multiple rounds of external adversarial review) and
+originally proposed in `docs/vision/README.md` and
+`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. Only Phase 1 (complete)
+and Phase 2 (spec + implementation plan approved, execution not yet started — see
+`docs/superpowers/specs/2026-07-28-phase2-canonical-publication-contract-hardening-design.md` and
+its companion plan) are currently authorized to be built; later phases are deliberately planned at
+a structural level only, gated on evidence (tenant facts, pilot outcomes) that doesn't exist yet —
+see the master plan's own detail-level discipline before assuming any phase beyond 2 is ready to
+implement.
 
 The active implementation is the `docx-to-content` plugin at `plugins/docx-to-content/` — a
 self-contained Claude Code plugin (built from scratch under TDD, see
@@ -65,11 +73,13 @@ Markdown package, with atomic promotion and full test coverage at every stage.
 
 **Current status and how to resume:** read `start-here.md` at the repo root — it is the
 authoritative, kept-current resume document for this work (supersedes any stale in-conversation
-summary). Work happens in a git worktree (`.claude/worktrees/docx-to-content-phase1`, branch
-`worktree-docx-to-content-phase1`) and follows `superpowers:subagent-driven-development` —
-fresh implementer + fresh reviewer per task, TDD throughout, task-by-task ledger at
-`.superpowers/sdd/2026-07-25-docx-to-content-phase1-implementation-plan-v3-ammendments/progress.md`
-inside that worktree.
+summary). Phase 1 work happened directly on `main` (no worktree). Starting with Phase 2, each
+phase works in its own branch/worktree, following the Per-Phase Git & Session Workflow section of
+`docs/vision/master-initiative-plan-workstreams-and-phases.md` — branch/worktree per phase, commit
+per task, merge only once the phase's exit gate evidence exists, update `start-here.md`, then start
+the next phase in a fresh session. Task execution within a phase follows
+`superpowers:subagent-driven-development` (fresh implementer + fresh reviewer per task) or
+`superpowers:executing-plans`, TDD throughout.
 
 ### Layout
 
@@ -140,7 +150,7 @@ same policies but govern *this* repo, not the monorepo):
 
 1. **TDD first** (`agent-plugins-skills/.agent/rules/test-driven-development.md` /
    this repo's `test-driven-development.md`) — write a failing test/eval before any script code.
-2. **Hub-and-spoke, no directory symlinks** (`plugin-architecture-policy.md`) — new scripts/
+2. **Hub-and-spoke, no directory symlinks** (`plugin-architecture_policy.md`) — new scripts/
    references land at the plugin root (`plugins/<plugin>/scripts/`) first, then get symlinked
    into the skill folder via `symlink_manager.py` — never `ln -s` directly, never a real file
    copy living only inside the skill dir. Run `diagnose` before and after
@@ -154,8 +164,8 @@ same policies but govern *this* repo, not the monorepo):
    iteration), install directly from the local monorepo path rather than waiting on GitHub:
    ```bash
    python3 .agents/skills/plugin-installer/scripts/plugin_add.py \
-     /Users/richardfremmerlid/Projects/agent-plugins-skills \
-     --plugins <plugin-name> -y
+   /Users/richardfremmerlid/Projects/agent-plugins-skills \
+   --plugins <plugin-name> -y
    ```
    After merge, the same command against the now-updated local checkout keeps this repo in sync
    without waiting for a separate GitHub-sourced reinstall.

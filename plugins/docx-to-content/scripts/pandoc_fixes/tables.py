@@ -28,6 +28,14 @@ import re
 
 _PIPE_ROW = re.compile(r'^\s*\|.*\|\s*$')
 _SEPARATOR_CELL = re.compile(r'^\s*:?-{1,}:?\s*$')
+# Pandoc grid tables (emitted for complex/merged-cell Word tables) delimit
+# rows with `+---+`/`+===+`/`+:===:+` boundary lines rather than a single
+# `| --- | --- |` separator row. A grid table's `+===+` boundary already is
+# its valid header separator, so grid tables must be recognized and passed
+# through untouched -- otherwise each `| ... |` content row (which also
+# matches _PIPE_ROW) looks like a fresh headerless pipe table to the logic
+# below, and a spurious separator row gets inserted after every single row.
+_GRID_BOUNDARY_ROW = re.compile(r'^\s*\+[-=:]+(?:\+[-=:]+)*\+\s*$')
 
 
 def _count_columns(row: str) -> int:
@@ -62,10 +70,30 @@ def fix_malformed_tables(markdown_text: str) -> str:
     i = 0
     n = len(lines)
     in_table = False  # True once we're past a table's header+separator rows
+    in_grid_table = False  # True once inside a pandoc grid-table block
 
     while i < n:
         line = lines[i]
         stripped = line.rstrip("\n")
+
+        if in_grid_table:
+            # Grid tables carry their own valid separator convention
+            # (the `+===+` boundary) -- pass every line through untouched
+            # until the block ends (any line that is neither a boundary
+            # row nor a pipe-delimited content row).
+            if _GRID_BOUNDARY_ROW.match(stripped) or _PIPE_ROW.match(stripped):
+                output.append(line)
+                i += 1
+                continue
+            in_grid_table = False
+            # Fall through to normal handling for this non-grid-table line.
+
+        if _GRID_BOUNDARY_ROW.match(stripped):
+            in_grid_table = True
+            in_table = False
+            output.append(line)
+            i += 1
+            continue
 
         if not _PIPE_ROW.match(stripped):
             in_table = False

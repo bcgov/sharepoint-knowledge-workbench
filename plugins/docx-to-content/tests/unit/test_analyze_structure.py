@@ -233,6 +233,22 @@ def test_table_count_excludes_non_table_horizontal_rule_dash_lines():
     assert stats["table_count"] == 1
 
 
+def test_table_count_detects_pandoc_grid_tables():
+    # Pandoc emits grid tables (bounded by `+---+`/`+===+` lines) for
+    # complex/merged-cell Word tables -- these must be counted too, not
+    # just GFM-style `| --- | --- |` pipe tables, or a document containing
+    # only grid tables is reported as having zero tables when it has one.
+    text = (
+        "+------+------+\n"
+        "| A    | B    |\n"
+        "+======+======+\n"
+        "| val1 | val2 |\n"
+        "+------+------+\n"
+    )
+    stats = analyze_structure.compute_statistics(text)
+    assert stats["table_count"] == 1
+
+
 def test_known_defect_signal_pandoc_attrs_detected():
     text = "![](media/image1.png){width=\"624\" height=\"325\"}\n"
     assert analyze_structure.detect_defect_signals(text)["pandoc_attrs"] is True
