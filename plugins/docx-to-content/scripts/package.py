@@ -263,7 +263,7 @@ def build_canonical_package(
 
         content_sha256 = hashing.content_hash(content.encode("utf-8"))
         meta = contracts.ChunkMetadata(
-            schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+            schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
             chunk_id=chunk_id,
             source_order=idx,
             source_heading_path=list(anchor.source_heading_path),
@@ -292,7 +292,7 @@ def build_canonical_package(
         )
 
     manifest = contracts.Manifest(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.MANIFEST_SCHEMA_VERSION,
         generator=contracts.ManifestGenerator(
             plugin="docx-to-content", plugin_version="0.1.0"
         ),
@@ -412,7 +412,7 @@ def build_grouped_canonical_package(
             for m in boundary.members
         ]
         meta = contracts.ChunkMetadata(
-            schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+            schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
             chunk_id=boundary.topic_id,
             source_order=source_order,
             source_heading_path=[boundary.title],
@@ -442,7 +442,7 @@ def build_grouped_canonical_package(
         )
 
     manifest = contracts.Manifest(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.MANIFEST_SCHEMA_VERSION,
         generator=contracts.ManifestGenerator(
             plugin="docx-to-content", plugin_version="0.1.0"
         ),

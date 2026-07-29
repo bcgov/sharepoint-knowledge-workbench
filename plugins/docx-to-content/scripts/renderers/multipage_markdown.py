@@ -156,7 +156,7 @@ class MultipageMarkdownRenderer:
     local copy of the canonical package's media."""
 
     name = "multipage-markdown"
-    supported_manifest_versions = frozenset({contracts.SUPPORTED_SCHEMA_VERSION})
+    supported_manifest_versions = frozenset({contracts.MANIFEST_SCHEMA_VERSION})
 
     def render(self, package, output_dir: Path) -> "contracts.RenderResult":
         output_dir = Path(output_dir)

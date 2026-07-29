@@ -70,7 +70,7 @@ def build_draft_plan(
     from normalized plan content excluding the plan_id field itself" rule.
     """
     plan = contracts.ConversionPlan(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.CONVERSION_PLAN_SCHEMA_VERSION,
         plan_id="",
         source=source_fingerprint,
         strategy=strategy,

@@ -35,7 +35,7 @@ def build_publication_map(
         for index, boundary in enumerate(topic_boundaries)
     ]
     return contracts.PublicationMap(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.PUBLICATION_MAP_SCHEMA_VERSION,
         package_identity=package_identity,
         entries=entries,
     )
