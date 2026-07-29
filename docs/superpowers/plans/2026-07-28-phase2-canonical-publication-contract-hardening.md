@@ -1141,6 +1141,15 @@ Expected: all pass.
 
 - [ ] **Step 6: Commit**
 
+**Known, accepted limitation (round-4 review, Opus) — state this explicitly, don't let it read as fully
+closed:** deriving independence from `manifest.generator.plugin` narrows the earlier caller-boolean bypass,
+it does not eliminate the bypass class entirely — the provenance signal is self-asserted in the manifest,
+not independently verified. A package (real or corrupted) that writes
+`generator.plugin: "hand-authored-fixture"` into its own manifest gets the same content-check exemption a
+genuine fixture gets. This is acceptable inside Phase 2's threat model (the producer is trusted; no
+untrusted second producer exists yet — see `references/extraction-triggers.md`, Task 15), but say so in
+the commit message rather than presenting this as a fully closed trust boundary:
+
 ```bash
 git add scripts/validate_canonical.py tests/unit/test_validate_canonical.py
 git commit -m "feat: producer-path canonical packages cannot skip content-comparison and still be accepted
@@ -1148,7 +1157,15 @@ git commit -m "feat: producer-path canonical packages cannot skip content-compar
 Independence is derived from the package's own manifest.generator.plugin
 provenance field, not a caller-supplied boolean -- a caller cannot label
 an arbitrary real package as an independent fixture to suppress the
-check."
+check via a function argument.
+
+Known limitation, accepted for Phase 2's threat model: this provenance
+signal is self-asserted in the manifest, not independently verified. A
+package claiming generator.plugin=hand-authored-fixture is trusted to
+be one. This narrows the bypass, it does not close it. When a second,
+less-trusted producer exists, this must become a verified provenance
+signal (e.g. signed/hashed producer identity), not a self-declared
+string -- tracked in references/extraction-triggers.md."
 ```
 
 ---
@@ -1512,6 +1529,16 @@ Expected: all pass. If anything now fails here, it means an existing test fixtur
 internally inconsistent (e.g. a hand-built `validation.json` with a `plan_id` that never matched its
 `manifest.json`) and happened to pass only because nothing checked it before — fix the fixture to be
 consistent, don't loosen the new check.
+
+**Explicit sequencing note (round-4 review, Opus) — do not treat this task as self-verifying:** the full
+suite passing here means the new `load()` enforcement (lineage cross-check, publication-map
+re-validation) doesn't *break* anything already in the suite. It does **not** mean that enforcement has
+been *proven* to catch real corruption — that proof is Task 11's job (the Layer-2 mutation suite, several
+tasks later), which is the earliest point a dedicated test targets this new logic directly. Between this
+task and Task 11, `load()` carries real, uncovered enforcement logic. This is an explicit, accepted
+sequencing gap (the Layer-2 mutation tests are deliberately written against the *final* `load()` shape
+rather than an intermediate one) — not an oversight. Do not report this task as having "tested" the new
+enforcement; report it as "added, full suite unaffected, coverage arrives at Task 11."
 
 - [ ] **Step 8: Commit**
 
@@ -1932,39 +1959,89 @@ FAIL here reveal a real gap not yet covered by earlier tasks — stop and add th
   finding — "most should already PASS" is exactly the wave-through this phase exists to prevent)**
 
 A mutation test that passes without any new implementation only proves the check catches the corruption
-*today* — it does not prove the test would go red if that check regressed or was accidentally deleted. For
-every test in this file that passed in Step 2 without a new check being added, temporarily neutralize the
-specific check it depends on and confirm the test now fails, then restore the check. Do this as a single
-throwaway local script, not a permanent test (the permanent tests already assert the real behavior; this is
-a one-time proof for this task, not a maintained artifact):
+*today* — it does not prove the test would go red if that check regressed or was accidentally deleted.
+
+**Round-4 review (Opus) refined this: a one-time throwaway script is a manual ritual with no lasting
+guarantee — the moment someone refactors a check six months from now, nothing re-proves the mutation test
+still bites.** For the two checks closest to the image239 lesson — `_check_media_references` (media/link
+corruption) and `_check_content_loss_and_duplication` (the actual content-comparison check) — this
+meta-proof must be a **permanent, committed test**, not a throwaway script. For the other three
+(`_check_publication_map_consistency`, `_check_manifest_consistency`, `_check_orphans`,
+`_check_plan_and_source`), a one-time throwaway script remains acceptable per the original round-3 answer —
+they're real but lower-value repeats of the same principle, and keeping all of them permanent would bloat
+the suite with meta-tests of meta-tests.
+
+Add these two permanent tests to `tests/unit/test_validate_canonical_mutations.py`:
+
+```python
+def test_deleted_media_file_detection_actually_depends_on_check_media_references(tmp_path, monkeypatch):
+    """Standing guard (round-4 review): if _check_media_references is ever
+    neutralized (accidentally or via a bad refactor), this test must go
+    red -- proving test_deleted_media_file_is_detected depends on the real
+    check, not on some other check incidentally catching the same case."""
+    monkeypatch.setattr(validate_canonical, "_check_media_references", lambda *a, **kw: [])
+
+    package_dir = _build_minimal_valid_package(tmp_path, with_media=True)
+    media_file = next((package_dir / "media").iterdir())
+    media_file.unlink()
+
+    plan = _load_plan_used_to_build(package_dir)
+    report = validate_canonical.validate_canonical_package(package_dir, plan)
+
+    assert report.status != "FAIL" or not any(
+        i.code == "broken_media_reference" for i in report.issues
+    ), (
+        "with _check_media_references neutralized, the deleted-media "
+        "corruption should NOT be caught -- if this assertion fails "
+        "(i.e. it WAS still caught), some other check is also detecting "
+        "this case; find out which and note it, don't just delete this test"
+    )
+
+
+def test_content_comparison_skip_detection_actually_depends_on_its_own_check(tmp_path, monkeypatch):
+    """Standing guard for the check closest to the image239 lesson itself
+    -- the content-loss/duplication comparison. If this check is ever
+    neutralized, the producer-path skip-is-an-error test (Task 7) must
+    stop catching the omission."""
+    monkeypatch.setattr(validate_canonical, "_check_content_loss_and_duplication", lambda *a, **kw: [])
+
+    package_dir = _build_minimal_valid_package(tmp_path)
+    plan = _load_plan_used_to_build(package_dir)
+    report = validate_canonical.validate_canonical_package(package_dir, plan)  # cleaned_markdown_text omitted
+
+    assert not any(i.code == "content_comparison_skipped" for i in report.issues), (
+        "with _check_content_loss_and_duplication neutralized, the "
+        "content-comparison-skip error should NOT appear -- if it does, "
+        "the neutralization didn't actually take effect"
+    )
+```
+
+For the remaining three checks, do the one-time throwaway-script proof (not committed):
 
 ```python
 # Run this interactively (e.g. python3 -c "..." or a scratch script under
-# temp/), NOT as a committed test -- it's a one-time meta-proof, not
-# ongoing coverage:
+# temp/), NOT as a committed test -- acceptable one-time meta-proof for
+# these three lower-priority checks per round-3/round-4 review:
 import validate_canonical
 
-# Example for test_deleted_media_file_is_detected: temporarily make
-# _check_media_references a no-op and confirm the test then fails.
-original = validate_canonical._check_media_references
-validate_canonical._check_media_references = lambda *a, **kw: []
+original = validate_canonical._check_publication_map_consistency
+validate_canonical._check_publication_map_consistency = lambda *a, **kw: []
 try:
-    # re-run test_deleted_media_file_is_detected's body here (or via
-    # `pytest tests/unit/test_validate_canonical_mutations.py::test_deleted_media_file_is_detected -v`
-    # with the monkeypatch applied) and confirm it now FAILS (report.status != "FAIL"
-    # or the expected issue code is absent) -- if it still passes, some
-    # OTHER check is also catching this corruption, which is fine, but
-    # note which one in this task's commit message.
+    # re-run the publication-map mutation tests with this neutralized and
+    # confirm they now fail to detect the corruption, then restore.
     pass
 finally:
-    validate_canonical._check_media_references = original
+    validate_canonical._check_publication_map_consistency = original
 ```
-Repeat this pattern (neutralize → confirm red → restore) for each already-passing test's specific
-underlying check (`_check_media_references`, `_check_publication_map_consistency`,
-`_check_manifest_consistency`, `_check_orphans`, `_check_plan_and_source`) before considering this task
-done. Record in the commit message which checks were verified this way.
+Repeat the same pattern for `_check_manifest_consistency` and `_check_orphans`/`_check_plan_and_source`.
+Record in the commit message which of these three were verified this way.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 4: Run everything, then commit**
+
+Run: `python3 -m pytest tests/unit/test_validate_canonical_mutations.py -v`
+Expected: all pass, including the two new permanent standing-guard tests.
+
+- [ ] **Step 5: Commit**
 
 ```bash
 git add tests/unit/test_validate_canonical_mutations.py
@@ -2728,6 +2805,17 @@ brainstorming/spec pass, per this repo's standing workflow.
 
 None of the above are met for any workstream. `knowledge-publication`'s boundary (publication-map
 ownership, renderer contracts) is hardened *inside* `docx-to-content` by this phase's work, not extracted.
+
+## Known limitation carried forward from Phase 2 (Task 7): self-asserted fixture provenance
+
+`validate_canonical.py`'s content-comparison-skip exemption is derived from
+`manifest.generator.plugin == "hand-authored-fixture"` — a self-asserted string in the manifest, not an
+independently verified signal. This is acceptable today because the only producer of canonical content is
+the trusted `docx-to-content` pipeline itself (no untrusted second producer exists per the triggers above).
+**If a second producer of canonical content is ever introduced** (the trigger two rows up), this provenance
+mechanism must be revisited: a self-declared string is not a sufficient trust boundary once an untrusted or
+semi-trusted second producer can also write `generator.plugin` values. At that point, replace it with a
+verified provenance signal (e.g. a signed or separately-tracked producer identity), not a string comparison.
 ```
 
 - [ ] **Step 2: Commit**
