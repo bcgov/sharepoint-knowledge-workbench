@@ -59,12 +59,11 @@ def test_publication_map_supports_parent_topic_id_hierarchy():
     boundaries = [_boundary("a--11111111", "A", [["A"]])]
     chunk_ids = {"a--11111111": "chunks/a.md"}
     pub_map = publication_map.build_publication_map(
-        boundaries,
-        chunk_ids,
-        package_identity="sha256:deadbeef",
-        parent_topic_ids={"a--11111111": None},
+        boundaries, chunk_ids, package_identity="sha256:deadbeef"
     )
-    assert pub_map.entries[0].parent_topic_id is None
+    # parent_topic_id removed from the contract; ensure it's not present in the serialized dict
+    as_dict = pub_map.to_dict()
+    assert "parent_topic_id" not in as_dict["entries"][0]
 
 
 def test_load_publication_map_returns_none_when_absent(tmp_path):

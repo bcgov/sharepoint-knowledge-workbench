@@ -187,7 +187,7 @@ class MultipageMarkdownRenderer:
         if package.publication_map is not None:
             chunk_by_id = {chunk.metadata.chunk_id: chunk for chunk in package.chunks}
             ordered_entries = sorted(package.publication_map.entries, key=lambda e: e.order)
-            ordered_chunks = [chunk_by_id[e.topic_id] for e in ordered_entries]
+            ordered_chunks = [chunk_by_id[e.chunk_id] for e in ordered_entries]
         else:
             ordered_chunks = package.chunks
 
