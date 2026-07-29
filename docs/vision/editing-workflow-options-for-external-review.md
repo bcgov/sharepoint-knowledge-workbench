@@ -3,7 +3,14 @@
 **Status:** Draft open question, not yet decided or approved as part of any authorized phase.
 Companion to `docs/vision/key-unanswered-questions.md` and the Phase 3 (Governed SharePoint
 Knowledge Pilot) section of `docs/vision/master-initiative-plan-workstreams-and-phases.md`.
-Shared for external review/feedback (e.g. M365 Copilot, Opus, GPT-5.6) before finalizing.
+
+**Revision note:** this document was revised after external review (feedback incorporated
+2026-07-29). The original draft conflated four distinct concerns — **editing format** (Markdown
+vs. modern-page rich text), **authoring location** (Git vs. SharePoint), **authority** (which
+artifact is authoritative), and **integration mechanism** (how content moves between them). It
+also implied native SharePoint skills could perform Git operations or arbitrary reverse
+conversion, which they cannot. This revision separates those concerns, corrects the mischaracterized
+models, and adds three models the original set was missing.
 
 ## Issue Summary
 
@@ -35,44 +42,117 @@ This repo (`manual-conversion-poc`) implements Phase 1 of an initiative moving W
 from a document-centric model to a content-centric model: canonical Markdown content + generated
 elements (TOC, navigation) + a presentation template = a published output for a given destination.
 
-## Four candidate models (none decided, none built)
+## Candidate models (revised, none decided, none built)
+
+Each model is deliberately separated from *whether* it's Markdown or rendered-page content being
+edited, and from *how* edits reach Git — these are distinct axes, not one choice.
 
 | # | Model | How it works | Key tension / open problem |
 |---|---|---|---|
-| A | **SharePoint-edit + sync-back** | Authors edit in SharePoint; a new sync skill pulls edited content back into canonical git so existing render/validate tools still work | Requires a genuinely hard reverse-conversion (SharePoint's rich-text page storage → clean canonical Markdown) — likely harder than the existing DOCX→canonical pipeline, and not designed at all today |
-| B | **Git-only editing, SharePoint = output only** | Authors use VS Code/GitHub/Copilot CLI directly on canonical Markdown; SharePoint only ever receives rendered, read-only published output | Architecturally simplest (no reverse sync needed at all) but likely real friction/adoption risk for non-technical business content owners who don't use git day-to-day |
-| C | **SharePoint-native rendering** | A SharePoint-hosted skill runs the render pipeline directly where the content lives (e.g., a Python-backed skill invoked from SharePoint), avoiding round-tripping through canonical git entirely | Raises the question of what's authoritative if canonical git isn't in the loop at all; likely conflicts with the "canonical is source of truth, published is a rendered projection" rule the plan has already committed to (Phase 3, Stage 3.1.3); platform/hosting feasibility for running arbitrary code from SharePoint is unknown pre-tenant-discovery |
-| D | **Lightweight web Markdown editor over git** | A simple, purpose-built web UI lets authors edit Markdown without touching git/VS Code/GitHub directly; commits happen behind the scenes on their behalf | A middle ground — less friction than B, avoids the hard reverse-conversion problem of A/C — but is new product surface that has to be designed, built, and maintained; not free |
+| A | **SharePoint modern-page editing + external conversion intake** | Authors edit rendered SharePoint pages (not raw Markdown). A separately hosted, authorized adapter extracts approved page content, converts it into a canonical change proposal, validates it, and submits it to Git for review. | Modern-page storage and web-part structures may not map cleanly or losslessly to canonical Markdown — layout, generated elements, embedded components, unsupported web parts, and locally introduced presentation can make reverse conversion ambiguous. This is the hardest reverse-conversion case of the set. |
+| B | **Git-only authoring; SharePoint projection only** | Authors use VS Code/GitHub/Copilot CLI directly on canonical Markdown; SharePoint only ever receives rendered, read-only published output. | Architecturally simplest (no reverse sync needed at all) but likely real friction/adoption risk for non-technical business content owners who don't use git day-to-day. |
+| C | **SharePoint-hosted canonical Markdown + external validated release pipeline** | Authors edit the actual canonical Markdown topic files directly in SharePoint's Markdown editor (not a rendered page). An external, authorized pipeline retrieves the approved SharePoint version, validates it, and submits it into Git as a branch/pull request for review before it becomes canonical. | Does **not** require rich-text-page-to-Markdown reverse conversion (its biggest advantage over A), but revises the current "Git is the only editable canonical copy" assumption, and requires an authorized SharePoint-to-Git integration, conflict handling, stable topic identity across the boundary, and clear approval/metadata ownership. |
+| D | **Purpose-built web editor over Git** | A simple, purpose-built web UI lets authors edit Markdown without touching git/VS Code/GitHub directly. Edits must not commit silently to the protected canonical branch — the safe form is: author edits → app creates a change proposal/branch → validation runs → human review/approval → merge → republish. | New product surface that must additionally solve identity/attribution, authorization, concurrent editing, conflict resolution, branch/PR lifecycle, preview, validation feedback, metadata editing, accessibility, and long-term support/ownership — not just "less friction than raw git." |
+| E | **SharePoint change-proposal workflow feeding Git** | Authors do not edit the authoritative published item directly. They submit proposed replacement text or a draft Markdown topic in SharePoint. An authorized adapter turns that proposal into a Git branch/PR: `SharePoint proposal → authorized adapter → Git branch/PR → validation and review → canonical merge → republish`. | This is a one-way **change-intake** workflow, not full bidirectional sync — it deliberately avoids Model A/C's most dangerous property (two editable copies both behaving as authoritative). Fits government approval chains well (author proposes → reviewer evaluates → pipeline validates → approver accepts → pipeline republishes), at the cost of being a proposal/review loop rather than direct editing. |
+| F | **Central publishing-team model** | Business owners submit changes through a familiar, controlled mechanism (e.g., a request form, ticket, or the change-proposal flow in E); trained content specialists are the ones who actually maintain canonical Markdown in Git. | Not the most technically elegant option, but realistic — many organizations separate subject-matter ownership from publishing-system operation, avoiding the requirement that every registry content owner become a git user, a Markdown expert, or a direct publisher. Costs: publishing-team capacity, queue delays, possible transcription errors, weaker immediate ownership, risk of a bottleneck. Still a legitimate baseline to evaluate the other options against. |
+| G | **Hybrid by content risk or author group** | Different content/author combinations use different models above — e.g., technical authors use Git (B) directly; ordinary business authors use SharePoint Markdown (C) or change proposals (E); high-risk policy content routes through the central publishing team (F); modern pages remain generated projections throughout; agents/skills assist authors and reviewers in any of the above but never own the synchronization boundary themselves. | Avoids forcing one model to fit every author/content combination, at the cost of more operational complexity (more than one supported authoring path to design, document, and support). |
 
-## Open questions to resolve (not yet answered)
+**Correction to the original draft's Model A:** it previously said "a new sync skill pulls edited
+content back into canonical git." A native SharePoint skill cannot perform Git operations or run
+arbitrary reverse-conversion code — any SharePoint-to-Git transfer requires a separately hosted,
+authorized integration (an adapter, a synchronization service, or an intake pipeline), not a
+"skill" in the native-SharePoint-skill sense.
 
-- Which model (or hybrid) is realistic given the actual tenant's real constraints and the actual
-  users' real technical comfort level — this is evidence Phase 3.0 (tenant capability discovery)
-  is meant to produce, not something to guess at now.
-- Is Model A's SharePoint→canonical reverse-conversion problem even tractable? (Unlike a `.docx`,
-  a SharePoint modern page's stored representation isn't necessarily clean, parseable Markdown.)
-- Is Model C compatible with the source-of-truth rule the plan has already adopted (canonical is
-  authoritative; published is a projection)? If SharePoint can render/write independently, does
-  "canonical is authoritative" still hold, or does this model implicitly make SharePoint a second
-  source of truth?
-- Who decides which model is used — is this a single global decision, or could different content
-  types/audiences reasonably use different models?
-- What does the actual day-to-day authoring loop look like end-to-end under each model — i.e., who
-  edits, who/what triggers a re-render, and how do generated elements (nav, TOC) and other
-  published formats stay in sync?
+**Correction to the original draft's Model C:** it previously proposed "a Python-backed skill
+invoked from SharePoint" running the render pipeline directly. A native SharePoint skill is not an
+arbitrary Python execution environment. Model C above is redefined as SharePoint hosting the
+*canonical Markdown itself* (a genuinely distinct architectural choice), which is judged the more
+useful of two possible corrections — the alternative correction (a SharePoint-triggered but
+externally hosted rendering service) is a publication mechanism, not an authoring model, and
+doesn't answer the core question of where edits re-enter canonical content, so it isn't carried
+forward as a separate lettered model here.
 
-## Explicit non-decision
+## Role of SharePoint agents and native skills
 
-**No model is recommended or selected here.** This is deliberately left open, deferred to Phase 3
-(gated behind Phase 3.0's tenant-capability discovery), consistent with this repo's stated
-discipline of not building/deciding phases ahead of the evidence that phase is meant to produce.
-This document exists to make sure the question is asked and tracked, not answered prematurely.
+SharePoint agents and native SharePoint skills may improve the authoring and review experience by
+helping users locate relevant approved content, apply an authoring checklist, check required
+sections or metadata, prepare a proposed revision, summarize changes, identify related topics, or
+create/update review items where supported.
+
+**They do not independently solve synchronization with canonical Git.** Native SharePoint skills
+cannot run repository scripts, execute Git operations, perform arbitrary custom conversion, or
+connect directly to Git. Any SharePoint-to-Git transfer therefore requires a separately authorized
+integration mechanism (as in Models A, C, and E above) — agents/skills assist the workflow, they
+do not provide the SharePoint-to-Git integration boundary itself.
+
+## The canonical-authority principle, restated
+
+The original framing risked assuming "canonical is authoritative" necessarily means the only
+editable canonical copy must physically reside in Git. That assumption is dropped. Restated:
+
+> **There must be one authoritative canonical content state for each topic. Generated pages,
+> assembled publications, navigation, TOCs, Office/PDF outputs, and agent-facing representations
+> are projections. The approved operating model must define where canonical content is edited, how
+> a version becomes authoritative, and how authoritative versions enter the validated release
+> process.**
+
+Authority is then defined separately, by concern, rather than by "one copy in one place":
+
+- **Content authority** — approved topic prose.
+- **Business authority** — owner, effective date, approval, review date and disposition.
+- **Engineering authority** — schemas, validators, renderers, templates, stable-ID rules.
+- **Publication authority** — publication maps and approved release manifests.
+- **Platform projection** — SharePoint pages/files and other generated formats.
+
+This preserves the architectural discipline of "canonical is authoritative" while leaving it to
+Phase 3.0 evidence to determine whether approved Markdown is actually authored in Git, in
+SharePoint, or through a controlled front end.
+
+## Decision criteria for Phase 3.0 (evidence to gather, not questions to guess at now)
+
+- Can representative business authors complete routine edits without technical assistance?
+- Is the edited source Markdown, modern-page content, or another structured format?
+- Can stable topic IDs survive editing, rename, move, and synchronization?
+- Can generated regions (nav, TOC, indexes) be protected from manual editing?
+- Can an edit be validated before becoming canonical?
+- Can reviewers see both topic-level and assembled-publication impact of a change?
+- What happens when Git and SharePoint are both changed before either is reconciled?
+- Is synchronization one-way intake, one-way publication, or genuinely bidirectional?
+- Can the system prevent silent overwrite and synchronization loops?
+- Which platform owns each metadata field?
+- How are author identity, approval, and Git attribution preserved across the boundary?
+- Can the workflow restore a prior approved version?
+- Can a complete release be reproduced from recorded source and tool versions?
+- Can SharePoint agents reliably retrieve and cite the selected content representation?
+- What licensing, tenant, permission, and hosting dependencies exist for any adapter/service?
+- Who operates and supports the integration when it fails?
+
+## Explicit non-decision, and what should be tested first
+
+**No model is selected here.** This remains deliberately deferred to Phase 3 (gated behind
+Phase 3.0's tenant-capability discovery), consistent with this repo's standing discipline of not
+building/deciding phases ahead of the evidence they're meant to produce.
+
+What changes with this revision is *what Phase 3.0 should test*. The first experiment should
+compare:
+
+1. SharePoint editing of actual canonical Markdown (Model C);
+2. SharePoint-based change proposals feeding Git (Model E);
+3. Git authoring through a simplified/assisted interface (Model D, or plain Model B);
+4. the central-publisher baseline (Model F).
+
+**Modern-page reverse conversion (Model A) should be deprioritized** in that first experiment
+unless there is a strong business requirement that authors must edit modern pages directly — it is
+the option most likely to mix canonical meaning with destination-specific presentation and produce
+an unreliable round trip, per the tension noted in its row above.
 
 ## Feedback requested
 
-- Are there other realistic candidate models missing from this list?
-- Of the four, does any look clearly infeasible or clearly preferable on its face (setting aside
-  that a final decision should wait for Phase 3.0 evidence)?
-- Is the "canonical is authoritative, SharePoint is a rendered projection" architectural stance
-  (already adopted for Phase 3) the right one to hold onto, or does it need revisiting given these
-  four models?
+- Are there other realistic candidate models missing from this revised set?
+- Of A–G, does any look clearly infeasible or clearly preferable on its face (setting aside that a
+  final decision should wait for Phase 3.0 evidence)?
+- Is the restated canonical-authority principle (one authoritative state per topic, authority
+  split by concern, location left open) the right replacement for the earlier "canonical must live
+  in Git" framing?
+- Are the Phase 3.0 decision criteria complete enough to actually discriminate between C, D, E, and
+  F once real tenant evidence exists?
