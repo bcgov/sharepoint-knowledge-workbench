@@ -308,6 +308,14 @@ is feasible.
   **Deliverable:** `source-of-truth-lifecycle.md`. **Verification:** each question above has an explicit
   answer, not a default-by-omission. **Evidence:** the document itself, reviewed before Subphase 3.2 pilots
   anything.
+  **Related open question (not yet decided, informs but does not resolve this stage):**
+  `docs/vision/editing-workflow-options-for-external-review.md` explores where content authors would
+  actually edit content (Git vs. SharePoint vs. a hybrid), candidate editing/synchronization models
+  A–G, a proposed non-negotiable rule that routine authoring must hide Git/publication machinery from
+  business authors, and a concrete supervised human-technical-publisher bridge (three named repository
+  skills: get-approved-chunks / render / publish) usable before any GitHub↔SharePoint integration
+  exists. Stage 3.1.4's answers should be informed by that document's eventual Phase 3.0 findings, not
+  assume any of its candidate models in advance.
 
 ### Subphase 3.2 — Package-only deployment mode
 - Stage 3.2.1 — produce an upload-ready package (artifacts + metadata sidecar) that writes nothing
