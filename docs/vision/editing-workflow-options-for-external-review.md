@@ -16,7 +16,8 @@ usability flaw: the models were still designed from the system's perspective rat
 editor's, risking exposure of Git/publication machinery to non-technical authors — see
 "Third round of review" below for the resulting non-negotiable design rule. A fourth round proposed
 a concrete near-term bridge using a human technical publisher role and PnP PowerShell scripts —
-see "Concrete near-term bridge" below.
+see "Concrete near-term bridge" below. A fifth round consolidated that bridge into three named,
+supervised repository skills — see "Refinement: three named repository skills" below.
 
 ## Issue Summary
 
@@ -304,6 +305,48 @@ adapter absorbing the intake/publish scripts) without changing the editor-facing
 
 An illustrative diagram of this flow is at
 `docs/diagrams/07-publisher-triggered-render-workflow.mmd`.
+
+## Refinement: three named repository skills, supervised not autonomous
+
+A fifth review pass consolidated the bridge above into three concrete, named repository skills,
+and stressed that this is **supervised** Copilot use, not an unattended agentic workflow:
+
+1. **Get latest approved chunks** — a controlled PnP PowerShell intake script connects to the
+   SharePoint authoring library, retrieves only the latest *approved* versions required by the
+   publication map (refusing draft/pending versions), writes them into the repository working
+   area, and creates an intake manifest recording the SharePoint source versions.
+2. **Render approved content** — applies the publication map, selected template, and output
+   profile; generates navigation/TOC; produces required outputs; runs deterministic validation;
+   creates a reviewable release package and evidence. This stays repository-side because
+   PowerShell, custom code, file-system access, deterministic transformation, testing, and
+   reproducible release packages belong to GitHub Copilot repository skills rather than SharePoint
+   skills, consistent with this document's "Role of SharePoint agents and native skills" section
+   above.
+3. **Publish rendered content** — requires explicit publisher confirmation; runs a separate
+   controlled PnP PowerShell publication script; publishes only a successfully validated release
+   package; uploads rendered outputs to the designated SharePoint destination; applies publication
+   metadata; records the deployment result and release identity; never modifies the approved
+   source chunks.
+
+**User experience:** the designated publisher receives a notification (e.g. *"Approved content
+changes are ready for the Court Registry Manual. Open the knowledge-workbench repository and run
+the approved publication workflow."*), then in VS Code asks Copilot to *"Process the approved Court
+Registry Manual changes."* A coordinating repository workflow invokes the three skills in
+sequence:
+
+> Get latest approved chunks → Render approved content → Stop for release review → Publish
+> rendered content after confirmation
+
+**Important boundary — this is supervised, not unattended:** the publisher initiates the process;
+the PnP scripts are predefined and controlled; rendering and validation are deterministic; Copilot
+does not rewrite approved content; the process stops before publication for human review; the
+publisher explicitly authorizes the SharePoint write. This matches the document's layered division
+of responsibility: SharePoint handles authoring, review, approval, metadata, and governance;
+repository skills handle PowerShell, rendering, validation, packaging, and release evidence;
+production publication requires an approved identity and explicit human authorization.
+
+The concise operating model: **Notification → open VS Code → get-approved-chunks skill → render
+skill → review → publish skill.**
 
 ## Feedback requested
 
