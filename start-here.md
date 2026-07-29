@@ -140,12 +140,49 @@ same `image239` reference now correctly recognized at analysis time too), all ot
 (159 headings, 185 local links, 25 topics) unchanged.
 
 **Remaining item:** the human spot-check checklist (spec Section 10's six categories) is still
-unfilled. Two of six are genuinely N/A for this document (zero tables, zero footnotes — verified
-from objective statistics, not assumed); the other four (title/front matter, one image-heavy
-section, the one deep-hierarchy heading, beginning/middle/end) require an actual human look at
-`runs/ceis-manual-v2/render/rendered-output/` — this is the one item this session could not close
-itself, per the spec's own rule that human review can't be automated. Full detail in
-`runs/ceis-manual-v2/evidence-report.md`.
+unfilled. Two of six were reported as N/A for this document (zero tables, zero footnotes — the
+zero-tables claim was later found to be a defect in this session's follow-on work below, not a
+true N/A; the zero-footnotes claim is genuinely N/A) — see the new session's write-up below for
+the corrected table-count status. The remaining human-required rows (title/front matter, one
+table-heavy section, one image-heavy section, the one deep-hierarchy heading, beginning/middle/
+end) require an actual human look at `runs/ceis-manual-v2/render/rendered-output/` — this is the
+one item this session could not close itself, per the spec's own rule that human review can't be
+automated. Full detail in `runs/ceis-manual-v2/evidence-report.md`.
+
+## Table-detection/rendering defect found and fixed (later session, during human spot-check attempt)
+
+While starting the human spot-check pass (row 6, viewing the last topic page,
+`ceis-support-faq--218dfe1f.md`), a real defect surfaced: its rendered table had a spurious
+`| --- | --- |` separator row injected after almost every data row, corrupting otherwise-valid
+pandoc grid-table markup.
+
+**Root cause:** `pandoc_fixes/tables.py`'s `fix_malformed_tables` was designed/tested only against
+GFM-style pipe tables. Pandoc emits **grid tables** (bounded by `+---+`/`+===+` lines) for
+complex/merged-cell Word tables — a format the function never recognized. Its `_PIPE_ROW` regex
+matches every pipe-delimited row, including grid-table data rows; since the `+---+` boundary lines
+reset internal `in_table` state, every content row looked like a fresh headerless pipe table,
+triggering a spurious separator insertion after each one. A second, related defect shared the same
+blind spot: `analyze_structure.py`'s `compute_statistics` only counted GFM-style separators toward
+`table_count`, so this document (which has 3 grid tables, zero pipe tables) was reported as
+`table_count: 0` — which had incorrectly justified marking spot-check row 2 as N/A.
+
+**Fix:** `fix_malformed_tables` now recognizes grid-table boundary lines and passes grid-table
+blocks through untouched (they already carry a valid `+===+` header separator). `compute_statistics`
+now also counts grid-table header separators toward `table_count`. Regression tests added first,
+confirmed failing against the old code, then passing after the fix:
+`tests/unit/test_tables.py::TestFixMalformedTables::test_leaves_grid_table_untouched` and
+`tests/unit/test_analyze_structure.py::test_table_count_detects_pandoc_grid_tables`. Full suite:
+**451 passed, 1 skipped** (up from 449).
+
+**Regeneration:** `analyze`, `convert`, and `render` rerun against the real document, reusing the
+same already-approved `conversion-plan.confirmed.json` (stated explicitly before rerunning, per
+this project's prior process-gap lesson — no new chunking/strategy/media questions were needed,
+since only table-handling code changed). Both `convert` and `render`: **PASS**. Media (319/319) and
+chunk/page counts (25/25) unchanged on both sides — the fix affected only table markup.
+`analyze`'s `table_count` now correctly reports `3` (was `0`); other statistics (159 headings, 185
+local links, 342 image references, 25 topics) unchanged. `evidence-report.md`'s checklist and
+"Table-Detection and Rendering Defect" section updated with this finding; row 2 is no longer
+marked N/A and now requires an actual human look, same as the other unresolved rows.
 
 ## Orchestrate-conversion skill (added this session, after Task 18)
 
@@ -165,10 +202,12 @@ no new code was written; full suite still 448 passed, 1 skipped
 ## Next action on resume — this is the actual remaining work
 
 1. **Human spot-check pass** (the one item blocking Phase 1 formal sign-off, and Phase 2's Task 0
-   precondition): open `runs/ceis-manual-v2/render/rendered-output/` and fill in the four applicable rows
-   of the checklist in `runs/ceis-manual-v2/evidence-report.md` (title/front matter, one image-heavy
-   section, the one deep-hierarchy heading, beginning/middle/end) — this requires a person looking at the
-   actual rendered pages, not something automatable.
+   precondition): open `runs/ceis-manual-v2/render/rendered-output/` and fill in the five applicable rows
+   of the checklist in `runs/ceis-manual-v2/evidence-report.md` (title/front matter, one table-heavy
+   section, one image-heavy section, the one deep-hierarchy heading, beginning/middle/end) — this requires
+   a person looking at the actual rendered pages, not something automatable. (Row 2/table-heavy was added
+   to the human-required list this session — see the new defect note below; it was previously mismarked
+   N/A.)
 2. **Then: execute the Phase 2 plan** (see "Planning Artifacts" at the top of this file) — this is now the
    actual next body of work, not an open question. Do it in its own branch/worktree, per the master plan's
    git/session workflow, not directly on `main`.
