@@ -66,7 +66,11 @@ import re  # noqa: E402
 
 _HEADING_LINE = re.compile(_HEADING_RE_TEMPLATE.format(), re.MULTILINE)
 
-_IMAGE_REF = re.compile(r"!\[[^\]]*\]\(([^)\s]+)")
+# See scripts/package.py's _IMAGE_REF docstring for why alt text uses
+# `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- a markdown-escaped
+# `]` in alt text otherwise terminates the character class early and the
+# reference is silently missed.
+_IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)\s]+)")
 
 
 def _normalize_heading_text(text: str) -> str:
@@ -232,8 +236,12 @@ _TABLE_SEPARATOR_ROW = re.compile(
 # mistaken for a table separator row.
 _FOOTNOTE_REFERENCE = re.compile(r'\[\^([\w-]+)\](?!:)')
 _FOOTNOTE_DEFINITION_LINE = re.compile(r'^\[\^([\w-]+)\]:', re.MULTILINE)
-_LOCAL_LINK = re.compile(r'(?<!\!)\[[^\]]*\]\(#[^)]*\)')
-_IMAGE_REFERENCE = re.compile(r'!\[[^\]]*\]\([^)]*\)')
+# Both use `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- see
+# scripts/package.py's _IMAGE_REF docstring: a markdown-escaped `]` in
+# link/alt text otherwise terminates the character class early and the
+# reference is silently missed.
+_LOCAL_LINK = re.compile(r'(?<!\!)\[(?:[^\]\\]|\\.)*\]\(#[^)]*\)')
+_IMAGE_REFERENCE = re.compile(r'!\[(?:[^\]\\]|\\.)*\]\([^)]*\)')
 
 
 def compute_statistics(markdown_text: str) -> dict:
