@@ -32,6 +32,7 @@ import pytest
 import atomic_output
 import contracts
 import package as package_module
+import canonical_package as canonical_package_module
 from renderers import protocol
 from renderers import multipage_markdown as mpm
 
@@ -92,7 +93,7 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
     manifest_chunks = []
     for idx, (chunk_id, heading_path, content, local_links) in enumerate(chunk_specs):
         meta = _metadata(chunk_id, heading_path, idx, content, local_links)
-        loaded_chunks.append(package_module.LoadedChunk(metadata=meta, content=content))
+        loaded_chunks.append(canonical_package_module.LoadedChunk(metadata=meta, content=content))
         manifest_chunks.append(_manifest_chunk(chunk_id, heading_path, idx))
 
     manifest = contracts.Manifest(
@@ -112,7 +113,7 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
         status="PASS", issues=[], source_sha256=FAKE_SHA, plan_id="plan-1"
     )
 
-    return package_module.CanonicalPackage(
+    return canonical_package_module.CanonicalPackage(
         manifest=manifest,
         validation_report=validation_report,
         chunks=loaded_chunks,
@@ -474,7 +475,7 @@ def test_end_to_end_render_of_small_single_fixture(tmp_path):
     )
     assert promoted is True
 
-    loaded = package_module.CanonicalPackage.load(final_dir)
+    loaded = canonical_package_module.CanonicalPackage.load(final_dir)
     assert loaded.manifest.chunk_count >= 1
 
     result, staging_dir = mpm.render_to_staging(loaded, tmp_path / "rendered")
