@@ -181,16 +181,54 @@ blank pending that review.
 | # | Category | Where to look | Observed (fill in) |
 |---|---|---|---|
 | 1 | Title/front matter | `render/rendered-output/index.md` (title/subtitle/version metadata) | |
-| 2 | One table-heavy section | **N/A — source has zero tables** (`analysis-report.json.statistics.table_count: 0`); no table-heavy section exists in this document to check. |  |
+| 2 | One table-heavy section | **Corrected (session finding, see below): source has 3 tables, not zero** — `analysis-report.json.statistics.table_count: 3` (was `0` due to a real defect in `compute_statistics`'s table-detection regex; fixed this session, see "Table-Detection and Rendering Defect" below). Candidate section: `render/rendered-output/pages/ceis-support-faq--218dfe1f.md` ("DOCUMENTS NOT TO BE SCANNED/UPLOADED INTO CEIS" table); `initiate-a-file--51d1f554.md` also has two tables. | |
 | 3 | One image-heavy section | e.g. `render/rendered-output/pages/ceis-training--*.md` or another topic page with many `image_refs` — inspect a chunk `.meta.json` for the highest `media_refs` count to pick the best candidate | |
 | 4 | One deep heading hierarchy | any topic chunk descending to Heading 4 (only 1 exists source-wide — locate via the level-4 anchor in the canonical chunk metadata) | |
 | 5 | One footnote/cross-reference case | **N/A — source has zero footnotes** (`footnote_definition_count: 0`, `footnote_reference_count: 0`); no such case exists in this document to check. |  |
 | 6 | Beginning, middle, end of manual | `pages/data-capture-standards--*.md` (topic 0), a mid-list topic (e.g. `pages/orders--*.md`, topic 12), `pages/ceis-support-faq--*.md` (topic 24, last) | |
 
-Rows 2 and 5 are genuinely inapplicable to this source document (verified from the objective
-statistics above, not assumed) — they should be marked N/A with that justification when this
-checklist is signed off, not left silently blank forever. Rows 1, 3, 4, 6 require an actual human
-look before this report can be considered complete.
+Row 5 is genuinely inapplicable to this source document (verified from the objective statistics
+above, not assumed) — it should be marked N/A with that justification when this checklist is
+signed off, not left silently blank forever. Row 2 was previously (incorrectly) marked N/A on the
+same basis but is not actually inapplicable — see "Table-Detection and Rendering Defect" below.
+Rows 1, 2, 3, 4, 6 require an actual human look before this report can be considered complete.
+
+### Table-Detection and Rendering Defect (found during this session's spot-check, fixed)
+
+Row 6's spot-check pass (viewing `ceis-support-faq--218dfe1f.md`, the last topic) surfaced a real
+defect, not a documentation gap: the rendered table "DOCUMENTS NOT TO BE SCANNED/UPLOADED INTO
+CEIS" had a spurious `| --- | --- |` separator row injected after almost every data row, breaking
+what should have been valid pandoc grid-table markup.
+
+**Root cause:** `pandoc_fixes/tables.py`'s `fix_malformed_tables` was designed and tested only
+against GFM-style pipe tables (`| --- | --- |` header separator). Pandoc emits **grid tables**
+(bounded by `+---+`/`+===+` lines) for complex/merged-cell Word tables — a format the function
+never recognized. Its `_PIPE_ROW` regex matches every pipe-delimited row, including grid-table
+data rows sandwiched between `+---+` boundary lines; since those boundary lines reset internal
+`in_table` state, every subsequent content row looked like a fresh headerless pipe table, and a
+bogus separator was inserted after each one.
+
+A second, related defect shared the same blind spot: `analyze_structure.py`'s `compute_statistics`
+only counted GFM-style pipe-table separators toward `table_count`, so this document — which
+contains 3 grid tables, zero pipe tables — was reported as `table_count: 0`, which had incorrectly
+justified marking spot-check row 2 above as N/A.
+
+**Fix:** `fix_malformed_tables` now recognizes grid-table boundary lines (`_GRID_BOUNDARY_ROW`)
+and passes grid-table blocks through untouched (they already carry a valid `+===+` header
+separator). `compute_statistics` now also counts grid-table header separators
+(`_GRID_TABLE_HEADER_SEPARATOR`) toward `table_count`. Regression tests added first and confirmed
+failing against the old code, then passing after the fix:
+`tests/unit/test_tables.py::TestFixMalformedTables::test_leaves_grid_table_untouched` and
+`tests/unit/test_analyze_structure.py::test_table_count_detects_pandoc_grid_tables`. Full suite:
+**451 passed, 1 skipped** (up from 449).
+
+**Regeneration:** `analyze`, `convert`, and `render` were rerun against the real document (source
+and confirmed plan unchanged — same `conversion-plan.confirmed.json`, reused explicitly since only
+table-handling code changed, no new chunking/strategy/media questions were needed). Both `convert`
+and `render` validation status: **PASS**. Media (319/319) and chunk/page counts (25/25) unchanged
+on both canonical and rendered sides — confirming the fix affected only table markup. Direct
+inspection of `ceis-support-faq--218dfe1f.md`'s table after regeneration confirms clean grid-table
+markup with no spurious separator rows.
 
 ## Final Acceptance Checklist (Plan Section, Walked Against Real Evidence)
 
@@ -286,5 +324,5 @@ otherwise unchanged (159/185/25).
 
 ## Remaining Open Item
 
-1. Rows 1, 3, 4, 6 of the human spot-check checklist above still need an actual human pass — the
-   only item this report cannot close on its own.
+1. Rows 1, 2, 3, 4, 6 of the human spot-check checklist above still need an actual human pass —
+   the only item this report cannot close on its own.

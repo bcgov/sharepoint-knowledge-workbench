@@ -234,6 +234,16 @@ _TABLE_SEPARATOR_ROW = re.compile(
 # so a bare horizontal-rule-shaped line of dashes with no pipe characters
 # at all (e.g. a divider pandoc emits for a Word horizontal rule) is never
 # mistaken for a table separator row.
+_GRID_TABLE_HEADER_SEPARATOR = re.compile(
+    r'^\s*\+[-=:]*=[-=:]*(?:\+[-=:]*=[-=:]*)*\+\s*$', re.MULTILINE
+)
+# Pandoc emits grid tables (bounded by `+---+`/`+===+` lines) for complex/
+# merged-cell Word tables. `_TABLE_SEPARATOR_ROW` only recognizes GFM-style
+# `| --- | --- |` pipe-table separators, so a document containing only grid
+# tables would otherwise be reported as having zero tables. A grid table's
+# `+===+` header separator (distinct from the plain `+---+` row boundaries
+# between data rows, which use only `-`) occurs exactly once per grid
+# table, so counting it gives one count per grid table.
 _FOOTNOTE_REFERENCE = re.compile(r'\[\^([\w-]+)\](?!:)')
 _FOOTNOTE_DEFINITION_LINE = re.compile(r'^\[\^([\w-]+)\]:', re.MULTILINE)
 # Both use `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- see
@@ -254,7 +264,9 @@ def compute_statistics(markdown_text: str) -> dict:
     literal is reserved for a statistic this function cannot compute (none
     currently), per the "where feasible" requirement.
     """
-    table_count = len(_TABLE_SEPARATOR_ROW.findall(markdown_text))
+    table_count = len(_TABLE_SEPARATOR_ROW.findall(markdown_text)) + len(
+        _GRID_TABLE_HEADER_SEPARATOR.findall(markdown_text)
+    )
     footnote_reference_count = len(
         [m for m in _FOOTNOTE_REFERENCE.finditer(markdown_text)]
     )
