@@ -21,6 +21,8 @@ import copy
 
 import pytest
 
+import contracts
+
 from contracts import (
     SourceFingerprint,
     StructuralAnchor,
@@ -443,3 +445,25 @@ class TestComputePlanId:
         plan_a = ConversionPlan.from_dict(data_a)
         plan_b = ConversionPlan.from_dict(data_b)
         assert compute_plan_id(plan_a) != compute_plan_id(plan_b)
+
+
+def test_schema_version_constants_are_independent_per_contract():
+    assert contracts.CONVERSION_PLAN_SCHEMA_VERSION == "1.0"
+    assert contracts.MANIFEST_SCHEMA_VERSION == "1.0"
+    assert contracts.CHUNK_METADATA_SCHEMA_VERSION == "1.0"
+    assert contracts.PUBLICATION_MAP_SCHEMA_VERSION == "1.0"
+
+    with pytest.raises(ValueError, match="schema_version"):
+        contracts.Manifest.from_dict({
+            "schema_version": "9.9",
+            "generator": {"plugin": "p", "plugin_version": "0.1.0"},
+            "source": {"path": "x", "sha256": "a" * 64},
+            "plan_id": "sha256:" + "a" * 64,
+            "content_type": "manual",
+            "template_profile": "t",
+            "strategy": "chunked",
+            "chunk_count": 0,
+            "chunks": [],
+            "media": [],
+            "validation_report": "validation.json",
+        })

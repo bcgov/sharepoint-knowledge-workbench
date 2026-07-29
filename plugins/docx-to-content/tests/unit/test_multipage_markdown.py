@@ -162,6 +162,20 @@ def test_renderer_satisfies_protocol():
     assert contracts.SUPPORTED_SCHEMA_VERSION in renderer.supported_manifest_versions
 
 
+def test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant(monkeypatch):
+    import contracts as _contracts
+    monkeypatch.setattr(_contracts, "MANIFEST_SCHEMA_VERSION", "9.9")
+    # Re-read the class attribute fresh rather than relying on import-time
+    # caching -- reload the module so the frozenset is rebuilt against the
+    # monkeypatched constant.
+    import importlib
+    import renderers.multipage_markdown as mpm
+    importlib.reload(mpm)
+    assert "9.9" in mpm.MultipageMarkdownRenderer.supported_manifest_versions
+    assert "1.0" not in mpm.MultipageMarkdownRenderer.supported_manifest_versions
+    importlib.reload(mpm)  # restore real state for any test running after this one
+
+
 # ---------------------------------------------------------------------------
 # Single vs chunked -- same code path
 # ---------------------------------------------------------------------------

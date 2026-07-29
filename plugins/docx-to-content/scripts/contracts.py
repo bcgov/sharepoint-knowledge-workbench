@@ -22,7 +22,19 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 
-SUPPORTED_SCHEMA_VERSION = "1.0"
+CONVERSION_PLAN_SCHEMA_VERSION = "1.0"
+MANIFEST_SCHEMA_VERSION = "1.0"
+CHUNK_METADATA_SCHEMA_VERSION = "1.0"
+PUBLICATION_MAP_SCHEMA_VERSION = "1.0"
+
+# Backward-compatible alias: pre-Phase-2 code (and any external caller) that
+# referenced one shared SUPPORTED_SCHEMA_VERSION still resolves to a valid
+# value. New code should reference the per-contract constant above instead
+# -- these four are independent per Phase 2's design (a publication-map
+# change no longer forces a conversion-plan version bump or vice versa), not
+# migration/compatibility machinery -- each still supports exactly one
+# version.
+SUPPORTED_SCHEMA_VERSION = CONVERSION_PLAN_SCHEMA_VERSION
 
 
 def _require(data: dict, field_name: str) -> Any:
@@ -31,12 +43,12 @@ def _require(data: dict, field_name: str) -> Any:
     return data[field_name]
 
 
-def _check_schema_version(data: dict) -> str:
+def _check_schema_version(data: dict, expected_version: str, contract_name: str) -> str:
     version = _require(data, "schema_version")
-    if version != SUPPORTED_SCHEMA_VERSION:
+    if version != expected_version:
         raise ValueError(
-            f"unsupported schema_version: {version!r} "
-            f"(supported: {SUPPORTED_SCHEMA_VERSION!r})"
+            f"unsupported schema_version for {contract_name}: {version!r} "
+            f"(supported: {expected_version!r})"
         )
     return version
 
@@ -173,7 +185,7 @@ class ConversionPlan:
 
     @classmethod
     def from_dict(cls, data: dict) -> "ConversionPlan":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, CONVERSION_PLAN_SCHEMA_VERSION, "ConversionPlan")
         return cls(
             schema_version=schema_version,
             plan_id=_require(data, "plan_id"),
@@ -240,7 +252,7 @@ class ChunkMetadata:
 
     @classmethod
     def from_dict(cls, data: dict) -> "ChunkMetadata":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, CHUNK_METADATA_SCHEMA_VERSION, "ChunkMetadata")
         return cls(
             schema_version=schema_version,
             chunk_id=_require(data, "chunk_id"),
@@ -343,7 +355,7 @@ class Manifest:
 
     @classmethod
     def from_dict(cls, data: dict) -> "Manifest":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, MANIFEST_SCHEMA_VERSION, "Manifest")
         return cls(
             schema_version=schema_version,
             generator=ManifestGenerator.from_dict(_require(data, "generator")),
@@ -469,7 +481,7 @@ class PublicationMap:
 
     @classmethod
     def from_dict(cls, data: dict) -> "PublicationMap":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, PUBLICATION_MAP_SCHEMA_VERSION, "PublicationMap")
         return cls(
             schema_version=schema_version,
             package_identity=_require(data, "package_identity"),
