@@ -305,6 +305,32 @@ def test_fail_on_content_hash_mismatch(tmp_path):
     assert "content_hash_mismatch" in _codes(report)
 
 
+def test_chunk_sidecar_plan_id_mismatch_is_detected(tmp_path):
+    plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
+    meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
+    meta_data = json.loads(meta_path.read_text())
+    meta_data["plan_id"] = "sha256:" + "0" * 64
+    meta_path.write_text(json.dumps(meta_data))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "chunk_plan_id_mismatch" for i in report.issues)
+
+
+def test_chunk_sidecar_source_sha256_mismatch_is_detected(tmp_path):
+    plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
+    meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
+    meta_data = json.loads(meta_path.read_text())
+    meta_data["source_sha256"] = "f" * 64
+    meta_path.write_text(json.dumps(meta_data))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "chunk_source_sha256_mismatch" for i in report.issues)
+
+
 # ---------------------------------------------------------------------------
 # Empty chunks
 # ---------------------------------------------------------------------------

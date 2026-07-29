@@ -412,6 +412,25 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
                 chunk.content_file,
             ))
 
+        # Cross-artifact lineage checks: ensure sidecar plan_id and source_sha256
+        # match the manifest's recorded values.
+        if getattr(meta, "plan_id", None) != manifest.plan_id:
+            issues.append(_error(
+                "chunk_plan_id_mismatch",
+                f"chunk {chunk.chunk_id!r} sidecar plan_id={meta.plan_id!r} "
+                f"does not match manifest plan_id={manifest.plan_id!r}",
+                chunk.metadata_file,
+            ))
+
+        if getattr(meta, "source_sha256", None) != getattr(manifest.source, "sha256", None):
+            issues.append(_error(
+                "chunk_source_sha256_mismatch",
+                f"chunk {chunk.chunk_id!r} sidecar source_sha256="
+                f"{meta.source_sha256!r} does not match manifest source "
+                f"sha256={manifest.source.sha256!r}",
+                chunk.metadata_file,
+            ))
+
         if content.strip() == "":
             issues.append(_error(
                 "empty_chunk", f"chunk {chunk.chunk_id!r} content is empty", chunk.content_file
