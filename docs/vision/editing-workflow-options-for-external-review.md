@@ -238,7 +238,10 @@ found issues. Please correct the highlighted items and resubmit."* The author-vi
 should probably be:
 
 **Draft → In review → Changes requested → Approved → Publishing → Published**, with an exceptional
-**Publication issue — author action required** state for the case above.
+**Publication issue — author action required** state for the case above. An illustrative diagram of
+the editor-facing half of this flow (through the Approved state, where the publisher notification
+in `docs/diagrams/07-publisher-triggered-render-workflow.mmd` picks up) is at
+`docs/diagrams/08-editor-submission-and-approval-workflow.mmd`.
 
 **Revised framing of the preferred candidate:** not "authors feed Git," but *SharePoint is the
 complete authoring, review, approval, and status experience; Power Automate and the repository
