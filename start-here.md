@@ -1,4 +1,4 @@
-# Resume `docx-to-content` Phase 1 — Task 18 complete
+# Resume `docx-to-content` Phase 1 — Task 18 complete, orchestrate-conversion skill added
 
 ## Authoritative Inputs
 
@@ -53,13 +53,60 @@ Full plugin suite as of this session's last commit (`40bf069`): **448 passed, 1 
 
 ### What is NOT done yet — explicitly withheld pending further direction
 
-- **The interactive orchestration sub-agent has not been created** — explicitly sequenced after Task 18 completes (now true), not invented ahead of time.
 - **General (non-preamble) media classification/disposition** — screenshots inside procedures, decorative-vs-meaningful classification, derived-asset authorization — is future work per the media-disposition mechanism's deliberately narrow Task 18 scope.
 - **Nothing has been pushed to `origin`** — `main` is ahead of `origin/main` (check exact count via `git log origin/main..main --oneline`); confirm with the user before pushing.
 
+## Evidence-report assembly + a real defect found (this session, after the orchestrate-conversion skill)
+
+Assembled `runs/ceis-manual-v2/evidence-report.md` (spec Section 10's required Task 17/18
+deliverable, never previously produced) from data already on disk — no new conversion run,
+just reconciling `manifest.json`/`validation.json`/`renderer-validation.json`/
+`analysis-report.json`/chunk metadata against each other. While reconciling raw-extracted-media
+count (320) against canonical/rendered media count (318), found a real, unfixed defect, not just
+a documentation gap:
+
+- `image239.emf`/`image239.png` (referenced in the `PROTECTION ORDERS` topic's body content, not
+  preamble) is **absent from both `canonical-content/media/` and `render/rendered-output/media/`**.
+- Both the promoted canonical chunk and the promoted rendered page still contain the image
+  reference, but as an **absolute, machine-local path into a deleted staging directory**
+  (`.../run-e2fc65dd.../_staging/raw/media/image239.png`) — never rewritten to a relative path
+  into the promoted `media/` folder.
+- **Both `canonical-content/validation.json` and `render/rendered-output/renderer-validation.json`
+  report `"status": "PASS"` with zero issues** despite this — a validator gap on top of the
+  conversion miss. The broken-link/media-reference check evidently trusts each chunk's own
+  `media_refs` metadata list (which does not include `image239.png`) rather than re-scanning the
+  actual markdown for image links.
+- **This means the Task 18 "convert PASS / render PASS" claim, and this session's earlier
+  "Phase 1 technical objectives satisfied" assessment, both need qualifying** — the pipeline
+  proved itself on 158 of 159 headings and 317 of 318 media files cleanly, but has one confirmed,
+  reproducible content-fidelity defect that neither validator catches. Full detail, plus the
+  Final Acceptance Checklist walked item-by-item against real evidence (one item now marked
+  FAIL, several marked ⚠️/not-yet-verified), is in `runs/ceis-manual-v2/evidence-report.md`.
+
+This is a real engineering gap, not documentation debt — **it should be fixed (media-conversion
+pipeline + validator broken-link scan) before Phase 1 is declared formally closed.** The human
+spot-check checklist (spec Section 10's six categories) is also still unfilled — two of six
+categories are genuinely N/A for this source document (zero tables, zero footnotes), but the
+other four still need an actual human look at rendered output.
+
+## Orchestrate-conversion skill (added this session, after Task 18)
+
+Deferred work from before Task 18 is now done: `plugins/docx-to-content/skills/orchestrate-conversion/SKILL.md`
+is a pure-instruction (no new code) skill that sequences the same
+`analyze`/`confirm`/`convert`/`render` CLI calls the other three skills
+already document, with the mandatory human plan-review and media-decision
+gates made explicit (pause-and-summarize after `analyze`, inline
+image-review + `plans.apply_media_decision` for unclassified preamble
+media, loop until explicit approval before `confirm`, stop on any FAIL or
+undispositioned WARN at `convert`/`render`). It has not yet had a real
+dry run against an actual document in this session — do that before
+relying on it for a second real conversion. No new tests were added since
+no new code was written; full suite still 448 passed, 1 skipped
+(unchanged, verified after adding the skill).
+
 ## Next action on resume — this is the actual remaining work
 
-1. Either build the interactive orchestration sub-agent (deferred from before Task 18), or move to whatever's next per `docs/vision/` (Phase 2 direction) — per further user direction, not assumed.
+1. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions actually hold up in practice, or move to whatever's next per `docs/vision/` (Phase 2 direction) — per further user direction, not assumed.
 2. If/when broader (non-preamble) media classification becomes a real need on a future document, design it as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing beyond preamble media is implemented.
 
 ## Efficiency notes for continuing this session or a fresh one
