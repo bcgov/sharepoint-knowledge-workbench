@@ -18,9 +18,10 @@ manual-conversion-poc/
 ├── intake/                  # Source .docx files awaiting/pending conversion (read-only inputs)
 │   └── CEIS MANUAL - working version.docx   # Phase 1 pilot document
 ├── runs/                    # Per-document-run conversion output
-│   └── ceis-manual/
-│       ├── CEIS-Manual.md   # pre-plugin, known-broken first-pass conversion — see §3
-│       └── images/media/    # images extracted from the .docx, referenced by that markdown
+│   ├── ceis-manual/          # pre-plugin, known-broken first-pass conversion — retained as
+│   │                          #   historical evidence only, not authoritative — see §3
+│   └── ceis-manual-v2/       # the real, plugin-produced, validated PASS output — canonical-content/,
+│                              #   render/rendered-output/, evidence-report.md — current & authoritative
 ├── plugins/
 │   └── docx-to-content/     # the self-contained conversion plugin — see §3
 ├── docs/
@@ -138,19 +139,23 @@ scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles 
 
 ## 6. Roadmap / Open Questions
 
-- **Immediate (Phase 1, in progress):** Task 18 — cut over the real CEIS Manual through the
-  finished plugin, replacing `runs/ceis-manual/CEIS-Manual.md` (known-broken pre-plugin output).
-  Gated on explicit human confirmation of the proposed topic-grouping plan — see `start-here.md`
-  for exact status.
-- **Beyond Phase 1:** the phased roadmap (Phase 2 — publication/renderer separation, Phase 3 —
-  governed SharePoint knowledge pilot, Phase 4 — native SharePoint skills, Phase 5 — SharePoint
-  knowledge agent, Phase 6 — multi-target capability model, Phase 7 — Cowork/Copilot Studio
-  evaluation, Phase 8 — scale/operations), proposed plugin boundaries (`sharepoint-knowledge`,
-  `knowledge-publication`, `knowledge-evaluation`), and repository rename/restructure options are
-  described in `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. That
-  document proposes future direction; it does not itself authorize renaming the repository, moving
-  files beyond what's already been agreed, or scaffolding new plugins — each requires its own
-  reviewed decision.
+- **Phase 1 status:** engineering-complete (real CEIS Manual cut over through the finished plugin,
+  `convert`/`render` both validated PASS, a real defect found and fixed with regression tests, full
+  suite 449 passed/1 skipped). Formal closure is pending one human step — see `start-here.md` for
+  the exact remaining checklist.
+- **Phase 2 status:** planned, not yet executed. Spec and an 18-task TDD implementation plan exist
+  (`docs/superpowers/specs/2026-07-28-phase2-canonical-publication-contract-hardening-design.md`
+  and its companion plan), reviewed across multiple rounds of external adversarial review.
+  Execution is gated on Phase 1's formal closure and explicit user approval — see `start-here.md`.
+- **The authoritative full roadmap** — Phase 2 through Phase 8, plus 3.0 and 5.5A/5.5B, each with
+  subphases, implementation stages, entry/exit gates, and a full traceability matrix — is
+  `docs/vision/master-initiative-plan-workstreams-and-phases.md`. This supersedes the original
+  high-level proposal in `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`
+  (kept for historical comparison) with a structure that survived several rounds of external
+  review: proposed plugin boundaries (`sharepoint-knowledge`, `knowledge-publication`,
+  `knowledge-evaluation`) and a repository rename are explicitly deferred, not authorized by either
+  document alone — each requires its own reviewed decision when its trigger condition is met (see
+  the master plan's traceability matrix and extraction-triggers reference).
 - Open architecture/governance questions (knowledge-unit boundaries, publication-map reuse,
   metadata authority, security boundaries, stable identity, and more) are tracked in
   `docs/vision/key-unanswered-questions.md`.
