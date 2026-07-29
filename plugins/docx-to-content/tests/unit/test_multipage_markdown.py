@@ -177,7 +177,7 @@ def test_single_chunk_package_renders_one_page_and_index(tmp_path):
     assert isinstance(result, contracts.RenderResult)
     assert result.status == "PASS"
     assert result.renderer_name == "multipage-markdown"
-    assert result.source_manifest_hash == FAKE_SHA
+    assert result.source_content_sha256 == FAKE_SHA
     assert (output_dir / "pages" / "chunk-a.md").read_text() == "# Getting Started\n\nHello.\n"
     assert (output_dir / "index.md").exists()
     index_text = (output_dir / "index.md").read_text()

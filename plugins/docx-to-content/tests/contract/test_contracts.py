@@ -339,12 +339,27 @@ class TestValidation:
 # RenderResult
 # ---------------------------------------------------------------------------
 
+
+def test_render_result_uses_source_content_sha256_not_manifest_hash():
+    data = {
+        "renderer_name": "multipage-markdown",
+        "renderer_version": "0.1.0",
+        "source_content_sha256": "a" * 64,
+        "output_files": [],
+        "status": "PASS",
+        "errors": [],
+        "warnings": [],
+    }
+    result = RenderResult.from_dict(data)
+    assert result.source_content_sha256 == "a" * 64
+    assert result.to_dict() == data
+
 class TestRenderResult:
     def test_round_trip(self):
         data = {
             "renderer_name": "multipage-markdown",
             "renderer_version": "0.1.0",
-            "source_manifest_hash": "sha256:" + "0" * 64,
+            "source_content_sha256": "sha256:" + "0" * 64,
             "output_files": ["index.md", "file-access--a1b2c3d4.md"],
             "status": "PASS",
             "errors": [],
@@ -357,7 +372,7 @@ class TestRenderResult:
         data = {
             "renderer_name": "multipage-markdown",
             "renderer_version": "0.1.0",
-            "source_manifest_hash": "sha256:" + "0" * 64,
+            "source_content_sha256": "sha256:" + "0" * 64,
             "output_files": [],
             "status": "PASS",
         }

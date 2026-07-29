@@ -205,7 +205,7 @@ class MultipageMarkdownRenderer:
         return contracts.RenderResult(
             renderer_name=self.name,
             renderer_version=RENDERER_VERSION,
-            source_manifest_hash=package.manifest.source.sha256,
+            source_content_sha256=package.manifest.source.sha256,
             output_files=output_files,
             status="PASS",
             errors=[],
