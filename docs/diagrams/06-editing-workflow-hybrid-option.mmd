@@ -1,0 +1,112 @@
+flowchart TD
+
+    subgraph SP["SharePoint Online - Business authoring"]
+        A["Business content author"]
+        B["Markdown working copy in governed library"]
+        C["SharePoint Markdown editor"]
+        D["SharePoint agent"]
+        E["Native SharePoint skill"]
+        F["Business metadata and review workflow"]
+        G{"Business proposal approved?"}
+        H["Approved change proposal"]
+
+        A --> C
+        C <--> B
+        D -. "Finds related approved knowledge" .-> C
+        E -. "Checks structure and metadata" .-> C
+        B --> F
+        F --> G
+        G -- "No - revise" --> C
+        G -- "Yes" --> H
+    end
+
+    subgraph INT["Authorized SharePoint-to-Git boundary"]
+        I["Approved intake trigger"]
+        J["Authorized integration adapter"]
+        K["Retrieve exact approved SharePoint version"]
+        L["Verify topic ID, version, author and approval"]
+        M["Create Git branch and pull request"]
+
+        I --> J
+        J --> K
+        K --> L
+        L --> M
+    end
+
+    subgraph GIT["Git repository - Validation and canonical content"]
+        N["Proposed Markdown change"]
+        O["Run deterministic validation"]
+        P["Validate schema, IDs, links, media and provenance"]
+        Q["Generate topic and publication preview"]
+        R["Generate change and impact report"]
+        S{"Repository review accepted?"}
+        T["Return findings for revision"]
+        U["Merge into protected canonical branch"]
+        V["Authoritative canonical Markdown"]
+        W["Create release manifest and evidence"]
+
+        N --> O
+        O --> P
+        P --> Q
+        Q --> R
+        R --> S
+        S -- "No" --> T
+        S -- "Yes" --> U
+        U --> V
+        V --> W
+    end
+
+    subgraph PUB["Governed publication pipeline"]
+        X["Publication map"]
+        Y["Templates and renderers"]
+        Z["Generate destination outputs"]
+        AA["Validate complete release"]
+        AB{"Publication approved?"}
+        AC["Publish SharePoint projection"]
+        AD["Generate other approved formats"]
+        AE["Record deployment evidence"]
+
+        X --> Z
+        Y --> Z
+        Z --> AA
+        AA --> AB
+        AB -- "No - correct release" --> Z
+        AB -- "Yes" --> AC
+        AB -- "Yes" --> AD
+        AC --> AE
+        AD --> AE
+    end
+
+    subgraph OUT["Published SharePoint knowledge environment"]
+        AF["Published knowledge library or modern pages"]
+        AG["Generated navigation and table of contents"]
+        AH["SharePoint knowledge agent"]
+        AI["Readers and operational users"]
+        AJ["Drift and knowledge-health monitoring"]
+
+        AF --> AG
+        AF --> AH
+        AG --> AI
+        AH --> AI
+        AF --> AJ
+    end
+
+    H --> I
+    M --> N
+    T -. "Feedback" .-> C
+    W --> Z
+    AC --> AF
+    AE -. "Release identity and evidence" .-> AJ
+    AJ -- "New issue or change request" --> B
+
+    classDef proposal fill:#fff2cc,stroke:#bf9000,stroke-width:2px,color:#000;
+    classDef integration fill:#d9eaf7,stroke:#3d85c6,stroke-width:2px,color:#000;
+    classDef canonical fill:#d9ead3,stroke:#38761d,stroke-width:3px,color:#000;
+    classDef projection fill:#eadcf8,stroke:#674ea7,stroke-width:2px,color:#000;
+    classDef decision fill:#f4cccc,stroke:#990000,stroke-width:2px,color:#000;
+
+    class B,H,N proposal;
+    class I,J,K,L,M integration;
+    class V,W canonical;
+    class AC,AD,AF,AG projection;
+    class G,S,AB decision;

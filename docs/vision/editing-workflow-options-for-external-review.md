@@ -178,6 +178,11 @@ editing without SharePoint holding independent authority) and may be the stronge
 architecture in the set, but it remains something for Phase 3.0's experiment to test, not a
 decision made here.
 
+An illustrative (not authoritative) diagram of this candidate hybrid — SharePoint business
+authoring, the authorized SharePoint-to-Git boundary, Git validation and canonical promotion, the
+governed publication pipeline, and the published SharePoint knowledge environment — is at
+`docs/diagrams/06-editing-workflow-hybrid-option.mmd`.
+
 ## Feedback requested
 
 - Are there other realistic candidate models missing from this revised set?
