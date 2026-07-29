@@ -88,7 +88,11 @@ def apply_cleanup_pipeline(markdown_text: str) -> str:
     return text
 
 
-_ABS_MEDIA_REF = re.compile(r"(!\[[^\]]*\]\()([^)]+)(\))")
+# See package.py's _IMAGE_REF for why alt text uses `(?:[^\]\\]|\\.)*`
+# rather than a naive `[^\]]*`: a markdown-escaped `]` in alt text (pandoc
+# emits `\]` for a literal `]` byte) otherwise terminates the character
+# class early and the whole reference silently fails to match here too.
+_ABS_MEDIA_REF = re.compile(r"(!\[(?:[^\]\\]|\\.)*\]\()([^)]+)(\))")
 
 
 def _relativize_media_refs(markdown_text: str, staging_dir: Path) -> str:

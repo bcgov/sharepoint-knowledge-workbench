@@ -76,8 +76,12 @@ import contracts  # noqa: E402
 import path_safety  # noqa: E402
 from renderers import multipage_markdown as mpm  # noqa: E402
 
-_LINK_REF = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
-_IMAGE_REF = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
+# See scripts/package.py's _IMAGE_REF docstring for why link/alt text uses
+# `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- a markdown-escaped `]`
+# in link/alt text otherwise terminates the character class early and the
+# whole reference silently escapes this validator's broken-link check.
+_LINK_REF = re.compile(r"(?<!!)\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
+_IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 
 
 def _error(code: str, message: str, path: "str | None" = None) -> "contracts.ValidationIssue":

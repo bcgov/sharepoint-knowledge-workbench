@@ -1,4 +1,4 @@
-# Resume `docx-to-content` Phase 1 — Task 18 complete, orchestrate-conversion skill added
+# Resume `docx-to-content` Phase 1 — engineering complete, one human sign-off item remains
 
 ## Authoritative Inputs
 
@@ -56,38 +56,58 @@ Full plugin suite as of this session's last commit (`40bf069`): **448 passed, 1 
 - **General (non-preamble) media classification/disposition** — screenshots inside procedures, decorative-vs-meaningful classification, derived-asset authorization — is future work per the media-disposition mechanism's deliberately narrow Task 18 scope.
 - **Nothing has been pushed to `origin`** — `main` is ahead of `origin/main` (check exact count via `git log origin/main..main --oneline`); confirm with the user before pushing.
 
-## Evidence-report assembly + a real defect found (this session, after the orchestrate-conversion skill)
+## Evidence-report assembly, a real defect found AND fixed, real output regenerated (this session)
 
 Assembled `runs/ceis-manual-v2/evidence-report.md` (spec Section 10's required Task 17/18
-deliverable, never previously produced) from data already on disk — no new conversion run,
-just reconciling `manifest.json`/`validation.json`/`renderer-validation.json`/
-`analysis-report.json`/chunk metadata against each other. While reconciling raw-extracted-media
-count (320) against canonical/rendered media count (318), found a real, unfixed defect, not just
-a documentation gap:
+deliverable, never previously produced) by reconciling `manifest.json`/`validation.json`/
+`renderer-validation.json`/`analysis-report.json`/chunk metadata against each other. This
+surfaced a real defect, not just a documentation gap — and it has since been **fixed, verified,
+and the real CEIS output regenerated**, not just described:
 
-- `image239.emf`/`image239.png` (referenced in the `PROTECTION ORDERS` topic's body content, not
-  preamble) is **absent from both `canonical-content/media/` and `render/rendered-output/media/`**.
-- Both the promoted canonical chunk and the promoted rendered page still contain the image
-  reference, but as an **absolute, machine-local path into a deleted staging directory**
-  (`.../run-e2fc65dd.../_staging/raw/media/image239.png`) — never rewritten to a relative path
-  into the promoted `media/` folder.
-- **Both `canonical-content/validation.json` and `render/rendered-output/renderer-validation.json`
-  report `"status": "PASS"` with zero issues** despite this — a validator gap on top of the
-  conversion miss. The broken-link/media-reference check evidently trusts each chunk's own
-  `media_refs` metadata list (which does not include `image239.png`) rather than re-scanning the
-  actual markdown for image links.
-- **This means the Task 18 "convert PASS / render PASS" claim, and this session's earlier
-  "Phase 1 technical objectives satisfied" assessment, both need qualifying** — the pipeline
-  proved itself on 158 of 159 headings and 317 of 318 media files cleanly, but has one confirmed,
-  reproducible content-fidelity defect that neither validator catches. Full detail, plus the
-  Final Acceptance Checklist walked item-by-item against real evidence (one item now marked
-  FAIL, several marked ⚠️/not-yet-verified), is in `runs/ceis-manual-v2/evidence-report.md`.
+**The defect:** `image239.emf` (body content in `PROTECTION ORDERS`, not preamble) was absent
+from both promoted canonical and rendered media, with a dead absolute-path reference baked into
+both promoted outputs, and **both validators reported PASS with zero issues** despite it.
 
-This is a real engineering gap, not documentation debt — **it should be fixed (media-conversion
-pipeline + validator broken-link scan) before Phase 1 is declared formally closed.** The human
-spot-check checklist (spec Section 10's six categories) is also still unfilled — two of six
-categories are genuinely N/A for this source document (zero tables, zero footnotes), but the
-other four still need an actual human look at rendered output.
+**Root cause:** the image's alt text contains a markdown-escaped `]` (from Word content quoting
+"[Order Terminating a Protection Order]"). Four copies of the same naive regex —
+`!\[[^\]]*\]\(...\)` — silently stop matching alt text at that literal `]` byte, so the reference
+was never recognized as media at all, in: `convert.py`'s `_ABS_MEDIA_REF`, `package.py`'s
+`_IMAGE_REF`, and **two** places in `validate_canonical.py` (`_IMAGE_REF_FOR_COMPARISON` and,
+critically, `_IMAGE_REF` inside `_check_media_references` — the actual broken-link validator,
+which never saw the reference to check it). `renderers/validate_rendered.py` carried the
+identical bug on the render side.
+
+**Fix:** all four sites now use `(?:[^\]\\]|\\.)*` for alt/link text — correctly treats `\]` as
+an escaped literal rather than a terminator. A regression test was added first and confirmed
+failing against the old code, then passing after the fix:
+`tests/unit/test_package.py::test_alt_text_with_escaped_brackets_still_recognized_as_media_ref`.
+Full suite: **449 passed, 1 skipped** (up from 448 — the new test executes, nothing else broke).
+
+**Regeneration:** `convert` and `render` were rerun against the *same* confirmed plan (source and
+plan unchanged — only pipeline code was fixed) via:
+```bash
+python -m scripts.cli convert --source "../../intake/CEIS MANUAL - working version.docx" --plan ../../temp/ceis-manual-analysis/conversion-plan.confirmed.json --output ../../runs/ceis-manual-v2
+python -m scripts.cli render --canonical ../../runs/ceis-manual-v2/canonical-content --renderer multipage-markdown --output ../../runs/ceis-manual-v2/render
+```
+Both PASS. `runs/ceis-manual-v2/` now has **319/319** media files on both the canonical and
+rendered sides (up from 318/318), `image239.png` present and correctly referenced as
+`../media/image239.png` in both the canonical chunk and the rendered page — confirmed by direct
+file inspection, not validator status alone. 159/159 heading anchors, 25/25 topic chunks
+unchanged (the fix only affected media handling, not chunking/anchoring).
+
+**Not fixed, deliberately out of scope:** three other files contain structurally similar
+`[^\]]*` patterns not implicated in this specific defect (`pandoc_validate.py`,
+`analyze_structure.py`, `pandoc_fixes/images.py` — analysis-time detection and glued-image
+cleanup, not media copy/validation). Whether any of these has a live bug of the same class is
+unverified; a dedicated pass if a future document surfaces one, not opportunistic changes here.
+
+**Remaining item:** the human spot-check checklist (spec Section 10's six categories) is still
+unfilled. Two of six are genuinely N/A for this document (zero tables, zero footnotes — verified
+from objective statistics, not assumed); the other four (title/front matter, one image-heavy
+section, the one deep-hierarchy heading, beginning/middle/end) require an actual human look at
+`runs/ceis-manual-v2/render/rendered-output/` — this is the one item this session could not close
+itself, per the spec's own rule that human review can't be automated. Full detail in
+`runs/ceis-manual-v2/evidence-report.md`.
 
 ## Orchestrate-conversion skill (added this session, after Task 18)
 
@@ -106,8 +126,13 @@ no new code was written; full suite still 448 passed, 1 skipped
 
 ## Next action on resume — this is the actual remaining work
 
-1. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions actually hold up in practice, or move to whatever's next per `docs/vision/` (Phase 2 direction) — per further user direction, not assumed.
-2. If/when broader (non-preamble) media classification becomes a real need on a future document, design it as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing beyond preamble media is implemented.
+1. **Human spot-check pass** (the one item blocking Phase 1 formal sign-off): open
+   `runs/ceis-manual-v2/render/rendered-output/` and fill in the four applicable rows of the
+   checklist in `runs/ceis-manual-v2/evidence-report.md` (title/front matter, one image-heavy
+   section, the one deep-hierarchy heading, beginning/middle/end) — this requires a person
+   looking at the actual rendered pages, not something automatable.
+2. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions actually hold up in practice, or move to whatever's next per `docs/vision/` (Phase 2 direction) — per further user direction, not assumed.
+3. If/when broader (non-preamble) media classification becomes a real need on a future document, design it as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing beyond preamble media is implemented.
 
 ## Efficiency notes for continuing this session or a fresh one
 
