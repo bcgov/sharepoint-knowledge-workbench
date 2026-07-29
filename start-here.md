@@ -1,4 +1,4 @@
-# Resume — Phase 1 engineering-complete pending human sign-off; Phase 2 planned and approved, not yet implemented
+# Resume — Phase 1 complete (human spot-check done, PR merged); Phase 2 planned and approved, not yet started
 
 ## Planning Artifacts (read these first, in this order)
 
@@ -16,8 +16,11 @@
    summary; verify against `git log` regardless.
 
 **Actual next action, in order:**
-1. Complete Phase 1's human spot-check (see "Next action on resume" below) — this is Phase 2's Task 0
-   precondition; Phase 2 cannot meaningfully start without it.
+1. **Phase 1 is now fully complete** — the `fix-grid-table-rendering-defect` PR (#2) is merged to
+   `origin/main`, and the human spot-check pass (rows 1, 2, 3, 4, 6 of
+   `runs/ceis-manual-v2/evidence-report.md`'s checklist) was completed this session as a human+agent
+   walkthrough. Row 5 remains N/A (genuinely no footnotes in the source). Nothing further is needed on
+   Phase 1.
 2. Create a feature branch or worktree for Phase 2 (`phase-2-contract-hardening`), per the master plan's
    Per-Phase Git & Session Workflow section.
 3. Execute the Phase 2 plan task-by-task (Task 0 first, always), via `superpowers:subagent-driven-development`
@@ -139,15 +142,12 @@ against the real document confirmed the fix: `image_reference_count` went from 3
 same `image239` reference now correctly recognized at analysis time too), all other counts
 (159 headings, 185 local links, 25 topics) unchanged.
 
-**Remaining item:** the human spot-check checklist (spec Section 10's six categories) is still
-unfilled. Two of six were reported as N/A for this document (zero tables, zero footnotes — the
-zero-tables claim was later found to be a defect in this session's follow-on work below, not a
-true N/A; the zero-footnotes claim is genuinely N/A) — see the new session's write-up below for
-the corrected table-count status. The remaining human-required rows (title/front matter, one
-table-heavy section, one image-heavy section, the one deep-hierarchy heading, beginning/middle/
-end) require an actual human look at `runs/ceis-manual-v2/render/rendered-output/` — this is the
-one item this session could not close itself, per the spec's own rule that human review can't be
-automated. Full detail in `runs/ceis-manual-v2/evidence-report.md`.
+**Update (this session, resumed): completed.** The human spot-check checklist has now been
+filled in — see `runs/ceis-manual-v2/evidence-report.md`'s "Human Spot-Check Checklist" section.
+All applicable rows (1, 2, 3, 4, 6) were reviewed by a human (in-chat file review plus an
+independent GitHub preview check for Row 3's inline images); Row 5 remains genuinely N/A (zero
+footnotes in the source). **Phase 1's human sign-off precondition is satisfied; nothing further
+is outstanding on Phase 1.**
 
 ## Table-detection/rendering defect found and fixed (later session, during human spot-check attempt)
 
@@ -201,14 +201,10 @@ no new code was written; full suite still 448 passed, 1 skipped
 
 ## Next action on resume — this is the actual remaining work
 
-1. **Human spot-check pass** (the one item blocking Phase 1 formal sign-off, and Phase 2's Task 0
-   precondition): open `runs/ceis-manual-v2/render/rendered-output/` and fill in the five applicable rows
-   of the checklist in `runs/ceis-manual-v2/evidence-report.md` (title/front matter, one table-heavy
-   section, one image-heavy section, the one deep-hierarchy heading, beginning/middle/end) — this requires
-   a person looking at the actual rendered pages, not something automatable. (Row 2/table-heavy was added
-   to the human-required list this session — see the new defect note below; it was previously mismarked
-   N/A.)
-2. **Then: execute the Phase 2 plan** (see "Planning Artifacts" at the top of this file) — this is now the
+1. **Phase 1 is done.** The human spot-check pass (the item that was blocking Phase 1 formal
+   sign-off and Phase 2's Task 0 precondition) was completed this session — see
+   `runs/ceis-manual-v2/evidence-report.md`'s checklist. Nothing further needed here.
+2. **Execute the Phase 2 plan** (see "Planning Artifacts" at the top of this file) — this is now the
    actual next body of work, not an open question. Do it in its own branch/worktree, per the master plan's
    git/session workflow, not directly on `main`.
 3. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
@@ -221,7 +217,10 @@ no new code was written; full suite still 448 passed, 1 skipped
 
 ## Efficiency notes for continuing this session or a fresh one
 
-- Work directly on `main` — there is no worktree to re-enter. If isolation is wanted for further work, create a fresh worktree via `superpowers:using-git-worktrees` rather than assuming an old one still exists.
+- Work directly on `main` — there is no worktree to re-enter. The `fix-grid-table-rendering-defect`
+  branch (PR #2) is merged and deleted (local + remote); it no longer needs tracking. If isolation is
+  wanted for further work (e.g. Phase 2), create a fresh worktree via `superpowers:using-git-worktrees`
+  rather than assuming an old one still exists.
 - This repo's `CLAUDE.md`: use the cheapest viable sub-agent model per dispatch, and don't spawn a sub-agent when the job doesn't need one. This entire Task 18 session (mixed-level root detection, media-disposition mechanism, both real-document convert fixes) was done directly via Read/Edit/Bash, not dispatched sub-agents — the work was well-understood, self-verifiable via the test suite, and the human (via chat) was the actual source of the classification decisions the pipeline itself can't infer (e.g. image1.png's disposition required looking at the actual image, not just objective signals).
 - `origin` is `https://github.com/richfrem/manual-conversion-poc.git`. `main` is the default branch on GitHub.
 - A `temp/bundles/manifest.json` exists for bundling key files via the `context-bundler` skill into a single `.md` for external review — keep it updated as files change if that hand-off is still wanted.

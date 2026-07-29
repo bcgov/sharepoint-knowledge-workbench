@@ -173,25 +173,25 @@ after the fix.
 
 ## Human Spot-Check Checklist (Spec Section 10)
 
-**Not yet completed.** Per the spec, "human review records observed facts only" — these rows
-require a person to actually open the rendered output and look, not an automated inference. The
-table below identifies *where* to look (so the check is fast), but every "Observed" cell is
-blank pending that review.
+**Completed** (this session, human + agent walkthrough together, against the merged
+`fix-grid-table-rendering-defect` output on `main`). Per the spec, "human review records observed
+facts only" — every row below was actually opened and looked at (in-chat file review plus the
+human independently previewing `desk-orders--36dc75b0.md` on GitHub to confirm inline image
+rendering), not inferred from validator status.
 
-| # | Category | Where to look | Observed (fill in) |
+| # | Category | Where to look | Observed |
 |---|---|---|---|
-| 1 | Title/front matter | `render/rendered-output/index.md` (title/subtitle/version metadata) | |
-| 2 | One table-heavy section | **Corrected (session finding, see below): source has 3 tables, not zero** — `analysis-report.json.statistics.table_count: 3` (was `0` due to a real defect in `compute_statistics`'s table-detection regex; fixed this session, see "Table-Detection and Rendering Defect" below). Candidate section: `render/rendered-output/pages/ceis-support-faq--218dfe1f.md` ("DOCUMENTS NOT TO BE SCANNED/UPLOADED INTO CEIS" table); `initiate-a-file--51d1f554.md` also has two tables. | |
-| 3 | One image-heavy section | e.g. `render/rendered-output/pages/ceis-training--*.md` or another topic page with many `image_refs` — inspect a chunk `.meta.json` for the highest `media_refs` count to pick the best candidate | |
-| 4 | One deep heading hierarchy | any topic chunk descending to Heading 4 (only 1 exists source-wide — locate via the level-4 anchor in the canonical chunk metadata) | |
-| 5 | One footnote/cross-reference case | **N/A — source has zero footnotes** (`footnote_definition_count: 0`, `footnote_reference_count: 0`); no such case exists in this document to check. |  |
-| 6 | Beginning, middle, end of manual | `pages/data-capture-standards--*.md` (topic 0), a mid-list topic (e.g. `pages/orders--*.md`, topic 12), `pages/ceis-support-faq--*.md` (topic 24, last) | |
+| 1 | Title/front matter | `render/rendered-output/index.md` (title/subtitle/version metadata) | **Metadata absent, confirmed acceptable.** Neither `index.md` (bare `# Index` + topic link list) nor the first topic page (`data-capture-standards--d1d8e601.md`) contains the source title ("Civil Electronic Information System"), subtitle ("SEARCHABLE GUIDE"), or version ("Version 1.9") — confirmed absent from the entire `canonical-content/`/`render/` trees by full-text search. This is expected: preamble content is never copied into any chunk by design. Human reviewed and accepted as-is for Phase 1 sign-off; no action needed. |
+| 2 | One table-heavy section | `render/rendered-output/pages/ceis-support-faq--218dfe1f.md` ("DOCUMENTS NOT TO BE SCANNED/UPLOADED INTO CEIS" grid table); `initiate-a-file--51d1f554.md` (two grid tables) | **PASS.** All three grid tables render as clean, correctly-bounded pandoc grid tables (`+---+`/`+===+` boundaries), no spurious separator rows after data rows — confirms the grid-table fix holds against the real regenerated output. |
+| 3 | One image-heavy section | `render/rendered-output/pages/desk-orders--36dc75b0.md` (42 image refs, most image-heavy chunk) | **PASS.** All 42 media references resolve to existing files (verified programmatically); images placed on their own lines between procedural steps, not glued to text. Sample image (`image181.png`) inspected directly and is a real, undistorted CEIS screenshot with annotation. Human independently previewed the page on GitHub and confirmed images render inline correctly. |
+| 4 | One deep heading hierarchy | `render/rendered-output/pages/reports-module--6494d095.md` (`#### Special Program Report`, the one Heading-4) | **PASS.** Heading levels render correctly: H1 topic title, H3 subsections, and the one H4 ("Special Program Report") nested properly under an H3 with no level-skipping or flattening. |
+| 5 | One footnote/cross-reference case | N/A | **N/A — source has zero footnotes** (`footnote_definition_count: 0`, `footnote_reference_count: 0`); no such case exists in this document to check. |
+| 6 | Beginning, middle, end of manual | `pages/data-capture-standards--*.md` (topic 0), `pages/orders--*.md` (topic 12, mid), `pages/ceis-support-faq--*.md` (topic 24, last) | **PASS.** All three reviewed — consistent structure throughout: headings, numbered/lettered sub-steps, `**Field** (n):` definition-style lists, and inline images all intact and readable across the full span of the manual; no truncation or garbling. |
 
 Row 5 is genuinely inapplicable to this source document (verified from the objective statistics
-above, not assumed) — it should be marked N/A with that justification when this checklist is
-signed off, not left silently blank forever. Row 2 was previously (incorrectly) marked N/A on the
-same basis but is not actually inapplicable — see "Table-Detection and Rendering Defect" below.
-Rows 1, 2, 3, 4, 6 require an actual human look before this report can be considered complete.
+above, not assumed). All other rows (1, 2, 3, 4, 6) have now had an actual human look, with the
+human independently confirming Row 3's GitHub inline-image rendering. **This checklist, and Phase
+1's human spot-check precondition, are now complete.**
 
 ### Table-Detection and Rendering Defect (found during this session's spot-check, fixed)
 
@@ -258,17 +258,17 @@ this report, not against task narrative.
 | Atomic promotion protects prior accepted output | ✅ | staging-then-promote pattern in `convert.py`/`validate_rendered.py` |
 | Renderer consumes canonical package only | ✅ | `render(self, package, output_dir)` signature, per `render-content/SKILL.md` |
 | Single and repeated-heading fixtures pass | ✅ (existing suite) | 449 passed/1 skipped |
-| CEIS evidence report is complete | ⚠️ **Partial** | media defect now resolved and documented, but the human spot-check rows are still unresolved |
-| Human spot checks are recorded | ❌ | not yet done — see checklist above; requires a human, not automatable |
+| CEIS evidence report is complete | ✅ | media defect resolved and documented; human spot-check rows completed below |
+| Human spot checks are recorded | ✅ | completed this session — see checklist above; a human reviewed every applicable row (rows 1, 2, 3, 4, 6), independently confirming Row 3's inline image rendering on GitHub |
 | All tests and plugin validation pass | ✅ | 449 passed/1 skipped; canonical/render validation on the regenerated output independently confirmed correct by direct file inspection (media files present, references resolve), not just validator self-report |
 | Deferred scope remains deferred | ✅ | general (non-preamble) media classification confirmed still not implemented |
 | Applicable plugin/marketplace metadata is reconciled | ✅ | No `marketplace.json` exists for this plugin (checked, none found). `plugins/docx-to-content/.claude-plugin/plugin.json`'s `capabilities` (document-parsing, structure-extraction, content-canonicalization, markdown-rendering, media-extraction) and `description` accurately describe the built pipeline; nothing added/changed by the topic-grouping or media-disposition work requires a new capability entry. `version: "0.1.0"` remains appropriate pre-1.0 pilot software. |
 
-**Net result: one item remains outstanding — human spot checks.** The `image239` media defect
-that previously failed this checklist has been fixed at the root cause (not worked around), with
-a regression test guarding against recurrence, and the real CEIS output regenerated and
-re-verified. The only checklist item still open is the human spot-check pass, which by the
-spec's own rule cannot be completed by an automated process.
+**Net result: all checklist items are now complete.** The `image239` media defect that
+previously failed this checklist has been fixed at the root cause (not worked around), with a
+regression test guarding against recurrence, and the real CEIS output regenerated and
+re-verified. The human spot-check pass — the only item that couldn't be completed by an
+automated process — was done this session as a human+agent walkthrough; see the checklist above.
 
 ## Defect Found and Fixed During This Report's Assembly
 
@@ -324,5 +324,7 @@ otherwise unchanged (159/185/25).
 
 ## Remaining Open Item
 
-1. Rows 1, 2, 3, 4, 6 of the human spot-check checklist above still need an actual human pass —
-   the only item this report cannot close on its own.
+None. Rows 1, 2, 3, 4, 6 of the human spot-check checklist above have all had an actual human
+pass this session (see checklist above for the recorded observations) — the last item this
+report could not close on its own is now closed. **Phase 1's human spot-check precondition is
+satisfied.**
