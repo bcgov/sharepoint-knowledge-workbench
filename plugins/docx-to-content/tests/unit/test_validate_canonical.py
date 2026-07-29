@@ -787,6 +787,47 @@ def test_validate_grouped_package_fails_when_publication_map_order_has_gap(tmp_p
     assert "publication_map_order_invalid" in _codes(report)
 
 
+def test_malformed_publication_map_is_a_controlled_validation_error(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    (output_dir / "publication-map.json").write_text("{not valid json")
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "malformed_publication_map" for i in report.issues)
+
+
+def test_unexpected_publication_map_on_non_grouped_package_is_rejected(tmp_path):
+    plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
+    (output_dir / "publication-map.json").write_text(json.dumps({
+        "schema_version": "1.0",
+        "package_identity": "sha256:" + "a" * 64,
+        "entries": [],
+    }))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "unexpected_publication_map" for i in report.issues)
+
+
+def test_publication_map_chunk_id_diverging_from_topic_id_is_detected(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    pub_map_path = output_dir / "publication-map.json"
+    data = json.loads(pub_map_path.read_text())
+    # Deliberately break the chunk_id/topic_id equality the real producer
+    # currently maintains -- chunk_id now points at a chunk that does not
+    # exist in the manifest at all, proving the validator checks chunk_id
+    # itself rather than trusting topic_id as a stand-in for it.
+    data["entries"][0]["chunk_id"] = "nonexistent-chunk-id"
+    pub_map_path.write_text(json.dumps(data))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "publication_map_chunk_mismatch" for i in report.issues)
+
+
 def test_validate_ungrouped_package_unaffected_by_new_grouped_checks(tmp_path):
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     cleaned = "# Widget Setup\n\nBody one.\n\n# Widget Configuration\n\nBody two.\n"
