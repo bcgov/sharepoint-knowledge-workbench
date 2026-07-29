@@ -11,7 +11,10 @@ artifact is authoritative), and **integration mechanism** (how content moves bet
 also implied native SharePoint skills could perform Git operations or arbitrary reverse
 conversion, which they cannot. The first revision made those axes explicit and corrected the
 mischaracterized models. A second round of review found a remaining self-contradiction in Model C
-and three smaller wording issues, all corrected below.
+and three smaller wording issues, all corrected below. A third round of review raised a deeper
+usability flaw: the models were still designed from the system's perspective rather than the
+editor's, risking exposure of Git/publication machinery to non-technical authors — see
+"Third round of review" below for the resulting non-negotiable design rule.
 
 ## Issue Summary
 
@@ -182,6 +185,65 @@ An illustrative (not authoritative) diagram of this candidate hybrid — SharePo
 authoring, the authorized SharePoint-to-Git boundary, Git validation and canonical promotion, the
 governed publication pipeline, and the published SharePoint knowledge environment — is at
 `docs/diagrams/06-editing-workflow-hybrid-option.mmd`.
+
+## Third round of review: the editor must not see the machinery
+
+A third external review pass raised a more fundamental usability flaw in the C+E hybrid above: it
+was still designed from the *system's* perspective, not the editor's. As drafted, a business
+author could still be exposed to Git-flavored concepts — branches, pull requests, adapters,
+validation pipelines, synchronization, canonical promotion, publication manifests — even if only
+as status detail. For a non-technical registry content owner, none of that should be visible. The
+routine editing experience should be:
+
+1. Open the topic in SharePoint.
+2. Edit it.
+3. Select **Submit for approval**.
+4. If rejected, revise it.
+5. If approved, the system handles everything else automatically.
+
+(SharePoint document approval can be orchestrated through Power Automate, which can retrieve the
+approved file and trigger downstream actions after the approval decision —
+[Power Automate SharePoint approval guidance](https://learn.microsoft.com/en-us/sharepoint/dev/business-apps/power-automate/guidance/require-doc-approval),
+[SharePoint library triggers](https://learn.microsoft.com/en-us/power-automate/trigger-sharepoint-library).)
+
+This reframes the evaluation question for every model above. It is no longer:
+
+> Can non-technical authors successfully participate in a Git change-proposal workflow?
+
+It becomes:
+
+> Can the architecture completely hide Git and publication engineering behind the ordinary
+> SharePoint edit-and-approve experience?
+
+If it cannot, the model is probably unsuitable for ordinary business authors, regardless of how
+architecturally rigorous it is.
+
+**Proposed non-negotiable design rule**, to apply to whichever model is eventually selected:
+
+> The routine authoring experience must require no knowledge of Git, branches, pull requests,
+> synchronization, adapters, renderers, publication maps, or canonical promotion. A business author
+> edits content in SharePoint, submits it through the familiar approval process, and receives
+> either requested changes or confirmation of publication. All engineering and synchronization
+> activity occurs behind that workflow.
+
+**One remaining complication:** "approved" (by a human reviewer) and "published" (passes automated
+validation) are not necessarily the same event. The hidden pipeline could still reject an
+approved document — invalid Markdown structure, broken links/media, damaged stable identifiers,
+prohibited edits to machine-controlled fields, publication-level conflicts — but that must surface
+in business language, not as a failed CI job or rejected pull request, e.g. *"Publication checks
+found issues. Please correct the highlighted items and resubmit."* The author-visible states
+should probably be:
+
+**Draft → In review → Changes requested → Approved → Publishing → Published**, with an exceptional
+**Publication issue — author action required** state for the case above.
+
+**Revised framing of the preferred candidate:** not "authors feed Git," but *SharePoint is the
+complete authoring, review, approval, and status experience; Power Automate and the repository
+toolchain operate invisibly behind it as implementation infrastructure.* Git may remain the
+engineering/canonical-release mechanism, but it must be an implementation detail invisible to
+editors. The underlying usability test: if registry staff must understand the architecture diagram
+in this document to update a topic, the architecture has failed — regardless of which lettered
+model it resembles.
 
 ## Feedback requested
 
