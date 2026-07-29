@@ -26,3 +26,9 @@ it is a speculative Phase 3 illustration, not an authorized workflow.
    repository's render skills through GitHub Copilot, reviews validation/preview output, and — once
    accepted — pushes generated outputs back to SharePoint via PnP PowerShell. Also speculative
    Phase 3 territory, not an authorized workflow.
+8. `08-editor-submission-and-approval-workflow.mmd` — the business-editor-facing half of the same
+   flow, upstream of diagram 07: an author edits a chunk in SharePoint, submits it for approval,
+   and the chunk moves through Draft → In review → Changes requested (looping back to editing) or
+   Approved, at which point the Power Automate publisher notification (the entry point of diagram
+   07) fires. Deliberately excludes Git/publisher machinery — see the editing-workflow document's
+   "Third round of review" section for why. Also speculative Phase 3 territory, not authorized.

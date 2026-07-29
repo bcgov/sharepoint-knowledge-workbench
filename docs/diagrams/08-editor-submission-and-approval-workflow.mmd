@@ -1,0 +1,19 @@
+flowchart TD
+    A["Content author opens<br/>chunk in SharePoint"] --> B["Author edits<br/>Markdown chunk"]
+
+    B --> C["Author selects<br/>Submit for approval"]
+
+    C --> D["Chunk state: In review"]
+
+    D --> E["Reviewer evaluates<br/>submitted chunk"]
+
+    E --> F{"Approved?"}
+
+    F -- "No - changes requested" --> G["Chunk state: Changes requested"]
+    G --> B
+
+    F -- "Yes" --> H["Chunk state: Approved"]
+
+    H --> I["Power Automate sends<br/>publisher notification"]
+
+    I --> J["Handed off to publisher-triggered<br/>render workflow"]
