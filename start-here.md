@@ -1,6 +1,31 @@
-# Resume `docx-to-content` Phase 1 — engineering complete, one human sign-off item remains
+# Resume — Phase 1 engineering-complete pending human sign-off; Phase 2 planned and approved, not yet implemented
 
-## Authoritative Inputs
+## Planning Artifacts (read these first, in this order)
+
+1. `docs/vision/master-initiative-plan-workstreams-and-phases.md` — the whole-spectrum master plan
+   (Phase 1 through 8, plus 3.0 and 5.5), with a git/session workflow every phase follows (branch/worktree
+   per phase, commit per task, exit-gate-is-merge-gate, update this file, start the next phase in a fresh
+   session). Went through external adversarial review (round 3/4, `temp/plan-reviews/full-plan-review/`).
+2. `docs/superpowers/specs/2026-07-28-phase2-canonical-publication-contract-hardening-design.md` — the
+   approved Phase 2 design spec.
+3. `docs/superpowers/plans/2026-07-28-phase2-canonical-publication-contract-hardening.md` — the approved,
+   18-task (Task 0–17), TDD-ready Phase 2 implementation plan. Three rounds of external review behind it
+   (`temp/plan-reviews/`, `temp/plan-reviews/phase2/`, `temp/plan-reviews/full-plan-review/`). **Not yet
+   executed.**
+4. This file, below — Phase 1's detailed history and verified status. Trust this over any other handoff
+   summary; verify against `git log` regardless.
+
+**Actual next action, in order:**
+1. Complete Phase 1's human spot-check (see "Next action on resume" below) — this is Phase 2's Task 0
+   precondition; Phase 2 cannot meaningfully start without it.
+2. Create a feature branch or worktree for Phase 2 (`phase-2-contract-hardening`), per the master plan's
+   Per-Phase Git & Session Workflow section.
+3. Execute the Phase 2 plan task-by-task (Task 0 first, always), via `superpowers:subagent-driven-development`
+   or `superpowers:executing-plans`.
+4. On Phase 2's exit gate being met: merge to `main`, update this file, then start Phase 3.0 in a **new
+   session** — do not continue in the same long-running session that did all of this planning.
+
+## Authoritative Inputs (Phase 1 detail)
 
 Before changing anything, read in full:
 
@@ -139,13 +164,21 @@ no new code was written; full suite still 448 passed, 1 skipped
 
 ## Next action on resume — this is the actual remaining work
 
-1. **Human spot-check pass** (the one item blocking Phase 1 formal sign-off): open
-   `runs/ceis-manual-v2/render/rendered-output/` and fill in the four applicable rows of the
-   checklist in `runs/ceis-manual-v2/evidence-report.md` (title/front matter, one image-heavy
-   section, the one deep-hierarchy heading, beginning/middle/end) — this requires a person
-   looking at the actual rendered pages, not something automatable.
-2. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions actually hold up in practice, or move to whatever's next per `docs/vision/` (Phase 2 direction) — per further user direction, not assumed.
-3. If/when broader (non-preamble) media classification becomes a real need on a future document, design it as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing beyond preamble media is implemented.
+1. **Human spot-check pass** (the one item blocking Phase 1 formal sign-off, and Phase 2's Task 0
+   precondition): open `runs/ceis-manual-v2/render/rendered-output/` and fill in the four applicable rows
+   of the checklist in `runs/ceis-manual-v2/evidence-report.md` (title/front matter, one image-heavy
+   section, the one deep-hierarchy heading, beginning/middle/end) — this requires a person looking at the
+   actual rendered pages, not something automatable.
+2. **Then: execute the Phase 2 plan** (see "Planning Artifacts" at the top of this file) — this is now the
+   actual next body of work, not an open question. Do it in its own branch/worktree, per the master plan's
+   git/session workflow, not directly on `main`.
+3. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
+   actually hold up in practice, if not already done — lower priority than Phase 2 now that Phase 2 has an
+   approved plan.
+4. If/when broader (non-preamble) media classification becomes a real need on a future document, design it
+   as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in
+   `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing
+   beyond preamble media is implemented.
 
 ## Efficiency notes for continuing this session or a fresh one
 
