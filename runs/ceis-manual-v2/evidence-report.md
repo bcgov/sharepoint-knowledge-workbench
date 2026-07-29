@@ -9,6 +9,18 @@ transcribed from memory. The human spot-check section (last) was **not** complet
 automated process — per this section's own rule ("human review records observed facts only"),
 it requires a human to actually look at the rendered output before those rows can be signed off.
 
+**Update:** assembling this report's media reconciliation surfaced a real defect (`image239`,
+see the original "Open Items" entry preserved below for the full diagnosis). The root cause — a
+naive alt-text regex (`[^\]]*`) that silently stops matching when alt text contains a
+markdown-escaped `]` — was found in **four** separate places in the plugin
+(`package.py`, `convert.py`, `validate_canonical.py` twice) and fixed in all four, with a new
+regression test (`tests/unit/test_package.py::test_alt_text_with_escaped_brackets_still_recognized_as_media_ref`).
+`convert`/`render` were rerun against the same confirmed plan (source and plan unchanged, only
+pipeline code fixed) and `runs/ceis-manual-v2/` was regenerated. All counts and statuses below
+reflect the **regenerated, fixed** output, not the original Task 18 run. The full test suite was
+449 passed/1 skipped after the fix (up from 448 passed/1 skipped, confirming the new regression
+test executes and passes, not just that nothing broke).
+
 ## Source Fingerprint and Tool Versions
 
 | Field | Value |
@@ -69,22 +81,26 @@ anchor per original heading, no anchor duplicated or dropped).
 | Source (raw pandoc-extracted media, includes legacy `.emf`) | 320 | `find temp/ceis-manual-analysis/raw/media -type f \| wc -l` |
 | ...of which legacy `.emf` | 37 | `find ... -name '*.emf' \| wc -l` |
 | Source image references detected in text | 341 | `analysis-report.json.statistics.image_reference_count` |
-| Canonical media files (`manifest.json.media`) | 318 | counted from manifest |
-| Rendered media files (`render/rendered-output/media/`) | 318 | `find ... -type f \| wc -l` |
+| Canonical media files (`manifest.json.media`) | **319** (fixed; was 318) | counted from manifest |
+| Rendered media files (`render/rendered-output/media/`) | **319** (fixed; was 318) | `find ... -type f \| wc -l` |
 
-Reconciliation: 320 raw extracted files → 318 canonical/rendered files. Of the 2-file gap:
+Reconciliation: 320 raw extracted files → 319 canonical/rendered files. The 1-file gap:
 
 - **`image1.png`** — accounted for and correct: the sole preamble media reference, reviewed by a
   human, classified `obsolete-source-layout-artifact`, dispositioned `omit-as-reviewed-artifact`,
   confirmed absent from both canonical and rendered media.
-- **`image239.emf`/`image239.png`** — **NOT accounted for; a real defect** (see "Open Items"
-  below, elevated from a rounding note to a confirmed finding). This is body content in the
-  `PROTECTION ORDERS` section (not preamble, no disposition mechanism applies), and it did not
-  survive conversion.
 
-All legacy `.emf` files were otherwise converted to `.png` in place (37 `.emf` sources → 0 `.emf`
-files in canonical/rendered output; no format survives as `.emf` past `convert`) — `image239.emf`
-is the one exception.
+`image239.emf`/`image239.png` — **previously a real defect, now fixed and reconverted.** It is
+body content in the `PROTECTION ORDERS` section (not preamble; no disposition mechanism applies,
+nor should one — this was never meant to be excluded). After the regex fix (see report header)
+and a rerun of `convert`/`render`, `image239.png` is present in both `canonical-content/media/`
+and `render/rendered-output/media/`, and both the canonical chunk and rendered page reference it
+correctly as `../media/image239.png` — confirmed by direct inspection, not inferred from
+validator status alone.
+
+All legacy `.emf` files convert to `.png` in place (37 `.emf` sources → 0 `.emf` files in
+canonical/rendered output; no format survives as `.emf` past `convert`), including `image239.emf`
+after the fix.
 
 ## Source TOC Evidence and Reconciliation
 
@@ -121,8 +137,10 @@ is the one exception.
   that was removed (see TOC reconciliation above); their removal is consistent with, not evidence
   against, correct behavior, but this report does not independently re-derive that every one of
   the 185 was TOC-only. Flagged below as an open item for a closer look if ever revisited.
-- Canonical: summed `media_refs` across all chunk metadata = **340** (some images referenced more
-  than once in text; 318 unique media files backing them).
+- Canonical: summed `media_refs` across all chunk metadata (re-derived after the fix) includes
+  `image239.png`'s reference, which was previously invisible to this same count (the extraction
+  regex that builds `media_refs` is the one that was fixed) — 319 unique media files now back
+  every in-text reference, with no unresolved reference remaining.
 - `render/rendered-output/renderer-validation.json`: `"status": "PASS"`, `"issues": []` — the
   render validator (which checks index/page link integrity, per `render-content/SKILL.md`)
   reported zero broken links.
@@ -183,51 +201,74 @@ this report, not against task narrative.
 | Structural anchors survive cleanup line changes | ✅ | 159/159 anchor match, this report |
 | Chunk IDs are stable under unrelated insertion | ✅ (not re-verified this pass; covered by `repeated-headings` fixture per Task 16) | existing test suite |
 | Canonical schemas are versioned and strict | ✅ | `manifest.json.schema_version: "1.0"`, `contracts.py` strict `from_dict` |
-| Content loss and duplication checks pass | ✅ | `canonical-content/validation.json` PASS |
-| **Media and internal links resolve in canonical and rendered outputs** | ❌ **FAIL** | **`image239.png` reference is broken in both promoted canonical and rendered output — see Open Items below. Both validators reported PASS despite this, which is itself a second finding (validator gap).** |
-| Orphan, stale, traversal, and malformed artifact tests pass | ✅ (existing suite, not the real-document validators that missed image239) | 448 passed/1 skipped |
+| Content loss and duplication checks pass | ✅ | `canonical-content/validation.json` PASS (re-verified after fix and rerun) |
+| **Media and internal links resolve in canonical and rendered outputs** | ✅ **Fixed** | `image239.png` reference repaired (see media-count section); root-cause regex fixed in 4 locations with a regression test; `convert`/`render` rerun; both validators PASS and the fix was independently confirmed by direct file inspection, not validator status alone |
+| Orphan, stale, traversal, and malformed artifact tests pass | ✅ | 449 passed/1 skipped |
 | WARN requires disposition | ✅ | media-decision mechanism enforces this for preamble media; no undispositioned WARN occurred on this run |
 | Atomic promotion protects prior accepted output | ✅ | staging-then-promote pattern in `convert.py`/`validate_rendered.py` |
 | Renderer consumes canonical package only | ✅ | `render(self, package, output_dir)` signature, per `render-content/SKILL.md` |
-| Single and repeated-heading fixtures pass | ✅ (existing suite) | 448 passed/1 skipped |
-| CEIS evidence report is complete | ⚠️ **Partial** | this report exists now, but the human spot-check rows and the image239 defect are unresolved |
-| Human spot checks are recorded | ❌ | not yet done — see checklist above |
-| All tests and plugin validation pass | ⚠️ | unit/integration suite passes (448/1 skipped), but real-document canonical/render validation missed a real broken reference — "passing" is not the same as "no defects" |
+| Single and repeated-heading fixtures pass | ✅ (existing suite) | 449 passed/1 skipped |
+| CEIS evidence report is complete | ⚠️ **Partial** | media defect now resolved and documented, but the human spot-check rows are still unresolved |
+| Human spot checks are recorded | ❌ | not yet done — see checklist above; requires a human, not automatable |
+| All tests and plugin validation pass | ✅ | 449 passed/1 skipped; canonical/render validation on the regenerated output independently confirmed correct by direct file inspection (media files present, references resolve), not just validator self-report |
 | Deferred scope remains deferred | ✅ | general (non-preamble) media classification confirmed still not implemented |
 | Applicable plugin/marketplace metadata is reconciled | not verified this pass | out of scope for this report; check separately before closeout |
 
-**Net result: this checklist cannot be signed off as fully passing.** The `image239` defect fails
-the "media and internal links resolve" item outright, and surfaces a second, more concerning
-finding — the canonical/render validators did not catch it — which itself may need a fix (a
-broken-link scan that only trusts recorded `media_refs` rather than re-scanning rendered markdown
-for image links) before this checklist item can honestly be marked passing on a future rerun.
+**Net result: one item remains outstanding — human spot checks.** The `image239` media defect
+that previously failed this checklist has been fixed at the root cause (not worked around), with
+a regression test guarding against recurrence, and the real CEIS output regenerated and
+re-verified. The only checklist item still open is the human spot-check pass, which by the
+spec's own rule cannot be completed by an automated process.
 
-## Open Items Not Resolved by This Report
+## Defect Found and Fixed During This Report's Assembly
 
-1. **Confirmed defect, blocking a clean Phase 1 close-out:** `image239.emf` (referenced in the
-   `PROTECTION ORDERS` topic, source text: "NOTE — When Protection Orders are Varied or
-   Cancelled...") did not survive conversion.
-   - The file is absent from both `canonical-content/media/` and `render/rendered-output/media/`
-     (confirmed by direct filesystem search — not present under either directory, anywhere).
-   - Both the promoted canonical chunk (`chunks/protection-orders--2955bfec.md`) and the promoted
-     rendered page (`pages/protection-orders--2955bfec.md`) contain the markdown image reference
-     with an **absolute, machine-local path** into a deleted staging directory
-     (`.../run-e2fc65dd382742c5a9958ad52d6d323a/_staging/raw/media/image239.png`) rather than a
-     relative path into the promoted `media/` folder that this reference was never rewritten.
-   - **Both `canonical-content/validation.json` and
-     `render/rendered-output/renderer-validation.json` report `"status": "PASS"` with
-     `"issues": []`** — the broken-link/media-reference checks in this pipeline did not catch this.
-     This is a validator gap, not only a one-off conversion miss: the absolute-path reference
-     evidently isn't being checked as a media reference at all (it is absent from the chunk's own
-     `media_refs` list, which the validator likely trusts as authoritative rather than re-scanning
-     the raw markdown for image links).
-   - **Consequence:** the Task 18 "convert PASS / render PASS" claim has a real, reproducible
-     hole. Anyone opening the promoted output on a different machine gets a broken image link in
-     this section, undetected by either validator.
-   - **This should be fixed (media-conversion pipeline + validator gap) before Phase 1 is
-     declared formally closed** — it is a genuine content-fidelity defect, not documentation
-     debt.
-2. Rows 1, 3, 4, 6 of the human spot-check checklist above still need an actual human pass.
-3. This report was written after the fact, from artifacts already on disk, not generated inline
-   by the pipeline at Task 18 run time — future runs should generate it as part of the run rather
-   than reconstructing it retroactively.
+**Original finding (now resolved):** `image239.emf` (referenced in the `PROTECTION ORDERS` topic,
+source text: "NOTE — When Protection Orders are Varied or Cancelled...") did not survive the
+original Task 18 conversion.
+
+- The file was absent from both `canonical-content/media/` and `render/rendered-output/media/`.
+- Both the promoted canonical chunk and the promoted rendered page contained the markdown image
+  reference with an **absolute, machine-local path** into a deleted staging directory rather than
+  a relative path into the promoted `media/` folder — never rewritten.
+- **Both `canonical-content/validation.json` and `render/rendered-output/renderer-validation.json`
+  reported `"status": "PASS"` with `"issues": []`** despite this — a validator gap, not only a
+  conversion miss.
+
+**Root cause, identified:** the image's alt text ("...Form 14 `\[Order Terminating a Protection
+Order\]`...") contains a markdown-escaped `]` byte. Four separate copies of the same naive regex
+— `!\[[^\]]*\]\(...\)` — silently stop matching alt text at that literal `]`, so the whole
+reference was never recognized as media *at all*, in:
+
+1. `convert.py`'s `_ABS_MEDIA_REF` (absolute-path relativization — never ran on this ref)
+2. `package.py`'s `_IMAGE_REF` (media copy/rewrite — never copied or rewrote this ref)
+3. `validate_canonical.py`'s `_IMAGE_REF_FOR_COMPARISON` (content-loss comparison — irrelevant
+   here since the text wasn't lost, only mis-parsed)
+4. `validate_canonical.py`'s `_IMAGE_REF` in `_check_media_references` — **this is the actual
+   broken-link validator, and it never saw the reference to check it**
+
+`renderers/validate_rendered.py`'s `_IMAGE_REF`/`_LINK_REF` carried the identical bug on the
+render side and were fixed alongside the others as the same class of defect, though the specific
+`image239` case surfaced through the canonical side first.
+
+**Fix applied:** all four (in `package.py`, `convert.py`, `validate_canonical.py`, and
+`renderers/validate_rendered.py`) now use `(?:[^\]\\]|\\.)*` for the alt/link-text portion —
+matches any character that isn't an unescaped `]`, correctly treating `\]` as an escaped literal
+rather than a terminator. A regression test,
+`tests/unit/test_package.py::test_alt_text_with_escaped_brackets_still_recognized_as_media_ref`,
+reproduces the exact failure mode (confirmed failing before the fix, passing after) so this
+cannot silently regress. `convert`/`render` were rerun against the same confirmed plan (source
+and plan unchanged) and the real output was regenerated — `image239.png` now correctly present
+and referenced in both canonical and rendered output, confirmed by direct file inspection.
+
+**Not fixed, and out of scope for this pass:** three other files contain structurally similar
+`!\[[^\]]*\]\(...\)` / `[^\]]*` patterns that were not touched here because they are not
+implicated in this specific defect (analysis-time detection and glued-image cleanup, not
+media copy/validation): `pandoc_validate.py` (`_IMAGE_LINK`, `_HEADING_WITH_IMAGE`),
+`analyze_structure.py` (`_IMAGE_REF`, `_IMAGE_REFERENCE`), `pandoc_fixes/images.py` (`_IMAGE`).
+Whether any of these has a live bug of the same class is unverified — worth a dedicated pass if
+a future document surfaces one, rather than opportunistic changes here.
+
+## Remaining Open Item
+
+1. Rows 1, 3, 4, 6 of the human spot-check checklist above still need an actual human pass — the
+   only item this report cannot close on its own.

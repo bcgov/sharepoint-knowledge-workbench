@@ -299,6 +299,41 @@ def test_url_encoded_and_space_containing_media_refs(tmp_path):
     assert "../media/image%201.png" in content
 
 
+def test_alt_text_with_escaped_brackets_still_recognized_as_media_ref(tmp_path):
+    """Regression test: a real CEIS run found that alt text containing a
+    markdown-escaped `]` (e.g. from Word content like "[Order Terminating
+    a Protection Order]", which pandoc escapes as `\\[...\\]`) caused the
+    naive `[^\\]]*` alt-text exclusion class to stop matching at that
+    literal `]` byte, so the whole image reference was never recognized,
+    never copied into media/, and never rewritten -- silently leaving a
+    raw extraction-directory path in promoted canonical content with no
+    validator catching it (content-loss checks still passed because the
+    text itself was never deleted, only mis-parsed as a media reference).
+    """
+    anchor = _anchor(["Alpha"])
+    plan = _confirmed_plan([anchor])
+    raw_media_dir = tmp_path / "raw_media"
+    (raw_media_dir / "media").mkdir(parents=True)
+    (raw_media_dir / "media" / "diagram.png").write_bytes(b"bytes")
+
+    content_with_escaped_brackets = (
+        "# Alpha\n\n"
+        "![NOTE -- see Form 14 \\[Order Terminating a Protection Order\\], "
+        "unless otherwise directed.](media/diagram.png)\n"
+    )
+    sliced = SlicedDocument(
+        preamble="",
+        chunks=[_slice(anchor, content_with_escaped_brackets)],
+    )
+    output_dir = tmp_path / "canonical-content"
+    package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+    assert (output_dir / "media" / "diagram.png").exists()
+    content = (output_dir / "chunks" / f"{anchor.stable_key}.md").read_text()
+    assert "../media/diagram.png" in content
+    assert "media/diagram.png)" not in content.replace("../media/diagram.png)", "")
+
+
 # ---------------------------------------------------------------------------
 # Media: reject absolute paths and .. traversal
 # ---------------------------------------------------------------------------

@@ -114,7 +114,12 @@ def _warning(code: str, message: str, path: "str | None" = None) -> "contracts.V
 # Normalized aggregate comparison (content-loss / duplication)
 # ---------------------------------------------------------------------------
 
-_IMAGE_REF_FOR_COMPARISON = re.compile(r"(!\[[^\]]*\]\()[^)]+(\))")
+# See package.py's _IMAGE_REF for why alt text uses `(?:[^\]\\]|\\.)*`
+# rather than a naive `[^\]]*`: a markdown-escaped `]` in alt text (pandoc
+# emits `\]` for a literal `]` byte) otherwise terminates the character
+# class early and this comparison fails to blank out that one reference's
+# path at all, causing a false content-mismatch report.
+_IMAGE_REF_FOR_COMPARISON = re.compile(r"(!\[(?:[^\]\\]|\\.)*\]\()[^)]+(\))")
 
 
 def _normalize_for_comparison(text: str) -> str:
@@ -675,7 +680,13 @@ def _check_content_loss_and_duplication(
 # Broken media/local-document links, path traversal / absolute paths
 # ---------------------------------------------------------------------------
 
-_IMAGE_REF = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
+# See package.py's _IMAGE_REF docstring for why alt text uses
+# `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- this is precisely the
+# check that is supposed to catch a broken/unrewritten media reference,
+# and the naive pattern silently skipped over the one real broken
+# reference found in the CEIS pilot run because its alt text contained a
+# markdown-escaped `]`.
+_IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 
 
 def _check_media_references(
