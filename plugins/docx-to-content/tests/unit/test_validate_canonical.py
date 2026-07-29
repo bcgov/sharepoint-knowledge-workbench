@@ -381,7 +381,7 @@ def test_warn_on_heading_missing_from_chunk_content(tmp_path):
 # ---------------------------------------------------------------------------
 
 
-def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-content", with_media: bool = False, strategy: str = "chunked", chunk_count: int = 1):
+def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-content", with_media: bool = False, strategy: str = "chunked", chunk_count: int = 1, validated: bool = False):
     """Build a minimal, fully valid canonical package for tests.
     Returns the package directory Path. Writes the plan used to build to
     tmp_path / "plan.json" so `_load_plan_used_to_build` can retrieve it.
@@ -391,6 +391,8 @@ def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-cont
       reference it from the first chunk.
     - strategy: passed to the confirmed plan ("chunked" or "grouped").
     - chunk_count: number of distinct chunks to create (>=1).
+    - validated: if True, run the real validator and write a PASS validation.json
+      (replacing the default PENDING placeholder written by package builders).
     """
     # Build anchors and sliced document with chunk_count distinct chunks
     anchors = []
@@ -428,6 +430,26 @@ def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-cont
 
     # Persist the plan used so tests can re-load it
     (tmp_path / "plan.json").write_text(json.dumps(plan.to_dict(), indent=2))
+
+    # Optionally write a real PASS validation.json using the real validator
+    if validated:
+        try:
+            # Reconstruct a cleaned_markdown_text from the staged chunk files
+            # so the aggregate content-loss/duplication check can run and not
+            # fail due to missing cleaned text (producer-path packages treat
+            # that as an error). Use manifest order (source_order) to
+            # reconstruct a canonical aggregate.
+            manifest = json.loads((output_dir / "manifest.json").read_text())
+            ordered = sorted(manifest.get("chunks", []), key=lambda c: c.get("source_order", 0))
+            cleaned = "\n".join((output_dir / c["content_file"]).read_text() for c in ordered)
+            report = vc.validate_canonical_package(output_dir, plan, cleaned_markdown_text=cleaned)
+            vc.write_validation_report(report, output_dir)
+        except Exception:
+            # Tests that request a pre-validated package expect a simple
+            # PASS report to be written; let exceptions surface to the
+            # caller rather than masking them here.
+            raise
+
     return output_dir
 
 
