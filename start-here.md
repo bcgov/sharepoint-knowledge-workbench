@@ -95,6 +95,16 @@ rendered sides (up from 318/318), `image239.png` present and correctly reference
 file inspection, not validator status alone. 159/159 heading anchors, 25/25 topic chunks
 unchanged (the fix only affected media handling, not chunking/anchoring).
 
+**Process gap, flagged for the record:** this rerun reused the already-approved confirmed plan
+from Task 18 without explicitly telling the user that's what was happening — no new
+chunking/strategy questions were asked because none were needed (nothing about topic boundaries
+changed), but silently reusing an old approval rather than stating "reusing plan `<id>`, no
+chunking changes, only the media fix is being validated" is a real gap against this project's
+approval-gate conventions, caught by the user after the fact, not surfaced proactively. See the
+governance note in `runs/ceis-manual-v2/evidence-report.md`'s header for the full note. Going
+forward: any time a prior confirmed plan is reused rather than re-derived, say so explicitly
+before running `convert`/`render` again, even when re-analysis is genuinely unnecessary.
+
 **Not fixed, deliberately out of scope:** three other files contain structurally similar
 `[^\]]*` patterns not implicated in this specific defect (`pandoc_validate.py`,
 `analyze_structure.py`, `pandoc_fixes/images.py` — analysis-time detection and glued-image

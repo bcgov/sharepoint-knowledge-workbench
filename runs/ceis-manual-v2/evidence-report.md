@@ -17,7 +17,19 @@ markdown-escaped `]` — was found in **four** separate places in the plugin
 regression test (`tests/unit/test_package.py::test_alt_text_with_escaped_brackets_still_recognized_as_media_ref`).
 `convert`/`render` were rerun against the same confirmed plan (source and plan unchanged, only
 pipeline code fixed) and `runs/ceis-manual-v2/` was regenerated. All counts and statuses below
-reflect the **regenerated, fixed** output, not the original Task 18 run. The full test suite was
+reflect the **regenerated, fixed** output, not the original Task 18 run.
+
+**Governance note on plan reuse:** this validation rerun reused previously approved conversion
+plan `sha256:041e1186682322ba11d64abdafbc547dfb793083b9c22a6663aad3008a53d9d3` (the same
+confirmed plan from the original Task 18 run, `temp/ceis-manual-analysis/conversion-plan.confirmed.json`).
+No changes were made to chunking strategy (`grouped`), topic grouping (25 topics),
+`confirmed_topic_roots`, heading boundaries, or plan-generation logic — the rerun was performed
+solely to validate the `image239` media-handling defect correction, and this was confirmed
+before rerunning (same `plan_id` before and after; 159/159 anchors and 25/25 topics unchanged).
+This was not surfaced to the user as an explicit reuse decision at the time it happened, which
+in hindsight it should have been, given the project's approval-gate conventions — silently
+reusing an old approved plan without saying so plainly is a process gap even when the reuse
+itself was technically sound. The full test suite was
 449 passed/1 skipped after the fix (up from 448 passed/1 skipped, confirming the new regression
 test executes and passes, not just that nothing broke).
 
