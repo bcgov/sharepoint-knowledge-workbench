@@ -414,7 +414,7 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
 
         # Cross-artifact lineage checks: ensure sidecar plan_id and source_sha256
         # match the manifest's recorded values.
-        if getattr(meta, "plan_id", None) != manifest.plan_id:
+        if meta.plan_id != manifest.plan_id:
             issues.append(_error(
                 "chunk_plan_id_mismatch",
                 f"chunk {chunk.chunk_id!r} sidecar plan_id={meta.plan_id!r} "
@@ -422,7 +422,7 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
                 chunk.metadata_file,
             ))
 
-        if getattr(meta, "source_sha256", None) != getattr(manifest.source, "sha256", None):
+        if meta.source_sha256 != manifest.source.sha256:
             issues.append(_error(
                 "chunk_source_sha256_mismatch",
                 f"chunk {chunk.chunk_id!r} sidecar source_sha256="
