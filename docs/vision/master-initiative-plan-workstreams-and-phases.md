@@ -85,9 +85,9 @@ it. This section is referenced, not repeated, at each phase's exit gate below.
 
 ## Phase 1 — Structured Knowledge Conversion & Canonical Content POC
 
-**Disposition:** Engineering-complete; formal closure pending. **Not "DONE"** — stated this way
-deliberately, consistently with Phase 2's Task 0 precondition below, so starting Phase 2 before this
-phase's Subphase 1.3 is actually complete doesn't come as a surprise halt at Task 0. **Detail level:**
+**Disposition:** DONE — formally closed. Human spot-check completed and recorded in
+`runs/ceis-manual-v2/evidence-report.md` (all applicable checklist rows PASS/accepted, footnote row N/A,
+metadata row dispositioned); `fix-grid-table-rendering-defect` (PR #2) merged to `main`. **Detail level:**
 Implemented.
 
 **Goal:** Prove the content/format separation exists and is genuinely extensible, using the CEIS Manual as
@@ -104,17 +104,19 @@ the evidence vehicle.
 - Stage 1.2.1 — canonical + rendered validators. **DONE**
 - Stage 1.2.2 — image239 regex defect: root-caused, regression-tested, media count 319/319, suite 449/1. **DONE**
 
-### Subphase 1.3 — Formal closure (the only open work)
+### Subphase 1.3 — Formal closure (complete)
 - Stage 1.3.1 — human spot-check: title/front-matter, image-heavy section, deep-hierarchy heading,
   begin/middle/end. **Deliverable:** four filled rows in `evidence-report.md`. **Verification:** a human
   actually opened `runs/ceis-manual-v2/render/rendered-output/` and recorded what they saw. **Evidence:**
-  the filled checklist rows themselves. **PENDING HUMAN.**
-- Stage 1.3.2 — disposition the "plugin/marketplace metadata not verified" acceptance row. **PENDING.**
-- Stage 1.3.3 — finalize `evidence-report.md`, mark Final Acceptance Checklist complete. **PENDING.**
+  the filled checklist rows themselves. **DONE.**
+- Stage 1.3.2 — disposition the "plugin/marketplace metadata not verified" acceptance row. **DONE** — no
+  `marketplace.json` exists for this plugin; `plugin.json`'s capabilities/description already accurately
+  describe the built pipeline.
+- Stage 1.3.3 — finalize `evidence-report.md`, mark Final Acceptance Checklist complete. **DONE.**
 
 **Exit gate:** All four spot-check rows recorded; metadata row dispositioned; evidence report finalized.
-This gate is identical to Phase 2's Task 0 precondition — Phase 1 must be *actually* closed, not
-"engineering-complete," before Phase 2's golden-master baseline is captured.
+**Met.** This gate was identical to Phase 2's Task 0 precondition — Phase 1 is now actually closed, not
+just "engineering-complete," clearing Phase 2's golden-master baseline capture to proceed.
 
 ---
 
