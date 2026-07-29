@@ -117,7 +117,7 @@ def test_checker_detects_a_synthetic_forbidden_transitive_edge(tmp_path, monkeyp
     (synthetic_scripts_dir / "middle_module.py").write_text("import forbidden_module\nthing = 1\n")
     (synthetic_scripts_dir / "forbidden_module.py").write_text("x = 1\n")
 
-    import test_import_boundaries as tib
+    tib = sys.modules[__name__]
     monkeypatch.setattr(tib, "_SCRIPTS_DIR", synthetic_scripts_dir)
 
     transitive = tib._transitive_imports("entry_module")
@@ -136,7 +136,7 @@ def test_checker_correctly_resolves_from_package_import_submodule(tmp_path, monk
     (synthetic_scripts_dir / "forbidden_module.py").write_text("x = 1\n")
     (synthetic_scripts_dir / "entry_module.py").write_text("from pkg import sub\n")
 
-    import test_import_boundaries as tib
+    tib = sys.modules[__name__]
     monkeypatch.setattr(tib, "_SCRIPTS_DIR", synthetic_scripts_dir)
 
     direct = tib._direct_imports(synthetic_scripts_dir / "entry_module.py")
