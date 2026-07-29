@@ -224,7 +224,7 @@ this report, not against task narrative.
 | Human spot checks are recorded | ❌ | not yet done — see checklist above; requires a human, not automatable |
 | All tests and plugin validation pass | ✅ | 449 passed/1 skipped; canonical/render validation on the regenerated output independently confirmed correct by direct file inspection (media files present, references resolve), not just validator self-report |
 | Deferred scope remains deferred | ✅ | general (non-preamble) media classification confirmed still not implemented |
-| Applicable plugin/marketplace metadata is reconciled | not verified this pass | out of scope for this report; check separately before closeout |
+| Applicable plugin/marketplace metadata is reconciled | ✅ | No `marketplace.json` exists for this plugin (checked, none found). `plugins/docx-to-content/.claude-plugin/plugin.json`'s `capabilities` (document-parsing, structure-extraction, content-canonicalization, markdown-rendering, media-extraction) and `description` accurately describe the built pipeline; nothing added/changed by the topic-grouping or media-disposition work requires a new capability entry. `version: "0.1.0"` remains appropriate pre-1.0 pilot software. |
 
 **Net result: one item remains outstanding — human spot checks.** The `image239` media defect
 that previously failed this checklist has been fixed at the root cause (not worked around), with
