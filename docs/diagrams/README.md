@@ -20,3 +20,9 @@ it is a speculative Phase 3 illustration, not an authorized workflow.
    SharePoint-to-Git boundary, Git validation and canonical promotion, the governed publication
    pipeline, and the published SharePoint knowledge environment. This depicts Phase 3 territory,
    which is not yet authorized or built — see that document for full context and open questions.
+7. `07-publisher-triggered-render-workflow.mmd` — a narrower, human-in-the-loop variant: an
+   approved SharePoint chunk triggers a Power Automate notification to a human publisher, who
+   pulls the approved chunks (via PnP PowerShell) into a local repository checkout, runs the
+   repository's render skills through GitHub Copilot, reviews validation/preview output, and — once
+   accepted — pushes generated outputs back to SharePoint via PnP PowerShell. Also speculative
+   Phase 3 territory, not an authorized workflow.
