@@ -272,13 +272,17 @@ cannot silently regress. `convert`/`render` were rerun against the same confirme
 and plan unchanged) and the real output was regenerated — `image239.png` now correctly present
 and referenced in both canonical and rendered output, confirmed by direct file inspection.
 
-**Not fixed, and out of scope for this pass:** three other files contain structurally similar
-`!\[[^\]]*\]\(...\)` / `[^\]]*` patterns that were not touched here because they are not
-implicated in this specific defect (analysis-time detection and glued-image cleanup, not
-media copy/validation): `pandoc_validate.py` (`_IMAGE_LINK`, `_HEADING_WITH_IMAGE`),
-`analyze_structure.py` (`_IMAGE_REF`, `_IMAGE_REFERENCE`), `pandoc_fixes/images.py` (`_IMAGE`).
-Whether any of these has a live bug of the same class is unverified — worth a dedicated pass if
-a future document surfaces one, rather than opportunistic changes here.
+**Update — also fixed, not left as deferred debt:** three other files carried the identical
+`!\[[^\]]*\]\(...\)` / `[^\]]*` pattern (`pandoc_validate.py`'s `_IMAGE_LINK`/
+`_HEADING_WITH_IMAGE`, `analyze_structure.py`'s `_IMAGE_REF`/`_LOCAL_LINK`/`_IMAGE_REFERENCE`,
+`pandoc_fixes/images.py`'s `_IMAGE`). These were first left unfixed as "out of scope for this
+pass" — a violation of this repo's `.agent/rules/self-evolution-policy.md` ("Fix Forward, Never
+Skip": a known bug of the same class must be patched now or logged as Map Debt, not silently
+deferred), caught by the user rather than self-corrected. Fixed in the same session instead of
+deferring. Full test suite unchanged at 449 passed/1 skipped. Rerunning `analyze` against the
+real document confirmed the fix took effect: `image_reference_count` went from 341 to 342 (same
+`image239` reference now recognized at analysis time too), with heading/link/topic counts
+otherwise unchanged (159/185/25).
 
 ## Remaining Open Item
 
