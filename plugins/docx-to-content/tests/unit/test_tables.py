@@ -54,3 +54,22 @@ class TestFixMalformedTables:
     def test_leaves_non_table_text_untouched(self):
         text = "Section One\n\nThis is a normal paragraph, no pipes at all.\n"
         assert fix_malformed_tables(text) == text
+
+    def test_leaves_grid_table_untouched(self):
+        # Pandoc emits grid tables (bounded by +---+/+===+ lines) for complex/
+        # merged-cell Word tables. Grid tables already carry their own valid
+        # header-separator convention (the +===+ boundary) and must not be
+        # mistaken for headerless pipe tables -- each `| ... |` content row
+        # sits between `+---+` boundary lines, and naively applying pipe-table
+        # separator-insertion logic to it injects a spurious `| --- | --- |`
+        # row after every single data row, corrupting an already-valid table.
+        text = (
+            "+------+------+\n"
+            "| A    | B    |\n"
+            "+======+======+\n"
+            "| val1 | val2 |\n"
+            "+------+------+\n"
+            "| val3 | val4 |\n"
+            "+------+------+\n"
+        )
+        assert fix_malformed_tables(text) == text
