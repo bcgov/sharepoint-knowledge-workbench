@@ -14,7 +14,9 @@ mischaracterized models. A second round of review found a remaining self-contrad
 and three smaller wording issues, all corrected below. A third round of review raised a deeper
 usability flaw: the models were still designed from the system's perspective rather than the
 editor's, risking exposure of Git/publication machinery to non-technical authors — see
-"Third round of review" below for the resulting non-negotiable design rule.
+"Third round of review" below for the resulting non-negotiable design rule. A fourth round proposed
+a concrete near-term bridge using a human technical publisher role and PnP PowerShell scripts —
+see "Concrete near-term bridge" below.
 
 ## Issue Summary
 
@@ -244,6 +246,64 @@ engineering/canonical-release mechanism, but it must be an implementation detail
 editors. The underlying usability test: if registry staff must understand the architecture diagram
 in this document to update a topic, the architecture has failed — regardless of which lettered
 model it resembles.
+
+## Concrete near-term bridge: a human technical publisher, no GitHub-SharePoint integration required
+
+The design rule above answers what editors must never see, but leaves open what actually moves an
+approved SharePoint chunk into a validated, published release *before* any GitHub↔SharePoint
+integration exists. A fourth review pass proposed a concrete, human-in-the-loop bridge for exactly
+this gap, using a **technical publisher role** rather than automated synchronization:
+
+1. **Chunk approval triggers a notification.** The SharePoint/Power Automate approval process
+   notifies a designated technical publisher, identifying the approved chunk, its exact approved
+   SharePoint version, the affected publication and publication ID, the approval/effective date,
+   the SharePoint source location, urgency (standalone vs. grouped release), and a link to the
+   publication status record. This is the publisher's work queue.
+2. **Publisher opens the repository** in VS Code with GitHub Copilot, or the GitHub Copilot
+   app/workspace — using this repo's existing `render-content` skill and scripts rather than
+   recreating that capability elsewhere.
+3. **A `Get-ApprovedContentPackage.ps1` intake script (PnP PowerShell)** connects to the governed
+   SharePoint authoring library, locates the affected publication, retrieves the exact approved
+   version of every required chunk plus metadata, refuses drafts/pending versions, stages the
+   files into a controlled local/repository area, and writes an intake manifest recording every
+   retrieved SharePoint version. This is read-only against the authoring source.
+4. **GitHub Copilot runs the existing repository render/validation skills** — ingest the
+   approved-chunk package, assemble the publication, apply the publication map and approved
+   template, generate TOC/navigation, render required formats, validate, and produce a preview and
+   release report. The scripts stay deterministic; Copilot invokes the workflow, it does not
+   invent publication content.
+5. **Publisher reviews one release package**: approved chunks included, SharePoint versions used,
+   generated outputs, validation results, a content/change summary, publication preview, and
+   target SharePoint destination — then corrects/reruns or accepts.
+6. **A separate `Publish-KnowledgeRelease.ps1` script (PnP PowerShell, via `Add-PnPFile`)** uploads
+   the generated outputs, sets required metadata, and checks in/approves/publishes per the
+   destination library's governance. It refuses an unvalidated or incomplete package and creates
+   the deployment record. An optional `Complete-PublicationRequest.ps1` updates the SharePoint
+   publication-status record and triggers completion notifications.
+
+Keeping these as four separate, single-purpose scripts (intake / render — the existing skill /
+publish / status-completion) mirrors this repo's existing preference for clearly bounded,
+independently testable units rather than one script that downloads, transforms, validates, and
+publishes without clear boundaries.
+
+This yields two distinct, intentionally different experiences:
+
+- **Business editor:** edit → submit → approval → receive publication notification. No Git,
+  scripts, or repository exposure at all — consistent with the design rule above.
+- **Technical publisher:** receive notification → retrieve approved package → ask Copilot to
+  render → review → publish. Uses Git/the repository directly, but is a designated technical role,
+  not the content author.
+
+**Proposed recommendation (Phase 3 pilot baseline, not yet decided):** following approval of one or
+more chunks, Power Automate notifies a designated technical publisher; the publisher uses a
+repository workspace with GitHub Copilot and PnP PowerShell to retrieve the exact approved
+SharePoint versions, execute the repository's rendering/validation skills, review the release
+package, and publish the validated outputs back to SharePoint. This is feasible today without any
+GitHub↔SharePoint integration, and later automation could replace pieces of it (e.g., an eventual
+adapter absorbing the intake/publish scripts) without changing the editor-facing experience.
+
+An illustrative diagram of this flow is at
+`docs/diagrams/07-publisher-triggered-render-workflow.mmd`.
 
 ## Feedback requested
 
