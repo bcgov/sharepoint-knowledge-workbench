@@ -30,7 +30,19 @@
    Phase 1/Phase 2 execution. Per the master plan's phase-gating discipline, Phase 3 is only planned at a
    structural level today (gated on evidence — tenant facts, pilot outcomes — that doesn't exist yet); read
    `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Phase 3 section before scoping detailed
-   work.
+   work. **Do this planning work via the `superpowers` skills, in this order:**
+   1. `superpowers:brainstorming` — work through Phase 3's open questions and design decisions with the
+      human partner first (do not skip straight to writing a spec/plan).
+   2. Once the design is settled, write the Phase 3 design spec (following the same pattern as
+      `docs/superpowers/specs/2026-07-28-phase2-canonical-publication-contract-hardening-design.md`),
+      under `docs/superpowers/specs/`.
+   3. `superpowers:writing-plans` — turn the approved spec into a TDD-ready, task-by-task implementation
+      plan (following the same pattern as
+      `docs/superpowers/plans/2026-07-28-phase2-canonical-publication-contract-hardening.md`), under
+      `docs/superpowers/plans/`.
+   4. Only after the plan is reviewed/approved does execution begin (in its own branch/worktree, via
+      `superpowers:subagent-driven-development`, per the master plan's Per-Phase Git & Session Workflow) —
+      that is a separate step from this planning work, not part of it.
 
 ## Authoritative Inputs (Phase 1 detail)
 
