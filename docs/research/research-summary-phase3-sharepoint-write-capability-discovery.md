@@ -256,6 +256,71 @@ transcript comparison, SharePoint chat pane vs. Teams, for each test in the batt
 captured here, incorporate it when available — the Priority 10 above was added independently
 from a separate Microsoft documentation source, not from the truncated review.
 
+**Priority 11 — Autofill authority testing (added 2026-07-30, from a GPT-5.6 summary of the
+YouTube video "I Tested the SharePoint Knowledge Agent: Here's What It Can Do," see §19).**
+Add one low-risk, explicitly AI-maintained metadata column to the test library, run SharePoint's
+native Autofill against several real CEIS topics, change one topic and observe whether Autofill
+updates its value, and confirm Autofill never alters deterministic package fields (`TopicID`,
+`ChunkID`, `PackageIdentity`, `TopicContentSHA256`, `PublicationOrder`). Test across Draft/
+Published/Retired items and under two different permission identities; record whether the
+generated value is a proposal a human must approve, an auto-applied value, or both. **Exit
+evidence:** confirmation that SharePoint's AI metadata enrichment can safely coexist with the
+canonical field-authority matrix without any deterministic field ever being silently overwritten.
+
+**Priority 12 — Agent-optimized rendering target (added 2026-07-30, from user design idea, not
+yet phase-scoped).** Today's per-agent 20-source-item limit (§16) rewards fewer, denser items.
+Rather than relying solely on folder-nesting to work around the ceiling, evaluate a genuinely
+new Renderer output: a compact, agent-optimized artifact (flat terminology, explicit cross-
+references instead of "see above," no reliance on visual formatting) distinct from the existing
+human-oriented Markdown/ASPX renders. The agent-facing render would be the one actually indexed
+as the agent's grounding source; its answers/chunks would explicitly point people to the richer
+human-formatted Markdown or ASPX version and to non-indexed source links for full detail. This
+is a Content + Template + Renderer extension (a second renderer target alongside human-Markdown
+and ASPX) — a real idea worth prototyping in a later phase, not yet built or scoped to a
+specific phase.
+
+## 19. External research video — "I Tested the SharePoint Knowledge Agent: Here's What It Can Do"
+
+**Source:** YouTube video [tVgZErn-dkE](https://www.youtube.com/watch?v=tVgZErn-dkE), summarized
+by GPT-5.6 (2026-07-30) from the video's title, description, feature list, and chapter
+timestamps — **a chapter-level summary, not a full transcript**; treat capability claims as
+indicative, not independently verified against our own tenant.
+
+**Capabilities demonstrated (per the summary), with chapter timestamps:**
+1. **AI-generated library metadata** (~0:50) — AI examines document content and proposes
+   metadata values to support filtering/organization/automation.
+2. **Autofill** (~7:08) — keeps that AI-generated metadata updated automatically as content
+   changes.
+3. **Natural-language rules** (~9:01, reviewed ~14:05) — create simple automation rules by
+   describing them in plain language.
+4. **AI-assisted filtered views** (~16:07) — construct custom SharePoint views (e.g. Published/
+   Draft/Retired/By-owner/Overdue-review) using natural language plus existing metadata.
+5. **Content Q&A** (~17:26) — ask questions grounded in library content; this is the capability
+   category our own tenant testing (§1-18) goes materially deeper on (manually authored `.agent`
+   JSON, native `SKILL.md` discovery, planted-token retrieval, citations, source boundaries,
+   format-compliance limits, write-action refusal, multi-topic synthesis).
+
+**Setup requirements stated in the video:** a Microsoft 365 Copilot license, plus administrator
+opt-in to the preview at time of recording — treat as a snapshot of that recording's product
+state; current official Microsoft documentation (§16-18) remains the authority for our tenant.
+
+**Why this matters for our architecture:** the video reinforces (does not change) the layered
+model already established in this document —
+
+```text
+Repository workbench   → authoritative content, identities, validation, packages
+SharePoint              → governed storage, operational metadata, views, review, discovery
+SharePoint agents       → permission-aware Q&A and synthesis over approved sources
+Native SharePoint skills → reusable, site-scoped procedures within the supported runtime
+```
+
+The one genuinely new idea is the **Autofill vs. canonical-authority boundary**: AI-generated
+descriptive metadata (subject, audience, category, summary) is a legitimate SharePoint-native
+enrichment layer, but it must never be allowed to compete with or silently overwrite the
+deterministic package fields (`TopicID`, `ChunkID`, `PackageIdentity`, `TopicContentSHA256`,
+`PublicationOrder`) that this repository's canonical pipeline is the sole source of truth for.
+This is now captured as **Priority 11** in the backlog above.
+
 
 
 ### Technical mechanics — how each capability was actually exercised (for reproducing/extending tests)
