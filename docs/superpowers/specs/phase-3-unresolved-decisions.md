@@ -145,7 +145,7 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   implementation is confirmed available; do not assume Graph/PnP write-adjacent read access exists.
   Classification: `BLOCKS_PLAN`.
 
-## 13. `PublicationID` — resolved (Option A adopted)
+## 11. `PublicationID` — resolved (Option A adopted)
 
 - **Decision:** an earlier spec revision proposed a `PublicationID` field with no grounding in an actual
   Phase 2 contract field. This is resolved: Option A is adopted — `PackageIdentity`
@@ -160,7 +160,7 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   future need for a publication identity independent of package identity is concretely demonstrated —
   Option B in Section 7).
 
-## 14. Rename vs. retirement vs. supersession — resolved (explicit transition record adopted)
+## 12. Rename vs. retirement vs. supersession — resolved (explicit transition record adopted)
 
 - **Decision:** an earlier spec revision treated any topic ID missing from the current publication map as
   "renamed or retired," which cannot distinguish rename from retirement from deletion/corruption/map error.
@@ -177,7 +177,7 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   produce the actual transition records once a pilot library exists.
 - **Safe default if unresolved:** N/A — already resolved. Classification: `MAY_DEFER`.
 
-## 15. Master-plan exit-gate correction
+## 13. Master-plan exit-gate correction
 
 - **Decision:** whether to formally amend the master plan's Phase 3 exit-gate sentence to the corrected
   version proposed in the spec (Section 19).
@@ -191,7 +191,7 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
 - **Safe default if unresolved:** this spec continues to require the fuller evidence set regardless of
   whether the master plan's sentence is ever amended. Classification: `MAY_DEFER`.
 
-## 16. AgentAssets / native skills / SharePoint agents (Phase 4/5 scope)
+## 14. AgentAssets / native skills / SharePoint agents (Phase 4/5 scope)
 
 - **Decision:** none required in Phase 3; explicitly out of scope.
 - **Classification:** `PHASE_4_PLUS`.

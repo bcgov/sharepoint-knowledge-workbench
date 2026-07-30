@@ -59,6 +59,23 @@ Use `CONFIRMED`, `RECOMMENDED`, `PROVISIONAL`, `DEFERRED_UNTIL_EVIDENCE`, `BLOCK
 
 Unless expressly authorized, planning does not modify a tenant, create SharePoint artifacts, request or grant Entra permissions, scaffold plugins, rename or restructure the repository, migrate every research item into the backlog, merge branches, or start a later phase.
 
+### Reviewer/implementer state disputes
+
+When an external reviewer (or a fresh session) flags issues an implementer believes are already fixed, do
+not resolve it with competing prose summaries — a summarized grep ("all hits are in correction notes") is a
+conclusion, not evidence. The deterministic resolver is:
+
+1. Implementer posts `git rev-parse HEAD`.
+2. Implementer posts the raw `grep -n` (or equivalent) output — the actual lines, not a description of them.
+3. Reviewer re-reviews against that exact commit.
+
+This came up concretely during Phase 3 spec review: an external reviewer's second pass flagged several
+"still broken" findings that were, in fact, already fixed in the current commit — the reviewer had been
+shown a stale, pre-fix copy (uploaded once, not refreshed after the fix landed). Posting the commit hash
+and raw grep output resolved the dispute in one round instead of costing a repeat review cycle. When
+sending documents to an external reviewer, give them the exact commit hash explicitly so they don't hit
+the same stale-copy problem.
+
 ### Model-cost discipline
 
 Use the cheapest capable model without weakening the workflow:
