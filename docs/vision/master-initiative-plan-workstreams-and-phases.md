@@ -286,6 +286,18 @@ default, no autonomous write — proving the metadata/source-of-truth model on o
 is feasible.
 
 ### Subphase 3.1 — Metadata schema mapping & source-of-truth lifecycle
+
+**Design consideration carried forward from Phase 3.0 (§16 of `write-exploration-findings.md`,
+citing Microsoft's official Copilot-in-SharePoint FAQ):** agent knowledge sources are capped at
+20 source items, but **a folder counts as one item regardless of how many files it contains** —
+Microsoft's own guidance is to "nest the data at a higher level and source the agent to that
+level" once a flat file count would exceed 20. The CEIS pilot alone has ~26 topic pages before
+counting media, so **the pilot library's folder structure must be planned with this in mind from
+the start** — e.g. grouped by manual section/chapter — rather than left flat and restructured
+later once an agent needs to be scoped to it. This is a structural decision for Stage 3.1.1's
+schema-mapping work, not a detail to defer to Phase 5 (SharePoint agent grounding), since the
+library's physical folder layout is set here, in Phase 3, and is expensive to change afterward.
+
 - Stage 3.1.1 — map canonical/publication contract → minimal library schema: owner, status, review date,
   topic ID, publication ID, validation state. **Deliverable:** schema-mapping document. **Verification:**
   every canonical/publication field has an explicit mapped library column or a stated reason it's omitted.
