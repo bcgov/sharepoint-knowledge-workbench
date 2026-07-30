@@ -224,6 +224,37 @@ Permitted outcomes include:
 A `BUILD` decision authorizes creation of a separate bounded pilot specification and plan. It does not
 authorize immediate implementation.
 
+## Phase 8 — Scale, Promotion & Operations
+
+**Disposition:** `LATER`, activated incrementally per proven capability
+
+**Specification:**
+
+- `specs/phase-8-scale-promotion-operations-spec.md`
+
+**Plan scaffold:**
+
+- `plans/phase-8-scale-promotion-operations-plan-scaffold.md`
+
+**Entry gate:**
+
+- Not one monolithic gate. Phase 8 activates independently, per capability, once that capability's own
+  exit gate is met:
+  - Phase 3's governed SharePoint library may activate library-scoped promotion/lifecycle work once Phase 3
+    reaches its exit gate.
+  - Phase 4's native SharePoint skill may activate skill-scoped lifecycle/promotion work once Phase 4
+    reaches its exit gate.
+  - Phase 5's SharePoint knowledge agent may activate agent-scoped operations/lifecycle work once Phase 5
+    reaches its exit gate.
+- Cross-capability monitoring, drift detection, and shared release-compatibility policy require at least
+  two operational capabilities to exist first.
+- Records/retention/audit work may be pulled forward only when the Phase 3 retrospective identifies a
+  concrete requirement and the required records/legal authority is available — never invented ahead of
+  that evidence.
+
+Do not treat Phase 8 as blocked-until-Phases-3-4-5-all-complete; do not activate any Phase 8 subphase for a
+capability that hasn't individually reached its own exit gate.
+
 ## Agent-Cost Guidance
 
 ### Low-cost agents

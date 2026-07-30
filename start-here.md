@@ -124,6 +124,9 @@ docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md
 
 docs/superpowers/specs/phase-7-cowork-copilot-studio-evaluation-spec.md
 docs/superpowers/plans/phase-7-cowork-copilot-studio-evaluation-plan-scaffold.md
+
+docs/superpowers/specs/phase-8-scale-promotion-operations-spec.md
+docs/superpowers/plans/phase-8-scale-promotion-operations-plan-scaffold.md
 ```
 
 See:
