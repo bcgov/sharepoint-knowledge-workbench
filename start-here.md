@@ -451,7 +451,7 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
 - `tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1` +
   `tools/phase-3-sharepoint-discovery/reports/phase-3-0-discovery-report.json` — the original
   **read-only** tenant inventory (Stage 3.0.1.1/3.0.1.2: access record, surface/list inventory).
-- `tools/phase-3-sharepoint-discovery/write-exploration-findings.md` — a large, continuously
+- `docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` — a large, continuously
   updated **raw findings log** from hands-on, staged/authorized write-based capability probes
   (agent creation, `.agent`/`SKILL.md` authoring, format compliance, write-action refusal, native
   Markdown rendering, multi-document synthesis, etc.) run directly against the real BC Gov dev
@@ -462,7 +462,7 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
   ready-made-vs-custom-agent comparison, skill collision/routing, isolated asset-retrieval
   retest, embedded media/link fidelity, agent lifecycle via file ops, `.agent` schema mutation
   suite, source-scope variants, Restricted Content Discovery) — see the "Prioritized follow-up
-  test backlog" section near the top of `write-exploration-findings.md`. None of these 9
+  test backlog" section near the top of `research-summary-phase3-sharepoint-write-capability-discovery.md`. None of these 9
   priorities have been executed yet.
 - **New this session (§15 of the findings doc): ASPX / modern-page conversion experiment —
   tests whether SharePoint can be a multi-format Renderer target alongside the Markdown renderer
@@ -506,7 +506,7 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
 
 **Remaining work to formally close Phase 3.0 (exit gate):**
 1. Write `tenant-capability-report.md` (Stage 3.0.3.1) — synthesize
-   `write-exploration-findings.md` + `phase-3-0-discovery-report.json` into the single report the
+   `research-summary-phase3-sharepoint-write-capability-discovery.md` + `phase-3-0-discovery-report.json` into the single report the
    plan names, with each of the 5 probe questions answered and cited to specific evidence.
 2. Write the dependency-status map (Stage 3.0.3.2) — map each Phase 3/4/5 entry-gate dependency
    to confirmed-available / confirmed-blocked / needs-escalation, tracing each to a specific

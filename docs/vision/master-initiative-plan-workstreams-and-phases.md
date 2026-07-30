@@ -287,7 +287,7 @@ is feasible.
 
 ### Subphase 3.1 — Metadata schema mapping & source-of-truth lifecycle
 
-**Design consideration carried forward from Phase 3.0 (§16 of `write-exploration-findings.md`,
+**Design consideration carried forward from Phase 3.0 (§16 of `research-summary-phase3-sharepoint-write-capability-discovery.md`,
 citing Microsoft's official Copilot-in-SharePoint FAQ):** agent knowledge sources are capped at
 20 source items, but **a folder counts as one item regardless of how many files it contains** —
 Microsoft's own guidance is to "nest the data at a higher level and source the agent to that
@@ -335,7 +335,7 @@ library's physical folder layout is set here, in Phase 3, and is expensive to ch
 
 **Forward-looking evidence pointer (not in scope for this subphase):** this subphase targets a
 document library (files + metadata), which Phase 3.0 already confirmed viable (native Markdown
-rendering, `tools/phase-3-sharepoint-discovery/write-exploration-findings.md` §13). A separate
+rendering, `docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` §13). A separate
 Phase 3.0 probe (§15, same file) also confirmed that SharePoint **native pages** are a viable
 *alternative* Renderer target via `Add-PnPPage`/`Add-PnPPageTextPart` (raw `.aspx` file upload is
 blocked — `Access denied` — but the page-creation API works and renders correctly), relevant to
@@ -792,7 +792,7 @@ asserted completeness without demonstrating it.
 | Structured content authoring guidance (manual) | Phase 1, `references/content-authoring-guide.md` | DONE | — | existing contract-test coverage | — |
 | Policies, procedures, training content types | Phase 5.5A, Subphase 5.5A.1 | RESEARCH | a real second content type identified | Stage 5.5A.1.7's generalization decision | no second content type exists yet |
 | SharePoint publication | Phase 3, Subphase 3.2 | NEXT | Phase 3.0 confirms feasibility | Stage 3.2.3's manual upload record | gated on 3.0 |
-| Multi-format rendering / non-SharePoint targets (broader vision, not yet phase-scoped) | not yet assigned a phase | RESEARCH | a real second output-format need identified | Phase 3.0's ASPX/modern-page probe (`write-exploration-findings.md` §15): raw `.aspx` upload confirmed blocked, `Add-PnPPage`/`Add-PnPPageTextPart` confirmed working as an alternative SharePoint-native-page Renderer target; docx/pptx generation not yet tested | no phase currently scopes page-based (vs. library-file) publishing or non-Markdown output formats — this is forward-looking evidence only |
+| Multi-format rendering / non-SharePoint targets (broader vision, not yet phase-scoped) | not yet assigned a phase | RESEARCH | a real second output-format need identified | Phase 3.0's ASPX/modern-page probe (`research-summary-phase3-sharepoint-write-capability-discovery.md` §15): raw `.aspx` upload confirmed blocked, `Add-PnPPage`/`Add-PnPPageTextPart` confirmed working as an alternative SharePoint-native-page Renderer target; docx/pptx generation not yet tested | no phase currently scopes page-based (vs. library-file) publishing or non-Markdown output formats — this is forward-looking evidence only |
 | Package-only vs. authorized-write deployment | Phase 3, Subphase 3.2/3.4.3 | NEXT (package-only), LATER (authorized-write) | approved write identity for authorized-write | Stage 3.2.3 (package-only); Stage 3.3.6 dry-run report (authorized-write gate) | write path needs an approved owner/identity first |
 | Publication reconciliation, rollback, drift | Phase 3, Subphase 3.3 | NEXT | Subphase 3.2 pilot exists | Stage 3.3.6's dry-run reconciliation report | — |
 | Source-of-truth lifecycle (editing/drift/republish rules) | Phase 3, Stage 3.1.4 | NEXT | — | `source-of-truth-lifecycle.md` | — |
