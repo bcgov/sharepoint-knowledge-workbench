@@ -484,6 +484,25 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
   already supports both), multi-section/multi-web-part pages, and whether the topic's second
   image + both data tables rendered correctly (the shared screenshot only showed the top of the
   page).
+- **Also new this session: three official Microsoft doc summaries added (§16-18 of the findings
+  doc), each cited to its source URL.** Most consequential new facts: (1) **agents cannot use
+  List data as a grounding source, and Site Pages library can never be added as an agent source
+  at all** — reframes §8's write-action test (the List we tested was never a groundable surface
+  to begin with) and caps how far §15's modern-page idea could ever combine with agent grounding;
+  (2) the ready-made vs. custom-agent model is now officially confirmed exactly as reverse-
+  engineered (ready-made has no `.agent` file; Restricted Content Discovery is specifically the
+  admin mechanism to remove it — directly relevant to backlog Priority 9); (3) **SharePoint
+  custom agents are independently discoverable/usable from the Microsoft Teams app store** — a
+  materially different host surface than the SharePoint chat pane every finding in this document
+  was tested through. Added as new backlog **Priority 10 (Teams cross-surface parity)** —
+  nothing has been re-verified there yet.
+- **Also new this session: a folder-vs-flat-files structuring implication added to the master
+  plan's Subphase 3.1** (`docs/vision/master-initiative-plan-workstreams-and-phases.md`) — a
+  folder counts as one agent source item regardless of file count inside it (Microsoft's
+  documented 20-source-item cap workaround: "nest the data at a higher level"). The CEIS pilot's
+  ~26 topic pages alone would burn past 20 if left flat, so the pilot library's folder structure
+  (by manual section/chapter) needs to be planned during Stage 3.1.1's schema-mapping work, not
+  left flat and restructured later.
 
 **Remaining work to formally close Phase 3.0 (exit gate):**
 1. Write `tenant-capability-report.md` (Stage 3.0.3.1) — synthesize
