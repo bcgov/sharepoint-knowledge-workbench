@@ -199,6 +199,45 @@ relying on it for a second real conversion. No new tests were added since
 no new code was written; full suite still 448 passed, 1 skipped
 (unchanged, verified after adding the skill).
 
+## Phase 2 (Canonical/Publication Contract Hardening) — Tasks 0-17 complete
+
+All 18 tasks (0-17) of `docs/superpowers/plans/2026-07-28-phase2-canonical-publication-contract-hardening.md`
+are complete on branch `phase-2-contract-hardening`, executed via `superpowers:subagent-driven-development`
+(fresh implementer + fresh reviewer per task). Final whole-branch review and merge to `main` are the only
+remaining steps before Phase 2 is fully closed out.
+
+**Full suite: 508 passed, 1 skipped** (`python3 -m pytest tests/ -q` from `plugins/docx-to-content/`). The
+1 skip is `tests/unit/test_package_load.py:189` ("small_single.docx fixture has no media references to
+tamper with") — a pre-existing, unrelated fixture limitation, not Task 16's golden-master test.
+
+**Task 16's golden-master test PASSED, not skipped** — this is the actual completion evidence, per Task
+17's own explicit warning not to conflate the aggregate pass count with this specific proof:
+```
+tests/integration/test_golden_master.py::test_index_is_byte_identical_to_golden_master PASSED
+tests/integration/test_golden_master.py::test_pages_are_file_set_identical_and_byte_identical_to_golden_master PASSED
+tests/integration/test_golden_master.py::test_media_is_file_set_identical_and_byte_identical_to_golden_master PASSED
+tests/integration/test_golden_master.py::test_control_metadata_is_semantically_correct_not_byte_identical PASSED
+```
+This proves the real CEIS manual's published output (`index.md`, all 25 `pages/**`, all 319 `media/**`
+files) is byte-identical to the Task 0 pre-Phase-2 baseline — Phase 2 changed only internal contract
+metadata, never a single byte of the actual publication content.
+
+### Pre-existing tests whose assertions intentionally changed (Tasks 1, 2, 4)
+
+- **Task 1** (`package_identity` double-prefix fix) — `tests/unit/test_package.py::test_grouped_package_identity_is_not_double_prefixed`
+  is a new test (not a changed pre-existing one) asserting `package_identity == plan_id` and does not
+  start with `sha256:sha256:`.
+- **Task 2** (`source_manifest_hash` → `source_content_sha256` field rename):
+  - `tests/contract/test_contracts.py::test_render_result_uses_source_content_sha256_not_manifest_hash` — new test for the renamed field.
+  - `tests/unit/test_multipage_markdown.py::test_single_chunk_package_renders_one_page_and_index` — assertion changed from `result.source_manifest_hash == FAKE_SHA` to `result.source_content_sha256 == FAKE_SHA`.
+  - `tests/unit/test_renderer_protocol.py` (`_ListChunksTestRenderer` fixture helper) — constructor kwarg renamed `source_manifest_hash=` → `source_content_sha256=`.
+  - `tests/unit/test_validate_rendered.py::test_manifest_hash_mismatch_detected` — assertion changed from checking issue code `manifest_hash_mismatch` to `source_content_stale` (this test's name is stale/cosmetic per Task 2's own deferred-minor note; the assertion body is correct).
+- **Task 4** (`chunk_id` now holds a real chunk ID, not a path; `parent_topic_id` removed):
+  - `tests/unit/test_multipage_markdown.py` (`_build_synthetic_grouped_package` fixture helper) — `chunk_id="chunks/alpha--22222222.md"` → `chunk_id="alpha--22222222"` (and same for `beta--11111111`).
+  - `tests/unit/test_publication_map.py::test_publication_map_supports_parent_topic_id_hierarchy` — no longer passes `parent_topic_ids=` to `build_publication_map`; now asserts `"parent_topic_id" not in as_dict["entries"][0]` instead of asserting the field is `None`.
+
+Every other pre-existing test not listed above still passes unchanged.
+
 ## Next action on resume — this is the actual remaining work
 
 1. **Phase 1 is done.** The human spot-check pass (the item that was blocking Phase 1 formal
