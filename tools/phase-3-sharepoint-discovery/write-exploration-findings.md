@@ -240,8 +240,22 @@ tenant-admin-level access we don't currently have (already flagged as `Forbidden
 read-only discovery script's output), so this priority may remain blocked pending admin
 involvement.
 
+**Priority 10 — Teams cross-surface parity (added 2026-07-30, from official Microsoft doc, see
+§18).** Every finding in this document was tested through the SharePoint chat-pane surface only.
+Microsoft's own documentation confirms the same custom `.agent` is independently discoverable
+and usable from the Microsoft Teams app store (added to a chat/channel/meeting, or shared as a
+message preview). Repeat the core test battery (grounded retrieval, write-action request, skill
+invocation, format compliance, refusal logic, quiz generation) via the same agent accessed from
+Teams instead of SharePoint, and record whether behavior/sources/citations are identical or
+whether the Teams host surface changes anything (different app-permission prompts, different
+citation/image rendering, different write-capability surface). **Exit evidence:** a side-by-side
+transcript comparison, SharePoint chat pane vs. Teams, for each test in the battery.
+
 **Note:** the external review's message was truncated after Priority 9 (ended mid-sentence,
-"This—"). If a Priority 10+ exists, capture it here when available; not yet incorporated.
+"This—"). If a Priority 10 (from that same original review) or 11+ exists beyond what's
+captured here, incorporate it when available — the Priority 10 above was added independently
+from a separate Microsoft documentation source, not from the truncated review.
+
 
 
 ### Technical mechanics — how each capability was actually exercised (for reproducing/extending tests)
@@ -899,6 +913,37 @@ Points directly relevant to this document's findings and backlog:
   here doesn't confirm or deny anything new; it's consistent with (but doesn't independently
   corroborate beyond) our own tested finding that writes were unavailable in the custom-agent
   chat-pane path (§8, correction #1).
+
+## 18. Official Microsoft — SharePoint agents are discoverable/usable in Microsoft Teams
+
+**Source:** [Find and use an agent created in SharePoint from Teams app store](https://support.microsoft.com/en-us/office/copilot-in-sharepoint/find-and-use-an-agent-created-in-sharepoint-from-teams-app-store) (Microsoft Support, accessed 2026-07-30). Same status as §16/§17 — official platform documentation, corroborating/contextualizing our tenant-specific findings, not a substitute for them.
+
+**Key confirmation: a SharePoint-created custom agent is not confined to the SharePoint chat
+pane — it's a cross-surface artifact.** Agents created in SharePoint are discoverable in the
+Teams app store's "Agents" category, personalized per user by recent activity, previewable
+(name, icon, creator, source site, grounding sources, Teams app permissions), and can be added
+directly to a chat, channel, or meeting (one at a time, repeatable for multiple destinations), or
+shared as a message preview into a chat/channel.
+
+**Why this matters for our findings:**
+- Every capability/limitation finding in this document (§1-15) was tested through the
+  **SharePoint chat-pane surface only**. This resource confirms the same underlying agent object
+  is also invoked through **Microsoft Teams**, a materially different UI/host surface. None of
+  our findings have been re-verified there — this is a new, concrete gap, not covered by any of
+  the existing 9 backlog priorities as originally scoped (Priority 2 compares ready-made vs.
+  custom agent *within* SharePoint-adjacent surfaces; it does not currently include Teams).
+- **New backlog item (Priority 10 — Teams cross-surface parity):** repeat the core test battery
+  (grounded retrieval, write-action request, skill invocation, format compliance, refusal
+  logic, quiz generation) via the same custom agent accessed from Teams instead of SharePoint,
+  and record whether behavior, sources, and citations are identical, or whether the Teams host
+  surface changes anything (e.g. different app-permission prompts, different rendering of
+  citations/images, different write-capability surface). This directly relevants to any future
+  Phase 5 SharePoint-agent-grounding work, since a real pilot's actual usage may happen through
+  Teams as much as through SharePoint directly.
+- Confirms agents are genuinely a **Microsoft 365-wide capability** rather than a SharePoint-
+  page-scoped feature, reinforcing why Phase 5 (SharePoint agent grounding) is correctly framed
+  as its own phase in the master plan rather than folded into Phase 3 — the agent surface has a
+  broader reach than the library it's grounded on.
 
 ## Reference files (committed alongside this doc)
 
