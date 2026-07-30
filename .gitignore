@@ -1,6 +1,9 @@
 .DS_Store
 ~$*
 
+# Per-phase git worktrees (superpowers:using-git-worktrees) — never committed.
+.worktrees/
+
 # Installed skill copies — regenerable from plugin-sources.json via the documented install
 # command in CLAUDE.md. Not committing these is the point of this repo: prove that a fresh
 # clone + the install command reproduces a working skill setup, not a vendored snapshot.
