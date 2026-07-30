@@ -91,6 +91,16 @@ Explicitly out of scope for Phase 3 (per master-plan Phase 4/5/6/7/8 and Stage-3
   contract beyond Phase 2's). Twenty-five items is still small enough to be a bounded pilot, while proving
   the complete accepted publication relationship. See `phase-3-unresolved-decisions.md` for the full
   three-option comparison (all 25 / formal subset publication map / one assembled item).
+  - **Execution prerequisite (external review correction):** "all 25 topics" and "avoid publishing any topic
+    plausibly above the tenant's lowest sensitivity tier" (see the `Sensitivity` handling below and Section
+    14) cannot both be true automatically — sensitivity screening must not be allowed to silently shrink the
+    25-topic publication into an undocumented subset. The gate is: all 25 topics must be reviewed and
+    approved for the pilot site's sensitivity and permission boundary before Stage 3.3's execution begins.
+    If any topic cannot be approved as-is, Phase 3 does **not** silently proceed with a smaller,
+    undocumented set — it either (a) re-gates Phase 3 execution until the blocking sensitivity concern is
+    resolved tenant-side, or (b) defines a formal, separately reviewed pilot publication map that
+    explicitly documents which topics are excluded and why (the same "formal subset publication map"
+    option already named above, now invoked as a documented exception rather than a silent default).
 - **User roles:** publisher (human, performs the manual upload), reviewer (approves content before
   publish), pilot library owner (tenant-side accountable owner, confirmed in Phase 3.0). See Section 14.
 - **Supported deployment mode:** package-only. No other mode is in scope for Phase 3 build (Subphase 3.4.3
@@ -122,28 +132,60 @@ reconciled against Stage 3.0.2.5's observed field-type inventory (master-plan St
 classified per the field-authority matrix (`REQUIRED_FOR_PHASE_3` / `RECOMMENDED` / `TENANT_DEPENDENT` /
 `DEFERRED` / `NOT_MAPPED`) rather than assumed to need a SharePoint column merely because it seemed useful.
 
+**Correction (external review round):** an earlier revision of this table invented a `PublicationID` field
+with no actual Phase 2 contract source, conflated the source-document fingerprint with the topic content
+hash under one ambiguous `SourceContentSHA256` name, and implied the validator produces per-topic validation
+results when it produces one package-level result. All three are corrected below.
+
 | Business name | Class | Canonical source | Authority | Proposed column | Proposed type | Human or generated | Conflict rule | Phase 3.0 dependency | Omission consequence |
 |---|---|---|---|---|---|---|---|---|---|
-| Stable matching key (`topic_id`/`chunk_id`) | REQUIRED_FOR_PHASE_3 | `publication-map.entries[].topic_id` | Canonical | `TopicID` | Single line text | Generated | Canonical wins | 3.0.2.5 | Reconciliation cannot match items at all |
+| Topic identity (`TopicID`) | REQUIRED_FOR_PHASE_3 | `publication-map.entries[].topic_id` | Canonical | `TopicID` | Single line text | Generated | Canonical wins | 3.0.2.5 | Reconciliation cannot match items at all |
+| Chunk identity (`ChunkID`) | REQUIRED_FOR_PHASE_3 | `publication-map.entries[].chunk_id` | Canonical | `ChunkID` | Single line text | Generated | Canonical wins | 3.0.2.5 | Cannot detect which physical canonical artifact produced the item, independent of topic identity |
 | Package identity | REQUIRED_FOR_PHASE_3 | `publication-map.package_identity` | Canonical | `PackageIdentity` | Single line text | Generated | Canonical wins | 3.0.2.5 | Cannot detect stale/mismatched content |
-| Source content SHA-256 | REQUIRED_FOR_PHASE_3 | `ManifestSourceFingerprint.sha256` / `ChunkMetadata.content_sha256` | Canonical | `SourceContentSHA256` | Single line text | Generated | Canonical wins | 3.0.2.5 | Cannot detect content drift |
-| Publication membership (publication-map ref) | REQUIRED_FOR_PHASE_3 | `publication-map` identity | Publication map | `PublicationID` | Single line text | Generated | Canonical wins | 3.0.2.5 | Cannot tell which publication an item belongs to |
-| Validation state | REQUIRED_FOR_PHASE_3 | `ValidationReport.status` | Generated validation evidence | `ValidationStatus` | Choice (PASS/WARN/FAIL) | Generated | Canonical wins | 3.0.2.5 | Cannot enforce PASS-only upload |
+| Topic content hash | REQUIRED_FOR_PHASE_3 | `ChunkMetadata.content_sha256` | Canonical | `TopicContentSHA256` | Single line text | Generated | Canonical wins | 3.0.2.5 | Cannot detect topic-content drift — this is the actual drift-detection signal used in Section 12/13 |
+| Source document fingerprint | RECOMMENDED (provenance only, not used for drift detection) | `ManifestSourceFingerprint.sha256` | Canonical | `SourceDocumentSHA256` | Single line text | Generated | Canonical wins | 3.0.2.5 | Loses traceability to the original DOCX, but does not affect reconciliation, which relies on `TopicContentSHA256` instead — may live in the evidence sidecar rather than a SharePoint column if the tenant column budget is tight |
+| ~~Publication membership~~ *(removed — see below)* | — | — | — | — | — | — | — | — | — |
+| Source package validation status | REQUIRED_FOR_PHASE_3 | `ValidationReport.status` (one status per canonical package, not per topic) | Generated validation evidence | `SourcePackageValidationStatus` | Choice (PASS/WARN/FAIL) | Generated | Canonical wins | 3.0.2.5 | Cannot enforce "only upload from a PASS-validated package" — see the corrected wording in Section 10 |
 | Title | REQUIRED_FOR_PHASE_3 | `publication-map.entries[].title` | Canonical | `Title` | Single line text | Generated (human may propose pre-publish edits, not post) | Canonical wins | 3.0.2.5 | Item unusable to a reader |
 | Publication order | REQUIRED_FOR_PHASE_3 | `publication-map.entries[].order` | Publication map | `PublicationOrder` | Number | Generated | Canonical wins | 3.0.2.5 | Cannot detect ordering drift |
 | Owner | RECOMMENDED | Human decision | SharePoint operational governance | `Owner` | Person/Group | Human-maintained | SharePoint wins | 3.0.2.5 (person/group column availability) | Weaker governance only, not reconciliation-breaking |
-| Status | RECOMMENDED | Section 14 workflow | SharePoint operational governance | `Status` | Choice (Draft/Reviewed/Published) | Human-maintained | SharePoint wins | 3.0.2.5 | Cannot show Stage 3.4.1's review-workflow evidence |
+| Status | RECOMMENDED | Section 14 workflow (Model A — see Section 14) | SharePoint operational governance | `Status` | Choice (Draft/Reviewed/Published/Retired) | Human-maintained | SharePoint wins | 3.0.2.5 | Cannot show Stage 3.4.1's review-workflow evidence |
 | Review date | RECOMMENDED | Human decision | SharePoint operational governance | `ReviewDate` | Date | Human-maintained | SharePoint wins | 3.0.2.5 (date column type) | Minor — deferrable |
 | Publication event (upload timestamp + publisher) | RECOMMENDED | Generated at upload | SharePoint operational governance | native system columns if available, else `PublishedAt`/`PublishedBy` | Date/Person or native | Generated at upload | SharePoint wins | 3.0.2.4 (native versioning/system columns) | Cannot distinguish two uploads of unchanged content; needed before deciding whether a separate version column is redundant |
 | Structural anchor IDs | NOT_MAPPED | `ChunkMetadata.anchors[].stable_key` | Canonical | *(not a SharePoint column)* | — | — | — | — | None — not needed for item-level reconciliation; retained in the evidence package/sidecar (Section 16) instead |
-| Sensitivity | TENANT_DEPENDENT | Human decision, not yet made | SharePoint operational governance | `Sensitivity` (or tenant MIP label) | Choice / sensitivity label | Human-maintained | SharePoint wins | 3.0.1.2 (available sensitivity/classification columns) | Narrows pilot content selection (Section 5/14) until resolved; does not block schema work |
-| Supersession state | DEFERRED | Section 13 | Publication map / SharePoint operational governance | `SupersededBy` | Single line text or lookup | Generated + human-confirmed | Canonical wins for "what replaced it"; SharePoint wins for "is this retired" | 3.0.2.5 (lookup column availability) | Rename/retirement exercise (Stage 3.3.5) degrades to a manual note instead of a queryable field |
-| Separate `PublishedVersion` column | DEFERRED | Derived at upload time | — | *(not added pending evidence)* | — | — | — | 3.0.2.4 | Must first confirm native version history + `SourceContentSHA256` + publication event don't already cover this before adding a column |
+| Sensitivity | TENANT_DEPENDENT | Human decision, not yet made | SharePoint operational governance | `Sensitivity` (or tenant MIP label) | Choice / sensitivity label | Human-maintained | SharePoint wins | 3.0.1.2 (available sensitivity/classification columns) | Gates the pilot content set — see Section 5's execution-prerequisite gate; does not block schema work |
+| Retirement/transition record | REQUIRED_FOR_PHASE_3 (was `DEFERRED` `SupersededBy`) | Section 13 | Publication map / SharePoint operational governance | `TransitionAction` (RENAMED / RETIRED / SUPERSEDED), `TransitionTarget` (new `TopicID`, optional), `TransitionReason`, `TransitionDate` | Choice + text + text + date | Generated + human-confirmed | Canonical wins for "what replaced it"; SharePoint wins for "is this retired" | 3.0.2.5 (lookup/choice column availability) | Without this, Section 13/Section 12's retired-item handling cannot be exercised or evidenced (see Section 12's corrected retirement classes) |
+| Separate `PublishedVersion` column | DEFERRED | Derived at upload time | — | *(not added pending evidence)* | — | — | — | 3.0.2.4 | Must first confirm native version history + `TopicContentSHA256` + publication event don't already cover this before adding a column |
 | Records classification | DEFERRED | Not decided — Phase 8 default | Not represented in SharePoint (Phase 3) | — | — | — | — | Deferred to Phase 8 unless Phase 3 surfaces a concrete need |
 
+**On the removed `PublicationID` field:** an earlier revision proposed a `PublicationID` field with "the
+publication-map identity" as its canonical source, but no actual Phase 2 contract field supplies a value
+distinct from `package_identity`. Three options were considered:
+- *Option A (adopted):* use `PackageIdentity` (`publication-map.package_identity`) as the sole current
+  publication/package identity; do not add a separate `PublicationID`.
+- *Option B:* derive a publication-map fingerprint deterministically from the accepted publication-map
+  contract, explicitly named as a Phase 3-derived value (not a Phase 2 contract field) — only pursued if a
+  stable publication identity independent of package identity is genuinely required, which has not been
+  demonstrated.
+- *Option C:* propose a reviewed Phase 2 contract extension before Phase 3 — not pursued; Phase 3 does not
+  modify Phase 2 contracts (Section 6).
+Option A is adopted throughout this document; every prior reference to `PublicationID` below has been
+replaced with `PackageIdentity` + `PublicationOrder` (publication membership is expressed as "this topic,
+per `TopicID`, appears at this `PublicationOrder` within the package identified by `PackageIdentity`").
+
+**`TopicID` vs. `ChunkID` (external review clarification):** `TopicID` is the logical topic's stable
+identity — it must survive a republish of unchanged content and is the key reconciliation matches items on.
+`ChunkID` is the physical canonical artifact identity (which chunk file actually produced this topic's
+content) — it changes if the chunk-grouping/regeneration process produces a different physical artifact for
+the same logical topic, which reconciliation can then read as "artifact replaced, topic unchanged." Phase 3
+does not currently have a concrete scenario where these diverge (grouped-strategy topics are 1:1 with chunks
+today per the publication-map contract), but both are captured as separate columns so that if Phase 2's
+identity model diverges in the future, Phase 3's reconciliation is not silently relying on an ambiguous
+composite of the two.
+
 **Field-level authority principle (per Section B of the brainstorming input):** canonical package and
-publication map are authoritative for *content identity and provenance* fields (topic ID, package identity,
-source content hash, publication membership, title-as-authored, validation state, publication order).
+publication map are authoritative for *content identity and provenance* fields (topic ID, chunk ID, package
+identity, topic content hash, source document fingerprint, title-as-authored, publication order).
 SharePoint operational governance is authoritative for *operational/workflow* fields that have no canonical
 equivalent (owner, status, review date, sensitivity as classified in the tenant, publication event). No
 field is dual-authoritative; where a field could plausibly be either (e.g. title, if a reviewer edits it in
@@ -186,10 +228,11 @@ Answering master-plan Stage 3.1.4's explicit questions:
    of-truth rule below. SharePoint's published copy is a rendered, human-consumable projection of that
    package — never the other way around.
 6. **How are superseded versions marked in the library?**
-   A republished topic's prior copy is marked via the `SupersededBy` column (Section 7) referencing the
-   new topic ID/publication ID, and relies on SharePoint's native version history (confirmed available or
-   not per Stage 3.0.2.4) for the byte-level prior content — Phase 3 does not build a separate versioning
-   store.
+   A republished topic in place is not "superseded" — it is the same `TopicID` overwritten with new
+   content (Section 13's safe-republish rule), and relies on SharePoint's native version history (confirmed
+   available or not per Stage 3.0.2.4) for the byte-level prior content. Genuine supersession (a topic
+   replaced by a *different* topic) is recorded via the `TransitionAction = SUPERSEDED` transition record
+   (Section 7/13), not a same-item version marker. Phase 3 does not build a separate versioning store.
 
 **One-paragraph source-of-truth rule (Stage 3.1.3):** The canonical package in this Git repository
 (`runs/ceis-manual-v2/canonical-content/`, produced and validated by the `docx-to-content` plugin) is the
@@ -235,14 +278,22 @@ package locally).
 
 ## 10. Dry-run validation
 
-Before a human uploads anything, the package is validated locally (no tenant interaction):
+Before a human uploads anything, the package is validated locally (no tenant interaction). The complete
+dry-run report cannot return `PASS` until every required check below has actually executed — a check that
+cannot yet run must report `NOT_EVALUATED` or `BLOCKED`, never a silent passing no-op (external review
+correction; see Section 15 and the plan scaffold's corrected Task 3.2.2):
 
-- Every topic in the pilot publication's 25 topics each has `ValidationReport.status == PASS`.
+- The source canonical package has accepted validation status `SourcePackageValidationStatus == PASS`
+  (`ValidationReport.status` is a single, package-level result — not independently computed per topic —
+  and each of the pilot publication's 25 topics belongs to that one validated package. This replaces an
+  earlier, inaccurate statement that "every topic ... has `ValidationReport.status == PASS`," which implied
+  per-topic validation that does not exist).
 - Every Section 7 required field has a non-null value for every topic in the publication.
-- Metadata sidecar field types are checked against the **reconciled** schema (Stage 3.1.2 — i.e. this check
-  cannot run meaningfully until Phase 3.0's field-type inventory exists; until then this step is itself
-  `DEFERRED UNTIL PHASE 3.0 EVIDENCE`).
-- No duplicate `topic_id`/`publication_id` within the package being prepared.
+- Metadata sidecar field types are checked against the **reconciled** schema (Stage 3.1.2). This check
+  cannot run meaningfully until Phase 3.0's field-type inventory exists; until then it reports
+  `status = BLOCKED, issue = TARGET_SCHEMA_NOT_OBSERVED` — it is not scaffolded as a no-op that always
+  passes, and its `BLOCKED` status prevents the overall dry-run report from returning `PASS`.
+- No duplicate `TopicID`/`ChunkID` within the package being prepared.
 - Media references in the pilot publication resolve to actual files present in the package (reusing
   the Phase 1/2 canonical validator's media-reference check logic where applicable, not reimplementing it).
 
@@ -250,29 +301,35 @@ Before a human uploads anything, the package is validated locally (no tenant int
 
 The human publisher records, for each upload session:
 - Date/time, publisher identity, pilot library/site target.
-- Which topics (by `topic_id`) were uploaded, in what order.
+- Which topics (by `TopicID`) were uploaded, in what order.
 - Every manual step actually performed (not a generic checklist — the literal sequence of clicks/actions),
   per master-plan Stage 3.2.3's explicit intent that this log itself is evidence for later automation
   scoping.
 - Any deviation from the upload instructions (Section 9) and why.
 - Screenshot or export confirming each item exists in the library post-upload with its metadata populated.
+  Per Section 16, the screenshot/export itself is controlled-original evidence, not committed verbatim to
+  this repository; the tracked report records a sanitized summary and a pointer to the controlled location.
 
 ## 12. Reconciliation contract
 
 Reconciliation identity is deliberately split into four distinct concepts, not one composite key (an
-earlier draft conflated these into `topic_id + PublicationID + PackageIdentity` without analyzing the
-semantics):
+earlier draft conflated these into a composite key including an invented `PublicationID` field without
+analyzing the semantics; see Section 7's correction):
 
-- **Stable published-item identity** — which logical topic/item this is: `topic_id`/`chunk_id`, matching
-  Section 7's `TopicID`. Never changes across republish; only changes on a genuine rename (Section 13).
+- **Stable published-item identity** — which logical topic/item this is: `TopicID`, matching Section 7's
+  `TopicID` column. Never changes across republish; only changes on a genuine rename (Section 13).
+  `ChunkID` is tracked alongside it to detect physical-artifact replacement independent of topic identity
+  (Section 7).
 - **Expected-content identity** — which canonical content version should be present: `PackageIdentity` +
-  `SourceContentSHA256` + `ValidationStatus`. Changes whenever the canonical content actually changes.
-- **Publication membership** — which publication map expects the item: `PublicationID` + `PublicationOrder`.
-  Changes if the publication map's composition or ordering changes, independent of content changes.
+  `TopicContentSHA256` + `SourcePackageValidationStatus`. Changes whenever the canonical content actually
+  changes.
+- **Publication membership** — which publication map expects the item: `PackageIdentity` +
+  `PublicationOrder` (there is no separate `PublicationID`; see Section 7). Changes if the publication
+  map's composition or ordering changes, independent of content changes.
 - **Publication event** — which human upload/republish operation produced the current SharePoint state:
   upload timestamp + publisher (Section 7's "publication event" row). Distinguishes two uploads of otherwise
   unchanged content, e.g. a deliberate re-upload for a pilot test. A separate `PublishedVersion` column is
-  **not** added pending evidence that native version history + `SourceContentSHA256` + publication event
+  **not** added pending evidence that native version history + `TopicContentSHA256` + publication event
   don't already cover this need (Section 7).
 
 Comparing expected (publication-map-derived) state against actual SharePoint state, using the above,
@@ -283,18 +340,38 @@ detecting:
 - **Duplicate items** — more than one library item claiming the same stable published-item identity.
 - **Stale items** — a library item whose expected-content identity no longer matches the current confirmed
   canonical package for that topic.
-- **Unexpected items** — a library item with no corresponding publication-map entry.
+- **Item classification (external review correction — retirement must not become permanently
+  "unexpected"):** every library item is classified into exactly one of four classes before "unexpected" is
+  reported, so that a deliberately retired item is never flagged as unexpected forever:
+  - `ACTIVE_EXPECTED` — matches a current publication-map entry.
+  - `RETIRED_EXPECTED` — no current publication-map entry, but appears in the retirement ledger
+    (Section 13's transition record, `TransitionAction = RETIRED` or `SUPERSEDED`) with this item as the
+    old identity.
+  - `UNEXPECTED_ACTIVE` — no current publication-map entry and no retirement-ledger record. This is the
+    only class that constitutes an actual reconciliation problem requiring investigation.
+  - `UNEXPECTED_RETIRED` — marked `Status = Retired` in SharePoint but with no corresponding
+    retirement-ledger record explaining why (a governance gap even though it's not content-loss risk).
+  Only `UNEXPECTED_ACTIVE` (and, at lower severity, `UNEXPECTED_RETIRED`) are reported as "unexpected items"
+  in the reconciliation report; `RETIRED_EXPECTED` items are reported as expected retired state.
 - **Mismatched package identity** — item's `PackageIdentity` present but does not match the expected value.
-- **Mismatched publication identity** — item's `PublicationID`/`PublicationOrder` inconsistent with the
+- **Mismatched publication identity** — item's `PackageIdentity`/`PublicationOrder` inconsistent with the
   current publication map.
-- **Mismatched validation lineage** — item's `ValidationStatus` does not match the canonical package's
-  actual `ValidationReport.status` at time of upload.
-- **Renamed or retired topic IDs** — a previously-published stable published-item identity no longer
-  present in the current publication map (Section 13 governs handling).
+- **Mismatched validation lineage** — item's `SourcePackageValidationStatus` does not match the canonical
+  package's actual `ValidationReport.status` at time of upload.
+- **Renamed, retired, or superseded topic IDs** — see Section 13's explicit transition record; a missing ID
+  alone is never treated as proof of any specific one of these three events.
 - **Manual edits, if detectable** — a canonical-authority field's value in SharePoint differs from the
-  value the canonical package would produce (detectable only for fields the reconciliation tool can read
-  back from SharePoint — exact read-back mechanism `DEFERRED UNTIL PHASE 3.0 EVIDENCE: whether the pilot
-  identity used for reconciliation has read access to list items via Graph/PnP or only UI export`).
+  value the canonical package would produce, detectable only through the `ActualLibraryState` provider
+  boundary (see below).
+
+**`ActualLibraryState` provider boundary (external review correction):** the exact mechanism used to read
+back current SharePoint item state is an implementation detail behind an abstract `ActualLibraryState`
+provider interface, not a hard dependency on any specific tenant API. Possible implementations, none of
+which change the pure reconciliation comparator's logic: a manually prepared CSV/export, an approved
+read-only Graph/PnP API call, an approved administrative export, or another tenant-supported evidence
+source. Which implementation is available is `DEFERRED UNTIL PHASE 3.0 EVIDENCE` (Stage 3.0's read-access
+findings); the reconciliation comparator itself is designed against the provider interface, independent of
+that choice.
 
 Phase 3 explicitly does not treat "upload succeeded" as "publication succeeded" — the reconciliation report
 is the actual proof of publication correctness, run after every upload/republish/rollback exercise, never
@@ -316,10 +393,29 @@ skipped.
   "restore previous version" if version history is available), followed by a mandatory reconciliation run
   to confirm the library state matches the expected pre-bad-item state. Evidence: before/after inventory,
   the deletion/restore action log, and reviewer acceptance (Stage 3.3.4).
-- **Rename/retirement:** a topic ID that no longer appears in the current publication map is not silently
-  deleted from the library. It is marked (via `Status`/`SupersededBy`) as retired, its item is retained
-  (not orphaned), and the reconciliation report flags it explicitly as a "renamed or retired topic ID"
-  category rather than either an error or a silent no-op.
+- **Rename, retirement, and supersession are distinct events, each requiring an explicit transition record
+  (external review correction — a missing `TopicID` alone cannot prove which of these three occurred; it
+  could equally indicate deletion, corruption, or a publication-map error):**
+  - **Rename** — the old stable identity maps explicitly to a new stable identity; the underlying topic
+    still exists and is still published, just under a new `TopicID`.
+  - **Retirement** — the old identity has no replacement; the topic is deliberately withdrawn from the
+    active publication.
+  - **Supersession** — the old identity is replaced by a *different* topic for business reasons (not a
+    pure rename of the same content).
+  A `TopicID` disappearing from the current publication map is never, by itself, classified as one of
+  these three without a human-confirmed transition record:
+  ```text
+  old_topic_id
+  action = RENAMED | RETIRED | SUPERSEDED
+  new_topic_id   (required if RENAMED or SUPERSEDED, absent if RETIRED)
+  reason
+  decision_owner
+  effective_date
+  ```
+  This record is the retirement ledger referenced in Section 12's `RETIRED_EXPECTED` classification. Its
+  item is retained in the library (not orphaned or deleted), marked `Status = Retired` and linked to
+  `TransitionTarget` where applicable (Section 7), and the reconciliation report classifies it per Section
+  12 rather than treating it as an error or a silent no-op.
 - **Partial-upload recovery:** if a manual upload session is interrupted partway through the 25-topic pilot publication,
   the reconciliation report (run against whatever portion was actually uploaded) is the recovery mechanism —
   it surfaces exactly which publication-map entries are "missing" so the publisher knows what remains to be
@@ -329,20 +425,32 @@ skipped.
 
 - **Owner:** the pilot library's accountable owner, named in Phase 3.0 (Stage 3.0.2.3/3.0.2.5) — not yet
   named; see unresolved decisions.
-- **Reviewer:** a human who approves pilot content before it moves to `Status: Published` — role holder
-  not yet named (safe default: the same person as this initiative's technical lead, until a dedicated
-  reviewer is assigned).
-- **Publisher:** the human who performs the manual upload — role holder not yet named.
+- **Reviewer:** a human who approves pilot content before it moves to `Status: Reviewed` (see the corrected
+  Draft → Reviewed → Published sequence below) — role holder not yet named.
+- **Publisher:** the human who performs the manual upload — role holder not yet named. **Safe default
+  (external review correction):** the same person may act as both reviewer and publisher only as an
+  explicitly accepted pilot exception (recorded in `phase-3-unresolved-decisions.md`), not as this spec's
+  normal governance default — a pilot of this size may operationally require it, but it weakens the
+  evidence for review governance and must be named as such, not silently normalized.
 - **Permissions:** tested under **at least two distinct permission identities** against the pilot library
   (Stage 3.4.2), to directly exercise oversharing/discoverability risk, not just assume the pilot library's
   default permission inheritance is correct.
 - **Versioning:** relies on SharePoint's native version history if confirmed available (Stage 3.0.2.4);
-  otherwise Phase 3 must fall back to the `PublishedVersion`/`SupersededBy` columns as the sole version
-  record (a materially weaker fallback, flagged in the unresolved-decision register).
-- **Draft → Reviewed → Published states:** `Status` column values, walked through end-to-end for at least
-  one real pilot item (Stage 3.4.1) — draft is the initial state at package preparation, reviewed after
-  human sign-off pre-upload, published once the item exists in the library and passes its first
-  reconciliation check.
+  otherwise Phase 3 must fall back to `TopicContentSHA256` + the publication event columns + the
+  `TransitionAction` transition record as the sole version signal (a materially weaker fallback, flagged in
+  the unresolved-decision register).
+- **Draft → Reviewed → Published states (external review correction — a SharePoint item cannot hold a
+  SharePoint `Status` of `Draft` or `Reviewed` before it exists in SharePoint at all):** this spec adopts
+  **Model A (SharePoint workflow)** rather than a package-preparation-time state model:
+  1. The item is uploaded to the pilot library with `Status = Draft`.
+  2. A reviewer reviews the item *in SharePoint* (not the pre-upload package).
+  3. The reviewer marks it `Status = Reviewed`.
+  4. Reconciliation runs (Section 12).
+  5. Once reconciliation confirms correctness, the item is marked `Status = Published`.
+  This sequence is walked through end-to-end for at least one real pilot item (Stage 3.4.1). The rejected
+  alternative (Model B — package-level `Draft`/`Reviewed` status prior to any upload, then a single
+  publish-on-upload step) does not satisfy Stage 3.4.1's requirement that a SharePoint item itself move
+  through all three states.
 - **Oversharing and discoverability checks:** run against the pilot library specifically, using the two
   distinct identities above, checking whether content is discoverable beyond its intended audience (Stage
   3.4.2) — a first-class Protected B concern per the master plan, not a checkbox.
@@ -372,30 +480,51 @@ No step in Phase 3 reports success without evidence:
 
 ## 16. Evidence model
 
-Every stage in this spec produces a named evidence artifact, stored under
-`docs/reports/phase-3-sharepoint-pilot/` — a tracked path, chosen after checking this repo's existing
-convention (`docs/reports/sdd-task-reports/` already exists for a similar purpose) and confirming neither
-`docs/reports/` nor `evidence/` are excluded by `.gitignore` (which ignores `.agents/`, `.claude/`,
-`context/`, `temp/`, `.superpowers/`, and cache directories — not documentation/evidence paths). Persistent
-Phase 3 evidence must not live only under an ignored path.
+Every stage in this spec produces a named evidence artifact. **Correction (external review round):** "this
+path is tracked by Git" does not automatically mean it is an appropriate place for sensitive tenant
+evidence — screenshots, identities, site URLs, permission-test results, and Protected B discoverability
+evidence may not belong in this Git repository at all, tracked or not. Evidence is therefore split into two
+tiers:
 
-| Evidence | Produced by | Section |
-|---|---|---|
-| Access record | Phase 3.0 (external, referenced not owned by Phase 3) | 4 |
-| Schema-mapping document | Section 7's reconciliation | 7, 3.1.1/3.1.2 |
-| `source-of-truth-lifecycle.md` | Section 8 (may be split into its own file per Stage 3.1.4's naming) | 8 |
-| Dry-run validation report | Section 10 | 10, 3.2.2 |
-| Upload log | Section 11 | 11, 3.2.3 |
-| Reconciliation report(s) | Section 12, run at least once with zero autonomous writes | 12, 3.3.1/3.3.6 |
-| Lineage trace record | one real item traced to its source package | 12, 3.3.2 |
-| Republish before/after record | Section 13 | 13, 3.3.3 |
-| Rollback before/after record + execution log + reviewer acceptance | Section 13 | 13, 3.3.4 |
-| Rename/retirement before/after record | Section 13 | 13, 3.3.5 |
-| Review-workflow walked-through item history | Section 14 | 14, 3.4.1 |
-| Oversharing-test report | Section 14 | 14, 3.4.2 |
-| Write-identity design document | 3.4.3, design-only | out of Phase 3 build scope |
-| Readiness-check report | Section 14/pilot content completeness | 3.5.1 |
-| `phase-3-retrospective.md` | citing every evidence artifact above | 3.5.2 |
+- **Tracked evidence index / sanitized summary** — stored under `docs/reports/phase-3-sharepoint-pilot/`
+  (a tracked path, chosen after checking this repo's existing convention — `docs/reports/sdd-task-reports/`
+  already exists for a similar purpose — and confirming neither `docs/reports/` nor `evidence/` are
+  excluded by `.gitignore`, which ignores `.agents/`, `.claude/`, `context/`, `temp/`, `.superpowers/`, and
+  cache directories, not documentation/evidence paths). Each entry in this tier records:
+  - evidence ID;
+  - sanitized finding (no raw identities, site URLs, tenant screenshots, or permission-test contents);
+  - controlled-source location (a pointer, not the content itself);
+  - access classification;
+  - reviewer;
+  - date;
+  - an explicit note that the original is intentionally not committed to this repository.
+- **Controlled original evidence** — the actual screenshots, exports, permission-test outputs, and any
+  artifact containing real tenant identities, site URLs, or discoverability results, stored in an approved
+  restricted, non-Git location named by Phase 3.0 (Stage 3.0.1's access-boundary findings) — never
+  committed to this repository. Which specific restricted location is `DEFERRED UNTIL PHASE 3.0 EVIDENCE`.
+
+Persistent Phase 3 evidence must not live only under an ignored path, and sensitive originals must not live
+in this repository at all — both halves of this rule are correction targets fixed together, since fixing
+only "make sure it's tracked" without also fixing "should tenant evidence live in Git at all" would have
+been an incomplete correction.
+
+| Evidence | Tier | Produced by | Section |
+|---|---|---|---|
+| Access record | Sanitized summary (tracked) | Phase 3.0 (external, referenced not owned by Phase 3) | 4 |
+| Schema-mapping document | Sanitized summary (tracked) | Section 7's reconciliation | 7, 3.1.1/3.1.2 |
+| `source-of-truth-lifecycle.md` | Sanitized summary (tracked) | Section 8 (may be split into its own file per Stage 3.1.4's naming) | 8 |
+| Dry-run validation report | Sanitized summary (tracked) | Section 10 | 10, 3.2.2 |
+| Upload log | Sanitized summary (tracked); underlying screenshots/exports are controlled originals | Section 11 | 11, 3.2.3 |
+| Reconciliation report(s) | Sanitized summary (tracked) | Section 12, run at least once with zero autonomous writes | 12, 3.3.1/3.3.6 |
+| Lineage trace record | Sanitized summary (tracked) | one real item traced to its source package | 12, 3.3.2 |
+| Republish before/after record | Sanitized summary (tracked) | Section 13 | 13, 3.3.3 |
+| Rollback before/after record + execution log + reviewer acceptance | Sanitized summary (tracked); raw execution log may be a controlled original if it contains tenant identities | Section 13 | 13, 3.3.4 |
+| Rename/retirement before/after record | Sanitized summary (tracked) | Section 13 | 13, 3.3.5 |
+| Review-workflow walked-through item history | Sanitized summary (tracked) | Section 14 | 14, 3.4.1 |
+| Oversharing-test report | Sanitized summary (tracked); raw permission-test identities/results are controlled originals | Section 14 | 14, 3.4.2 |
+| Write-identity design document | Sanitized summary (tracked) | 3.4.3, design-only | out of Phase 3 build scope |
+| Readiness-check report | Sanitized summary (tracked) | Section 14/pilot content completeness | 3.5.1 |
+| `phase-3-retrospective.md` | Sanitized summary (tracked) | citing every evidence artifact above | 3.5.2 |
 
 ## 17. Security and privacy boundaries
 

@@ -59,7 +59,7 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   later phase proposes backflow.
 - **Safe default if unresolved:** no backflow in Phase 3 (current state). Classification: `MAY_DEFER`.
 
-## 5. Separate `PublishedVersion` column vs. relying on native versioning + `SourceContentSHA256` + publication event
+## 5. Separate `PublishedVersion` column vs. relying on native versioning + `TopicContentSHA256` + publication event
 
 - **Decision:** whether a dedicated version column is needed at all.
 - **Why it matters:** avoids adding a redundant field "because it seemed useful" (per the brainstorming
@@ -68,8 +68,9 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   availability).
 - **Decision owner:** technical lead.
 - **Latest responsible decision point:** before Subphase 3.1's schema is finalized for upload.
-- **Safe default if unresolved:** do not add the column; rely on native version history + `SourceContentSHA256`
-  + publication event fields until evidence shows a gap. Classification: `BLOCKS_PLAN`.
+- **Safe default if unresolved:** do not add the column; rely on native version history + `TopicContentSHA256`
+  + publication event fields (plus the `TransitionAction` transition record for genuine supersession, spec
+  Section 7/13) until evidence shows a gap. Classification: `BLOCKS_PLAN`.
 
 ## 6. `Sensitivity`/records-classification column availability and pilot content selection
 
@@ -98,15 +99,19 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
 
 ## 8. Reviewer and publisher role assignment
 
-- **Decision:** who specifically is the pilot's reviewer and publisher (Section 14 currently proposes the
-  initiative's technical lead as an interim default reviewer).
-- **Why it matters:** Stage 3.4.1's review workflow (Draft→Reviewed→Published) needs named humans to walk
-  through it.
+- **Decision:** who specifically is the pilot's reviewer and publisher (Section 14 currently names both
+  roles as not yet assigned).
+- **Why it matters:** Stage 3.4.1's review workflow (Draft→Reviewed→Published, Model A per Section 14)
+  needs named humans to walk through it.
 - **Evidence needed:** Phase 3.0 Stage 3.0.2.3-adjacent (who can be authorized), plus a human decision.
 - **Decision owner:** user / pilot library owner.
 - **Latest responsible decision point:** before Subphase 3.4 (governance controls) task detail is written.
-- **Safe default if unresolved:** technical lead acts as both reviewer and publisher for the first pilot
-  pass, revisited once dedicated roles are assigned. Classification: `BLOCKS_PLAN`.
+- **Safe default if unresolved (external review correction):** the same person (e.g. the technical lead)
+  acting as both reviewer and publisher is allowed **only as an explicitly accepted pilot exception**,
+  recorded here with the name and date it was accepted — not treated as this spec's normal governance
+  default, since combining the two roles weakens the evidence for review governance. If accepted as an
+  exception for the first pilot pass, record: exception accepted by ______, date ______, revisit trigger:
+  once dedicated roles are assigned. Classification: `BLOCKS_PLAN`.
 
 ## 9. Two-identity oversharing test — which identities
 
@@ -120,21 +125,59 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
 - **Safe default if unresolved:** cannot safely default — this is the entire point of the test.
   Classification: `BLOCKS_EXECUTION`.
 
-## 10. Read-back mechanism for manual-edit detection in reconciliation
+## 10. `ActualLibraryState` provider implementation for manual-edit detection in reconciliation
 
-- **Decision:** whether the reconciliation identity used has read access via Graph/PnP, or only UI export,
-  to detect manual edits to canonical-authority fields.
+- **Decision:** which concrete implementation backs the `ActualLibraryState` provider boundary (spec
+  Section 12) — a manually prepared CSV/export, an approved read-only Graph/PnP API call, an approved
+  administrative export, or another tenant-supported evidence source. This is an implementation-choice
+  question, not an architectural one: the pure reconciliation comparator (Task 3.3.1) is designed against
+  the abstract provider interface regardless of which implementation is eventually chosen (external review
+  correction — an earlier revision of this item implied Graph/PnP specifically was the likely mechanism,
+  which overstated what has actually been decided).
 - **Why it matters:** determines whether "manual edits, if detectable" (Section 12) is actually achievable
   in Phase 3 or must be scoped down to "detectable only via periodic manual export."
 - **Evidence needed:** Phase 3.0 Stage 3.0.2.1-adjacent / a specific reconciliation-identity permission
   check (proposed addition).
 - **Decision owner:** technical lead.
-- **Latest responsible decision point:** before Subphase 3.3's reconciliation tool is implemented.
-- **Safe default if unresolved:** scope reconciliation's manual-edit detection to whatever read mechanism is
-  confirmed available; do not assume Graph/PnP write-adjacent read access exists. Classification:
-  `BLOCKS_PLAN`.
+- **Latest responsible decision point:** before Subphase 3.3's `ActualLibraryState` adapter (not the
+  comparator itself) is implemented.
+- **Safe default if unresolved:** scope reconciliation's manual-edit detection to whatever `ActualLibraryState`
+  implementation is confirmed available; do not assume Graph/PnP write-adjacent read access exists.
+  Classification: `BLOCKS_PLAN`.
 
-## 11. Master-plan exit-gate correction
+## 13. `PublicationID` — resolved (Option A adopted)
+
+- **Decision:** an earlier spec revision proposed a `PublicationID` field with no grounding in an actual
+  Phase 2 contract field. This is resolved: Option A is adopted — `PackageIdentity`
+  (`publication-map.package_identity`) is the sole current publication/package identity; no separate
+  `PublicationID` is added (spec Section 7).
+- **Why it matters:** prevents Phase 3 from silently inventing a contract field while claiming it doesn't
+  modify or supplement Phase 2 contracts.
+- **Evidence needed:** none — resolved by re-reading the actual Phase 2 contract.
+- **Decision owner:** technical lead (resolved in this spec revision).
+- **Latest responsible decision point:** N/A — settled.
+- **Safe default if unresolved:** N/A — already resolved. Classification: `MAY_DEFER` (revisit only if a
+  future need for a publication identity independent of package identity is concretely demonstrated —
+  Option B in Section 7).
+
+## 14. Rename vs. retirement vs. supersession — resolved (explicit transition record adopted)
+
+- **Decision:** an earlier spec revision treated any topic ID missing from the current publication map as
+  "renamed or retired," which cannot distinguish rename from retirement from deletion/corruption/map error.
+  This is resolved: a human-confirmed transition record (`old_topic_id`, `action`, `new_topic_id`,
+  `reason`, `decision_owner`, `effective_date`) is now required for any of these three events, and
+  reconciliation classifies items into `ACTIVE_EXPECTED`/`RETIRED_EXPECTED`/`UNEXPECTED_ACTIVE`/
+  `UNEXPECTED_RETIRED` rather than treating a missing ID alone as proof of any specific event (spec
+  Sections 7, 12, 13).
+- **Why it matters:** without this, every properly retired item would be reported as "unexpected" forever,
+  and rename/retirement/supersession could not be distinguished for governance or evidence purposes.
+- **Evidence needed:** none — a design/contract-level fix within this repo's control.
+- **Decision owner:** technical lead (resolved in this spec revision).
+- **Latest responsible decision point:** N/A — settled; the plan scaffold's Task 3.3.3–3.3.5 exercises
+  produce the actual transition records once a pilot library exists.
+- **Safe default if unresolved:** N/A — already resolved. Classification: `MAY_DEFER`.
+
+## 15. Master-plan exit-gate correction
 
 - **Decision:** whether to formally amend the master plan's Phase 3 exit-gate sentence to the corrected
   version proposed in the spec (Section 19).
@@ -148,7 +191,7 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
 - **Safe default if unresolved:** this spec continues to require the fuller evidence set regardless of
   whether the master plan's sentence is ever amended. Classification: `MAY_DEFER`.
 
-## 12. AgentAssets / native skills / SharePoint agents (Phase 4/5 scope)
+## 16. AgentAssets / native skills / SharePoint agents (Phase 4/5 scope)
 
 - **Decision:** none required in Phase 3; explicitly out of scope.
 - **Classification:** `PHASE_4_PLUS`.

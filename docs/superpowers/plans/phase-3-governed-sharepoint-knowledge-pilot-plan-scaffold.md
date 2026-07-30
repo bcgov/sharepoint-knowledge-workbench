@@ -30,14 +30,21 @@ plan implements.
 ## Global Constraints
 
 - Package-only deployment only — no task in this scaffold may implement an autonomous SharePoint write.
-- No new plugin (`sharepoint-knowledge` or similar) is created in Phase 3 — new code lives inside
-  `plugins/docx-to-content/` as an additional CLI-backed capability, following that plugin's existing
-  hub-and-spoke/TDD conventions, unless a separate spec/plan proposes otherwise.
+- **Code location: `RECOMMENDED`, not a global constraint (external review correction).** The default
+  assumption below — that new code lives inside `plugins/docx-to-content/` — is provisional, not settled.
+  Before finalizing the real implementation plan, apply Phase 2's extraction triggers to determine whether
+  SharePoint package preparation and reconciliation remain in `docx-to-content`, become shared
+  repository-level modules, or justify a separately approved SharePoint-oriented plugin boundary. No new
+  plugin is created without separate approval. Until that evaluation happens, this scaffold continues to
+  reference `plugins/docx-to-content/scripts/...` paths as a working default only.
 - Every new script/module follows this repo's existing symlink/skill conventions
   (`.agent/rules/symlink-cross-platform.md`) if it is exposed as a skill.
 - TDD throughout: failing test first, per `.agent/rules/test-driven-development.md`.
-- No task may be executed until: (a) Phase 2 exit gate — already met; (b) Phase 3.0's accepted
-  `tenant-capability-report.md` exists; (c) this scaffold's `DEFERRED` markers for that task are resolved.
+- No task in this scaffold may be executed before Phase 3.0's accepted `tenant-capability-report.md`
+  exists — including tasks whose steps read like they could be "implemented now" (see Task 3.3.1's
+  corrected wording below, which previously contradicted this constraint). Pure offline design work (e.g.
+  sketching the comparator's function signature and test cases on paper, without committing runnable code)
+  may be done ahead of Phase 3.0 only if separately authorized; it is not authorized by this scaffold alone.
 
 ---
 
@@ -52,8 +59,11 @@ plan implements.
 - Consumes: `phase-3-governed-sharepoint-knowledge-pilot-spec.md` Section 7 (field-authority matrix).
 - Produces: the canonical/publication contract → SharePoint column mapping later tasks (3.1.2, 3.2.1) read.
 
-- [ ] **Step 1:** Copy Section 7's field-authority matrix into this document verbatim as the starting
-  mapping.
+- [ ] **Step 1:** Reference spec Section 7's field-authority matrix directly (by section link, plus the
+  spec's version/commit hash at the time of copying) rather than duplicating the full matrix verbatim —
+  copying invites drift between this document and the spec as corrections land (external review
+  correction). Start this document with a short pointer and only the fields' names/proposed-column columns
+  extracted for traceability.
 - [ ] **Step 2:** For every field, add a column citing the exact source field/attribute in
   `plugins/docx-to-content/scripts/contracts.py` (e.g. `ManifestChunk.chunk_id`,
   `ChunkMetadata.content_sha256`) so the mapping is traceable to real code, not narrative description.
@@ -86,8 +96,11 @@ against actual tenant constraints until Stage 3.0.2.5's field-type inventory exi
   rule).
 - Produces: the lifecycle rule later tasks (3.3.x republish/rollback) implement against.
 
-- [ ] **Step 1:** Copy spec Section 8 verbatim into this standalone document (Stage 3.1.4 names this as its
-  own deliverable file, separate from the main spec).
+- [ ] **Step 1:** Reference spec Section 8 directly (by section link, plus the spec's version/commit hash)
+  rather than duplicating it verbatim into this standalone document — Stage 3.1.4 names a standalone
+  deliverable, but a reference-plus-extracted-decisions approach avoids two copies of the same lifecycle
+  rules drifting apart as corrections land (external review correction). Extract only the accepted
+  operational decisions (the six answered questions) into this document's body.
 - [ ] **Step 2:** Have the user/pilot-library-owner explicitly sign off on the "block until reviewed"
   republish policy (currently `RECOMMENDED`, see unresolved-decision register item 2) before this document
   is treated as final — record the sign-off inline (name, date).
@@ -109,16 +122,19 @@ against actual tenant constraints until Stage 3.0.2.5's field-type inventory exi
   output at `runs/ceis-manual-v2/render/`.
 - Produces: `build_upload_package(canonical_dir: Path, render_dir: Path, output_dir: Path) ->
   UploadPackage` — a new dataclass (fields: `topics: list[UploadPackageTopic]`,
-  `metadata_sidecar_path: Path`, `validation_status: str`), where `UploadPackageTopic` carries
-  `topic_id`, `title`, `order`, `content_path` (rendered Markdown file), `media_paths: list[Path]`, and the
-  Section 7 REQUIRED_FOR_PHASE_3 fields (`package_identity`, `source_content_sha256`, `publication_id`,
-  `validation_state`, `publication_order`). Later tasks (3.2.2, 3.2.3) consume `UploadPackage`.
+  `metadata_sidecar_path: Path`, `source_package_validation_status: str`), where `UploadPackageTopic`
+  carries `topic_id`, `chunk_id`, `title`, `order`, `content_path` (rendered Markdown file),
+  `media_paths: list[Path]`, and the Section 7 REQUIRED_FOR_PHASE_3 fields (`package_identity`,
+  `topic_content_sha256`, `source_document_sha256`, `publication_order`). Later tasks (3.2.2, 3.2.3) consume
+  `UploadPackage`.
 
 - [ ] **Step 1: Write the failing test** asserting `build_upload_package` produces exactly 25
   `UploadPackageTopic` entries for the real `runs/ceis-manual-v2` package, each with a non-null
-  `package_identity`/`source_content_sha256`/`publication_id`/`validation_state`/`publication_order`, and
-  that `validation_status == "PASS"` (reusing the real fixture, not a synthetic one, per this repo's Task
-  18 lesson that synthetic fixtures previously masked real defects).
+  `package_identity`/`topic_content_sha256`/`chunk_id`/`publication_order`, and
+  that `source_package_validation_status == "PASS"` (reusing the real fixture, not a synthetic one, per
+  this repo's Task 18 lesson that synthetic fixtures previously masked real defects). Note:
+  `source_package_validation_status` is one value describing the whole canonical package (`ValidationReport.status`
+  is package-level, not per-topic), so the test asserts one package-level value, not 25 independent ones.
 - [ ] **Step 2:** Run it, confirm it fails with `ModuleNotFoundError` or `AttributeError` for the
   not-yet-written function.
 - [ ] **Step 3:** Implement `build_upload_package` using existing `package.py`/`contracts.py` loaders — no
@@ -142,14 +158,18 @@ conventions); confirm or change once Phase 3.0 evidence exists, before this task
 **Interfaces:**
 - Consumes: `UploadPackage` from Task 3.2.1.
 - Produces: `validate_upload_package(pkg: UploadPackage) -> DryRunReport` (fields: `status:
-  Literal["PASS","FAIL"]`, `issues: list[str]`), consumed by Task 3.2.3's upload-log task as a
-  precondition check.
+  Literal["PASS","BLOCKED","FAIL"]`, `issues: list[str]`), consumed by Task 3.2.3's upload-log task as a
+  precondition check. `status` is never `PASS` if any required check reports `NOT_EVALUATED`/`BLOCKED`
+  (external review correction — see below).
 
-- [ ] **Step 1: Write the failing test** for: all-PASS package → `DryRunReport(status="PASS", issues=[])`;
-  a package with one topic's `validation_state != "PASS"` → `status="FAIL"` with an issue naming that topic.
+- [ ] **Step 1: Write the failing test** for: all-PASS package with schema check available →
+  `DryRunReport(status="PASS", issues=[])`; a package with
+  `source_package_validation_status != "PASS"` → `status="FAIL"` with an issue naming the package; a
+  package where the schema-type check has not yet run (no reconciled schema available) →
+  `status="BLOCKED"` with `issue="TARGET_SCHEMA_NOT_OBSERVED"` — this case must never resolve to `"PASS"`.
 - [ ] **Step 2:** Run, confirm fail.
-- [ ] **Step 3:** Implement the minimal checks listed in spec Section 10 (PASS-only, required-field
-  non-null, no duplicate `topic_id`/`publication_id`, media references resolve) — reuse
+- [ ] **Step 3:** Implement the minimal checks listed in spec Section 10 (package validation PASS-only,
+  required-field non-null, no duplicate `TopicID`/`ChunkID`, media references resolve) — reuse
   `validate_canonical.py`'s media-reference regex fix (the escaped-bracket fix from this repo's Task 18
   work) rather than reimplementing it.
 - [ ] **Step 4:** Run, confirm pass.
@@ -157,8 +177,10 @@ conventions); confirm or change once Phase 3.0 evidence exists, before this task
 
 ```text
 DEFERRED UNTIL PHASE 3.0 EVIDENCE: the reconciled schema type-check sub-item (spec Section 10, third
-bullet) cannot run meaningfully until Task 3.1.2's reconciled mapping exists. Scaffold this check as a
-no-op that always passes until then, clearly logged as skipped, not silently omitted.
+bullet) cannot run meaningfully until Task 3.1.2's reconciled mapping exists. Scaffold this check to
+report `status = BLOCKED, issue = TARGET_SCHEMA_NOT_OBSERVED` until then (external review correction —
+NOT a no-op that always passes; a skipped mandatory check must never let the overall dry-run report
+return `PASS`).
 ```
 
 ### Task 3.2.3: Manual upload log template + execution
@@ -187,19 +209,25 @@ no-op that always passes until then, clearly logged as skipped, not silently omi
 
 **Interfaces:**
 - Consumes: `UploadPackage` (Task 3.2.1) as "expected state"; an `ActualLibraryState` input (fields:
-  `items: list[ActualLibraryItem]`, each with `topic_id`, `package_identity`, `source_content_sha256`,
-  `publication_id`, `publication_order`, `validation_state`) representing whatever the publisher exports
-  from SharePoint.
+  `items: list[ActualLibraryItem]`, each with `topic_id`, `chunk_id`, `package_identity`,
+  `topic_content_sha256`, `publication_order`, `source_package_validation_status`, `status`
+  (Draft/Reviewed/Published/Retired), `transition_record: TransitionRecord | None`) representing whatever
+  the publisher exports from SharePoint via the `ActualLibraryState` provider boundary (spec Section 12) —
+  the concrete provider implementation (manual export, approved read-only API, etc.) is a separate,
+  Phase-3.0-dependent concern from this pure comparator.
 - Produces: `reconcile(expected: UploadPackage, actual: ActualLibraryState) -> ReconciliationReport` (fields:
-  `missing: list[str]`, `duplicate: list[str]`, `stale: list[str]`, `unexpected: list[str]`,
+  `missing: list[str]`, `duplicate: list[str]`, `stale: list[str]`,
+  `unexpected_active: list[str]`, `unexpected_retired: list[str]`, `retired_expected: list[str]`,
   `mismatched_package_identity: list[str]`, `mismatched_publication_identity: list[str]`,
-  `mismatched_validation_lineage: list[str]`, `renamed_or_retired: list[str]`), matching spec Section 12's
-  four-concept identity split (stable matching key / expected-content identity / publication membership /
-  publication event).
+  `mismatched_validation_lineage: list[str]`, `transitions: list[str]`), matching spec Section 12's
+  four-concept identity split (stable published-item identity / expected-content identity / publication
+  membership / publication event) and its four-class item classification
+  (`ACTIVE_EXPECTED`/`RETIRED_EXPECTED`/`UNEXPECTED_ACTIVE`/`UNEXPECTED_RETIRED`).
 
-- [ ] **Step 1: Write the failing test** for at least one case per issue category in spec Section 12 (9
-  synthetic fixture cases: missing, duplicate, stale, unexpected, mismatched package identity, mismatched
-  publication identity, mismatched validation lineage, renamed/retired, and a clean no-issues case).
+- [ ] **Step 1: Write the failing test** for at least one case per issue category in spec Section 12 (11
+  synthetic fixture cases: missing, duplicate, stale, unexpected-active, unexpected-retired,
+  retired-expected, mismatched package identity, mismatched publication identity, mismatched validation
+  lineage, a renamed/retired/superseded transition case, and a clean no-issues case).
 - [ ] **Step 2:** Run, confirm fail.
 - [ ] **Step 3:** Implement `reconcile` — pure Python, no tenant I/O, since `ActualLibraryState` is an
   already-exported/read-back data structure (the export/read-back mechanism itself is deferred, see below).
@@ -207,10 +235,14 @@ no-op that always passes until then, clearly logged as skipped, not silently omi
 - [ ] **Step 5:** Commit.
 
 ```text
-DEFERRED UNTIL PHASE 3.0 EVIDENCE: how `ActualLibraryState` is actually populated (Graph/PnP read access
-vs. manual UI export) depends on unresolved-decision register item 10. The comparator itself (pure
-function over two already-structured inputs) can be implemented and unit-tested now; the adapter that
-produces `ActualLibraryState` from a real tenant cannot be written until that decision is resolved.
+This task itself does not execute until Phase 3.0's tenant-capability-report.md exists (Global
+Constraints, above) — an earlier revision of this scaffold stated the comparator "can be implemented and
+unit-tested now," which contradicted the Global Constraints section; that contradiction is corrected here
+(external review correction). DEFERRED UNTIL PHASE 3.0 EVIDENCE: how `ActualLibraryState` is actually
+populated (Graph/PnP read access vs. manual UI export) depends on unresolved-decision register item 10 —
+the concrete adapter is not written until that decision is resolved, and the pure comparator function
+itself is not implemented/committed until Phase 3.0 gating clears, even though its design (function
+signature, dataclasses, test-case list above) can be sketched ahead of time as documentation only.
 ```
 
 ### Task 3.3.2: Lineage trace record
@@ -219,8 +251,9 @@ produces `ActualLibraryState` from a real tenant cannot be written until that de
 - Create: `docs/reports/phase-3-sharepoint-pilot/lineage-trace-template.md`
 
 - [ ] **Step 1:** Template: given one published item, show the full chain — SharePoint item →
-  `topic_id`/`publication_id` → `package_identity` → confirmed canonical package (`plan_id`) → source DOCX
-  fingerprint (`ManifestSourceFingerprint.sha256`).
+  `TopicID`/`ChunkID` → `PackageIdentity` → confirmed canonical package (`plan_id`) → source DOCX
+  fingerprint (`ManifestSourceFingerprint.sha256`, tracked as `SourceDocumentSHA256`, evidence-only per
+  spec Section 7).
 - [ ] **Step 2:** Commit template.
 - [ ] **Step 3 (human-performed):**
   `DEFERRED UNTIL PHASE 3.0 EVIDENCE + Subphase 3.2 upload completion — cannot trace a real published item
@@ -271,8 +304,9 @@ produces `ActualLibraryState` from a real tenant cannot be written until that de
 **Files:**
 - Create: `docs/reports/phase-3-sharepoint-pilot/review-workflow-walkthrough.md`
 
-- [ ] **Step 1:** Template recording one real item's Draft → Reviewed → Published transition, with
-  timestamps and the human who performed each transition.
+- [ ] **Step 1:** Template recording one real item's Draft → Reviewed → Published transition per spec
+  Section 14's Model A sequence (upload as Draft → review in SharePoint → mark Reviewed → reconcile →
+  mark Published), with timestamps and the human who performed each transition.
 - [ ] **Step 2 (human-performed):** `DEFERRED UNTIL PHASE 3.0 EVIDENCE + pilot library exists +
   unresolved-decision register item 8 (reviewer/publisher roles named)`.
 - [ ] **Step 3:** Commit.
