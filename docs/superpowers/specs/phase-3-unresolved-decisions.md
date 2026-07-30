@@ -113,17 +113,20 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   exception for the first pilot pass, record: exception accepted by ______, date ______, revisit trigger:
   once dedicated roles are assigned. Classification: `BLOCKS_PLAN`.
 
-## 9. Two-identity oversharing test — which identities
+## 9. Two-identity oversharing test — which identities — resolved (standard groups adopted)
 
-- **Decision:** which two distinct permission identities are used for Stage 3.4.2's oversharing test.
-- **Why it matters:** the test result is only meaningful if the two identities represent a genuine
-  permission boundary the pilot library actually needs to enforce.
-- **Evidence needed:** Phase 3.0 proposed addition (see evidence-consumption matrix) — not currently a named
-  probe.
-- **Decision owner:** technical lead + pilot library owner.
-- **Latest responsible decision point:** before Subphase 3.4's permission test task is executed.
-- **Safe default if unresolved:** cannot safely default — this is the entire point of the test.
-  Classification: `BLOCKS_EXECUTION`.
+- **Decision:** resolved 2026-07-30 — use the 3 existing standard SharePoint groups (Members, Owners,
+  Visitors) as the test identities for Stage 3.4.2's oversharing test, per
+  `phase-3-tenant-capability-report.md` §5.
+- **Why it matters:** the test result is only meaningful if the identities represent a genuine permission
+  boundary the pilot library actually needs to enforce; group-level testing (is Visitors overshared on the
+  pilot library?) satisfies this without needing per-member role-assignment enumeration.
+- **Evidence needed:** `phase-3-0-discovery-report.json` `SiteGroups` (Observed) — already gathered; full
+  per-member role-assignment enumeration was `Forbidden` under this manage-only app registration and is
+  deferred as a documented follow-up, not required for this test.
+- **Decision owner:** technical lead + pilot library owner — accepted.
+- **Latest responsible decision point:** resolved before Subphase 3.4's permission test task.
+- **Classification:** resolved; no longer `BLOCKS_EXECUTION`.
 
 ## 10. `ActualLibraryState` provider implementation for manual-edit detection in reconciliation
 
