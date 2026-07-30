@@ -1,0 +1,133 @@
+# Phase 6 Specification — Multi-Runtime Capability Model
+
+> **Planning status:** This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Tenant-dependent details, exact repository paths, commands, identities, field types, licensing, and platform behavior must be replaced with observed evidence before execution.
+
+## Planning discipline
+
+- Run `superpowers:brainstorming` before finalizing design decisions.
+- Run repository reconnaissance against current files and contracts.
+- Use `superpowers:writing-plans` only after the specification is reviewed.
+- Use a dedicated phase branch/worktree.
+- Keep planning separate from implementation.
+- Use `CONFIRMED`, `RECOMMENDED`, `PROVISIONAL`, `DEFERRED_UNTIL_EVIDENCE`, `BLOCKED`, and `RESEARCH` explicitly.
+- Preserve package-only/manual paths until an approved identity and write path exist.
+- Store durable evidence in tracked locations, not ignored `.superpowers/` scratch directories.
+- Start with the cheapest capable agent and escalate only for architecture, ambiguity, security, failed tests, or contradictory evidence.
+
+## 1. Status and authority
+
+**Disposition:** LATER.  
+**Entry gate:** At least two real runtimes implement the same capability in operational use. Until then, this document is a decision framework, not an implementation specification.
+
+## 2. Goal
+
+Derive a shared capability specification from two real implementations while preserving original business/governance intent, target-specific differences, and common evaluation meaning.
+
+## 3. Non-goals
+
+- No speculative universal capability schema before two implementations exist.
+- No forced lowest-common-denominator intersection.
+- No requirement that outputs be textually identical.
+- No erasure of runtime-specific permissions, tools, or guarantees.
+- No automatic deployment packaging for every Microsoft target.
+
+## 4. Required inputs
+
+For one capability implemented in at least two runtimes:
+
+- original user/business intent;
+- governance and safety requirements;
+- each runtime's real implementation artifact;
+- each runtime's evaluation evidence;
+- permission and execution model;
+- known limitations;
+- owners and version history.
+
+## 5. Shared specification contents
+
+The derived specification should define:
+
+- purpose;
+- supported inputs and outputs;
+- essential behavior;
+- prohibited behavior;
+- human decision points;
+- error/partial-failure semantics;
+- evidence requirements;
+- common terminology;
+- lifecycle expectations;
+- target-specific extension points.
+
+## 6. Intent-preservation rule
+
+The shared contract must be checked against the original capability and governance intent, not merely the intersection of existing implementations. If both implementations share the same accidental limitation, that limitation must not become the intended contract without an explicit decision.
+
+## 7. Common evaluation model
+
+Common cases test meaning:
+
+- equivalent decisions;
+- equivalent safety boundaries;
+- equivalent source grounding or evidence requirements;
+- appropriate refusal/failure behavior;
+- preserved human approvals;
+- allowed target-specific output presentation.
+
+String equality is not sufficient unless the contract explicitly requires it.
+
+## 8. Target adapters
+
+Each adapter declares:
+
+- supported shared behaviors;
+- unsupported behaviors;
+- target-specific behavior;
+- permission model;
+- deployment model;
+- evidence it can produce;
+- deviations and rationale.
+
+## 9. Drift detection
+
+The mechanism must detect:
+
+- one runtime no longer passing common cases;
+- shared-spec version incompatibility;
+- changed prohibited behavior;
+- missing approval points;
+- target-specific deviation becoming undocumented;
+- meaning drift despite superficially similar output.
+
+A deliberate drift must be introduced in a test fixture and detected before exit.
+
+## 10. Reuse decision rules
+
+Define when to:
+
+- share one instruction block;
+- generate target-specific instructions from one specification;
+- keep independent implementations;
+- reject portability because runtime capabilities or risk differ.
+
+## 11. Evidence package
+
+```text
+original-intent record
+runtime implementation inventory
+shared-contract derivation trace
+intent-preservation review
+common evaluation set
+results from each runtime
+adapter declarations
+drift-detection proof
+reuse-versus-specific decision record
+```
+
+## 12. Exit criteria
+
+- At least two real runtimes implement the same capability.
+- Every shared element traces to original intent and real behavior.
+- Common evaluations run against both runtimes.
+- Target-specific differences are explicit, not erased.
+- A deliberate drift is detected.
+- One real reuse-versus-specific decision is made using the rules.
