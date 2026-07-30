@@ -737,6 +737,79 @@ CEIS manual?"*
   supports a weaker one, directly matching what §10's skill design asked for ("if the topics
   don't actually connect... say so honestly rather than forcing a connection").
 
+## 15. ASPX / modern-page conversion experiment — testing SharePoint as a multi-format Renderer target
+
+**Motivation:** this repo's own stated vision is `Content + Template + Renderer = Published
+Output` — a single canonical Markdown source rendered to multiple output formats. This probe
+tests whether SharePoint itself can be one such Renderer target, using a real CEIS manual topic
+(`initiate-a-file--51d1f554.md`, 4 headings, 2 images, 2 tables) converted via `pandoc -t html`.
+
+**Raw `.aspx` file upload (boundary probe, unsupported path) — CONFIRMED BLOCKED.**
+Wrapped the pandoc HTML fragment in a minimal classic `<%@ Page %>` ASPX shell and attempted
+`Add-PnPFile -Folder "Site Pages" -NewFileName "TEST-DO-NOT-USE-raw-initiate-a-file.aspx"`.
+**Result: `Access denied`** — the upload was rejected outright, before any rendering question
+even arose. This is consistent with SharePoint Online's "no script"/restricted-file-type
+enforcement on modern sites, which blocks raw executable-page-type uploads (`.aspx`, `.asmx`,
+etc.) outside the sanctioned page-creation APIs — not a permissions gap on our test account
+(the same account/app registration succeeded at every other write probe in this document), but
+an explicit content-type restriction on that specific library/file-type combination.
+
+**Modern client-side page (supported path) — CONFIRMED WORKING.**
+`Add-PnPPage -Name "TEST-DO-NOT-USE-modern-initiate-a-file" -LayoutType Article -Publish:$false`
+→ `Add-PnPPageTextPart -Page $page -Text $rewrittenHtml` (same pandoc HTML, with the 2 image
+`src` attributes rewritten to absolute URLs after uploading the images to a
+`SiteAssets/TEST-DO-NOT-USE-aspx-experiment/` test folder) → `Set-PnPPage -Publish`. Pushed
+without error and rendered correctly: heading, bullet list, body paragraphs, and the first
+embedded image (the CEIS "Caution" warning-dialog screenshot) all rendered inline exactly as
+authored, confirmed by user screenshot (`aspx-experiment/modern-page-rendered-screenshot.png`).
+
+**Classification: `CONFIRMED_TENANT_OBSERVATION`** — this tested tenant/site/permission profile
+only, consistent with the "Scope corrections" section above; not a universal SharePoint claim
+about every tenant/ring/licensing configuration.
+
+**Implication for the multi-format vision:** SharePoint modern pages are a **viable Renderer
+target** for this initiative's canonical Markdown source, via the `Add-PnPPage` +
+`Add-PnPPageTextPart` route specifically — **not** via raw `.aspx` authoring, which is a real,
+confirmed platform boundary, not just an unsupported convention. Practical caveats for any future
+production pipeline: (1) image assets need their own upload-and-rewrite step, not a drop-in file
+copy — pandoc's relative `../media/...` paths must be resolved to absolute tenant URLs before
+the HTML is handed to `Add-PnPPageTextPart`; (2) this was tested with a single Text web part
+holding the whole page's HTML, which worked for headings/lists/paragraphs/tables, but a
+production pipeline would need to decide whether multi-section pages (multiple web parts,
+columns) are worth the added complexity or whether "one Text web part per topic" is sufficient.
+
+**Corroborating research (found this session, from a sibling BC Gov project):**
+`/Users/richardfremmerlid/projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/`
+has two directly relevant, more mature skills for classic-ASPX→modern-SPO conversion:
+`sp-converting-aspx-pages` (an 8-stage inventory→classify→layout→map→manifest→validate→
+preview→report pipeline for migrating real classic SP2016 pages) and `sp-converting-wiki-pages`.
+Their shared research doc,
+`sp-converting-wiki-pages/references/aspx-to-spo-migration-strategy.md`, independently confirms
+the core finding here from a completely different angle (real production migration project, not
+a from-scratch experiment): **"There is no direct conversion... this is not 'convert pages' — it
+is 'reconstruct pages'"** — modern pages only support modern (client-side) web parts, no 1:1
+classic-page-model mapping exists, and **"PnP PowerShell is the primary automation tool"** for
+"provisioning modern pages, adding sections and columns, placing web parts programmatically,"
+explicitly recommending the exact `Add-PnPPage`/`Add-PnPPageWebPart`/`Add-PnPPageTextPart`
+pattern this probe used, while explicitly warning that classic page content must be *rebuilt*,
+never *imported as-is* ("Rebuild layout, don't import — tools often fail to migrate pages cleanly").
+This external validation raises confidence in today's small-scale result beyond what one probe on
+one file could establish alone.
+
+**Not yet tested (flagged for future backlog, per user's decision not to expand this experiment
+further today):**
+- Generating `.docx` and `.pptx` from the same source via pandoc — deliberately deferred; pandoc
+  already supports both formats natively from Markdown input, so this would be a cheap follow-up
+  test, reusing `push-aspx-experiment.ps1`'s image-upload/rewrite logic and swapping only the
+  `pandoc -t html` invocation for `-t docx` (pptx would need a different Markdown dialect, e.g.
+  reveal.js slide breaks, since pandoc's native pptx writer expects slide-delimited input).
+- Multi-page/multi-section modern pages (this probe used one Text web part for one whole topic;
+  a production pipeline might want per-heading sections or multiple web parts per page).
+- Whether the second image (`image18.png`) and the tables in the source topic also rendered
+  correctly — the shared screenshot only shows the top of the page (heading through the first
+  image); scrolling further to confirm the rest of the page (second image, both data tables) was
+  not captured this session.
+
 ## Reference files (committed alongside this doc)
 
 - `agents/ui-created-agent-format.agent.json` — pretty-printed JSON downloaded from the real,

@@ -464,6 +464,26 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
   suite, source-scope variants, Restricted Content Discovery) — see the "Prioritized follow-up
   test backlog" section near the top of `write-exploration-findings.md`. None of these 9
   priorities have been executed yet.
+- **New this session (§15 of the findings doc): ASPX / modern-page conversion experiment —
+  tests whether SharePoint can be a multi-format Renderer target alongside the Markdown renderer
+  (this repo's `Content + Template + Renderer = Published Output` vision).** Converted one real
+  CEIS topic page to HTML via `pandoc` and pushed it two ways: (1) raw hand-authored `.aspx` file
+  uploaded directly to Site Pages via `Add-PnPFile` — **`Access denied`, a confirmed platform
+  boundary**, not a permissions gap (same account succeeded at every other write probe in this
+  doc); (2) `Add-PnPPage` + `Add-PnPPageTextPart` (the supported modern-page API) with the same
+  HTML — **pushed and rendered correctly**, confirmed by user screenshot
+  (`tools/phase-3-sharepoint-discovery/aspx-experiment/modern-page-rendered-screenshot.png`):
+  heading, bullet list, and the first embedded image all rendered inline as authored. A sibling
+  BC Gov project's more mature migration research
+  (`jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-converting-wiki-pages/references/aspx-to-spo-migration-strategy.md`)
+  independently corroborates this from a real production-migration angle: classic pages cannot
+  be directly converted ("reconstruct, not convert"), and `Add-PnPPage`/`Add-PnPPageWebPart` is
+  the correct/recommended automation path. Reusable script:
+  `tools/phase-3-sharepoint-discovery/push-aspx-experiment.ps1`. Explicitly **not yet tested**:
+  `.docx`/`.pptx` generation from the same source (flagged as cheap future follow-up — pandoc
+  already supports both), multi-section/multi-web-part pages, and whether the topic's second
+  image + both data tables rendered correctly (the shared screenshot only showed the top of the
+  page).
 
 **Remaining work to formally close Phase 3.0 (exit gate):**
 1. Write `tenant-capability-report.md` (Stage 3.0.3.1) — synthesize
