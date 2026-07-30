@@ -810,6 +810,63 @@ further today):**
   image); scrolling further to confirm the rest of the page (second image, both data tables) was
   not captured this session.
 
+## 16. Official Microsoft FAQ — corroborates and extends several findings above
+
+**Source:** [Frequently asked questions about Copilot in SharePoint](https://support.microsoft.com/en-us/sharepoint/copilot-in-sharepoint/frequently-asked-questions-about-copilot-in-sharepoint) (Microsoft Support, accessed 2026-07-30). This is official platform documentation, not tenant-specific observation — treated here as corroborating/contextualizing evidence for our hands-on findings, not a replacement for them.
+
+Key points directly relevant to this document's findings, with the specific finding each one
+touches:
+
+- **Every SharePoint site/document library has a ready-made agent; edit permissions let you
+  create custom ones too.** Directly relevant to Priority 2 of the follow-up backlog (comparing
+  ready-made vs. custom-agent behavior) — confirms the ready-made agent is a distinct, always-
+  present surface we have not yet tested.
+- **Agent-creation UX requires a Modern site; a Modern-site agent can select *any* SharePoint
+  site as a knowledge source.** Consistent with our tenant being Modern throughout.
+- **Up to 20 source items** (sites, libraries, folders, or files, in any mix) is the current
+  documented agent source-item limit. Confirms Priority 8 of the follow-up backlog (source-scope
+  variants, including the 20-item boundary) is testing a real, documented constraint, not a
+  guess.
+- **Agents only surface content the current user already has permission to see — even if it's in
+  the agent's configured sources.** Directly supports correction #4 above (knowledge-retrieval
+  scope vs. platform capability vs. user permissions are three distinct things) and is exactly
+  the mechanism Priority 1's permission-boundary matrix is designed to empirically verify.
+- **Supported source file types explicitly include `ASPX`, `HTM`, `HTML`** (alongside Office
+  formats, PDF, TXT, RTF, ODT/ODP, and the new FLUID/LOOP formats). This means our §15 finding
+  (raw `.aspx` upload to Site Pages returning `Access denied`) was a **write/upload-path**
+  boundary specifically — the FAQ confirms `.aspx` files are readable/groundable *as agent
+  knowledge sources* once they exist, which is a different question than whether an agent (or a
+  script) can create/upload one directly. Worth testing as its own follow-up: does a
+  successfully-created modern page (§15's working path) get picked up as a groundable `.aspx`
+  source if added to an agent's Sources?
+- **"Agents currently don't use data from Lists. Also, you can't add pages from the Site Pages
+  library as source for an agent."** This is a very significant, previously-unknown-to-us
+  constraint. It directly **explains** §8's write-action test result from a different angle: our
+  `TEST-DO-NOT-USE-Discovery-Log` was a List, and even if writes had been supported, an agent
+  could never read/ground on List data anyway — meaning our list-write test was probing a
+  surface (Lists) that's out of scope for agent grounding entirely, regardless of the write
+  question. It also means §15's modern page (`Site Pages` library) **cannot itself be added as
+  an agent knowledge source** — a real, documented limitation on how far the ASPX/modern-page
+  Renderer-target idea from §15 could ever be combined with agent grounding.
+- **Role-permission matrix (site visitors / site members with edit / site owners+):** confirms
+  which roles can interact with, create, share, edit, approve-as-default, and delete agents —
+  directly usable as the *expected* half of Priority 1's permission-boundary matrix (we still
+  need the *actual* half, tested per-identity).
+- **Hub-site source expansion changed in September 2025:** ready-made agents always include
+  associated hub sites; for *custom* agents, hub-site sources created **before** September 2025
+  don't auto-include associated sites unless the hub source is removed and re-added — a concrete,
+  dated mechanic directly relevant to Priority 8's hub-scope test, and a reminder to check the
+  custom agent's creation date against this cutoff before drawing conclusions from any hub test.
+- **Copilot-in-SharePoint's rich-text-editor "rewrite" feature is a separate surface** from
+  agents — it only sees the text currently in the editor, not documents or Graph data, and saves
+  no history. Not something we tested this session; noted here in case it's ever relevant to a
+  future authoring-workflow question (see `docs/vision/editing-workflow-options-for-external-review.md`).
+- **Responsible-AI/governance framing:** "AI-generated content may be incomplete, inaccurate, or
+  out-of-date... should not be relied on without independent verification"; "not for high-risk
+  uses (medical, legal, financial, professional advice)"; "customer data is not used to train
+  Microsoft's foundation models." Relevant context for any future governance-controls design work
+  (Phase 3's Subphase 3.4).
+
 ## Reference files (committed alongside this doc)
 
 - `agents/ui-created-agent-format.agent.json` — pretty-printed JSON downloaded from the real,
