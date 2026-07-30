@@ -495,3 +495,16 @@ No space
 Treat the observed internal name as tenant-tested evidence. Continue distinguishing it from human-readable references such as “Agent Assets.”
 
 The generated skill is a strong proof of concept, but production hardening should address list provisioning, metadata authority, duplicate identity, exception vocabulary, permissions, sensitivity, partial failure, and evaluation.
+
+## 14. Dated Follow-Up — Phase 3.0 Controlled Tenant Discovery Addendum (2026-07-30)
+
+During Phase 3.0 controlled tenant discovery, further empirical tests were conducted on native SharePoint skills and custom `.agent` files in the tested BC Government development tenant:
+
+- `CONFIRMED_TENANT_OBSERVATION`: Generic PnP file upload of `SKILL.md` beneath `AgentAssets/Skills/<skill-name>/SKILL.md` succeeded and was discovered by the same-site custom agent through matching trigger wording.
+- `CONFIRMED_TENANT_OBSERVATION`: The tested custom agent `.agent` JSON did not require an explicit skill reference to discover the same-site native skill.
+- `TENANT_OBSERVED_LIMITATION`: Exact formatting instructions (e.g. `## Output format` delimiters) in `SKILL.md` were unreliable when executed by the tested custom agent.
+- `TENANT_OBSERVED_LIMITATION`: JSON output requests were followed more closely than arbitrary delimiter templates, but exact schema compliance was not guaranteed.
+- `NOT_SUPPORTED_IN_TESTED_CONFIGURATION`: List-write and item-creation instructions executed through the tested custom-agent chat pane declined write operations, and independent PnP verification confirmed no list item was created.
+- `INCONCLUSIVE`: Sibling template file reading beneath supporting-resource folders was not proven to be read literally.
+- `INCONCLUSIVE`: Behavior of ready-made/default SharePoint agents, owner/editor/viewer permission boundaries, skill collision across overlapping triggers, and enterprise supportability of manual file uploads remain unverified and open for further testing.
+

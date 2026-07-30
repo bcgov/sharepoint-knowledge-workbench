@@ -1,4 +1,4 @@
-# Copilot Instructions for agent-plugins-skills
+# GEMINI.md
 
 
 Behavioral guidelines to reduce common LLM coding mistakes, plus project-specific context for this repo.

@@ -148,6 +148,9 @@ business-user-facing interaction.
 8. [`research-summary-sharepoint-ai-forward-content-creation-curation.md`](research-summary-sharepoint-ai-forward-content-creation-curation.md)  
    Extends the lifecycle beyond conversion into AI-assisted creation, review, publication, continuous curation, knowledge health, and agent readiness.
 
+9. [`concept-dual-target-rendering-agent-vs-human.md`](concept-dual-target-rendering-agent-vs-human.md)  
+   Defines the dual-target rendering model separating rich, styled human-facing output from token-dense, instruction-embedded agent-optimized publication digests.
+
 ## Suggested Reading Paths
 
 ### For the overall vision
@@ -198,6 +201,10 @@ Native skills are more procedural than simple agent conversations but less compl
 ### Similar `SKILL.md` files do not imply equivalent runtimes
 
 Repository, SharePoint, and Cowork skill definitions may look structurally similar while supporting different tools, permissions, deployment methods, and guarantees. Each target requires its own capability contract and evaluation suite.
+
+### Dual-target rendering resolves human visual vs. agent indexing conflicts
+
+Human readers need rich layout, CSS, breadcrumbs, and visual formatting, whereas AI indexing agents need high semantic density, token-efficient chunking, and clear citation instructions. Rendering the single canonical source of truth into distinct human-facing and agent-optimized publication targets resolves context window and index crawler limitations while providing rich display links to users.
 
 ### The studio should define capabilities once and compile for targets
 
