@@ -263,7 +263,7 @@ def build_canonical_package(
 
         content_sha256 = hashing.content_hash(content.encode("utf-8"))
         meta = contracts.ChunkMetadata(
-            schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+            schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
             chunk_id=chunk_id,
             source_order=idx,
             source_heading_path=list(anchor.source_heading_path),
@@ -292,7 +292,7 @@ def build_canonical_package(
         )
 
     manifest = contracts.Manifest(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.MANIFEST_SCHEMA_VERSION,
         generator=contracts.ManifestGenerator(
             plugin="docx-to-content", plugin_version="0.1.0"
         ),
@@ -398,7 +398,7 @@ def build_grouped_canonical_package(
         content = rewritten_by_topic_id[boundary.topic_id]
         content_file = f"chunks/{boundary.topic_id}.md"
         metadata_file = f"chunks/{boundary.topic_id}.meta.json"
-        topic_chunk_ids[boundary.topic_id] = content_file
+        topic_chunk_ids[boundary.topic_id] = boundary.topic_id
 
         (chunks_dir / f"{boundary.topic_id}.md").write_text(content)
 
@@ -412,7 +412,7 @@ def build_grouped_canonical_package(
             for m in boundary.members
         ]
         meta = contracts.ChunkMetadata(
-            schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+            schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
             chunk_id=boundary.topic_id,
             source_order=source_order,
             source_heading_path=[boundary.title],
@@ -442,7 +442,7 @@ def build_grouped_canonical_package(
         )
 
     manifest = contracts.Manifest(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.MANIFEST_SCHEMA_VERSION,
         generator=contracts.ManifestGenerator(
             plugin="docx-to-content", plugin_version="0.1.0"
         ),
@@ -476,205 +476,9 @@ def build_grouped_canonical_package(
     )
 
     pub_map = publication_map.build_publication_map(
-        boundaries, topic_chunk_ids, package_identity=f"sha256:{manifest.plan_id}"
+        boundaries, topic_chunk_ids, package_identity=manifest.plan_id
     )
     publication_map.write_publication_map(pub_map, output_dir)
 
     return manifest
 
-
-# ---------------------------------------------------------------------------
-# Task 12 — CanonicalPackage: renderer-side loader
-# ---------------------------------------------------------------------------
-#
-# Renderers (Task 13+) never touch a canonical package's files directly and
-# never see a source .docx path, an analysis directory, or a ConversionPlan
-# -- `CanonicalPackage.load()` takes only a directory path and hands back an
-# already-fully-vetted in-memory object. See spec Section 7.3 (renderer
-# preconditions) and Section 8 (Renderer Protocol).
-#
-# This is a *second*, independent integrity check at load time, on top of
-# whatever `validate_canonical.py` already recorded in `validation.json` at
-# convert time -- defense against the promoted package having been
-# tampered with or corrupted on disk since promotion. Nothing here
-# reimplements schema validation (`contracts.Manifest.from_dict` /
-# `contracts.ChunkMetadata.from_dict`) or disposition-completeness checking
-# (`dispositions.apply_disposition`); both are reused as-is.
-
-
-class CanonicalPackageError(Exception):
-    """Base class for `CanonicalPackage.load()` failures. Raised, never
-    swallowed into a null/error field -- a renderer receiving a
-    `CanonicalPackage` instance can assume it has already been fully
-    vetted."""
-
-
-class CanonicalPackageValidationError(CanonicalPackageError):
-    """The package's manifest/validation.json failed schema validation, or
-    its validation status is FAIL, or WARN without a disposition file that
-    accounts for every warning."""
-
-
-class CanonicalPackageIntegrityError(CanonicalPackageError):
-    """A chunk's on-disk content no longer matches its sidecar's recorded
-    `content_sha256`, or a chunk's media reference does not resolve to a
-    file under `media/` -- i.e. the package was tampered with or corrupted
-    on disk after promotion."""
-
-
-def _media_ref_to_filename(ref: str) -> str:
-    """Reverse `rewrite_media_and_copy`'s `../media/<quoted-name>` rewrite
-    back to the plain on-disk filename under `media/`."""
-    prefix = "../media/"
-    name = ref[len(prefix):] if ref.startswith(prefix) else ref
-    return unquote(name)
-
-
-@dataclass(frozen=True)
-class LoadedChunk:
-    """One chunk's metadata and content, already loaded into memory and
-    hash-verified by `CanonicalPackage.load()`."""
-
-    metadata: "contracts.ChunkMetadata"
-    content: str
-
-
-@dataclass(frozen=True)
-class CanonicalPackage:
-    """A fully vetted, in-memory view of an ACCEPTED canonical-content
-    package. Only ever constructed via `CanonicalPackage.load()` -- never
-    built by a renderer directly."""
-
-    manifest: "contracts.Manifest"
-    validation_report: "contracts.ValidationReport"
-    chunks: list  # list[LoadedChunk], in manifest order
-    media_dir: Path
-    package_dir: Path
-    publication_map: "object" = None  # contracts.PublicationMap | None; populated by load() for strategy="grouped"
-
-    @classmethod
-    def load(cls, package_dir: Path) -> "CanonicalPackage":
-        """Load and fully re-validate an ACCEPTED canonical package at
-        `package_dir`. Raises `CanonicalPackageError` (or a subclass) if
-        any of the following fail -- never returns a partially-valid
-        package:
-
-        1. `manifest.json` schema-validates via `contracts.Manifest.from_dict`.
-        2. `validation.json` schema-validates via
-           `contracts.ValidationReport.from_dict`, and its status is
-           either PASS, or WARN with every warning accounted for by a
-           co-located `warning-disposition.json`
-           (`dispositions.apply_disposition`) -- FAIL always rejects.
-        3. Every chunk's on-disk content hash (`hashing.content_hash`)
-           matches its sidecar's `content_sha256` (fresh integrity check,
-           not trusting convert-time validation).
-        4. Every chunk's media references resolve to a real file under
-           `media/`.
-        5. Only if all of the above pass, returns the loaded
-           `CanonicalPackage`.
-        """
-        package_dir = Path(package_dir)
-
-        manifest_path = package_dir / "manifest.json"
-        if not manifest_path.exists():
-            raise CanonicalPackageValidationError(
-                f"{manifest_path} does not exist"
-            )
-        try:
-            manifest = contracts.Manifest.from_dict(
-                json.loads(manifest_path.read_text())
-            )
-        except (ValueError, json.JSONDecodeError) as exc:
-            raise CanonicalPackageValidationError(
-                f"manifest.json failed schema validation: {exc}"
-            ) from exc
-
-        validation_path = package_dir / "validation.json"
-        if not validation_path.exists():
-            raise CanonicalPackageValidationError(
-                f"{validation_path} does not exist"
-            )
-        try:
-            validation_report = contracts.ValidationReport.from_dict(
-                json.loads(validation_path.read_text())
-            )
-        except (ValueError, json.JSONDecodeError) as exc:
-            raise CanonicalPackageValidationError(
-                f"validation.json failed schema validation: {exc}"
-            ) from exc
-
-        if validation_report.status == "FAIL":
-            raise CanonicalPackageValidationError(
-                f"{package_dir} has validation status FAIL -- not renderable"
-            )
-        if validation_report.status == "WARN":
-            disposition_path = package_dir / "warning-disposition.json"
-            check = dispositions.apply_disposition(validation_report, disposition_path)
-            if not check.promotable:
-                undispositioned = [
-                    dispositions.disposition_key(w) for w in check.undispositioned
-                ]
-                raise CanonicalPackageValidationError(
-                    f"{package_dir} has validation status WARN with "
-                    f"undispositioned warnings: {undispositioned}"
-                )
-
-        loaded_chunks = []
-        for manifest_chunk in manifest.chunks:
-            content_path = package_dir / manifest_chunk.content_file
-            metadata_path = package_dir / manifest_chunk.metadata_file
-            if not content_path.exists():
-                raise CanonicalPackageIntegrityError(
-                    f"chunk {manifest_chunk.chunk_id!r}: missing content "
-                    f"file {content_path}"
-                )
-            if not metadata_path.exists():
-                raise CanonicalPackageIntegrityError(
-                    f"chunk {manifest_chunk.chunk_id!r}: missing metadata "
-                    f"file {metadata_path}"
-                )
-
-            content = content_path.read_text()
-            try:
-                metadata = contracts.ChunkMetadata.from_dict(
-                    json.loads(metadata_path.read_text())
-                )
-            except (ValueError, json.JSONDecodeError) as exc:
-                raise CanonicalPackageValidationError(
-                    f"chunk {manifest_chunk.chunk_id!r}: metadata failed "
-                    f"schema validation: {exc}"
-                ) from exc
-
-            recomputed_hash = hashing.content_hash(content.encode("utf-8"))
-            if recomputed_hash != metadata.content_sha256:
-                raise CanonicalPackageIntegrityError(
-                    f"chunk {manifest_chunk.chunk_id!r}: content hash "
-                    f"mismatch (sidecar says {metadata.content_sha256}, "
-                    f"on-disk content hashes to {recomputed_hash}) -- "
-                    "package may have been tampered with or corrupted "
-                    "since promotion"
-                )
-
-            for ref in metadata.media_refs:
-                media_path = package_dir / "media" / _media_ref_to_filename(ref)
-                if not media_path.exists():
-                    raise CanonicalPackageIntegrityError(
-                        f"chunk {manifest_chunk.chunk_id!r}: media "
-                        f"reference {ref!r} does not resolve to a file "
-                        f"under {package_dir / 'media'}"
-                    )
-
-            loaded_chunks.append(LoadedChunk(metadata=metadata, content=content))
-
-        pub_map = None
-        if manifest.strategy == "grouped":
-            pub_map = publication_map.load_publication_map(package_dir)
-
-        return cls(
-            manifest=manifest,
-            validation_report=validation_report,
-            chunks=loaded_chunks,
-            media_dir=package_dir / "media",
-            package_dir=package_dir,
-            publication_map=pub_map,
-        )

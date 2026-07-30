@@ -24,7 +24,19 @@ import analyze_structure
 import contracts
 import convert
 import package
+import canonical_package
 import plans
+
+
+def test_canonical_package_importable_from_new_module():
+    from canonical_package import CanonicalPackage
+    assert hasattr(CanonicalPackage, "load")
+
+
+def test_canonical_package_no_longer_defined_in_package_module():
+    import package
+    assert not hasattr(package, "CanonicalPackage")
+
 
 FIXTURES = Path(__file__).parent.parent / "fixtures"
 SMALL_SINGLE_DOCX = FIXTURES / "small_single.docx"
@@ -71,7 +83,7 @@ def test_load_attaches_publication_map_for_grouped(tmp_path):
     assert promoted is True, report.issues
     assert manifest.strategy == "grouped"
 
-    loaded = package.CanonicalPackage.load(final_dir)
+    loaded = canonical_package.CanonicalPackage.load(final_dir)
     assert loaded.publication_map is not None
     assert len(loaded.publication_map.entries) == manifest.chunk_count
 
@@ -79,9 +91,9 @@ def test_load_attaches_publication_map_for_grouped(tmp_path):
 def test_load_returns_package_with_manifest_chunks_and_media(tmp_path):
     final_dir = _accepted_package_dir(tmp_path)
 
-    loaded = package.CanonicalPackage.load(final_dir)
+    loaded = canonical_package.CanonicalPackage.load(final_dir)
 
-    assert isinstance(loaded, package.CanonicalPackage)
+    assert isinstance(loaded, canonical_package.CanonicalPackage)
     assert loaded.manifest.schema_version == contracts.SUPPORTED_SCHEMA_VERSION
     assert len(loaded.chunks) == loaded.manifest.chunk_count
     assert loaded.media_dir == final_dir / "media"
@@ -97,8 +109,8 @@ def test_load_rejects_missing_manifest(tmp_path):
     final_dir = _accepted_package_dir(tmp_path)
     (final_dir / "manifest.json").unlink()
 
-    with pytest.raises(package.CanonicalPackageError):
-        package.CanonicalPackage.load(final_dir)
+    with pytest.raises(canonical_package.CanonicalPackageError):
+        canonical_package.CanonicalPackage.load(final_dir)
 
 
 def test_load_rejects_malformed_manifest_schema(tmp_path):
@@ -107,8 +119,8 @@ def test_load_rejects_malformed_manifest_schema(tmp_path):
     manifest_data.pop("chunk_count")  # required field
     (final_dir / "manifest.json").write_text(json.dumps(manifest_data))
 
-    with pytest.raises(package.CanonicalPackageError):
-        package.CanonicalPackage.load(final_dir)
+    with pytest.raises(canonical_package.CanonicalPackageError):
+        canonical_package.CanonicalPackage.load(final_dir)
 
 
 def test_load_rejects_fail_status(tmp_path):
@@ -117,8 +129,8 @@ def test_load_rejects_fail_status(tmp_path):
     validation_data["status"] = "FAIL"
     (final_dir / "validation.json").write_text(json.dumps(validation_data))
 
-    with pytest.raises(package.CanonicalPackageValidationError):
-        package.CanonicalPackage.load(final_dir)
+    with pytest.raises(canonical_package.CanonicalPackageValidationError):
+        canonical_package.CanonicalPackage.load(final_dir)
 
 
 def test_load_rejects_warn_status_without_disposition_file(tmp_path):
@@ -131,8 +143,8 @@ def test_load_rejects_warn_status_without_disposition_file(tmp_path):
     (final_dir / "validation.json").write_text(json.dumps(validation_data))
     # No warning-disposition.json present.
 
-    with pytest.raises(package.CanonicalPackageValidationError):
-        package.CanonicalPackage.load(final_dir)
+    with pytest.raises(canonical_package.CanonicalPackageValidationError):
+        canonical_package.CanonicalPackage.load(final_dir)
 
 
 def test_load_accepts_warn_status_with_complete_disposition_file(tmp_path):
@@ -154,7 +166,7 @@ def test_load_accepts_warn_status_with_complete_disposition_file(tmp_path):
         }
     }))
 
-    loaded = package.CanonicalPackage.load(final_dir)
+    loaded = canonical_package.CanonicalPackage.load(final_dir)
     assert loaded.validation_report.status == "WARN"
 
 
@@ -165,8 +177,8 @@ def test_load_rejects_tampered_chunk_content_hash_mismatch(tmp_path):
     content_path = final_dir / first_chunk["content_file"]
     content_path.write_text(content_path.read_text() + "\n\ntampered content\n")
 
-    with pytest.raises(package.CanonicalPackageIntegrityError):
-        package.CanonicalPackage.load(final_dir)
+    with pytest.raises(canonical_package.CanonicalPackageIntegrityError):
+        canonical_package.CanonicalPackage.load(final_dir)
 
 
 def test_load_rejects_missing_media_reference(tmp_path):
@@ -177,5 +189,5 @@ def test_load_rejects_missing_media_reference(tmp_path):
         pytest.skip("small_single.docx fixture has no media references to tamper with")
     media_files[0].unlink()
 
-    with pytest.raises(package.CanonicalPackageIntegrityError):
-        package.CanonicalPackage.load(final_dir)
+    with pytest.raises(canonical_package.CanonicalPackageIntegrityError):
+        canonical_package.CanonicalPackage.load(final_dir)

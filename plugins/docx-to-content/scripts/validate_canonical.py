@@ -23,21 +23,25 @@ concern from producing the report). This module also does NOT promote
 staging to a final location -- that is Task 11.
 
 Severity design (this module's own decision, not dictated verbatim by the
-spec beyond the PASS/WARN/FAIL rule above): every one of the 20
-required-detection checks in the brief is an invariant/integrity/schema/
-reference/required-fidelity check per Section 9's FAIL definition, so all
-of them are `severity="error"` EXCEPT two, which are deliberately softer
-"reviewable discrepancy" (WARN-level) checks:
+spec beyond the PASS/WARN/FAIL rule above): most of the required
+detections in the brief are invariant/integrity/schema/reference/required-
+fidelity checks per Section 9's FAIL definition and are therefore
+`severity="error"`. A small number of checks are handled specially:
     - `heading_missing_from_content`: a chunk's own heading text (last
       element of `source_heading_path`) not found as a heading line in its
       own content. This is a metadata/content drift *smell*, not proof of
       lost content (heading wording can legitimately be reformatted), so it
-      is reviewable rather than fatal.
+      is reviewable rather than fatal and reported as a `warning`.
     - `content_comparison_skipped`: the normalized aggregate content-loss/
       duplication comparison (see below) could not run because no
-      `cleaned_markdown_text` was supplied. This is a real gap in
-      verification coverage that a human should consciously accept, not a
-      silent PASS.
+      `cleaned_markdown_text` was supplied. Importantly, Task 7 changed the
+      validator's runtime behavior: for independent, hand-authored fixture
+      packages (manifest.generator.plugin == "hand-authored-fixture") the
+      validator does not emit an issue at all (no comparison expectation
+      exists). For producer-path packages, however, this condition now
+      emits an ERROR (`content_comparison_skipped`) which forces
+      `ValidationReport.status = "FAIL"` and blocks promotion; it is not
+      dispositionable via `warning-disposition.json`.
 
 Content-loss/duplication "original" text decision (documented per the
 task brief's explicit ask): Task 9's `convert.py` does NOT persist the
@@ -120,6 +124,8 @@ def _warning(code: str, message: str, path: "str | None" = None) -> "contracts.V
 # class early and this comparison fails to blank out that one reference's
 # path at all, causing a false content-mismatch report.
 _IMAGE_REF_FOR_COMPARISON = re.compile(r"(!\[(?:[^\]\\]|\\.)*\]\()[^)]+(\))")
+
+_FIXTURE_GENERATOR_PLUGIN = "hand-authored-fixture"
 
 
 def _normalize_for_comparison(text: str) -> str:
@@ -412,6 +418,25 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
                 chunk.content_file,
             ))
 
+        # Cross-artifact lineage checks: ensure sidecar plan_id and source_sha256
+        # match the manifest's recorded values.
+        if meta.plan_id != manifest.plan_id:
+            issues.append(_error(
+                "chunk_plan_id_mismatch",
+                f"chunk {chunk.chunk_id!r} sidecar plan_id={meta.plan_id!r} "
+                f"does not match manifest plan_id={manifest.plan_id!r}",
+                chunk.metadata_file,
+            ))
+
+        if meta.source_sha256 != manifest.source.sha256:
+            issues.append(_error(
+                "chunk_source_sha256_mismatch",
+                f"chunk {chunk.chunk_id!r} sidecar source_sha256="
+                f"{meta.source_sha256!r} does not match manifest source "
+                f"sha256={manifest.source.sha256!r}",
+                chunk.metadata_file,
+            ))
+
         if content.strip() == "":
             issues.append(_error(
                 "empty_chunk", f"chunk {chunk.chunk_id!r} content is empty", chunk.content_file
@@ -608,9 +633,27 @@ def _check_publication_map_consistency(
     `order` sequence (directory-order-independent by construction, since
     `order` is read from the file, never inferred from listing order)."""
     if manifest.strategy != "grouped":
+        try:
+            unexpected = publication_map.load_publication_map(package_dir)
+        except publication_map.MalformedPublicationMapError:
+            # A malformed file on a non-grouped package is still an
+            # "unexpected file present" problem, not this check's job to
+            # diagnose further -- report the same unexpected-presence issue.
+            unexpected = True
+        if unexpected is not None:
+            return [_error(
+                "unexpected_publication_map",
+                "publication-map.json is present but strategy is not "
+                "'grouped' -- an unexpected file is not silently ignored",
+                "publication-map.json",
+            )]
         return []
 
-    pub_map = publication_map.load_publication_map(package_dir)
+    try:
+        pub_map = publication_map.load_publication_map(package_dir)
+    except publication_map.MalformedPublicationMapError as exc:
+        return [_error("malformed_publication_map", str(exc), "publication-map.json")]
+
     if pub_map is None:
         return [_error(
             "missing_publication_map",
@@ -620,11 +663,39 @@ def _check_publication_map_consistency(
 
     issues = []
     manifest_chunk_ids = {c.chunk_id for c in manifest.chunks}
-    entry_chunk_ids = {e.topic_id for e in pub_map.entries}
-    if entry_chunk_ids != manifest_chunk_ids:
+    # Round-3 review (Opus) caught a load-bearing defect in an earlier draft
+    # of this check: it compared `manifest_chunk_ids` against
+    # `{e.topic_id for e in pub_map.entries}`, while Task 4 made the
+    # RENDERER resolve entries via `entry.chunk_id` instead. That meant the
+    # renderer consumed a field this validator never checked at all --
+    # today harmless only because the grouped producer happens to set
+    # `chunk_id == topic_id`, but the moment they diverge the renderer
+    # keys off an unvalidated field. This check now validates `chunk_id`,
+    # matching what the renderer actually consumes, and separately confirms
+    # every `topic_id` is unique (the publication ordering identity) and
+    # every `chunk_id` resolves to exactly one manifest chunk.
+    entry_topic_ids = [e.topic_id for e in pub_map.entries]
+    if len(set(entry_topic_ids)) != len(entry_topic_ids):
+        issues.append(_error(
+            "publication_map_duplicate_topic_id",
+            "publication-map.json has a duplicate topic_id across entries",
+            "publication-map.json",
+        ))
+
+    entry_chunk_ids = [e.chunk_id for e in pub_map.entries]
+    if len(set(entry_chunk_ids)) != len(entry_chunk_ids):
+        issues.append(_error(
+            "publication_map_duplicate_chunk_id",
+            "publication-map.json has a duplicate chunk_id across entries",
+            "publication-map.json",
+        ))
+    if set(entry_chunk_ids) != manifest_chunk_ids:
         issues.append(_error(
             "publication_map_chunk_mismatch",
-            "publication-map.json entries do not match manifest chunk ids",
+            "publication-map.json entries' chunk_id values do not match "
+            "manifest chunk ids -- every entry.chunk_id must resolve to "
+            "exactly one manifest chunk, and every manifest chunk must be "
+            "covered exactly once",
             "publication-map.json",
         ))
 
@@ -646,12 +717,19 @@ def _check_publication_map_consistency(
 def _check_content_loss_and_duplication(
     package_dir: "Path", manifest: "contracts.Manifest", cleaned_markdown_text: "str | None"
 ) -> list:
+    is_independent_fixture = manifest.generator.plugin == _FIXTURE_GENERATOR_PLUGIN
     if cleaned_markdown_text is None:
-        return [_warning(
+        if is_independent_fixture:
+            return []  # no source conversion exists to compare against; not a gap for this kind of package
+        return [_error(
             "content_comparison_skipped",
-            "no cleaned_markdown_text was supplied to the validator; the "
-            "normalized aggregate content-loss/duplication comparison was "
-            "not performed for this run",
+            "no cleaned_markdown_text was supplied for a producer-path "
+            "package (manifest.generator.plugin="
+            f"{manifest.generator.plugin!r}); the normalized aggregate "
+            "content-loss/duplication comparison did not run -- a "
+            "producer-generated package cannot be promoted as fully "
+            "accepted without this comparison having actually run and "
+            "passed",
         )]
 
     ordered_chunks = sorted(manifest.chunks, key=lambda c: c.source_order)

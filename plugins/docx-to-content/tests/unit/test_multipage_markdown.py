@@ -32,6 +32,7 @@ import pytest
 import atomic_output
 import contracts
 import package as package_module
+import canonical_package as canonical_package_module
 from renderers import protocol
 from renderers import multipage_markdown as mpm
 
@@ -92,7 +93,7 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
     manifest_chunks = []
     for idx, (chunk_id, heading_path, content, local_links) in enumerate(chunk_specs):
         meta = _metadata(chunk_id, heading_path, idx, content, local_links)
-        loaded_chunks.append(package_module.LoadedChunk(metadata=meta, content=content))
+        loaded_chunks.append(canonical_package_module.LoadedChunk(metadata=meta, content=content))
         manifest_chunks.append(_manifest_chunk(chunk_id, heading_path, idx))
 
     manifest = contracts.Manifest(
@@ -112,7 +113,7 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
         status="PASS", issues=[], source_sha256=FAKE_SHA, plan_id="plan-1"
     )
 
-    return package_module.CanonicalPackage(
+    return canonical_package_module.CanonicalPackage(
         manifest=manifest,
         validation_report=validation_report,
         chunks=loaded_chunks,
@@ -139,11 +140,11 @@ def _build_synthetic_grouped_package(tmp_path):
         entries=[
             contracts.PublicationMapEntry(
                 topic_id="alpha--22222222", title="Alpha", order=0,
-                chunk_id="chunks/alpha--22222222.md",
+                chunk_id="alpha--22222222",
             ),
             contracts.PublicationMapEntry(
                 topic_id="beta--11111111", title="Beta", order=1,
-                chunk_id="chunks/beta--11111111.md",
+                chunk_id="beta--11111111",
             ),
         ],
     )
@@ -162,6 +163,27 @@ def test_renderer_satisfies_protocol():
     assert contracts.SUPPORTED_SCHEMA_VERSION in renderer.supported_manifest_versions
 
 
+def test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant():
+    # Temporarily set contracts.MANIFEST_SCHEMA_VERSION and reload the
+    # multipage_markdown module to ensure the renderer's supported_manifest_versions
+    # is derived from that constant. Restore both the constant and the module
+    # after the check to avoid leaking state to other tests.
+    import importlib
+    import contracts as _contracts
+
+    original = _contracts.MANIFEST_SCHEMA_VERSION
+    try:
+        _contracts.MANIFEST_SCHEMA_VERSION = "9.9"
+        import renderers.multipage_markdown as mpm
+        importlib.reload(mpm)
+        assert "9.9" in mpm.MultipageMarkdownRenderer.supported_manifest_versions
+        assert "1.0" not in mpm.MultipageMarkdownRenderer.supported_manifest_versions
+    finally:
+        _contracts.MANIFEST_SCHEMA_VERSION = original
+        import renderers.multipage_markdown as mpm
+        importlib.reload(mpm)
+
+
 # ---------------------------------------------------------------------------
 # Single vs chunked -- same code path
 # ---------------------------------------------------------------------------
@@ -177,7 +199,7 @@ def test_single_chunk_package_renders_one_page_and_index(tmp_path):
     assert isinstance(result, contracts.RenderResult)
     assert result.status == "PASS"
     assert result.renderer_name == "multipage-markdown"
-    assert result.source_manifest_hash == FAKE_SHA
+    assert result.source_content_sha256 == FAKE_SHA
     assert (output_dir / "pages" / "chunk-a.md").read_text() == "# Getting Started\n\nHello.\n"
     assert (output_dir / "index.md").exists()
     index_text = (output_dir / "index.md").read_text()
@@ -460,7 +482,7 @@ def test_end_to_end_render_of_small_single_fixture(tmp_path):
     )
     assert promoted is True
 
-    loaded = package_module.CanonicalPackage.load(final_dir)
+    loaded = canonical_package_module.CanonicalPackage.load(final_dir)
     assert loaded.manifest.chunk_count >= 1
 
     result, staging_dir = mpm.render_to_staging(loaded, tmp_path / "rendered")

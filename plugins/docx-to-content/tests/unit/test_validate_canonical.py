@@ -13,6 +13,7 @@ Setup", "Gadget Alpha") -- no real CEIS manual content appears here.
 """
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -95,8 +96,10 @@ def test_pass_on_a_clean_package_with_cleaned_markdown_supplied(tmp_path):
 def test_warn_when_cleaned_markdown_not_supplied(tmp_path):
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     report = vc.validate_canonical_package(output_dir, plan)
-    assert report.status == "WARN"
-    assert "content_comparison_skipped" in _codes(report)
+    # For real producer-path packages (manifest.generator.plugin=="docx-to-content"),
+    # omitting cleaned_markdown_text is now an ERROR per Task 7.
+    assert report.status == "FAIL"
+    assert any(i.code == "content_comparison_skipped" and i.severity == "error" for i in report.issues)
 
 
 def test_fail_when_manifest_missing(tmp_path):
@@ -305,6 +308,32 @@ def test_fail_on_content_hash_mismatch(tmp_path):
     assert "content_hash_mismatch" in _codes(report)
 
 
+def test_chunk_sidecar_plan_id_mismatch_is_detected(tmp_path):
+    plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
+    meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
+    meta_data = json.loads(meta_path.read_text())
+    meta_data["plan_id"] = "sha256:" + "0" * 64
+    meta_path.write_text(json.dumps(meta_data))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "chunk_plan_id_mismatch" for i in report.issues)
+
+
+def test_chunk_sidecar_source_sha256_mismatch_is_detected(tmp_path):
+    plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
+    meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
+    meta_data = json.loads(meta_path.read_text())
+    meta_data["source_sha256"] = "f" * 64
+    meta_path.write_text(json.dumps(meta_data))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "chunk_source_sha256_mismatch" for i in report.issues)
+
+
 # ---------------------------------------------------------------------------
 # Empty chunks
 # ---------------------------------------------------------------------------
@@ -334,7 +363,13 @@ def test_warn_on_heading_missing_from_chunk_content(tmp_path):
     meta = json.loads(meta_path.read_text())
     meta["content_sha256"] = hashing.content_hash(content_path.read_text().encode("utf-8"))
     meta_path.write_text(json.dumps(meta))
-    report = vc.validate_canonical_package(output_dir, plan)
+    # Supply cleaned_markdown_text so the content-comparison check runs and
+    # does not produce an error that would mask this heading-level warning.
+    cleaned = "\n".join(
+        (output_dir / "chunks" / f"{a.stable_key}.md").read_text()
+        for a in (a1, a2)
+    )
+    report = vc.validate_canonical_package(output_dir, plan, cleaned_markdown_text=cleaned)
     assert report.status == "WARN"
     matches = _codes(report, "heading_missing_from_content")
     assert len(matches) == 1
@@ -344,6 +379,109 @@ def test_warn_on_heading_missing_from_chunk_content(tmp_path):
 # ---------------------------------------------------------------------------
 # Content loss/duplication using normalized aggregate comparison
 # ---------------------------------------------------------------------------
+
+
+def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-content", with_media: bool = False, strategy: str = "chunked", chunk_count: int = 1, validated: bool = False):
+    """Build a minimal, fully valid canonical package for tests.
+    Returns the package directory Path. Writes the plan used to build to
+    tmp_path / "plan.json" so `_load_plan_used_to_build` can retrieve it.
+
+    Backwards compatible with the prior single-arg form. New kwargs:
+    - with_media: if True, include a media file under raw_media/media and
+      reference it from the first chunk.
+    - strategy: passed to the confirmed plan ("chunked" or "grouped").
+    - chunk_count: number of distinct chunks to create (>=1).
+    - validated: if True, run the real validator and write a PASS validation.json
+      (replacing the default PENDING placeholder written by package builders).
+    """
+    # Build anchors and sliced document with chunk_count distinct chunks
+    anchors = []
+    chunks = []
+    for i in range(chunk_count):
+        name = "Minimal" if chunk_count == 1 else f"Minimal {i+1}"
+        a = _anchor([name])
+        anchors.append(a)
+        content = f"# {name}\n\nBody {i+1}.\n"
+        # If requested, include a media reference in the first chunk
+        if with_media and i == 0:
+            content += "\n![diagram](media/diagram.png)\n"
+        chunks.append(_slice(a, content))
+
+    plan = _confirmed_plan(anchors, strategy=strategy)
+    sliced = SlicedDocument(preamble="", chunks=chunks)
+    raw_media_dir = tmp_path / "raw_media"
+    # create raw_media and optional media file
+    raw_media_dir.mkdir()
+    if with_media:
+        (raw_media_dir / "media").mkdir(parents=True, exist_ok=True)
+        (raw_media_dir / "media" / "diagram.png").write_bytes(b"fake-png-bytes")
+
+    output_dir = tmp_path / "canonical-content"
+    # Use grouped vs chunked builder depending on strategy
+    if strategy == "grouped":
+        package.build_grouped_canonical_package(plan, sliced, raw_media_dir, output_dir)
+    else:
+        package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
+
+    if generator_plugin != "docx-to-content":
+        data = json.loads((output_dir / "manifest.json").read_text())
+        data["generator"]["plugin"] = generator_plugin
+        (output_dir / "manifest.json").write_text(json.dumps(data))
+
+    # Persist the plan used so tests can re-load it
+    (tmp_path / "plan.json").write_text(json.dumps(plan.to_dict(), indent=2))
+
+    # Optionally write a real PASS validation.json using the real validator
+    if validated:
+        try:
+            # Reconstruct a cleaned_markdown_text from the staged chunk files
+            # so the aggregate content-loss/duplication check can run and not
+            # fail due to missing cleaned text (producer-path packages treat
+            # that as an error). Use manifest order (source_order) to
+            # reconstruct a canonical aggregate.
+            manifest = json.loads((output_dir / "manifest.json").read_text())
+            ordered = sorted(manifest.get("chunks", []), key=lambda c: c.get("source_order", 0))
+            cleaned = "\n".join((output_dir / c["content_file"]).read_text() for c in ordered)
+            report = vc.validate_canonical_package(output_dir, plan, cleaned_markdown_text=cleaned)
+            vc.write_validation_report(report, output_dir)
+        except Exception:
+            # Tests that request a pre-validated package expect a simple
+            # PASS report to be written; let exceptions surface to the
+            # caller rather than masking them here.
+            raise
+
+    return output_dir
+
+
+def _load_plan_used_to_build(package_dir):
+    tmp_path = Path(package_dir).parent
+    data = json.loads((tmp_path / "plan.json").read_text())
+    return contracts.ConversionPlan.from_dict(data)
+
+
+def test_producer_path_content_comparison_skip_is_now_an_error(tmp_path):
+    package_dir = _build_minimal_valid_package(tmp_path)  # generator.plugin == "docx-to-content"
+    plan = _load_plan_used_to_build(package_dir)
+    # cleaned_markdown_text omitted -- this package's own manifest records
+    # generator.plugin == "docx-to-content", so it's a producer-path
+    # package regardless of what any caller might wish were true.
+    report = vc.validate_canonical_package(package_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(
+        i.code == "content_comparison_skipped" and i.severity == "error"
+        for i in report.issues
+    )
+
+
+def test_fixture_provenance_content_comparison_skip_is_not_an_error(tmp_path):
+    package_dir = _build_minimal_valid_package(tmp_path, generator_plugin="hand-authored-fixture")
+    plan = _load_plan_used_to_build(package_dir)
+    report = vc.validate_canonical_package(package_dir, plan)
+
+    assert report.status != "FAIL" or not any(
+        i.code == "content_comparison_skipped" for i in report.issues
+    )
 
 def test_fail_on_content_loss_detected_by_aggregate_comparison(tmp_path):
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
@@ -759,6 +897,47 @@ def test_validate_grouped_package_fails_when_publication_map_order_has_gap(tmp_p
     report = vc.validate_canonical_package(output_dir, plan)
     assert report.status == "FAIL"
     assert "publication_map_order_invalid" in _codes(report)
+
+
+def test_malformed_publication_map_is_a_controlled_validation_error(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    (output_dir / "publication-map.json").write_text("{not valid json")
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "malformed_publication_map" for i in report.issues)
+
+
+def test_unexpected_publication_map_on_non_grouped_package_is_rejected(tmp_path):
+    plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
+    (output_dir / "publication-map.json").write_text(json.dumps({
+        "schema_version": "1.0",
+        "package_identity": "sha256:" + "a" * 64,
+        "entries": [],
+    }))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "unexpected_publication_map" for i in report.issues)
+
+
+def test_publication_map_chunk_id_diverging_from_topic_id_is_detected(tmp_path):
+    plan, output_dir = _build_grouped_package(tmp_path)
+    pub_map_path = output_dir / "publication-map.json"
+    data = json.loads(pub_map_path.read_text())
+    # Deliberately break the chunk_id/topic_id equality the real producer
+    # currently maintains -- chunk_id now points at a chunk that does not
+    # exist in the manifest at all, proving the validator checks chunk_id
+    # itself rather than trusting topic_id as a stand-in for it.
+    data["entries"][0]["chunk_id"] = "nonexistent-chunk-id"
+    pub_map_path.write_text(json.dumps(data))
+
+    report = vc.validate_canonical_package(output_dir, plan)
+
+    assert report.status == "FAIL"
+    assert any(i.code == "publication_map_chunk_mismatch" for i in report.issues)
 
 
 def test_validate_ungrouped_package_unaffected_by_new_grouped_checks(tmp_path):

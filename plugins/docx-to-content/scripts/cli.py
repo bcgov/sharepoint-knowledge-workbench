@@ -51,6 +51,7 @@ import contracts  # noqa: E402
 import convert  # noqa: E402
 import dependencies  # noqa: E402
 import package  # noqa: E402
+import canonical_package  # noqa: E402
 import plans  # noqa: E402
 import topic_grouping  # noqa: E402
 from renderers import multipage_markdown  # noqa: E402
@@ -258,8 +259,8 @@ def cmd_render(args):
         raise PreconditionError(f"canonical directory not found: {args.canonical}")
 
     try:
-        loaded_package = package.CanonicalPackage.load(canonical_path)
-    except package.CanonicalPackageError as exc:
+        loaded_package = canonical_package.CanonicalPackage.load(canonical_path)
+    except canonical_package.CanonicalPackageError as exc:
         # Malformed/tampered/rejected canonical package -- a contract/
         # validation failure, matching cmd_convert's mapping of the
         # analogous "this content cannot be trusted as-is" class of error.

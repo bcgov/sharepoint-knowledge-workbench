@@ -322,7 +322,7 @@ def test_convert_end_to_end_via_cli_promotes_validated_package(tmp_path):
     # CanonicalPackage.load() (Task 12) must be able to load the CLI's
     # own output directly -- this is the actual end-to-end contract a
     # subsequent `render` invocation depends on.
-    import package as package_module
+    import canonical_package as package_module
 
     loaded = package_module.CanonicalPackage.load(canonical_dir)
     assert loaded.manifest.chunk_count > 1

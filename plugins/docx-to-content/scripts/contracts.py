@@ -22,7 +22,19 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 
-SUPPORTED_SCHEMA_VERSION = "1.0"
+CONVERSION_PLAN_SCHEMA_VERSION = "1.0"
+MANIFEST_SCHEMA_VERSION = "1.0"
+CHUNK_METADATA_SCHEMA_VERSION = "1.0"
+PUBLICATION_MAP_SCHEMA_VERSION = "1.0"
+
+# Backward-compatible alias: pre-Phase-2 code (and any external caller) that
+# referenced one shared SUPPORTED_SCHEMA_VERSION still resolves to a valid
+# value. New code should reference the per-contract constant above instead
+# -- these four are independent per Phase 2's design (a publication-map
+# change no longer forces a conversion-plan version bump or vice versa), not
+# migration/compatibility machinery -- each still supports exactly one
+# version.
+SUPPORTED_SCHEMA_VERSION = CONVERSION_PLAN_SCHEMA_VERSION
 
 
 def _require(data: dict, field_name: str) -> Any:
@@ -31,12 +43,12 @@ def _require(data: dict, field_name: str) -> Any:
     return data[field_name]
 
 
-def _check_schema_version(data: dict) -> str:
+def _check_schema_version(data: dict, expected_version: str, contract_name: str) -> str:
     version = _require(data, "schema_version")
-    if version != SUPPORTED_SCHEMA_VERSION:
+    if version != expected_version:
         raise ValueError(
-            f"unsupported schema_version: {version!r} "
-            f"(supported: {SUPPORTED_SCHEMA_VERSION!r})"
+            f"unsupported schema_version for {contract_name}: {version!r} "
+            f"(supported: {expected_version!r})"
         )
     return version
 
@@ -173,7 +185,7 @@ class ConversionPlan:
 
     @classmethod
     def from_dict(cls, data: dict) -> "ConversionPlan":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, CONVERSION_PLAN_SCHEMA_VERSION, "ConversionPlan")
         return cls(
             schema_version=schema_version,
             plan_id=_require(data, "plan_id"),
@@ -240,7 +252,7 @@ class ChunkMetadata:
 
     @classmethod
     def from_dict(cls, data: dict) -> "ChunkMetadata":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, CHUNK_METADATA_SCHEMA_VERSION, "ChunkMetadata")
         return cls(
             schema_version=schema_version,
             chunk_id=_require(data, "chunk_id"),
@@ -343,7 +355,7 @@ class Manifest:
 
     @classmethod
     def from_dict(cls, data: dict) -> "Manifest":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, MANIFEST_SCHEMA_VERSION, "Manifest")
         return cls(
             schema_version=schema_version,
             generator=ManifestGenerator.from_dict(_require(data, "generator")),
@@ -439,7 +451,6 @@ class PublicationMapEntry:
     title: str
     order: int
     chunk_id: str
-    parent_topic_id: Optional[str] = None
 
     @classmethod
     def from_dict(cls, data: dict) -> "PublicationMapEntry":
@@ -448,7 +459,6 @@ class PublicationMapEntry:
             title=_require(data, "title"),
             order=_require(data, "order"),
             chunk_id=_require(data, "chunk_id"),
-            parent_topic_id=data.get("parent_topic_id"),
         )
 
     def to_dict(self) -> dict:
@@ -457,7 +467,6 @@ class PublicationMapEntry:
             "title": self.title,
             "order": self.order,
             "chunk_id": self.chunk_id,
-            "parent_topic_id": self.parent_topic_id,
         }
 
 
@@ -469,7 +478,7 @@ class PublicationMap:
 
     @classmethod
     def from_dict(cls, data: dict) -> "PublicationMap":
-        schema_version = _check_schema_version(data)
+        schema_version = _check_schema_version(data, PUBLICATION_MAP_SCHEMA_VERSION, "PublicationMap")
         return cls(
             schema_version=schema_version,
             package_identity=_require(data, "package_identity"),
@@ -494,7 +503,7 @@ class PublicationMap:
 class RenderResult:
     renderer_name: str
     renderer_version: str
-    source_manifest_hash: str
+    source_content_sha256: str
     output_files: list
     status: str  # "PASS" | "WARN" | "FAIL"
     errors: list
@@ -505,7 +514,7 @@ class RenderResult:
         return cls(
             renderer_name=_require(data, "renderer_name"),
             renderer_version=_require(data, "renderer_version"),
-            source_manifest_hash=_require(data, "source_manifest_hash"),
+            source_content_sha256=_require(data, "source_content_sha256"),
             output_files=list(_require(data, "output_files")),
             status=_require(data, "status"),
             errors=list(_require(data, "errors")),
@@ -516,7 +525,7 @@ class RenderResult:
         return {
             "renderer_name": self.renderer_name,
             "renderer_version": self.renderer_version,
-            "source_manifest_hash": self.source_manifest_hash,
+            "source_content_sha256": self.source_content_sha256,
             "output_files": list(self.output_files),
             "status": self.status,
             "errors": list(self.errors),
