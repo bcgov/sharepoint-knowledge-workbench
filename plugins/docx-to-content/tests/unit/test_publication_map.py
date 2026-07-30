@@ -57,7 +57,7 @@ def test_publication_map_order_is_explicit_not_positional(tmp_path):
     assert [e["order"] for e in on_disk["entries"]] == [0, 1]
 
 
-def test_publication_map_supports_parent_topic_id_hierarchy():
+def test_publication_map_entry_omits_parent_topic_id():
     boundaries = [_boundary("a--11111111", "A", [["A"]])]
     chunk_ids = {"a--11111111": "chunks/a.md"}
     pub_map = publication_map.build_publication_map(

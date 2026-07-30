@@ -21,15 +21,13 @@ expected, not an error.
       "topic_id": "file-access--a1b2c3d4",
       "title": "File Access",
       "order": 0,
-      "chunk_id": "chunks/file-access--a1b2c3d4.md",
-      "parent_topic_id": null
+      "chunk_id": "file-access--a1b2c3d4"
     }
   ]
 }
 ```
 
-- `schema_version` — matches `contracts.SUPPORTED_SCHEMA_VERSION`, the same
-  version field every other canonical-content contract carries.
+- `schema_version` — matches `contracts.PUBLICATION_MAP_SCHEMA_VERSION`, the per-contract schema version constant defined in `scripts/contracts.py`.
 - `package_identity` — references the canonical package's own identity
   (derived from the confirmed plan's `plan_id`), not a bare manifest hash,
   so a publication map can be checked against the specific package it was
@@ -43,11 +41,8 @@ expected, not an error.
   - `order` — explicit integer position, contiguous `0..N-1` with no gaps
     or duplicates. This is what a renderer sorts by; it is never inferred
     from `entries` array position, directory listing, or manifest order.
-  - `chunk_id` — the topic's content file path, relative to the package
-    root (e.g. `chunks/<topic_id>.md`).
-  - `parent_topic_id` — reserved for future topic hierarchy (a topic
-    nested under another topic); `null` for every topic in Phase 1, since
-    grouping is a single flat level (level-1 heading → topic).
+  - `chunk_id` — the topic's chunk identifier, matching a corresponding
+    `manifest.chunks[].chunk_id` value (not a file path).
 
 ## Where structural-anchor identity lives instead
 

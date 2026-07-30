@@ -23,21 +23,25 @@ concern from producing the report). This module also does NOT promote
 staging to a final location -- that is Task 11.
 
 Severity design (this module's own decision, not dictated verbatim by the
-spec beyond the PASS/WARN/FAIL rule above): every one of the 20
-required-detection checks in the brief is an invariant/integrity/schema/
-reference/required-fidelity check per Section 9's FAIL definition, so all
-of them are `severity="error"` EXCEPT two, which are deliberately softer
-"reviewable discrepancy" (WARN-level) checks:
+spec beyond the PASS/WARN/FAIL rule above): most of the required
+detections in the brief are invariant/integrity/schema/reference/required-
+fidelity checks per Section 9's FAIL definition and are therefore
+`severity="error"`. A small number of checks are handled specially:
     - `heading_missing_from_content`: a chunk's own heading text (last
       element of `source_heading_path`) not found as a heading line in its
       own content. This is a metadata/content drift *smell*, not proof of
       lost content (heading wording can legitimately be reformatted), so it
-      is reviewable rather than fatal.
+      is reviewable rather than fatal and reported as a `warning`.
     - `content_comparison_skipped`: the normalized aggregate content-loss/
       duplication comparison (see below) could not run because no
-      `cleaned_markdown_text` was supplied. This is a real gap in
-      verification coverage that a human should consciously accept, not a
-      silent PASS.
+      `cleaned_markdown_text` was supplied. Importantly, Task 7 changed the
+      validator's runtime behavior: for independent, hand-authored fixture
+      packages (manifest.generator.plugin == "hand-authored-fixture") the
+      validator does not emit an issue at all (no comparison expectation
+      exists). For producer-path packages, however, this condition now
+      emits an ERROR (`content_comparison_skipped`) which forces
+      `ValidationReport.status = "FAIL"` and blocks promotion; it is not
+      dispositionable via `warning-disposition.json`.
 
 Content-loss/duplication "original" text decision (documented per the
 task brief's explicit ask): Task 9's `convert.py` does NOT persist the

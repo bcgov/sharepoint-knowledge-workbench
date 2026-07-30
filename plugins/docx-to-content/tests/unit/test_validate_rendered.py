@@ -284,7 +284,7 @@ def test_missing_render_result_detected(tmp_path):
     assert any(i.code == "missing_render_result" for i in report.issues)
 
 
-def test_manifest_hash_mismatch_detected(tmp_path):
+def test_source_content_staleness_detected(tmp_path):
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS, source_sha=FAKE_SHA)
     _, staging_dir = _staged_render(tmp_path, pkg)
 

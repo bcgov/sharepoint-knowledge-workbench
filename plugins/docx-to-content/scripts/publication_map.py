@@ -5,8 +5,8 @@ publication_map.py
 Minimal publication-map contract writer/loader for the "grouped" chunking
 strategy (Task 17-topic-grouping). `publication-map.json` references the
 canonical package's own identity (not just a bare manifest hash), lists
-canonical topic ids in explicit, directory-order-independent sequence, and
-supports `parent_topic_id` for future hierarchy.
+canonical topic ids in explicit, directory-order-independent sequence.
+It no longer includes `parent_topic_id` (removed in Task 4).
 """
 
 import json
