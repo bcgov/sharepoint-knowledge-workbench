@@ -25,7 +25,7 @@ be. Every issue this module raises is therefore `severity="error"`, so
 render layer that maps to its WARN-acceptance model.
 
 Manifest-hash staleness tracking: `render_to_staging()`'s `RenderResult`
-already carries `source_manifest_hash` (Section 8: "renderer result
+already carries `source_content_sha256` (Section 8: "renderer result
 includes ... source manifest hash"), populated by
 `multipage_markdown.MultipageMarkdownRenderer.render()` as
 `package.manifest.source.sha256` -- the canonical package's source .docx
@@ -36,7 +36,7 @@ later validation pass -- possibly run against a package that has since been
 reconverted -- can compare the STAGED render's recorded hash against the
 CURRENT `package.manifest.source.sha256`. A mismatch means the canonical
 package was reconverted (new source fingerprint) after this render was
-staged; catching that is exactly what `manifest_hash_mismatch` checks for.
+staged; catching that is exactly what `source_content_stale` checks for.
 
 Path-safety reuse: broken-media/local-link and path-traversal/absolute-
 reference detection reuse `path_safety.classify_reference` (a new shared
@@ -148,6 +148,40 @@ def _check_index_links(rendered_dir: Path) -> list:
             issues.append(_error(
                 "broken_index_link",
                 f"index.md links to {raw_target!r}, which does not exist",
+                "index.md",
+            ))
+    return issues
+
+
+# ---------------------------------------------------------------------------
+# New: index completeness (Task 12)
+# ---------------------------------------------------------------------------
+
+def _check_index_completeness(rendered_dir: Path) -> list:
+    """index.md must link every page that actually exists under pages/ --
+    _check_index_links only catches links that ARE present and broken, not
+    an existing page index.md silently fails to mention at all."""
+    index_path = rendered_dir / "index.md"
+    pages_dir = rendered_dir / "pages"
+    if not index_path.exists() or not pages_dir.is_dir():
+        return []
+
+    index_text = index_path.read_text()
+    linked_stems = set()
+    for match in _LINK_REF.finditer(index_text):
+        raw_target = match.group(1).strip()
+        if raw_target.startswith(("http://", "https://", "#", "mailto:")):
+            continue
+        target = unquote(raw_target)
+        if target.startswith("pages/"):
+            linked_stems.add(Path(target).stem)
+
+    issues = []
+    for page_path in sorted(pages_dir.glob("*.md")):
+        if page_path.stem not in linked_stems:
+            issues.append(_error(
+                "page_not_linked_from_index",
+                f"pages/{page_path.name} exists but index.md does not link it",
                 "index.md",
             ))
     return issues
@@ -271,13 +305,13 @@ def _check_page_references(rendered_dir: Path, package) -> list:
 # 8. Manifest hash mismatch
 # ---------------------------------------------------------------------------
 
-def _check_manifest_hash(rendered_dir: Path, package) -> list:
+def _check_source_content_staleness(rendered_dir: Path, package) -> list:
     result_path = rendered_dir / "render-result.json"
     if not result_path.exists():
         return [_error(
             "missing_render_result",
             "render-result.json does not exist -- cannot verify which "
-            "canonical package manifest this render was produced from",
+            "canonical package this render was produced from",
             "render-result.json",
         )]
 
@@ -291,12 +325,12 @@ def _check_manifest_hash(rendered_dir: Path, package) -> list:
         )]
 
     current_hash = package.manifest.source.sha256
-    if recorded.source_manifest_hash != current_hash:
+    if recorded.source_content_sha256 != current_hash:
         return [_error(
-            "manifest_hash_mismatch",
-            f"render-result.json records source_manifest_hash="
-            f"{recorded.source_manifest_hash!r}, but the supplied canonical "
-            f"package's current manifest source hash is {current_hash!r} -- "
+            "source_content_stale",
+            f"render-result.json records source_content_sha256="
+            f"{recorded.source_content_sha256!r}, but the supplied canonical "
+            f"package's current source content hash is {current_hash!r} -- "
             "the canonical package was reconverted after this render was "
             "staged",
             "render-result.json",
@@ -349,9 +383,10 @@ def validate_rendered_output(rendered_dir: Path, package) -> "contracts.Validati
 
     issues.extend(_check_index_and_pages_exist(rendered_dir))
     issues.extend(_check_index_links(rendered_dir))
+    issues.extend(_check_index_completeness(rendered_dir))
     issues.extend(_check_page_completeness(rendered_dir, package))
     issues.extend(_check_page_references(rendered_dir, package))
-    issues.extend(_check_manifest_hash(rendered_dir, package))
+    issues.extend(_check_source_content_staleness(rendered_dir, package))
     issues.extend(_check_page_traceability(rendered_dir, package))
 
     status = "FAIL" if issues else "PASS"

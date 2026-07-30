@@ -41,7 +41,7 @@ from pathlib import Path
 from typing import Protocol, runtime_checkable
 
 from contracts import RenderResult
-from package import CanonicalPackage
+from canonical_package import CanonicalPackage
 
 
 @runtime_checkable

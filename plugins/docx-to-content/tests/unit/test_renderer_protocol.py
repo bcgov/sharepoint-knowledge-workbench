@@ -22,7 +22,7 @@ import pytest
 import analyze_structure
 import contracts
 import convert
-import package
+import canonical_package
 import plans
 from renderers import protocol
 
@@ -60,7 +60,7 @@ class _ListChunksTestRenderer:
     name = "test-list-chunks"
     supported_manifest_versions = frozenset({contracts.SUPPORTED_SCHEMA_VERSION})
 
-    def render(self, package_obj: "package.CanonicalPackage", output_dir: Path) -> contracts.RenderResult:
+    def render(self, package_obj: "canonical_package.CanonicalPackage", output_dir: Path) -> contracts.RenderResult:
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
         listing_path = output_dir / "chunk-listing.txt"
@@ -70,7 +70,7 @@ class _ListChunksTestRenderer:
         return contracts.RenderResult(
             renderer_name=self.name,
             renderer_version="0.1.0",
-            source_manifest_hash=package_obj.manifest.source.sha256,
+            source_content_sha256=package_obj.manifest.source.sha256,
             output_files=[str(listing_path)],
             status="PASS",
             errors=[],
@@ -95,7 +95,7 @@ def test_render_signature_has_no_docx_or_analysis_or_plan_parameter():
 
 
 def test_canonical_package_load_signature_only_accepts_package_dir():
-    sig = inspect.signature(package.CanonicalPackage.load)
+    sig = inspect.signature(canonical_package.CanonicalPackage.load)
     param_names = set(sig.parameters) - {"cls"}
     assert param_names == {"package_dir"}
     for forbidden in ("source", "docx", "analysis", "plan"):
@@ -120,7 +120,7 @@ def test_registry_rejects_unknown_renderer_name():
 @pytest.mark.skipif(not PANDOC_AVAILABLE, reason="pandoc not available on PATH")
 def test_dispatch_render_end_to_end_with_test_renderer(tmp_path):
     final_dir = _accepted_package_dir(tmp_path)
-    loaded = package.CanonicalPackage.load(final_dir)
+    loaded = canonical_package.CanonicalPackage.load(final_dir)
 
     registry = protocol.RendererRegistry()
     renderer = _ListChunksTestRenderer()
@@ -139,7 +139,7 @@ def test_dispatch_render_end_to_end_with_test_renderer(tmp_path):
 @pytest.mark.skipif(not PANDOC_AVAILABLE, reason="pandoc not available on PATH")
 def test_dispatch_render_rejects_unsupported_manifest_version(tmp_path):
     final_dir = _accepted_package_dir(tmp_path)
-    loaded = package.CanonicalPackage.load(final_dir)
+    loaded = canonical_package.CanonicalPackage.load(final_dir)
 
     class _FutureOnlyRenderer(_ListChunksTestRenderer):
         name = "future-only"

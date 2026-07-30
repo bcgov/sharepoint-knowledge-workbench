@@ -156,7 +156,7 @@ class MultipageMarkdownRenderer:
     local copy of the canonical package's media."""
 
     name = "multipage-markdown"
-    supported_manifest_versions = frozenset({contracts.SUPPORTED_SCHEMA_VERSION})
+    supported_manifest_versions = frozenset({contracts.MANIFEST_SCHEMA_VERSION})
 
     def render(self, package, output_dir: Path) -> "contracts.RenderResult":
         output_dir = Path(output_dir)
@@ -187,7 +187,7 @@ class MultipageMarkdownRenderer:
         if package.publication_map is not None:
             chunk_by_id = {chunk.metadata.chunk_id: chunk for chunk in package.chunks}
             ordered_entries = sorted(package.publication_map.entries, key=lambda e: e.order)
-            ordered_chunks = [chunk_by_id[e.topic_id] for e in ordered_entries]
+            ordered_chunks = [chunk_by_id[e.chunk_id] for e in ordered_entries]
         else:
             ordered_chunks = package.chunks
 
@@ -205,7 +205,7 @@ class MultipageMarkdownRenderer:
         return contracts.RenderResult(
             renderer_name=self.name,
             renderer_version=RENDERER_VERSION,
-            source_manifest_hash=package.manifest.source.sha256,
+            source_content_sha256=package.manifest.source.sha256,
             output_files=output_files,
             status="PASS",
             errors=[],
