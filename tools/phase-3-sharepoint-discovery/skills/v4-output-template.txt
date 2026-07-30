@@ -1,0 +1,6 @@
+>>> DISCOVERY-TEMPLATE-START <<<
+QUESTION:: <restate the user's question verbatim>
+ANSWER:: <your answer, one sentence only>
+CONFIDENCE:: <HIGH|MEDIUM|LOW>
+SOURCE-FILE:: <exact filename grounded on, or NONE>
+>>> DISCOVERY-TEMPLATE-END <<<

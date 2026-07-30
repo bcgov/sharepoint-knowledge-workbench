@@ -1,0 +1,45 @@
+{
+    "schemaVersion": "0.2.0",
+    "customCopilotConfig": {
+        "conversationStarters": {
+            "conversationStarterList": [
+                {
+                    "text": "What is this library for?"
+                },
+                {
+                    "text": "Summarize the files here"
+                }
+            ],
+            "welcomeMessage": {
+                "text": "Ask a question about this test library."
+            }
+        },
+        "gptDefinition": {
+            "name": "TEST-DO-NOT-USE-Copilot-CLI-Agent",
+            "description": "Programmatically-created test agent for Phase 3.0 capability discovery (created via PnP PowerShell, not the Copilot UI wizard)",
+            "instructions": "Provide accurate information about the content in the selected files and reply in a formal tone.",
+            "capabilities": [
+                {
+                    "name": "OneDriveAndSharePoint",
+                    "items_by_sharepoint_ids": [],
+                    "items_by_url": [
+                        {
+                            "url": "https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV/TESTDONOTUSEAgentPilot",
+                            "name": "TEST-DO-NOT-USE-Agent-Pilot",
+                            "site_id": "bd691009-3e48-422a-928b-c01a27aaca06",
+                            "web_id": "5c76b6ea-19f7-41b2-b29c-c0aa36aaee04",
+                            "list_id": "a2750381-6274-4f02-aed1-cfd9069b0f30",
+                            "unique_id": "00000000-0000-0000-0000-000000000000",
+                            "type": "Folder"
+                        }
+                    ]
+                }
+            ],
+            "behavior_overrides": {
+                "special_instructions": {
+                    "discourage_model_knowledge": true
+                }
+            }
+        }
+    }
+}

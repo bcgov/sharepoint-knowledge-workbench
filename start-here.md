@@ -1,4 +1,4 @@
-# Resume — Phase 1 and Phase 2 complete (both merged to main); begin Phase 3 planning in a fresh session
+# Resume — Phase 1 and Phase 2 complete (both merged to main); Phase 3.0 capability discovery in progress, NOT yet formally closed
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
@@ -441,14 +441,58 @@ metadata, never a single byte of the actual publication content.
 
 Every other pre-existing test not listed above still passes unchanged.
 
+## Phase 3.0 (SharePoint Tenant-Capability Discovery) — substance largely done, formal exit gate NOT met
+
+Per `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Phase 3.0 section, the
+**sole required deliverable is `tenant-capability-report.md`**, answering all 5 capability-probe
+questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-status map (Stage
+3.0.3.2). **That report does not exist yet.** What exists instead:
+
+- `tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1` +
+  `tools/phase-3-sharepoint-discovery/reports/phase-3-0-discovery-report.json` — the original
+  **read-only** tenant inventory (Stage 3.0.1.1/3.0.1.2: access record, surface/list inventory).
+- `tools/phase-3-sharepoint-discovery/write-exploration-findings.md` — a large, continuously
+  updated **raw findings log** from hands-on, staged/authorized write-based capability probes
+  (agent creation, `.agent`/`SKILL.md` authoring, format compliance, write-action refusal, native
+  Markdown rendering, multi-document synthesis, etc.) run directly against the real BC Gov dev
+  site (`AG-CSB-ITAU-CMAT-DEV`). This covers (and in several cases exceeds) all 5 required
+  probes, but it is evidence, not the synthesized report the exit gate names.
+- An external review (GPT-5.6) of that findings log was incorporated, tightening 4 overclaimed
+  conclusions and adding a **9-priority follow-up test backlog** (permission-boundary matrix,
+  ready-made-vs-custom-agent comparison, skill collision/routing, isolated asset-retrieval
+  retest, embedded media/link fidelity, agent lifecycle via file ops, `.agent` schema mutation
+  suite, source-scope variants, Restricted Content Discovery) — see the "Prioritized follow-up
+  test backlog" section near the top of `write-exploration-findings.md`. None of these 9
+  priorities have been executed yet.
+
+**Remaining work to formally close Phase 3.0 (exit gate):**
+1. Write `tenant-capability-report.md` (Stage 3.0.3.1) — synthesize
+   `write-exploration-findings.md` + `phase-3-0-discovery-report.json` into the single report the
+   plan names, with each of the 5 probe questions answered and cited to specific evidence.
+2. Write the dependency-status map (Stage 3.0.3.2) — map each Phase 3/4/5 entry-gate dependency
+   to confirmed-available / confirmed-blocked / needs-escalation, tracing each to a specific
+   probe result.
+3. Decide whether to run any of the 9 follow-up-backlog priorities *before* closing 3.0, or defer
+   them to later (some, like Priority 9 Restricted Content Discovery, need tenant-admin
+   involvement not currently available; others, like Priority 1 permission-boundary matrix and
+   Priority 4 isolated asset-retrieval retest, are cheap and could be folded in now).
+4. Clean up the `TEST-DO-NOT-USE-*` tenant artifacts (library, 2 agents, 8 skills, discovery-log
+   list, uploaded CEIS content) per the staged-write protocol's "remove after, keep only
+   evidence" step — not yet done; several are still in active use for potential follow-up tests,
+   so raise with the user before deleting.
+5. Only once 1–2 are done does the plan's exit gate read as met ("`tenant-capability-report.md`
+   answers all five probe questions with observed evidence; Phase 3 scope confirmed feasible or
+   explicitly re-gated").
+
 ## Next action on resume — this is the actual remaining work
 
 1. **Phase 1 is done.** The human spot-check pass (the item that was blocking Phase 1 formal
    sign-off and Phase 2's Task 0 precondition) was completed — see
    `runs/ceis-manual-v2/evidence-report.md`'s checklist. Nothing further needed here.
 2. **Phase 2 is done and merged to `main`.** Nothing further needed here — see the section above.
-3. **Begin Phase 3 planning** in a fresh session (see "Actual next action" at the top of this file). Do it
-   in its own branch/worktree, per the master plan's git/session workflow, not directly on `main`.
+3. **Phase 3.0 is in progress, not formally closed** — see the section directly above this one.
+   The next concrete action is writing `tenant-capability-report.md` and the dependency-status
+   map from the existing findings, not starting Phase 3 planning yet.
 4. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
    actually hold up in practice, if not already done.
 5. If/when broader (non-preamble) media classification becomes a real need on a future document, design it

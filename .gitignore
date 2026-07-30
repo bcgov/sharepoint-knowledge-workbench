@@ -20,10 +20,6 @@ temp/
 # config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
 tools/phase-3-sharepoint-discovery/config.psd1
 
-# Raw tenant discovery evidence (controlled-original per Phase 3 spec Section 16) — never
-# commit; only a hand-written sanitized summary belongs in docs/reports/.
-tools/phase-3-sharepoint-discovery/*.json
-
 # Superpowers transient working state
 .superpowers/
 **/.superpowers/

@@ -1,0 +1,5104 @@
+{
+  "Meta": {
+    "ScriptGitCommit": "744d7a3",
+    "ExportDate": "2026-07-29T23:08:58.4502450-07:00",
+    "PnPPowerShellVersion": "3.3.0",
+    "PowerShellVersion": "7.7.0-preview.3",
+    "SiteUrl": "https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV",
+    "ConnectedAccount": "i:0#.f|membership|richard.fremmerlid@gov.bc.ca",
+    "AuthenticationType": "Interactive delegated (Connect-PnPOnline -Interactive -ForceAuthentication)",
+    "AppRegistrationScope": "Intentionally manage-only: no permission-management (Manage Permissions/Full Control) rights. Forbidden results on permission-enumeration probes below are expected-by-design, not tenant misconfiguration or a script bug.",
+    "WebId": "5c76b6ea-19f7-41b2-b29c-c0aa36aaee04",
+    "SiteId": "bd691009-3e48-422a-928b-c01a27aaca06",
+    "IncludeHiddenLists": false,
+    "PilotLibraryRequested": ""
+  },
+  "Purpose": "Phase 3.0 tenant-capability discovery (read-only) for manual-conversion-poc Phase 3 pilot",
+  "Web": {
+    "Title": "AG-CSB-ITAU-CMAT-DEV",
+    "Url": "https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV",
+    "WebTemplate": "STS",
+    "Configuration": 3,
+    "Language": 1033
+  },
+  "Lists": [
+    {
+      "Title": "_Court_Locations",
+      "BaseTemplate": "100",
+      "ItemCount": 89,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "AgentAssets",
+      "BaseTemplate": "101",
+      "ItemCount": 3,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "All_Appearances",
+      "BaseTemplate": "100",
+      "ItemCount": 157,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "All_Approval_Requests_For_Audit",
+      "BaseTemplate": "100",
+      "ItemCount": 5,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Appearance_City_to_be_Verified",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Briefings",
+      "BaseTemplate": "100",
+      "ItemCount": 6,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Case_Check_List",
+      "BaseTemplate": "100",
+      "ItemCount": 5,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "CMATConfig",
+      "BaseTemplate": "100",
+      "ItemCount": 1,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Documents",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Drop Off Library",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Form Templates",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": false,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 0,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "HSE Transport Log",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "HSE_Monthly_Tracker",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ICM_Approval_Requests",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ICM_Case_Tasks",
+      "BaseTemplate": "100",
+      "ItemCount": 1,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ICM_Cases",
+      "BaseTemplate": "100",
+      "ItemCount": 9,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ICM_Documents",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ICM_Log_Entries",
+      "BaseTemplate": "100",
+      "ItemCount": 2,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ICM_Narratives",
+      "BaseTemplate": "100",
+      "ItemCount": 4,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Images",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU Reference Material and Templates",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Approval_Requests",
+      "BaseTemplate": "100",
+      "ItemCount": 2,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Abbotsford",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Campbell_River",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Chilliwack",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Coastal_Circuit",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Coastal_Reg",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Courtenay",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Cranbrook",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Dawson_Creek",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_DCC",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Duncan",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Fort_St_John",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Fraser_Reg",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Golden",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Interior_Circuit",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Interior_Reg",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_IWDU",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Kamloops",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Kelowna",
+      "BaseTemplate": "100",
+      "ItemCount": 11,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Nanaimo",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Nelson",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_New_Westminster",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_North_Circuit",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_North_Reg",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_North_Van",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Penticton",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Port_Alberni",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Port_Coquitlam",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Port_Hardy",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Powell_River",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Prince_George",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Prince_Rupert",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Quesnel",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Richmond",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Rossland",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Salmon_Arm",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Sechelt",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Smithers",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_SOEC",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_SPOC",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Surrey",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Terrace",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Van_222_Main",
+      "BaseTemplate": "100",
+      "ItemCount": 1,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Van_800_Hornby",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Van_800_Smithe",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Van_Island_Circuit",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Van_Island_Reg",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Vernon",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Victoria",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Western_Communities",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cal_Williams_Lake",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Calendar",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Case_Tasks",
+      "BaseTemplate": "100",
+      "ItemCount": 6,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Cases",
+      "BaseTemplate": "100",
+      "ItemCount": 18,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Documents",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Log_Entries",
+      "BaseTemplate": "100",
+      "ItemCount": 7,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Management_Calendar",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Narratives",
+      "BaseTemplate": "100",
+      "ItemCount": 6,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "ITAU_Reference_Material_and_Templates",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Judge_Conventions",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Judge_Conventions_and_PSU_operations",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "JUSTIN Agencies",
+      "BaseTemplate": "100",
+      "ItemCount": 254,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Pages",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Persons",
+      "BaseTemplate": "100",
+      "ItemCount": 1639,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Persons_Update",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Persons_Update_shadow",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO Reference Material and Templates",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Approval_Requests",
+      "BaseTemplate": "100",
+      "ItemCount": 7,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Calendar",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Case_Tasks",
+      "BaseTemplate": "100",
+      "ItemCount": 9,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Cases",
+      "BaseTemplate": "100",
+      "ItemCount": 6,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Documents",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Log_Entries",
+      "BaseTemplate": "100",
+      "ItemCount": 6,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Narratives",
+      "BaseTemplate": "100",
+      "ItemCount": 9,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "PIO_Reference_Material_and_Templates",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Reference Material and Templates",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Reports",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Scheduled Job Errors",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Security_Alerts",
+      "BaseTemplate": "100",
+      "ItemCount": 6,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Site Assets",
+      "BaseTemplate": "101",
+      "ItemCount": 3,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Site Pages",
+      "BaseTemplate": "119",
+      "ItemCount": 2,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": true,
+      "MajorVersionLimit": 0,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Style Library",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Supervisor_Reference_Material_and_Templates",
+      "BaseTemplate": "101",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 500,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "Tasks",
+      "BaseTemplate": "107",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": false,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 0,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
+      "Title": "YAL",
+      "BaseTemplate": "100",
+      "ItemCount": 0,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    }
+  ],
+  "SiteFields": [
+    {
+      "InternalName": "PercentComplete",
+      "Title": "% Complete",
+      "TypeAsString": "Number",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Notes",
+      "Title": "About Me",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Name",
+      "Title": "Account",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ActualWork",
+      "Title": "Actual Work",
+      "TypeAsString": "Number",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkAddress",
+      "Title": "Address",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "agency_identifier_code",
+      "Title": "agency_identifier_code",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DescendantLikesCount",
+      "Title": "Aggregated Like Count",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DescendantRatingsCount",
+      "Title": "Aggregated Rating Count",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "fAllDayEvent",
+      "Title": "All Day Event",
+      "TypeAsString": "AllDayEvent",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "AllowEditing",
+      "Title": "Allow Editing",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Anniversary",
+      "Title": "Anniversary",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "AppAuthor",
+      "Title": "App Created By",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "AppEditor",
+      "Title": "App Modified By",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Appearance_Category",
+      "Title": "Appearance Category",
+      "TypeAsString": "MultiChoice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Appearance_Date",
+      "Title": "Appearance Date",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_agency_id",
+      "Title": "appearance_agency_id",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Appearance_Location",
+      "Title": "Appearance_City_or_Courthouse",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Appearance_Courthouse",
+      "Title": "appearance_courthouse",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_date",
+      "Title": "appearance_date",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_id",
+      "Title": "appearance_id",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_is_cancelled",
+      "Title": "appearance_is_cancelled",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_is_confirmed",
+      "Title": "appearance_is_confirmed",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_location_address",
+      "Title": "appearance_location_address",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_location_city",
+      "Title": "appearance_location_city",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_location_name",
+      "Title": "appearance_location_identifier_code",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_method",
+      "Title": "appearance_method",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_reason",
+      "Title": "appearance_reason",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "appearance_time",
+      "Title": "appearance_time",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "V3Comments",
+      "Title": "Append-Only Comments",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "application_code",
+      "Title": "application_code",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Apprearance_Date",
+      "Title": "Apprearance_Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Late",
+      "Title": "Arrive Late",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "AssignedTo",
+      "Title": "Assigned To",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "AssistantsName",
+      "Title": "Assistant's Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "AssistantNumber",
+      "Title": "Assistant's Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Attachments",
+      "Title": "Attachments",
+      "TypeAsString": "Attachments",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Author",
+      "Title": "Author",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_AuthorByline",
+      "Title": "Author Byline",
+      "TypeAsString": "UserMulti",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "CanvasContent1",
+      "Title": "Authoring Canvas Content",
+      "TypeAsString": "HTML",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Will_be_Updated",
+      "Title": "Auto_Update",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "BannerImageUrl",
+      "Title": "Banner Image URL",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "BannerUrl",
+      "Title": "Banner URL",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "BestAnswerId",
+      "Title": "Best Response Id",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "BillingInformation",
+      "Title": "Billing Information",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Birthday",
+      "Title": "Birthday",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Body",
+      "Title": "Body",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Break",
+      "Title": "Break",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkPhone",
+      "Title": "Business Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Business2Number",
+      "Title": "Business Phone 2",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CallBack",
+      "Title": "Call Back",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_SPCallToAction",
+      "Title": "Call To Action",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "CallbackNumber",
+      "Title": "Callback Number",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CarNumber",
+      "Title": "Car Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Categories",
+      "Title": "Categories",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "PostCategory",
+      "Title": "Category",
+      "TypeAsString": "LookupMulti",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Category",
+      "Title": "Category",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Category",
+      "Title": "Category",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "GbwCategory",
+      "Title": "Category",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthReportCategory",
+      "Title": "Category",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "XSLStyleCategory",
+      "Title": "Category",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Overbook",
+      "Title": "Check Double Booking",
+      "TypeAsString": "Overbook",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_CheckinComment",
+      "Title": "Check In Comment",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ChildrensNames",
+      "Title": "Children's Names",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkCity",
+      "Title": "City",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_ColorTag",
+      "Title": "Color Tag",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "IMEComment1",
+      "Title": "Comment 1",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "IMEComment2",
+      "Title": "Comment 2",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "IMEComment3",
+      "Title": "Comment 3",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_CommentCount",
+      "Title": "Comment count",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ShortComment",
+      "Title": "Comments",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Comments",
+      "Title": "Comments",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Comments",
+      "Title": "Comments",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Company",
+      "Title": "Company",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CompanyNumber",
+      "Title": "Company Main Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CompanyPhonetic",
+      "Title": "Company Phonetic",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CompatibleManagedProperties",
+      "Title": "Compatible Managed Properties",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CompatibleSearchDataTypes",
+      "Title": "Compatible Search Data Types",
+      "TypeAsString": "MultiChoice",
+      "Required": false,
+      "Group": "Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "UIVersion",
+      "Title": "Compatible UI Version(s)",
+      "TypeAsString": "MultiChoice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Checkmark",
+      "Title": "Completed",
+      "TypeAsString": "Calculated",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ComplianceAssetId",
+      "Title": "Compliance Asset Id",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ComputerNetworkName",
+      "Title": "Computer Network Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "match_level",
+      "Title": "confidence_level",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Confidential",
+      "Title": "Confidential",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Confirmations",
+      "Title": "Confirmations",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ConnectionType",
+      "Title": "Connection Type",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ContactInfo",
+      "Title": "Contact Information",
+      "TypeAsString": "ContactInfo",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Photo",
+      "Title": "Contact Photo",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Content",
+      "Title": "Content",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ContentType",
+      "Title": "Content Type",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Contributor",
+      "Title": "Contributor",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_CopySource",
+      "Title": "Copy Source",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "wic_System_Copyright",
+      "Title": "Copyright",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkCountry",
+      "Title": "Country/Region",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Court_Room",
+      "Title": "Court Room",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "case_no",
+      "Title": "court_file_no",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "court_list_id",
+      "Title": "court_list_id",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "court_list_type_cd",
+      "Title": "court_list_type_cd",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Coverage",
+      "Title": "Coverage",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CrawlerXSLFile",
+      "Title": "Crawler XSL File",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Created",
+      "Title": "Created",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Created_x0020_Date",
+      "Title": "Created",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Author",
+      "Title": "Created By",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "CS_Number",
+      "Title": "cs_no",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CustomerID",
+      "Title": "Custom ID Number",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Data",
+      "Title": "Data",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "V4HolidayDate",
+      "Title": "Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HolidayDate",
+      "Title": "Date",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Date",
+      "Title": "Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DateCompleted",
+      "Title": "Date Completed",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_DCDateCreated",
+      "Title": "Date Created",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_DCDateModified",
+      "Title": "Date Modified",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Occurred",
+      "Title": "Date Occurred",
+      "TypeAsString": "DateTime",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ImageCreateDate",
+      "Title": "Date Picture Taken",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "date_of_birth",
+      "Title": "date_of_birth",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "CallTime",
+      "Title": "Date/Time",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DayOfWeek",
+      "Title": "Day",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DefaultCssFile",
+      "Title": "Default CSS File",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Deleted",
+      "Title": "Deleted",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Department",
+      "Title": "Department",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ol_Department",
+      "Title": "Department",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Description",
+      "Title": "Description",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_ExtendedDescription",
+      "Title": "Description",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Comment",
+      "Title": "Description",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DLC_Description",
+      "Title": "Description",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DocumentSetDescription",
+      "Title": "Description",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Destination_x0020_Library",
+      "Title": "Destination Library",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "GoFromHome",
+      "Title": "Direct to Offsite",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DiscussionTitle",
+      "Title": "Discussion Subject",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "IMEDisplay",
+      "Title": "Display",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Document_x0020_Type",
+      "Title": "Document Type",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DueDate",
+      "Title": "Due Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "TaskDueDate",
+      "Title": "Due Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DLC_Duration",
+      "Title": "Duration",
+      "TypeAsString": "Number",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EMail",
+      "Title": "E-Mail",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Email2",
+      "Title": "E-mail 2",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Email3",
+      "Title": "E-mail 3",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailCalendarDateStamp",
+      "Title": "E-Mail Calendar Date Stamp",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailCalendarSequence",
+      "Title": "E-Mail Calendar Sequence",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailCalendarUid",
+      "Title": "E-Mail Calendar UID",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailCc",
+      "Title": "E-Mail Cc",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailFrom",
+      "Title": "E-Mail From",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailHeaders",
+      "Title": "E-Mail Headers",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailSender",
+      "Title": "E-Mail Sender",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailSubject",
+      "Title": "E-Mail Subject",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "EmailTo",
+      "Title": "E-Mail To",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Edit",
+      "Title": "Edit",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthRuleCheckEnabled",
+      "Title": "Enabled",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "End",
+      "Title": "End",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_EndDate",
+      "Title": "End Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "EndDate",
+      "Title": "End Time",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "TaxKeyword",
+      "Title": "Enterprise Keywords",
+      "TypeAsString": "TaxonomyFieldTypeMulti",
+      "Required": false,
+      "Group": "Enterprise Keywords Group",
+      "Choices": null
+    },
+    {
+      "InternalName": "estimate_time_of_appearance",
+      "Title": "estimate_time_of_appearance",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ol_EventAddress",
+      "Title": "Event Address",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Expires",
+      "Title": "Expires",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthReportExplanation",
+      "Title": "Explanation",
+      "TypeAsString": "Note",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "OffsiteParticipant",
+      "Title": "External Participant",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "OffsiteParticipantReason",
+      "Title": "External Participant Reason",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthReportServers",
+      "Title": "Failing Servers",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthReportServices",
+      "Title": "Failing Services",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkFax",
+      "Title": "Fax Number",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FileSizeDisplay",
+      "Title": "File Size",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FileType",
+      "Title": "File Type",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FirstName",
+      "Title": "First Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FirstNamePhonetic",
+      "Title": "First Name Phonetic",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FirstPublishedDate",
+      "Title": "First Published Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "first_name",
+      "Title": "first_name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FolderChildCount",
+      "Title": "Folder Child Count",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FormCategory",
+      "Title": "Form Category",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FormDescription",
+      "Title": "Form Description",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FormId",
+      "Title": "Form ID",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FormLocale",
+      "Title": "Form Locale",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkTemplateName",
+      "Title": "Form Name",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FormName",
+      "Title": "Form Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FormRelativeUrl",
+      "Title": "Form Relative Url",
+      "TypeAsString": "Text",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FormVersion",
+      "Title": "Form Version",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Format",
+      "Title": "Format",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "fps_no",
+      "Title": "fps_no",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FreeBusy",
+      "Title": "Free/Busy",
+      "TypeAsString": "FreeBusy",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "FTPSite",
+      "Title": "FTP Site",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FullName",
+      "Title": "Full Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Full_URL",
+      "Title": "Full_URL",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Gender",
+      "Title": "Gender",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Geolocation",
+      "Title": "Geolocation",
+      "TypeAsString": "Geolocation",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "GovernmentIDNumber",
+      "Title": "Government ID Number",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Group",
+      "Title": "Group Type",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_HasCopyDestinations",
+      "Title": "Has Copy Destinations",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserInfoHidden",
+      "Title": "Hidden",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DisplayTemplateJSTemplateHidden",
+      "Title": "Hidden",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "JavaScript Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TemplateHidden",
+      "Title": "Hidden Template",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Hobbies",
+      "Title": "Hobbies",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HolidayWork",
+      "Title": "Holiday",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HomeAddressCity",
+      "Title": "Home Address City",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HomeAddressCountry",
+      "Title": "Home Address Country/Region",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HomeAddressPostalCode",
+      "Title": "Home Address Postal Code",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HomeAddressStateOrProvince",
+      "Title": "Home Address State Or Province",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HomeAddressStreet",
+      "Title": "Home Address Street",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HomeFaxNumber",
+      "Title": "Home Fax",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "GoingHome",
+      "Title": "Home from Offsite",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HomePhone",
+      "Title": "Home Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Home2Number",
+      "Title": "Home Phone 2",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ScheduledWork",
+      "Title": "Hours Worked",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DisplayTemplateJSIconUrl",
+      "Title": "Icon",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "JavaScript Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "XSLStyleIconUrl",
+      "Title": "Icon URL",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ID",
+      "Title": "ID",
+      "TypeAsString": "Counter",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "IMAddress",
+      "Title": "IM Address",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Initials",
+      "Title": "Initials",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "interpreter_required",
+      "Title": "interpreter_required",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "IsFeatured",
+      "Title": "Is Featured Discussion",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "IsSiteAdmin",
+      "Title": "Is Site Admin",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ISDNNumber",
+      "Title": "ISDN",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkIssueIDNoMenu",
+      "Title": "Issue ID",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "IssueStatus",
+      "Title": "Issue Status",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ItemChildCount",
+      "Title": "Item Child Count",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "JobTitle",
+      "Title": "Job Title",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Keywords",
+      "Title": "Keywords",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TagEventDate",
+      "Title": "Label Event Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Language",
+      "Title": "Language",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "LastNamePhonetic",
+      "Title": "Last Name Phonetic",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_LastPrinted",
+      "Title": "Last Printed",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "LastReplyBy",
+      "Title": "Last Reply By",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DiscussionLastUpdated",
+      "Title": "Last Updated",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "NightWork",
+      "Title": "Late Night",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "LeaveEarly",
+      "Title": "Leaving Early",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_LikeCount",
+      "Title": "Like count",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "List",
+      "Title": "List ID",
+      "TypeAsString": "Guid",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ListType",
+      "Title": "List Type",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Location",
+      "Title": "Location",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Whereabout",
+      "Title": "Location",
+      "TypeAsString": "Whereabout",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "GbwLocation",
+      "Title": "Location",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ManagedPropertyMapping",
+      "Title": "Managed Property Mappings",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ManagersName",
+      "Title": "Manager's Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Detail",
+      "Title": "Message",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Method_of_Appearance_x003a_",
+      "Title": "Method_of_Appearance:",
+      "TypeAsString": "MultiChoice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "MiddleName",
+      "Title": "Middle Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "middle_name",
+      "Title": "middle_name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Mileage",
+      "Title": "Mileage",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "MobileContent",
+      "Title": "Mobile Content",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "MobilePhone",
+      "Title": "Mobile Number",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "CellPhone",
+      "Title": "Mobile Number",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Modified",
+      "Title": "Modified",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "MyEditor",
+      "Title": "Modified By",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Editor",
+      "Title": "Modified By",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkFilenameNoMenu",
+      "Title": "Name",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "FileLeafRef",
+      "Title": "Name",
+      "TypeAsString": "File",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkFilename",
+      "Title": "Name",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "NameOrTitle",
+      "Title": "Name",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Nickname",
+      "Title": "Nickname",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "IsNonWorkingDay",
+      "Title": "Non-Working Day",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ConfigNotes",
+      "Title": "Notes",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Search Config",
+      "Choices": null
+    },
+    {
+      "InternalName": "CMAT_Notes",
+      "Title": "Notes",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WhatsNew",
+      "Title": "Notification",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "LikesCount",
+      "Title": "Number of Likes",
+      "TypeAsString": "Likes",
+      "Required": false,
+      "Group": "Content Feedback",
+      "Choices": null
+    },
+    {
+      "InternalName": "RatingCount",
+      "Title": "Number of Ratings",
+      "TypeAsString": "RatingCount",
+      "Required": false,
+      "Group": "Content Feedback",
+      "Choices": null
+    },
+    {
+      "InternalName": "Office",
+      "Title": "Office",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OrganizationalIDNumber",
+      "Title": "Organizational ID Number",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_OriginalSourceItemId",
+      "Title": "Original Source Item ID",
+      "TypeAsString": "Guid",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_OriginalSourceListId",
+      "Title": "Original Source List ID",
+      "TypeAsString": "Guid",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_OriginalSourceSiteId",
+      "Title": "Original Source Site ID",
+      "TypeAsString": "Guid",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_OriginalSourceUrl",
+      "Title": "Original Source Url",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_OriginalSourceWebId",
+      "Title": "Original Source Web ID",
+      "TypeAsString": "Guid",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Original_SP_Person_ID",
+      "Title": "Original_SP_Person_ID",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherAddressCity",
+      "Title": "Other Address City",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherAddressCountry",
+      "Title": "Other Address Country/Region",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherAddressPostalCode",
+      "Title": "Other Address Postal Code",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherAddressStateOrProvince",
+      "Title": "Other Address State Or Province",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherAddressStreet",
+      "Title": "Other Address Street",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherFaxNumber",
+      "Title": "Other Fax",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherNumber",
+      "Title": "Other Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OtherMail",
+      "Title": "OtherMail",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Out",
+      "Title": "Out",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Oof",
+      "Title": "Out of Office(Private)",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Outcome",
+      "Title": "Outcome",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkflowOutcome",
+      "Title": "Outcome",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Overtime",
+      "Title": "Overtime",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HolidayNightWork",
+      "Title": "Overtime on Holiday",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "LayoutWebpartsContent",
+      "Title": "Page Layout Content",
+      "TypeAsString": "HTML",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "PagerNumber",
+      "Title": "Pager",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ParentItemEditor",
+      "Title": "Parent Item Editor",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ParentItemID",
+      "Title": "Parent Item ID",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ParticipantsPicker",
+      "Title": "Participants",
+      "TypeAsString": "UserMulti",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "PersonalWebsite",
+      "Title": "Personal Website",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Picture",
+      "Title": "Picture",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ImageHeight",
+      "Title": "Picture Height",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ImageSize",
+      "Title": "Picture Size",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ImageWidth",
+      "Title": "Picture Width",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Popularity",
+      "Title": "Popularity",
+      "TypeAsString": "Number",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "IMEPos",
+      "Title": "POS",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "BodyAndMore",
+      "Title": "Post",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "PersonViewMinimal",
+      "Title": "Posted By",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Predecessors",
+      "Title": "Predecessors",
+      "TypeAsString": "LookupMulti",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "PreviewOnForm",
+      "Title": "Preview",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "AlternateThumbnailUrl",
+      "Title": "Preview Image URL",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Item",
+      "Title": "Primary Item ID",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "PrimaryNumber",
+      "Title": "Primary Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Priority",
+      "Title": "Priority",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "prof_seq_no",
+      "Title": "prof_seq_no",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Profession",
+      "Title": "Profession",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "PromotedState",
+      "Title": "Promoted State",
+      "TypeAsString": "Number",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "PublishedDate",
+      "Title": "Published",
+      "TypeAsString": "DateTime",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Publisher",
+      "Title": "Publisher",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "IsQuestion",
+      "Title": "Question",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "RadioNumber",
+      "Title": "Radio Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "AverageRating",
+      "Title": "Rating (0-5)",
+      "TypeAsString": "AverageRating",
+      "Required": false,
+      "Group": "Content Feedback",
+      "Choices": null
+    },
+    {
+      "InternalName": "Reason_for_Appearance",
+      "Title": "Reason_for_Appearance:",
+      "TypeAsString": "MultiChoice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "V4CallTo",
+      "Title": "Recipients",
+      "TypeAsString": "CallTo",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "V4SendTo",
+      "Title": "Recipients",
+      "TypeAsString": "UserMulti",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "fRecurrence",
+      "Title": "Recurrence",
+      "TypeAsString": "Recurrence",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ReferredBy",
+      "Title": "Referred By",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TaskCompanies",
+      "Title": "Related Company",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkflowLink",
+      "Title": "Related Content",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "RelatedIssues",
+      "Title": "Related Issues",
+      "TypeAsString": "LookupMulti",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "RelatedItems",
+      "Title": "Related Items",
+      "TypeAsString": "RelatedItems",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Related_x0020_to_x0020_ICM_x0020_Case_x003A_",
+      "Title": "Related to ICM Case",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Related_x0020_to_x0020_ITAU_x0020_Case_x003A_",
+      "Title": "Related to ITAU Case",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Related_x0020_to_x0020_Person_x0028_s_x0029_",
+      "Title": "Related to Person",
+      "TypeAsString": "LookupMulti",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Related_x0020_to_x0020_PIO_x0020_Case_x003A_",
+      "Title": "Related to PIO Case",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Relation",
+      "Title": "Relation",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthReportRemedy",
+      "Title": "Remedy",
+      "TypeAsString": "Note",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthRuleAutoRepairEnabled",
+      "Title": "Repair Automatically",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ReplyNoGif",
+      "Title": "Reply",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "RequiredField",
+      "Title": "Required Field",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "XSLStyleRequiredFields",
+      "Title": "Required Fields",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Resolved",
+      "Title": "Resolved",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ResolvedBy",
+      "Title": "Resolved By",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ResolvedDate",
+      "Title": "Resolved Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Identifier",
+      "Title": "Resource Identifier",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_ResourceType",
+      "Title": "Resource Type",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Facilities",
+      "Title": "Resources",
+      "TypeAsString": "Facilities",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "AttendeeStatus",
+      "Title": "Response",
+      "TypeAsString": "Choice",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "In",
+      "Title": "Return",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Revision",
+      "Title": "Revision",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_RightsManagement",
+      "Title": "Rights Management",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Role",
+      "Title": "Role",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthRuleReportLink",
+      "Title": "Rule Settings",
+      "TypeAsString": "URL",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthRuleSchedule",
+      "Title": "Schedule",
+      "TypeAsString": "Choice",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Scope",
+      "Title": "Scope",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Search Config",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthRuleScope",
+      "Title": "Scope",
+      "TypeAsString": "Choice",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "search_end_date",
+      "Title": "search_end_date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "search_start_date",
+      "Title": "search_start_date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Select_x0020_a_x0020_Content_x0020_Type_x0020_Above",
+      "Title": "Select a Content Type Above",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "SelectedFlag",
+      "Title": "Selection Checkbox",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthReportSeverity",
+      "Title": "Severity",
+      "TypeAsString": "Choice",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthReportSeverityIcon",
+      "Title": "Severity",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ShowInCatalog",
+      "Title": "Show in Catalog",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "SipAddress",
+      "Title": "SIP Address",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_SPSitePageFlags",
+      "Title": "Site Page Flags",
+      "TypeAsString": "MultiChoice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Source",
+      "Title": "Source",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "ParentLeafName",
+      "Title": "Source Name (Converted Document)",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ParentVersionString",
+      "Title": "Source Version (Converted Document)",
+      "TypeAsString": "Lookup",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "SpouseName",
+      "Title": "Spouse/Domestic Partner",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DisplayTemplateJSTemplateType",
+      "Title": "Standalone",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "JavaScript Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Start",
+      "Title": "Start",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "StartDate",
+      "Title": "Start Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkState",
+      "Title": "State/Province",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Status",
+      "Title": "Status",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Search Config",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Status",
+      "Title": "Status",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DecisionStatus",
+      "Title": "Status",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Subject",
+      "Title": "Subject",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkDiscussionTitleNoMenu",
+      "Title": "Subject",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkDiscussionTitle2",
+      "Title": "Subject",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkDiscussionTitle",
+      "Title": "Subject",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Suffix",
+      "Title": "Suffix",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "surname",
+      "Title": "surname",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DisplayTemplateJSTargetControlType",
+      "Title": "Target Control Type",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "JavaScript Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TargetControlType",
+      "Title": "Target Control Type (Search)",
+      "TypeAsString": "MultiChoice",
+      "Required": false,
+      "Group": "Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DisplayTemplateJSTargetListTemplate",
+      "Title": "Target List Template ID",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "JavaScript Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DisplayTemplateJSTargetScope",
+      "Title": "Target Scope",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "JavaScript Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "XSLStyleWPType",
+      "Title": "Target Web Part",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "TaskGroup",
+      "Title": "Task Group",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TaskOutcome",
+      "Title": "Task Outcome",
+      "TypeAsString": "OutcomeChoice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TaskStatus",
+      "Title": "Task Status",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TelexNumber",
+      "Title": "Telex",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TemplateId",
+      "Title": "Template Id",
+      "TypeAsString": "Text",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "DisplayTemplateLevel",
+      "Title": "Template Level",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Display Template Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Threading",
+      "Title": "Threading",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Thumbnail",
+      "Title": "Thumbnail",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "ThumbnailOnForm",
+      "Title": "Thumbnail Preview",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "From",
+      "Title": "Time In",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Until",
+      "Title": "Time Out",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Title",
+      "Title": "Title",
+      "TypeAsString": "Text",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkTitleNoMenu",
+      "Title": "Title",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "LinkTitle",
+      "Title": "Title",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "_TopicHeader",
+      "Title": "Topic header",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "TotalWork",
+      "Title": "Total Work",
+      "TypeAsString": "Number",
+      "Required": false,
+      "Group": "Core Task and Issue Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "trial",
+      "Title": "trial",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "TTYTDDNumber",
+      "Title": "TTY-TDD Phone",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "DocIcon",
+      "Title": "Type",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Purpose",
+      "Title": "UDC Purpose",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "Extended Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Unique_Appearance_ID",
+      "Title": "Unique_Appearance_ID",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "URL",
+      "Title": "URL",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "IMEUrl",
+      "Title": "URL",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "URLwMenu",
+      "Title": "URL",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "URLNoMenu",
+      "Title": "URL",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserExpiration",
+      "Title": "User Expiration",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserField1",
+      "Title": "User Field 1",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserField2",
+      "Title": "User Field 2",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserField3",
+      "Title": "User Field 3",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserField4",
+      "Title": "User Field 4",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "User",
+      "Title": "User ID",
+      "TypeAsString": "Integer",
+      "Required": true,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserLastDeletionTime",
+      "Title": "User Last Deletion Time",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "UserName",
+      "Title": "User Name",
+      "TypeAsString": "User",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "NumberOfVacation",
+      "Title": "Vacation Length",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Vacation",
+      "Title": "Vacation Type",
+      "TypeAsString": "Choice",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_UIVersionString",
+      "Title": "Version",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "HealthRuleVersion",
+      "Title": "Version",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "_Version",
+      "Title": "Version",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Document Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "XSLStyleBaseView",
+      "Title": "View Style ID",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WebPage",
+      "Title": "Web Page",
+      "TypeAsString": "URL",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Preview",
+      "Title": "Web Preview",
+      "TypeAsString": "Computed",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WikiField",
+      "Title": "Wiki Content",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkflowAssociation",
+      "Title": "Workflow Association ID",
+      "TypeAsString": "Guid",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkflowInstance",
+      "Title": "Workflow History Parent Instance",
+      "TypeAsString": "Guid",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkflowName",
+      "Title": "Workflow Name",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Base Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkflowTemplate",
+      "Title": "Workflow Template ID",
+      "TypeAsString": "Guid",
+      "Required": true,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkspaceLink",
+      "Title": "Workspace",
+      "TypeAsString": "CrossProjectLink",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSDescription",
+      "Title": "WSDescription",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSDisplayName",
+      "Title": "WSDisplayName",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSEnabled",
+      "Title": "WSEnabled",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSEventContextKeys",
+      "Title": "WSEventContextKeys",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSEventSource",
+      "Title": "WSEventSource",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSEventSourceGUID",
+      "Title": "WSEventSourceGUID",
+      "TypeAsString": "Guid",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSEventType",
+      "Title": "WSEventType",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSGUID",
+      "Title": "WSGUID",
+      "TypeAsString": "Guid",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSPublishError",
+      "Title": "WSPublishError",
+      "TypeAsString": "Note",
+      "Required": false,
+      "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "WSPublishState",
+      "Title": "WSPublishState",
+      "TypeAsString": "Integer",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "WorkZip",
+      "Title": "ZIP/Postal Code",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    }
+  ],
+  "ContentTypes": [
+    {
+      "Name": "System",
+      "Id": "0x",
+      "Group": "_Hidden",
+      "Description": ""
+    },
+    {
+      "Name": "Item",
+      "Id": "0x01",
+      "Group": "List Content Types",
+      "Description": "Create a new list item."
+    },
+    {
+      "Name": "Circulation",
+      "Id": "0x01000F389E14C9CE4CE486270B9D4713A5D6",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new Circulation."
+    },
+    {
+      "Name": "Scheduled_Appearances",
+      "Id": "0x0100189CA8B4E41D20479B98B61190F5133F",
+      "Group": "Custom Content Types",
+      "Description": "Legacy ORDS-scheduled appearances"
+    },
+    {
+      "Name": "New Word",
+      "Id": "0x010018F21907ED4E401CB4F14422ABC65304",
+      "Group": "Group Work Content Types",
+      "Description": "Add a New Word to this list."
+    },
+    {
+      "Name": "WorkflowServiceDefinition",
+      "Id": "0x01002A2479FF33DD4BC3B1533A012B653717",
+      "Group": "_Hidden",
+      "Description": "WorkflowServiceDefinition"
+    },
+    {
+      "Name": "Modern_Scheduled_Appearances",
+      "Id": "0x010037F9790AFE5645439F6AFAEC90C7F5BA",
+      "Group": "Custom Content Types",
+      "Description": "ETL-written scheduled court appearance — all identity and ORDS fields are hidden. Users see date, person link, update flag only."
+    },
+    {
+      "Name": "Health Analyzer Rule Definition",
+      "Id": "0x01003A8AA7A4F53046158C5ABD98036A01D5",
+      "Group": "_Hidden",
+      "Description": "Create a New Health Analyzer Rule"
+    },
+    {
+      "Name": "Resource",
+      "Id": "0x01004C9F4486FBF54864A7B0A33D02AD19B1",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new resource."
+    },
+    {
+      "Name": "Manual_Entry_Appearances",
+      "Id": "0x010056FC1404CE04414BB6F4171267D23A5F",
+      "Group": "Custom Content Types",
+      "Description": "Legacy manual appearance entry"
+    },
+    {
+      "Name": "Official Notice",
+      "Id": "0x01007CE30DD1206047728BAFD1C39A850120",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new Official Notice."
+    },
+    {
+      "Name": "Search Config Content Type",
+      "Id": "0x010080060E093E2F463EBA41A5F044428F32",
+      "Group": "Search Config",
+      "Description": "Designed to facilitate the storage of Search Config information."
+    },
+    {
+      "Name": "Phone Call Memo",
+      "Id": "0x0100807FBAC5EB8A4653B8D24775195B5463",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new Phone Call Memo."
+    },
+    {
+      "Name": "Holiday",
+      "Id": "0x01009BE2AB5291BF4C1A986910BD278E4F18",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new holiday."
+    },
+    {
+      "Name": "What's New Notification",
+      "Id": "0x0100A2CA87FF01B442AD93F37CD7DD0943EB",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new What's New notification."
+    },
+    {
+      "Name": "WorkflowServiceSubscription",
+      "Id": "0x0100AA27A923036E459D9EF0D18BBD0B9587",
+      "Group": "_Hidden",
+      "Description": "WorkflowServiceSubscription"
+    },
+    {
+      "Name": "Timecard",
+      "Id": "0x0100C30DDA8EDB2E434EA22D793D9EE42058",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new timecard data."
+    },
+    {
+      "Name": "Resource Group",
+      "Id": "0x0100CA13F2F8D61541B180952DFB25E3E8E4",
+      "Group": "Group Work Content Types",
+      "Description": "Add a new resource group."
+    },
+    {
+      "Name": "Modern_Manual_Appearances",
+      "Id": "0x0100EFC884012D07514FB7A07107DFBB6FBC",
+      "Group": "Custom Content Types",
+      "Description": "Manual court appearance entry — user fills in court room, method, reason, time, courthouse. ETL fills in person identity and ORDS match fields (hidden)."
+    },
+    {
+      "Name": "Health Analyzer Report",
+      "Id": "0x0100F95DB3A97E8046B58C6A54FB31F2BD46",
+      "Group": "_Hidden",
+      "Description": "A report from the health analyzer"
+    },
+    {
+      "Name": "Users",
+      "Id": "0x0100FBEEE6F0C500489B99CDA6BB16C398F7",
+      "Group": "Group Work Content Types",
+      "Description": "Add new users to this list."
+    },
+    {
+      "Name": "Document",
+      "Id": "0x0101",
+      "Group": "Document Content Types",
+      "Description": "Create a new document."
+    },
+    {
+      "Name": "Display Template",
+      "Id": "0x0101002039C03B61C64EC4A04F5361F3851066",
+      "Group": "_Hidden",
+      "Description": "Base Content Type containing common Display Template columns. Use one of Control, Group, Item or Filter Display Template content types to create a display type. "
+    },
+    {
+      "Name": "Display Template Code",
+      "Id": "0x0101002039C03B61C64EC4A04F5361F385106605",
+      "Group": "_Hidden",
+      "Description": "Display Template Code javascript that registers and executes Display Template rendering logic."
+    },
+    {
+      "Name": "JavaScript Display Template",
+      "Id": "0x0101002039C03B61C64EC4A04F5361F3851068",
+      "Group": "Display Template Content Types",
+      "Description": "Create a new custom CSR JavaScript Display Template."
+    },
+    {
+      "Name": "Click Here and Select Before Continuing",
+      "Id": "0x0101004D71B5B77F8D384FBC16E30D53264B8C",
+      "Group": "Custom Content Types",
+      "Description": "Document library placeholder CT requiring content type selection"
+    },
+    {
+      "Name": "ITAU_Case_Document_Type",
+      "Id": "0x010100577ADAA41714844883BD02D399AA6A34",
+      "Group": "Custom Content Types",
+      "Description": "ITAU case document"
+    },
+    {
+      "Name": "ICM_Case_Document_Type",
+      "Id": "0x010100577ADAA41714844883BD02D399AA6A3405",
+      "Group": "Custom Content Types",
+      "Description": "ICM case document"
+    },
+    {
+      "Name": "PIO_Case_Document_Type",
+      "Id": "0x010100577ADAA41714844883BD02D399AA6A3406",
+      "Group": "Custom Content Types",
+      "Description": "PIO case document"
+    },
+    {
+      "Name": "Office Data Connection File",
+      "Id": "0x010100629D00608F814DD6AC8A86903AEE72AA",
+      "Group": "_Hidden",
+      "Description": ""
+    },
+    {
+      "Name": "List View Style",
+      "Id": "0x010100734778F2B7DF462491FC91844AE431CF",
+      "Group": "Document Content Types",
+      "Description": "Create a new List View Style"
+    },
+    {
+      "Name": "Site Page",
+      "Id": "0x0101009D1CB255DA76424F860D91F20E6C4118",
+      "Group": "Document Content Types",
+      "Description": "Create a new site page."
+    },
+    {
+      "Name": "Repost Page",
+      "Id": "0x0101009D1CB255DA76424F860D91F20E6C4118002A50BFCFB7614729B56886FADA02339B",
+      "Group": "Document Content Types",
+      "Description": "Used to create a News link post. If deleted, the News link option will be disabled for users."
+    },
+    {
+      "Name": "Content Freshness",
+      "Id": "0x0101009D1CB255DA76424F860D91F20E6C411800C57E7DC123744954AACC08D1D5260154",
+      "Group": "_Hidden",
+      "Description": "Used to create a dynamic page related to contentfreshness."
+    },
+    {
+      "Name": "Universal Data Connection File",
+      "Id": "0x010100B4CBD48E029A4AD8B62CB0E41868F2B0",
+      "Group": "_Hidden",
+      "Description": "Provide a standard place for applications, such as Microsoft InfoPath, to store data connection information."
+    },
+    {
+      "Name": "Design File",
+      "Id": "0x010100C5033D6CFB8447359FB795C8A73A2B19",
+      "Group": "_Hidden",
+      "Description": "HTML, JavaScript, CSS, images, and other supporting files in the Master Page Gallery used by HTML Master Pages, HTML Page Layouts, and Display Templates."
+    },
+    {
+      "Name": "InfoPath Form Template",
+      "Id": "0x010100F8EF98760CBA4A94994F13BA881038FA",
+      "Group": "_Hidden",
+      "Description": "A Microsoft InfoPath Form Template."
+    },
+    {
+      "Name": "Form",
+      "Id": "0x010101",
+      "Group": "Document Content Types",
+      "Description": "Fill out this form."
+    },
+    {
+      "Name": "Picture",
+      "Id": "0x010102",
+      "Group": "Document Content Types",
+      "Description": "Upload an image or a photograph."
+    },
+    {
+      "Name": "Unknown Document Type",
+      "Id": "0x010104",
+      "Group": "Special Content Types",
+      "Description": "Allows users to upload documents of any content type to a library. Unknown documents will be treated as their original content type in client applications."
+    },
+    {
+      "Name": "Master Page",
+      "Id": "0x010105",
+      "Group": "Document Content Types",
+      "Description": "Create a new master page."
+    },
+    {
+      "Name": "Master Page Preview",
+      "Id": "0x010106",
+      "Group": "Document Content Types",
+      "Description": "Create a new master page preview."
+    },
+    {
+      "Name": "User Workflow Document",
+      "Id": "0x010107",
+      "Group": "_Hidden",
+      "Description": "Items for use in user defined workflows."
+    },
+    {
+      "Name": "Wiki Page",
+      "Id": "0x010108",
+      "Group": "Document Content Types",
+      "Description": "Create a new wiki page."
+    },
+    {
+      "Name": "Basic Page",
+      "Id": "0x010109",
+      "Group": "Document Content Types",
+      "Description": "Create a new basic page."
+    },
+    {
+      "Name": "Web Part Page",
+      "Id": "0x01010901",
+      "Group": "Document Content Types",
+      "Description": "Create a new Web Part page."
+    },
+    {
+      "Name": "Link to a Document",
+      "Id": "0x01010A",
+      "Group": "Document Content Types",
+      "Description": "Create a link to a document in a different location."
+    },
+    {
+      "Name": "Dublin Core Columns",
+      "Id": "0x01010B",
+      "Group": "Document Content Types",
+      "Description": "The Dublin Core metadata element set."
+    },
+    {
+      "Name": "Event",
+      "Id": "0x0102",
+      "Group": "List Content Types",
+      "Description": "Create a new meeting, deadline or other event."
+    },
+    {
+      "Name": "Reservations",
+      "Id": "0x0102004F51EFDEA49C49668EF9C6744C8CF87D",
+      "Group": "List Content Types",
+      "Description": "Reserve resource."
+    },
+    {
+      "Name": "Schedule and Reservations",
+      "Id": "0x01020072BB2A38F0DB49C3A96CF4FA85529956",
+      "Group": "List Content Types",
+      "Description": "Create a new appointment and reserve a resource."
+    },
+    {
+      "Name": "Schedule",
+      "Id": "0x0102007DBDC1392EAF4EBBBF99E41D8922B264",
+      "Group": "List Content Types",
+      "Description": "Create new appointment."
+    },
+    {
+      "Name": "Issue",
+      "Id": "0x0103",
+      "Group": "List Content Types",
+      "Description": "Track an issue or problem."
+    },
+    {
+      "Name": "Announcement",
+      "Id": "0x0104",
+      "Group": "List Content Types",
+      "Description": "Create a new news item, status or other short piece of information."
+    },
+    {
+      "Name": "Link",
+      "Id": "0x0105",
+      "Group": "List Content Types",
+      "Description": "Create a new link to a Web page or other resource."
+    },
+    {
+      "Name": "Contact",
+      "Id": "0x0106",
+      "Group": "List Content Types",
+      "Description": "Store information about a business or personal contact."
+    },
+    {
+      "Name": "Message",
+      "Id": "0x0107",
+      "Group": "List Content Types",
+      "Description": "Create a new message."
+    },
+    {
+      "Name": "Task",
+      "Id": "0x0108",
+      "Group": "List Content Types",
+      "Description": "Track a work item that you or your team needs to complete."
+    },
+    {
+      "Name": "Workflow Task (SharePoint 2013)",
+      "Id": "0x0108003365C4474CAE8C42BCE396314E88E51F",
+      "Group": "List Content Types",
+      "Description": "Create a SharePoint 2013 Workflow Task"
+    },
+    {
+      "Name": "Workflow Task",
+      "Id": "0x010801",
+      "Group": "_Hidden",
+      "Description": "A work item created by a workflow that you or your team needs to complete."
+    },
+    {
+      "Name": "Administrative Task",
+      "Id": "0x010802",
+      "Group": "_Hidden",
+      "Description": "An administrative work item that an administrator needs to complete."
+    },
+    {
+      "Name": "Workflow History",
+      "Id": "0x0109",
+      "Group": "_Hidden",
+      "Description": "The history of a workflow."
+    },
+    {
+      "Name": "Person",
+      "Id": "0x010A",
+      "Group": "_Hidden",
+      "Description": ""
+    },
+    {
+      "Name": "SharePointGroup",
+      "Id": "0x010B",
+      "Group": "_Hidden",
+      "Description": ""
+    },
+    {
+      "Name": "DomainGroup",
+      "Id": "0x010C",
+      "Group": "_Hidden",
+      "Description": ""
+    },
+    {
+      "Name": "Post",
+      "Id": "0x0110",
+      "Group": "List Content Types",
+      "Description": "Create a new blog post."
+    },
+    {
+      "Name": "Comment",
+      "Id": "0x0111",
+      "Group": "List Content Types",
+      "Description": "Create a new blog comment."
+    },
+    {
+      "Name": "East Asia Contact",
+      "Id": "0x0116",
+      "Group": "List Content Types",
+      "Description": "Store information about a business or personal contact."
+    },
+    {
+      "Name": "Folder",
+      "Id": "0x0120",
+      "Group": "Folder Content Types",
+      "Description": "Create a new folder."
+    },
+    {
+      "Name": "RootOfList",
+      "Id": "0x012001",
+      "Group": "_Hidden",
+      "Description": ""
+    },
+    {
+      "Name": "Discussion",
+      "Id": "0x012002",
+      "Group": "Folder Content Types",
+      "Description": "Create a new discussion topic."
+    },
+    {
+      "Name": "Summary Task",
+      "Id": "0x012004",
+      "Group": "Folder Content Types",
+      "Description": "Group and describe related tasks that you or your team needs to complete."
+    },
+    {
+      "Name": "Document Collection Folder",
+      "Id": "0x0120D5",
+      "Group": "_Hidden",
+      "Description": "Create a new Document Collection Folder"
+    },
+    {
+      "Name": "Document Set",
+      "Id": "0x0120D520",
+      "Group": "Document Set Content Types",
+      "Description": "Create a document set when you want to manage multiple documents as a single work product."
+    },
+    {
+      "Name": "CMAT Documents",
+      "Id": "0x0120D52000D845E3C160B0E64FBA587CCBEE10066F",
+      "Group": "Custom Content Types",
+      "Description": "CMAT document set"
+    }
+  ],
+  "SiteGroups": {
+    "Status": "Observed",
+    "ObservedAt": "2026-07-29T23:09:01.8360250-07:00",
+    "RequiredPermission": "",
+    "ErrorType": "",
+    "ErrorMessage": "",
+    "EvidenceSource": "Get-PnPGroup",
+    "DecisionImpact": "Candidate distinct identities for the Stage 3.4.2 oversharing/permission test. Does not itself perform that test.",
+    "Data": [
+      {
+        "Title": "AG-CSB-ITAU-CMAT-DEV Members",
+        "Id": 5,
+        "OwnerTitle": "AG-CSB-ITAU-CMAT-DEV Owners",
+        "OnlyAllowMembersViewMembership": false
+      },
+      {
+        "Title": "AG-CSB-ITAU-CMAT-DEV Owners",
+        "Id": 3,
+        "OwnerTitle": "AG-CSB-ITAU-CMAT-DEV Owners",
+        "OnlyAllowMembersViewMembership": false
+      },
+      {
+        "Title": "AG-CSB-ITAU-CMAT-DEV Visitors",
+        "Id": 4,
+        "OwnerTitle": "AG-CSB-ITAU-CMAT-DEV Owners",
+        "OnlyAllowMembersViewMembership": false
+      }
+    ]
+  },
+  "AgentAssetsLibrary": {
+    "ListTitle": "AgentAssets",
+    "Exists": {
+      "Status": "Observed",
+      "ObservedAt": "2026-07-29T23:09:02.5476050-07:00",
+      "RequiredPermission": "",
+      "ErrorType": "",
+      "ErrorMessage": "",
+      "EvidenceSource": "Get-PnPList -Identity 'AgentAssets'",
+      "DecisionImpact": "Confirms the library exists before any other probe against it is meaningful.",
+      "Data": "AgentAssets"
+    },
+    "HasUniqueRoleAssignments": {
+      "Status": "Observed",
+      "ObservedAt": "2026-07-29T23:09:03.3130250-07:00",
+      "RequiredPermission": "",
+      "ErrorType": "",
+      "ErrorMessage": "",
+      "EvidenceSource": "Get-PnPList -Includes HasUniqueRoleAssignments",
+      "DecisionImpact": "Whether this library breaks permission inheritance — a prerequisite signal for oversharing risk.",
+      "Data": false
+    },
+    "RoleAssignments": {
+      "Status": "Forbidden",
+      "ObservedAt": "2026-07-29T23:09:04.0262840-07:00",
+      "RequiredPermission": "Manage Permissions / Full Control on the list",
+      "ErrorType": "Exception",
+      "ErrorMessage": "Attempted to perform an unauthorized operation.",
+      "EvidenceSource": "Get-PnPList -Includes RoleAssignments (Member/RoleDefinitionBindings)",
+      "DecisionImpact": "Which principals/roles are actually assigned — needed to confirm no broad principal (Members/Visitors/Everyone) is overshared on a governed library. NOT determinable with a manage-only app registration; requires an account with Manage Permissions/Full Control.",
+      "Data": null
+    },
+    "Governance": {
+      "Status": "Observed",
+      "ObservedAt": "2026-07-29T23:09:04.8379310-07:00",
+      "RequiredPermission": "",
+      "ErrorType": "",
+      "ErrorMessage": "",
+      "EvidenceSource": "Get-PnPList -Includes EnableModeration,ForceCheckout,DraftVersionVisibility,NoCrawl,OnQuickLaunch,ContentTypesEnabled",
+      "DecisionImpact": "Confirms whether draft/approval/checkout controls this library depends on for governed publication are actually enabled, rather than assumed.",
+      "Data": {
+        "EnableModeration": false,
+        "ForceCheckout": false,
+        "DraftVersionVisibility": "Reader",
+        "NoCrawl": false,
+        "OnQuickLaunch": true,
+        "ContentTypesEnabled": false
+      }
+    }
+  },
+  "CustomAgents": {
+    "Status": "Empty",
+    "ObservedAt": "2026-07-29T23:09:08.8568200-07:00",
+    "RequiredPermission": "",
+    "ErrorType": "",
+    "ErrorMessage": "",
+    "EvidenceSource": "Get-PnPCopilotAgent",
+    "DecisionImpact": "Existing custom .agent files site-wide. An empty result does NOT mean no agent experience exists — see ReadyMadeAgent.",
+    "Data": null
+  },
+  "ReadyMadeAgent": {
+    "Status": "ManualRequired",
+    "ObservedAt": "2026-07-29T23:08:58.6642300-07:00",
+    "RequiredPermission": "",
+    "ErrorType": "",
+    "ErrorMessage": "",
+    "EvidenceSource": "docs/research (Microsoft support docs on ready-made SharePoint agents)",
+    "DecisionImpact": "Microsoft states the ready-made site agent has no associated .agent file, so CustomAgents.Data.Count == 0 does NOT mean there is no agent experience on this site.",
+    "Data": null
+  },
+  "NativeSkills": {
+    "Status": "Observed",
+    "ObservedAt": "2026-07-29T23:09:09.7021320-07:00",
+    "RequiredPermission": "",
+    "ErrorType": "",
+    "ErrorMessage": "",
+    "EvidenceSource": "Get-PnPFolderItem -FolderSiteRelativeUrl 'AgentAssets' -Recursive",
+    "DecisionImpact": "Confirms whether SKILL.md files have actually been authored/saved in AgentAssets on this site; does not confirm agent discovery or invocation of them.",
+    "Data": {
+      "Name": "SKILL.md",
+      "ServerRelativeUrl": "/sites/AG-CSB-ITAU-CMAT-DEV/AgentAssets/Skills/review-manual-topics/SKILL.md",
+      "DefinitionDiscovered": true,
+      "RuntimeInvocationVerified": false,
+      "AgentInvocationVerified": false
+    }
+  },
+  "CopilotAdmin": {
+    "Status": "Forbidden",
+    "ObservedAt": "2026-07-29T23:09:10.9405900-07:00",
+    "RequiredPermission": "Tenant administrator (SharePoint Administrator role)",
+    "ErrorType": "Exception",
+    "ErrorMessage": "Forbidden (403): ",
+    "EvidenceSource": "Get-PnPCopilotAdminLimitedMode",
+    "DecisionImpact": "Tenant-level Copilot in SharePoint governance signal. Expected Forbidden for a non-tenant-admin account.",
+    "Data": null
+  },
+  "RestrictedContentDiscovery": {
+    "Status": "Forbidden",
+    "ObservedAt": "2026-07-29T23:09:11.3440420-07:00",
+    "RequiredPermission": "SharePoint Administrator role (tenant admin center access)",
+    "ErrorType": "PSInvalidOperationException",
+    "ErrorMessage": "Unable to connect to the SharePoint Online Admin Center at 'https://bcgov-admin.sharepoint.com' to run this cmdlet. If this URL is incorrect for your tenant, you can pass in the correct Admin Center URL using Connect-PnPOnline -TenantAdminUrl. If you are using Privileged Identity Management (PIM) on your tenant, please ensure you have activated at least the SharePoint Administrator role and allowed some time for it to activate. Error message: Attempted to perform an unauthorized operation.",
+    "EvidenceSource": "Get-PnPTenantSite -Identity <SiteUrl> -Detailed",
+    "DecisionImpact": "Whether this site is excluded from org-wide AI/Copilot discovery entry points — a distinct fact from site-level permissions.",
+    "Data": null
+  },
+  "PilotLibraryGovernance": {
+    "Status": "NotSupported",
+    "ObservedAt": "2026-07-29T23:09:04.8399850-07:00",
+    "RequiredPermission": "",
+    "ErrorType": "",
+    "ErrorMessage": "",
+    "EvidenceSource": "N/A - not requested this run",
+    "DecisionImpact": "No candidate pilot library named yet (-PilotLibraryTitle not supplied). Re-run with that parameter once a candidate library exists.",
+    "Data": null
+  },
+  "ManualStepsNeeded": [
+    "Stage 3.0.2.4 (native Markdown rendering): this script cannot observe rendered output. Manually upload one sample rendered CEIS topic (from runs/ceis-manual-v2/render/) to a designated non-production test library, view it in the browser, and record whether it renders usably (headings/lists/tables/images) or requires a different representation (e.g. a Site Page). Remove the test upload afterward per the staged-write protocol.",
+    "Stage 3.0.2.2 (native SKILL.md authoring): confirm interactively in the Copilot in SharePoint UI whether a skill can actually be authored and saved on this site/library. NativeSkills below only shows what already exists, not whether the current user/tenant can create new skills.",
+    "Stage 3.0.2.1/3.0.2.3 (Copilot in SharePoint licensing/entitlement, agent-creation approval, tenant-wide inclusion/KnowledgeAgentScope settings): these require tenant-admin-level confirmation beyond what a site-level PnP probe can determine.",
+    "Ready-made agent behavior: whether one exists, is enabled, and how it differs from an approved custom agent or a default agent — not observable via Get-PnPCopilotAgent (see ReadyMadeAgent field). Confirm manually in the Copilot in SharePoint UI.",
+    "Agent-to-skill invocation: whether a custom SharePoint agent can actually invoke a NativeSkills entry, and whether skill availability changes by site/library/folder context — not provable from file existence alone.",
+    "Full role-assignment enumeration (who exactly has access to AgentAssets/pilot library): this app registration is intentionally manage-only. Confirm via a SharePoint admin or an account with Manage Permissions/Full Control, or the SharePoint Advanced Management permission-state reports.",
+    "Restricted Content Discovery + KnowledgeAgentScope: RestrictedContentDiscovery below is expected to report Forbidden for a non-tenant-admin account. Confirm via a SharePoint Administrator (Get-PnPTenantSite or the SharePoint admin center).",
+    "Agent source-format support: whether Markdown is actually retrievable/citable by a SharePoint agent (browser rendering, search indexing, agent grounding, and citation are four separate capabilities — do not assume one implies another). Requires a manual agent-query test against uploaded Markdown content.",
+    "Hub-site association and potential agent source-scope expansion: if this site is associated with a hub, an agent configured against the hub could ground on content beyond this site. Confirm hub membership and any hub-scoped agent configuration manually or via a tenant admin."
+  ]
+}
