@@ -867,6 +867,39 @@ touches:
   Microsoft's foundation models." Relevant context for any future governance-controls design work
   (Phase 3's Subphase 3.4).
 
+## 17. Official Microsoft "Get started with SharePoint agents" — further corroboration
+
+**Source:** [Get started with SharePoint agents](https://support.microsoft.com/en-us/sharepoint/ai-copilot/get-started-with-sharepoint-agents) (Microsoft Support, accessed 2026-07-30). Same status as §16 — official platform documentation, corroborating/contextualizing our tenant-specific hands-on findings, not a substitute for them.
+
+Points directly relevant to this document's findings and backlog:
+
+- **Confirms the two-agent-type model precisely as tested:** "ready-made agent" (automatically
+  scoped to the site, no `.agent` file, cannot be edited/shared/deleted) vs. "custom-built agent"
+  (created with site-editing permissions, has an `.agent` file, fully editable/shareable). This
+  matches our own reverse-engineered understanding (§3) and directly confirms why
+  `Get-PnPCopilotAgent` alone can't inventory "the complete agent experience" (correction #3
+  above) — the ready-made agent has nothing for that cmdlet to find.
+- **"SharePoint admins can remove the ready-made agent through the restricted content discovery
+  policy as needed."** Directly names the mechanism Priority 9 of the follow-up backlog (RCD)
+  would need to test — confirms RCD is specifically an admin-level, ready-made-agent-targeting
+  control, not a general site-permissions setting.
+- **Custom agent editing is explicitly described as: branding/purpose, sources (sites/pages/
+  files), and "customized prompts tailored to the purpose and scope."** Matches exactly what we
+  hand-authored in the `.agent` JSON schema (§3) and what the Edit Agent UI showed (§4) — no new
+  capability beyond what we already found, but useful as an independent confirmation that our
+  reverse-engineered schema covers the full documented editing surface, not just a subset.
+- **Licensing: M365 Copilot license, or pay-as-you-go SharePoint-agents billing, both work.**
+  Consistent with our tenant's licensing (never directly probed, but agent creation/use worked
+  throughout without incident).
+- **Sharing mechanism confirmed:** ellipsis on the agent list → Share → Copy Link — matches our
+  assumption in earlier sections that a shareable link exists per custom agent; we have not
+  actually tested opening a shared link as a different identity (Priority 1's permission-boundary
+  matrix would cover this).
+- **No mention of write/list-modification capability anywhere in this overview page** — silence
+  here doesn't confirm or deny anything new; it's consistent with (but doesn't independently
+  corroborate beyond) our own tested finding that writes were unavailable in the custom-agent
+  chat-pane path (§8, correction #1).
+
 ## Reference files (committed alongside this doc)
 
 - `agents/ui-created-agent-format.agent.json` — pretty-printed JSON downloaded from the real,
