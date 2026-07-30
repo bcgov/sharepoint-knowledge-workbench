@@ -1,4 +1,4 @@
-# Resume — Phase 1 complete (human spot-check done, PR merged); Phase 2 planned and approved, not yet started
+# Resume — Phase 1 and Phase 2 complete (both merged to main); begin Phase 3 planning in a fresh session
 
 ## Planning Artifacts (read these first, in this order)
 
@@ -10,23 +10,27 @@
    approved Phase 2 design spec.
 3. `docs/superpowers/plans/2026-07-28-phase2-canonical-publication-contract-hardening.md` — the approved,
    18-task (Task 0–17), TDD-ready Phase 2 implementation plan. Three rounds of external review behind it
-   (`temp/plan-reviews/`, `temp/plan-reviews/phase2/`, `temp/plan-reviews/full-plan-review/`). **Not yet
-   executed.**
-4. This file, below — Phase 1's detailed history and verified status. Trust this over any other handoff
-   summary; verify against `git log` regardless.
+   (`temp/plan-reviews/`, `temp/plan-reviews/phase2/`, `temp/plan-reviews/full-plan-review/`). **All 18
+   tasks executed and merged to `main`** — see the "Phase 2 ... complete" section below for full evidence.
+4. This file, below — Phase 1 and Phase 2's detailed history and verified status. Trust this over any
+   other handoff summary; verify against `git log` regardless.
 
 **Actual next action, in order:**
-1. **Phase 1 is now fully complete** — the `fix-grid-table-rendering-defect` PR (#2) is merged to
+1. **Phase 1 is fully complete** — the `fix-grid-table-rendering-defect` PR (#2) is merged to
    `origin/main`, and the human spot-check pass (rows 1, 2, 3, 4, 6 of
-   `runs/ceis-manual-v2/evidence-report.md`'s checklist) was completed this session as a human+agent
-   walkthrough. Row 5 remains N/A (genuinely no footnotes in the source). Nothing further is needed on
-   Phase 1.
-2. Create a feature branch or worktree for Phase 2 (`phase-2-contract-hardening`), per the master plan's
-   Per-Phase Git & Session Workflow section.
-3. Execute the Phase 2 plan task-by-task (Task 0 first, always), via `superpowers:subagent-driven-development`
-   or `superpowers:executing-plans`.
-4. On Phase 2's exit gate being met: merge to `main`, update this file, then start Phase 3.0 in a **new
-   session** — do not continue in the same long-running session that did all of this planning.
+   `runs/ceis-manual-v2/evidence-report.md`'s checklist) was completed as a human+agent walkthrough. Row 5
+   remains N/A (genuinely no footnotes in the source). Nothing further is needed on Phase 1.
+2. **Phase 2 (Canonical/Publication Contract Hardening) is fully complete and merged to `main`** — all 18
+   tasks (0–17) executed via `superpowers:subagent-driven-development`, two independent final whole-branch
+   reviews performed (both dispositioned, all Important/real-bug findings fixed and re-reviewed clean), the
+   golden-master proof passed (real CEIS manual publication content byte-identical to the Task 0 baseline),
+   full suite green at 509 passed/1 skipped, merged via PR into `origin/main`. See the "Phase 2 ... complete"
+   section below for full detail.
+3. **Begin Phase 3 planning in a new session** — do not continue in the same long-running session that did
+   Phase 1/Phase 2 execution. Per the master plan's phase-gating discipline, Phase 3 is only planned at a
+   structural level today (gated on evidence — tenant facts, pilot outcomes — that doesn't exist yet); read
+   `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Phase 3 section before scoping detailed
+   work.
 
 ## Authoritative Inputs (Phase 1 detail)
 
@@ -199,14 +203,18 @@ relying on it for a second real conversion. No new tests were added since
 no new code was written; full suite still 448 passed, 1 skipped
 (unchanged, verified after adding the skill).
 
-## Phase 2 (Canonical/Publication Contract Hardening) — Tasks 0-17 complete
+## Phase 2 (Canonical/Publication Contract Hardening) — complete, merged to main
 
 All 18 tasks (0-17) of `docs/superpowers/plans/2026-07-28-phase2-canonical-publication-contract-hardening.md`
-are complete on branch `phase-2-contract-hardening`, executed via `superpowers:subagent-driven-development`
-(fresh implementer + fresh reviewer per task). Final whole-branch review and merge to `main` are the only
-remaining steps before Phase 2 is fully closed out.
+are complete, executed via `superpowers:subagent-driven-development` (fresh implementer + fresh reviewer
+per task), and merged to `main` via PR. Two independent final whole-branch reviews were performed (one
+found only a stale docstring; a second, more thorough review found one genuine cross-task integration bug
+in `CanonicalPackage.load()`'s non-grouped branch — a malformed `publication-map.json` could escape the
+module's documented `CanonicalPackageError` contract — plus stale contract-doc drift in
+`publication-map-contract.md`/`canonical-contract.md`). All findings were fixed (a guard + regression test
+for the bug, doc corrections for the drift) and independently re-reviewed clean before merge.
 
-**Full suite: 508 passed, 1 skipped** (`python3 -m pytest tests/ -q` from `plugins/docx-to-content/`). The
+**Full suite: 509 passed, 1 skipped** (`python3 -m pytest tests/ -q` from `plugins/docx-to-content/`). The
 1 skip is `tests/unit/test_package_load.py:189` ("small_single.docx fixture has no media references to
 tamper with") — a pre-existing, unrelated fixture limitation, not Task 16's golden-master test.
 
@@ -241,15 +249,14 @@ Every other pre-existing test not listed above still passes unchanged.
 ## Next action on resume — this is the actual remaining work
 
 1. **Phase 1 is done.** The human spot-check pass (the item that was blocking Phase 1 formal
-   sign-off and Phase 2's Task 0 precondition) was completed this session — see
+   sign-off and Phase 2's Task 0 precondition) was completed — see
    `runs/ceis-manual-v2/evidence-report.md`'s checklist. Nothing further needed here.
-2. **Execute the Phase 2 plan** (see "Planning Artifacts" at the top of this file) — this is now the
-   actual next body of work, not an open question. Do it in its own branch/worktree, per the master plan's
-   git/session workflow, not directly on `main`.
-3. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
-   actually hold up in practice, if not already done — lower priority than Phase 2 now that Phase 2 has an
-   approved plan.
-4. If/when broader (non-preamble) media classification becomes a real need on a future document, design it
+2. **Phase 2 is done and merged to `main`.** Nothing further needed here — see the section above.
+3. **Begin Phase 3 planning** in a fresh session (see "Actual next action" at the top of this file). Do it
+   in its own branch/worktree, per the master plan's git/session workflow, not directly on `main`.
+4. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
+   actually hold up in practice, if not already done.
+5. If/when broader (non-preamble) media classification becomes a real need on a future document, design it
    as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in
    `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing
    beyond preamble media is implemented.
