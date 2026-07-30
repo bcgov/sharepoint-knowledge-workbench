@@ -108,6 +108,61 @@ Phase 3 evidence-package proposal
 
 Phase 3 brainstorming must examine the smallest coherent pilot and publication unit, field-level authority, direct editing and drift, package-only deployment, reconciliation, republish/rollback/rename/retirement, permission and Protected B discoverability risks, stage-versus-exit-gate contradictions, and tenant facts Phase 3.0 must establish.
 
+### Forward-Phase Specification and Plan Scaffolds
+
+Forward-phase planning artifacts now exist for Phases 4–7:
+
+```text
+docs/superpowers/specs/phase-4-native-sharepoint-skills-pilot-spec.md
+docs/superpowers/plans/phase-4-native-sharepoint-skills-pilot-plan-scaffold.md
+
+docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md
+docs/superpowers/plans/phase-5-sharepoint-knowledge-agent-pilot-plan-scaffold.md
+
+docs/superpowers/specs/phase-6-multi-runtime-capability-model-spec.md
+docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md
+
+docs/superpowers/specs/phase-7-cowork-copilot-studio-evaluation-spec.md
+docs/superpowers/plans/phase-7-cowork-copilot-studio-evaluation-plan-scaffold.md
+```
+
+See:
+
+```text
+docs/superpowers/FUTURE-PHASE-PLANNING-INDEX.md
+```
+
+These files are architectural head starts only.
+
+They are not:
+
+- approved implementation plans;
+- evidence that a phase entry gate is satisfied;
+- authorization to create SharePoint skills or agents;
+- authorization to build Cowork or Copilot Studio solutions;
+- permission to skip Superpowers brainstorming;
+- permission to start later phases automatically.
+
+When a future phase becomes active:
+
+```text
+verify entry gate
+→ start fresh session
+→ create branch/worktree
+→ run superpowers:brainstorming
+→ review and rewrite specification in place
+→ replace assumptions with observed evidence
+→ run superpowers:writing-plans
+→ adversarially review final plan
+→ obtain explicit implementation approval
+```
+
+Do not create duplicate `-old`, `-final`, or `-v2` artifacts merely because a scaffold is being refined.
+Preserve history through Git.
+
+Current next action remains Phase 3 planning. The existence of Phase 4–7 files does not change phase order
+or authorization.
+
 ## Planning Artifacts (read these first, in this order)
 
 1. `docs/vision/master-initiative-plan-workstreams-and-phases.md` — the whole-spectrum master plan
