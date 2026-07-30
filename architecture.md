@@ -79,7 +79,7 @@ publication-map.json for the "grouped" strategy)
         v  render-content skill: CanonicalPackage.load() -> a registered renderer
         |     (currently multipage-markdown) -> renderers/validate_rendered.py -> atomic promotion
         |
-Published Output (a navigable folder of pages + index)
+Published Output (navigable human-facing pages/ASPX + token-dense agent-optimized digests)
 ```
 
 Three chunking strategies are supported end to end: `"single"`, `"chunked"` (one canonical chunk
@@ -134,8 +134,8 @@ scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles 
   publication-map-driven multi-target rendering, and knowledge-access agents are later-phase
   concerns described in `docs/vision/`, not built or authorized here.
 - No renderers beyond `multipage_markdown.py` — see
-  `plugins/docx-to-content/references/future-output-profiles.md` for the surveyed-but-not-built
-  candidates (PDF, Word, PowerPoint, HTML, SharePoint, etc.).
+  `plugins/docx-to-content/references/future-output-profiles.md` for candidate profiles
+  (including dual-target rendering for human visual consumption vs. agent-optimized RAG digests).
 
 ## 6. Roadmap / Open Questions
 

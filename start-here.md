@@ -127,7 +127,7 @@ Phase 3 brainstorming must examine the smallest coherent pilot and publication u
 
 ### Forward-Phase Specification and Plan Scaffolds
 
-Forward-phase planning artifacts now exist for Phases 4–7:
+Forward-phase planning artifacts now exist for Phases 4–8:
 
 ```text
 docs/superpowers/specs/phase-4-native-sharepoint-skills-pilot-spec.md
@@ -180,7 +180,7 @@ verify entry gate
 Do not create duplicate `-old`, `-final`, or `-v2` artifacts merely because a scaffold is being refined.
 Preserve history through Git.
 
-Current next action remains Phase 3 planning. The existence of Phase 4–7 files does not change phase order
+Current next action remains Phase 3 planning. The existence of Phase 4–8 files does not change phase order
 or authorization.
 
 ## Planning Artifacts (read these first, in this order)

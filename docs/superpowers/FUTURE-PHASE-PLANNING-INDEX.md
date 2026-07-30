@@ -88,7 +88,7 @@ Do not use `TBD` by itself.
 - Phase 2 exit gate met (confirmed).
 - Phase 3.0 produces an accepted `tenant-capability-report.md` (not yet met).
 
-This is the actual next phase in sequence per `start-here.md` and the master plan. Phases 4–7 below are
+This is the actual next phase in sequence per `start-here.md` and the master plan. Phases 4–8 below are
 recorded for architectural continuity only and do not change that order.
 
 ## Phase 4 — Native SharePoint Skills Pilot
