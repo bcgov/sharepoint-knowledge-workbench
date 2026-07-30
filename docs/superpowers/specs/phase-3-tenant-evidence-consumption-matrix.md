@@ -21,8 +21,14 @@ sufficient.
 | Candidate publisher role/permission level for upload, metadata update, republish, rollback *(proposed addition)* | Not currently a named Stage 3.0.2.x probe | — | Yes — Spec §13/§14 assume a publisher role exists with these permissions | Spec §13, §14 | Technical lead (propose to master-plan owner) |
 | Write identity status for any reversible Phase 3 pilot writes | Phase 3.0's staged-write convention (steps 1–6) — scope of applicability to Phase 3 itself not yet confirmed | — | Yes — needs an explicit statement that Phase 3.0's convention also governs Phase 3's own reversible test writes | Spec §17 | Technical lead |
 
-**Note on proposed additions:** the four rows marked *(proposed addition, not yet in master plan)* are
-gaps this spec's brainstorming surfaced in Phase 3.0's current five named probes (Stage 3.0.2.1–3.0.2.5).
-They are recorded here as evidence Phase 3 needs, not silently assumed answered by the existing probes.
-Reconciling them into the master plan's Phase 3.0 subphase is a separate, explicitly-authorized edit — not
-made in this session.
+**Note on proposed additions:** the five rows marked *(proposed addition, not yet in master plan)* are gaps
+this spec's brainstorming surfaced in Phase 3.0's current five named probes (Stage 3.0.2.1–3.0.2.5):
+library versioning configuration, permission-test identities, manual-upload feasibility as its own explicit
+probe, publisher permissions, and write-identity scope applicability to Phase 3. **Correction (external
+review round):** these gaps must be reconciled into the Phase 3.0 specification/plan itself **before**
+Phase 3.0 executes, not merely recorded here for later consumption — if Phase 3.0 runs without these five
+probes added, Phase 3 will still lack the evidence it needs even after Phase 3.0's report is accepted, and
+this matrix's "Blocking if absent?" column would be discovered too late to act on cheaply. Reconciling them
+into the master plan's Phase 3.0 subphase (and, correspondingly, its own spec/plan if one exists at that
+level) is a separate, explicitly-authorized edit — not made in this session — but it is a precondition for
+Phase 3.0's execution to actually satisfy this matrix, not an optional follow-up.
