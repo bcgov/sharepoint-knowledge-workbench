@@ -23,6 +23,18 @@
 #                   proposed addition #2) — candidate distinct identities for the
 #                   Stage 3.4.2 oversharing/permission test (does NOT itself
 #                   perform that test; only inventories what identities exist).
+#                6. AgentAssets library + existing Copilot Agent (.agent) file
+#                   inventory (Stages 3.0.2.1-3.0.2.3) — whether the site already
+#                   has an "AgentAssets" library (per
+#                   docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md's
+#                   observed naming) and what native Copilot Agents already exist,
+#                   via the real PnP.PowerShell cmdlet Get-PnPCopilotAgent. This is
+#                   an inventory of what EXISTS, not a test of whether new skills/
+#                   agents can be AUTHORED — that remains a manual UI check (see
+#                   ManualStepsNeeded).
+#                7. Copilot admin limited-mode setting (Get-PnPCopilotAdminLimitedMode)
+#                   — a tenant-level governance signal for Copilot in SharePoint,
+#                   if the current account has rights to read it.
 #
 #              This script is strictly READ-ONLY — it creates, modifies, and
 #              deletes nothing in the tenant, per the master plan's Subphase
@@ -97,15 +109,31 @@ $report = @{
     SiteFields       = @()
     ContentTypes     = @()
     SiteGroups       = @()
+    AgentAssets      = [PSCustomObject]@{
+        LibraryExists = $false
+        LibraryTitle  = $null
+        ItemCount     = $null
+        Agents        = @()
+    }
+    CopilotAdmin     = [PSCustomObject]@{
+        LimitedModeChecked = $false
+        LimitedMode        = $null
+        Error              = $null
+    }
     ManualStepsNeeded = @(
         ("Stage 3.0.2.4 (native Markdown rendering): this script cannot observe rendered output. " +
          "Manually upload one sample rendered CEIS topic (from runs/ceis-manual-v2/render/) to a " +
          "designated non-production test library, view it in the browser, and record whether it " +
          "renders usably (headings/lists/tables/images) or requires a different representation " +
          "(e.g. a Site Page). Remove the test upload afterward per the staged-write protocol."),
-        ("Stage 3.0.2.1-3.0.2.3 (AgentAssets / native SKILL.md authoring / agent-creation approval): " +
-         "these require tenant-admin-level confirmation, not a site-level PnP probe. Follow up with " +
-         "your tenant admin per the master plan's staged protocol.")
+        ("Stage 3.0.2.2 (native SKILL.md authoring): confirm interactively in the Copilot in " +
+         "SharePoint UI whether a skill can actually be authored and saved on this site/library " +
+         "(the AgentAssets/CopilotAgent inventory below only shows what already exists, not " +
+         "whether the current user/tenant can create new skills or agents)."),
+        ("Stage 3.0.2.1/3.0.2.3 (Copilot in SharePoint licensing/entitlement, agent-creation " +
+         "approval, tenant-wide inclusion settings): these require tenant-admin-level " +
+         "confirmation beyond what a site-level PnP probe can determine. Follow up with your " +
+         "tenant admin per the master plan's staged protocol.")
     )
 }
 
@@ -189,6 +217,53 @@ try {
 }
 catch {
     Write-Warning "  Could not retrieve site groups: $($_.Exception.Message)"
+}
+
+# --- 6. AgentAssets library + Copilot Agent (.agent) inventory (Stages 3.0.2.1-3.0.2.3, best-effort) ---
+# Per docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md, the observed
+# library name is "AgentAssets" (no space) — this checks whether that library exists on THIS site
+# and, if so, what native Copilot Agents (*.agent files) already live in it. This only inventories
+# what already exists; it cannot determine whether the current user/tenant is ENTITLED to author
+# new skills or agents (that remains a manual/tenant-admin confirmation — see ManualStepsNeeded).
+Write-Host "Checking for an AgentAssets library and existing Copilot Agents..." -ForegroundColor Yellow
+try {
+    $agentAssetsList = $lists | Where-Object { $_.Title -eq "AgentAssets" }
+    if ($agentAssetsList) {
+        $report.AgentAssets.LibraryExists = $true
+        $report.AgentAssets.LibraryTitle = $agentAssetsList.Title
+        $report.AgentAssets.ItemCount = $agentAssetsList.ItemCount
+        Write-Host "  AgentAssets library found ($($agentAssetsList.ItemCount) item(s))" -ForegroundColor Green
+    }
+    else {
+        Write-Host "  No AgentAssets library found on this site" -ForegroundColor Yellow
+    }
+
+    # Get-PnPCopilotAgent scans document libraries for *.agent files regardless of whether an
+    # "AgentAssets"-named library exists, so run it either way — it's the authoritative check.
+    $agents = Get-PnPCopilotAgent -ErrorAction Stop
+    foreach ($agent in $agents) {
+        $report.AgentAssets.Agents += [PSCustomObject]@{
+            Name              = $agent.Name
+            ServerRelativeUrl = $agent.ServerRelativeUrl
+        }
+    }
+    Write-Host "  Found $($report.AgentAssets.Agents.Count) Copilot Agent (.agent) file(s)" -ForegroundColor Green
+}
+catch {
+    Write-Warning "  Could not inventory AgentAssets/Copilot Agents: $($_.Exception.Message)"
+}
+
+# --- 7. Copilot admin limited-mode setting (tenant-level Copilot in SharePoint governance signal) ---
+Write-Host "Checking Copilot admin limited-mode setting..." -ForegroundColor Yellow
+try {
+    $limitedMode = Get-PnPCopilotAdminLimitedMode -ErrorAction Stop
+    $report.CopilotAdmin.LimitedModeChecked = $true
+    $report.CopilotAdmin.LimitedMode = $limitedMode
+    Write-Host "  Copilot admin limited mode: $limitedMode" -ForegroundColor Green
+}
+catch {
+    $report.CopilotAdmin.Error = $_.Exception.Message
+    Write-Warning "  Could not retrieve Copilot admin limited-mode setting (likely requires tenant-admin rights, not just site access): $($_.Exception.Message)"
 }
 
 # --- Save JSON output ---
