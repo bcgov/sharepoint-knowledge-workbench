@@ -26,11 +26,14 @@ applicable) and `.to_dict()` (returns a plain JSON-serializable dict/list tree).
 | `Manifest` | `schema_version`, `generator`, `source`, `plan_id`, `content_type`, `template_profile`, `strategy`, `chunk_count`, `chunks`, `media`, `validation_report` | Section 6.4. |
 | `ValidationIssue` | `severity` (`error`\|`warning`), `code`, `message`, `path` (optional) | One reportable problem. |
 | `ValidationReport` | `status` (`PASS`\|`WARN`\|`FAIL`), `issues`, `source_sha256`, `plan_id` | Section 9 severity model. |
-| `RenderResult` | `renderer_name`, `renderer_version`, `source_manifest_hash`, `output_files`, `status`, `errors`, `warnings` | Section 8. Shape only — the `Renderer` protocol and `CanonicalPackage` loader are built in Task 12. |
+| `RenderResult` | `renderer_name`, `renderer_version`, `source_content_sha256`, `output_files`, `status`, `errors`, `warnings` | Section 8. Shape only — the `Renderer` protocol and `CanonicalPackage` loader are built in Task 12. |
 
-`SUPPORTED_SCHEMA_VERSION = "1.0"` is the single source of truth for the
-current schema major/minor; `ConversionPlan`, `ChunkMetadata`, and `Manifest`
-all check against it via `_check_schema_version`.
+Per-contract schema version constants in `scripts/contracts.py` (e.g.
+`CONVERSION_PLAN_SCHEMA_VERSION`, `MANIFEST_SCHEMA_VERSION`,
+`CHUNK_METADATA_SCHEMA_VERSION`, `PUBLICATION_MAP_SCHEMA_VERSION`) are the
+source of truth for each contract's expected `schema_version`; each
+contract's `from_dict` checks against its respective constant via
+`_check_schema_version`.
 
 ## Canonical JSON serialization
 
@@ -67,8 +70,9 @@ deterministic because:
 
 ## Compatibility policy
 
-- `schema_version` is checked exactly (`==`) against `SUPPORTED_SCHEMA_VERSION`
-  today — there is exactly one supported version, `"1.0"`.
+- Each contract's `schema_version` is checked exactly (`==`) against its
+  per-contract schema constant (e.g. `PUBLICATION_MAP_SCHEMA_VERSION`) today —
+  there is exactly one supported version per contract, `"1.0"`.
 - A future schema bump (e.g. adding a new required field) should:
   1. Introduce a new version string (e.g. `"1.1"` for additive/backward-
      compatible changes that don't remove or repurpose fields, `"2.0"` for

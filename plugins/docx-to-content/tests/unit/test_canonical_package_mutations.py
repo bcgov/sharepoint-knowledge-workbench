@@ -127,3 +127,12 @@ def test_load_rejects_unexpected_publication_map_on_non_grouped_package(tmp_path
 
     with pytest.raises(CanonicalPackageValidationError):
         CanonicalPackage.load(package_dir)
+
+
+def test_load_rejects_malformed_publication_map_on_non_grouped_package(tmp_path):
+    package_dir = _build_minimal_valid_package(tmp_path, strategy="chunked", validated=True)
+    # publication-map.json exists but is malformed JSON
+    (package_dir / "publication-map.json").write_text("{not valid json")
+
+    with pytest.raises(CanonicalPackageValidationError):
+        CanonicalPackage.load(package_dir)

@@ -25,7 +25,7 @@ be. Every issue this module raises is therefore `severity="error"`, so
 render layer that maps to its WARN-acceptance model.
 
 Manifest-hash staleness tracking: `render_to_staging()`'s `RenderResult`
-already carries `source_manifest_hash` (Section 8: "renderer result
+already carries `source_content_sha256` (Section 8: "renderer result
 includes ... source manifest hash"), populated by
 `multipage_markdown.MultipageMarkdownRenderer.render()` as
 `package.manifest.source.sha256` -- the canonical package's source .docx
@@ -36,7 +36,7 @@ later validation pass -- possibly run against a package that has since been
 reconverted -- can compare the STAGED render's recorded hash against the
 CURRENT `package.manifest.source.sha256`. A mismatch means the canonical
 package was reconverted (new source fingerprint) after this render was
-staged; catching that is exactly what `manifest_hash_mismatch` checks for.
+staged; catching that is exactly what `source_content_stale` checks for.
 
 Path-safety reuse: broken-media/local-link and path-traversal/absolute-
 reference detection reuse `path_safety.classify_reference` (a new shared

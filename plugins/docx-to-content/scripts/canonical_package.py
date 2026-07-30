@@ -245,15 +245,28 @@ class CanonicalPackage:
                     "0..N-1 sequence -- may have been edited or corrupted "
                     "after promotion"
                 )
-        elif publication_map.load_publication_map(package_dir) is not None:
-            # Non-grouped package with an unexpected publication-map.json
-            # present -- validate_canonical.py already rejects this at
-            # convert time (Task 6), but load() re-checks independently
-            # since the file could have been added after promotion.
-            raise CanonicalPackageValidationError(
-                f"{package_dir} has strategy={manifest.strategy!r} but an "
-                "unexpected publication-map.json is present"
-            )
+        else:
+            # Non-grouped package: publication-map.json must not be present.
+            # validate_canonical.py rejects this at convert time, but load()
+            # re-checks independently since the file could have been added
+            # (or corrupted) after promotion. If the file exists but is
+            # malformed, publication_map.load_publication_map(...) raises
+            # MalformedPublicationMapError; treat that the same as an
+            # unexpected publication-map presence and raise a
+            # CanonicalPackageValidationError to preserve this module's
+            # `CanonicalPackageError`-based contract.
+            try:
+                unexpected = publication_map.load_publication_map(package_dir)
+            except publication_map.MalformedPublicationMapError as exc:
+                raise CanonicalPackageValidationError(
+                    f"{package_dir} has strategy={manifest.strategy!r} but an "
+                    "unexpected or malformed publication-map.json is present"
+                ) from exc
+            if unexpected is not None:
+                raise CanonicalPackageValidationError(
+                    f"{package_dir} has strategy={manifest.strategy!r} but an "
+                    "unexpected publication-map.json is present"
+                )
 
         return cls(
             manifest=manifest,
