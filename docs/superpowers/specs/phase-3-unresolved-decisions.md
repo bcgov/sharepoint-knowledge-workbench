@@ -8,16 +8,15 @@ provisionally, but the implementation plan cannot be made task-ready) / `BLOCKS_
 written, but no task touching this may run) / `MAY_DEFER` (safe to leave open through Phase 3) /
 `PHASE_4_PLUS` (not Phase 3's decision to make at all).
 
-## 1. Pilot site/library identity
+## 1. Pilot site/library identity — resolved
 
-- **Decision:** which SharePoint site and library is the Phase 3 pilot target.
+- **Decision:** resolved 2026-07-30 — site `AG-CSB-ITAU-CMAT-DEV`
+  (`https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV`), new document library named
+  **`CEIS-Pilot-Knowledge`** (to be created via PnP `New-PnPList` per the write-exploration findings'
+  confirmed scriptability, at Subphase 3.2 execution time — it does not exist yet as of this decision).
 - **Why it matters:** every downstream schema/reconciliation/upload step needs a real target.
-- **Evidence needed:** Phase 3.0 Stage 3.0.1.1/3.0.1.2 output, plus a named non-production site.
-- **Decision owner:** technical lead + tenant admin.
-- **Latest responsible decision point:** before Subphase 3.1 (schema mapping) can be reconciled against
-  real constraints.
-- **Safe default if unresolved:** none — this blocks Phase 3 entirely. Classification: `BLOCKS_EXECUTION`
-  (spec/plan may reference it as a placeholder; no upload/reconciliation task may run without it).
+- **Decision owner:** user — accepted.
+- **Classification:** resolved; no longer `BLOCKS_EXECUTION`.
 
 ## 2. Direct-edit / republish policy (warn vs. block vs. silent overwrite)
 
@@ -72,19 +71,15 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   + publication event fields (plus the `TransitionAction` transition record for genuine supersession, spec
   Section 7/13) until evidence shows a gap. Classification: `BLOCKS_PLAN`.
 
-## 6. `Sensitivity`/records-classification column availability and pilot content selection
+## 6. `Sensitivity`/records-classification column availability and pilot content selection — resolved
 
-- **Decision:** which sensitivity/classification mechanism (tenant MIP label vs. custom choice column) is
-  used, and whether the CEIS pilot content set needs narrowing to avoid genuinely Protected B content.
+- **Decision:** resolved 2026-07-30 — use a custom Choice column (not a tenant MIP label) for
+  `Sensitivity`; all 25 CEIS manual pilot topics are confirmed as safe pilot content (no Protected B
+  material), so no content-set narrowing is needed.
 - **Why it matters:** a Protected B discoverability risk is a first-class governance concern per the master
   plan.
-- **Evidence needed:** Phase 3.0 Stage 3.0.1.2 (available classification columns/labels).
-- **Decision owner:** technical lead + pilot library owner (once named).
-- **Latest responsible decision point:** before Subphase 3.2's manual upload (content selection must be
-  finalized by then).
-- **Safe default if unresolved:** select CEIS pilot content that avoids any topic plausibly classified above
-  the tenant's lowest sensitivity tier, until this is resolved. Classification: `BLOCKS_EXECUTION` (upload
-  may not proceed without this).
+- **Decision owner:** user — accepted.
+- **Classification:** resolved; no longer `BLOCKS_EXECUTION`.
 
 ## 7. Structural-anchor representation (evidence package vs. SharePoint column)
 
@@ -97,21 +92,16 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
   reconciliation need surfaces.
 - **Safe default if unresolved:** keep as evidence-package-only. Classification: `MAY_DEFER`.
 
-## 8. Reviewer and publisher role assignment
+## 8. Reviewer and publisher role assignment — resolved (pilot exception accepted)
 
-- **Decision:** who specifically is the pilot's reviewer and publisher (Section 14 currently names both
-  roles as not yet assigned).
+- **Decision:** resolved 2026-07-30 — richard.fremmerlid acts as both reviewer and publisher for the
+  Phase 3 pilot, as an explicitly accepted pilot exception (dedicated separate roles not yet assigned).
+  Exception accepted by: richard.fremmerlid. Date: 2026-07-30. Revisit trigger: once dedicated reviewer
+  and publisher roles are assigned for a non-pilot rollout.
 - **Why it matters:** Stage 3.4.1's review workflow (Draft→Reviewed→Published, Model A per Section 14)
   needs named humans to walk through it.
-- **Evidence needed:** Phase 3.0 Stage 3.0.2.3-adjacent (who can be authorized), plus a human decision.
-- **Decision owner:** user / pilot library owner.
-- **Latest responsible decision point:** before Subphase 3.4 (governance controls) task detail is written.
-- **Safe default if unresolved (external review correction):** the same person (e.g. the technical lead)
-  acting as both reviewer and publisher is allowed **only as an explicitly accepted pilot exception**,
-  recorded here with the name and date it was accepted — not treated as this spec's normal governance
-  default, since combining the two roles weakens the evidence for review governance. If accepted as an
-  exception for the first pilot pass, record: exception accepted by ______, date ______, revisit trigger:
-  once dedicated roles are assigned. Classification: `BLOCKS_PLAN`.
+- **Decision owner:** user — accepted.
+- **Classification:** resolved; no longer `BLOCKS_PLAN`.
 
 ## 9. Two-identity oversharing test — which identities — resolved (standard groups adopted)
 
