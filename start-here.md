@@ -1,5 +1,113 @@
 # Resume — Phase 1 and Phase 2 complete (both merged to main); begin Phase 3 planning in a fresh session
 
+## Mandatory Planning Protocol for Phase 3 and Every Future Phase
+
+This protocol is authoritative for future phase planning. External review is an additional quality gate; it never replaces the required Superpowers workflow.
+
+### Required workflow
+
+For each new phase, subphase, major architecture change, repository restructure, plugin extraction, or runtime target:
+
+```text
+1. Read start-here.md and the master initiative plan.
+2. Verify repository state and phase-entry evidence.
+3. Run superpowers:brainstorming.
+4. Record confirmed decisions, recommendations, assumptions, missing facts, and contradictions.
+5. Perform reconnaissance against real files and contracts.
+6. Draft the design specification.
+7. Obtain required human review or approval.
+8. Run superpowers:writing-plans.
+9. Review the plan adversarially.
+10. Obtain explicit approval before implementation.
+11. Create the phase branch/worktree.
+12. Execute the approved plan.
+13. Satisfy the exit gate before merge.
+14. Update start-here.md after merge; start the next phase in a fresh session.
+```
+
+Never skip brainstorming because detailed direction already exists, the work looks simple, the artifact is called a draft, a low-cost model can write it quickly, or GPT/Opus review will occur later. Brainstorming distinguishes settled decisions from recommendations, provisional design, tenant-dependent facts, ambiguity, and blockers; it does not re-litigate accepted decisions.
+
+### Mandatory brainstorming record
+
+Before a specification or implementation plan is written, create a concise record with:
+
+```text
+CONFIRMED DECISIONS
+RECOMMENDATIONS REQUIRING REVIEW
+MISSING FACTS OR ENTRY-GATE EVIDENCE
+CONTRADICTIONS OR AMBIGUITIES
+BOUNDED PHASE OUTCOME
+NON-GOALS
+RISKS AND FAILURE MODES
+DECISIONS NEEDED FROM A HUMAN
+```
+
+Use `CONFIRMED`, `RECOMMENDED`, `PROVISIONAL`, `DEFERRED_UNTIL_EVIDENCE`, `BLOCKED`, `RESEARCH`, and `REJECTED_FOR_NOW`. Never use `TBD` alone. Every unresolved item states why it matters, evidence needed, decision owner, latest responsible decision point, and safe default.
+
+### Source-reading and evidence discipline
+
+- Read every required file in full or report it as unavailable, empty, malformed, generated, or a stub.
+- If a substantive file appears to contain only one line, inspect size and line endings; check for escaped newlines, links, pointers, or placeholders; open the underlying target; and do not claim review until the content was actually reviewed.
+- Verify claims against current repository files, schemas, tests, manifests, git state, and accepted evidence.
+- Vision and research documents provide direction; they do not prove implementation or authorize work.
+- Near phases become implementation-ready only when their entry-gate evidence exists.
+- Far phases retain structure and evidence gates without fabricated implementation details.
+- Tenant-dependent values come from observed tenant evidence, not generic documentation or model memory.
+- Never invent URLs, library names, field types, identities, licences, permissions, API behaviour, or commands.
+
+### Planning is not implementation
+
+Unless expressly authorized, planning does not modify a tenant, create SharePoint artifacts, request or grant Entra permissions, scaffold plugins, rename or restructure the repository, migrate every research item into the backlog, merge branches, or start a later phase.
+
+### Model-cost discipline
+
+Use the cheapest capable model without weakening the workflow:
+
+```text
+Low-cost: inventory, link checks, mechanical tables, approved scaffolding,
+fixtures, established validation commands, evidence collation.
+
+Mid-tier: non-trivial refactoring, schemas, validators, reconciliation logic,
+test design, migration logic, debugging.
+
+Strong reasoning: architecture, adversarial brainstorming, source-of-truth,
+security/permission boundaries, ambiguous contracts, plan review, acceptance.
+```
+
+Escalate only when architecture, ambiguity, security, cross-plugin impact, failed tests, or contradictory evidence requires it.
+
+### Git and repository hygiene
+
+Persistent specs, plans, decisions, reports, and evidence belong in approved tracked paths, not only under ignored scratch directories. Keep transient state ignored at every depth, including `.superpowers/`, `__pycache__/`, `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/`, and `.DS_Store`. Do not automatically ignore `.github/`, `.claude-plugin/`, agent definitions, skills, scripts, tests, or approved documentation.
+
+Before merge, report focused tests, the full suite, required evidence, documentation changes, plugin/marketplace metadata disposition, `git status --short`, and all retained warnings or deferred decisions.
+
+### Phase 3 two-state rule
+
+```text
+Before Phase 3.0 evidence:
+brainstorming + draft specification + evidence-consumption matrix +
+unresolved-decision register + implementation-plan scaffold.
+
+After Phase 3.0 evidence:
+replace assumptions with observed facts + finalize the implementation-ready
+Phase 3 plan + obtain approval before execution.
+```
+
+Phase 3 is not implementation-ready until an accepted `tenant-capability-report.md` exists and every blocking dependency maps to observed evidence.
+
+Required pre-discovery outputs:
+
+```text
+phase-3-governed-sharepoint-knowledge-pilot-spec.md
+phase-3-tenant-evidence-consumption-matrix.md
+phase-3-unresolved-decisions.md
+phase-3-governed-sharepoint-knowledge-pilot-plan-scaffold.md
+Phase 3 evidence-package proposal
+```
+
+Phase 3 brainstorming must examine the smallest coherent pilot and publication unit, field-level authority, direct editing and drift, package-only deployment, reconciliation, republish/rollback/rename/retirement, permission and Protected B discoverability risks, stage-versus-exit-gate contradictions, and tenant facts Phase 3.0 must establish.
+
 ## Planning Artifacts (read these first, in this order)
 
 1. `docs/vision/master-initiative-plan-workstreams-and-phases.md` — the whole-spectrum master plan
@@ -27,7 +135,7 @@
    full suite green at 509 passed/1 skipped, merged via PR into `origin/main`. See the "Phase 2 ... complete"
    section below for full detail.
 3. **Begin Phase 3 planning in a new session** — do not continue in the same long-running session that did
-   Phase 1/Phase 2 execution. Per the master plan's phase-gating discipline, Phase 3 is only planned at a
+   Phase 1/Phase 2 execution. The Mandatory Planning Protocol above is binding. External review never substitutes for brainstorming or reconnaissance. Per the master plan's phase-gating discipline, Phase 3 is only planned at a
    structural level today (gated on evidence — tenant facts, pilot outcomes — that doesn't exist yet); read
    `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Phase 3 section before scoping detailed
    work. **Do this planning work via the `superpowers` skills, in this order:**
@@ -60,7 +168,7 @@ The v1 spec/plan (`2026-07-25-docx-to-content-plugin-design.md` / `...-implement
 
 ## Where the work lives
 
-Work happens directly on `main` in this repo — there is no separate worktree:
+Historical Phase 1 and Phase 2 work is merged on `main`. Phase 3 planning and every future phase must begin on a dedicated branch/worktree per the master plan. Current implementation location:
 
 ```text
 plugin path:   plugins/docx-to-content/
@@ -275,10 +383,7 @@ Every other pre-existing test not listed above still passes unchanged.
 
 ## Efficiency notes for continuing this session or a fresh one
 
-- Work directly on `main` — there is no worktree to re-enter. The `fix-grid-table-rendering-defect`
-  branch (PR #2) is merged and deleted (local + remote); it no longer needs tracking. If isolation is
-  wanted for further work (e.g. Phase 2), create a fresh worktree via `superpowers:using-git-worktrees`
-  rather than assuming an old one still exists.
+- Do not start Phase 3 planning or implementation directly on `main`. The historical `fix-grid-table-rendering-defect` branch (PR #2) is merged and deleted. Create a fresh phase branch/worktree with `superpowers:using-git-worktrees` and verify no stale worktree is being reused.
 - This repo's `CLAUDE.md`: use the cheapest viable sub-agent model per dispatch, and don't spawn a sub-agent when the job doesn't need one. This entire Task 18 session (mixed-level root detection, media-disposition mechanism, both real-document convert fixes) was done directly via Read/Edit/Bash, not dispatched sub-agents — the work was well-understood, self-verifiable via the test suite, and the human (via chat) was the actual source of the classification decisions the pipeline itself can't infer (e.g. image1.png's disposition required looking at the actual image, not just objective signals).
 - `origin` is `https://github.com/richfrem/manual-conversion-poc.git`. `main` is the default branch on GitHub.
 - A `temp/bundles/manifest.json` exists for bundling key files via the `context-bundler` skill into a single `.md` for external review — keep it updated as files change if that hand-off is still wanted.
