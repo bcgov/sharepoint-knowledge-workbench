@@ -157,8 +157,15 @@ foreach ($entry in $manifestJson.entries) {
     $uploadedFile = Add-PnPFile -Path $pageLocalPath -Folder $LibraryName -NewFileName $pageName -ErrorAction Stop
     Remove-Item -Path $pageLocalPath -Force -ErrorAction SilentlyContinue
 
+    # Retrieve item ID by filename FileLeafRef to set metadata reliably
+    $item = (Get-PnPListItem -List $listTitle -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
+    if (-not $item) {
+        $item = Get-PnPListItem -List $listTitle | Where-Object { $_["FileLeafRef"] -eq $pageName }
+    }
+    $targetItemId = if ($item -is [array]) { $item[0].Id } else { $item.Id }
+
     # Set custom metadata on library item
-    Set-PnPListItem -List $listTitle -Identity $uploadedFile.ListItemAllFields.Id -Values @{
+    Set-PnPListItem -List $listTitle -Identity $targetItemId -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
