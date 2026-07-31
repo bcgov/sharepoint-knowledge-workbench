@@ -305,3 +305,32 @@ documents actually contain. The generalization tests proved the *mechanism* work
 document shapes the fixtures modeled; they couldn't prove it against shapes nobody had modeled
 yet. Running the real pilot document early and often — not just once at the very end — would have
 surfaced these three defects sooner.
+
+---
+
+## 2026-07-30 — Phase 3: Governed SharePoint Knowledge Pilot
+
+### Key Learnings & Platform Boundaries
+
+1. **Automated Live Publishing**: Developed pure-Python packaging & reconciliation tools (`sharepoint_package.py`, `sharepoint_reconcile.py`) and executed `run-phase3-tenant-pilot.ps1` against live SharePoint site `AG-CSB-intranet-dev`. Successfully published 25 topic pages and 319 media assets directly into `CEISPilotKnowledgePages/`. Reconciliation against `actual-state.csv` verified **100% MATCH**.
+2. **SharePoint Agent Grounding Boundaries**: Documented critical M365 platform limits through staged capability probes:
+   - SharePoint custom agents **cannot use List data as a grounding source**, and Site Pages library cannot be added as an agent source.
+   - ASPX modern pages (`Add-PnPPage` + `Add-PnPPageTextPart`) render inline HTML formatting and embedded media correctly, whereas raw `.aspx` uploads hit platform `Access denied` boundaries.
+
+---
+
+## 2026-07-31 — Phase 4: Native SharePoint Skills Pilot (Planning & Tasks 0–1)
+
+### Key Architectural Learnings & Process Refinements
+
+1. **Separation of Deterministic Integrity vs Semantic Reasoning**:
+   - Hardened Phase 4 design to separate deterministic repository tooling (recalculating hashes, canonical package validation, publication map completeness, structural anchors) from LLM semantic reasoning (`review-manual-topics` auditing content clarity, expected sections, cross-reference consistency, and human recommendations).
+2. **Never Prewrite Test Evidence**:
+   - Refactored implementation plan to eliminate prewritten `PASS` results before tests are run. Initial report templates start with `Status: NOT_EXECUTED`, `Actual result: NOT_RECORDED`, and `Reviewer disposition: PENDING`. Actual findings are recorded ONLY after human-executed tenant runs occur.
+3. **No-Skill Control Harness**:
+   - Introduced Condition A (Custom Agent without skill) vs Condition B (Custom Agent with `review-manual-topics` invoked) benchmarks to quantify whether the skill adds differentiated value beyond built-in agent synthesis (`SKILL_ADDS_CLEAR_VALUE`).
+4. **Read-Only Inventory vs Authorized Cleanup**:
+   - Split skill deconfliction into a read-only script (`inventory-skills.ps1`) and explicit human-authorized cleanup checkpoints. Executed Task 1 read-only scan against `AG-CSB-intranet-dev`: reconciled **25/25 topic pages** and **319/319 media files** (**100% Match**), confirming a clean baseline (0 pre-existing skill collisions).
+5. **Exact Target Readback Verification**:
+   - Standardized deployment target path as `AgentAssets/Skills/review-manual-topics/SKILL.md`. Script `deploy-and-verify-skill.ps1` computes local SHA-256, uploads file, downloads readback from exact server-relative URL, and asserts 100% byte-matching before recording completion.
+
