@@ -149,8 +149,8 @@ foreach ($entry in $manifestJson.entries) {
         Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
 
-    Write-Host "  Creating modern page $pageName in $pageSubfolder..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pageName -Folder $pageSubfolder -LayoutType Article -Publish:$false
+    Write-Host "  Creating modern page $pagePath..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
     # Retrieve underlying list item by filename (FileLeafRef)
