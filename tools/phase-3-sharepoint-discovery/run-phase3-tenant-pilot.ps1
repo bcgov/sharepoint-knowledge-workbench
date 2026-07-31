@@ -133,34 +133,25 @@ foreach ($entry in $manifestJson.entries) {
     }
 }
 
-Write-Host "Publishing $($manifestJson.entries.Count) formatted topic pages to Site Pages/$pageSubfolder..." -ForegroundColor Cyan
+Write-Host "Publishing $($manifestJson.entries.Count) formatted topic pages to $LibraryName..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
-    $pagePath = "$pageSubfolder/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$siteAssetsUrl/"
 
-    # Remove existing subfolder page if present to guarantee clean creation with fresh HTML
-    $existingPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
-    if ($existingPage) {
-        Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
-    }
+    # Upload HTML page directly to dedicated library CEISPilotKnowledge
+    $pageLocalPath = Join-Path $PSScriptRoot "temp_$pageName"
+    Set-Content -Path $pageLocalPath -Value $rewrittenHtml -Encoding UTF8
 
-    Write-Host "  Creating modern page $pagePath..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
-    Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
+    Write-Host "  Uploading $pageName to $LibraryName..." -ForegroundColor Cyan
+    $uploadedFile = Add-PnPFile -Path $pageLocalPath -Folder $LibraryName -NewFileName $pageName -ErrorAction Stop
+    Remove-Item -Path $pageLocalPath -Force -ErrorAction SilentlyContinue
 
-    # Retrieve underlying list item by filename (FileLeafRef) searching across subfolders (Scope='RecursiveAll')
-    $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
-    if (-not $item) {
-        $item = Get-PnPListItem -List "Site Pages" -FolderSiteRelativeUrl $pageSubfolder -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
-    }
-    $targetItem = if ($item -is [array]) { $item[0] } else { $item }
-
-    Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values @{
+    # Set custom metadata on library item
+    Set-PnPListItem -List $LibraryName -Identity $uploadedFile.ListItemAllFields.Id -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
@@ -168,14 +159,12 @@ foreach ($entry in $manifestJson.entries) {
         "TopicContentSHA256"   = $entry.topic_content_sha256;
         "SourceDocumentSHA256" = $entry.source_document_sha256;
     } | Out-Null
-
-    Set-PnPPage -Identity $page -Publish | Out-Null
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
-# 5. Export actual library state to CSV for reconciliation
-Write-Host "Exporting tenant state to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List "Site Pages" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
+# 5. Export actual library state from CEISPilotKnowledge to CSV for reconciliation
+Write-Host "Exporting tenant state from $LibraryName to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = Get-PnPListItem -List $LibraryName -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
 $results = @()
 
 foreach ($item in $items) {
