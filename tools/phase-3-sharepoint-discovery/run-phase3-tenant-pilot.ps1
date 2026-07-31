@@ -54,14 +54,14 @@ Write-Host "Connecting to SharePoint Online at $($config.SiteUrl)..." -Foregroun
 Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
 Write-Host "Connected successfully!" -ForegroundColor Green
 
-# 1. Ensure custom Library exists for Governance Pilot
-Write-Host "Checking for library '$LibraryName'..." -ForegroundColor Cyan
+# 1. Ensure custom Asset Document Library exists for Governance Pilot Media
+Write-Host "Checking for asset library '$LibraryName'..." -ForegroundColor Cyan
 $pilotList = Get-PnPList -Identity $LibraryName -ErrorAction SilentlyContinue
 if (-not $pilotList) {
     $pilotList = Get-PnPList -Identity "CEIS-Pilot-Knowledge" -ErrorAction SilentlyContinue
 }
 if (-not $pilotList) {
-    Write-Host "Creating dedicated Document Library '$LibraryName'..." -ForegroundColor Yellow
+    Write-Host "Creating dedicated Asset Library '$LibraryName'..." -ForegroundColor Yellow
     $pilotList = New-PnPList -Title "CEIS-Pilot-Knowledge" -Url "CEISPilotKnowledge" -Template DocumentLibrary
 }
 $listTitle = $pilotList.Title
