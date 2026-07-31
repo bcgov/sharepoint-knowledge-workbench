@@ -127,41 +127,38 @@ if (Test-Path $mediaFolder) {
     }
 }
 
-# 4. Read Manifest and Publish Modern Pages to dedicated Page Library
+# 4. Read Manifest and Publish Modern Pages directly to CEISPilotKnowledgePages
 Write-Host "Reading package manifest..." -ForegroundColor Cyan
 $manifestJson = Get-Content -Path $manifestPath -Raw | ConvertFrom-Json
 
 $web = Get-PnPWeb
 $mediaUrl = "$($web.Url)/$targetMediaFolder"
 
-Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryName'..." -ForegroundColor Cyan
+Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages directly to Page Library '$PageLibraryName' root..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
-    $pagePath = "$PageLibraryName/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$mediaUrl/"
 
-    # Remove existing page if present to guarantee clean creation with fresh HTML
-    $existingPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
-    if ($existingPage) {
-        Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
-    }
+    # Upload HTML page directly to dedicated Page Library CEISPilotKnowledgePages (no subfolders)
+    $pageLocalPath = Join-Path $PSScriptRoot "temp_$pageName"
+    Set-Content -Path $pageLocalPath -Value $rewrittenHtml -Encoding UTF8
 
-    Write-Host "  Creating modern page $pagePath..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pageName -Folder $PageLibraryName -LayoutType Article -Publish:$false
-    Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
+    Write-Host "  Uploading $pageName to $PageLibraryName..." -ForegroundColor Cyan
+    $uploadedFile = Add-PnPFile -Path $pageLocalPath -Folder $PageLibraryName -NewFileName $pageName -ErrorAction Stop
+    Remove-Item -Path $pageLocalPath -Force -ErrorAction SilentlyContinue
 
-    # Retrieve underlying list item from Site Pages by filename (FileLeafRef) searching across subfolders
-    $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
+    # Retrieve item ID by filename FileLeafRef in CEISPilotKnowledgePages
+    $item = (Get-PnPListItem -List $PageLibraryName -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
     if (-not $item) {
-        $item = Get-PnPListItem -List "Site Pages" -FolderSiteRelativeUrl $PageLibraryName -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
+        $item = Get-PnPListItem -List $PageLibraryName -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
     }
-    $targetItem = if ($item -is [array]) { $item[0] } else { $item }
+    $targetItemId = if ($item -is [array]) { $item[0].Id } else { $item.Id }
 
-    Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values @{
+    Set-PnPListItem -List $PageLibraryName -Identity $targetItemId -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
@@ -169,8 +166,6 @@ foreach ($entry in $manifestJson.entries) {
         "TopicContentSHA256"   = $entry.topic_content_sha256;
         "SourceDocumentSHA256" = $entry.source_document_sha256;
     } | Out-Null
-
-    Set-PnPPage -Identity $page -Publish | Out-Null
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
