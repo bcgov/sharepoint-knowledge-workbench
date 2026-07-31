@@ -123,6 +123,45 @@ def test_cross_reference_terms(term: str):
     assert term in content, f"SKILL.md must contain cross-reference term '{term}'"
 
 
+def test_section_headers():
+    content = get_skill_content()
+    expected_headers = [
+        "# review-manual-topics",
+        "## Purpose & Overview",
+        "## Input Resolution Hierarchy",
+        "## Input Boundaries & Rules",
+        "## Allowed Semantic Review Scope",
+        "## Prohibited Operational Scope",
+        "## Honest Metadata Unavailable Language",
+        "## Cross-Reference Terminology",
+        "## Execution Steps",
+        "## Logical Output Structure",
+    ]
+    for header in expected_headers:
+        assert header in content, f"SKILL.md must contain section header '{header}'"
+
+
+def test_allowed_semantic_review_scope():
+    content = get_skill_content()
+    content_lower = content.lower()
+    required_elements = [
+        "title",
+        "purpose",
+        "procedural content",
+        "prerequisites",
+        "warnings",
+        "exceptions",
+        "expected results",
+        "terminology consistency",
+        "cross-references",
+        "ambiguity",
+        "incompleteness",
+        "human follow-up",
+    ]
+    for item in required_elements:
+        assert item in content_lower, f"Allowed semantic review scope must include '{item}'"
+
+
 def test_logical_output_structure_sections():
     content = get_skill_content()
 
