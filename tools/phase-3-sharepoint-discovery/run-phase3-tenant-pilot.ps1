@@ -144,13 +144,13 @@ foreach ($entry in $manifestJson.entries) {
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$mediaUrl/"
 
     # Remove existing page if present to guarantee clean creation with fresh HTML
-    $existingPage = Get-PnPPage -Identity "$PageLibraryName/$pageName" -ErrorAction SilentlyContinue
+    $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
     if ($existingPage) {
-        Remove-PnPPage -Identity "$PageLibraryName/$pageName" -Force -ErrorAction SilentlyContinue
+        Remove-PnPPage -Identity $pageName -Force -ErrorAction SilentlyContinue
     }
 
-    Write-Host "  Creating modern page $pageName in $PageLibraryName..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name "$PageLibraryName/$pageName" -LayoutType Article -Publish:$false
+    Write-Host "  Creating modern page $pageName in Site Pages root..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
     # Obtain item ID directly from Add-PnPPage return object
