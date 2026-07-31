@@ -138,10 +138,11 @@ foreach ($entry in $manifestJson.entries) {
         Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
     }
 
-    # Retrieve underlying list item ID safely for both newly created and existing pages
-    $item = Get-PnPListItem -List "Site Pages" -UniqueId $page.UniqueId -ErrorAction SilentlyContinue
-    if (-not $item) {
-        $item = Get-PnPListItem -List "Site Pages" -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
+    # Retrieve underlying list item by filename (FileLeafRef)
+    $item = (Get-PnPListItem -List "Site Pages" -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
+    if (-not $item -or $item.Count -eq 0) {
+        $allItems = Get-PnPListItem -List "Site Pages"
+        $item = $allItems | Where-Object { $_["FileLeafRef"] -eq $pageName }
     }
 
     Set-PnPListItem -List "Site Pages" -Identity $item.Id -Values @{
