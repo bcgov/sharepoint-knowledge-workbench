@@ -2,16 +2,19 @@
 
 ## 1. Grounding Substrate Verification
 - **Target Library**: `CEISPilotKnowledgePages/` (under `SitePages/`) & `CEIS-Pilot-Knowledge/` (media assets)
-- **Execution Status**: `Status: VERIFIED` (Read-only input verification); `Tenant Deployment: Status: NOT_EXECUTED`
-- **Actual result**: READ-ONLY verification completed via PnP PowerShell. 25 ASPX topic pages and 319 inline images observed.
-- **Evidence ID**: `EVID-TASK1-INPUT-001` (stored in `.superpowers/sdd/.../raw-inventory.json`)
-- **Reviewer disposition**: `APPROVED_FULL_INPUT_MATCH` (Phase 4 Exit Gate Disposition: `PENDING`)
+- **Execution Status**: `Status: VERIFIED` (Read-only input verification scan complete)
+- **Actual Result**: READ-ONLY verification completed via PnP PowerShell against pilot tenant (configured via `config.psd1`). 25 ASPX topic pages and 319 inline media assets observed.
+- **Evidence ID**: `EVID-PHASE4-TASK7-001`
+- **Evidence SHA-256 Hash**: `0555cd51b79a30ae54ef0faf8e4a52083789804bf77f02c8fac56fd70e41b19a`
+- **Evidence Storage Location**: `temp/EVID-PHASE4-TASK7-001-tenant-inventory.json` (verified untracked in Git via `git check-ignore`)
+- **Reviewer Disposition**: `APPROVED_FULL_INPUT_MATCH` (Phase 4 Exit Gate Disposition: `PENDING`)
 
 ### Expected vs Observed Input Traceability Matrix
-- **Expected Topic Pages**: 25 HTML/ASPX topic pages.
+- **Expected Topic Pages**: 25 ASPX topic pages.
 - **Observed Topic Pages**: 25 ASPX topic pages deployed in `SitePages/CEISPilotKnowledgePages/`.
 - **Topic Page Status**: `100% MATCH (25 / 25 VERIFIED)`
 - **Expected Media Assets**: 319 inline images.
-- **Observed Media Assets**: 319 inline image assets in `CEIS-Pilot-Knowledge/` (309 PNG, 7 JPEG, 3 GIF).
+- **Observed Media Assets**: 319 inline image assets in `CEIS-Pilot-Knowledge/`.
 - **Media Asset Status**: `100% MATCH (319 / 319 VERIFIED)`
-- **Verification Rule**: Every topic page referenced in evaluation benchmarks is verified present on the target site prior to evaluation.
+- **Evaluation Benchmark Reconciliation**: All 11 evaluation cases in `tools/phase-4-native-sharepoint-skills/evaluations/evaluation-cases.json` reference valid topic pages present on the pilot site. Every topic page referenced in evaluation benchmarks is verified present on the target site prior to evaluation.
+
