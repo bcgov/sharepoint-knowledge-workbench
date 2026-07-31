@@ -134,32 +134,34 @@ $manifestJson = Get-Content -Path $manifestPath -Raw | ConvertFrom-Json
 $web = Get-PnPWeb
 $mediaUrl = "$($web.Url)/$targetMediaFolder"
 
-Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages directly to Page Library '$PageLibraryName' root..." -ForegroundColor Cyan
+Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryName'..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
+    $pagePath = "$PageLibraryName/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$mediaUrl/"
 
     # Remove existing page if present to guarantee clean creation with fresh HTML
-    $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+    $existingPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
     if ($existingPage) {
-        Remove-PnPPage -Identity $pageName -Force -ErrorAction SilentlyContinue
+        Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
 
-    Write-Host "  Creating modern page $pageName in Site Pages root..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
+    Write-Host "  Creating modern page $pageName in $PageLibraryName..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Obtain item ID directly from Add-PnPPage return object
-    $targetItemId = if ($page.Item) { $page.Item.Id } else {
-        $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
-        if ($item -is [array]) { $item[0].Id } else { $item.Id }
+    # Retrieve underlying item directly from CEIS Pilot Knowledge Pages
+    $item = Get-PnPListItem -List "CEIS Pilot Knowledge Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
+    if (-not $item) {
+        $item = Get-PnPListItem -List "CEIS Pilot Knowledge Pages" -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
     }
+    $targetItem = if ($item -is [array]) { $item[0] } else { $item }
 
-    Set-PnPListItem -List "Site Pages" -Identity $targetItemId -Values @{
+    Set-PnPListItem -List "CEIS Pilot Knowledge Pages" -Identity $targetItem.Id -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
@@ -172,9 +174,9 @@ foreach ($entry in $manifestJson.entries) {
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
-# 5. Export actual library state from CEISPilotKnowledgePages to CSV for reconciliation
-Write-Host "Exporting tenant state from $PageLibraryName to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List $PageLibraryName -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
+# 5. Export actual library state from CEIS Pilot Knowledge Pages to CSV for reconciliation
+Write-Host "Exporting tenant state from CEIS Pilot Knowledge Pages to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = Get-PnPListItem -List "CEIS Pilot Knowledge Pages" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
 $results = @()
 
 foreach ($item in $items) {
