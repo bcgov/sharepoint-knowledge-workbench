@@ -138,27 +138,30 @@ Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to 
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
+    $pagePath = "$PageLibraryName/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$mediaUrl/"
 
-    # Upload HTML page directly to dedicated Page Library CEISPilotKnowledgePages
-    $pageLocalPath = Join-Path $PSScriptRoot "temp_$pageName"
-    Set-Content -Path $pageLocalPath -Value $rewrittenHtml -Encoding UTF8
-
-    Write-Host "  Uploading $pageName to $PageLibraryName..." -ForegroundColor Cyan
-    $uploadedFile = Add-PnPFile -Path $pageLocalPath -Folder $PageLibraryName -NewFileName $pageName -ErrorAction Stop
-    Remove-Item -Path $pageLocalPath -Force -ErrorAction SilentlyContinue
-
-    # Retrieve item ID by filename FileLeafRef to set metadata reliably
-    $item = (Get-PnPListItem -List $PageLibraryName -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
-    if (-not $item) {
-        $item = Get-PnPListItem -List $PageLibraryName | Where-Object { $_["FileLeafRef"] -eq $pageName }
+    # Remove existing page if present to guarantee clean creation with fresh HTML
+    $existingPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
+    if ($existingPage) {
+        Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
-    $targetItemId = if ($item -is [array]) { $item[0].Id } else { $item.Id }
 
-    Set-PnPListItem -List $PageLibraryName -Identity $targetItemId -Values @{
+    Write-Host "  Creating modern page $pagePath..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
+    Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
+
+    # Retrieve underlying list item by filename (FileLeafRef)
+    $item = Get-PnPListItem -List $PageLibraryName -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
+    if (-not $item) {
+        $item = Get-PnPListItem -List $PageLibraryName -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
+    }
+    $targetItem = if ($item -is [array]) { $item[0] } else { $item }
+
+    Set-PnPListItem -List $PageLibraryName -Identity $targetItem.Id -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
@@ -166,6 +169,8 @@ foreach ($entry in $manifestJson.entries) {
         "TopicContentSHA256"   = $entry.topic_content_sha256;
         "SourceDocumentSHA256" = $entry.source_document_sha256;
     } | Out-Null
+
+    Set-PnPPage -Identity $page -Publish | Out-Null
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
