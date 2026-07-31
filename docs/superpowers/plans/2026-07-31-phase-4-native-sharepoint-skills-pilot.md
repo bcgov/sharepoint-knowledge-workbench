@@ -6,7 +6,7 @@
 
 **Architecture:** 
 - **Tasks 0–6 (Preparation)**: Build a repository-first native skill package (`tools/phase-4-native-sharepoint-skills/`) holding `review-manual-topics/SKILL.md`, evaluation case definitions, PnP deployment/inventory/rollback scripts (using ignored `config.psd1`), and unexecuted `Status: NOT_EXECUTED` evidence report templates in `docs/reports/phase-4-native-sharepoint-skills/`.
-- **Tasks 7–12 (Execution & Evidence Acceptance)**: Execute the authorized tenant pilot against site `AG-CSB-ITAU-CMAT-DEV`, run read-only inventory and human-authorized deconfliction, deploy to `AgentAssets/Skills/review-manual-topics/SKILL.md` with SHA-256 readback verification, run dual-record metadata exposure probes, execute Condition A (No Skill) vs Condition B (Skill Invoked) benchmarks across 11 cases (including 4 permission identity classes and embedded prompt injection), exercise human-authorized rollback, populate evidence reports, and pass the real exit-gate validator.
+- **Tasks 7–12 (Execution & Evidence Acceptance)**: Execute the authorized tenant pilot against site `AG-CSB-INTRANET-DEV`, run read-only inventory and human-authorized deconfliction, deploy to `AgentAssets/Skills/review-manual-topics/SKILL.md` with SHA-256 readback verification, run dual-record metadata exposure probes, execute Condition A (No Skill) vs Condition B (Skill Invoked) benchmarks across 11 cases (including 4 permission identity classes and embedded prompt injection), exercise human-authorized rollback, populate evidence reports, and pass the real exit-gate validator.
 
 **Tech Stack:** Native SharePoint `SKILL.md` (Markdown), PnP PowerShell (`Add-PnPFile`, `Get-PnPFile`, `Remove-PnPFile`), Python 3.11+ (schema & evidence validation harness, `pytest`).
 

@@ -1,9 +1,9 @@
 # Native Skill Store Provisioning Discovery Report
 
 ## 1. Executive Summary
-This discovery report documents the site and tenant comparison between the pilot site (`https://bcgov.sharepoint.com/sites/AG-CSB-intranet-dev`) and the dev site (`https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV`) where `AgentAssets` was previously observed during Phase 3 capability discovery.
+This discovery report documents Task 7.5 reconnaissance on the current Phase 4 sandbox target (`https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV`). As historical reference, it includes site comparison data from an earlier Phase 3 execution environment (`https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV`). The earlier site is **retired from Phase 4 execution** and is documented here only to show prior evidence of native skill store provisioning on a different site.
 
-Per Task 7.5 governance, custom creation of `AgentAssets` via `New-PnPList` or substitute locations (`SkillAssets`, `SiteAssets`) is strictly `FORBIDDEN`. Provisioning of the native skill store must occur strictly through approved tenant/site native mechanisms.
+Per Task 7.5 governance, custom creation of `AgentAssets` via `New-PnPList` or substitute locations (`SkillAssets`, `SiteAssets`) is strictly `FORBIDDEN`. Provisioning of the native skill store must occur strictly through approved tenant/site native mechanisms. Phase 4 execution is blocked until the provisioning mechanism is confirmed on the current target.
 
 ## 2. Site & Tenant Comparison Matrix
 
@@ -30,11 +30,13 @@ Phase 3 discovery log (`docs/research/research-summary-phase3-sharepoint-write-c
 
 **Outcome C: Native skill authoring unavailable on this site (`PHASE_4_ENTRY_GATE_NOT_MET`)**
 
-- **Justification**: On the pilot site (`AG-CSB-intranet-dev`), `AgentAssets` does not yet exist (`NOT_FOUND`), and native skill store provisioning through UI action has not been triggered on this site instance.
-- **Recommendations**:
-  1. Re-gate Phase 4 to execute on the proven dev site (`AG-CSB-ITAU-CMAT-DEV`) where `AgentAssets` is already natively provisioned and verified.
-  2. Alternatively, perform the approved tenant/UI provisioning action on `AG-CSB-intranet-dev` to trigger native `AgentAssets` creation prior to Task 8 authorization.
-  3. Obtain explicit tenant enablement or select another approved site with active `AgentAssets`.
+- **Justification**: On the current target site (`AG-CSB-INTRANET-DEV`), `AgentAssets` does not yet exist (`NOT_FOUND`). No supported native-skill-store provisioning mechanism has yet been established for this sandbox target.
+- **Required Action**:
+  A site owner, tenant administrator, or Microsoft product owner must confirm whether native SharePoint skill authoring is enabled on `AG-CSB-INTRANET-DEV` and identify the supported product experience, if any, that provisions the native skill store.
+- **Non-Approved Actions**:
+  - Do NOT create an ordinary document library named `AgentAssets` as a substitute.
+  - Do NOT re-gate Phase 4 to an alternate site.
+  - Phase 4 execution remains blocked until provisioning method is established on the current target.
 
 ## 5. Evaluation Reference Reconciliation
 All positive and permission evaluation references expected to exist were observed. NEG-01 intentionally references a missing/invalid topic as its negative control.
