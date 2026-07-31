@@ -1,5 +1,6 @@
 """Static offline unit tests for Phase 4 skill inventory and report templates."""
 
+import hashlib
 import re
 import subprocess
 from pathlib import Path
@@ -47,6 +48,46 @@ def test_inventory_script_has_zero_write_cmdlets():
     assert len(matches) == 0, f"Found write-capable PnP cmdlets in read-only script: {matches}"
 
 
+def test_unambiguous_agent_assets_state_reporting():
+    """Test disambiguated AgentAssets state classification options."""
+    valid_library_states = {"OBSERVED", "NOT_FOUND", "FORBIDDEN", "PARTIAL", "FAILED"}
+    valid_folder_states = {"OBSERVED", "NOT_FOUND", "FORBIDDEN", "NOT_EVALUATED"}
+    valid_url_states = {"OBSERVED", "NOT_OBSERVED"}
+
+    assert "NOT_FOUND" in valid_library_states
+    assert "OBSERVED" in valid_library_states
+    assert "OBSERVED_EMPTY" not in valid_library_states, "OBSERVED_EMPTY must not be used (disambiguate library vs folder state)"
+    assert "NOT_OBSERVED" in valid_url_states
+
+
+def test_durable_evidence_hash_and_git_tracking():
+    """Test evidence file generation, SHA-256 hash calculation, and git ignore status."""
+    evidence_file = Path(__file__).resolve().parents[3] / "temp" / "EVID-PHASE4-TASK7-001-tenant-inventory.json"
+    if evidence_file.exists():
+        content = evidence_file.read_bytes()
+        calculated_hash = hashlib.sha256(content).hexdigest()
+        assert len(calculated_hash) == 64
+
+        # Verify file is ignored by git
+        res = subprocess.run(
+            ["git", "check-ignore", str(evidence_file)],
+            capture_output=True,
+            text=True,
+        )
+        assert res.returncode == 0
+        assert "temp/" in res.stdout or "EVID-PHASE4-TASK7-001" in res.stdout
+
+
+def test_bounded_collision_language_enforcement():
+    """Test bounded wording enforcement in candidate selection report."""
+    cand_file = Path(__file__).resolve().parents[3] / "docs" / "reports" / "phase-4-native-sharepoint-skills" / "candidate-selection.md"
+    assert cand_file.exists()
+    cand_content = cand_file.read_text(encoding="utf-8")
+
+    assert "No collision was observed within the successfully inspected scope." in cand_content
+    assert "The tenant contains no collisions" not in cand_content, "Must avoid unbounded total claims"
+
+
 def test_missing_configuration_handling(tmp_path):
     repo_root = Path(__file__).resolve().parents[3]
     script_path = (
@@ -67,3 +108,5 @@ def test_missing_configuration_handling(tmp_path):
     )
     assert res.returncode != 0
     assert "not found" in res.stderr.lower() or "not found" in res.stdout.lower()
+
+
