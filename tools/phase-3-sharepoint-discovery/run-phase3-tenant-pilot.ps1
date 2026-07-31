@@ -120,21 +120,27 @@ $manifestJson = Get-Content -Path $manifestPath -Raw | ConvertFrom-Json
 $web = Get-PnPWeb
 $siteAssetsUrl = "$($web.Url)/$siteAssetsTarget"
 
-Write-Host "Publishing $($manifestJson.entries.Count) topic pages to Site Pages..." -ForegroundColor Cyan
+$pageSubfolder = "CEIS-manual-v2"
+Write-Host "Publishing $($manifestJson.entries.Count) topic pages to Site Pages/$pageSubfolder..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $rawMd = Get-Content -Path $mdFile -Raw
 
     $rewrittenHtml = $rawMd -replace '\.\./media/', "$siteAssetsUrl/"
     $pageName = "$($entry.topic_id).aspx"
+    $pagePath = "$pageSubfolder/$pageName"
     
-    $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+    $existingPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
+    if (-not $existingPage) {
+        $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+    }
+
     if ($existingPage) {
         Write-Host "  Updating existing page $pageName..." -ForegroundColor Cyan
         $page = $existingPage
     } else {
-        Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
-        $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
+        Write-Host "  Creating modern page $pageName in subfolder $pageSubfolder..." -ForegroundColor Cyan
+        $page = Add-PnPPage -Name $pageName -Folder $pageSubfolder -LayoutType Article -Publish:$false
         Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
     }
 
