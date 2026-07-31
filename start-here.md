@@ -505,23 +505,34 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
   left flat and restructured later.
 
 **Remaining work to formally close Phase 3.0 (exit gate):**
-1. Write `tenant-capability-report.md` (Stage 3.0.3.1) — synthesize
-   `research-summary-phase3-sharepoint-write-capability-discovery.md` + `phase-3-0-discovery-report.json` into the single report the
-   plan names, with each of the 5 probe questions answered and cited to specific evidence.
-2. Write the dependency-status map (Stage 3.0.3.2) — map each Phase 3/4/5 entry-gate dependency
-   to confirmed-available / confirmed-blocked / needs-escalation, tracing each to a specific
-   probe result.
+1. ~~Write `tenant-capability-report.md` (Stage 3.0.3.1)~~ — **done, on branch
+   `phase-3-0-exit-gate`**: `docs/research/tenant-capability-report.md` synthesizes
+   `research-summary-phase3-sharepoint-write-capability-discovery.md` +
+   `phase-3-0-discovery-report.json` into the single report the plan names, answering all 5 probe
+   questions with cited evidence. Overall finding: Phase 3 scope is **provisionally confirmed
+   feasible**, not unconditionally — no probe returned a hard block against Phase 3's core
+   library-publishing scope, but three items need tenant-admin resolution (see the
+   dependency-status map below) before treating Phase 3 as fully implementation-ready.
+2. ~~Write the dependency-status map (Stage 3.0.3.2)~~ — **done, same branch**:
+   `docs/research/phase-3-dependency-status-map.md` maps each Phase 3/4/5 entry-gate dependency to
+   confirmed-available / confirmed-blocked / needs-escalation / deferred-until-evidence, each
+   traced to a specific probe result. Three rows need tenant-admin sign-off: `AgentAssets`
+   write-principal enumeration, Restricted Content Discovery/oversharing confirmation, and the
+   formal agent-creation approval path.
 3. Decide whether to run any of the 9 follow-up-backlog priorities *before* closing 3.0, or defer
    them to later (some, like Priority 9 Restricted Content Discovery, need tenant-admin
    involvement not currently available; others, like Priority 1 permission-boundary matrix and
-   Priority 4 isolated asset-retrieval retest, are cheap and could be folded in now).
+   Priority 4 isolated asset-retrieval retest, are cheap and could be folded in now). **Not yet
+   decided.**
 4. Clean up the `TEST-DO-NOT-USE-*` tenant artifacts (library, 2 agents, 8 skills, discovery-log
    list, uploaded CEIS content) per the staged-write protocol's "remove after, keep only
    evidence" step — not yet done; several are still in active use for potential follow-up tests,
    so raise with the user before deleting.
-5. Only once 1–2 are done does the plan's exit gate read as met ("`tenant-capability-report.md`
-   answers all five probe questions with observed evidence; Phase 3 scope confirmed feasible or
-   explicitly re-gated").
+5. **Items 1–2 are now done** — the plan's exit-gate first clause ("`tenant-capability-report.md`
+   answers all five probe questions with observed evidence") is met. Whether to treat Phase 3
+   scope as fully gated open (vs. re-gated pending the 3 tenant-admin-escalation items above) is a
+   human decision-owner call, not yet made — see both new documents' "Overall Gating Decision" /
+   closing sections.
 
 ## Next action on resume — this is the actual remaining work
 
@@ -529,7 +540,12 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
    sign-off and Phase 2's Task 0 precondition) was completed — see
    `runs/ceis-manual-v2/evidence-report.md`'s checklist. Nothing further needed here.
 2. **Phase 2 is done and merged to `main`.** Nothing further needed here — see the section above.
-3. **Phase 3.0 is in progress, not formally closed** — see the section directly above this one.
+3. **Phase 3.0's exit-gate documents (`tenant-capability-report.md`,
+   `phase-3-dependency-status-map.md`) are now written**, on branch `phase-3-0-exit-gate` — not
+   yet merged to `main`. Formal closure still requires: a decision on the 9 follow-up-backlog
+   priorities (item 3 above), the `TEST-DO-NOT-USE-*` cleanup (item 4 above), and the
+   decision-owner's call on the 3 tenant-admin-escalation items before treating Phase 3 as fully
+   implementation-ready. See the section directly above this one.
    The next concrete action is writing `tenant-capability-report.md` and the dependency-status
    map from the existing findings, not starting Phase 3 planning yet.
 4. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
