@@ -1,8 +1,11 @@
 # Resume — Phase 1, Phase 2, Phase 3 FULLY COMPLETE & VERIFIED; Phase 4 In Progress; Phase 4.5 Refactoring Confirmed
 
 > **Phase 4 Status (2026-07-31):** IN PROGRESS (`tools/phase-4-native-sharepoint-skills/`).
-> Tasks 0–4 complete, tested, and reviewed under `superpowers:subagent-driven-development`.
-> Task 5 (Evaluation Cases & No-Skill Control Harness) currently in progress (repository preparation only, zero tenant connections).
+> - Phase 4 is in progress;
+> - Tasks 0–5 preparation is complete;
+> - No skill deployment or tenant evaluation has occurred (strictly repository preparation only, zero tenant connections);
+> - No exit gate is met;
+> - Phase 4.5 is an accepted future architecture direction, not authorized implementation.
 >
 > **Confirmed Post-Phase 4 Priority:**
 > **Phase 4.5 — Core Knowledge Plugin Domain Refactoring**
@@ -11,7 +14,7 @@
 > 2. `plugins/knowledge-analysis/` (source-independent structural analysis, topic boundaries, cross-references)
 > 3. `plugins/canonical-knowledge/` (canonical packages, stable topic IDs, anchors, lineage, hashes, publication maps)
 > 4. `plugins/knowledge-publication/` (canonical package rendering: human-facing multipage markdown & agent-grounding digests)
-> *(Knowledge templates & SharePoint publication plugins remain deferred until working capabilities exist).*
+> *(Knowledge templates & SharePoint publication plugins remain deferred until working capabilities exist — Phase 4.5 is an accepted future architecture direction, not authorized implementation).*
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
