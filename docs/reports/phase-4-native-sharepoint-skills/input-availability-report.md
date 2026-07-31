@@ -16,5 +16,5 @@
 - **Expected Media Assets**: 319 inline images.
 - **Observed Media Assets**: 319 inline image assets in `CEIS-Pilot-Knowledge/`.
 - **Media Asset Status**: `100% MATCH (319 / 319 VERIFIED)`
-- **Evaluation Benchmark Reconciliation**: All 11 evaluation cases in `tools/phase-4-native-sharepoint-skills/evaluations/evaluation-cases.json` reference valid topic pages present on the pilot site. Every topic page referenced in evaluation benchmarks is verified present on the target site prior to evaluation.
+- **Evaluation Benchmark Reconciliation**: All positive and permission evaluation references expected to exist were observed. NEG-01 intentionally references a missing/invalid topic as its negative control.
 
