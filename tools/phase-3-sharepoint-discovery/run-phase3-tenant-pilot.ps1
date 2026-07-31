@@ -11,8 +11,8 @@
        - PublicationOrder (Number)
        - TopicContentSHA256 (Text)
        - SourceDocumentSHA256 (Text)
-    4. Uploads media files to SiteAssets/CEIS-manual-v2/.
-    5. Publishes modern pages directly under Site Pages / subfolder or Site Pages library,
+    4. Uploads media files to CEISPilotKnowledge/media/.
+    5. Publishes modern pages directly to dedicated Page Library CEISPilotKnowledgePages/,
        and exports actual tenant state to CSV (actual-state.csv) for reconciliation.
 
 .EXAMPLE
