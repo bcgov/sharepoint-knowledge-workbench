@@ -154,14 +154,8 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Retrieve underlying item directly from CEIS Pilot Knowledge Pages
-    $item = Get-PnPListItem -List "CEIS Pilot Knowledge Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
-    if (-not $item) {
-        $item = Get-PnPListItem -List "CEIS Pilot Knowledge Pages" -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
-    }
-    $targetItem = if ($item -is [array]) { $item[0] } else { $item }
-
-    Set-PnPListItem -List "CEIS Pilot Knowledge Pages" -Identity $targetItem.Id -Values @{
+    # Use PageId directly from Add-PnPPage return object
+    Set-PnPListItem -List "CEIS Pilot Knowledge Pages" -Identity $page.PageId -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
