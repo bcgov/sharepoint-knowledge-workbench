@@ -28,15 +28,67 @@ Phase 3 discovery log (`docs/research/research-summary-phase3-sharepoint-write-c
 
 ## 4. Outcome Classification
 
-**Outcome C: Native skill authoring unavailable on this site (`PHASE_4_ENTRY_GATE_NOT_MET`)**
+**Evidence-Based Finding:**
 
-- **Justification**: On the current target site (`AG-CSB-INTRANET-DEV`), `AgentAssets` does not yet exist (`NOT_FOUND`). No supported native-skill-store provisioning mechanism has yet been established for this sandbox target.
-- **Required Action**:
-  A site owner, tenant administrator, or Microsoft product owner must confirm whether native SharePoint skill authoring is enabled on `AG-CSB-INTRANET-DEV` and identify the supported product experience, if any, that provisions the native skill store.
-- **Non-Approved Actions**:
-  - Do NOT create an ordinary document library named `AgentAssets` as a substitute.
-  - Do NOT re-gate Phase 4 to an alternate site.
-  - Phase 4 execution remains blocked until provisioning method is established on the current target.
+- `AGENTASSETS_NOT_FOUND` — `AgentAssets` library does not exist on `AG-CSB-INTRANET-DEV`.
+- `PROVISIONING_METHOD_INCONCLUSIVE` — No supported native-skill-store provisioning mechanism has been established for this site.
+- `NATIVE_SKILL_AUTHORING_NOT_CONFIRMED` — Native SharePoint skill authoring availability remains unconfirmed.
+- `PHASE_4_ENTRY_GATE_NOT_MET`
+- `TASK_8_BLOCKED`
+
+**Required Administrative/Product Decision:**
+
+A site owner, tenant administrator, or Microsoft product owner must confirm:
+
+1. Is native SharePoint skill authoring enabled and supported on `AG-CSB-INTRANET-DEV`?
+2. If yes, what supported Microsoft product experience provisions the native skill store for this site?
+
+Acceptable evidence: `ADMIN_CONFIRMED`, `PRODUCT_UI_OBSERVED`, or `MICROSOFT_DOCUMENTED`.
+
+**Non-Approved Actions:**
+
+- Do NOT create an ordinary document library named `AgentAssets` as a substitute.
+- Do NOT infer support from an ordinary library name.
+- Do NOT re-gate Phase 4 to an alternate site.
+- Phase 4 execution remains blocked until provisioning method is confirmed on the current target.
 
 ## 5. Evaluation Reference Reconciliation
 All positive and permission evaluation references expected to exist were observed. NEG-01 intentionally references a missing/invalid topic as its negative control.
+
+---
+
+## 6. Evidence Durability & Storage Status
+
+**Temporary Storage (Current):**
+- Evidence ID: `EVID-PHASE4-TASK7-001`
+- Current Location: `temp/EVID-PHASE4-TASK7-001-tenant-inventory.json` (transient, not Git-tracked)
+- SHA-256 Hash: `0555cd51b79a30ae54ef0faf8e4a52083789804bf77f02c8fac56fd70e41b19a`
+
+**Durable Storage (Before Phase 4 Closure):**
+- Status: `PENDING_RELOCATION` — Evidence must be moved to an approved durable non-Git location before Phase 4 closure.
+- Action: Copy the exact file to durable storage; verify SHA-256 remains unchanged.
+- Do NOT invent a durable destination. Coordinate with project governance on approved evidence storage path.
+- Tracked report will record: evidence ID, SHA-256, sanitized storage label, collection date, collector/reviewer role, access classification.
+
+---
+
+## 7. Operational Paths & Worktree Registration
+
+**Registered Phase 4 Worktree:**
+```
+/Users/richardfremmerlid/Projects/copilot-worktrees/phase-4
+Branch: phase-4-native-sharepoint-skills
+Status: Clean, synchronized with remote
+```
+
+**Repository Root:**
+```
+/Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench
+```
+
+**Orphaned Path (Do Not Use):**
+```
+/Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench/.worktrees/phase-4-native-sharepoint-skills
+Status: Broken worktree reference (not registered, created by repository folder rename)
+Action: Handle via separate housekeeping step after Phase 4 closure. Do NOT remove during Phase 4.
+```
