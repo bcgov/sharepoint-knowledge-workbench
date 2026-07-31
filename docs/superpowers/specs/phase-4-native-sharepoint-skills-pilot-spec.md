@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary & Purpose
 
-Phase 4 pilots **one** native SharePoint skill (`review-manual-topics` authored as a native `SKILL.md`) end-to-end against the Phase 3 CEIS pilot library (`CEISPilotKnowledgePages/` on site `AG-CSB-ITAU-CMAT-DEV`).
+Phase 4 pilots **one** native SharePoint skill (`review-manual-topics` authored as a native `SKILL.md`) end-to-end against the Phase 3 CEIS pilot library (`CEISPilotKnowledgePages/` on site `AG-CSB-INTRANET-DEV`).
 
 ### Core Architectural Principle
 Phase 4 enforces a strict division of responsibilities:
