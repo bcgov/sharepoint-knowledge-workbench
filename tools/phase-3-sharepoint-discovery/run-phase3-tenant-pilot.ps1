@@ -160,13 +160,13 @@ foreach ($entry in $manifestJson.entries) {
         Remove-PnPPage -Identity $existingTargetPage.Name -Force -ErrorAction SilentlyContinue
     }
 
-    # Step 1: Create Modern Page using PnP Page Engine
+    # Step 1: Create Modern Page using PnP Page Engine with Title
     Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
+    $page = Add-PnPPage -Name $pageName -Title $entry.title -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
     Set-PnPPage -Identity $page -Publish | Out-Null
 
-    # Step 2: Move the created Modern Page into dedicated Page Library CEISPilotKnowledgePages (if created in default SitePages)
+    # Step 2: Move the created Modern Page into dedicated Page Library CEISPilotKnowledgePages
     $sourceFileUrl = "$serverRelativeWebUrl/SitePages/$pageName"
     $targetFileUrl = "$serverRelativeWebUrl/$PageLibraryUrl/$pageName"
 
@@ -184,14 +184,19 @@ foreach ($entry in $manifestJson.entries) {
     $targetItem = if ($item -is [array]) { $item[0] } else { $item }
 
     if ($targetItem) {
-        Set-PnPListItem -List $PageLibraryUrl -Identity $targetItem.Id -Values @{
-            "Title"                = $entry.title;
+        $itemValues = @{
             "TopicId"              = $entry.topic_id;
             "PackageIdentity"      = $entry.package_identity;
             "PublicationOrder"     = $entry.order;
             "TopicContentSHA256"   = $entry.topic_content_sha256;
             "SourceDocumentSHA256" = $entry.source_document_sha256;
-        } | Out-Null
+        }
+        $hasTitleField = Get-PnPField -List $PageLibraryUrl -Identity "Title" -ErrorAction SilentlyContinue
+        if ($hasTitleField) {
+            $itemValues["Title"] = $entry.title
+        }
+
+        Set-PnPListItem -List $PageLibraryUrl -Identity $targetItem.Id -Values $itemValues | Out-Null
     }
 
     Write-Host "  Published $pageName to $PageLibraryUrl" -ForegroundColor Green
