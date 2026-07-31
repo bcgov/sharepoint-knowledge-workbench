@@ -150,7 +150,7 @@ foreach ($entry in $manifestJson.entries) {
     }
 
     Write-Host "  Creating modern page $pageName in $PageLibraryName..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pageName -Folder $PageLibraryName -LayoutType Article -Publish:$false
+    $page = Add-PnPPage -Name "$PageLibraryName/$pageName" -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
     # Retrieve item ID by filename FileLeafRef in CEISPilotKnowledgePages
