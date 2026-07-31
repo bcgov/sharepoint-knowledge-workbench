@@ -155,8 +155,8 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Use PageId directly from Add-PnPPage return object
-    Set-PnPListItem -List $PageLibraryTitle -Identity $page.PageId -Values @{
+    # Use PageId directly from Add-PnPPage return object targeting exact URL page library CEISPilotKnowledgePages
+    Set-PnPListItem -List $PageLibraryUrl -Identity $page.PageId -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
@@ -169,9 +169,9 @@ foreach ($entry in $manifestJson.entries) {
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
-# 5. Export actual library state from CEIS Pilot Knowledge Pages to CSV for reconciliation
-Write-Host "Exporting tenant state from $PageLibraryTitle to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List $PageLibraryTitle -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
+# 5. Export actual library state from CEISPilotKnowledgePages to CSV for reconciliation
+Write-Host "Exporting tenant state from $PageLibraryUrl to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = Get-PnPListItem -List $PageLibraryUrl -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
 $results = @()
 
 foreach ($item in $items) {
