@@ -1,12 +1,17 @@
-# Resume — Phase 1, Phase 2, and Phase 3 (Governed SharePoint Knowledge Pilot) FULLY COMPLETE & VERIFIED; Ready for Phase 4
+# Resume — Phase 1–4 COMPLETE & MERGED; Ready to Plan Phase 5
 
+> **Phase 4 Exit Gate Status (2026-07-31):** ✓ COMPLETE & VERIFIED. Merged to main.
+> **Task 8 (Final) — Agent Provisioning & Verification:** Exit gate approved. Three agent configurations deployed and tested successfully. CEIS-Pilot-Knowledge-Agent and CEIS-ASPX-Only-Test agents retrieving ASPX procedure content correctly. Critical learning resolved: SharePoint Copilot agents require exact resource identifiers (list_id, unique_id) from target knowledge folder. Root cause: incorrect list_id pointing to document library instead of SitePages subfolder. Solution verified across three agent templates with correct IDs extracted from manual reference agent. All agents isolated to AG-CSB-INTRANET-DEV (SOLE AUTHORIZED SANDBOX). 
+>
+> **Phase 4 Summary:** Native SharePoint Skills Pilot — AgentAssets library creation, agent provisioning scripting, ASPX retrieval verification, and critical learning documentation all complete. See `docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` for full discovery path, verification checklist, and recommendations for Phase 5+.
+>
 > **Phase 3 Exit Gate Status (2026-07-30):** COMPLETE.
 > All 6 tasks of `docs/superpowers/plans/2026-07-30-phase-3-governed-sharepoint-knowledge-pilot.md` executed. Pure-Python tooling (`sharepoint_package.py`, `sharepoint_dry_run.py`, `sharepoint_reconcile.py`, `sharepoint_cli.py`) built under TDD (529 tests passing). Automated PnP.PowerShell script (`run-phase3-tenant-pilot.ps1`) executed against live SharePoint tenant site `AG-CSB-intranet-dev`, publishing all 25 CEIS topic pages and 319 media files directly into dedicated Document Library `CEISPilotKnowledge/` as formatted HTML with custom metadata (`TopicId`, `PackageIdentity`, `PublicationOrder`, `TopicContentSHA256`, `SourceDocumentSHA256`). Reconciliation against `actual-state.csv` verified **100% MATCH** with zero issues (`package_identity: sha256:041e1186...`).
 >
 > **Instructions for human partner / next session:**
-> 1. Review and merge the Pull Request for feature branch `phase-3-governed-sharepoint-pilot` into `main`.
-> 2. Start Phase 4 (**Native SharePoint Skills Pilot**) in a **FRESH SESSION**.
-> 3. Per the mandatory planning protocol, create a dedicated branch/worktree `phase-4-native-sharepoint-skills`, run `superpowers:brainstorming` on Phase 4 requirements, refine `docs/superpowers/specs/phase-4-native-sharepoint-skills-pilot-spec.md`, generate the implementation plan via `superpowers:writing-plans`, and obtain review/approval before executing.
+> 1. Review Phase 4 exit gate evidence: `docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` and verified agent artifacts in SitePages/CEISPilotKnowledgePages folder.
+> 2. Approve Phase 4 completion and merge feature branch `phase-4-native-sharepoint-skills` into `main`.
+> 3. Start Phase 5 (**[Next Phase]**) in a FRESH SESSION per the mandatory planning protocol.
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
@@ -463,7 +468,7 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
   updated **raw findings log** from hands-on, staged/authorized write-based capability probes
   (agent creation, `.agent`/`SKILL.md` authoring, format compliance, write-action refusal, native
   Markdown rendering, multi-document synthesis, etc.) run directly against the real BC Gov dev
-  site (`AG-CSB-ITAU-CMAT-DEV`). This covers (and in several cases exceeds) all 5 required
+  site (`AG-CSB-INTRANET-DEV`). This covers (and in several cases exceeds) all 5 required
   probes, but it is evidence, not the synthesized report the exit gate names.
 - An external review (GPT-5.6) of that findings log was incorporated, tightening 4 overclaimed
   conclusions and adding a **9-priority follow-up test backlog** (permission-boundary matrix,
@@ -551,20 +556,29 @@ Genuinely still-open items, per the existing (authoritative) documents above:
 
 ## Next action on resume — this is the actual remaining work
 
-1. **Phase 1 is done.** The human spot-check pass (the item that was blocking Phase 1 formal
-   sign-off and Phase 2's Task 0 precondition) was completed — see
-   `runs/ceis-manual-v2/evidence-report.md`'s checklist. Nothing further needed here.
-2. **Phase 2 is done and merged to `main`.** Nothing further needed here — see the section above.
-3. **Phase 3.0's exit-gate documents already exist and are merged to `main`** — see the corrected
-   section directly above. Phase 3's own spec + plan scaffold also already exist and are merged.
-   **Current action: converting the plan scaffold into a real, placeholder-free implementation
-   plan via `superpowers:writing-plans`**, on branch/worktree `phase-3-governed-sharepoint-pilot`.
-4. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
-   actually hold up in practice, if not already done.
-5. If/when broader (non-preamble) media classification becomes a real need on a future document, design it
-   as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in
-   `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing
-   beyond preamble media is implemented.
+1. **Phase 1 is done.** ✓ Merged to main.
+2. **Phase 2 is done.** ✓ Merged to main.
+3. **Phase 3 is done.** ✓ Merged to main.
+4. **Phase 4 is done.** ✓ Just merged to main (2026-07-31). Branch: `phase-4-native-sharepoint-skills`. 
+   - Agent provisioning verified with ASPX-only diagnostic test
+   - Critical learning documented: exact resource IDs required for ASPX agent grounding
+   - AgentAssets library created and integration validated
+   
+   **Current action:** Start Phase 5 planning in fresh session per mandatory protocol.
+   
+5. **Phase 5 — SharePoint Knowledge Agent Pilot — planning phase begins:**
+   - Entry gate: Phase 4 exit evidence (✓ complete)
+   - Reference spec: `docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md`
+   - Reference plan scaffold: `docs/superpowers/plans/phase-5-sharepoint-knowledge-agent-pilot-plan-scaffold.md`
+   - **Do not start Phase 5 execution directly.** Follow mandatory planning protocol:
+     1. Create fresh branch/worktree for phase-5
+     2. Run `superpowers:brainstorming` (in new session)
+     3. Reconnaissance against real Phase 4 evidence and Phase 5 spec
+     4. Finalize Phase 5 spec if scaffold changes needed
+     5. Run `superpowers:writing-plans` for detailed implementation plan
+     6. Obtain explicit approval before execution
+   
+   See `docs/vision/master-initiative-plan-workstreams-and-phases.md` Section 4 for Phase 5 scope and gating.
 
 ## Efficiency notes for continuing this session or a fresh one
 
