@@ -160,13 +160,12 @@ foreach ($entry in $manifestJson.entries) {
         Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
 
-    # Step 1: Create and publish Modern Page directly in Site Pages/CEISPilotKnowledgePages subfolder
+    # Step 1: Create Modern Page draft in Site Pages/CEISPilotKnowledgePages subfolder
     Write-Host "  Creating modern page $pageName in Site Pages/CEISPilotKnowledgePages..." -ForegroundColor Cyan
     $page = Add-PnPPage -Name $pagePath -Title $entry.title -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
-    Set-PnPPage -Identity $page -Publish | Out-Null
 
-    # Step 2: Set custom governance metadata on the published page item in Site Pages
+    # Step 2: Set custom governance metadata while item is draft/checked out
     $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
     if (-not $item) {
         $item = Get-PnPListItem -List "Site Pages" -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
@@ -186,9 +185,21 @@ foreach ($entry in $manifestJson.entries) {
             $itemValues["Title"] = $entry.title
         }
 
-        Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values $itemValues | Out-Null
+        try {
+            Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values $itemValues | Out-Null
+        } catch {
+            # Handle check-out requirement gracefully if library enforces manual check-out
+            try {
+                $fileUrl = "SitePages/$pagePath"
+                Set-PnPFileCheckedOut -Url $fileUrl -ErrorAction SilentlyContinue | Out-Null
+                Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values $itemValues | Out-Null
+                Set-PnPFileCheckedIn -Url $fileUrl -CheckinType MajorCheckIn -Comment "Metadata update" -ErrorAction SilentlyContinue | Out-Null
+            } catch { }
+        }
     }
 
+    # Step 3: Publish Modern Page
+    Set-PnPPage -Identity $page -Publish | Out-Null
     Write-Host "  Published $pageName to Site Pages/CEISPilotKnowledgePages" -ForegroundColor Green
 }
 
