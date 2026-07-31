@@ -36,9 +36,12 @@ if (-not (Test-Path $ConfigPath)) {
     exit 1
 }
 
-$manifestPath = Join-Path $PackageDir "upload-package.json"
+$manifestPath = Join-Path $PackageDir "upload-manifest.json"
 if (-not (Test-Path $manifestPath)) {
-    Write-Error "Manifest file not found: $manifestPath."
+    $manifestPath = Join-Path $PackageDir "upload-package.json"
+}
+if (-not (Test-Path $manifestPath)) {
+    Write-Error "Manifest file not found in $PackageDir."
     exit 1
 }
 
@@ -51,10 +54,11 @@ Write-Host "Connected successfully!" -ForegroundColor Green
 
 # 1. Ensure custom columns exist on Site Pages
 $customFields = @(
-    @{ InternalName = "CEISTopicID"; DisplayName = "CEIS Topic ID"; Type = "Text" },
-    @{ InternalName = "CEISSourceVersion"; DisplayName = "CEIS Source Version"; Type = "Text" },
-    @{ InternalName = "CEISCanonicalHash"; DisplayName = "CEIS Canonical Hash"; Type = "Text" },
-    @{ InternalName = "CEISRenderedHash"; DisplayName = "CEIS Rendered Hash"; Type = "Text" }
+    @{ InternalName = "TopicId"; DisplayName = "Topic ID"; Type = "Text" },
+    @{ InternalName = "PackageIdentity"; DisplayName = "Package Identity"; Type = "Text" },
+    @{ InternalName = "PublicationOrder"; DisplayName = "Publication Order"; Type = "Number" },
+    @{ InternalName = "TopicContentSHA256"; DisplayName = "Topic Content SHA256"; Type = "Text" },
+    @{ InternalName = "SourceDocumentSHA256"; DisplayName = "Source Document SHA256"; Type = "Text" }
 )
 
 Write-Host "Ensuring custom metadata columns on 'Site Pages' library..." -ForegroundColor Cyan
@@ -91,11 +95,11 @@ $siteAssetsUrl = "$($web.Url)/$siteAssetsTarget"
 
 Write-Host "Publishing $($manifestJson.entries.Count) topic pages..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
-    $htmlFile = Join-Path $PackageDir $entry.rendered_relative_path
-    $rawHtml = Get-Content -Path $htmlFile -Raw
+    $mdFile = Join-Path $PackageDir $entry.content_path
+    $rawMd = Get-Content -Path $mdFile -Raw
 
-    # Rewrite media paths if present
-    $rewrittenHtml = $rawHtml -replace '\.\./media/', "$siteAssetsUrl/"
+    # Convert Markdown to basic HTML for text part & rewrite media paths if present
+    $rewrittenHtml = $rawMd -replace '\.\./media/', "$siteAssetsUrl/"
 
     $pageName = "$($entry.topic_id).aspx"
     Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
@@ -103,12 +107,14 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Set custom metadata
+    # Set custom metadata matching Task 1 schema
     Set-PnPPage -Identity $page -Values @{
-        "CEISTopicID"        = $entry.topic_id;
-        "CEISSourceVersion"   = $entry.source_version;
-        "CEISCanonicalHash"   = $entry.canonical_hash;
-        "CEISRenderedHash"    = $entry.rendered_hash;
+        "Title"                = $entry.title;
+        "TopicId"              = $entry.topic_id;
+        "PackageIdentity"      = $entry.package_identity;
+        "PublicationOrder"     = $entry.order;
+        "TopicContentSHA256"   = $entry.topic_content_sha256;
+        "SourceDocumentSHA256" = $entry.source_document_sha256;
     } | Out-Null
 
     # Publish page
@@ -116,19 +122,20 @@ foreach ($entry in $manifestJson.entries) {
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
-# 4. Export actual library state to CSV for reconciliation
+# 4. Export actual library state to CSV for reconciliation matching sharepoint_reconcile.py format
 Write-Host "Exporting tenant state to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List "Site Pages" -Fields "FileLeafRef", "CEISTopicID", "CEISSourceVersion", "CEISCanonicalHash", "CEISRenderedHash"
+$items = Get-PnPListItem -List "Site Pages" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
 $results = @()
 
 foreach ($item in $items) {
-    if ($item["CEISTopicID"]) {
+    if ($item["TopicId"]) {
         $results += [PSCustomObject]@{
-            "FileLeafRef"        = $item["FileLeafRef"]
-            "CEISTopicID"        = $item["CEISTopicID"]
-            "CEISSourceVersion"   = $item["CEISSourceVersion"]
-            "CEISCanonicalHash"   = $item["CEISCanonicalHash"]
-            "CEISRenderedHash"    = $item["CEISRenderedHash"]
+            "TopicId"              = $item["TopicId"]
+            "Title"                = $item["Title"]
+            "PackageIdentity"      = $item["PackageIdentity"]
+            "PublicationOrder"     = $item["PublicationOrder"]
+            "TopicContentSHA256"   = $item["TopicContentSHA256"]
+            "SourceDocumentSHA256" = $item["SourceDocumentSHA256"]
         }
     }
 }
