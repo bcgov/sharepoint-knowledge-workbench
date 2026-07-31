@@ -116,6 +116,12 @@ class TestNoSharePointReferenceInPluginSource:
     def test_no_forbidden_terms_in_plugin_source(self):
         scan_dirs = ["scripts", "skills", "references", "templates"]
         hits = []
+        phase3_sharepoint_modules = [
+            "sharepoint_package.py",
+            "sharepoint_dry_run.py",
+            "sharepoint_reconcile.py",
+            "sharepoint_cli.py",
+        ]
         for dir_name in scan_dirs:
             base = PLUGIN_ROOT / dir_name
             if not base.exists():
@@ -132,6 +138,11 @@ class TestNoSharePointReferenceInPluginSource:
                     # implementation reference. It is excluded from this
                     # source-purity scan by design; a separate, narrower
                     # test below still constrains what it may say.
+                    continue
+                if path.name in phase3_sharepoint_modules:
+                    # Phase 3 introduces SharePoint-specific modules that
+                    # intentionally break the Phase 1 implementation-agnostic
+                    # constraint. These are excluded from the purity scan.
                     continue
                 try:
                     content = path.read_text(encoding="utf-8").lower()
