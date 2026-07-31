@@ -127,10 +127,16 @@ foreach ($entry in $manifestJson.entries) {
 
     $rewrittenHtml = $rawMd -replace '\.\./media/', "$siteAssetsUrl/"
     $pageName = "$($entry.topic_id).aspx"
-    Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
-
-    $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
-    Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
+    
+    $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+    if ($existingPage) {
+        Write-Host "  Updating existing page $pageName..." -ForegroundColor Cyan
+        $page = $existingPage
+    } else {
+        Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
+        $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
+        Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
+    }
 
     Set-PnPListItem -List "Site Pages" -Identity $page.Item.Id -Values @{
         "Title"                = $entry.title;
