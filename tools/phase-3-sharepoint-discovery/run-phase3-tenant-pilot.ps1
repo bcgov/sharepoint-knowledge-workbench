@@ -143,13 +143,15 @@ foreach ($entry in $manifestJson.entries) {
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$mediaUrl/"
 
-    # Upload HTML page directly to dedicated Page Library CEISPilotKnowledgePages (no subfolders)
-    $pageLocalPath = Join-Path $PSScriptRoot "temp_$pageName"
-    Set-Content -Path $pageLocalPath -Value $rewrittenHtml -Encoding UTF8
+    # Remove existing page if present to guarantee clean creation with fresh HTML
+    $existingPage = Get-PnPPage -Identity "$PageLibraryName/$pageName" -ErrorAction SilentlyContinue
+    if ($existingPage) {
+        Remove-PnPPage -Identity "$PageLibraryName/$pageName" -Force -ErrorAction SilentlyContinue
+    }
 
-    Write-Host "  Uploading $pageName to $PageLibraryName..." -ForegroundColor Cyan
-    $uploadedFile = Add-PnPFile -Path $pageLocalPath -Folder $PageLibraryName -NewFileName $pageName -ErrorAction Stop
-    Remove-Item -Path $pageLocalPath -Force -ErrorAction SilentlyContinue
+    Write-Host "  Creating modern page $pageName in $PageLibraryName..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pageName -Folder $PageLibraryName -LayoutType Article -Publish:$false
+    Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
     # Retrieve item ID by filename FileLeafRef in CEISPilotKnowledgePages
     $item = (Get-PnPListItem -List $PageLibraryName -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
@@ -166,6 +168,8 @@ foreach ($entry in $manifestJson.entries) {
         "TopicContentSHA256"   = $entry.topic_content_sha256;
         "SourceDocumentSHA256" = $entry.source_document_sha256;
     } | Out-Null
+
+    Set-PnPPage -Identity $page -Publish | Out-Null
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
