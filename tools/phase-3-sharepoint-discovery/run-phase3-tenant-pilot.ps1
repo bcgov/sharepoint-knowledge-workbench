@@ -119,7 +119,7 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    Set-PnPPage -Identity $page -Values @{
+    Set-PnPListItem -List "Site Pages" -Identity $page.Item.Id -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
