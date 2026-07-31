@@ -87,16 +87,29 @@ foreach ($listIdentity in @("Site Pages", $LibraryName)) {
     }
 }
 
-# 3. Upload Media Assets
+# 3. Upload Media Assets (Resume-capable: skips files already present in SiteAssets)
 $mediaFolder = Join-Path $PackageDir "media"
 $siteAssetsTarget = "SiteAssets/CEIS-manual-v2"
 if (Test-Path $mediaFolder) {
-    Write-Host "Uploading media assets to $siteAssetsTarget..." -ForegroundColor Cyan
+    Write-Host "Checking media assets in $siteAssetsTarget..." -ForegroundColor Cyan
     Resolve-PnPFolder -SiteRelativePath $siteAssetsTarget | Out-Null
+    
+    # Get list of existing files in the target folder to skip re-uploading
+    $existingFolderFiles = Get-PnPFolderItem -ItemType File -FolderSiteRelativeUrl $siteAssetsTarget -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name
+    
     $mediaFiles = Get-ChildItem -Path $mediaFolder -File
     foreach ($file in $mediaFiles) {
-        Add-PnPFile -Path $file.FullName -Folder $siteAssetsTarget | Out-Null
-        Write-Host "  Uploaded $($file.Name)" -ForegroundColor Gray
+        if ($existingFolderFiles -and ($existingFolderFiles -contains $file.Name)) {
+            Write-Host "  Skipping existing $($file.Name)" -ForegroundColor Gray
+            continue
+        }
+        
+        try {
+            Add-PnPFile -Path $file.FullName -Folder $siteAssetsTarget -ErrorAction Stop | Out-Null
+            Write-Host "  Uploaded $($file.Name)" -ForegroundColor Green
+        } catch {
+            Write-Host "  Warning: Failed to upload $($file.Name) - $($_.Exception.Message)" -ForegroundColor Yellow
+        }
     }
 }
 
