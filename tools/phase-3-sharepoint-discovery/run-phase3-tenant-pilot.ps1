@@ -1,19 +1,19 @@
 <#
 .SYNOPSIS
-    Phase 3 Governed SharePoint Tenant Pilot Execution Script (Dedicated Library).
+    Phase 3 Governed SharePoint Tenant Pilot Execution Script.
 
 .DESCRIPTION
     1. Connects to SPO via PnPOnline using config.psd1 credentials.
-    2. Ensures custom Document Library 'CEIS-Pilot-Knowledge' exists (or creates it).
-    3. Ensures custom library fields exist on 'CEIS-Pilot-Knowledge':
+    2. Ensures dedicated Page Library 'CEISPilotKnowledgePages' and Asset Library 'CEISPilotKnowledge' exist.
+    3. Ensures custom library fields exist on both libraries:
        - TopicId (Text)
        - PackageIdentity (Text)
        - PublicationOrder (Number)
        - TopicContentSHA256 (Text)
        - SourceDocumentSHA256 (Text)
-    4. Uploads media files to CEISPilotKnowledge/media/.
-    5. Publishes modern pages directly to dedicated Page Library CEISPilotKnowledgePages/,
-       and exports actual tenant state to CSV (actual-state.csv) for reconciliation.
+    4. Uploads media files directly to CEISPilotKnowledge/media/.
+    5. Publishes modern web pages directly to dedicated Page Library CEISPilotKnowledgePages/.
+    6. Exports actual tenant state to CSV (actual-state.csv) for reconciliation.
 
 .EXAMPLE
     .\run-phase3-tenant-pilot.ps1 -PackageDir "temp/upload-packages/ceis-manual-v2" -ConfigPath "config.psd1" -OutputFile "actual-state.csv"
@@ -26,12 +26,16 @@ param(
 
     [string]$ConfigPath = (Join-Path $PSScriptRoot "config.psd1"),
 
-    [string]$OutputFile = (Join-Path $PSScriptRoot "actual-state.csv"),
-
-    [string]$LibraryName = "CEISPilotKnowledge"
+    [string]$OutputFile = (Join-Path $PSScriptRoot "actual-state.csv")
 )
 
 $ErrorActionPreference = "Stop"
+
+# Single-source-of-truth library target configuration
+[string]$PageLibraryUrl   = "CEISPilotKnowledgePages"
+[string]$PageLibraryTitle = "CEIS Pilot Knowledge Pages"
+[string]$AssetLibraryUrl  = "CEISPilotKnowledge"
+[string]$AssetLibraryTitle = "CEIS-Pilot-Knowledge"
 
 if (-not (Test-Path $ConfigPath)) {
     Write-Error "Config file not found: $ConfigPath. Copy config.psd1.example to config.psd1 and fill in your tenant settings."
@@ -55,28 +59,27 @@ Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $confi
 Write-Host "Connected successfully!" -ForegroundColor Green
 
 # 1. Ensure custom Page Library & Asset Library exist for Governance Pilot
-[string]$PageLibraryTitle = "CEIS Pilot Knowledge Pages"
-[string]$PageLibraryUrl = "CEISPilotKnowledgePages"
-[string]$AssetLibraryName = "CEISPilotKnowledge"
-
-Write-Host "Checking for Page Library '$PageLibraryTitle'..." -ForegroundColor Cyan
-$pageList = Get-PnPList -Identity $PageLibraryTitle -ErrorAction SilentlyContinue
+Write-Host "Checking for Page Library '$PageLibraryUrl'..." -ForegroundColor Cyan
+$pageList = Get-PnPList -Identity $PageLibraryUrl -ErrorAction SilentlyContinue
 if (-not $pageList) {
-    Write-Host "Creating dedicated Page Library '$PageLibraryTitle'..." -ForegroundColor Yellow
+    $pageList = Get-PnPList -Identity $PageLibraryTitle -ErrorAction SilentlyContinue
+}
+if (-not $pageList) {
+    Write-Host "Creating dedicated Page Library '$PageLibraryTitle' at $PageLibraryUrl..." -ForegroundColor Yellow
     $pageList = New-PnPList -Title $PageLibraryTitle -Url $PageLibraryUrl -Template WebPageLibrary
 }
 
-Write-Host "Checking for Asset Library '$AssetLibraryName'..." -ForegroundColor Cyan
-$assetList = Get-PnPList -Identity $AssetLibraryName -ErrorAction SilentlyContinue
+Write-Host "Checking for Asset Library '$AssetLibraryUrl'..." -ForegroundColor Cyan
+$assetList = Get-PnPList -Identity $AssetLibraryUrl -ErrorAction SilentlyContinue
 if (-not $assetList) {
-    $assetList = Get-PnPList -Identity "CEIS-Pilot-Knowledge" -ErrorAction SilentlyContinue
+    $assetList = Get-PnPList -Identity $AssetLibraryTitle -ErrorAction SilentlyContinue
 }
 if (-not $assetList) {
-    Write-Host "Creating dedicated Asset Library '$AssetLibraryName'..." -ForegroundColor Yellow
-    $assetList = New-PnPList -Title "CEIS-Pilot-Knowledge" -Url $AssetLibraryName -Template DocumentLibrary
+    Write-Host "Creating dedicated Asset Library '$AssetLibraryTitle' at $AssetLibraryUrl..." -ForegroundColor Yellow
+    $assetList = New-PnPList -Title $AssetLibraryTitle -Url $AssetLibraryUrl -Template DocumentLibrary
 }
 
-# 2. Ensure custom columns exist on both Page Library and Asset Library
+# 2. Ensure custom columns exist on Page Library and Asset Library
 $customFields = @(
     @{ InternalName = "TopicId"; DisplayName = "Topic ID"; Type = "Text" },
     @{ InternalName = "PackageIdentity"; DisplayName = "Package Identity"; Type = "Text" },
@@ -85,17 +88,17 @@ $customFields = @(
     @{ InternalName = "SourceDocumentSHA256"; DisplayName = "Source Document SHA256"; Type = "Text" }
 )
 
-foreach ($listIdentity in @($PageLibraryTitle, $assetList.Title)) {
-    Write-Host "Ensuring custom metadata columns on '$listIdentity' library..." -ForegroundColor Cyan
-    $list = Get-PnPList -Identity $listIdentity -ErrorAction SilentlyContinue
+foreach ($targetListId in @($PageLibraryUrl, $AssetLibraryUrl)) {
+    Write-Host "Ensuring custom metadata columns on '$targetListId' library..." -ForegroundColor Cyan
+    $list = Get-PnPList -Identity $targetListId -ErrorAction SilentlyContinue
     if ($list) {
         foreach ($field in $customFields) {
             $existing = Get-PnPField -List $list -Identity $field.InternalName -ErrorAction SilentlyContinue
             if (-not $existing) {
-                Write-Host "  Adding field $($field.DisplayName) ($($field.InternalName)) to $listIdentity..." -ForegroundColor Yellow
+                Write-Host "  Adding field $($field.DisplayName) ($($field.InternalName)) to $targetListId..." -ForegroundColor Yellow
                 Add-PnPField -List $list -DisplayName $field.DisplayName -InternalName $field.InternalName -Type $field.Type | Out-Null
             } else {
-                Write-Host "  Field $($field.InternalName) already exists on $listIdentity." -ForegroundColor Gray
+                Write-Host "  Field $($field.InternalName) already exists on $targetListId." -ForegroundColor Gray
             }
         }
     }
@@ -103,11 +106,11 @@ foreach ($listIdentity in @($PageLibraryTitle, $assetList.Title)) {
 
 # 3. Upload Media Assets to dedicated library CEISPilotKnowledge/media
 $mediaFolder = Join-Path $PackageDir "media"
-$targetMediaFolder = "$AssetLibraryName/media"
+$targetMediaFolder = "$AssetLibraryUrl/media"
 if (Test-Path $mediaFolder) {
     Write-Host "Checking media assets in $targetMediaFolder..." -ForegroundColor Cyan
     try {
-        Add-PnPFolder -Name "media" -Folder $AssetLibraryName -ErrorAction SilentlyContinue | Out-Null
+        Add-PnPFolder -Name "media" -Folder $AssetLibraryUrl -ErrorAction SilentlyContinue | Out-Null
     } catch { }
     
     $existingFolderFiles = Get-PnPFolderItem -ItemType File -FolderSiteRelativeUrl $targetMediaFolder -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name
@@ -128,60 +131,60 @@ if (Test-Path $mediaFolder) {
     }
 }
 
-# 4. Read Manifest and Publish Modern Pages directly to CEISPilotKnowledgePages
+# 4. Read Manifest and Publish Modern Pages directly into Page Library CEISPilotKnowledgePages
 Write-Host "Reading package manifest..." -ForegroundColor Cyan
 $manifestJson = Get-Content -Path $manifestPath -Raw | ConvertFrom-Json
 
 $web = Get-PnPWeb
+$serverRelativeWebUrl = $web.ServerRelativeUrl.TrimEnd('/')
 $mediaUrl = "$($web.Url)/$targetMediaFolder"
 
-Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryTitle'..." -ForegroundColor Cyan
+Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryUrl'..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
-    $pagePath = "$PageLibraryUrl/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$mediaUrl/"
 
-    # Remove existing page if present to guarantee clean creation with fresh HTML
-    $existingPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
-    if ($existingPage) {
-        Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
+    # Clean up existing files if present in PageLibraryUrl or SitePages
+    $targetServerRelativePath = "$serverRelativeWebUrl/$PageLibraryUrl/$pageName"
+    $sitePagesServerRelativePath = "$serverRelativeWebUrl/SitePages/$pageName"
+
+    $existingTargetPage = Get-PnPPage -Identity "$PageLibraryUrl/$pageName" -ErrorAction SilentlyContinue
+    if (-not $existingTargetPage) {
+        $existingTargetPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+    }
+    if ($existingTargetPage) {
+        Remove-PnPPage -Identity $existingTargetPage.Name -Force -ErrorAction SilentlyContinue
     }
 
-    Write-Host "  Creating modern page $pageName in $PageLibraryTitle..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
+    # Step 1: Create Modern Page using PnP Page Engine
+    Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
+    Set-PnPPage -Identity $page -Publish | Out-Null
 
-    # Retrieve list item with Scope='RecursiveAll' across list identities to guarantee valid Item ID resolution
-    $targetItem = $null
-    $targetList = $null
+    # Step 2: Move the created Modern Page into dedicated Page Library CEISPilotKnowledgePages (if created in default SitePages)
+    $sourceFileUrl = "$serverRelativeWebUrl/SitePages/$pageName"
+    $targetFileUrl = "$serverRelativeWebUrl/$PageLibraryUrl/$pageName"
 
-    foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
-        $found = Get-PnPListItem -List $listCandidate -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
-        if ($found) {
-            $targetItem = if ($found -is [array]) { $found[0] } else { $found }
-            $targetList = $listCandidate
-            break
-        }
+    if ($sourceFileUrl -ne $targetFileUrl) {
+        try {
+            Move-PnPFile -ServerRelativeUrl $sourceFileUrl -TargetUrl $targetFileUrl -Force -ErrorAction SilentlyContinue | Out-Null
+        } catch { }
     }
 
-    if (-not $targetItem) {
-        # Fallback to direct folder items scan
-        foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
-            $found = Get-PnPListItem -List $listCandidate -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
-            if ($found) {
-                $targetItem = if ($found -is [array]) { $found[0] } else { $found }
-                $targetList = $listCandidate
-                break
-            }
-        }
+    # Step 3: Retrieve list item from CEISPilotKnowledgePages and set custom metadata
+    $item = Get-PnPListItem -List $PageLibraryUrl -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
+    if (-not $item) {
+        $item = Get-PnPListItem -List $PageLibraryUrl -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
     }
+    $targetItem = if ($item -is [array]) { $item[0] } else { $item }
 
     if ($targetItem) {
-        Set-PnPListItem -List $targetList -Identity $targetItem.Id -Values @{
+        Set-PnPListItem -List $PageLibraryUrl -Identity $targetItem.Id -Values @{
             "Title"                = $entry.title;
             "TopicId"              = $entry.topic_id;
             "PackageIdentity"      = $entry.package_identity;
@@ -189,35 +192,19 @@ foreach ($entry in $manifestJson.entries) {
             "TopicContentSHA256"   = $entry.topic_content_sha256;
             "SourceDocumentSHA256" = $entry.source_document_sha256;
         } | Out-Null
-    } else {
-        Write-Host "  Warning: Could not resolve list item for $pageName to set metadata." -ForegroundColor Yellow
     }
 
-    Set-PnPPage -Identity $page -Publish | Out-Null
-    Write-Host "  Published $pageName" -ForegroundColor Green
+    Write-Host "  Published $pageName to $PageLibraryUrl" -ForegroundColor Green
 }
 
-# 5. Export actual library state to CSV for reconciliation
-Write-Host "Exporting tenant state to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = @()
-foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
-    $found = Get-PnPListItem -List $listCandidate -Query "<View Scope='RecursiveAll'><Query><Where><IsNotNull><FieldRef Name='TopicId'/></Where></Query></View>" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
-    if ($found -and $found.Count -gt 0) {
-        $items = $found
-        break
-    }
-}
+# 5. Export actual library state from CEISPilotKnowledgePages to CSV for reconciliation
+Write-Host "Exporting tenant state from $PageLibraryUrl to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = Get-PnPListItem -List $PageLibraryUrl -Query "<View Scope='RecursiveAll'><Query><Where><IsNotNull><FieldRef Name='TopicId'/></Where></Query></View>" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
 if (-not $items -or $items.Count -eq 0) {
-    foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
-        $found = Get-PnPListItem -List $listCandidate -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
-        if ($found) {
-            $items = $found
-            break
-        }
-    }
+    $items = Get-PnPListItem -List $PageLibraryUrl -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
 }
-$results = @()
 
+$results = @()
 foreach ($item in $items) {
     if ($item["TopicId"]) {
         $results += [PSCustomObject]@{
