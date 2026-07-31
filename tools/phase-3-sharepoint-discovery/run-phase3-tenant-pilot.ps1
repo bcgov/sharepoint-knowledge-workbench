@@ -153,14 +153,14 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Retrieve underlying list item by filename (FileLeafRef)
-    $item = (Get-PnPListItem -List "Site Pages" -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
-    if (-not $item -or $item.Count -eq 0) {
-        $allItems = Get-PnPListItem -List "Site Pages"
-        $item = $allItems | Where-Object { $_["FileLeafRef"] -eq $pageName }
+    # Retrieve underlying list item by filename (FileLeafRef) searching across subfolders (Scope='RecursiveAll')
+    $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
+    if (-not $item) {
+        $item = Get-PnPListItem -List "Site Pages" -FolderSiteRelativeUrl $pageSubfolder -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
     }
+    $targetItem = if ($item -is [array]) { $item[0] } else { $item }
 
-    Set-PnPListItem -List "Site Pages" -Identity $item[0].Id -Values @{
+    Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
