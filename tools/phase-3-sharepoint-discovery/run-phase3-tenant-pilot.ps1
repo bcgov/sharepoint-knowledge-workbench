@@ -121,28 +121,37 @@ $web = Get-PnPWeb
 $siteAssetsUrl = "$($web.Url)/$siteAssetsTarget"
 
 $pageSubfolder = "CEIS-manual-v2"
-Write-Host "Publishing $($manifestJson.entries.Count) topic pages to Site Pages/$pageSubfolder..." -ForegroundColor Cyan
+
+# Remove any old unformatted pilot pages in root Site Pages to keep tenant clean
+Write-Host "Cleaning up old root-level pilot pages if present..." -ForegroundColor Cyan
+foreach ($entry in $manifestJson.entries) {
+    $pageName = "$($entry.topic_id).aspx"
+    $rootPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+    if ($rootPage) {
+        Remove-PnPPage -Identity $pageName -Force -ErrorAction SilentlyContinue
+        Write-Host "  Removed old root page $pageName" -ForegroundColor Gray
+    }
+}
+
+Write-Host "Publishing $($manifestJson.entries.Count) formatted topic pages to Site Pages/$pageSubfolder..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
-    $rawMd = Get-Content -Path $mdFile -Raw
-
-    $rewrittenHtml = $rawMd -replace '\.\./media/', "$siteAssetsUrl/"
     $pageName = "$($entry.topic_id).aspx"
     $pagePath = "$pageSubfolder/$pageName"
-    
+
+    # Convert Markdown to HTML via pandoc fragment conversion
+    $htmlContent = & pandoc -f markdown -t html $mdFile
+    $rewrittenHtml = $htmlContent -replace '\.\./media/', "$siteAssetsUrl/"
+
+    # Remove existing subfolder page if present to guarantee clean creation with fresh HTML
     $existingPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
-    if (-not $existingPage) {
-        $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+    if ($existingPage) {
+        Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
 
-    if ($existingPage) {
-        Write-Host "  Updating existing page $pageName..." -ForegroundColor Cyan
-        $page = $existingPage
-    } else {
-        Write-Host "  Creating modern page $pageName in subfolder $pageSubfolder..." -ForegroundColor Cyan
-        $page = Add-PnPPage -Name $pageName -Folder $pageSubfolder -LayoutType Article -Publish:$false
-        Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
-    }
+    Write-Host "  Creating modern page $pageName in $pageSubfolder..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pageName -Folder $pageSubfolder -LayoutType Article -Publish:$false
+    Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
     # Retrieve underlying list item by filename (FileLeafRef)
     $item = (Get-PnPListItem -List "Site Pages" -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
@@ -151,7 +160,7 @@ foreach ($entry in $manifestJson.entries) {
         $item = $allItems | Where-Object { $_["FileLeafRef"] -eq $pageName }
     }
 
-    Set-PnPListItem -List "Site Pages" -Identity $item.Id -Values @{
+    Set-PnPListItem -List "Site Pages" -Identity $item[0].Id -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
