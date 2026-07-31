@@ -155,29 +155,67 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Fetch underlying list item from CEISPilotKnowledgePages library by FileLeafRef
-    $item = (Get-PnPListItem -List $PageLibraryUrl -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
-    if (-not $item) {
-        $item = Get-PnPListItem -List $PageLibraryUrl -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
-    }
-    $targetItemId = if ($item -is [array]) { $item[0].Id } else { $item.Id }
+    # Retrieve list item with Scope='RecursiveAll' across list identities to guarantee valid Item ID resolution
+    $targetItem = $null
+    $targetList = $null
 
-    Set-PnPListItem -List $PageLibraryUrl -Identity $targetItemId -Values @{
-        "Title"                = $entry.title;
-        "TopicId"              = $entry.topic_id;
-        "PackageIdentity"      = $entry.package_identity;
-        "PublicationOrder"     = $entry.order;
-        "TopicContentSHA256"   = $entry.topic_content_sha256;
-        "SourceDocumentSHA256" = $entry.source_document_sha256;
-    } | Out-Null
+    foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
+        $found = Get-PnPListItem -List $listCandidate -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
+        if ($found) {
+            $targetItem = if ($found -is [array]) { $found[0] } else { $found }
+            $targetList = $listCandidate
+            break
+        }
+    }
+
+    if (-not $targetItem) {
+        # Fallback to direct folder items scan
+        foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
+            $found = Get-PnPListItem -List $listCandidate -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
+            if ($found) {
+                $targetItem = if ($found -is [array]) { $found[0] } else { $found }
+                $targetList = $listCandidate
+                break
+            }
+        }
+    }
+
+    if ($targetItem) {
+        Set-PnPListItem -List $targetList -Identity $targetItem.Id -Values @{
+            "Title"                = $entry.title;
+            "TopicId"              = $entry.topic_id;
+            "PackageIdentity"      = $entry.package_identity;
+            "PublicationOrder"     = $entry.order;
+            "TopicContentSHA256"   = $entry.topic_content_sha256;
+            "SourceDocumentSHA256" = $entry.source_document_sha256;
+        } | Out-Null
+    } else {
+        Write-Host "  Warning: Could not resolve list item for $pageName to set metadata." -ForegroundColor Yellow
+    }
 
     Set-PnPPage -Identity $page -Publish | Out-Null
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
-# 5. Export actual library state from CEISPilotKnowledgePages to CSV for reconciliation
-Write-Host "Exporting tenant state from $PageLibraryUrl to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List $PageLibraryUrl -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
+# 5. Export actual library state to CSV for reconciliation
+Write-Host "Exporting tenant state to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = @()
+foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
+    $found = Get-PnPListItem -List $listCandidate -Query "<View Scope='RecursiveAll'><Query><Where><IsNotNull><FieldRef Name='TopicId'/></Where></Query></View>" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
+    if ($found -and $found.Count -gt 0) {
+        $items = $found
+        break
+    }
+}
+if (-not $items -or $items.Count -eq 0) {
+    foreach ($listCandidate in @($PageLibraryTitle, $PageLibraryUrl, "Site Pages")) {
+        $found = Get-PnPListItem -List $listCandidate -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
+        if ($found) {
+            $items = $found
+            break
+        }
+    }
+}
 $results = @()
 
 foreach ($item in $items) {
