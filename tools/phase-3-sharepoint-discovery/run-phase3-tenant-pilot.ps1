@@ -160,11 +160,10 @@ foreach ($entry in $manifestJson.entries) {
         Remove-PnPPage -Identity $existingTargetPage.Name -Force -ErrorAction SilentlyContinue
     }
 
-    # Step 1: Create Modern Page using PnP Page Engine with Title
+    # Step 1: Create Modern Page using PnP Page Engine with Title in default library
     Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
     $page = Add-PnPPage -Name $pageName -Title $entry.title -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
-    Set-PnPPage -Identity $page -Publish | Out-Null
 
     # Step 2: Move the created Modern Page into dedicated Page Library CEISPilotKnowledgePages
     $sourceFileUrl = "$serverRelativeWebUrl/SitePages/$pageName"
@@ -172,9 +171,16 @@ foreach ($entry in $manifestJson.entries) {
 
     if ($sourceFileUrl -ne $targetFileUrl) {
         try {
-            Move-PnPFile -ServerRelativeUrl $sourceFileUrl -TargetUrl $targetFileUrl -Force -ErrorAction SilentlyContinue | Out-Null
+            Move-PnPFile -ServerRelativeUrl $sourceFileUrl -TargetUrl $targetFileUrl -Force -ErrorAction Stop | Out-Null
         } catch { }
     }
+
+    # Step 3: Re-bind and Publish page directly inside CEISPilotKnowledgePages
+    $destPage = Get-PnPPage -Identity "$PageLibraryUrl/$pageName" -ErrorAction SilentlyContinue
+    if (-not $destPage) {
+        $destPage = $page
+    }
+    Set-PnPPage -Identity $destPage -Publish | Out-Null
 
     # Step 3: Retrieve list item from CEISPilotKnowledgePages and set custom metadata
     $item = Get-PnPListItem -List $PageLibraryUrl -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
