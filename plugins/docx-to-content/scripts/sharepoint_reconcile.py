@@ -114,7 +114,6 @@ def reconcile(pkg, actual_items: list) -> ReconciliationReport:
             "source_document_sha256": entry.source_document_sha256,
         }
         for field_name in _COMPARED_FIELDS:
-            expected_key = "order" if field_name == "publication_order" else field_name
             expected_val = expected_values[field_name]
             actual_val = getattr(actual, field_name)
             if expected_val != actual_val:
