@@ -3,7 +3,7 @@
     Human-authorized rollback procedure for removing deployed skill assets from SharePoint Site Assets / AgentAssets.
 .DESCRIPTION
     By default runs in dry-run preflight mode. Requires explicit -Execute switch to attempt action.
-    Displays exact target URL / path. Prompts for interactive confirmation unless -Force is specified.
+    Displays exact target URL / path. Requires explicit -ConfirmExactTarget "CONFIRM-REMOVE" parameter for write path.
     Recycles target file to SharePoint Recycle Bin (Move-PnPFileToRecycleBin) rather than permanent deletion (Remove-PnPFile),
     and performs post-action verification that item no longer exists in active site assets.
 .PARAMETER ConfigFile
@@ -12,8 +12,8 @@
     Path to deployment manifest JSON.
 .PARAMETER Execute
     Switch to authorize tenant connection and removal. Default is false (dry-run preflight mode).
-.PARAMETER Force
-    Switch to bypass interactive confirmation prompt (for non-interactive test harnesses).
+.PARAMETER ConfirmExactTarget
+    Mandatory exact confirmation string required when -Execute is specified. Must match "CONFIRM-REMOVE" exactly.
 .PARAMETER JsonOutputPath
     Optional path for writing structured JSON execution report.
 #>
@@ -22,7 +22,7 @@ param (
     [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
     [string]$ManifestFile = "tools/phase-4-native-sharepoint-skills/deployment/deployment-manifest.example.json",
     [switch]$Execute,
-    [switch]$Force,
+    [string]$ConfirmExactTarget,
     [string]$JsonOutputPath
 )
 
@@ -77,25 +77,20 @@ if (-not $Execute) {
     exit 0
 }
 
-# Interactive confirmation prompt unless -Force is specified
-if (-not $Force) {
-    Write-Host "`nWARNING: You are requesting removal of '$targetServerRelativeUrl' from site '$siteUrl'." -ForegroundColor Yellow
-    Write-Host "This operation will move the asset to the SharePoint Recycle Bin."
-    $confirmText = Read-Host "Type 'CONFIRM-REMOVE' to proceed with human-authorized removal"
-    if ($confirmText -ne "CONFIRM-REMOVE") {
-        Write-Host "Removal cancelled by user." -ForegroundColor Normal
-        if ($JsonOutputPath) {
-            $resultObj = [PSCustomObject]@{
-                status = "CANCELLED"
-                mode = "EXECUTE"
-                execute = $true
-                target_server_relative_url = $targetServerRelativeUrl
-                verification_result = "CANCELLED_BY_USER"
-            }
-            $resultObj | ConvertTo-Json -Depth 5 | Set-Content -Path $JsonOutputPath
+# Require explicit -ConfirmExactTarget "CONFIRM-REMOVE" when -Execute is specified
+if ($ConfirmExactTarget -cne "CONFIRM-REMOVE") {
+    Write-Error "Execution denied: -Execute requires explicit -ConfirmExactTarget 'CONFIRM-REMOVE'. Provided: '$ConfirmExactTarget'"
+    if ($JsonOutputPath) {
+        $resultObj = [PSCustomObject]@{
+            status = "CANCELLED"
+            mode = "EXECUTE"
+            execute = $true
+            target_server_relative_url = $targetServerRelativeUrl
+            verification_result = "FAILED_AUTHORIZATION_CONFIRMATION"
         }
-        exit 0
+        $resultObj | ConvertTo-Json -Depth 5 | Set-Content -Path $JsonOutputPath
     }
+    exit 1
 }
 
 Write-Host "`n[EXECUTION MODE] Connecting to SharePoint tenant to recycle skill artifact..." -ForegroundColor Green
