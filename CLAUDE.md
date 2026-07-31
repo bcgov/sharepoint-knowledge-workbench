@@ -177,7 +177,7 @@ carries only the key non-negotiables:
 
 - `dependency-management.md` — pip-compile workflow for Python deps; does not cover system tools
 - `coding-conventions.md` — file headers, naming, documentation conventions
-- `self-evolution-policy.md` — no file deletions without explicit user permission
+- `self-evolution-policy.md` — no file deletions without explicit human permission; mandatory map-debt.md tracking for all friction/learnings
 - `test-driven-development.md` — TDD approach where code is involved
 - `symlink-cross-platform.md` — symlink protocol if shared scripts are introduced
 - `github-issue-logging-policy.md` — issue logging conventions, if/when this repo tracks issues on GitHub
