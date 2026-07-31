@@ -155,8 +155,14 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Use PageId directly from Add-PnPPage return object targeting exact URL page library CEISPilotKnowledgePages
-    Set-PnPListItem -List $PageLibraryUrl -Identity $page.PageId -Values @{
+    # Fetch underlying list item from CEISPilotKnowledgePages library by FileLeafRef
+    $item = (Get-PnPListItem -List $PageLibraryUrl -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
+    if (-not $item) {
+        $item = Get-PnPListItem -List $PageLibraryUrl -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
+    }
+    $targetItemId = if ($item -is [array]) { $item[0].Id } else { $item.Id }
+
+    Set-PnPListItem -List $PageLibraryUrl -Identity $targetItemId -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
