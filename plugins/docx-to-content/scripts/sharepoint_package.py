@@ -27,6 +27,13 @@ class SharePointPackageError(Exception):
 
 @dataclass
 class UploadEntry:
+    """A single topic entry in an UploadPackage.
+    
+    Note: content_path is deserialized without validation from upload-manifest.json.
+    This is safe because the manifest is only ever generated internally by
+    build_upload_package(), never supplied externally by users. The manifest is a
+    trust boundary artifact, so validated relative-path resolution is not needed.
+    """
     topic_id: str
     title: str
     order: int
@@ -95,7 +102,14 @@ def build_upload_package(canonical_dir: Path, render_dir: Path, output_dir: Path
     render_dir (the render/rendered-output directory, containing
     pages/<topic_id>.md and media/). Raises SharePointPackageError if the
     canonical package isn't the grouped, publication-map-backed strategy
-    this pilot targets, or if a topic's rendered page is missing."""
+    this pilot targets, or if a topic's rendered page is missing.
+    
+    Note: The caller is responsible for supplying a clean/empty output_dir.
+    Repeated calls to the same output_dir will silently overwrite previous
+    contents via shutil.copyfile/shutil.copytree(dirs_exist_ok=True). This
+    idempotent rebuild behavior is intentional; callers needing a strict
+    clean-directory guarantee should remove output_dir first.
+    """
     canonical_dir = Path(canonical_dir)
     render_dir = Path(render_dir)
     output_dir = Path(output_dir)
