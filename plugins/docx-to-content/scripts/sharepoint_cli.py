@@ -42,7 +42,7 @@ def _cmd_reconcile(args) -> int:
     return 0 if report.status == "MATCH" else 1
 
 
-def main(argv: list) -> int:
+def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(prog="sharepoint_cli")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
