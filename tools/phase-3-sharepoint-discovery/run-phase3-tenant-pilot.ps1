@@ -138,7 +138,7 @@ Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to 
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
-    $pagePath = "$PageLibraryName/$pageName"
+    $pagePath = "CEISPilotKnowledgePages/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
@@ -150,7 +150,7 @@ foreach ($entry in $manifestJson.entries) {
         Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
 
-    Write-Host "  Creating modern page $pageName in $PageLibraryName..." -ForegroundColor Cyan
+    Write-Host "  Creating modern page $pageName in CEIS Pilot Knowledge Pages..." -ForegroundColor Cyan
     $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
