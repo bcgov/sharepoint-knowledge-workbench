@@ -160,32 +160,16 @@ foreach ($entry in $manifestJson.entries) {
         Remove-PnPPage -Identity $existingTargetPage.Name -Force -ErrorAction SilentlyContinue
     }
 
-    # Step 1: Create Modern Page using PnP Page Engine with Title in default library
+    # Step 1: Create and publish Modern Page directly in SitePages (native SPO page engine container)
     Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
     $page = Add-PnPPage -Name $pageName -Title $entry.title -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
+    Set-PnPPage -Identity $page -Publish | Out-Null
 
-    # Step 2: Move the created Modern Page into dedicated Page Library CEISPilotKnowledgePages
-    $sourceFileUrl = "$serverRelativeWebUrl/SitePages/$pageName"
-    $targetFileUrl = "$serverRelativeWebUrl/$PageLibraryUrl/$pageName"
-
-    if ($sourceFileUrl -ne $targetFileUrl) {
-        try {
-            Move-PnPFile -ServerRelativeUrl $sourceFileUrl -TargetUrl $targetFileUrl -Force -ErrorAction Stop | Out-Null
-        } catch { }
-    }
-
-    # Step 3: Re-bind and Publish page directly inside CEISPilotKnowledgePages
-    $destPage = Get-PnPPage -Identity "$PageLibraryUrl/$pageName" -ErrorAction SilentlyContinue
-    if (-not $destPage) {
-        $destPage = $page
-    }
-    Set-PnPPage -Identity $destPage -Publish | Out-Null
-
-    # Step 3: Retrieve list item from CEISPilotKnowledgePages and set custom metadata
-    $item = Get-PnPListItem -List $PageLibraryUrl -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
+    # Step 2: Set custom governance metadata on the published page item in SitePages
+    $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
     if (-not $item) {
-        $item = Get-PnPListItem -List $PageLibraryUrl -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
+        $item = Get-PnPListItem -List "Site Pages" -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
     }
     $targetItem = if ($item -is [array]) { $item[0] } else { $item }
 
@@ -197,22 +181,22 @@ foreach ($entry in $manifestJson.entries) {
             "TopicContentSHA256"   = $entry.topic_content_sha256;
             "SourceDocumentSHA256" = $entry.source_document_sha256;
         }
-        $hasTitleField = Get-PnPField -List $PageLibraryUrl -Identity "Title" -ErrorAction SilentlyContinue
+        $hasTitleField = Get-PnPField -List "Site Pages" -Identity "Title" -ErrorAction SilentlyContinue
         if ($hasTitleField) {
             $itemValues["Title"] = $entry.title
         }
 
-        Set-PnPListItem -List $PageLibraryUrl -Identity $targetItem.Id -Values $itemValues | Out-Null
+        Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values $itemValues | Out-Null
     }
 
-    Write-Host "  Published $pageName to $PageLibraryUrl" -ForegroundColor Green
+    Write-Host "  Published $pageName to Site Pages" -ForegroundColor Green
 }
 
-# 5. Export actual library state from CEISPilotKnowledgePages to CSV for reconciliation
-Write-Host "Exporting tenant state from $PageLibraryUrl to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List $PageLibraryUrl -Query "<View Scope='RecursiveAll'><Query><Where><IsNotNull><FieldRef Name='TopicId'/></Where></Query></View>" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
+# 5. Export actual library state from Site Pages to CSV for reconciliation
+Write-Host "Exporting tenant state from Site Pages to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><IsNotNull><FieldRef Name='TopicId'/></Where></Query></View>" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
 if (-not $items -or $items.Count -eq 0) {
-    $items = Get-PnPListItem -List $PageLibraryUrl -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
+    $items = Get-PnPListItem -List "Site Pages" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256" -ErrorAction SilentlyContinue
 }
 
 $results = @()
