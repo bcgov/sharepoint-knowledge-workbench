@@ -504,35 +504,42 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
   (by manual section/chapter) needs to be planned during Stage 3.1.1's schema-mapping work, not
   left flat and restructured later.
 
-**Remaining work to formally close Phase 3.0 (exit gate):**
-1. ~~Write `tenant-capability-report.md` (Stage 3.0.3.1)~~ — **done, on branch
-   `phase-3-0-exit-gate`**: `docs/research/tenant-capability-report.md` synthesizes
-   `research-summary-phase3-sharepoint-write-capability-discovery.md` +
-   `phase-3-0-discovery-report.json` into the single report the plan names, answering all 5 probe
-   questions with cited evidence. Overall finding: Phase 3 scope is **provisionally confirmed
-   feasible**, not unconditionally — no probe returned a hard block against Phase 3's core
-   library-publishing scope, but three items need tenant-admin resolution (see the
-   dependency-status map below) before treating Phase 3 as fully implementation-ready.
-2. ~~Write the dependency-status map (Stage 3.0.3.2)~~ — **done, same branch**:
-   `docs/research/phase-3-dependency-status-map.md` maps each Phase 3/4/5 entry-gate dependency to
-   confirmed-available / confirmed-blocked / needs-escalation / deferred-until-evidence, each
-   traced to a specific probe result. Three rows need tenant-admin sign-off: `AgentAssets`
-   write-principal enumeration, Restricted Content Discovery/oversharing confirmation, and the
-   formal agent-creation approval path.
-3. Decide whether to run any of the 9 follow-up-backlog priorities *before* closing 3.0, or defer
-   them to later (some, like Priority 9 Restricted Content Discovery, need tenant-admin
-   involvement not currently available; others, like Priority 1 permission-boundary matrix and
-   Priority 4 isolated asset-retrieval retest, are cheap and could be folded in now). **Not yet
-   decided.**
-4. Clean up the `TEST-DO-NOT-USE-*` tenant artifacts (library, 2 agents, 8 skills, discovery-log
-   list, uploaded CEIS content) per the staged-write protocol's "remove after, keep only
-   evidence" step — not yet done; several are still in active use for potential follow-up tests,
-   so raise with the user before deleting.
-5. **Items 1–2 are now done** — the plan's exit-gate first clause ("`tenant-capability-report.md`
-   answers all five probe questions with observed evidence") is met. Whether to treat Phase 3
-   scope as fully gated open (vs. re-gated pending the 3 tenant-admin-escalation items above) is a
-   human decision-owner call, not yet made — see both new documents' "Overall Gating Decision" /
-   closing sections.
+**Remaining work to formally close Phase 3.0 (exit gate) — status corrected below (see note):**
+
+**Correction (this session):** a later session (working from a stale read of this file) duplicated
+Stage 3.0.3.1/3.0.3.2 into new files under `docs/research/` (`tenant-capability-report.md`,
+`phase-3-dependency-status-map.md`) without first checking `docs/superpowers/specs/`, where a
+**prior session had already done this work, more thoroughly, and merged it to `main`** (commits
+`48bfa13`→`e897c3d`, PR #4). The `docs/research/*` duplicates have been **removed** (explicit user
+permission obtained) — the authoritative Phase 3.0/Phase 3 documents are, and remain:
+- `docs/superpowers/specs/phase-3-tenant-capability-report.md` — the real Stage 3.0.3.1 deliverable
+  (synthesizes the same evidence, additionally records dated 2026-07-30 user resolutions of most
+  open items, and concludes "Phase 3 is now implementation-ready per the two-state rule").
+- `docs/superpowers/specs/phase-3-tenant-evidence-consumption-matrix.md` — Stage 3.0.3.2's
+  dependency-mapping equivalent (maps each Phase 3 decision to its required Phase 3.0 evidence).
+- `docs/superpowers/specs/phase-3-unresolved-decisions.md` — 14 numbered decisions, all but a
+  couple already resolved with named owners/dates.
+- `docs/superpowers/specs/phase-3-governed-sharepoint-knowledge-pilot-spec.md` — the full 607-line
+  Phase 3 design spec (field-authority matrix, source-of-truth lifecycle, reconciliation,
+  republish/rollback/rename handling, governance controls).
+- `docs/superpowers/plans/phase-3-governed-sharepoint-knowledge-pilot-plan-scaffold.md` — the
+  task-by-task scaffold for Subphases 3.1–3.5, ready to convert into a real, placeholder-free plan
+  via `superpowers:writing-plans` now that the spec's open decisions are resolved.
+
+**Lesson for future sessions:** before writing any new Phase 3/3.0 deliverable, grep
+`docs/superpowers/specs/` and `docs/superpowers/plans/` for existing phase-3 files first — this
+file's own "Remaining work" framing had gone stale relative to work already merged, and cost a
+throwaway duplicate-artifact cycle.
+
+Genuinely still-open items, per the existing (authoritative) documents above:
+1. Decide whether to run any of the 9 follow-up-backlog priorities (from
+   `research-summary-phase3-sharepoint-write-capability-discovery.md`) before proceeding, or defer
+   them — **not yet decided**.
+2. Clean up the `TEST-DO-NOT-USE-*` tenant artifacts per the staged-write protocol — **not yet
+   done**; several are still in active use for potential follow-up tests, raise with the user
+   before deleting.
+3. `phase-3-unresolved-decisions.md`'s remaining non-resolved items (see that file directly for the
+   current count — most are already resolved as of 2026-07-30).
 
 ## Next action on resume — this is the actual remaining work
 
@@ -540,14 +547,10 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
    sign-off and Phase 2's Task 0 precondition) was completed — see
    `runs/ceis-manual-v2/evidence-report.md`'s checklist. Nothing further needed here.
 2. **Phase 2 is done and merged to `main`.** Nothing further needed here — see the section above.
-3. **Phase 3.0's exit-gate documents (`tenant-capability-report.md`,
-   `phase-3-dependency-status-map.md`) are now written**, on branch `phase-3-0-exit-gate` — not
-   yet merged to `main`. Formal closure still requires: a decision on the 9 follow-up-backlog
-   priorities (item 3 above), the `TEST-DO-NOT-USE-*` cleanup (item 4 above), and the
-   decision-owner's call on the 3 tenant-admin-escalation items before treating Phase 3 as fully
-   implementation-ready. See the section directly above this one.
-   The next concrete action is writing `tenant-capability-report.md` and the dependency-status
-   map from the existing findings, not starting Phase 3 planning yet.
+3. **Phase 3.0's exit-gate documents already exist and are merged to `main`** — see the corrected
+   section directly above. Phase 3's own spec + plan scaffold also already exist and are merged.
+   **Current action: converting the plan scaffold into a real, placeholder-free implementation
+   plan via `superpowers:writing-plans`**, on branch/worktree `phase-3-governed-sharepoint-pilot`.
 4. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
    actually hold up in practice, if not already done.
 5. If/when broader (non-preamble) media classification becomes a real need on a future document, design it
