@@ -92,7 +92,9 @@ $mediaFolder = Join-Path $PackageDir "media"
 $targetMediaFolder = "$LibraryName/media"
 if (Test-Path $mediaFolder) {
     Write-Host "Checking media assets in $targetMediaFolder..." -ForegroundColor Cyan
-    Resolve-PnPFolder -SiteRelativePath $targetMediaFolder | Out-Null
+    try {
+        Add-PnPFolder -Name "media" -Folder $LibraryName -ErrorAction SilentlyContinue | Out-Null
+    } catch { }
     
     # Get list of existing files in the target folder to skip re-uploading
     $existingFolderFiles = Get-PnPFolderItem -ItemType File -FolderSiteRelativeUrl $targetMediaFolder -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name
