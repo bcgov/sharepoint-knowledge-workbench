@@ -58,9 +58,13 @@ Write-Host "Connected successfully!" -ForegroundColor Green
 Write-Host "Checking for library '$LibraryName'..." -ForegroundColor Cyan
 $pilotList = Get-PnPList -Identity $LibraryName -ErrorAction SilentlyContinue
 if (-not $pilotList) {
-    Write-Host "Creating dedicated Document Library '$LibraryName'..." -ForegroundColor Yellow
-    $pilotList = New-PnPList -Title $LibraryName -Template DocumentLibrary
+    $pilotList = Get-PnPList -Identity "CEIS-Pilot-Knowledge" -ErrorAction SilentlyContinue
 }
+if (-not $pilotList) {
+    Write-Host "Creating dedicated Document Library '$LibraryName'..." -ForegroundColor Yellow
+    $pilotList = New-PnPList -Title "CEIS-Pilot-Knowledge" -Url "CEISPilotKnowledge" -Template DocumentLibrary
+}
+$listTitle = $pilotList.Title
 
 # 2. Ensure custom columns exist on Site Pages and target library
 $customFields = @(
@@ -71,7 +75,7 @@ $customFields = @(
     @{ InternalName = "SourceDocumentSHA256"; DisplayName = "Source Document SHA256"; Type = "Text" }
 )
 
-foreach ($listIdentity in @("Site Pages", $LibraryName)) {
+foreach ($listIdentity in @("Site Pages", $listTitle)) {
     Write-Host "Ensuring custom metadata columns on '$listIdentity' library..." -ForegroundColor Cyan
     $list = Get-PnPList -Identity $listIdentity -ErrorAction SilentlyContinue
     if ($list) {
@@ -154,7 +158,7 @@ foreach ($entry in $manifestJson.entries) {
     Remove-Item -Path $pageLocalPath -Force -ErrorAction SilentlyContinue
 
     # Set custom metadata on library item
-    Set-PnPListItem -List $LibraryName -Identity $uploadedFile.ListItemAllFields.Id -Values @{
+    Set-PnPListItem -List $listTitle -Identity $uploadedFile.ListItemAllFields.Id -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
@@ -166,8 +170,8 @@ foreach ($entry in $manifestJson.entries) {
 }
 
 # 5. Export actual library state from CEISPilotKnowledge to CSV for reconciliation
-Write-Host "Exporting tenant state from $LibraryName to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List $LibraryName -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
+Write-Host "Exporting tenant state from $listTitle to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = Get-PnPListItem -List $listTitle -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
 $results = @()
 
 foreach ($item in $items) {
