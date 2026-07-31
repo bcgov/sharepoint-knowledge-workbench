@@ -141,32 +141,26 @@ $mediaUrl = "$($web.Url)/$targetMediaFolder"
 
 Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryUrl'..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
-    $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
+    $pagePath = "CEISPilotKnowledgePages/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$mediaUrl/"
 
-    # Clean up existing files if present in PageLibraryUrl or SitePages
-    $targetServerRelativePath = "$serverRelativeWebUrl/$PageLibraryUrl/$pageName"
-    $sitePagesServerRelativePath = "$serverRelativeWebUrl/SitePages/$pageName"
-
-    $existingTargetPage = Get-PnPPage -Identity "$PageLibraryUrl/$pageName" -ErrorAction SilentlyContinue
-    if (-not $existingTargetPage) {
-        $existingTargetPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
-    }
+    # Clean up existing page if present in Site Pages subfolder
+    $existingTargetPage = Get-PnPPage -Identity $pagePath -ErrorAction SilentlyContinue
     if ($existingTargetPage) {
-        Remove-PnPPage -Identity $existingTargetPage.Name -Force -ErrorAction SilentlyContinue
+        Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
 
-    # Step 1: Create and publish Modern Page directly in SitePages (native SPO page engine container)
-    Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
-    $page = Add-PnPPage -Name $pageName -Title $entry.title -LayoutType Article -Publish:$false
+    # Step 1: Create and publish Modern Page directly in Site Pages/CEISPilotKnowledgePages subfolder
+    Write-Host "  Creating modern page $pageName in Site Pages/CEISPilotKnowledgePages..." -ForegroundColor Cyan
+    $page = Add-PnPPage -Name $pagePath -Title $entry.title -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
     Set-PnPPage -Identity $page -Publish | Out-Null
 
-    # Step 2: Set custom governance metadata on the published page item in SitePages
+    # Step 2: Set custom governance metadata on the published page item in Site Pages
     $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>" -ErrorAction SilentlyContinue
     if (-not $item) {
         $item = Get-PnPListItem -List "Site Pages" -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
@@ -189,7 +183,7 @@ foreach ($entry in $manifestJson.entries) {
         Set-PnPListItem -List "Site Pages" -Identity $targetItem.Id -Values $itemValues | Out-Null
     }
 
-    Write-Host "  Published $pageName to Site Pages" -ForegroundColor Green
+    Write-Host "  Published $pageName to Site Pages/CEISPilotKnowledgePages" -ForegroundColor Green
 }
 
 # 5. Export actual library state from Site Pages to CSV for reconciliation
