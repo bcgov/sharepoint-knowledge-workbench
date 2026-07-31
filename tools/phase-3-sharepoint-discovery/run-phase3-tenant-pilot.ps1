@@ -139,10 +139,16 @@ $web = Get-PnPWeb
 $serverRelativeWebUrl = $web.ServerRelativeUrl.TrimEnd('/')
 $mediaUrl = "$($web.Url)/$targetMediaFolder"
 
-Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryUrl'..." -ForegroundColor Cyan
+Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated subfolder 'Site Pages/CEISPilotKnowledgePages'..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
+    $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
     $pagePath = "CEISPilotKnowledgePages/$pageName"
+
+    # Ensure target subfolder CEISPilotKnowledgePages exists inside Site Pages
+    try {
+        Add-PnPFolder -Name "CEISPilotKnowledgePages" -Folder "SitePages" -ErrorAction SilentlyContinue | Out-Null
+    } catch { }
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
