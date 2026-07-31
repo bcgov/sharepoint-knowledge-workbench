@@ -87,14 +87,12 @@ foreach ($listIdentity in @("Site Pages", $LibraryName)) {
     }
 }
 
-# 3. Upload Media Assets to dedicated library CEISPilotKnowledge/media
+# 3. Upload Media Assets (SiteAssets/CEIS-manual-v2)
 $mediaFolder = Join-Path $PackageDir "media"
-$targetMediaFolder = "$LibraryName/media"
+$targetMediaFolder = "SiteAssets/CEIS-manual-v2"
 if (Test-Path $mediaFolder) {
     Write-Host "Checking media assets in $targetMediaFolder..." -ForegroundColor Cyan
-    try {
-        Add-PnPFolder -Name "media" -Folder $LibraryName -ErrorAction SilentlyContinue | Out-Null
-    } catch { }
+    Resolve-PnPFolder -SiteRelativePath $targetMediaFolder -ErrorAction SilentlyContinue | Out-Null
     
     # Get list of existing files in the target folder to skip re-uploading
     $existingFolderFiles = Get-PnPFolderItem -ItemType File -FolderSiteRelativeUrl $targetMediaFolder -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name
