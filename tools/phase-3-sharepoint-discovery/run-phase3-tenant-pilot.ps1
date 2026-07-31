@@ -139,8 +139,8 @@ foreach ($entry in $manifestJson.entries) {
     $pageName = "$($entry.topic_id).aspx"
     $pagePath = "$pageSubfolder/$pageName"
 
-    # Convert Markdown to HTML via pandoc fragment conversion
-    $htmlContent = & pandoc -f markdown -t html $mdFile
+    # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
+    $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
     $rewrittenHtml = $htmlContent -replace '\.\./media/', "$siteAssetsUrl/"
 
     # Remove existing subfolder page if present to guarantee clean creation with fresh HTML
