@@ -1,22 +1,22 @@
 <#
 .SYNOPSIS
-    Phase 3 Governed SharePoint Tenant Pilot Execution Script.
+    Phase 3 Governed SharePoint Tenant Pilot Execution Script (Dedicated Library).
 
 .DESCRIPTION
-    Automates Task 5 of Phase 3:
     1. Connects to SPO via PnPOnline using config.psd1 credentials.
-    2. Ensures custom library fields exist on Site Pages:
-       - CEISTopicID (Text)
-       - CEISSourceVersion (Text)
-       - CEISCanonicalHash (Text)
-       - CEISRenderedHash (Text)
-    3. Reads upload package manifest (upload-package.json / entries).
-    4. Uploads referenced media files to SiteAssets/CEIS-manual-v2/.
-    5. Converts HTML content to modern PnP pages, attaching custom metadata fields.
-    6. Exports tenant library state to CSV (actual-state.csv) for sharepoint_cli.py reconcile.
+    2. Ensures custom Document Library 'CEIS-Pilot-Knowledge' exists (or creates it).
+    3. Ensures custom library fields exist on 'CEIS-Pilot-Knowledge':
+       - TopicId (Text)
+       - PackageIdentity (Text)
+       - PublicationOrder (Number)
+       - TopicContentSHA256 (Text)
+       - SourceDocumentSHA256 (Text)
+    4. Uploads media files to SiteAssets/CEIS-manual-v2/.
+    5. Publishes modern pages directly under Site Pages / subfolder or Site Pages library,
+       and exports actual tenant state to CSV (actual-state.csv) for reconciliation.
 
 .EXAMPLE
-    .\run-phase3-tenant-pilot.ps1 -PackageDir "/path/to/upload-package" -ConfigPath "config.psd1" -OutputFile "actual-state.csv"
+    .\run-phase3-tenant-pilot.ps1 -PackageDir "temp/upload-packages/ceis-manual-v2" -ConfigPath "config.psd1" -OutputFile "actual-state.csv"
 #>
 
 [CmdletBinding()]
@@ -26,7 +26,9 @@ param(
 
     [string]$ConfigPath = (Join-Path $PSScriptRoot "config.psd1"),
 
-    [string]$OutputFile = (Join-Path $PSScriptRoot "actual-state.csv")
+    [string]$OutputFile = (Join-Path $PSScriptRoot "actual-state.csv"),
+
+    [string]$LibraryName = "CEIS-Pilot-Knowledge"
 )
 
 $ErrorActionPreference = "Stop"
@@ -52,7 +54,15 @@ Write-Host "Connecting to SharePoint Online at $($config.SiteUrl)..." -Foregroun
 Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
 Write-Host "Connected successfully!" -ForegroundColor Green
 
-# 1. Ensure custom columns exist on Site Pages
+# 1. Ensure custom Library exists for Governance Pilot
+Write-Host "Checking for library '$LibraryName'..." -ForegroundColor Cyan
+$pilotList = Get-PnPList -Identity $LibraryName -ErrorAction SilentlyContinue
+if (-not $pilotList) {
+    Write-Host "Creating dedicated Document Library '$LibraryName'..." -ForegroundColor Yellow
+    $pilotList = New-PnPList -Title $LibraryName -Template DocumentLibrary
+}
+
+# 2. Ensure custom columns exist on Site Pages and target library
 $customFields = @(
     @{ InternalName = "TopicId"; DisplayName = "Topic ID"; Type = "Text" },
     @{ InternalName = "PackageIdentity"; DisplayName = "Package Identity"; Type = "Text" },
@@ -61,19 +71,23 @@ $customFields = @(
     @{ InternalName = "SourceDocumentSHA256"; DisplayName = "Source Document SHA256"; Type = "Text" }
 )
 
-Write-Host "Ensuring custom metadata columns on 'Site Pages' library..." -ForegroundColor Cyan
-$list = Get-PnPList -Identity "Site Pages"
-foreach ($field in $customFields) {
-    $existing = Get-PnPField -List $list -Identity $field.InternalName -ErrorAction SilentlyContinue
-    if (-not $existing) {
-        Write-Host "  Adding field $($field.DisplayName) ($($field.InternalName))..." -ForegroundColor Yellow
-        Add-PnPField -List $list -DisplayName $field.DisplayName -InternalName $field.InternalName -Type $field.Type | Out-Null
-    } else {
-        Write-Host "  Field $($field.InternalName) already exists." -ForegroundColor Gray
+foreach ($listIdentity in @("Site Pages", $LibraryName)) {
+    Write-Host "Ensuring custom metadata columns on '$listIdentity' library..." -ForegroundColor Cyan
+    $list = Get-PnPList -Identity $listIdentity -ErrorAction SilentlyContinue
+    if ($list) {
+        foreach ($field in $customFields) {
+            $existing = Get-PnPField -List $list -Identity $field.InternalName -ErrorAction SilentlyContinue
+            if (-not $existing) {
+                Write-Host "  Adding field $($field.DisplayName) ($($field.InternalName)) to $listIdentity..." -ForegroundColor Yellow
+                Add-PnPField -List $list -DisplayName $field.DisplayName -InternalName $field.InternalName -Type $field.Type | Out-Null
+            } else {
+                Write-Host "  Field $($field.InternalName) already exists on $listIdentity." -ForegroundColor Gray
+            }
+        }
     }
 }
 
-# 2. Upload Media Assets
+# 3. Upload Media Assets
 $mediaFolder = Join-Path $PackageDir "media"
 $siteAssetsTarget = "SiteAssets/CEIS-manual-v2"
 if (Test-Path $mediaFolder) {
@@ -86,28 +100,25 @@ if (Test-Path $mediaFolder) {
     }
 }
 
-# 3. Read Manifest and Publish Pages
+# 4. Read Manifest and Publish Pages
 Write-Host "Reading package manifest..." -ForegroundColor Cyan
 $manifestJson = Get-Content -Path $manifestPath -Raw | ConvertFrom-Json
 
 $web = Get-PnPWeb
 $siteAssetsUrl = "$($web.Url)/$siteAssetsTarget"
 
-Write-Host "Publishing $($manifestJson.entries.Count) topic pages..." -ForegroundColor Cyan
+Write-Host "Publishing $($manifestJson.entries.Count) topic pages to Site Pages..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $rawMd = Get-Content -Path $mdFile -Raw
 
-    # Convert Markdown to basic HTML for text part & rewrite media paths if present
     $rewrittenHtml = $rawMd -replace '\.\./media/', "$siteAssetsUrl/"
-
     $pageName = "$($entry.topic_id).aspx"
     Write-Host "  Creating modern page $pageName..." -ForegroundColor Cyan
 
     $page = Add-PnPPage -Name $pageName -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Set custom metadata matching Task 1 schema
     Set-PnPPage -Identity $page -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
@@ -117,12 +128,11 @@ foreach ($entry in $manifestJson.entries) {
         "SourceDocumentSHA256" = $entry.source_document_sha256;
     } | Out-Null
 
-    # Publish page
     Set-PnPPage -Identity $page -Publish | Out-Null
     Write-Host "  Published $pageName" -ForegroundColor Green
 }
 
-# 4. Export actual library state to CSV for reconciliation matching sharepoint_reconcile.py format
+# 5. Export actual library state to CSV for reconciliation
 Write-Host "Exporting tenant state to CSV at $OutputFile..." -ForegroundColor Cyan
 $items = Get-PnPListItem -List "Site Pages" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
 $results = @()
