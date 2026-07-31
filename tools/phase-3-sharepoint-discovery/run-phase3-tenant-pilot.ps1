@@ -55,14 +55,15 @@ Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $confi
 Write-Host "Connected successfully!" -ForegroundColor Green
 
 # 1. Ensure custom Page Library & Asset Library exist for Governance Pilot
-[string]$PageLibraryName = "CEISPilotKnowledgePages"
+[string]$PageLibraryTitle = "CEIS Pilot Knowledge Pages"
+[string]$PageLibraryUrl = "CEISPilotKnowledgePages"
 [string]$AssetLibraryName = "CEISPilotKnowledge"
 
-Write-Host "Checking for Page Library '$PageLibraryName'..." -ForegroundColor Cyan
-$pageList = Get-PnPList -Identity $PageLibraryName -ErrorAction SilentlyContinue
+Write-Host "Checking for Page Library '$PageLibraryTitle'..." -ForegroundColor Cyan
+$pageList = Get-PnPList -Identity $PageLibraryTitle -ErrorAction SilentlyContinue
 if (-not $pageList) {
-    Write-Host "Creating dedicated Page Library '$PageLibraryName'..." -ForegroundColor Yellow
-    $pageList = New-PnPList -Title "CEIS Pilot Knowledge Pages" -Url $PageLibraryName -Template WebPageLibrary
+    Write-Host "Creating dedicated Page Library '$PageLibraryTitle'..." -ForegroundColor Yellow
+    $pageList = New-PnPList -Title $PageLibraryTitle -Url $PageLibraryUrl -Template WebPageLibrary
 }
 
 Write-Host "Checking for Asset Library '$AssetLibraryName'..." -ForegroundColor Cyan
@@ -84,7 +85,7 @@ $customFields = @(
     @{ InternalName = "SourceDocumentSHA256"; DisplayName = "Source Document SHA256"; Type = "Text" }
 )
 
-foreach ($listIdentity in @($PageLibraryName, $assetList.Title)) {
+foreach ($listIdentity in @($PageLibraryTitle, $assetList.Title)) {
     Write-Host "Ensuring custom metadata columns on '$listIdentity' library..." -ForegroundColor Cyan
     $list = Get-PnPList -Identity $listIdentity -ErrorAction SilentlyContinue
     if ($list) {
@@ -134,11 +135,11 @@ $manifestJson = Get-Content -Path $manifestPath -Raw | ConvertFrom-Json
 $web = Get-PnPWeb
 $mediaUrl = "$($web.Url)/$targetMediaFolder"
 
-Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryName'..." -ForegroundColor Cyan
+Write-Host "Publishing $($manifestJson.entries.Count) formatted modern pages to dedicated Page Library '$PageLibraryTitle'..." -ForegroundColor Cyan
 foreach ($entry in $manifestJson.entries) {
     $mdFile = Join-Path $PackageDir $entry.content_path
     $pageName = "$($entry.topic_id).aspx"
-    $pagePath = "CEISPilotKnowledgePages/$pageName"
+    $pagePath = "$PageLibraryUrl/$pageName"
 
     # Convert Markdown to HTML via pandoc fragment conversion (joined as a single string)
     $htmlContent = (& pandoc -f markdown -t html $mdFile) -join "`n"
@@ -150,12 +151,12 @@ foreach ($entry in $manifestJson.entries) {
         Remove-PnPPage -Identity $pagePath -Force -ErrorAction SilentlyContinue
     }
 
-    Write-Host "  Creating modern page $pageName in CEIS Pilot Knowledge Pages..." -ForegroundColor Cyan
+    Write-Host "  Creating modern page $pageName in $PageLibraryTitle..." -ForegroundColor Cyan
     $page = Add-PnPPage -Name $pagePath -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
     # Use PageId directly from Add-PnPPage return object
-    Set-PnPListItem -List "CEIS Pilot Knowledge Pages" -Identity $page.PageId -Values @{
+    Set-PnPListItem -List $PageLibraryTitle -Identity $page.PageId -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
@@ -169,8 +170,8 @@ foreach ($entry in $manifestJson.entries) {
 }
 
 # 5. Export actual library state from CEIS Pilot Knowledge Pages to CSV for reconciliation
-Write-Host "Exporting tenant state from CEIS Pilot Knowledge Pages to CSV at $OutputFile..." -ForegroundColor Cyan
-$items = Get-PnPListItem -List "CEIS Pilot Knowledge Pages" -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
+Write-Host "Exporting tenant state from $PageLibraryTitle to CSV at $OutputFile..." -ForegroundColor Cyan
+$items = Get-PnPListItem -List $PageLibraryTitle -Fields "FileLeafRef", "Title", "TopicId", "PackageIdentity", "PublicationOrder", "TopicContentSHA256", "SourceDocumentSHA256"
 $results = @()
 
 foreach ($item in $items) {
