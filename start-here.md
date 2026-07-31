@@ -1,12 +1,17 @@
-# Resume — Phase 1, Phase 2, and Phase 3 (Governed SharePoint Knowledge Pilot) FULLY COMPLETE & VERIFIED; Ready for Phase 4
+# Resume — Phase 1, Phase 2, Phase 3 FULLY COMPLETE & VERIFIED; Phase 4 In Progress; Phase 4.5 Refactoring Confirmed
 
-> **Phase 3 Exit Gate Status (2026-07-30):** COMPLETE.
-> All 6 tasks of `docs/superpowers/plans/2026-07-30-phase-3-governed-sharepoint-knowledge-pilot.md` executed. Pure-Python tooling (`sharepoint_package.py`, `sharepoint_dry_run.py`, `sharepoint_reconcile.py`, `sharepoint_cli.py`) built under TDD (529 tests passing). Automated PnP.PowerShell script (`run-phase3-tenant-pilot.ps1`) executed against live SharePoint tenant site `AG-CSB-intranet-dev`, publishing all 25 CEIS topic pages and 319 media files directly into dedicated Document Library `CEISPilotKnowledge/` as formatted HTML with custom metadata (`TopicId`, `PackageIdentity`, `PublicationOrder`, `TopicContentSHA256`, `SourceDocumentSHA256`). Reconciliation against `actual-state.csv` verified **100% MATCH** with zero issues (`package_identity: sha256:041e1186...`).
+> **Phase 4 Status (2026-07-31):** IN PROGRESS (`tools/phase-4-native-sharepoint-skills/`).
+> Tasks 0–4 complete, tested, and reviewed under `superpowers:subagent-driven-development`.
+> Task 5 (Evaluation Cases & No-Skill Control Harness) currently in progress (repository preparation only, zero tenant connections).
 >
-> **Instructions for human partner / next session:**
-> 1. Review and merge the Pull Request for feature branch `phase-3-governed-sharepoint-pilot` into `main`.
-> 2. Start Phase 4 (**Native SharePoint Skills Pilot**) in a **FRESH SESSION**.
-> 3. Per the mandatory planning protocol, create a dedicated branch/worktree `phase-4-native-sharepoint-skills`, run `superpowers:brainstorming` on Phase 4 requirements, refine `docs/superpowers/specs/phase-4-native-sharepoint-skills-pilot-spec.md`, generate the implementation plan via `superpowers:writing-plans`, and obtain review/approval before executing.
+> **Confirmed Post-Phase 4 Priority:**
+> **Phase 4.5 — Core Knowledge Plugin Domain Refactoring**
+> Immediately following Phase 4 completion and merge, execute a dedicated refactoring phase (`Phase 4.5`) in a fresh worktree to decompose `plugins/docx-to-content` into 4 active domain plugins:
+> 1. `plugins/source-document-extraction/` (DOCX extraction, pandoc, defect detection, media normalization)
+> 2. `plugins/knowledge-analysis/` (source-independent structural analysis, topic boundaries, cross-references)
+> 3. `plugins/canonical-knowledge/` (canonical packages, stable topic IDs, anchors, lineage, hashes, publication maps)
+> 4. `plugins/knowledge-publication/` (canonical package rendering: human-facing multipage markdown & agent-grounding digests)
+> *(Knowledge templates & SharePoint publication plugins remain deferred until working capabilities exist).*
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
