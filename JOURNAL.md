@@ -334,3 +334,21 @@ surfaced these three defects sooner.
 5. **Exact Target Readback Verification**:
    - Standardized deployment target path as `AgentAssets/Skills/review-manual-topics/SKILL.md`. Script `deploy-and-verify-skill.ps1` computes local SHA-256, uploads file, downloads readback from exact server-relative URL, and asserts 100% byte-matching before recording completion.
 
+---
+
+## 2026-07-31 — Long-Term Plugin Domain Architecture Decision
+
+### Confirmed Workbench Plugin Taxonomy
+
+Agreed to transition from the Phase 1 combined `docx-to-content` plugin to 6 domain-scoped plugins during a planned post-Phase 4 refactoring phase (gated on a second source format or second renderer profile):
+
+1. **`source-document-extraction`**: DOCX / PDF / HTML / SharePoint page extraction, normalized representation, media extraction, defect detection.
+2. **`knowledge-analysis`**: Source-agnostic structural analysis, topic boundary recommendation, content-type classification, cross-reference & missing section analysis.
+3. **`canonical-knowledge`**: Canonical package construction, stable identities, lineage, content hashes, publication map, validation.
+4. **`knowledge-templates`**: Content templates (manuals, procedures, policies, FAQs) & presentation templates (Markdown, ASPX, PDF, agent digests).
+5. **`knowledge-publication`**: Rendering pipeline separating **human-facing profiles** (multipage markdown, SharePoint ASPX, PDF) from **agent-facing profiles** (SharePoint agent-grounding digests, topic summaries, source maps).
+6. **`sharepoint-publication`**: Destination deployment, modern page assembly, PnP publishing, reconciliation, drift detection, rollback, retirement.
+
+*Execution Discipline*: Phase 4 execution will NOT be interrupted for this refactoring. Native Phase 4 SharePoint skills remain in `tools/phase-4-native-sharepoint-skills/`. The refactoring will be executed as a dedicated post-Phase 4 phase.
+
+
