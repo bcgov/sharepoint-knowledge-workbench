@@ -28,7 +28,7 @@ param(
 
     [string]$OutputFile = (Join-Path $PSScriptRoot "actual-state.csv"),
 
-    [string]$LibraryName = "CEIS-Pilot-Knowledge"
+    [string]$LibraryName = "CEISPilotKnowledge"
 )
 
 $ErrorActionPreference = "Stop"
@@ -87,9 +87,9 @@ foreach ($listIdentity in @("Site Pages", $LibraryName)) {
     }
 }
 
-# 3. Upload Media Assets (SiteAssets/CEIS-manual-v2)
+# 3. Upload Media Assets to dedicated library CEISPilotKnowledge/media
 $mediaFolder = Join-Path $PackageDir "media"
-$targetMediaFolder = "SiteAssets/CEIS-manual-v2"
+$targetMediaFolder = "$LibraryName/media"
 if (Test-Path $mediaFolder) {
     Write-Host "Checking media assets in $targetMediaFolder..." -ForegroundColor Cyan
     Resolve-PnPFolder -SiteRelativePath $targetMediaFolder -ErrorAction SilentlyContinue | Out-Null
