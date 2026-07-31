@@ -153,14 +153,13 @@ foreach ($entry in $manifestJson.entries) {
     $page = Add-PnPPage -Name "$PageLibraryName/$pageName" -LayoutType Article -Publish:$false
     Add-PnPPageTextPart -Page $page -Text $rewrittenHtml
 
-    # Retrieve item ID by filename FileLeafRef in CEISPilotKnowledgePages
-    $item = (Get-PnPListItem -List $PageLibraryName -Query "<View><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>")
-    if (-not $item) {
-        $item = Get-PnPListItem -List $PageLibraryName -ErrorAction SilentlyContinue | Where-Object { $_["FileLeafRef"] -eq $pageName }
+    # Obtain item ID directly from Add-PnPPage return object
+    $targetItemId = if ($page.Item) { $page.Item.Id } else {
+        $item = Get-PnPListItem -List "Site Pages" -Query "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>$pageName</Value></Eq></Where></Query></View>"
+        if ($item -is [array]) { $item[0].Id } else { $item.Id }
     }
-    $targetItemId = if ($item -is [array]) { $item[0].Id } else { $item.Id }
 
-    Set-PnPListItem -List $PageLibraryName -Identity $targetItemId -Values @{
+    Set-PnPListItem -List "Site Pages" -Identity $targetItemId -Values @{
         "Title"                = $entry.title;
         "TopicId"              = $entry.topic_id;
         "PackageIdentity"      = $entry.package_identity;
