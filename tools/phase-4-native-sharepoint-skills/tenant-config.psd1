@@ -2,14 +2,22 @@
     # === AUTHORIZED TENANT ===
     TenantSite = "https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV"
 
-    # === PHASE 3 PILOT OUTPUT (CEISPilotKnowledgePages library) ===
-    # This is where Phase 3 published the 25 CEIS topic pages
-    CEISPilotLibrary = @{
-        Title = "CEISPilotKnowledgePages"
+    # === PHASE 3 PILOT OUTPUT LIBRARIES ===
+    # These are verified from Phase 3 run-phase3-tenant-pilot.ps1
+    PageLibrary = @{
+        Url = "CEISPilotKnowledgePages"
+        Title = "CEIS Pilot Knowledge Pages"
+        Type = "WebPageLibrary"
         Description = "Phase 3 CEIS pilot topic pages (25 topics, 319 media files)"
+        Location = "Site Pages/CEISPilotKnowledgePages"
+    }
+
+    AssetLibrary = @{
+        Url = "CEISPilotKnowledge"
+        Title = "CEIS-Pilot-Knowledge"
         Type = "DocumentLibrary"
-        # Library ID will be queried at runtime if needed
-        # Sample items: File Creation, File Locate, File Details, File Access procedures
+        Description = "Phase 3 CEIS pilot media assets"
+        Location = "CEISPilotKnowledge/media"
     }
 
     # === PHASE 4 AGENTASSETS (Native Skills Storage) ===

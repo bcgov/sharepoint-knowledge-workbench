@@ -57,19 +57,24 @@ if ($hasValidAppReg) {
 Write-Host "✓ Connected to: $($config.SiteUrl)" -ForegroundColor Green
 Write-Host ""
 
+# Load tenant configuration
+$tenantConfig = Import-PowerShellDataFile "tools/phase-4-native-sharepoint-skills/tenant-config.psd1"
+$pageLibraryUrl = $tenantConfig.PageLibrary.Url
+$pageLibraryTitle = $tenantConfig.PageLibrary.Title
+
 # Find the CEISPilotKnowledgePages library (Phase 3 output)
-Write-Host "Locating CEISPilotKnowledgePages library..." -ForegroundColor Cyan
+Write-Host "Locating Page Library '$pageLibraryUrl' (Title: '$pageLibraryTitle')..." -ForegroundColor Cyan
 try {
-    Write-Host "  Querying available libraries..." -ForegroundColor Gray
-    $allLists = Get-PnPList -IncludeHidden $false
-
-    Write-Host "  Available libraries:" -ForegroundColor Gray
-    $allLists | ForEach-Object { Write-Host "    - $($_.Title)" -ForegroundColor Gray }
-
-    $ceisList = $allLists | Where-Object { $_.Title -eq "CEISPilotKnowledgePages" -or $_.Title -like "*CEIS*" }
+    # Try by URL first, then by Title (from Phase 3 script pattern)
+    $ceisList = Get-PnPList -Identity $pageLibraryUrl -ErrorAction SilentlyContinue
 
     if (-not $ceisList) {
-        Write-Error "CEISPilotKnowledgePages library not found. Check library name or verify Phase 3 pilot was run on this site."
+        Write-Host "  Not found by URL, trying by Title..." -ForegroundColor Gray
+        $ceisList = Get-PnPList -Identity $pageLibraryTitle -ErrorAction SilentlyContinue
+    }
+
+    if (-not $ceisList) {
+        Write-Error "Phase 3 Page Library not found. Expected: '$pageLibraryUrl' or '$pageLibraryTitle'. Verify Phase 3 pilot was run on this site."
         exit 1
     }
 
