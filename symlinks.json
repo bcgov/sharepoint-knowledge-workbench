@@ -6,6 +6,102 @@
       "dst": "plugins/source-document-extraction/skills/extract-docx/references/contracts/normalized-source-document.md",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of the normalized-source-document contract doc"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/dependencies.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/dependencies.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of dependencies.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/emf_convert.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/emf_convert.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of emf_convert.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/extraction.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/extraction.py",
+      "strategy": "symlink",
+      "description": "test"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/heading_parsing.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/heading_parsing.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of heading_parsing.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/__init__.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/__init__.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/__init__.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/attrs.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/attrs.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/attrs.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/footnotes.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/footnotes.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/footnotes.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/heading_emphasis.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/heading_emphasis.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/heading_emphasis.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/images.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/images.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/images.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/tables.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/tables.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/tables.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/toc.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/toc.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/toc.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/validate.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/validate.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of pandoc/validate.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/path_safety.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/path_safety.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of path_safety.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/schema/__init__.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/schema/__init__.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of schema/__init__.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/schema/normalized_source_document.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/schema/normalized_source_document.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of schema/normalized_source_document.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/schema/shared.py",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/schema/shared.py",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of schema/shared.py"
     }
   ]
 }
