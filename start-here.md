@@ -1,23 +1,65 @@
-# Resume — Phase 1–4 Merged; Phase 4.5 Spec+Plan APPROVED, entry gate MET, execution starting
+# Resume — Phase 1–4 Merged; Phase 4.5 Wave 0 & Wave 1 COMPLETE; Wave 2 authorized, not started
 
-> **Phase 4.5 Status (2026-08-01):** Specification and nine-wave implementation plan (Revision 3) are both **APPROVED** and committed/pushed to `phase-4-5-planning` (commit `211bcf2`):
-> - `docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md` — `SPECIFICATION_APPROVED_FOR_IMPLEMENTATION_PLANNING`, includes §13b's real Python-packaging amendment (per-plugin `pyproject.toml`/`src/`-layout wheels, independently installable `contracts/python/` distribution — not a `sys.path` convention).
-> - `docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md` — Revision 3, `PLAN_READY_FOR_USER_APPROVAL` → approved for commit. Nine waves (0–8), real isolated-install/combined-install gates, revert-based rollback, ledger-driven test migration, non-skippable Wave 6 golden-master gate.
+> **Phase 4.5 Status (2026-08-01, end of session):** Executing the approved nine-wave plan
+> (`docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`) on
+> branch `phase-4-5-core-plugin-refactoring`.
 >
-> **Phase 4.5 entry-gate check (2026-08-01): `PHASE_4_5_ENTRY_GATE_MET`.** The prior `INCONCLUSIVE` finding is resolved:
-> - The apparent `TASK-12-COMPLETION-REPORT.md` deletion was not a deletion — the user had moved it (and `task-12-rollback.ps1`) to the gitignored `temp/` scratch directory. Both were copied into tracked homes: `docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK12-ROLLBACK-COMPLETION.md` and `tools/phase-4-native-sharepoint-skills/deployment/scripts/task-12-rollback.ps1`.
-> - `phase-4-exit-gate-evidence.md` and its near-duplicate `phase-4-consolidated-evidence-report.md` were stale templates never updated after Tasks 8–12 actually executed; both now cite the real `TASK-N-*`/`EVID-PHASE4-TASK-N-*` evidence files, with all 9 exit criteria marked `COMPLETE` or (Task 10) `WAIVED` per the user's documented licensing-blocker decision — not fabricated.
-> - `tools/phase-4-native-sharepoint-skills/tests/test_phase4_exit_gate.py` was asserting the pre-execution baseline (`NOT_EXECUTED`/`PENDING` strings) and could never pass once Phase 4 was actually run — rewritten to check the evidence reports exist and are non-empty. `tools/phase-4-native-sharepoint-skills/tests/` now: 46 passed (3 pre-existing failures are an unrelated missing local `pwsh` module, not caused by this fix).
-> - User confirmed 2026-08-01: "the evidence files are now in the right places, Phase 4 is done, continue Wave 0."
+> - **Wave 0:** ✓ COMPLETE, reviewed, committed, and pushed (commits `9b14629`, `ae9933a`, `99e4b87`).
+> - **Wave 1:** ✓ COMPLETE, reviewed, committed, and pushed (commit `6ee91b3`, accepted).
+> - **Wave 2:** AUTHORIZED TO START IN THE NEXT SESSION. **NOT STARTED.** No files under
+>   `plugins/source-document-extraction/` exist yet.
 >
-> **`origin/main` currency:** ✓ `phase-4-5-planning` was merged to `main` via PR #11 (commit `8a7b977`), which includes the final spec/plan commit `211bcf2`.
+> **Wave 1 accepted decisions (binding for Wave 2 onward):**
+> - `analyze_structure.py` ownership split approved: `source-document-extraction` owns every
+>   source-observation function (`_run_pandoc_raw`, heading parsing, statistics, defect
+>   detection); `knowledge-analysis` owns only semantic interpretation (topic-boundary reasoning,
+>   `recommend_strategy`). See `docs/superpowers/plans/phase-4-5-evidence/wave-1-analyze-structure-split-decision.md`.
+> - `cli.py::cmd_analyze` remains the compatibility orchestrator (not `analyze_structure.py::analyze_document`).
+> - `knowledge-workbench-contracts` (`contracts/python/`) remains contract/schema-only — no
+>   executable runtime logic ever goes here.
+> - `knowledge-workbench-runtime` (`runtime/python/`) owns approved shared runtime primitives —
+>   currently only `atomic_output.py`'s `create_staging_dir`/`promote`. Explicitly **not** a
+>   general-purpose shared-utility dumping ground; adding anything else requires the same kind of
+>   explicit human decision this got. See spec §13c.
+> - `orchestrate-conversion` remains `RETAINED_PUBLIC_ORCHESTRATOR` — the public workflow
+>   orchestrator, not retired in Wave 6 as the plan's original example proposed.
+> - `analyze-document`, `convert-document`, `render-content` remain `TEMPORARY_COMPATIBILITY_WRAPPER`.
+> - **All four original skills (including `orchestrate-conversion`) are reassessed in Wave 7**
+>   using the final consumer scan — none pre-approved for removal.
+> - Five dependency edges remain genuinely unresolved for later boundary decisions (`package.py ->
+>   topic_grouping.py`, `topic_grouping.py -> identity.py`, `renderers/protocol.py ->
+>   canonical_package.py`, `renderers/validate_rendered.py -> path_safety.py`,
+>   `validate_canonical.py -> pandoc_validate.py`) — see `wave-0-classified-edges.json`.
+> - **No plugin extraction has started.** `plugins/docx-to-content/` is still the only running
+>   plugin.
 >
-> **Registered-worktree note:** `git worktree list` shows only the current checkout as registered. The three `.worktrees/phase-4-native-sharepoint-skills/`, `.worktrees/phase-3-governed-sharepoint-pilot/`, `.worktrees/phase-3-0-tenant-capability-discovery/` directories found on disk are **not** registered git worktrees (likely `ORPHANED_BROKEN_WORKTREE` or `UNREGISTERED_COPY` — Phase 4.5's own Wave 0 Step 7 is designed to classify these precisely; do not delete or repair them outside that process).
+> **Current test baseline (end of Wave 1):**
+> - Contracts distribution (`contracts/python/`): 21 passed
+> - Runtime distribution (`runtime/python/`): 5 passed
+> - Phase 4.5 tooling (`tools/phase-4-5-core-plugin-refactoring/`): 38 passed, 1 slow test passed
+> - Existing `docx-to-content` suite: 529 passed, 1 skipped (unchanged by Waves 0–1)
 >
-> **Next actions:**
-> 1. ✓ Entry gate reconciled and MET.
-> 2. → Create the dedicated `phase-4-5-core-plugin-refactoring` branch/worktree (never reuse `phase-4-5-planning` for implementation commits — see the plan's Wave 0 Step 0) and begin Wave 0.
-> 3. → Execute the approved nine-wave plan (`docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`).
+> **`origin/main` currency:** ✓ `phase-4-5-planning` was merged to `main` via PR #11 (`8a7b977`) and
+> the Phase 4 exit-gate reconciliation merged via PR #12 (`98c1943`). Waves 0–1 live only on
+> `phase-4-5-core-plugin-refactoring` (not yet merged to `main` — merge is not authorized until the
+> full plan's exit gate, per the plan's own git workflow).
+>
+> **Registered-worktree note:** `git worktree list` shows only the current checkout as registered.
+> The three `.worktrees/phase-4-native-sharepoint-skills/`, `.worktrees/phase-3-governed-sharepoint-pilot/`,
+> `.worktrees/phase-3-0-tenant-capability-discovery/` directories found on disk are classified
+> `ORPHANED_BROKEN_WORKTREE` (Wave 0 Step 7 evidence — stale `.git` pointers to this repo's
+> pre-rename path). **Do not delete, repair, or touch them** — out of scope until Wave 7 Step 1's
+> re-classification.
+>
+> **Next actions (start of next session):**
+> 1. Start a fresh session, read this file in full.
+> 2. Begin Wave 2 (`plugins/source-document-extraction/`) per the approved plan: extract
+>    DOCX/Pandoc source handling and the Wave 1-approved source-observation functions; produce the
+>    `normalized-source-document` contract; prove wheel build, isolated installation, public
+>    import, and independent tests; maintain the existing 529 passed/1 skipped baseline; preserve
+>    byte-identical accepted output.
+> 3. Do not begin Wave 2 work retroactively tonight — this session stopped deliberately at the
+>    Wave 1 checkpoint with no Wave 2 files created.
 
 > **Phase 4 Status (2026-08-01):** ✓ COMPLETE & MERGED. Tasks 0–12 executed and merged to `main` via PR #9 (commit `e66fe02`); exit-gate evidence reconciled against real per-task reports (see Phase 4.5 note above).
 > - Tasks 0–7.5: Accepted (entry gate, vendor evaluation, deployment prep, normal-case eval)

@@ -3,2632 +3,2632 @@
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestManualTopicTemplate::test_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestManualTopicTemplate::test_has_required_section_headings",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestManualTopicTemplate::test_has_required_front_matter_fields",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestManualTopicTemplate::test_has_no_machine_owned_fields",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestContentAuthoringGuide::test_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestContentAuthoringGuide::test_distinguishes_authors_from_code",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestContentAuthoringGuide::test_does_not_expose_internals",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestSupportedMarkdownProfile::test_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestSupportedMarkdownProfile::test_documents_relative_path_rules",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestSupportedMarkdownProfile::test_lists_permitted_and_prohibited",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestGeneratedElements::test_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestGeneratedElements::test_lists_toc_and_navigation_with_source",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestGeneratedElements::test_does_not_claim_unimplemented_as_implemented",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestComponentsReadme::test_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestComponentsReadme::test_documents_callout_syntax",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestComponentsReadme::test_lists_semantic_components",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestManualTopicExample::test_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestManualTopicExample::test_contains_required_elements",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestManualTopicExample::test_does_not_insert_empty_boilerplate",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestNoCeisLiteralInGenericGuidance::test_no_ceis_headings_in_new_docs_and_templates",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_content_authoring_guidance.py",
       "test_name": "TestTocStrippingIntegration::test_strip_raw_toc_removes_dump_keeps_headings",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestSourceFingerprint::test_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestSourceFingerprint::test_missing_required_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestStructuralAnchor::test_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestStructuralAnchor::test_missing_required_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestConversionPlan::test_round_trip_all_fields",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestConversionPlan::test_missing_required_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestConversionPlan::test_missing_schema_version_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestConversionPlan::test_unsupported_schema_version_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestConversionPlan::test_supported_schema_version_constant",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestConversionPlan::test_confirmation_status_values",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestConversionPlan::test_nested_source_and_anchors_are_typed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestChunkMetadata::test_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestChunkMetadata::test_missing_required_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestChunkMetadata::test_missing_schema_version_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestManifest::test_manifest_chunk_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestManifest::test_manifest_chunk_missing_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestManifest::test_manifest_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestManifest::test_manifest_missing_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestManifest::test_manifest_missing_schema_version_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestManifest::test_manifest_generator_typed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestValidation::test_validation_issue_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestValidation::test_validation_issue_optional_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestValidation::test_validation_issue_missing_required_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestValidation::test_validation_report_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestValidation::test_validation_report_with_issues",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestValidation::test_validation_report_missing_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "test_render_result_uses_source_content_sha256_not_manifest_hash",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestRenderResult::test_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestRenderResult::test_missing_required_field_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestCanonicalJson::test_deterministic_regardless_of_key_order",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestCanonicalJson::test_stable_across_calls",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestCanonicalJson::test_content_hash_is_sha256_hex",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestCanonicalJson::test_content_hash_deterministic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestCanonicalJson::test_content_hash_changes_with_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestComputePlanId::test_plan_id_prefixed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestComputePlanId::test_plan_id_excludes_confirmed_at_timestamp",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestComputePlanId::test_plan_id_excludes_plan_id_field_itself",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestComputePlanId::test_plan_id_changes_with_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_contracts.py",
       "test_name": "test_schema_version_constants_are_independent_per_contract",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_CONTRACT_DISTRIBUTION"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestFutureOutputProfilesStructure::test_exists_and_documents_all_eight_profiles",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestFutureOutputProfilesStructure::test_only_multipage_markdown_is_implemented",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestFutureOutputProfilesStructure::test_sharepoint_profile_requires_platform_authorization",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestFutureOutputProfilesStructure::test_no_aspx_described_as_authoring_or_canonical_format",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestFutureOutputProfilesStructure::test_word_and_sharepoint_have_drift_warning",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestFutureOutputProfilesStructure::test_no_profile_claims_automatic_round_trip_editing",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestNoSharePointReferenceInPluginSource::test_no_forbidden_terms_in_plugin_source",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestNoSharePointReferenceInPluginSource::test_future_output_profiles_doc_names_sharepoint_only_as_designed_only",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestRendererRegistryOnlyMultipageMarkdown::test_registry_used_by_cli_registers_only_multipage_markdown",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestRendererRegistryOnlyMultipageMarkdown::test_cli_supported_renderers_constant_has_only_multipage_markdown",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestAnalyzeDocumentSkillContract::test_has_exact_cli_invocation",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestAnalyzeDocumentSkillContract::test_emphasizes_transitory_raw_output",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestAnalyzeDocumentSkillContract::test_emphasizes_draft_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestAnalyzeDocumentSkillContract::test_documents_exit_codes",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestAnalyzeDocumentSkillContract::test_documents_pass_warn_fail",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestAnalyzeDocumentSkillContract::test_documents_prohibited_shortcuts",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestAnalyzeDocumentSkillContract::test_documents_handoff",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_has_exact_cli_invocations",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_emphasizes_confirmed_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_emphasizes_source_hash",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_emphasizes_staging",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_emphasizes_canonical_validation",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_documents_exit_codes",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_documents_pass_warn_fail",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_documents_prohibited_shortcuts",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestConvertDocumentSkillContract::test_documents_handoff",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_has_exact_cli_invocation",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_emphasizes_canonical_only_input",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_emphasizes_renderer_validation",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_documents_exit_codes",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_documents_pass_warn_fail",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_documents_prohibited_shortcuts",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_documents_cmd_render_as_fully_wired",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_atomic_promotion.py",
       "test_name": "test_convert_and_promote_success_then_failure_preserves_final_dir",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_atomic_promotion.py",
       "test_name": "test_convert_and_promote_second_success_replaces_final_dir",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_atomic_promotion.py",
       "test_name": "test_convert_and_promote_writes_generator_info",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_generalization_e2e.py",
       "test_name": "test_small_single_full_pipeline",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_generalization_e2e.py",
       "test_name": "test_repeated_headings_full_pipeline",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_generalization_e2e.py",
       "test_name": "test_chunk_ids_stable_when_unrelated_section_inserted_before_existing_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_golden_master.py",
       "test_name": "test_index_is_byte_identical_to_golden_master",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_golden_master.py",
       "test_name": "test_pages_are_file_set_identical_and_byte_identical_to_golden_master",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_golden_master.py",
       "test_name": "test_media_is_file_set_identical_and_byte_identical_to_golden_master",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_golden_master.py",
       "test_name": "test_control_metadata_is_semantically_correct_not_byte_identical",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_plugin_directory_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_plugin_json_exists_and_valid",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_plugin_yaml_exists_and_valid",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_skills_directories_exist",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_skill_metadata_files_exist",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_scripts_directory_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_required_script_files_exist",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_pandoc_fixes_directory_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_renderers_directory_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_required_renderer_files_exist",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_tests_directories_exist",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_references_directory_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_required_reference_files_exist",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_requirements_in_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_requirements_txt_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_analyze_runs_pandoc_into_transitory_raw_folder",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_analyze_never_writes_canonical_content_folder",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_heading_counts_by_level_small_single",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_heading_paths_reconstructed_repeated_headings",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_repeated_heading_paths_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_no_repeated_headings_in_small_single",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_image_counts_and_formats",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_no_images_in_small_single",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_analyze_report_includes_proposed_topics_preview",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_analyze_report_proposed_topics_absent_for_no_headings_is_empty_list",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_raw_toc_evidence_absent_in_synthetic_fixtures",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_raw_toc_evidence_detected_when_present",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_raw_toc_evidence_detected_for_slug_anchor_shape",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_known_defect_signal_glued_image_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_known_defect_signal_leading_glued_image_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_known_defect_signal_bold_wrapped_heading_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_extended_statistics_present_in_report",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_extended_statistics_counts_are_measured_for_synthetic_text",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_table_count_excludes_non_table_horizontal_rule_dash_lines",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_table_count_detects_pandoc_grid_tables",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_known_defect_signal_pandoc_attrs_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_small_single_recommends_single_strategy",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_repeated_headings_recommends_chunked_strategy",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_recommendation_constants_are_named_and_configurable",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_no_ceis_literal_in_analyze_structure_source",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_draft_plan_has_source_fingerprint_and_draft_status",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_draft_plan_chunk_anchors_are_structural_not_line_offsets",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_draft_plan_anchor_occurrence_disambiguates_repeated_paths",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_analyze_writes_analysis_package_layout",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_analyze_structure.py",
       "test_name": "test_source_not_found_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_create_staging_dir_is_unique_and_fresh",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_create_staging_dir_uses_prefix",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_promote_moves_staging_into_final_when_final_absent",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_failed_validation_leaves_prior_accepted_output_unchanged",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_successful_validation_replaces_not_overlays_old_output",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_stale_files_from_earlier_run_disappear",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_promote_restores_original_final_dir_if_rename_fails",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_build_generator_info_reuses_dependencies_probes",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_write_generator_info_is_deterministic_json_utf8",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CROSS_CUTTING_MULTIPLE_DOMAINS"
     },
     {
       "file": "tests/unit/test_atomic_output.py",
       "test_name": "test_reproducible_conversion_produces_identical_manifests",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "NEUTRAL_RUNTIME_DISTRIBUTION"
     },
     {
       "file": "tests/unit/test_attrs.py",
       "test_name": "TestStripPandocAttrs::test_strips_image_dimension_attrs",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_attrs.py",
       "test_name": "TestStripPandocAttrs::test_strips_underline_span_preserving_text",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_attrs.py",
       "test_name": "TestStripPandocAttrs::test_strips_mark_span_preserving_text",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_attrs.py",
       "test_name": "TestStripPandocAttrs::test_leaves_plain_text_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_attrs.py",
       "test_name": "TestStripPandocAttrs::test_leaves_normal_brackets_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_attrs.py",
       "test_name": "TestStripPandocAttrs::test_strips_multiple_attrs_in_document",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_media_deleted_after_promotion",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_chunk_content_altered_after_promotion",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_fail_status_validation_report",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_malformed_manifest",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_validation_report_plan_id_not_matching_manifest",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_validation_report_source_sha256_not_matching_manifest",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_grouped_package_missing_publication_map_after_promotion",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_publication_map_identity_mismatch_after_promotion",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_publication_map_chunk_id_altered_after_promotion",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_unexpected_publication_map_on_non_grouped_package",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_canonical_package_mutations.py",
       "test_name": "test_load_rejects_malformed_publication_map_on_non_grouped_package",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_anchors_resolve_after_cleanup_shifts_line_numbers",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_reconcile_and_slice_produces_contiguous_chunks",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_missing_anchor_raises_rather_than_truncates",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_duplicate_ambiguous_anchor_raises",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_changed_heading_level_still_resolves_by_path_and_occurrence",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_repeated_occurrence_anchors_match_distinct_instances",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_all_cleaned_lines_reconstructed_with_no_loss_or_duplication",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_preamble_before_first_heading_is_excluded_from_chunks",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_single_anchor_plan_handled_uniformly_as_one_chunk",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_anchor_identity_survives_whole_heading_emphasis_normalization",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_chunking.py",
       "test_name": "test_anchor_identity_survives_glued_image_normalization",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_analyze_missing_source_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_convert_missing_source_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_run_missing_source_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_analyze_missing_pandoc_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_convert_missing_pandoc_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_run_missing_pandoc_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_dependencies_reports_soffice_available_when_present",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_dependencies_reports_soffice_unavailable_when_absent",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_cli_maps_missing_soffice_for_legacy_media_to_exit_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_unsupported_command_exits_4",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_missing_required_argument_exits_4",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_unsupported_renderer_exits_4",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_run_rejects_draft_plan_exit_4",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_run_accepts_confirmed_plan_and_reaches_stub",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_run_missing_confirmed_plan_file_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_convert_end_to_end_via_cli_writes_canonical_package",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_convert_end_to_end_via_cli_promotes_validated_package",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_convert_rejects_stale_source_exit_4",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_render_end_to_end_via_cli_produces_rendered_output",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_full_pipeline_analyze_confirm_convert_render_via_cli",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_render_missing_canonical_dir_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_render_validation_fail_exits_2",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_run_invalid_plan_contract_exits_2",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_confirm_missing_draft_plan_exits_3",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_confirm_malformed_plan_json_exits_2",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_confirm_writes_new_file_and_succeeds",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_confirm_already_confirmed_plan_exits_4",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_help_mentions_required_arguments",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_unexpected_exception_is_caught_and_reported",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_cli.py",
       "test_name": "test_grouped_pipeline_end_to_end_via_real_cli",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "REPOSITORY_ORCHESTRATION"
     },
     {
       "file": "tests/unit/test_convert.py",
       "test_name": "test_full_cleanup_order_matters",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_convert.py",
       "test_name": "test_cleanup_pipeline_is_a_named_ordered_sequence_not_reimplemented",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_convert.py",
       "test_name": "test_convert_document_rejects_unconfirmed_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_convert.py",
       "test_name": "test_convert_document_rejects_stale_source",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_convert.py",
       "test_name": "test_convert_document_end_to_end",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_convert.py",
       "test_name": "test_convert_and_promote_dispatches_grouped_strategy_to_grouped_builder",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_probe_pandoc_real_environment_is_available",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_probe_soffice_real_environment_is_available",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_probe_pandoc_missing_is_reported_unavailable",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_probe_soffice_missing_is_reported_unavailable",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_probe_version_subprocess_failure_still_reports_available",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_require_soffice_if_needed_noop_when_not_needed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_require_soffice_if_needed_raises_when_missing_and_needed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dependencies.py",
       "test_name": "test_require_soffice_if_needed_passes_when_available",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_disposition_key_combines_code_and_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_disposition_key_handles_missing_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_warn_blocks_promotion_without_any_disposition_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_warn_blocks_promotion_with_incomplete_disposition_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_warn_promotable_with_complete_disposition_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_fail_never_promotable_even_with_dispositions_covering_warnings",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_pass_with_no_warnings_is_promotable_without_any_disposition_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_load_dispositions_missing_file_returns_empty_dict",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_load_dispositions_raises_on_malformed_json",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_load_dispositions_raises_on_missing_top_level_key",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_dispositions.py",
       "test_name": "test_load_dispositions_raises_on_invalid_status_value",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_emf_convert.py",
       "test_name": "TestConvertLegacyMedia::test_empty_directory_returns_empty_mapping",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_emf_convert.py",
       "test_name": "TestConvertLegacyMedia::test_directory_with_no_legacy_media_returns_empty_mapping",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_emf_convert.py",
       "test_name": "TestConvertLegacyMedia::test_converts_emf_to_png_and_returns_mapping",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_footnotes.py",
       "test_name": "TestCleanOrphanedFootnotes::test_leaves_matched_footnote_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_footnotes.py",
       "test_name": "TestCleanOrphanedFootnotes::test_removes_orphaned_reference_with_no_definition",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_footnotes.py",
       "test_name": "TestCleanOrphanedFootnotes::test_removes_orphaned_definition_with_no_reference",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_footnotes.py",
       "test_name": "TestCleanOrphanedFootnotes::test_handles_mixed_matched_and_orphaned",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_strips_whole_heading_bold",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_strips_whole_heading_bold_italic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_leaves_partial_emphasis_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_leaves_non_heading_emphasis_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_leaves_plain_heading_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_preserves_heading_level",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_handles_multiple_headings",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_strips_whole_heading_underscore_italic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_leaves_mismatched_marker_boundary_untouched_open_two_close_three",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_leaves_mismatched_marker_boundary_untouched_open_three_close_two",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_leaves_single_asterisk_italic_whole_heading_untouched_if_ambiguous",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_normalize_heading_path_basic_ascii",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_normalize_heading_path_collapses_punctuation_and_whitespace",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_normalize_heading_path_is_unicode_safe_non_ascii_not_dropped",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_normalize_heading_path_is_unicode_safe_non_latin_script",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_chunk_id_shape_matches_spec_example_pattern",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_chunk_id_is_deterministic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_chunk_id_repeated_identical_paths_disambiguated_by_occurrence",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_chunk_id_different_paths_produce_different_ids",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_chunk_id_no_positional_index_parameter_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_chunk_id_position_independence_across_document_insertion",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_topic_id_uses_only_top_level_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_topic_id_differs_by_occurrence",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_topic_id_matches_slug_hash_shape",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_identity.py",
       "test_name": "test_make_topic_id_differs_from_chunk_id_for_same_top_level_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_separates_image_glued_to_heading",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_separates_image_glued_to_list_item",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_leaves_image_already_on_own_line",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_leaves_plain_heading_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_separates_image_glued_to_start_of_heading",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_separates_image_glued_to_start_of_list_item",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_handles_multiple_headings_with_glued_images",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_import_boundaries.py",
       "test_name": "test_renderer_side_never_transitively_imports_a_forbidden_module",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_import_boundaries.py",
       "test_name": "test_checker_detects_a_synthetic_forbidden_transitive_edge",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_import_boundaries.py",
       "test_name": "test_checker_correctly_resolves_from_package_import_submodule",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_independent_fixture.py",
       "test_name": "test_independent_fixture_loads_successfully",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_independent_fixture.py",
       "test_name": "test_independent_fixture_renders_successfully_with_no_docx_side_code_invoked",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_media_disposition.py",
       "test_name": "test_propose_media_decisions_finds_preamble_image_ref",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_media_disposition.py",
       "test_name": "test_propose_media_decisions_defaults_to_requires_review",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_media_disposition.py",
       "test_name": "test_propose_media_decisions_position_is_preamble",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_media_disposition.py",
       "test_name": "test_propose_media_decisions_computes_hash_when_file_exists",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_media_disposition.py",
       "test_name": "test_propose_media_decisions_no_refs_returns_empty_list",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_media_disposition.py",
       "test_name": "test_propose_media_decisions_ignores_remote_urls",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_renderer_satisfies_protocol",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_single_chunk_package_renders_one_page_and_index",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_chunked_package_uses_same_render_method_as_single",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_index_follows_manifest_order_not_alphabetical",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_index_reflects_heading_hierarchy_with_shared_top_level_group",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_media_copied_and_relative_reference_form_is_unchanged",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_internal_local_link_rewritten_to_page_relative_target",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_external_links_are_left_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_repeated_leaf_heading_under_different_parents_produces_distinct_links",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_module_source_has_no_docx_or_analysis_or_plan_access",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_render_produces_correct_output_with_no_docx_or_analysis_or_plan_on_disk",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_render_to_staging_writes_to_a_fresh_staging_dir_without_promoting",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_render_to_staging_uses_atomic_output_create_staging_dir",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_end_to_end_render_of_small_single_fixture",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_render_uses_publication_map_order_when_present",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_multipage_markdown.py",
       "test_name": "test_render_falls_back_to_manifest_order_when_no_publication_map",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_one_sidecar_per_chunk_and_no_orphans",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_chunk_id_reused_from_anchor_stable_key_not_recomputed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_hashes_plan_id_source_hash_schema_version_and_ordering",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_manifest_ordering_independent_of_filesystem_listing_order",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_media_copied_once_and_referenced_from_multiple_chunks",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_duplicate_media_names_different_content_disambiguated",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_relative_path_rewriting_scheme",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_url_encoded_and_space_containing_media_refs",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_alt_text_with_escaped_brackets_still_recognized_as_media_ref",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_absolute_media_path_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_dotdot_traversal_media_path_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_windows_drive_letter_absolute_path_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_windows_unc_path_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_windows_backslash_traversal_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_unconverted_legacy_media_remaining_is_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_missing_media_file_is_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_build_grouped_canonical_package_produces_one_file_per_topic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_topic_content_preserves_all_anchor_content_losslessly",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_chunk_metadata_lists_every_folded_anchor",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_package_writes_publication_map",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_package_identity_is_not_double_prefixed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_publication_map_chunk_id_is_not_a_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_every_anchor_assigned_exactly_once",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_package_uses_confirmed_topic_roots_for_mixed_level_document",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package.py",
       "test_name": "test_grouped_package_raises_when_confirmed_roots_no_longer_reconcile",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_canonical_package_importable_from_new_module",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_canonical_package_no_longer_defined_in_package_module",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_attaches_publication_map_for_grouped",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_returns_package_with_manifest_chunks_and_media",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_rejects_missing_manifest",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_rejects_malformed_manifest_schema",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_rejects_fail_status",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_rejects_warn_status_without_disposition_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_accepts_warn_status_with_complete_disposition_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_rejects_tampered_chunk_content_hash_mismatch",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_package_load.py",
       "test_name": "test_load_rejects_missing_media_reference",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_pandoc_validate.py",
       "test_name": "TestValidateCleanedMarkdown::test_passes_clean_document",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_pandoc_validate.py",
       "test_name": "TestValidateCleanedMarkdown::test_fails_on_unresolved_image_link",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_pandoc_validate.py",
       "test_name": "TestValidateCleanedMarkdown::test_fails_on_leftover_attribute_artifact",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_pandoc_validate.py",
       "test_name": "TestValidateCleanedMarkdown::test_fails_on_image_embedded_in_heading",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_pandoc_validate.py",
       "test_name": "TestValidateCleanedMarkdown::test_reports_multiple_errors_together",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_build_draft_plan_accepts_grouped_strategy",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_confirm_plan_sets_status_confirmed",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_confirm_plan_does_not_mutate_input_draft",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_confirm_plan_computes_plan_id_over_finalized_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_confirm_plan_cli_writes_new_file_leaves_draft_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_verify_plan_against_source_passes_when_unmodified",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_verify_plan_against_source_rejects_modified_source",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_verify_plan_integrity_passes_when_untampered",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_verify_plan_integrity_rejects_tampered_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_require_confirmed_passes_for_confirmed_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_require_confirmed_rejects_draft_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_convert_cli_rejects_draft_plan_status_exit_4",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_apply_media_decision_overrides_pending_record",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_apply_media_decision_raises_for_unknown_media_id",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_apply_media_decision_raises_on_already_confirmed_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_confirm_plan_carries_media_decisions_forward_unchanged",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_publication_map.py",
       "test_name": "test_publication_map_round_trips_through_json",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_publication_map.py",
       "test_name": "test_publication_map_order_is_explicit_not_positional",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_publication_map.py",
       "test_name": "test_publication_map_entry_omits_parent_topic_id",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_publication_map.py",
       "test_name": "test_load_publication_map_returns_none_when_absent",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_publication_map.py",
       "test_name": "test_load_publication_map_round_trips",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_publication_map.py",
       "test_name": "test_load_publication_map_raises_controlled_error_on_malformed_json",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_publication_map.py",
       "test_name": "test_load_publication_map_raises_controlled_error_on_missing_field",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_regression_pipeline.py",
       "test_name": "TestRegressionPipeline::test_all_modules_compose_without_conflict",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_renderer_protocol.py",
       "test_name": "test_renderer_protocol_shape_is_structural_typing",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_renderer_protocol.py",
       "test_name": "test_render_signature_has_no_docx_or_analysis_or_plan_parameter",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_renderer_protocol.py",
       "test_name": "test_canonical_package_load_signature_only_accepts_package_dir",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_renderer_protocol.py",
       "test_name": "test_registry_register_and_get_renderer_round_trip",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_renderer_protocol.py",
       "test_name": "test_registry_rejects_unknown_renderer_name",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_renderer_protocol.py",
       "test_name": "test_dispatch_render_end_to_end_with_test_renderer",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_renderer_protocol.py",
       "test_name": "test_dispatch_render_rejects_unsupported_manifest_version",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_runtime_independence.py",
       "test_name": "test_render_succeeds_with_no_docx_intake_or_temp_directory_present",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_sharepoint_cli.py",
       "test_name": "test_dry_run_subcommand_exits_zero_on_pass",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_cli.py",
       "test_name": "test_dry_run_subcommand_exits_one_on_fail",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_dry_run.py",
       "test_name": "test_pass_for_a_well_formed_single_entry_package",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_dry_run.py",
       "test_name": "test_fails_on_empty_title",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_dry_run.py",
       "test_name": "test_fails_on_title_over_255_chars",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_dry_run.py",
       "test_name": "test_fails_on_duplicate_order",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_dry_run.py",
       "test_name": "test_fails_on_duplicate_topic_id",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_dry_run.py",
       "test_name": "test_fails_on_missing_content_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_dry_run.py",
       "test_name": "test_fails_on_empty_package",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_package.py",
       "test_name": "test_upload_entry_round_trips_through_dict",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_package.py",
       "test_name": "test_upload_package_to_dict_has_schema_version_and_entries",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_package.py",
       "test_name": "test_build_upload_package_produces_one_entry_per_topic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_package.py",
       "test_name": "test_build_upload_package_rejects_non_grouped_strategy",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_package.py",
       "test_name": "test_build_upload_package_raises_on_missing_rendered_page",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_reconcile.py",
       "test_name": "test_match_when_package_and_library_agree",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_reconcile.py",
       "test_name": "test_missing_in_library",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_reconcile.py",
       "test_name": "test_unexpected_in_library",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_reconcile.py",
       "test_name": "test_duplicate_in_library",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_reconcile.py",
       "test_name": "test_field_mismatch_on_content_hash_drift",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_sharepoint_reconcile.py",
       "test_name": "test_csv_loader_reads_expected_columns",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "OUT_OF_PHASE_4_5_SCOPE"
     },
     {
       "file": "tests/unit/test_tables.py",
       "test_name": "TestFixMalformedTables::test_inserts_missing_separator_row",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_tables.py",
       "test_name": "TestFixMalformedTables::test_fixes_separator_row_with_wrong_column_count",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_tables.py",
       "test_name": "TestFixMalformedTables::test_leaves_well_formed_table_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_tables.py",
       "test_name": "TestFixMalformedTables::test_leaves_non_table_text_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_tables.py",
       "test_name": "TestFixMalformedTables::test_leaves_grid_table_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_strips_raw_toc_block",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_leaves_normal_links_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_leaves_document_with_no_toc_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_strips_toc_without_bookmark_anchor",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_strips_slug_anchor_toc_block",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_leaves_legitimate_internal_link_list_untouched",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_leaves_single_legitimate_link_adjacent_to_stripped_toc",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_strips_toc_preceded_by_title_heading",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "SOURCE_DOCUMENT_EXTRACTION"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_every_heading_assigned_to_exactly_one_topic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_top_level_headings_start_new_topics",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_child_headings_stay_in_source_order_within_topic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_topic_ids_deterministic_and_independent_of_position",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_duplicate_top_level_titles_get_distinct_topic_ids_via_occurrence",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_document_beginning_with_heading_2_roots_identifies_them_as_roots",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_ceis_style_heading2_roots_then_heading1_roots_produces_expected_sequence",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_genuine_heading2_child_beneath_heading1_root_is_not_promoted",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_heading4_grandchild_remains_inside_its_parent_topic",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_mixed_level_roots_produce_multiple_distinct_source_levels",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_promoted_roots_retain_their_original_source_level",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_repeated_analysis_produces_identical_candidate_roots",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_bidirectional_inconsistency_is_not_silently_misclassified",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_first_heading_below_top_level_is_treated_as_the_opening_root",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_compute_topic_boundaries_from_roots_uses_confirmed_set_directly",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_topic_grouping.py",
       "test_name": "test_compute_topic_boundaries_from_roots_raises_on_stale_confirmed_roots",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_ANALYSIS"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_pass_on_a_clean_package_with_cleaned_markdown_supplied",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_warn_when_cleaned_markdown_not_supplied",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_when_manifest_missing",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_report_carries_source_sha256_and_plan_id",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_malformed_manifest_json",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_manifest_missing_required_field",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_unsupported_manifest_schema_version",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_malformed_sidecar_json",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_plan_fingerprint_mismatch_tampered_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_source_fingerprint_mismatch",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_chunk_count_mismatch",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_duplicate_chunk_id",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_duplicate_content_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_duplicate_metadata_path",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_duplicate_source_order",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_missing_chunk_content_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_missing_sidecar_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_orphan_chunk_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_orphan_sidecar_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_orphan_media_file",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_chunk_id_mismatch_between_manifest_and_sidecar",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_content_hash_mismatch",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_chunk_sidecar_plan_id_mismatch_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_chunk_sidecar_source_sha256_mismatch_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_empty_chunk",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_warn_on_heading_missing_from_chunk_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_producer_path_content_comparison_skip_is_now_an_error",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fixture_provenance_content_comparison_skip_is_not_an_error",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_content_loss_detected_by_aggregate_comparison",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_content_duplication_detected_by_aggregate_comparison",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_pass_when_aggregate_matches_after_whitespace_normalization",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_pass_on_clean_package_with_image_despite_media_path_rewrite",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_real_content_loss_still_detected_when_image_present",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_real_content_duplication_still_detected_when_image_present",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_unresolved_structural_anchor_manifest_chunk_not_in_plan",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_raw_toc_artifact_in_chunk_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_leftover_pandoc_attribute_artifact",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_image_embedded_in_heading",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_unsupported_legacy_media_reference_in_staged_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_broken_local_document_link",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_pass_local_link_to_a_known_chunk_id",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_broken_media_reference",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_path_traversal_reference_in_staged_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_fail_on_absolute_path_reference_in_staged_content",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_write_validation_report_overwrites_placeholder",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_validate_grouped_package_passes_when_every_anchor_assigned_once",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_validate_grouped_package_fails_when_an_anchor_is_missing",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_validate_grouped_package_fails_when_an_anchor_is_duplicated_across_topics",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_validate_grouped_package_fails_when_publication_map_missing",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_validate_grouped_package_fails_when_publication_map_order_has_gap",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_malformed_publication_map_is_a_controlled_validation_error",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_unexpected_publication_map_on_non_grouped_package_is_rejected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_publication_map_chunk_id_diverging_from_topic_id_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_validate_ungrouped_package_unaffected_by_new_grouped_checks",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_pending_media_decision_is_blocking",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_reviewed_media_omission_is_not_blocking",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_no_media_decisions_is_not_blocking",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical.py",
       "test_name": "test_content_loss_check_passes_when_compared_against_preamble_stripped_text",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_deleted_media_file_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_absolute_media_reference_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_removed_publication_map_entry_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_duplicate_publication_map_entry_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_non_contiguous_publication_map_order_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_manifest_plan_id_mismatch_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_duplicate_manifest_chunk_content_path_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_orphan_media_file_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_encoded_traversal_media_reference_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_malformed_chunk_sidecar_json_is_a_controlled_validation_error",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_publication_map_order_as_string_is_a_controlled_validation_error",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_empty_publication_map_entries_for_nonempty_grouped_package_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_deleted_media_file_detection_actually_depends_on_check_media_references",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_canonical_mutations.py",
       "test_name": "test_content_comparison_skip_detection_actually_depends_on_its_own_check",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "CANONICAL_KNOWLEDGE"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_clean_render_passes",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_missing_index_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_missing_pages_dir_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_broken_index_link_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_missing_page_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_orphan_page_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_page_count_mismatch_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_broken_local_link_in_page_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_broken_media_reference_in_page_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_absolute_media_reference_in_page_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_traversal_media_reference_in_page_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_missing_render_result_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_source_content_staleness_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_page_content_not_traceable_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_render_and_promote_promotes_on_pass",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_prior_accepted_render_survives_failed_new_render",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered.py",
       "test_name": "test_stale_pages_from_prior_render_do_not_survive_promotion",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered_mutations.py",
       "test_name": "test_index_omitting_an_existing_page_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered_mutations.py",
       "test_name": "test_source_content_staleness_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered_mutations.py",
       "test_name": "test_renderer_rejects_unsupported_manifest_version",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered_mutations.py",
       "test_name": "test_page_content_diverging_from_source_chunk_is_detected",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered_mutations.py",
       "test_name": "test_index_completeness_survives_escaped_bracket_in_link_text",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered_mutations.py",
       "test_name": "test_index_completeness_survives_url_encoded_page_filename",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     },
     {
       "file": "tests/unit/test_validate_rendered_mutations.py",
       "test_name": "test_index_completeness_detects_duplicate_link_while_another_page_is_omitted",
-      "proposed_owner_domain": null
+      "proposed_owner_domain": "KNOWLEDGE_PUBLICATION"
     }
   ]
 }

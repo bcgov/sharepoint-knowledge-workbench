@@ -4,349 +4,581 @@
       "from": "scripts/analyze_structure.py",
       "to": "scripts/contracts.py",
       "line": 41,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/analyze_structure.py",
       "to": "scripts/dependencies.py",
       "line": 42,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
       "to": "scripts/hashing.py",
       "line": 43,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
       "to": "scripts/identity.py",
       "line": 44,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
       "to": "scripts/media_disposition.py",
       "line": 45,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
       "to": "scripts/plans.py",
       "line": 46,
-      "classification": "KNOWLEDGE_ANALYSIS_INTERNAL"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
       "to": "scripts/topic_grouping.py",
       "line": 47,
-      "classification": "KNOWLEDGE_ANALYSIS_INTERNAL"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "KNOWLEDGE_ANALYSIS",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/atomic_output.py",
       "to": "scripts/dependencies.py",
       "line": 85,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/canonical_package.py",
       "to": "scripts/contracts.py",
       "line": 35,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/canonical_package.py",
       "to": "scripts/dispositions.py",
       "line": 36,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/canonical_package.py",
       "to": "scripts/hashing.py",
       "line": 37,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/canonical_package.py",
       "to": "scripts/publication_map.py",
       "line": 38,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/chunking.py",
       "to": "scripts/analyze_structure.py",
       "line": 50,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "UNRESOLVED",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/chunking.py",
       "to": "scripts/identity.py",
       "line": 51,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/analyze_structure.py",
       "line": 49,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "UNRESOLVED",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/contracts.py",
       "line": 50,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/convert.py",
       "line": 51,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "UNRESOLVED",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/dependencies.py",
       "line": 52,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/package.py",
       "line": 53,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/canonical_package.py",
       "line": 54,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/plans.py",
       "line": 55,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/cli.py",
       "to": "scripts/topic_grouping.py",
       "line": 56,
-      "classification": "CLI_ORCHESTRATION_EDGE"
+      "dependency_classification": "CLI_ORCHESTRATION",
+      "proposed_source_domain": "REPOSITORY_ORCHESTRATION",
+      "proposed_target_domain": "KNOWLEDGE_ANALYSIS",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "cli.py orchestrates across all domains by design; not itself domain-owned."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/atomic_output.py",
       "line": 44,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "UNRESOLVED",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py and scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/chunking.py",
       "line": 45,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/contracts.py",
       "line": 46,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/dispositions.py",
       "line": 47,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/emf_convert.py",
       "line": 48,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/package.py",
       "line": 49,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/plans.py",
       "line": 50,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
       "to": "scripts/validate_canonical.py",
       "line": 51,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "UNRESOLVED",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/dispositions.py",
       "to": "scripts/contracts.py",
       "line": 70,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/hashing.py",
       "to": "scripts/contracts.py",
       "line": 19,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/identity.py",
       "to": "scripts/hashing.py",
       "line": 31,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/package.py",
       "to": "scripts/contracts.py",
       "line": 71,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/package.py",
       "to": "scripts/dispositions.py",
       "line": 72,
-      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/package.py",
       "to": "scripts/hashing.py",
       "line": 73,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/package.py",
       "to": "scripts/publication_map.py",
       "line": 74,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/package.py",
       "to": "scripts/topic_grouping.py",
       "line": 75,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "KNOWLEDGE_ANALYSIS",
+      "disposition": "REQUIRES_HUMAN_DECISION",
+      "rationale": "Crosses proposed domains CANONICAL_KNOWLEDGE -> KNOWLEDGE_ANALYSIS; needs an explicit Wave 1 boundary decision (move code, or promote target to a shared contract)."
     },
     {
       "from": "scripts/plans.py",
       "to": "scripts/contracts.py",
       "line": 40,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/plans.py",
       "to": "scripts/hashing.py",
       "line": 41,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/publication_map.py",
       "to": "scripts/contracts.py",
       "line": 15,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/renderers/multipage_markdown.py",
       "to": "scripts/atomic_output.py",
       "line": 79,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
+      "proposed_target_domain": "UNRESOLVED",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/renderers/multipage_markdown.py",
       "to": "scripts/contracts.py",
       "line": 80,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/renderers/protocol.py",
       "to": "scripts/contracts.py",
       "line": 43,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/renderers/protocol.py",
       "to": "scripts/canonical_package.py",
       "line": 44,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "PRESENTATION_COUPLING",
+      "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "REQUIRES_HUMAN_DECISION",
+      "rationale": "Renderer currently accesses canonical implementation rather than a public contract."
     },
     {
       "from": "scripts/renderers/validate_rendered.py",
       "to": "scripts/atomic_output.py",
       "line": 74,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
+      "proposed_target_domain": "UNRESOLVED",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/renderers/validate_rendered.py",
       "to": "scripts/contracts.py",
       "line": 75,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/renderers/validate_rendered.py",
       "to": "scripts/path_safety.py",
       "line": 76,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SOURCE_FORMAT_COUPLING",
+      "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
+      "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
+      "disposition": "REQUIRES_HUMAN_DECISION",
+      "rationale": "Edge crosses into/out of source-document-extraction's proposed domain; needs an explicit Wave 1 boundary decision."
     },
     {
       "from": "scripts/sharepoint_cli.py",
       "to": "scripts/sharepoint_dry_run.py",
       "line": 17,
-      "classification": "SHAREPOINT_DEFERRED_EDGE"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "OUT_OF_PHASE_4_5_SCOPE",
+      "proposed_target_domain": "OUT_OF_PHASE_4_5_SCOPE",
+      "disposition": "OUT_OF_SCOPE_RETAIN_IN_PLACE",
+      "rationale": "Touches a sharepoint_*.py module; sharepoint-publication is a deferred plugin per CLAUDE.md, out of Phase 4.5's active scope."
     },
     {
       "from": "scripts/sharepoint_cli.py",
       "to": "scripts/sharepoint_package.py",
       "line": 18,
-      "classification": "SHAREPOINT_DEFERRED_EDGE"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "OUT_OF_PHASE_4_5_SCOPE",
+      "proposed_target_domain": "OUT_OF_PHASE_4_5_SCOPE",
+      "disposition": "OUT_OF_SCOPE_RETAIN_IN_PLACE",
+      "rationale": "Touches a sharepoint_*.py module; sharepoint-publication is a deferred plugin per CLAUDE.md, out of Phase 4.5's active scope."
     },
     {
       "from": "scripts/sharepoint_cli.py",
       "to": "scripts/sharepoint_reconcile.py",
       "line": 19,
-      "classification": "SHAREPOINT_DEFERRED_EDGE"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "OUT_OF_PHASE_4_5_SCOPE",
+      "proposed_target_domain": "OUT_OF_PHASE_4_5_SCOPE",
+      "disposition": "OUT_OF_SCOPE_RETAIN_IN_PLACE",
+      "rationale": "Touches a sharepoint_*.py module; sharepoint-publication is a deferred plugin per CLAUDE.md, out of Phase 4.5's active scope."
     },
     {
       "from": "scripts/sharepoint_package.py",
       "to": "scripts/canonical_package.py",
       "line": 18,
-      "classification": "SHAREPOINT_DEFERRED_EDGE"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "OUT_OF_PHASE_4_5_SCOPE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "OUT_OF_SCOPE_RETAIN_IN_PLACE",
+      "rationale": "Touches a sharepoint_*.py module; sharepoint-publication is a deferred plugin per CLAUDE.md, out of Phase 4.5's active scope."
     },
     {
       "from": "scripts/topic_grouping.py",
       "to": "scripts/identity.py",
       "line": 40,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "CROSS_DOMAIN_UTILITY",
+      "proposed_source_domain": "KNOWLEDGE_ANALYSIS",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "REQUIRES_HUMAN_DECISION",
+      "rationale": "Crosses proposed domains KNOWLEDGE_ANALYSIS -> CANONICAL_KNOWLEDGE; needs an explicit Wave 1 boundary decision (move code, or promote target to a shared contract)."
     },
     {
       "from": "scripts/validate_canonical.py",
       "to": "scripts/contracts.py",
       "line": 79,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "SHARED_CONTRACT",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "NEUTRAL_CONTRACT_DISTRIBUTION",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Target is a contracts.py-style candidate for the neutral contracts distribution."
     },
     {
       "from": "scripts/validate_canonical.py",
       "to": "scripts/hashing.py",
       "line": 80,
-      "classification": "SHARED_CONTRACT_CANDIDATE"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/validate_canonical.py",
       "to": "scripts/pandoc_validate.py",
       "line": 81,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "SOURCE_FORMAT_COUPLING",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
+      "disposition": "REQUIRES_HUMAN_DECISION",
+      "rationale": "Edge crosses into/out of source-document-extraction's proposed domain; needs an explicit Wave 1 boundary decision."
     },
     {
       "from": "scripts/validate_canonical.py",
       "to": "scripts/plans.py",
       "line": 82,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     },
     {
       "from": "scripts/validate_canonical.py",
       "to": "scripts/publication_map.py",
       "line": 83,
-      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+      "dependency_classification": "VALID_FORWARD_DEPENDENCY",
+      "proposed_source_domain": "CANONICAL_KNOWLEDGE",
+      "proposed_target_domain": "CANONICAL_KNOWLEDGE",
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "Both endpoints proposed-owned by CANONICAL_KNOWLEDGE; intra-domain dependency."
     }
   ]
 }
