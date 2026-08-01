@@ -1,26 +1,19 @@
 """
-test_contracts.py
-==================
+test_render_result_contract.py
+================================
 
-Contract tests for docx-to-content's own remaining local contract:
-RenderResult (see docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md
+Contract tests for this plugin's own produced contract: RenderResult (see
+docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md
 section 8), plus the SUPPORTED_SCHEMA_VERSION constant.
 
-ChunkMetadata/ManifestChunk/Manifest/ValidationIssue/ValidationReport and
-canonical-JSON hashing moved to canonical-knowledge's own contract test
-suite (tests/contract/test_canonical_package_contract.py) in Phase 4.5
-Wave 4 -- see
-docs/superpowers/plans/phase-4-5-evidence/wave-4-canonical-knowledge-split-decision.md.
-
-SourceFingerprint/StructuralAnchor/ConversionPlan/Confirmation and
-compute_plan_id moved to knowledge-analysis's own contract test suite
-(tests/contract/test_analysis_plan_contract.py) in Phase 4.5 Wave 3 -- see
-docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md.
+Moved wholesale from docx-to-content's tests/contract/test_contracts.py in
+Phase 4.5 Wave 5 -- see
+docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md.
 """
 
 import pytest
 
-from contracts import RenderResult, SUPPORTED_SCHEMA_VERSION
+from render_result import RenderResult, SUPPORTED_SCHEMA_VERSION
 
 
 def test_supported_schema_version_constant():

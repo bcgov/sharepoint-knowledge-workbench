@@ -29,15 +29,29 @@ from pathlib import Path
 
 import pytest
 
+import re
+
 import atomic_output
-import contracts
-from plan_schema import analysis_plan as plan_contracts
+import render_result as contracts
 from canonical_schema import canonical_package as ck_contracts
 from canonical_schema import publication_map as pm_contracts
-import package as package_module
 import canonical_package as canonical_package_module
 from renderers import protocol
 from renderers import multipage_markdown as mpm
+
+_IMAGE_REF = re.compile(r"(!\[(?:[^\]\\]|\\.)*\]\()([^)]+)(\))")
+
+
+def _extract_media_refs(content: str) -> list:
+    """Local test-only duplicate of canonical-knowledge's package.py
+    extract_media_refs -- not imported cross-plugin (see
+    docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md)."""
+    refs = []
+    for match in _IMAGE_REF.finditer(content):
+        ref = match.group(2)
+        if not ref.startswith(("http://", "https://")):
+            refs.append(ref)
+    return refs
 
 FIXTURES = Path(__file__).parent.parent / "fixtures"
 REPEATED_HEADINGS_DOCX = FIXTURES / "repeated_headings.docx"
@@ -66,7 +80,7 @@ def _metadata(chunk_id, heading_path, order, content, local_links=None):
         content_file=f"chunks/{chunk_id}.md",
         content_sha256=FAKE_SHA,
         local_links=list(local_links or []),
-        media_refs=package_module.extract_media_refs(content),
+        media_refs=_extract_media_refs(content),
     )
 
 
@@ -452,55 +466,12 @@ def test_render_to_staging_uses_atomic_output_create_staging_dir(tmp_path, monke
     assert len(calls) == 1
 
 
-# ---------------------------------------------------------------------------
-# Real end-to-end run through the full pipeline
-# ---------------------------------------------------------------------------
-
-@pytest.mark.skipif(not PANDOC_AVAILABLE, reason="pandoc not available on PATH")
-def test_end_to_end_render_of_small_single_fixture(tmp_path):
-    # Uses small_single.docx (not repeated_headings.docx) deliberately:
-    # repeated_headings.docx currently fails convert_and_promote's
-    # content_loss_or_duplication check for an unrelated, pre-existing
-    # media-ref normalization bug (see Task 10b in the project plan) --
-    # not something Task 13's renderer can or should fix. The
-    # repeated-headings distinct-links behavior this renderer must prove
-    # is already covered by the synthetic
-    # test_repeated_leaf_heading_under_different_parents_produces_distinct_links
-    # test above, without depending on that unrelated bug being fixed
-    # first.
-    import analyze_structure
-    import convert
-    import plans
-
-    analysis_dir = tmp_path / "analysis"
-    analyze_structure.analyze_document(SMALL_SINGLE_DOCX, analysis_dir)
-    draft = plan_contracts.ConversionPlan.from_dict(
-        json.loads((analysis_dir / "conversion-plan.draft.json").read_text())
-    )
-    confirmed = plans.confirm_plan(draft, confirmed_by="test-suite")
-
-    output_root = tmp_path / "out"
-    manifest, report, promoted, final_dir = convert.convert_and_promote(
-        SMALL_SINGLE_DOCX, confirmed, output_root
-    )
-    assert promoted is True
-
-    loaded = canonical_package_module.CanonicalPackage.load(final_dir)
-    assert loaded.manifest.chunk_count >= 1
-
-    result, staging_dir = mpm.render_to_staging(loaded, tmp_path / "rendered")
-
-    assert result.status == "PASS"
-    pages = sorted((staging_dir / "pages").glob("*.md"))
-    assert len(pages) == loaded.manifest.chunk_count
-
-    index_text = (staging_dir / "index.md").read_text()
-    for chunk in loaded.chunks:
-        assert f"pages/{chunk.metadata.chunk_id}.md" in index_text
-
-    canonical_media = sorted(p.name for p in (final_dir / "media").glob("*") if p.is_file())
-    rendered_media = sorted(p.name for p in (staging_dir / "media").glob("*") if p.is_file())
-    assert rendered_media == canonical_media
+# The real end-to-end run through the full pipeline
+# (test_end_to_end_render_of_small_single_fixture) moved to
+# docx-to-content's tests/integration/test_atomic_promotion.py (Phase 4.5
+# Wave 5): it depends on analyze_structure/convert/plans, none of which are
+# installable dependencies of this plugin -- see
+# docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md.
 
 
 # ---------------------------------------------------------------------------

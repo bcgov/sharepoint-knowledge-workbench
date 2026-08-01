@@ -1,18 +1,16 @@
 """
-test_renderer_protocol.py
-==========================
+test_renderer_protocol_integration.py
+=======================================
 
-Tests for `renderers.protocol` (Task 12): the `Renderer` structural
-protocol, the renderer registry, and the manifest-schema-version gate that
-runs before any renderer's `render()` is invoked.
-
-Also carries the brief's "renderer code has no DOCX/raw-analysis input"
-structural test: proves at the *signature* level (not just by convention)
-that `CanonicalPackage.load()` and `Renderer.render()` cannot accept a
-source .docx path, an analysis directory, or a conversion plan.
+Full-pipeline (analyze -> confirm -> convert -> dispatch_render) tests for
+`renderers.protocol` (Task 12), split out of knowledge-publication's own
+tests/unit/test_renderer_protocol.py in Phase 4.5 Wave 5: these tests
+depend on analyze_structure/convert/plans, docx-to-content's own
+orchestrator and knowledge-analysis's plan confirmation -- neither is an
+installable dependency of knowledge-publication -- see
+docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md.
 """
 
-import inspect
 import json
 import shutil
 from pathlib import Path
@@ -20,7 +18,7 @@ from pathlib import Path
 import pytest
 
 import analyze_structure
-import contracts
+import render_result as contracts
 from plan_schema import analysis_plan as plan_contracts
 import convert
 import canonical_package
@@ -79,30 +77,6 @@ class _ListChunksTestRenderer:
         )
 
 
-def test_renderer_protocol_shape_is_structural_typing():
-    # isinstance against a runtime_checkable Protocol only checks the
-    # declared attribute/method names exist -- proving _ListChunksTestRenderer
-    # satisfies Renderer without inheriting from it.
-    renderer = _ListChunksTestRenderer()
-    assert isinstance(renderer, protocol.Renderer)
-
-
-def test_render_signature_has_no_docx_or_analysis_or_plan_parameter():
-    sig = inspect.signature(protocol.Renderer.render)
-    param_names = set(sig.parameters) - {"self"}
-    assert param_names == {"package", "output_dir"}
-    for forbidden in ("source", "docx", "analysis", "plan"):
-        assert forbidden not in param_names
-
-
-def test_canonical_package_load_signature_only_accepts_package_dir():
-    sig = inspect.signature(canonical_package.CanonicalPackage.load)
-    param_names = set(sig.parameters) - {"cls"}
-    assert param_names == {"package_dir"}
-    for forbidden in ("source", "docx", "analysis", "plan"):
-        assert forbidden not in param_names
-
-
 @pytest.mark.skipif(not PANDOC_AVAILABLE, reason="pandoc not available on PATH")
 def test_registry_register_and_get_renderer_round_trip():
     registry = protocol.RendererRegistry()
@@ -110,12 +84,6 @@ def test_registry_register_and_get_renderer_round_trip():
     registry.register(renderer)
 
     assert registry.get_renderer("test-list-chunks") is renderer
-
-
-def test_registry_rejects_unknown_renderer_name():
-    registry = protocol.RendererRegistry()
-    with pytest.raises(protocol.UnknownRendererError):
-        registry.get_renderer("does-not-exist")
 
 
 @pytest.mark.skipif(not PANDOC_AVAILABLE, reason="pandoc not available on PATH")

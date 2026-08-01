@@ -336,6 +336,108 @@
       "dst": "plugins/canonical-knowledge/skills/build-canonical-package/references/contracts/publication-map.md",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/atomic_output.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/atomic_output.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/canonical_package.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/dispositions.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/hashing.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/knowledge_publication.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/knowledge_publication.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/path_safety.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/path_safety.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/publication_map.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/render_result.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/render_result.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/canonical_schema/shared.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/renderers/__init__.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/__init__.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/multipage_markdown.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/renderers/protocol.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/protocol.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/validate_rendered.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/knowledge-publication/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/knowledge-publication/skills/render-content/references/contracts/rendered-output-profile.md",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

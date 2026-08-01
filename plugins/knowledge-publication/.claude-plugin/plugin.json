@@ -1,0 +1,21 @@
+{
+    "name": "knowledge-publication",
+    "version": "0.1.0-alpha.1",
+    "description": "Renders a validated canonical-package (and, for grouped strategy, its publication-map) to a multipage-markdown publication output, validated and atomically promoted.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/manual-conversion-poc",
+    "license": "MIT",
+    "keywords": [
+        "rendering",
+        "multipage-markdown",
+        "publication",
+        "atomic-promotion"
+    ],
+    "capabilities": [
+        "content-rendering",
+        "render-validation",
+        "atomic-promotion"
+    ]
+}

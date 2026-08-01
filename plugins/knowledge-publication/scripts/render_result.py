@@ -1,23 +1,21 @@
 """
-contracts.py
-============
+render_result.py
+=================
 
-Versioned data contracts shared across the docx-to-content plugin's
-render pipeline. These are plain stdlib dataclasses (no pydantic/third-
-party validation deps) with strict `from_dict`/`to_dict` round-tripping,
-matching the JSON shapes in
+Authoritative schema for the `rendered-output-profile` contract's
+`RenderResult` type (see
 docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md
-section 8 (Renderer Protocol).
+section 8, Renderer Protocol). `knowledge-publication` is the sole
+producer of this contract.
 
+Renamed from docx-to-content's `contracts.py` (Phase 4.5 Wave 5) --
 SourceFingerprint/StructuralAnchor/Confirmation/ConversionPlan moved to
-knowledge-analysis's plan_schema/analysis_plan.py (Phase 4.5 Wave 3).
+knowledge-analysis's plan_schema/analysis_plan.py (Wave 3);
 ManifestSourceFingerprint/ChunkMetadata/ManifestChunk/ManifestGenerator/
 Manifest/ValidationIssue/ValidationReport/PublicationMapEntry/
-PublicationMap moved to canonical-knowledge's canonical_schema/ (Phase
-4.5 Wave 4) -- see
-docs/superpowers/plans/phase-4-5-evidence/wave-4-canonical-knowledge-split-decision.md.
-Only `RenderResult` (knowledge-publication's future contract, Wave 5,
-unmoved for now) remains here.
+PublicationMap moved to canonical-knowledge's canonical_schema/ (Wave 4).
+See
+docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md.
 
 Design rules enforced here:
 - Every `from_dict` rejects a dict missing any required field (no silent
@@ -29,13 +27,12 @@ from dataclasses import dataclass
 from typing import Any
 
 
-MANIFEST_SCHEMA_VERSION = "1.0"
+RENDER_RESULT_SCHEMA_VERSION = "1.0"
 
 # Backward-compatible alias: pre-Phase-2 code (and any external caller)
 # that referenced one shared SUPPORTED_SCHEMA_VERSION still resolves to a
-# valid value. Anchors to MANIFEST_SCHEMA_VERSION since every remaining
-# caller of this alias tests Manifest/renderer schema versions.
-SUPPORTED_SCHEMA_VERSION = MANIFEST_SCHEMA_VERSION
+# valid value.
+SUPPORTED_SCHEMA_VERSION = RENDER_RESULT_SCHEMA_VERSION
 
 
 def _require(data: dict, field_name: str) -> Any:
