@@ -3,7 +3,7 @@
 test_footnotes.py
 ==================
 
-TDD-first: failing tests for pandoc_fixes/footnotes.py.
+TDD-first: failing tests for pandoc/footnotes.py.
 Covers detecting and removing orphaned footnote markers: a `[^1]` reference
 in text with no matching `[^1]: definition` anywhere in the document, or a
 `[^1]: definition` with no matching `[^1]` reference. Footnotes with a
@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_footnotes.py -v
 """
 
-from source_document_extraction.pandoc_fixes.footnotes import clean_orphaned_footnotes
+from pandoc.footnotes import clean_orphaned_footnotes
 
 
 class TestCleanOrphanedFootnotes:

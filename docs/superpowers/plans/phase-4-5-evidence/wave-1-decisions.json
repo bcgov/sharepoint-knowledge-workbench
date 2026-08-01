@@ -9,11 +9,11 @@
   },
   "contracts_distribution_name": "knowledge-workbench-contracts",
   "contracts_distribution_version": "0.1.0-alpha.1",
-  "contracts_distribution_disposition": "DEVELOPMENT_CODEGEN_SOURCE — not a required runtime dependency of any plugin as of the Wave 2 correction; see wave-2-contract-materialization-correction.md",
+  "contracts_distribution_disposition": "REMOVED (2026-08-01, same session as the correction) — contracts/python/ deleted entirely; its only real consumer's schema (normalized-source-document) is now the authoritative copy inside plugins/source-document-extraction/, its other four schemas were unclaimed by any built plugin, and tree_hash.py/repo_root.py had no runtime consumer. See wave-2-contract-materialization-correction.md.",
   "runtime_distribution_name": "knowledge-workbench-runtime",
   "runtime_distribution_version": "0.1.0-alpha.1",
   "runtime_distribution_scope": "atomic_output.py's create_staging_dir/promote only, per docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md §13c",
-  "runtime_distribution_disposition": "DEVELOPMENT_CODEGEN_SOURCE — not a required runtime dependency of any plugin; zero current consumers; see wave-2-contract-materialization-correction.md",
+  "runtime_distribution_disposition": "REMOVED (2026-08-01, same session as the correction) — runtime/python/ deleted entirely; zero plugins ever consumed it (atomic_output.py remains only in docx-to-content, unmoved). Waves 4/5 author atomic_output.py fresh inside canonical-knowledge/knowledge-publication directly, not from a repo-root reference copy. See wave-2-contract-materialization-correction.md.",
   "plugin_starting_versions": {
     "source-document-extraction": "0.1.0-alpha.1",
     "knowledge-analysis": "0.1.0-alpha.1",

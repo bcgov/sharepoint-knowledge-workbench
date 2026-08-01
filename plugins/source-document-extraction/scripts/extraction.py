@@ -2,32 +2,28 @@
 extraction.py
 =============
 
-Public Interface Contract entry point for the `source-document-extraction`
-plugin (Phase 4.5 Wave 2): runs pandoc once against a real source `.docx`
-and produces a `normalized-source-document` v1 dict (per this plugin's own
-`source_document_extraction.contracts.normalized_source_document` --
-this plugin is the contract's producer, so its schema is materialized
-locally, not imported from a shared distribution; see
-docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md).
-
-Wave 2 implementation decision (`convert_py_extraction_primitive_unification`
-in `wave-1-decisions.json`): `docx-to-content/scripts/convert.py`'s
-`run_pandoc_extraction` and this module's `_run_pandoc_raw` are structurally
-parallel direct-pandoc-invocation functions. They remain two distinct
-functions rather than one shared primitive for Wave 2: `convert.py` belongs
-to `canonical-knowledge` (Wave 4) and is out of this wave's scope. Revisiting
-this as a shared primitive is left to a later wave if desired.
+Public interface for the `source-document-extraction` plugin: runs pandoc
+once against a real source `.docx` and produces a `normalized-source-document`
+v1 dict, validated against this plugin's own `schema.normalized_source_document`
+module. This plugin is the sole producer of that contract; canonical-knowledge
+and knowledge-publication never import this module directly -- they consume
+the dict this function returns.
 """
 
 from __future__ import annotations
 
 import hashlib
 import subprocess
+import sys
 from pathlib import Path
 
-from . import dependencies
-from .contracts.normalized_source_document import validate as validate_normalized_source_document
-from .heading_parsing import (
+_THIS_DIR = Path(__file__).resolve().parent
+if str(_THIS_DIR) not in sys.path:
+    sys.path.insert(0, str(_THIS_DIR))
+
+import dependencies  # noqa: E402
+from schema.normalized_source_document import validate as validate_normalized_source_document  # noqa: E402
+from heading_parsing import (  # noqa: E402
     _counts_by_level,
     _image_stats,
     _repeated_heading_texts,

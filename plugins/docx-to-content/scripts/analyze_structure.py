@@ -14,8 +14,8 @@ Required analysis (spec 7.1), each surfaced under `analysis-report.json`:
     - heading counts by level, reconstructed heading paths, repeated paths
     - local image counts/formats
     - raw TOC evidence and known pandoc defect signals (reusing
-      `pandoc_fixes.toc.strip_raw_toc`, `pandoc_fixes.images.fix_glued_images`,
-      and `pandoc_fixes.attrs.strip_pandoc_attrs` detection logic rather than
+      `pandoc.toc.strip_raw_toc`, `pandoc.images.fix_glued_images`,
+      and `pandoc.attrs.strip_pandoc_attrs` detection logic rather than
       re-implementing pattern matching)
     - a single/chunked strategy recommendation driven by named, configurable
       constants -- never a branch on a literal heading string.
@@ -46,17 +46,21 @@ import plans  # noqa: E402
 import topic_grouping  # noqa: E402
 
 # Compatibility shim (Phase 4.5 Wave 2, retire per wave-1-decisions.json):
-# these functions now live in the installed `source_document_extraction`
-# package -- per the approved split
+# these functions now live in the installed `source-document-extraction`
+# package (flat `scripts/` layout, bare module names -- see
+# docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md)
+# -- per the approved split
 # (docs/superpowers/plans/phase-4-5-evidence/wave-1-analyze-structure-split-decision.md),
 # every source-level *observation* function moved there. Imported here, not
 # duplicated, so `docx-to-content` keeps working during the migration.
 # Requires `source-document-extraction` to be `pip install -e`'d into
 # whatever environment runs this plugin's tests -- a transition-only
-# dependency, removed in Wave 7/8.
-from source_document_extraction import dependencies  # noqa: E402
-from source_document_extraction.extraction import _run_pandoc_raw  # noqa: E402
-from source_document_extraction.heading_parsing import (  # noqa: E402
+# dependency, removed in Wave 7/8. Bare names resolve directly from the
+# installed distribution since this plugin no longer ships same-named
+# shim files of its own to shadow them.
+import dependencies  # noqa: E402
+from extraction import _run_pandoc_raw  # noqa: E402
+from heading_parsing import (  # noqa: E402
     _counts_by_level,
     _image_stats,
     _normalize_heading_text,

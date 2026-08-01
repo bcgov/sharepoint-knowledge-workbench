@@ -3,7 +3,7 @@
 test_tables.py
 ==============
 
-TDD-first: failing tests for pandoc_fixes/tables.py.
+TDD-first: failing tests for pandoc/tables.py.
 Covers detecting/fixing malformed pandoc-emitted markdown tables: missing or
 malformed header separator rows (must exist and match the header column
 count).
@@ -12,7 +12,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_tables.py -v
 """
 
-from source_document_extraction.pandoc_fixes.tables import fix_malformed_tables
+from pandoc.tables import fix_malformed_tables
 
 
 class TestFixMalformedTables:

@@ -2,9 +2,9 @@
 dependencies.py
 ================
 
-Dependency probing for the docx-to-content plugin's two external system
-tools: `pandoc` (always required) and `soffice`/LibreOffice (required only
-when a document contains legacy `.emf`/`.wmf` media that needs conversion).
+Dependency probing for this plugin's two external system tools: `pandoc`
+(always required) and `soffice`/LibreOffice (required only when a document
+contains legacy `.emf`/`.wmf` media that needs conversion).
 
 Uses `shutil.which()` to locate an executable on PATH and
 `subprocess.run([exe, "--version"])` to report its version — no

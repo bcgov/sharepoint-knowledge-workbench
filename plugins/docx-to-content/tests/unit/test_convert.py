@@ -9,7 +9,7 @@ package build.
 
 `test_full_cleanup_order_matters` reuses the existing
 `tests/fixtures/regression_raw.md` fixture (already proven, in
-test_regression_pipeline.py, to exercise every pandoc_fixes defect
+test_regression_pipeline.py, to exercise every pandoc defect
 category at once) to prove `apply_cleanup_pipeline` runs attrs -> images
 -> toc -> tables -> footnotes in that order, without needing pandoc or a
 real docx.
@@ -82,7 +82,7 @@ def test_full_cleanup_order_matters():
 
 def test_cleanup_pipeline_is_a_named_ordered_sequence_not_reimplemented():
     """convert_document must call apply_cleanup_pipeline rather than
-    inlining pandoc_fixes calls a second time -- assert by construction
+    inlining pandoc calls a second time -- assert by construction
     that apply_cleanup_pipeline exists and the shared pipeline core
     (`_run_conversion_pipeline`, factored out in Task 11 so both
     `convert_document` and `convert_and_promote` share one

@@ -2,7 +2,7 @@
 
 **Producer:** `source-document-extraction` (this plugin) — the authoritative
 definition of this contract lives in this plugin's own package at
-`src/source_document_extraction/contracts/normalized_source_document.py`,
+`scripts/schema/normalized_source_document.py`,
 not in any shared/top-level distribution. See
 `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`
 for why: an independently installed plugin must not require an unpublished
@@ -36,7 +36,7 @@ development) — it never imports this plugin's package at runtime.
 ## Producing this contract
 
 ```python
-from source_document_extraction.extraction import extract_and_normalize
+from extraction import extract_and_normalize
 
 normalized = extract_and_normalize(source="intake/Manual.docx", output_dir="analysis/Manual")
 ```
@@ -44,7 +44,7 @@ normalized = extract_and_normalize(source="intake/Manual.docx", output_dir="anal
 ## Validating
 
 ```python
-from source_document_extraction.contracts.normalized_source_document import validate
+from schema.normalized_source_document import validate
 
 validate(normalized)  # raises ValueError on missing/mismatched required fields
 ```
