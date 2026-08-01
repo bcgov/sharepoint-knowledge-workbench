@@ -17,8 +17,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
@@ -27,8 +27,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
@@ -37,8 +37,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
@@ -47,8 +47,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
@@ -57,8 +57,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/analyze_structure.py",
@@ -67,8 +67,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "KNOWLEDGE_ANALYSIS",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/atomic_output.py",
@@ -77,8 +77,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/canonical_package.py",
@@ -127,8 +127,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "CANONICAL_KNOWLEDGE",
       "proposed_target_domain": "UNRESOLVED",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/analyze_structure.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/chunking.py",
@@ -227,8 +227,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "UNRESOLVED",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py and scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
@@ -237,8 +237,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
@@ -257,8 +257,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
@@ -267,8 +267,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "SOURCE_DOCUMENT_EXTRACTION",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
@@ -277,8 +277,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
@@ -287,8 +287,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/convert.py",
@@ -297,8 +297,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "UNRESOLVED",
       "proposed_target_domain": "CANONICAL_KNOWLEDGE",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/convert.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/dispositions.py",
@@ -417,8 +417,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
       "proposed_target_domain": "UNRESOLVED",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/renderers/multipage_markdown.py",
@@ -457,8 +457,8 @@
       "dependency_classification": "CROSS_DOMAIN_UTILITY",
       "proposed_source_domain": "KNOWLEDGE_PUBLICATION",
       "proposed_target_domain": "UNRESOLVED",
-      "disposition": "REQUIRES_HUMAN_DECISION",
-      "rationale": "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+      "disposition": "PROVISIONALLY_ACCEPTED",
+      "rationale": "scripts/atomic_output.py \u2014 approved for a FUNCTION-level split by Wave 1 (see wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) \u2014 the ownership decision is made, but a whole-script dependency graph cannot represent a per-function split; a later wave's implementation resolves this edge concretely when the file is physically split."
     },
     {
       "from": "scripts/renderers/validate_rendered.py",

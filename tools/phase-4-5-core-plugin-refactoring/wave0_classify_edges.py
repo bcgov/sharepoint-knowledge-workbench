@@ -37,7 +37,15 @@ dependency_classification values:
 
 proposed_source_domain / proposed_target_domain values:
   SOURCE_DOCUMENT_EXTRACTION, KNOWLEDGE_ANALYSIS, CANONICAL_KNOWLEDGE, KNOWLEDGE_PUBLICATION,
-  NEUTRAL_CONTRACT_DISTRIBUTION, REPOSITORY_ORCHESTRATION, OUT_OF_PHASE_4_5_SCOPE, UNRESOLVED
+  NEUTRAL_CONTRACT_DISTRIBUTION, NEUTRAL_RUNTIME_DISTRIBUTION, REPOSITORY_ORCHESTRATION,
+  OUT_OF_PHASE_4_5_SCOPE, UNRESOLVED
+
+  NEUTRAL_RUNTIME_DISTRIBUTION added in the Wave 1 correction pass (2026-08-01): the original
+  8-value vocabulary above predates the human-approved decision to give atomic_output.py's
+  atomicity primitives their own distribution (knowledge-workbench-runtime, spec §13c) rather than
+  duplicating them or folding them into knowledge_workbench_contracts — a domain the original
+  vocabulary's author could not have anticipated. Extended here, not silently invented; see
+  docs/superpowers/plans/phase-4-5-evidence/wave-1-decisions.json's atomic_output_disposition.
 
 disposition values:
   PROVISIONALLY_ACCEPTED, REQUIRES_HUMAN_DECISION, OUT_OF_SCOPE_RETAIN_IN_PLACE,
@@ -63,6 +71,7 @@ PROPOSED_DOMAINS = {
     "CANONICAL_KNOWLEDGE",
     "KNOWLEDGE_PUBLICATION",
     "NEUTRAL_CONTRACT_DISTRIBUTION",
+    "NEUTRAL_RUNTIME_DISTRIBUTION",
     "REPOSITORY_ORCHESTRATION",
     "OUT_OF_PHASE_4_5_SCOPE",
     "UNRESOLVED",
@@ -75,23 +84,31 @@ DISPOSITIONS = {
     "HISTORICAL_OR_DEAD_REQUIRES_CONFIRMATION",
 }
 
-# Per-script proposed domain ownership, taken directly from the approved plan's own "Known File
-# Inventory" table (docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-
-# refactoring.md, "Provisional domain" column) rather than invented fresh — that table already
-# exists as real project data and takes precedence over any heuristic. Three files the plan itself
-# marks as split/duplicated across domains (analyze_structure.py, convert.py, atomic_output.py)
-# are mapped to UNRESOLVED here, matching the plan's own statement that their domain is pending a
-# Wave 1 decision (Step 1 for analyze_structure.py; convert.py and atomic_output.py are not yet
-# split by any wave, so a single owner cannot be asserted). Confirmed/replaced by Wave 1 Step 1
-# and Step 6 (wave-1-decisions.json).
+# Per-script proposed domain ownership. Originally taken from the approved plan's own "Known File
+# Inventory" table; updated 2026-08-01 (Wave 1 correction pass) to reflect the human-approved Wave
+# 1 decisions in wave-1-decisions.json. THREE files remain UNRESOLVED here on purpose — each was
+# approved for a FUNCTION-level split, not a whole-file reassignment to one domain:
+#   - analyze_structure.py: see wave-1-analyze-structure-split-decision.md
+#   - convert.py: see wave-1-shared-contract-decision.md
+#   - atomic_output.py: see wave-1-shared-contract-decision.md and spec §13c —
+#     create_staging_dir/promote go to the new NEUTRAL_RUNTIME_DISTRIBUTION, but
+#     build_generator_info/write_generator_info (which import dependencies.py) are explicitly
+#     NOT part of that distribution and stay duplicated per consuming domain instead, so this
+#     file has no single settled owner either.
+# A script-level dependency graph cannot represent "part of this file is domain A, part is domain
+# B," so each of these three files' proposed_source_domain/proposed_target_domain stays UNRESOLVED
+# at this whole-file granularity even though the underlying decision is no longer open — see
+# classify_edge()'s disposition logic below, which treats edges touching any of these three as
+# PROVISIONALLY_ACCEPTED (decision made, implementation is a later wave's job), not
+# REQUIRES_HUMAN_DECISION (which would incorrectly imply the decision itself is still pending).
 PROPOSED_OWNER_DOMAIN: dict[str, str] = {
-    "scripts/analyze_structure.py": "UNRESOLVED",  # plan: "split — Wave 1 Step 1"
+    "scripts/analyze_structure.py": "UNRESOLVED",  # approved split — see wave-1-analyze-structure-split-decision.md
     "scripts/plans.py": "CANONICAL_KNOWLEDGE",  # plan table
     "scripts/topic_grouping.py": "KNOWLEDGE_ANALYSIS",  # plan table
     "scripts/pandoc_validate.py": "SOURCE_DOCUMENT_EXTRACTION",  # plan table
     "scripts/dependencies.py": "SOURCE_DOCUMENT_EXTRACTION",  # plan table
     "scripts/emf_convert.py": "SOURCE_DOCUMENT_EXTRACTION",  # plan table
-    "scripts/convert.py": "UNRESOLVED",  # plan: "split source-extraction/canonical-knowledge"
+    "scripts/convert.py": "UNRESOLVED",  # approved split — see wave-1-shared-contract-decision.md (run_pandoc_extraction -> source-document-extraction, rest -> canonical-knowledge)
     "scripts/canonical_package.py": "CANONICAL_KNOWLEDGE",  # plan table
     "scripts/chunking.py": "CANONICAL_KNOWLEDGE",  # plan table
     "scripts/dispositions.py": "CANONICAL_KNOWLEDGE",  # plan table
@@ -99,7 +116,13 @@ PROPOSED_OWNER_DOMAIN: dict[str, str] = {
     "scripts/media_disposition.py": "CANONICAL_KNOWLEDGE",  # plan table
     "scripts/package.py": "CANONICAL_KNOWLEDGE",  # plan table
     "scripts/validate_canonical.py": "CANONICAL_KNOWLEDGE",  # plan table
-    "scripts/atomic_output.py": "UNRESOLVED",  # plan: "duplicated: canonical-knowledge + knowledge-publication"
+    # UNRESOLVED at whole-file granularity like analyze_structure.py/convert.py above — atomic_output.py
+    # ALSO functionally splits per the approved decision: create_staging_dir/promote (no
+    # dependencies.py dependency) -> NEUTRAL_RUNTIME_DISTRIBUTION; build_generator_info/
+    # write_generator_info (which import dependencies.py, hence this file's edge to it) are NOT
+    # extracted — each consuming domain implements its own thin wrapper instead. See
+    # wave-1-shared-contract-decision.md and spec §13c.
+    "scripts/atomic_output.py": "UNRESOLVED",
     "scripts/pandoc_fixes/attrs.py": "SOURCE_DOCUMENT_EXTRACTION",  # plan: "pandoc_fixes/ (6 modules) -> source-document-extraction"
     "scripts/pandoc_fixes/footnotes.py": "SOURCE_DOCUMENT_EXTRACTION",
     "scripts/pandoc_fixes/heading_emphasis.py": "SOURCE_DOCUMENT_EXTRACTION",
@@ -160,10 +183,26 @@ def classify_edge(edge: dict) -> dict:
         dep_class = "SHARED_CONTRACT"
         disposition = "PROVISIONALLY_ACCEPTED"
         rationale = "Target is a contracts.py-style candidate for the neutral contracts distribution."
-    elif frm_domain == "UNRESOLVED" or to_domain == "UNRESOLVED":
+    elif to_domain == "NEUTRAL_RUNTIME_DISTRIBUTION":
+        # RESERVED, not currently reachable: no PROPOSED_OWNER_DOMAIN entry maps directly to this
+        # value today — atomic_output.py itself stays UNRESOLVED (see the dict's comment above),
+        # since part of it goes to knowledge_workbench_runtime and part stays duplicated per-domain.
+        # Kept for a future wave that might assign a script wholesale to this distribution (e.g. if
+        # runtime/python's own files are ever scanned by this same tool).
         dep_class = "CROSS_DOMAIN_UTILITY"
-        disposition = "REQUIRES_HUMAN_DECISION"
-        rationale = "One or both endpoints are explicitly flagged in the plan's Known File Inventory as split/duplicated across domains (analyze_structure.py, convert.py, or atomic_output.py); domain cannot be asserted until that Wave 1 decision is made."
+        disposition = "PROVISIONALLY_ACCEPTED"
+        rationale = "Target is wholly owned by the knowledge-workbench-runtime distribution — see spec §13c."
+    elif frm_domain == "UNRESOLVED" or to_domain == "UNRESOLVED":
+        touched = [f for f in (frm, to) if PROPOSED_OWNER_DOMAIN.get(f) == "UNRESOLVED"]
+        dep_class = "CROSS_DOMAIN_UTILITY"
+        disposition = "PROVISIONALLY_ACCEPTED"
+        rationale = (
+            f"{' and '.join(touched)} — approved for a FUNCTION-level split by Wave 1 (see "
+            "wave-1-analyze-structure-split-decision.md / wave-1-shared-contract-decision.md) — "
+            "the ownership decision is made, but a whole-script dependency graph cannot represent "
+            "a per-function split; a later wave's implementation resolves this edge concretely "
+            "when the file is physically split."
+        )
     elif frm_domain == to_domain:
         dep_class = _INTRA_DOMAIN_CLASSIFICATION[frm_domain]
         disposition = "PROVISIONALLY_ACCEPTED"

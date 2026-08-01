@@ -40,10 +40,32 @@ def test_shared_contract_target_classified():
     assert e["disposition"] == "PROVISIONALLY_ACCEPTED"
 
 
-def test_split_pending_file_edge_requires_human_decision():
+def test_split_approved_file_edge_now_provisionally_accepted():
+    """Wave 1 approved a function-level split for analyze_structure.py (and convert.py) — the
+    decision is made even though a whole-script graph can't represent it, so this edge's
+    disposition is no longer REQUIRES_HUMAN_DECISION (that would wrongly imply the decision
+    itself is still open)."""
     e = classify_edge({"from": "scripts/chunking.py", "to": "scripts/analyze_structure.py"})
     assert e["proposed_target_domain"] == "UNRESOLVED"
-    assert e["disposition"] == "REQUIRES_HUMAN_DECISION"
+    assert e["disposition"] == "PROVISIONALLY_ACCEPTED"
+
+
+def test_atomic_output_edge_provisionally_accepted_pending_wave2_function_split():
+    """atomic_output.py itself functionally splits (create_staging_dir/promote -> runtime
+    distribution; build_generator_info/write_generator_info -> stay duplicated per-domain), so it
+    stays UNRESOLVED at whole-file granularity, same treatment as analyze_structure.py/convert.py —
+    but the disposition is PROVISIONALLY_ACCEPTED since the decision itself was made."""
+    e = classify_edge({"from": "scripts/convert.py", "to": "scripts/atomic_output.py"})
+    assert e["proposed_target_domain"] == "UNRESOLVED"
+    assert e["disposition"] == "PROVISIONALLY_ACCEPTED"
+
+
+def test_atomic_output_to_dependencies_edge_also_provisionally_accepted():
+    """This edge specifically represents build_generator_info's dependencies.py import — not
+    extracted to the runtime distribution, but the decision covering it (duplicate the
+    generator-info wrapper per-domain) is still a made decision, not an open question."""
+    e = classify_edge({"from": "scripts/atomic_output.py", "to": "scripts/dependencies.py"})
+    assert e["disposition"] == "PROVISIONALLY_ACCEPTED"
 
 
 def test_presentation_coupling_requires_human_decision():
@@ -109,5 +131,5 @@ def test_validate_classified_edges_flags_bad_vocabulary():
 
 def test_vocabularies_have_expected_sizes():
     assert len(DEPENDENCY_CLASSIFICATIONS) == 9
-    assert len(PROPOSED_DOMAINS) == 8
+    assert len(PROPOSED_DOMAINS) == 9  # extended with NEUTRAL_RUNTIME_DISTRIBUTION in the Wave 1 pass
     assert len(DISPOSITIONS) == 4
