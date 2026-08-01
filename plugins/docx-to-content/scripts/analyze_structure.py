@@ -29,7 +29,7 @@ Function Index:
 """
 
 import json
-import subprocess
+import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -39,16 +39,35 @@ if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
 import contracts  # noqa: E402
-import dependencies  # noqa: E402
 import hashing  # noqa: E402
 import identity  # noqa: E402
 import media_disposition  # noqa: E402
 import plans  # noqa: E402
 import topic_grouping  # noqa: E402
-from pandoc_fixes.attrs import strip_pandoc_attrs  # noqa: E402
-from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
-from pandoc_fixes.images import fix_glued_images  # noqa: E402
-from pandoc_fixes.toc import _TOC_SLUG_LINE, _TOC_LINK_LINE, strip_raw_toc  # noqa: E402
+
+# Compatibility shim (Phase 4.5 Wave 2, retire per wave-1-decisions.json):
+# these functions now live in the installed `source_document_extraction`
+# package -- per the approved split
+# (docs/superpowers/plans/phase-4-5-evidence/wave-1-analyze-structure-split-decision.md),
+# every source-level *observation* function moved there. Imported here, not
+# duplicated, so `docx-to-content` keeps working during the migration.
+# Requires `source-document-extraction` to be `pip install -e`'d into
+# whatever environment runs this plugin's tests -- a transition-only
+# dependency, removed in Wave 7/8.
+from source_document_extraction import dependencies  # noqa: E402
+from source_document_extraction.extraction import _run_pandoc_raw  # noqa: E402
+from source_document_extraction.heading_parsing import (  # noqa: E402
+    _counts_by_level,
+    _image_stats,
+    _normalize_heading_text,
+    _repeated_heading_texts,
+    _repeated_paths,
+    compute_statistics,
+    detect_defect_signals,
+    detect_raw_toc,
+    iter_heading_matches,
+    parse_headings,
+)
 
 # ---------------------------------------------------------------------------
 # Recommendation heuristics -- advisory, configurable constants only.
@@ -60,232 +79,16 @@ MIN_HEADINGS_FOR_CHUNKING = 6
 MIN_LINES_FOR_CHUNKING = 500
 MIN_REPEATED_PATHS_FOR_CHUNKING = 1
 
-_HEADING_RE_TEMPLATE = r"^(#{{1,6}})\s+(.+?)\s*$"
-
-import re  # noqa: E402
-
-_HEADING_LINE = re.compile(_HEADING_RE_TEMPLATE.format(), re.MULTILINE)
-
-# See scripts/package.py's _IMAGE_REF docstring for why alt text uses
-# `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- a markdown-escaped
-# `]` in alt text otherwise terminates the character class early and the
-# reference is silently missed.
-_IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)\s]+)")
-
-
-def _normalize_heading_text(text: str) -> str:
-    """Apply the same convert-time cleanup normalizations that would alter
-    a single heading's text, to that heading's text alone.
-
-    Structural anchor identity (`identity.make_chunk_id`) is computed from
-    heading path text both at analysis time (this module, against RAW
-    pandoc extraction) and at reconciliation time (`chunking.py`, against
-    the CLEANED document, after `convert.apply_cleanup_pipeline` has
-    already run as part of the real convert pipeline). If analysis computed
-    identity from raw, un-normalized text while reconciliation recomputed
-    it from normalized text, the two would never match and every affected
-    heading would fail to reconcile (MissingAnchorError) during a real
-    conversion -- this bit real pilot-document headings for
-    `strip_whole_heading_emphasis` (Task 17) and, discovered against a
-    real document again during Task 18, for `fix_glued_images` (a heading
-    with an image glued directly onto its own line has that image stripped
-    by convert-time cleanup before reconciliation, so analysis must strip
-    it too before computing identity). Normalizing here, in the single
-    function both
-    `parse_headings` (analysis) and `chunking.parse_headings_with_lines`
-    (reconciliation) call, guarantees both sides always compute identity
-    from the same normalized text -- reconciliation call sites operate on
-    already-cleaned text, so this is a no-op there.
-    """
-    synthetic_line = f"# {text}\n"
-    stripped = strip_whole_heading_emphasis(synthetic_line)
-    stripped = fix_glued_images(stripped)
-    first_line = stripped.split("\n", 1)[0]
-    return first_line[2:].rstrip()
+# Used only to locate the first heading's start position for preamble
+# slicing below -- the real heading-walk logic lives in
+# source_document_extraction.heading_parsing.
+_HEADING_LINE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 
 
 @dataclass
 class AnalysisResult:
     report: dict
     plan: contracts.ConversionPlan
-
-
-# ---------------------------------------------------------------------------
-# Heading parsing / structural paths
-# ---------------------------------------------------------------------------
-
-def iter_heading_matches(markdown_text: str):
-    """Low-level ATX heading walk shared by `parse_headings` (this module,
-    Task 6 draft-plan analysis) and `chunking.py`'s cleaned-document heading
-    index (Task 8, post-cleanup anchor reconciliation), so the path/
-    occurrence computation exists in exactly one place rather than being
-    copy-pasted into a second implementation.
-
-    Yields `(match, level, text, path, occurrence)` in document order, where
-    `path` is the full heading path (ancestor chain + this heading's text,
-    reconstructed with a level-based stack so skipped levels -- e.g. an H1
-    followed directly by an H3 -- are handled gracefully) and `occurrence`
-    disambiguates two headings that share an identical full path.
-    """
-    stack = []  # list of (level, text)
-    occurrence_counts = {}  # tuple(path) -> count seen so far
-
-    for match in _HEADING_LINE.finditer(markdown_text):
-        level = len(match.group(1))
-        text = _normalize_heading_text(match.group(2).strip())
-        if not text:
-            continue
-
-        while stack and stack[-1][0] >= level:
-            stack.pop()
-        stack.append((level, text))
-
-        path = [t for _, t in stack]
-        path_key = tuple(path)
-        occurrence_counts[path_key] = occurrence_counts.get(path_key, 0) + 1
-        occurrence = occurrence_counts[path_key]
-
-        yield match, level, text, path, occurrence
-
-
-def parse_headings(markdown_text: str) -> list:
-    """Parse ATX headings from pandoc markdown output into an ordered list
-    of dicts: {"level": int, "text": str, "path": list[str], "occurrence": int}.
-
-    Thin wrapper over `iter_heading_matches` that drops the regex match
-    object (callers needing source position -- e.g. `chunking.py` -- should
-    use `iter_heading_matches` directly instead of re-parsing).
-    """
-    return [
-        {"level": level, "text": text, "path": path, "occurrence": occurrence}
-        for _match, level, text, path, occurrence in iter_heading_matches(markdown_text)
-    ]
-
-
-def _counts_by_level(headings: list) -> dict:
-    counts = {}
-    for h in headings:
-        counts[h["level"]] = counts.get(h["level"], 0) + 1
-    return counts
-
-
-def _repeated_heading_texts(headings: list) -> dict:
-    text_counts = {}
-    for h in headings:
-        text_counts[h["text"]] = text_counts.get(h["text"], 0) + 1
-    return {text: count for text, count in text_counts.items() if count > 1}
-
-
-def _repeated_paths(headings: list) -> dict:
-    path_counts = {}
-    for h in headings:
-        key = tuple(h["path"])
-        path_counts[key] = path_counts.get(key, 0) + 1
-    return {path: count for path, count in path_counts.items() if count > 1}
-
-
-# ---------------------------------------------------------------------------
-# Image counting
-# ---------------------------------------------------------------------------
-
-def _image_stats(media_dir: Path) -> dict:
-    if not media_dir.exists():
-        return {"count": 0, "formats": []}
-    files = [p for p in media_dir.rglob("*") if p.is_file()]
-    formats = sorted({p.suffix.lstrip(".").lower() for p in files if p.suffix})
-    return {"count": len(files), "formats": formats}
-
-
-# ---------------------------------------------------------------------------
-# Raw TOC evidence / known pandoc defect signals
-# ---------------------------------------------------------------------------
-
-def detect_raw_toc(markdown_text: str) -> bool:
-    """Reuses pandoc_fixes.toc.strip_raw_toc's detection logic: if stripping
-    raw-TOC field dumps changes the text, raw TOC evidence was present."""
-    return strip_raw_toc(markdown_text) != markdown_text
-
-
-def detect_defect_signals(markdown_text: str) -> dict:
-    """Reuses pandoc_fixes.images.fix_glued_images,
-    pandoc_fixes.attrs.strip_pandoc_attrs, and
-    pandoc_fixes.heading_emphasis.strip_whole_heading_emphasis detection
-    logic (Task 2 / Task 17A.1) rather than re-implementing pattern
-    matching from scratch."""
-    return {
-        "raw_toc_detected": detect_raw_toc(markdown_text),
-        "glued_images": fix_glued_images(markdown_text) != markdown_text,
-        "pandoc_attrs": strip_pandoc_attrs(markdown_text) != markdown_text,
-        "bold_wrapped_headings": strip_whole_heading_emphasis(markdown_text) != markdown_text,
-    }
-
-
-# ---------------------------------------------------------------------------
-# Extended analysis statistics (Task 17A.1 #4) -- measured directly from the
-# already-extracted markdown text; "not measured" is reported (never a
-# fabricated number) if a statistic cannot be measured with reasonable
-# effort using pure string/regex analysis (no re-invoking pandoc).
-# ---------------------------------------------------------------------------
-
-_TABLE_SEPARATOR_ROW = re.compile(
-    r'^\s*\|?\s*:?-{1,}:?\s*(\|\s*:?-{1,}:?\s*)+\|?\s*$', re.MULTILINE
-)
-# Note: the pattern above requires at least one `|` between two dash-runs,
-# so a bare horizontal-rule-shaped line of dashes with no pipe characters
-# at all (e.g. a divider pandoc emits for a Word horizontal rule) is never
-# mistaken for a table separator row.
-_GRID_TABLE_HEADER_SEPARATOR = re.compile(
-    r'^\s*\+[-=:]*=[-=:]*(?:\+[-=:]*=[-=:]*)*\+\s*$', re.MULTILINE
-)
-# Pandoc emits grid tables (bounded by `+---+`/`+===+` lines) for complex/
-# merged-cell Word tables. `_TABLE_SEPARATOR_ROW` only recognizes GFM-style
-# `| --- | --- |` pipe-table separators, so a document containing only grid
-# tables would otherwise be reported as having zero tables. A grid table's
-# `+===+` header separator (distinct from the plain `+---+` row boundaries
-# between data rows, which use only `-`) occurs exactly once per grid
-# table, so counting it gives one count per grid table.
-_FOOTNOTE_REFERENCE = re.compile(r'\[\^([\w-]+)\](?!:)')
-_FOOTNOTE_DEFINITION_LINE = re.compile(r'^\[\^([\w-]+)\]:', re.MULTILINE)
-# Both use `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- see
-# scripts/package.py's _IMAGE_REF docstring: a markdown-escaped `]` in
-# link/alt text otherwise terminates the character class early and the
-# reference is silently missed.
-_LOCAL_LINK = re.compile(r'(?<!\!)\[(?:[^\]\\]|\\.)*\]\(#[^)]*\)')
-_IMAGE_REFERENCE = re.compile(r'!\[(?:[^\]\\]|\\.)*\]\([^)]*\)')
-
-
-def compute_statistics(markdown_text: str) -> dict:
-    """Measure extended statistics directly from already-extracted
-    markdown text: table count (by counting separator rows), footnote
-    reference/definition counts, local document link count, total image
-    reference count, and generated-TOC-entries-detected. Each of these is
-    reliably measurable with plain regex analysis over the text pandoc
-    already produced, so none fall back to "not measured" here -- that
-    literal is reserved for a statistic this function cannot compute (none
-    currently), per the "where feasible" requirement.
-    """
-    table_count = len(_TABLE_SEPARATOR_ROW.findall(markdown_text)) + len(
-        _GRID_TABLE_HEADER_SEPARATOR.findall(markdown_text)
-    )
-    footnote_reference_count = len(
-        [m for m in _FOOTNOTE_REFERENCE.finditer(markdown_text)]
-    )
-    footnote_definition_count = len(_FOOTNOTE_DEFINITION_LINE.findall(markdown_text))
-    local_link_count = len(_LOCAL_LINK.findall(markdown_text))
-    image_reference_count = len(_IMAGE_REFERENCE.findall(markdown_text))
-
-    toc_bookmark_entries = len(_TOC_LINK_LINE.findall(markdown_text))
-    toc_slug_entries = len(_TOC_SLUG_LINE.findall(markdown_text))
-    generated_toc_entries_detected = toc_bookmark_entries + toc_slug_entries
-
-    return {
-        "table_count": table_count,
-        "footnote_reference_count": footnote_reference_count,
-        "footnote_definition_count": footnote_definition_count,
-        "local_link_count": local_link_count,
-        "image_reference_count": image_reference_count,
-        "generated_toc_entries_detected": generated_toc_entries_detected,
-    }
 
 
 # ---------------------------------------------------------------------------
@@ -326,34 +129,6 @@ def recommend_strategy(heading_count: int, repeated_path_count: int, line_count:
         )
 
     return {"strategy": "chunked" if chunked else "single", "reasons": reasons}
-
-
-# ---------------------------------------------------------------------------
-# Pandoc invocation into the transitory raw/ folder
-# ---------------------------------------------------------------------------
-
-def _run_pandoc_raw(source: Path, raw_dir: Path) -> Path:
-    raw_dir.mkdir(parents=True, exist_ok=True)
-    media_dir = raw_dir / "media"
-    extracted_md = raw_dir / "extracted.md"
-    subprocess.run(
-        [
-            "pandoc",
-            "-t", "markdown",
-            f"--extract-media={media_dir}",
-            "--wrap=none",
-            str(source),
-            "-o", str(extracted_md),
-        ],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    # extract-media only creates the directory if there is at least one
-    # media file; the analysis package layout (spec 6.1) always includes
-    # raw/media, so ensure it exists even for image-free documents.
-    media_dir.mkdir(parents=True, exist_ok=True)
-    return extracted_md
 
 
 # ---------------------------------------------------------------------------
