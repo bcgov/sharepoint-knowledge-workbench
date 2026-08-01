@@ -1,0 +1,168 @@
+{
+  "defect_signals": {
+    "bold_wrapped_headings": false,
+    "glued_images": false,
+    "pandoc_attrs": true,
+    "raw_toc_detected": false
+  },
+  "dependencies": {
+    "pandoc": {
+      "available": true,
+      "path": "/opt/homebrew/bin/pandoc",
+      "version": "pandoc 3.8.3"
+    }
+  },
+  "heading_counts_by_level": {
+    "1": 3,
+    "2": 8,
+    "3": 2
+  },
+  "headings": [
+    {
+      "level": 1,
+      "occurrence": 1,
+      "path": [
+        "Gadget Alpha Module"
+      ],
+      "text": "Gadget Alpha Module"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Alpha Module",
+        "Getting Started"
+      ],
+      "text": "Getting Started"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Alpha Module",
+        "Configuration"
+      ],
+      "text": "Configuration"
+    },
+    {
+      "level": 3,
+      "occurrence": 1,
+      "path": [
+        "Gadget Alpha Module",
+        "Configuration",
+        "Advanced Options"
+      ],
+      "text": "Advanced Options"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Alpha Module",
+        "Troubleshooting"
+      ],
+      "text": "Troubleshooting"
+    },
+    {
+      "level": 1,
+      "occurrence": 1,
+      "path": [
+        "Gadget Beta Module"
+      ],
+      "text": "Gadget Beta Module"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Beta Module",
+        "Getting Started"
+      ],
+      "text": "Getting Started"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Beta Module",
+        "Configuration"
+      ],
+      "text": "Configuration"
+    },
+    {
+      "level": 3,
+      "occurrence": 1,
+      "path": [
+        "Gadget Beta Module",
+        "Configuration",
+        "Advanced Options"
+      ],
+      "text": "Advanced Options"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Beta Module",
+        "Troubleshooting"
+      ],
+      "text": "Troubleshooting"
+    },
+    {
+      "level": 1,
+      "occurrence": 1,
+      "path": [
+        "Gadget Gamma Module"
+      ],
+      "text": "Gadget Gamma Module"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Gamma Module",
+        "Getting Started"
+      ],
+      "text": "Getting Started"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Gadget Gamma Module",
+        "Reference"
+      ],
+      "text": "Reference"
+    }
+  ],
+  "images": {
+    "count": 1,
+    "formats": [
+      "png"
+    ]
+  },
+  "markdown_text": "# Gadget Alpha Module\n\nIntroductory text for the Gadget Alpha Module, describing its purpose within the placeholder manual used for testing chunked-strategy recommendation.\n\n## Getting Started\n\nSteps to begin working with the Gadget Alpha Module.\n\n![placeholder diagram](/var/folders/d0/rrrgzlc17vq7mmy70mbxfy0r0000gn/T/tmpv9dbh_ds/raw/media/media/rId9.png){width=\"2.7777777777777776e-2in\" height=\"2.7777777777777776e-2in\"}\n\n## Configuration\n\nDetails about configuring the Gadget Alpha Module.\n\n### Advanced Options\n\nMore detail on advanced configuration options for Gadget Alpha.\n\n## Troubleshooting\n\nCommon problems and resolutions for the Gadget Alpha Module.\n\n# Gadget Beta Module\n\nIntroductory text for the Gadget Beta Module, a second top-level section covering a different placeholder subsystem.\n\n## Getting Started\n\nSteps to begin working with the Gadget Beta Module. This heading text is identical to the \"Getting Started\" heading under Gadget Alpha Module above, but it lives under a different parent heading, exercising repeated-heading detection and occurrence disambiguation.\n\n## Configuration\n\nDetails about configuring the Gadget Beta Module.\n\n### Advanced Options\n\nMore detail on advanced configuration options for Gadget Beta.\n\n## Troubleshooting\n\nCommon problems and resolutions for the Gadget Beta Module.\n\n# Gadget Gamma Module\n\nIntroductory text for the Gadget Gamma Module, a third top-level section.\n\n## Getting Started\n\nSteps to begin working with the Gadget Gamma Module.\n\n## Reference\n\nReference material for the Gadget Gamma Module.\n",
+  "media_files": [
+    "media/rId9.png"
+  ],
+  "raw_toc_detected": false,
+  "repeated_heading_paths": [],
+  "repeated_heading_texts": {
+    "Advanced Options": 2,
+    "Configuration": 2,
+    "Getting Started": 3,
+    "Troubleshooting": 2
+  },
+  "schema_version": "v1",
+  "source_content_sha256": "5bd80c17052fdd28da3000ea111aa6a6246004ce98d1c575fcc2173e98746351",
+  "source_path": "plugins/source-document-extraction/tests/fixtures/repeated_headings.docx",
+  "source_size_bytes": 11664,
+  "statistics": {
+    "footnote_definition_count": 0,
+    "footnote_reference_count": 0,
+    "generated_toc_entries_detected": 0,
+    "image_reference_count": 1,
+    "local_link_count": 0,
+    "table_count": 0
+  }
+}

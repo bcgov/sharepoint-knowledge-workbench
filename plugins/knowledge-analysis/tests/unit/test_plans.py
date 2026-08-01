@@ -19,8 +19,8 @@ import json
 
 import pytest
 
-import contracts
-import hashing
+from plan_schema import analysis_plan as contracts
+import plan_hashing as hashing
 import plans
 
 
@@ -104,30 +104,12 @@ def test_confirm_plan_computes_plan_id_over_finalized_content(tmp_path):
     assert confirmed.plan_id == expected_plan_id
 
 
-def test_confirm_plan_cli_writes_new_file_leaves_draft_untouched(tmp_path):
-    source = tmp_path / "source.docx"
-    source.write_bytes(b"fake docx bytes")
-    draft = _make_draft_plan(source)
-
-    draft_path = tmp_path / "conversion-plan.draft.json"
-    draft_path.write_text(json.dumps(draft.to_dict()))
-    draft_bytes_before = draft_path.read_bytes()
-
-    output_path = tmp_path / "conversion-plan.confirmed.json"
-
-    import cli
-    rc = cli.main([
-        "confirm",
-        "--draft-plan", str(draft_path),
-        "--output", str(output_path),
-    ])
-
-    assert rc == 0
-    assert output_path.exists()
-    assert draft_path.read_bytes() == draft_bytes_before  # untouched
-    written = contracts.ConversionPlan.from_dict(json.loads(output_path.read_text()))
-    assert written.confirmation.status == "confirmed"
-
+# cli.py integration tests for `confirm`/`convert` (test_confirm_plan_cli_writes_new_file_leaves_draft_untouched,
+# test_convert_cli_rejects_draft_plan_status_exit_4) moved to
+# docx-to-content/tests/unit/test_cli_plan_integration.py -- cli.py stays
+# in docx-to-content as the compatibility orchestrator, so its own
+# integration tests must not create a knowledge-analysis -> docx-to-content
+# dependency.
 
 # ---------------------------------------------------------------------------
 # verify_plan_against_source: source-hash mismatch after modification
@@ -207,39 +189,6 @@ def test_require_confirmed_rejects_draft_plan(tmp_path):
 
     with pytest.raises(plans.PlanVerificationError):
         plans.require_confirmed(draft)
-
-
-def test_convert_cli_rejects_draft_plan_status_exit_4(tmp_path):
-    """Proves 'convert rejects confirmation.status = draft' without
-    building Task 9's real convert pipeline -- the CLI's existing
-    _require_confirmed_plan precondition (Task 5) already gates this."""
-    import cli
-
-    source = tmp_path / "source.docx"
-    source.write_bytes(b"fake docx bytes")
-
-    draft_plan_dict = {
-        "schema_version": "1.0",
-        "plan_id": "",
-        "source": {"path": str(source), "sha256": "a" * 64, "size_bytes": 10},
-        "strategy": "heading-split",
-        "chunk_level": 1,
-        "chunk_anchors": [],
-        "content_type": "manual",
-        "template_profile": "source-structure-v1",
-        "confirmation": {"status": "draft", "confirmed_by": "", "confirmed_at": ""},
-        "analysis_warnings": [],
-    }
-    plan_path = tmp_path / "conversion-plan.draft.json"
-    plan_path.write_text(json.dumps(draft_plan_dict))
-
-    rc = cli.main([
-        "convert",
-        "--source", str(source),
-        "--plan", str(plan_path),
-        "--output", str(tmp_path / "out"),
-    ])
-    assert rc == 4
 
 
 # ---------------------------------------------------------------------------

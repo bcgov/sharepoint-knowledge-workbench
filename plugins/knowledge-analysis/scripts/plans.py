@@ -37,8 +37,8 @@ _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
-import contracts  # noqa: E402
-import hashing  # noqa: E402
+from plan_schema import analysis_plan as contracts  # noqa: E402
+import plan_hashing as hashing  # noqa: E402
 
 DEFAULT_CONTENT_TYPE = "manual"
 DEFAULT_TEMPLATE_PROFILE = "source-structure-v1"

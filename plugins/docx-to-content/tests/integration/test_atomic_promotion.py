@@ -20,6 +20,7 @@ import pytest
 
 import analyze_structure
 import contracts
+from plan_schema import analysis_plan as plan_contracts
 import convert
 import plans
 
@@ -33,7 +34,7 @@ pytestmark = pytest.mark.skipif(not PANDOC_AVAILABLE, reason="pandoc not availab
 def _confirmed_plan(tmp_path):
     analysis_dir = tmp_path / "analysis"
     analyze_structure.analyze_document(SMALL_SINGLE_DOCX, analysis_dir)
-    draft = contracts.ConversionPlan.from_dict(
+    draft = plan_contracts.ConversionPlan.from_dict(
         json.loads((analysis_dir / "conversion-plan.draft.json").read_text())
     )
     return plans.confirm_plan(draft, confirmed_by="test-suite")

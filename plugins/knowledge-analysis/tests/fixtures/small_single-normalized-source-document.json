@@ -1,0 +1,68 @@
+{
+  "defect_signals": {
+    "bold_wrapped_headings": false,
+    "glued_images": false,
+    "pandoc_attrs": false,
+    "raw_toc_detected": false
+  },
+  "dependencies": {
+    "pandoc": {
+      "available": true,
+      "path": "/opt/homebrew/bin/pandoc",
+      "version": "pandoc 3.8.3"
+    }
+  },
+  "heading_counts_by_level": {
+    "1": 1,
+    "2": 2
+  },
+  "headings": [
+    {
+      "level": 1,
+      "occurrence": 1,
+      "path": [
+        "Widget Overview"
+      ],
+      "text": "Widget Overview"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Widget Overview",
+        "Getting Started"
+      ],
+      "text": "Getting Started"
+    },
+    {
+      "level": 2,
+      "occurrence": 1,
+      "path": [
+        "Widget Overview",
+        "Summary"
+      ],
+      "text": "Summary"
+    }
+  ],
+  "images": {
+    "count": 0,
+    "formats": []
+  },
+  "markdown_text": "# Widget Overview\n\nThis is a short placeholder document used to exercise the \"single\" strategy recommendation path. It intentionally has very few headings and very little content.\n\n## Getting Started\n\nA short paragraph describing how to get started with the Widget.\n\n## Summary\n\nA short closing paragraph.\n",
+  "media_files": [],
+  "raw_toc_detected": false,
+  "repeated_heading_paths": [],
+  "repeated_heading_texts": {},
+  "schema_version": "v1",
+  "source_content_sha256": "be87f1617eb105ae53e070dca5a3db178a94187303d8ed4110423e1c44586d63",
+  "source_path": "plugins/source-document-extraction/tests/fixtures/small_single.docx",
+  "source_size_bytes": 10643,
+  "statistics": {
+    "footnote_definition_count": 0,
+    "footnote_reference_count": 0,
+    "generated_toc_entries_detected": 0,
+    "image_reference_count": 0,
+    "local_link_count": 0,
+    "table_count": 0
+  }
+}

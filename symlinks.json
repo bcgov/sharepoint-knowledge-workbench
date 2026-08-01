@@ -102,6 +102,60 @@
       "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/schema/shared.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of schema/shared.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/analysis.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of analysis.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/identity.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/identity.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of identity.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/plan_hashing.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_hashing.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of plan_hashing.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/plans.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plans.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of plans.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/topic_grouping.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/topic_grouping.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of topic_grouping.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/plan_schema/__init__.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of plan_schema/__init__.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/plan_schema/analysis_plan.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_schema/analysis_plan.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of plan_schema/analysis_plan.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/plan_schema/shared.py",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_schema/shared.py",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of plan_schema/shared.py"
+    },
+    {
+      "src": "plugins/knowledge-analysis/references/contracts/analysis-plan.md",
+      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/references/contracts/analysis-plan.md",
+      "strategy": "symlink",
+      "description": "analyze-content-structure skill's bundled copy of analysis-plan.md"
     }
   ]
 }
