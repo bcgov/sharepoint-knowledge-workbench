@@ -59,7 +59,7 @@ Write-Host ""
 
 # Load Phase 4 configuration
 $phase4Config = Import-PowerShellDataFile $ConfigFile
-$topicsLibrary = $phase4Config.CEISTopicsLibrary  # "Site Pages" - where ASPX pages are
+$topicsLibrary = $phase4Config.CEISTopicsLibrary.Title  # Extract Title: "Site Pages"
 
 # Find the Site Pages library with CEIS topics
 Write-Host "Locating CEIS topic pages in '$topicsLibrary' library..." -ForegroundColor Cyan
