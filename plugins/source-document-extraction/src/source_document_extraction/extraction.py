@@ -4,17 +4,18 @@ extraction.py
 
 Public Interface Contract entry point for the `source-document-extraction`
 plugin (Phase 4.5 Wave 2): runs pandoc once against a real source `.docx`
-and produces a `normalized-source-document` v1 dict (per
-`knowledge_workbench_contracts.normalized_source_document`).
+and produces a `normalized-source-document` v1 dict (per this plugin's own
+`source_document_extraction.contracts.normalized_source_document` --
+this plugin is the contract's producer, so its schema is materialized
+locally, not imported from a shared distribution; see
+docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md).
 
 Wave 2 implementation decision (`convert_py_extraction_primitive_unification`
 in `wave-1-decisions.json`): `docx-to-content/scripts/convert.py`'s
 `run_pandoc_extraction` and this module's `_run_pandoc_raw` are structurally
 parallel direct-pandoc-invocation functions. They remain two distinct
 functions rather than one shared primitive for Wave 2: `convert.py` belongs
-to `canonical-knowledge` (Wave 4) and is out of this wave's scope, and the
-dependency-boundary rule only allows a plugin to depend on the contracts
-distribution, not on another plugin's implementation package. Revisiting
+to `canonical-knowledge` (Wave 4) and is out of this wave's scope. Revisiting
 this as a shared primitive is left to a later wave if desired.
 """
 
@@ -25,6 +26,7 @@ import subprocess
 from pathlib import Path
 
 from . import dependencies
+from .contracts.normalized_source_document import validate as validate_normalized_source_document
 from .heading_parsing import (
     _counts_by_level,
     _image_stats,
@@ -96,7 +98,7 @@ def extract_and_normalize(source: Path, output_dir: Path) -> dict:
 
     headings = parse_headings(markdown_text)
 
-    return {
+    normalized = {
         "schema_version": "v1",
         "source_content_sha256": source_content_sha256,
         "markdown_text": markdown_text,
@@ -119,3 +121,5 @@ def extract_and_normalize(source: Path, output_dir: Path) -> dict:
         "defect_signals": detect_defect_signals(markdown_text),
         "statistics": compute_statistics(markdown_text),
     }
+    validate_normalized_source_document(normalized)
+    return normalized

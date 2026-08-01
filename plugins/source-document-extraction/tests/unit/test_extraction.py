@@ -239,7 +239,7 @@ def test_source_not_found_raises(tmp_path):
 
 def test_extract_and_normalize_matches_normalized_source_document_contract(tmp_path):
     result = extract_and_normalize(SMALL_SINGLE, tmp_path / "analysis")
-    from knowledge_workbench_contracts.normalized_source_document import validate
+    from source_document_extraction.contracts.normalized_source_document import validate
 
     validate(result)  # raises if required fields are missing
     assert len(result["source_content_sha256"]) == 64
