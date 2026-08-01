@@ -78,6 +78,8 @@ if str(_SCRIPTS_DIR) not in sys.path:
 
 import atomic_output  # noqa: E402
 import contracts  # noqa: E402
+# Compatibility shim (Phase 4.5 Wave 4, retire per wave-1-decisions.json):
+from canonical_schema import canonical_package as _canonical_contracts  # noqa: E402
 
 RENDERER_VERSION = "0.1.0"
 
@@ -156,7 +158,7 @@ class MultipageMarkdownRenderer:
     local copy of the canonical package's media."""
 
     name = "multipage-markdown"
-    supported_manifest_versions = frozenset({contracts.MANIFEST_SCHEMA_VERSION})
+    supported_manifest_versions = frozenset({_canonical_contracts.MANIFEST_SCHEMA_VERSION})
 
     def render(self, package, output_dir: Path) -> "contracts.RenderResult":
         output_dir = Path(output_dir)

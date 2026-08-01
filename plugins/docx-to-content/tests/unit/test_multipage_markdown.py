@@ -32,6 +32,8 @@ import pytest
 import atomic_output
 import contracts
 from plan_schema import analysis_plan as plan_contracts
+from canonical_schema import canonical_package as ck_contracts
+from canonical_schema import publication_map as pm_contracts
 import package as package_module
 import canonical_package as canonical_package_module
 from renderers import protocol
@@ -51,8 +53,8 @@ FAKE_SHA = "a" * 64
 # ---------------------------------------------------------------------------
 
 def _metadata(chunk_id, heading_path, order, content, local_links=None):
-    return contracts.ChunkMetadata(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+    return ck_contracts.ChunkMetadata(
+        schema_version=ck_contracts.MANIFEST_SCHEMA_VERSION,
         chunk_id=chunk_id,
         source_order=order,
         source_heading_path=list(heading_path),
@@ -69,7 +71,7 @@ def _metadata(chunk_id, heading_path, order, content, local_links=None):
 
 
 def _manifest_chunk(chunk_id, heading_path, order):
-    return contracts.ManifestChunk(
+    return ck_contracts.ManifestChunk(
         chunk_id=chunk_id,
         content_file=f"chunks/{chunk_id}.md",
         metadata_file=f"chunks/{chunk_id}.meta.json",
@@ -97,10 +99,10 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
         loaded_chunks.append(canonical_package_module.LoadedChunk(metadata=meta, content=content))
         manifest_chunks.append(_manifest_chunk(chunk_id, heading_path, idx))
 
-    manifest = contracts.Manifest(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
-        generator=contracts.ManifestGenerator(plugin="docx-to-content", plugin_version="0.1.0"),
-        source=contracts.ManifestSourceFingerprint(path="sourcedocuments/x.docx", sha256=FAKE_SHA),
+    manifest = ck_contracts.Manifest(
+        schema_version=ck_contracts.MANIFEST_SCHEMA_VERSION,
+        generator=ck_contracts.ManifestGenerator(plugin="docx-to-content", plugin_version="0.1.0"),
+        source=ck_contracts.ManifestSourceFingerprint(path="sourcedocuments/x.docx", sha256=FAKE_SHA),
         plan_id="plan-1",
         content_type="reference",
         template_profile="generic",
@@ -110,7 +112,7 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
         media=media_names,
         validation_report="validation.json",
     )
-    validation_report = contracts.ValidationReport(
+    validation_report = ck_contracts.ValidationReport(
         status="PASS", issues=[], source_sha256=FAKE_SHA, plan_id="plan-1"
     )
 
@@ -135,15 +137,15 @@ def _build_synthetic_grouped_package(tmp_path):
             ("alpha--22222222", ["Alpha"], "# Alpha\n\nAlpha body.\n", []),
         ],
     )
-    pub_map = contracts.PublicationMap(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+    pub_map = pm_contracts.PublicationMap(
+        schema_version=pm_contracts.PUBLICATION_MAP_SCHEMA_VERSION,
         package_identity="sha256:deadbeef",
         entries=[
-            contracts.PublicationMapEntry(
+            pm_contracts.PublicationMapEntry(
                 topic_id="alpha--22222222", title="Alpha", order=0,
                 chunk_id="alpha--22222222",
             ),
-            contracts.PublicationMapEntry(
+            pm_contracts.PublicationMapEntry(
                 topic_id="beta--11111111", title="Beta", order=1,
                 chunk_id="beta--11111111",
             ),
@@ -161,7 +163,7 @@ def test_renderer_satisfies_protocol():
     renderer = mpm.MultipageMarkdownRenderer()
     assert isinstance(renderer, protocol.Renderer)
     assert renderer.name == "multipage-markdown"
-    assert contracts.SUPPORTED_SCHEMA_VERSION in renderer.supported_manifest_versions
+    assert ck_contracts.MANIFEST_SCHEMA_VERSION in renderer.supported_manifest_versions
 
 
 def test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant():
@@ -170,7 +172,7 @@ def test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant(
     # is derived from that constant. Restore both the constant and the module
     # after the check to avoid leaking state to other tests.
     import importlib
-    import contracts as _contracts
+    from canonical_schema import canonical_package as _contracts
 
     original = _contracts.MANIFEST_SCHEMA_VERSION
     try:

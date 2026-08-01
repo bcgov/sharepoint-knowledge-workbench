@@ -28,7 +28,7 @@ from pathlib import Path
 import pytest
 
 import analyze_structure
-from plan_schema import analysis_plan as contracts
+from canonical_schema import analysis_plan as contracts
 import convert
 import package
 import plans
@@ -112,7 +112,7 @@ def test_convert_document_rejects_unconfirmed_plan(tmp_path):
         chunk_level=1,
         chunk_anchors=[],
     )
-    with pytest.raises(plans.PlanVerificationError):
+    with pytest.raises(convert.plans.PlanVerificationError):
         convert.convert_document(source, draft, tmp_path / "out")
 
 
@@ -137,7 +137,7 @@ def test_convert_document_rejects_stale_source(tmp_path):
     # Source modified after confirmation.
     source.write_bytes(b"tampered-bytes-different-length")
 
-    with pytest.raises(plans.PlanVerificationError):
+    with pytest.raises(convert.plans.PlanVerificationError):
         convert.convert_document(source, confirmed, tmp_path / "out")
 
 

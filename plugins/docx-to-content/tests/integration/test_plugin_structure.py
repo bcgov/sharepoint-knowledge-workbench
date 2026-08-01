@@ -84,23 +84,21 @@ class TestPluginStructure:
     def test_required_script_files_exist(self):
         """All required script files must exist (as placeholders).
 
-        `dependencies.py` is intentionally absent (Phase 4.5 Wave 2) and
-        `plans.py` is intentionally absent (Phase 4.5 Wave 3): both now
-        live in installed packages (`source-document-extraction` and
-        `knowledge-analysis` respectively; compatibility path during the
-        migration), not as local files -- see
-        docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md
-        and wave-3-analysis-plan-split-decision.md.
+        `dependencies.py` is intentionally absent (Phase 4.5 Wave 2),
+        `plans.py` is intentionally absent (Phase 4.5 Wave 3), and
+        `hashing.py`/`convert.py`/`chunking.py`/`package.py`/
+        `validate_canonical.py` are intentionally absent (Phase 4.5 Wave 4):
+        all now live in installed packages (`source-document-extraction`,
+        `knowledge-analysis`, and `canonical-knowledge` respectively;
+        compatibility path during the migration), not as local files -- see
+        docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md,
+        wave-3-analysis-plan-split-decision.md, and
+        wave-4-canonical-knowledge-split-decision.md.
         """
         required_scripts = [
             "cli.py",
             "contracts.py",
-            "hashing.py",
             "analyze_structure.py",
-            "convert.py",
-            "chunking.py",
-            "package.py",
-            "validate_canonical.py",
         ]
 
         for script_name in required_scripts:

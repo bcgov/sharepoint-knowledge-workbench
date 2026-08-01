@@ -45,10 +45,7 @@ if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
 import analyze_structure  # noqa: E402
-import convert  # noqa: E402
 import dependencies  # noqa: E402
-import package  # noqa: E402
-import canonical_package  # noqa: E402
 from renderers import multipage_markdown  # noqa: E402
 from renderers import protocol as renderer_protocol  # noqa: E402
 from renderers import validate_rendered  # noqa: E402
@@ -64,6 +61,17 @@ from renderers import validate_rendered  # noqa: E402
 import plans  # noqa: E402
 import topic_grouping  # noqa: E402
 from plan_schema import analysis_plan as contracts  # noqa: E402
+
+# Compatibility shim (Phase 4.5 Wave 4, retire per wave-1-decisions.json):
+# convert/package/canonical_package now live in the installed
+# `canonical-knowledge` package -- see
+# docs/superpowers/plans/phase-4-5-evidence/wave-4-canonical-knowledge-split-decision.md.
+# Requires `canonical-knowledge` to be `pip install -e`'d into whatever
+# environment runs this plugin's tests, a transition-only dependency,
+# removed in Wave 7/8.
+import convert  # noqa: E402
+import package  # noqa: E402
+import canonical_package  # noqa: E402
 
 
 EXIT_PASS = 0
@@ -223,11 +231,14 @@ def cmd_convert(args):
         _manifest, report, promoted, _final_dir = convert.convert_and_promote(
             source_path, plan, Path(args.output)
         )
-    except plans.PlanVerificationError as exc:
+    except convert.plans.PlanVerificationError as exc:
         # verify_plan_against_source / verify_plan_integrity failures:
         # a stale or tampered plan, surfaced as exit 4 (usage error) --
         # matching _require_confirmed_plan's mapping for the same class
-        # of "this plan cannot be trusted as-is" problem.
+        # of "this plan cannot be trusted as-is" problem. `convert.plans`
+        # is canonical-knowledge's own plan_verification module (Phase 4.5
+        # Wave 4), a distinct exception type from this file's own `plans`
+        # (knowledge-analysis) import above.
         raise UsageError(str(exc)) from exc
     except (
         convert.chunking.AnchorReconciliationError,

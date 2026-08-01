@@ -8,7 +8,7 @@ deliberately left undone (it stages a render but never promotes -- see its
 module docstring).
 
 Runs against a STAGED rendered-output directory (Task 13's
-`render_to_staging()` output) and produces a `contracts.ValidationReport`
+`render_to_staging()` output) and produces a `ValidationReport`
 with the same PASS/WARN/FAIL shape `validate_canonical.py` (Task 10) uses,
 for consistency across both validators.
 
@@ -47,7 +47,7 @@ reasoning and why `validate_canonical.py` was deliberately left as-is
 rather than retrofitted in this task).
 
 Function Index:
-    - validate_rendered_output(rendered_dir, package) -> contracts.ValidationReport
+    - validate_rendered_output(rendered_dir, package) -> ValidationReport
     - write_rendered_validation_report(report, rendered_dir) -> None
         Writes `<rendered_dir>/renderer-validation.json`.
     - write_render_result(result, staging_dir) -> None
@@ -73,6 +73,11 @@ if str(_SCRIPTS_DIR) not in sys.path:
 
 import atomic_output  # noqa: E402
 import contracts  # noqa: E402
+# Compatibility shim (Phase 4.5 Wave 4, retire per wave-1-decisions.json):
+# ValidationIssue/ValidationReport now live in the installed
+# `canonical-knowledge` package -- see
+# docs/superpowers/plans/phase-4-5-evidence/wave-4-canonical-knowledge-split-decision.md.
+from canonical_schema.canonical_package import ValidationIssue, ValidationReport  # noqa: E402
 import path_safety  # noqa: E402
 from renderers import multipage_markdown as mpm  # noqa: E402
 
@@ -84,8 +89,8 @@ _LINK_REF = re.compile(r"(?<!!)\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 _IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 
 
-def _error(code: str, message: str, path: "str | None" = None) -> "contracts.ValidationIssue":
-    return contracts.ValidationIssue(severity="error", code=code, message=message, path=path)
+def _error(code: str, message: str, path: "str | None" = None) -> "ValidationIssue":
+    return ValidationIssue(severity="error", code=code, message=message, path=path)
 
 
 # ---------------------------------------------------------------------------
@@ -103,7 +108,7 @@ def write_render_result(result: "contracts.RenderResult", staging_dir: Path) -> 
     )
 
 
-def write_rendered_validation_report(report: "contracts.ValidationReport", rendered_dir: Path) -> None:
+def write_rendered_validation_report(report: "ValidationReport", rendered_dir: Path) -> None:
     """Write `<rendered_dir>/renderer-validation.json` -- this validator's
     own output report (detection #1's "missing ... output report" refers to
     THIS file's existence being unnecessary as a validation PRECONDITION,
@@ -372,11 +377,11 @@ def _check_page_traceability(rendered_dir: Path, package) -> list:
 # Main entry point
 # ---------------------------------------------------------------------------
 
-def validate_rendered_output(rendered_dir: Path, package) -> "contracts.ValidationReport":
+def validate_rendered_output(rendered_dir: Path, package) -> "ValidationReport":
     """Validate a staged rendered-output directory under `rendered_dir`
     (Task 13's `render_to_staging()` output) against `package` (the
     `CanonicalPackage` it was rendered from). Returns a
-    `contracts.ValidationReport` -- always PASS or FAIL (see module
+    `ValidationReport` -- always PASS or FAIL (see module
     docstring for why WARN does not apply at the render layer)."""
     rendered_dir = Path(rendered_dir)
     issues = []
@@ -391,7 +396,7 @@ def validate_rendered_output(rendered_dir: Path, package) -> "contracts.Validati
 
     status = "FAIL" if issues else "PASS"
 
-    return contracts.ValidationReport(
+    return ValidationReport(
         status=status,
         issues=issues,
         source_sha256=package.manifest.source.sha256,

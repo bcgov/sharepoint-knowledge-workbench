@@ -5,11 +5,11 @@ analyze_structure.py
 Implements the `analyze-document` skill's business logic (spec Section 7.1)
 as the **compatibility orchestrator** (Phase 4.5): composes the now-
 installed `source-document-extraction` and `knowledge-analysis` packages
-in sequence, then merges in the preamble-media-disposition proposal (still
-local to this plugin -- `media_disposition.py` is `canonical-knowledge`-
-domain, unmoved until Wave 4) and writes both output files, matching the
-analysis package layout in spec 6.1. Produces a draft `ConversionPlan`
-(never a confirmed one, and never canonical content).
+in sequence, then merges in the preamble-media-disposition proposal (now
+in the installed `canonical-knowledge` package, per Wave 4) and writes
+both output files, matching the analysis package layout in spec 6.1.
+Produces a draft `ConversionPlan` (never a confirmed one, and never
+canonical content).
 
 Function Index:
     - analyze_document(source, output_dir) -> AnalysisResult
