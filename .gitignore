@@ -38,3 +38,11 @@ __pycache__/
 *.so
 .pytest_cache/
 **/.pytest_cache/
+
+# Python packaging build output (contracts/python/, runtime/python/, and future plugin
+# distributions per Phase 4.5's src/-layout pyproject.toml packages) — regenerable via
+# `pip install -e .`/`python -m build`, never committed. Throwaway venvs created during
+# development (.venv-*) are removed manually before each commit per the Phase 4.5 plan.
+build/
+*.egg-info/
+.venv-*/

@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "knowledge-workbench-contracts"
+version = "0.1.0-alpha.1"
+description = "Neutral, independently installable public data contracts for the SharePoint Knowledge Workbench plugin family."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
