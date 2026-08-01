@@ -53,12 +53,21 @@
 >
 > **Next actions (start of next session):**
 > 1. Start a fresh session, read this file in full.
-> 2. Begin Wave 2 (`plugins/source-document-extraction/`) per the approved plan: extract
->    DOCX/Pandoc source handling and the Wave 1-approved source-observation functions; produce the
->    `normalized-source-document` contract; prove wheel build, isolated installation, public
->    import, and independent tests; maintain the existing 529 passed/1 skipped baseline; preserve
->    byte-identical accepted output.
-> 3. Do not begin Wave 2 work retroactively tonight — this session stopped deliberately at the
+> 2. **Before writing any Wave 2 code**, read
+>    `docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`'s
+>    "Waves 2-5 — Extract Each Plugin as a Real Installable Package" section in full — the 11-step
+>    common sequence (scaffold → fixture generation → failing test → move/adapt code → ledger
+>    migration → compatibility shim → skill/README → dependency-boundary check → isolated-install
+>    gate → commit) and Wave 2's specific row in that section's Public Interface Contract table
+>    (`extract_and_normalize`, consumes nothing, produces `normalized-source-document`). The
+>    decisions summarized above are what to build; that section is how — do not improvise the
+>    mechanics from the summary alone.
+> 3. Begin Wave 2 (`plugins/source-document-extraction/`) per that plan section and the Wave
+>    1-approved decisions above: extract DOCX/Pandoc source handling and the Wave 1-approved
+>    source-observation functions; produce the `normalized-source-document` contract; prove wheel
+>    build, isolated installation, public import, and independent tests; maintain the existing 529
+>    passed/1 skipped baseline; preserve byte-identical accepted output.
+> 4. Do not begin Wave 2 work retroactively tonight — this session stopped deliberately at the
 >    Wave 1 checkpoint with no Wave 2 files created.
 
 > **Phase 4 Status (2026-08-01):** ✓ COMPLETE & MERGED. Tasks 0–12 executed and merged to `main` via PR #9 (commit `e66fe02`); exit-gate evidence reconciled against real per-task reports (see Phase 4.5 note above).
