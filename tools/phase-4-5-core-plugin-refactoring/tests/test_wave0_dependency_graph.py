@@ -10,8 +10,11 @@ def test_build_dependency_graph_finds_real_internal_edge():
     plugin_root = Path(__file__).resolve().parents[3] / "plugins" / "docx-to-content"
     graph = build_dependency_graph(plugin_root)
     edges = {(e["from"], e["to"]) for e in graph["edges"]}
-    # cli.py is known to import convert.py's conversion pipeline (scripts/cli.py -> scripts/convert.py)
-    assert any(frm.endswith("cli.py") and to.endswith("convert.py") for frm, to in edges)
+    # cli.py is known to import analyze_structure.py, the docx-to-content
+    # orchestrator that stays local even after Phase 4.5 Wave 4 moved
+    # convert.py out to the installed canonical-knowledge package
+    # (scripts/cli.py -> scripts/analyze_structure.py).
+    assert any(frm.endswith("cli.py") and to.endswith("analyze_structure.py") for frm, to in edges)
 
 
 def test_build_dependency_graph_ignores_stdlib_and_third_party(tmp_path):

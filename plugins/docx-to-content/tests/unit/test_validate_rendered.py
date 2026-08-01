@@ -21,7 +21,8 @@ from pathlib import Path
 import pytest
 
 import atomic_output
-import contracts
+# Compatibility shim (Phase 4.5 Wave 4, retire per wave-1-decisions.json):
+from canonical_schema import canonical_package as contracts
 import package as package_module
 import canonical_package as canonical_package_module
 from renderers import multipage_markdown as mpm
@@ -41,7 +42,7 @@ OTHER_SHA = "b" * 64
 
 def _metadata(chunk_id, heading_path, order, content, local_links=None):
     return contracts.ChunkMetadata(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.MANIFEST_SCHEMA_VERSION,
         chunk_id=chunk_id,
         source_order=order,
         source_heading_path=list(heading_path),
@@ -84,7 +85,7 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True, source_sha=
         manifest_chunks.append(_manifest_chunk(chunk_id, heading_path, idx))
 
     manifest = contracts.Manifest(
-        schema_version=contracts.SUPPORTED_SCHEMA_VERSION,
+        schema_version=contracts.MANIFEST_SCHEMA_VERSION,
         generator=contracts.ManifestGenerator(plugin="docx-to-content", plugin_version="0.1.0"),
         source=contracts.ManifestSourceFingerprint(path="sourcedocuments/x.docx", sha256=source_sha),
         plan_id="plan-1",

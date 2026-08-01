@@ -19,7 +19,6 @@ from pathlib import Path
 import pytest
 
 import analyze_structure
-import contracts
 from plan_schema import analysis_plan as plan_contracts
 import convert
 import plans
@@ -64,7 +63,7 @@ def test_convert_and_promote_success_then_failure_preserves_final_dir(tmp_path, 
     # `convert_and_promote`'s promotion-gating behavior (the thing Task 11
     # owns) from `validate_canonical.py`'s own detection logic (Task 10's
     # concern, already covered by tests/unit/test_validate_canonical.py).
-    import contracts as _contracts
+    from canonical_schema import canonical_package as _contracts
 
     def _fake_fail_validate(*args, **kwargs):
         return _contracts.ValidationReport(
@@ -136,7 +135,37 @@ def test_convert_and_promote_writes_generator_info(tmp_path):
     convert.convert_and_promote(SMALL_SINGLE_DOCX, confirmed, output_root)
     final_dir = output_root / "canonical-content"
     info = json.loads((final_dir / "generator-info.json").read_text())
-    assert info["plugin"] == "docx-to-content"
+    # convert_and_promote is now provided by the installed canonical-knowledge
+    # package (Phase 4.5 Wave 4), so it stamps its own plugin identity here.
+    assert info["plugin"] == "canonical-knowledge"
     assert "python_version" in info
     assert "pandoc_version" in info
     assert "run_timestamp" in info
+
+
+def test_reproducible_conversion_produces_identical_manifests(tmp_path):
+    """Moved from canonical-knowledge's own test suite (Phase 4.5 Wave 4):
+    depends on `analyze_structure`, docx-to-content's own orchestrator, not
+    an installable dependency of canonical-knowledge -- see
+    docs/superpowers/plans/phase-4-5-evidence/wave-4-canonical-knowledge-split-decision.md."""
+    confirmed = _confirmed_plan(tmp_path)
+
+    out1 = tmp_path / "run1"
+    out2 = tmp_path / "run2"
+    manifest1 = convert.convert_document(SMALL_SINGLE_DOCX, confirmed, out1)
+    manifest2 = convert.convert_document(SMALL_SINGLE_DOCX, confirmed, out2)
+
+    d1 = manifest1.to_dict()
+    d2 = manifest2.to_dict()
+    assert d1 == d2
+    assert manifest1.plan_id == manifest2.plan_id
+
+    for chunk1, chunk2 in zip(manifest1.chunks, manifest2.chunks):
+        assert chunk1.chunk_id == chunk2.chunk_id
+        meta1 = json.loads(
+            (out1 / "canonical-content" / chunk1.metadata_file).read_text()
+        )
+        meta2 = json.loads(
+            (out2 / "canonical-content" / chunk2.metadata_file).read_text()
+        )
+        assert meta1 == meta2

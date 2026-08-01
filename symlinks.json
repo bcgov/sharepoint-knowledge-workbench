@@ -156,6 +156,186 @@
       "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/references/contracts/analysis-plan.md",
       "strategy": "symlink",
       "description": "analyze-content-structure skill's bundled copy of analysis-plan.md"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/atomic_output.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/atomic_output.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_knowledge.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_knowledge.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_package.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/chunk_grouping.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunk_grouping.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/chunk_identity.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunk_identity.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/chunking.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunking.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/convert.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/convert.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/dispositions.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/emf_convert.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/emf_convert.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/hashing.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/media_disposition.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/media_disposition.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/package.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/package.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/plan_verification.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/plan_verification.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/publication_map.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/validate_canonical.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/validate_canonical.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/analysis_plan.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/analysis_plan.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/shared.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/__init__.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/__init__.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/attrs.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/attrs.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/footnotes.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/footnotes.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/heading_emphasis.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/heading_emphasis.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/images.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/images.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/tables.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/tables.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/toc.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/toc.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/validate.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/validate.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/references/contracts/canonical-package.md",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/references/contracts/canonical-package.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/references/contracts/publication-map.md",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/references/contracts/publication-map.md",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

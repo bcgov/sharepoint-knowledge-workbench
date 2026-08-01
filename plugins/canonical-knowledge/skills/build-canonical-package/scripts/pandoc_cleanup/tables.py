@@ -1,0 +1,1 @@
+../../../../scripts/pandoc_cleanup/tables.py

@@ -9,13 +9,14 @@ from wave0_test_ledger import build_test_ledger
 def test_build_test_ledger_lists_real_test_functions():
     plugin_root = Path(__file__).resolve().parents[3] / "plugins" / "docx-to-content"
     ledger = build_test_ledger(plugin_root)
-    # Baseline was 529 at Wave 0. Waves 2/3 relocated tests to
-    # source-document-extraction/knowledge-analysis as their domains were
-    # extracted (tests moved, not lost -- see each wave's test-migration
-    # ledger); docx-to-content's own count legitimately shrinks each wave.
-    # 300 is a loose floor proving the ledger still finds a substantial,
-    # real test suite, not a specific wave's exact count.
-    assert len(ledger["entries"]) > 300
+    # Baseline was 529 at Wave 0. Waves 2/3/4 relocated tests to
+    # source-document-extraction/knowledge-analysis/canonical-knowledge as
+    # their domains were extracted (tests moved, not lost -- see each
+    # wave's test-migration ledger); docx-to-content's own count
+    # legitimately shrinks each wave. 150 is a loose floor proving the
+    # ledger still finds a substantial, real test suite, not a specific
+    # wave's exact count.
+    assert len(ledger["entries"]) > 150
     sample = ledger["entries"][0]
     assert set(sample) == {"file", "test_name", "proposed_owner_domain"}
     assert sample["proposed_owner_domain"] is None
