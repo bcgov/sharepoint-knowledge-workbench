@@ -772,6 +772,42 @@ runtime/python/
 - Independently packaged, tested (in isolation, via the same isolated-install harness pattern as every plugin and the contracts distribution), and versioned — a change to `knowledge_workbench_runtime` does not force a version bump of `knowledge_workbench_contracts` or vice versa, matching §12's per-contract independent-versioning principle.
 - The dependency-boundary checker (`tools/phase-4-5-core-plugin-refactoring/dependency_boundary.py`) applies to this distribution's own `src/` exactly as it applies to every plugin's `src/` — `knowledge_workbench_runtime`'s production code must not import `repo_root` or any domain plugin's implementation package.
 
+### 13d. Correction: Plugin-Local Contract/Runtime Materialization (Wave 2 correction, human decision, 2026-08-01)
+
+**Status: ✓ APPROVED — supersedes §13b's shared-`knowledge_workbench_contracts`-dependency requirement and §13c's shared-`knowledge_workbench_runtime`-dependency requirement.** Full rationale and evidence:
+`docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`. §13b/§13c above are retained for the historical record of the original (superseded) reasoning; do not implement a new plugin against them without reading this section first.
+
+**What was wrong.** §13b/§13c required every domain plugin's `pyproject.toml` to declare a pip dependency on `knowledge_workbench_contracts` (and, for `canonical-knowledge`/`knowledge-publication`, `knowledge_workbench_runtime`) — distributions living outside `plugins/` at `contracts/python/` and `runtime/python/`, never published to any package index. This conflicts with `.agent/rules/plugin-architecture-policy.md`'s plugin-independence rule (a plugin must function completely in isolation) and cannot be proven by an honest isolated-install test: `pip install <plugin>` alone, with nothing else pre-installed, cannot resolve an unpublished sibling dependency. Wave 2's original isolated-install harness masked this by always co-installing the contracts wheel alongside every plugin wheel — it proved coordinated multi-package installation, not plugin self-containment.
+
+**Corrected requirement, replacing §13b's "Public contracts" subsection and §13c's shared-runtime-distribution requirement in full:**
+
+- Each contract's authoritative schema (`validate()` + field definitions) is materialized as a real module inside the **producer** plugin's own package: `plugins/<producer>/src/<import_name>/contracts/<contract_name>.py`. Human-readable docs live at `plugins/<producer>/references/contracts/<contract_name>.md`.
+- A **consumer** plugin never `pip install`s or imports the producer plugin's package, and never depends on a shared contracts distribution. It carries its own plugin-local, generated/hand-synced copy of the schema subset it needs, recording: authoritative source path, contract version, source SHA-256, generated SHA-256, and the generation command — with a test that fails on drift.
+- `atomic_output.py` (`create_staging_dir`/`promote`) is materialized the same way inside each of `canonical-knowledge` and `knowledge-publication` directly when those plugins are built (Waves 4/5) — not imported from a shared `knowledge_workbench_runtime` distribution.
+- **No plugin's `pyproject.toml` may declare a dependency on any workbench-family distribution** (`knowledge-workbench-contracts`, `knowledge-workbench-runtime`, or a sibling plugin's distribution name). Enforced by `isolated_install_check.py`'s `check_no_workbench_family_dependency()` (static) plus its runtime install/import/test proof (dynamic).
+- Cross-plugin compatibility is proven by: a fixed `schema_version`, a recorded schema hash, and matching producer-side/consumer-side tests against the same `tests/contracts/fixtures/<contract>/v1/` repository-level fixture — never by a shared Python import.
+- `contracts/python/` and `runtime/python/` are reclassified `DEVELOPMENT_CODEGEN_SOURCE`: they may remain as reviewed development/generation references but are not a required runtime dependency of any installed plugin. Removal requires every intended consumer to have its own materialized, equivalence-tested copy plus explicit human approval (`REMOVE_AFTER_PLUGIN_MATERIALIZATION`) — not decided in this amendment.
+- Skill-local `references/`/non-Python `scripts/`/`assets/` copies use file-level symlinks via `.agents/skills/symlink-manager/scripts/symlink_manager.py` (per `.agent/rules/symlink-cross-platform.md`) — this applies to documentation/reference copies, **not** to the plugin's installable Python package itself (a symlink outside the package tree does not survive a wheel build).
+
+**Mandatory Plugin Self-Containment Gate**, added to the Waves 2-5 common step sequence's Step 10 (isolated-install proof) and to every affected wave's exit gate, for every plugin that wave touches:
+
+```text
+- build the exact distributable artifact (wheel);
+- install ONLY that artifact and third-party (PyPI) dependencies into a clean venv;
+- confirm no unpublished sibling workbench package is required or present;
+- confirm no repository-root lookup occurs (contracts/, runtime/, and the
+  monorepo checkout are absent from that venv/sys.path);
+- import the plugin's public API outside pytest, from site-packages;
+- locate the plugin's bundled contract references/schema;
+- validate representative produced output against that bundled schema;
+- execute required runtime utilities where applicable;
+- run the plugin's own tests from the installed distribution;
+- confirm every installed skill's referenced scripts/references resolve at
+  the skill-relative path a real installer would produce.
+```
+
+A coordinated multi-package install (the pre-correction harness's behavior) does not satisfy this gate.
+
 ### Marketplace Model
 
 **Status:** `MARKETPLACE_ADOPTION_REQUIRES_HUMAN_DECISION`
@@ -2023,3 +2059,5 @@ Phase 4.5 is a bounded, evidence-backed, nine-wave refactoring that decomposes a
 ## Specification Revision History
 
 **Revision 3 (2026-08-01, pre-plan-approval amendment):** Implementation-plan review (Revision 2 of the plan) surfaced that a `sys.path`/`conftest.py`-based packaging model does not satisfy this specification's own §23 Criteria 4-5 (independent testability and installability). Amended §13 (renamed the manifest diagram's `scripts/` to `src/<python_package_name>/`) and added §13b (Python Packaging and Contract Distribution Model), establishing: (1) each plugin has a distinct hyphenated distribution ID and underscored Python import package name; (2) a `src/`-layout with `pyproject.toml` per plugin, buildable and installable as a real wheel; (3) public contracts as their own independently installable distribution (`contracts/python/`, provisional import name `knowledge_workbench_contracts`), never requiring repository-root discovery at runtime; (4) `find_repo_root()`-style tooling confined to `tools/`, explicitly prohibited from plugin production code. This amendment was applied **before** implementation-plan approval — the plan must conform to it, not the reverse.
+
+**Revision 4 (2026-08-01, mid-Wave-2 correction):** Wave 2's real implementation of §13b surfaced that a shared `knowledge_workbench_contracts` pip dependency (and, by the same reasoning, §13c's `knowledge_workbench_runtime`) makes standalone plugin installation impossible — the dependency is never published to a package index, and Wave 2's original isolated-install harness masked this by always co-installing the contracts wheel, proving coordinated multi-package installation rather than plugin self-containment. This also conflicts with `.agent/rules/plugin-architecture-policy.md`'s plugin-independence rule. Added §13d (Correction: Plugin-Local Contract/Runtime Materialization), superseding §13b's shared-contracts-dependency requirement and §13c's shared-runtime-dependency requirement: each contract's authoritative schema is materialized inside its producer plugin's own package; consumers carry generated, hash-checked local copies rather than a shared pip dependency; `atomic_output.py` is materialized inside each of `canonical-knowledge`/`knowledge-publication` directly (Waves 4/5) rather than imported from a shared runtime distribution; `contracts/python/`/`runtime/python/` are reclassified `DEVELOPMENT_CODEGEN_SOURCE`, not required runtime dependencies. Added the Plugin Self-Containment Gate to the Waves 2-5 common step sequence and every affected wave's exit gate. Full rationale: `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`. Applied **during** Wave 2 (already-committed Wave 2 code corrected in the same wave, before Wave 3 began), not deferred.

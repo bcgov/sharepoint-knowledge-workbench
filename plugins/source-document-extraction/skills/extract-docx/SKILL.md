@@ -33,8 +33,10 @@ result = extract_and_normalize(source="intake/Manual.docx", output_dir="analysis
 - `source` — path to the source `.docx` file (must exist).
 - `output_dir` — directory to write the transitory `raw/` pandoc output to
   (created if missing).
-- Returns a `normalized-source-document` v1 dict (see
-  `knowledge_workbench_contracts.normalized_source_document`).
+- Returns a `normalized-source-document` v1 dict, validated against this
+  plugin's own bundled schema (see `references/contracts/normalized-source-document.md`,
+  symlinked into this skill folder — no repository-root or sibling-plugin
+  lookup required).
 
 Raises `FileNotFoundError` if `source` does not exist, and
 `source_document_extraction.dependencies.MissingDependencyError` if `pandoc`
@@ -43,8 +45,11 @@ is not on PATH.
 ## Installation
 
 ```bash
-pip install -e contracts/python -e plugins/source-document-extraction
+pip install -e plugins/source-document-extraction
 ```
+
+No other package needs to be installed first — this plugin has zero
+dependency on any other workbench distribution or the repository root.
 
 ## Dependencies
 

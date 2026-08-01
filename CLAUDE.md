@@ -172,6 +172,28 @@ same policies but govern *this* repo, not the monorepo):
    After merge, the same command against the now-updated local checkout keeps this repo in sync
    without waiting for a separate GitHub-sourced reinstall.
 
+### Plugin-Local Resource Sharing (this repo's own `plugins/*`, e.g. `docx-to-content` and the Phase 4.5 domain plugins)
+
+Unlike the marketplace skills described above, `plugins/docx-to-content/` and the Phase 4.5 domain
+plugins (`plugins/source-document-extraction/`, etc.) *are* authored directly in this repo. The
+same hub-and-spoke convention applies to their non-Python shared resources: add scripts,
+references, and assets once at the plugin root (`plugins/<plugin>/scripts/`,
+`plugins/<plugin>/references/`, `plugins/<plugin>/assets/`), then, only if/when a skill actually
+needs one of them, create a file-level symlink into that skill's own folder
+(`plugins/<plugin>/skills/<skill>/references/...`) via
+`.agents/skills/symlink-manager/scripts/symlink_manager.py create --src ... --dst ...` — never
+`ln -s` directly, never a hand-copy. Run `diagnose` after any symlink change to confirm zero
+broken links/real-file imposters before committing (`.agent/rules/symlink-cross-platform.md`).
+
+**Exception, not a contradiction:** this applies to reference/asset files, not to a plugin's
+installable Python package itself (`src/<import_name>/`) — a symlink pointing outside a package's
+`src/` tree does not survive a `pip`/`setuptools` wheel build, so plugin *code* that must ship
+inside the built distribution is a real file, materialized (generated or hand-synced) into each
+plugin's own package, never symlinked. See
+`docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md` for why
+this distinction matters and where it was first hit in practice (`normalized-source-document`'s
+schema module).
+
 ### Active Rule Files
 
 Full rule definitions live in `.agent/rules/` — these are the authoritative source, this file
