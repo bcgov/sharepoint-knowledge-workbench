@@ -1,59 +1,29 @@
 {
   "Meta": {
-    "ScriptGitCommit": "744d7a3",
-    "ExportDate": "2026-07-29T23:08:58.4502450-07:00",
+    "ScriptGitCommit": "8d79d73",
+    "ExportDate": "2026-07-31T11:17:16.0293060-07:00",
     "PnPPowerShellVersion": "3.3.0",
     "PowerShellVersion": "7.7.0-preview.3",
-    "SiteUrl": "https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV",
+    "SiteUrl": "https://bcgov.sharepoint.com/sites/AG-CSB-intranet-dev",
     "ConnectedAccount": "i:0#.f|membership|richard.fremmerlid@gov.bc.ca",
     "AuthenticationType": "Interactive delegated (Connect-PnPOnline -Interactive -ForceAuthentication)",
     "AppRegistrationScope": "Intentionally manage-only: no permission-management (Manage Permissions/Full Control) rights. Forbidden results on permission-enumeration probes below are expected-by-design, not tenant misconfiguration or a script bug.",
-    "WebId": "5c76b6ea-19f7-41b2-b29c-c0aa36aaee04",
-    "SiteId": "bd691009-3e48-422a-928b-c01a27aaca06",
+    "WebId": "fbff48d7-76dd-4f69-8b03-9f8ed45f07cf",
+    "SiteId": "19801e68-6fba-44c7-89c7-923b85baf943",
     "IncludeHiddenLists": false,
     "PilotLibraryRequested": ""
   },
   "Purpose": "Phase 3.0 tenant-capability discovery (read-only) for manual-conversion-poc Phase 3 pilot",
   "Web": {
-    "Title": "AG-CSB-INTRANET-DEV",
+    "Title": "Court Services Branch Intranet (DEV)",
     "Url": "https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV",
-    "WebTemplate": "STS",
-    "Configuration": 3,
+    "WebTemplate": "SITEPAGEPUBLISHING",
+    "Configuration": 0,
     "Language": 1033
   },
   "Lists": [
     {
-      "Title": "_Court_Locations",
-      "BaseTemplate": "100",
-      "ItemCount": 89,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "AgentAssets",
-      "BaseTemplate": "101",
-      "ItemCount": 3,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "All_Appearances",
-      "BaseTemplate": "100",
-      "ItemCount": 157,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "All_Approval_Requests_For_Audit",
+      "Title": "Applications",
       "BaseTemplate": "100",
       "ItemCount": 5,
       "Hidden": false,
@@ -63,43 +33,23 @@
       "MajorWithMinorVersionsLimit": 0
     },
     {
-      "Title": "Appearance_City_to_be_Verified",
-      "BaseTemplate": "100",
+      "Title": "CEIS Pilot Knowledge Pages",
+      "BaseTemplate": "119",
       "ItemCount": 0,
       "Hidden": false,
       "EnableVersioning": true,
       "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
+      "MajorVersionLimit": 0,
       "MajorWithMinorVersionsLimit": 0
     },
     {
-      "Title": "Briefings",
-      "BaseTemplate": "100",
-      "ItemCount": 6,
+      "Title": "CEIS-Pilot-Knowledge",
+      "BaseTemplate": "101",
+      "ItemCount": 320,
       "Hidden": false,
       "EnableVersioning": true,
       "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Case_Check_List",
-      "BaseTemplate": "100",
-      "ItemCount": 5,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "CMATConfig",
-      "BaseTemplate": "100",
-      "ItemCount": 1,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
+      "MajorVersionLimit": 500,
       "MajorWithMinorVersionsLimit": 0
     },
     {
@@ -113,13 +63,13 @@
       "MajorWithMinorVersionsLimit": 0
     },
     {
-      "Title": "Drop Off Library",
-      "BaseTemplate": "101",
+      "Title": "Events",
+      "BaseTemplate": "106",
       "ItemCount": 0,
       "Hidden": false,
-      "EnableVersioning": true,
+      "EnableVersioning": false,
       "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
+      "MajorVersionLimit": 0,
       "MajorWithMinorVersionsLimit": 0
     },
     {
@@ -133,889 +83,19 @@
       "MajorWithMinorVersionsLimit": 0
     },
     {
-      "Title": "HSE Transport Log",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "HSE_Monthly_Tracker",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ICM_Approval_Requests",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ICM_Case_Tasks",
-      "BaseTemplate": "100",
-      "ItemCount": 1,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ICM_Cases",
-      "BaseTemplate": "100",
-      "ItemCount": 9,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ICM_Documents",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ICM_Log_Entries",
-      "BaseTemplate": "100",
-      "ItemCount": 2,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ICM_Narratives",
-      "BaseTemplate": "100",
-      "ItemCount": 4,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
       "Title": "Images",
       "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU Reference Material and Templates",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Approval_Requests",
-      "BaseTemplate": "100",
-      "ItemCount": 2,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Abbotsford",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Campbell_River",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Chilliwack",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Coastal_Circuit",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Coastal_Reg",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Courtenay",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Cranbrook",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Dawson_Creek",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_DCC",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Duncan",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Fort_St_John",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Fraser_Reg",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Golden",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Interior_Circuit",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Interior_Reg",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_IWDU",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Kamloops",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Kelowna",
-      "BaseTemplate": "100",
-      "ItemCount": 11,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Nanaimo",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Nelson",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_New_Westminster",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_North_Circuit",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_North_Reg",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_North_Van",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Penticton",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Port_Alberni",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Port_Coquitlam",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Port_Hardy",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Powell_River",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Prince_George",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Prince_Rupert",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Quesnel",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Richmond",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Rossland",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Salmon_Arm",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Sechelt",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Smithers",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_SOEC",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_SPOC",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Surrey",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Terrace",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Van_222_Main",
-      "BaseTemplate": "100",
-      "ItemCount": 1,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Van_800_Hornby",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Van_800_Smithe",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Van_Island_Circuit",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Van_Island_Reg",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Vernon",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Victoria",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Western_Communities",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cal_Williams_Lake",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Calendar",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Case_Tasks",
-      "BaseTemplate": "100",
-      "ItemCount": 6,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Cases",
-      "BaseTemplate": "100",
-      "ItemCount": 18,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Documents",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Log_Entries",
-      "BaseTemplate": "100",
-      "ItemCount": 7,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Management_Calendar",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Narratives",
-      "BaseTemplate": "100",
-      "ItemCount": 6,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "ITAU_Reference_Material_and_Templates",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Judge_Conventions",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Judge_Conventions_and_PSU_operations",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "JUSTIN Agencies",
-      "BaseTemplate": "100",
-      "ItemCount": 254,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Pages",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Persons",
-      "BaseTemplate": "100",
-      "ItemCount": 1639,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Persons_Update",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Persons_Update_shadow",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO Reference Material and Templates",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO_Approval_Requests",
-      "BaseTemplate": "100",
-      "ItemCount": 7,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO_Calendar",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO_Case_Tasks",
-      "BaseTemplate": "100",
       "ItemCount": 9,
       "Hidden": false,
       "EnableVersioning": true,
       "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO_Cases",
-      "BaseTemplate": "100",
-      "ItemCount": 6,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO_Documents",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
       "MajorVersionLimit": 500,
       "MajorWithMinorVersionsLimit": 0
     },
     {
-      "Title": "PIO_Log_Entries",
+      "Title": "News and Messages",
       "BaseTemplate": "100",
-      "ItemCount": 6,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO_Narratives",
-      "BaseTemplate": "100",
-      "ItemCount": 9,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "PIO_Reference_Material_and_Templates",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Reference Material and Templates",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Reports",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Scheduled Job Errors",
-      "BaseTemplate": "100",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 50,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Security_Alerts",
-      "BaseTemplate": "100",
-      "ItemCount": 6,
+      "ItemCount": 408,
       "Hidden": false,
       "EnableVersioning": true,
       "EnableMinorVersions": false,
@@ -1025,7 +105,7 @@
     {
       "Title": "Site Assets",
       "BaseTemplate": "101",
-      "ItemCount": 3,
+      "ItemCount": 11,
       "Hidden": false,
       "EnableVersioning": true,
       "EnableMinorVersions": false,
@@ -1033,13 +113,23 @@
       "MajorWithMinorVersionsLimit": 0
     },
     {
+      "Title": "Site Links",
+      "BaseTemplate": "100",
+      "ItemCount": 25,
+      "Hidden": false,
+      "EnableVersioning": true,
+      "EnableMinorVersions": false,
+      "MajorVersionLimit": 50,
+      "MajorWithMinorVersionsLimit": 0
+    },
+    {
       "Title": "Site Pages",
       "BaseTemplate": "119",
-      "ItemCount": 2,
+      "ItemCount": 31,
       "Hidden": false,
       "EnableVersioning": true,
       "EnableMinorVersions": true,
-      "MajorVersionLimit": 0,
+      "MajorVersionLimit": 500,
       "MajorWithMinorVersionsLimit": 0
     },
     {
@@ -1053,29 +143,9 @@
       "MajorWithMinorVersionsLimit": 0
     },
     {
-      "Title": "Supervisor_Reference_Material_and_Templates",
-      "BaseTemplate": "101",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": true,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 500,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "Tasks",
-      "BaseTemplate": "107",
-      "ItemCount": 0,
-      "Hidden": false,
-      "EnableVersioning": false,
-      "EnableMinorVersions": false,
-      "MajorVersionLimit": 0,
-      "MajorWithMinorVersionsLimit": 0
-    },
-    {
-      "Title": "YAL",
+      "Title": "User Applications",
       "BaseTemplate": "100",
-      "ItemCount": 0,
+      "ItemCount": 1,
       "Hidden": false,
       "EnableVersioning": true,
       "EnableMinorVersions": false,
@@ -1109,6 +179,14 @@
       "Choices": null
     },
     {
+      "InternalName": "Active",
+      "Title": "Active",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "CSB Custom Columns",
+      "Choices": null
+    },
+    {
       "InternalName": "ActualWork",
       "Title": "Actual Work",
       "TypeAsString": "Number",
@@ -1125,27 +203,11 @@
       "Choices": null
     },
     {
-      "InternalName": "agency_identifier_code",
-      "Title": "agency_identifier_code",
-      "TypeAsString": "Text",
+      "InternalName": "ADM_x0020_Message",
+      "Title": "ADM Message",
+      "TypeAsString": "Boolean",
       "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "DescendantLikesCount",
-      "Title": "Aggregated Like Count",
-      "TypeAsString": "Integer",
-      "Required": false,
-      "Group": "_Hidden",
-      "Choices": null
-    },
-    {
-      "InternalName": "DescendantRatingsCount",
-      "Title": "Aggregated Rating Count",
-      "TypeAsString": "Integer",
-      "Required": false,
-      "Group": "_Hidden",
+      "Group": "CSB Custom Columns",
       "Choices": null
     },
     {
@@ -1189,147 +251,11 @@
       "Choices": null
     },
     {
-      "InternalName": "Appearance_Category",
-      "Title": "Appearance Category",
-      "TypeAsString": "MultiChoice",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Appearance_Date",
-      "Title": "Appearance Date",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_agency_id",
-      "Title": "appearance_agency_id",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Appearance_Location",
-      "Title": "Appearance_City_or_Courthouse",
-      "TypeAsString": "Lookup",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Appearance_Courthouse",
-      "Title": "appearance_courthouse",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_date",
-      "Title": "appearance_date",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_id",
-      "Title": "appearance_id",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_is_cancelled",
-      "Title": "appearance_is_cancelled",
-      "TypeAsString": "Choice",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_is_confirmed",
-      "Title": "appearance_is_confirmed",
-      "TypeAsString": "Choice",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_location_address",
-      "Title": "appearance_location_address",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_location_city",
-      "Title": "appearance_location_city",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_location_name",
-      "Title": "appearance_location_identifier_code",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_method",
-      "Title": "appearance_method",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_reason",
-      "Title": "appearance_reason",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "appearance_time",
-      "Title": "appearance_time",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "V3Comments",
       "Title": "Append-Only Comments",
       "TypeAsString": "Note",
       "Required": false,
       "Group": "Base Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "application_code",
-      "Title": "application_code",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Apprearance_Date",
-      "Title": "Apprearance_Date",
-      "TypeAsString": "DateTime",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -1394,14 +320,6 @@
       "TypeAsString": "HTML",
       "Required": false,
       "Group": "_Hidden",
-      "Choices": null
-    },
-    {
-      "InternalName": "Will_be_Updated",
-      "Title": "Auto_Update",
-      "TypeAsString": "Boolean",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -1733,14 +651,6 @@
       "Choices": null
     },
     {
-      "InternalName": "match_level",
-      "Title": "confidence_level",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "Confidential",
       "Title": "Confidential",
       "TypeAsString": "Boolean",
@@ -1829,38 +739,6 @@
       "Choices": null
     },
     {
-      "InternalName": "Court_Room",
-      "Title": "Court Room",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "case_no",
-      "Title": "court_file_no",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "court_list_id",
-      "Title": "court_list_id",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "court_list_type_cd",
-      "Title": "court_list_type_cd",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "_Coverage",
       "Title": "Coverage",
       "TypeAsString": "Text",
@@ -1898,14 +776,6 @@
       "TypeAsString": "User",
       "Required": false,
       "Group": "_Hidden",
-      "Choices": null
-    },
-    {
-      "InternalName": "CS_Number",
-      "Title": "cs_no",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -1989,14 +859,6 @@
       "Choices": null
     },
     {
-      "InternalName": "date_of_birth",
-      "Title": "date_of_birth",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "CallTime",
       "Title": "Date/Time",
       "TypeAsString": "DateTime",
@@ -2077,22 +939,6 @@
       "Choices": null
     },
     {
-      "InternalName": "DocumentSetDescription",
-      "Title": "Description",
-      "TypeAsString": "Note",
-      "Required": false,
-      "Group": "_Hidden",
-      "Choices": null
-    },
-    {
-      "InternalName": "Destination_x0020_Library",
-      "Title": "Destination Library",
-      "TypeAsString": "Choice",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "GoFromHome",
       "Title": "Direct to Offsite",
       "TypeAsString": "Boolean",
@@ -2117,11 +963,11 @@
       "Choices": null
     },
     {
-      "InternalName": "Document_x0020_Type",
-      "Title": "Document Type",
-      "TypeAsString": "Choice",
+      "InternalName": "Display_x0020_Order",
+      "Title": "Display Order",
+      "TypeAsString": "Number",
       "Required": false,
-      "Group": "Custom Columns",
+      "Group": "CSB Custom Columns",
       "Choices": null
     },
     {
@@ -2293,14 +1139,6 @@
       "Choices": null
     },
     {
-      "InternalName": "estimate_time_of_appearance",
-      "Title": "estimate_time_of_appearance",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "ol_EventAddress",
       "Title": "Event Address",
       "TypeAsString": "Text",
@@ -2381,6 +1219,14 @@
       "Choices": null
     },
     {
+      "InternalName": "Final_x0020_Disposition_x0020_Date",
+      "Title": "Final Disposition Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
       "InternalName": "FirstName",
       "Title": "First Name",
       "TypeAsString": "Text",
@@ -2402,14 +1248,6 @@
       "TypeAsString": "DateTime",
       "Required": false,
       "Group": "_Hidden",
-      "Choices": null
-    },
-    {
-      "InternalName": "first_name",
-      "Title": "first_name",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -2493,14 +1331,6 @@
       "Choices": null
     },
     {
-      "InternalName": "fps_no",
-      "Title": "fps_no",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "FreeBusy",
       "Title": "Free/Busy",
       "TypeAsString": "FreeBusy",
@@ -2522,14 +1352,6 @@
       "TypeAsString": "Text",
       "Required": false,
       "Group": "Core Contact and Calendar Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Full_URL",
-      "Title": "Full_URL",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -2733,14 +1555,6 @@
       "Choices": null
     },
     {
-      "InternalName": "interpreter_required",
-      "Title": "interpreter_required",
-      "TypeAsString": "Choice",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "IsFeatured",
       "Title": "Is Featured Discussion",
       "TypeAsString": "Boolean",
@@ -2941,11 +1755,19 @@
       "Choices": null
     },
     {
-      "InternalName": "Method_of_Appearance_x003a_",
-      "Title": "Method_of_Appearance:",
+      "InternalName": "Message_x0020_Date",
+      "Title": "Message Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "CSB Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Message_x0020_Type",
+      "Title": "Message Type",
       "TypeAsString": "MultiChoice",
       "Required": false,
-      "Group": "Custom Columns",
+      "Group": "CSB Custom Columns",
       "Choices": null
     },
     {
@@ -2954,14 +1776,6 @@
       "TypeAsString": "Text",
       "Required": false,
       "Group": "Core Contact and Calendar Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "middle_name",
-      "Title": "middle_name",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -3053,6 +1867,14 @@
       "Choices": null
     },
     {
+      "InternalName": "New_x0020_Window",
+      "Title": "New Window",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "CSB Custom Columns",
+      "Choices": null
+    },
+    {
       "InternalName": "Nickname",
       "Title": "Nickname",
       "TypeAsString": "Text",
@@ -3069,22 +1891,6 @@
       "Choices": null
     },
     {
-      "InternalName": "ConfigNotes",
-      "Title": "Notes",
-      "TypeAsString": "Note",
-      "Required": false,
-      "Group": "Search Config",
-      "Choices": null
-    },
-    {
-      "InternalName": "CMAT_Notes",
-      "Title": "Notes",
-      "TypeAsString": "Note",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "WhatsNew",
       "Title": "Notification",
       "TypeAsString": "Boolean",
@@ -3093,27 +1899,19 @@
       "Choices": null
     },
     {
-      "InternalName": "LikesCount",
-      "Title": "Number of Likes",
-      "TypeAsString": "Likes",
-      "Required": false,
-      "Group": "Content Feedback",
-      "Choices": null
-    },
-    {
-      "InternalName": "RatingCount",
-      "Title": "Number of Ratings",
-      "TypeAsString": "RatingCount",
-      "Required": false,
-      "Group": "Content Feedback",
-      "Choices": null
-    },
-    {
       "InternalName": "Office",
       "Title": "Office",
       "TypeAsString": "Text",
       "Required": false,
       "Group": "Core Contact and Calendar Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "OPR",
+      "Title": "OPR",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -3162,14 +1960,6 @@
       "TypeAsString": "Guid",
       "Required": false,
       "Group": "_Hidden",
-      "Choices": null
-    },
-    {
-      "InternalName": "Original_SP_Person_ID",
-      "Title": "Original_SP_Person_ID",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -3365,14 +2155,6 @@
       "Choices": null
     },
     {
-      "InternalName": "Popularity",
-      "Title": "Popularity",
-      "TypeAsString": "Number",
-      "Required": false,
-      "Group": "_Hidden",
-      "Choices": null
-    },
-    {
       "InternalName": "IMEPos",
       "Title": "POS",
       "TypeAsString": "Choice",
@@ -3445,14 +2227,6 @@
       "Choices": null
     },
     {
-      "InternalName": "prof_seq_no",
-      "Title": "prof_seq_no",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "Profession",
       "Title": "Profession",
       "TypeAsString": "Text",
@@ -3501,22 +2275,6 @@
       "Choices": null
     },
     {
-      "InternalName": "AverageRating",
-      "Title": "Rating (0-5)",
-      "TypeAsString": "AverageRating",
-      "Required": false,
-      "Group": "Content Feedback",
-      "Choices": null
-    },
-    {
-      "InternalName": "Reason_for_Appearance",
-      "Title": "Reason_for_Appearance:",
-      "TypeAsString": "MultiChoice",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "V4CallTo",
       "Title": "Recipients",
       "TypeAsString": "CallTo",
@@ -3533,11 +2291,35 @@
       "Choices": null
     },
     {
+      "InternalName": "Record_x0020_Closed",
+      "Title": "Record Closed",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Records_x0020_Classification",
+      "Title": "Records Classification",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
+      "Choices": null
+    },
+    {
       "InternalName": "fRecurrence",
       "Title": "Recurrence",
       "TypeAsString": "Recurrence",
       "Required": false,
       "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "Reference",
+      "Title": "Reference",
+      "TypeAsString": "Text",
+      "Required": false,
+      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -3578,38 +2360,6 @@
       "TypeAsString": "RelatedItems",
       "Required": false,
       "Group": "_Hidden",
-      "Choices": null
-    },
-    {
-      "InternalName": "Related_x0020_to_x0020_ICM_x0020_Case_x003A_",
-      "Title": "Related to ICM Case",
-      "TypeAsString": "Lookup",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Related_x0020_to_x0020_ITAU_x0020_Case_x003A_",
-      "Title": "Related to ITAU Case",
-      "TypeAsString": "Lookup",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Related_x0020_to_x0020_Person_x0028_s_x0029_",
-      "Title": "Related to Person",
-      "TypeAsString": "LookupMulti",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Related_x0020_to_x0020_PIO_x0020_Case_x003A_",
-      "Title": "Related to PIO Case",
-      "TypeAsString": "Lookup",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -3765,14 +2515,6 @@
       "Choices": null
     },
     {
-      "InternalName": "Scope",
-      "Title": "Scope",
-      "TypeAsString": "Choice",
-      "Required": false,
-      "Group": "Search Config",
-      "Choices": null
-    },
-    {
       "InternalName": "HealthRuleScope",
       "Title": "Scope",
       "TypeAsString": "Choice",
@@ -3781,27 +2523,11 @@
       "Choices": null
     },
     {
-      "InternalName": "search_end_date",
-      "Title": "search_end_date",
-      "TypeAsString": "DateTime",
+      "InternalName": "Secondary_x0020_Title",
+      "Title": "Secondary Title",
+      "TypeAsString": "Text",
       "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "search_start_date",
-      "Title": "search_start_date",
-      "TypeAsString": "DateTime",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Select_x0020_a_x0020_Content_x0020_Type_x0020_Above",
-      "Title": "Select a Content Type Above",
-      "TypeAsString": "Choice",
-      "Required": false,
-      "Group": "Custom Columns",
+      "Group": "CSB Custom Columns",
       "Choices": null
     },
     {
@@ -3829,6 +2555,22 @@
       "Choices": null
     },
     {
+      "InternalName": "Sheriff_x0020_Message",
+      "Title": "Sheriff Message",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "CSB Custom Columns",
+      "Choices": null
+    },
+    {
+      "InternalName": "Sheriff_x0020_Only",
+      "Title": "Sheriff Only",
+      "TypeAsString": "Boolean",
+      "Required": false,
+      "Group": "CSB Custom Columns",
+      "Choices": null
+    },
+    {
       "InternalName": "ShowInCatalog",
       "Title": "Show in Catalog",
       "TypeAsString": "Boolean",
@@ -3850,6 +2592,14 @@
       "TypeAsString": "MultiChoice",
       "Required": false,
       "Group": "_Hidden",
+      "Choices": null
+    },
+    {
+      "InternalName": "SO_x0020_Date",
+      "Title": "SO Date",
+      "TypeAsString": "DateTime",
+      "Required": false,
+      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -3917,14 +2667,6 @@
       "Choices": null
     },
     {
-      "InternalName": "Status",
-      "Title": "Status",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Search Config",
-      "Choices": null
-    },
-    {
       "InternalName": "_Status",
       "Title": "Status",
       "TypeAsString": "Choice",
@@ -3981,11 +2723,11 @@
       "Choices": null
     },
     {
-      "InternalName": "surname",
-      "Title": "surname",
-      "TypeAsString": "Text",
+      "InternalName": "Summary",
+      "Title": "Summary",
+      "TypeAsString": "Note",
       "Required": false,
-      "Group": "Custom Columns",
+      "Group": "CSB Custom Columns",
       "Choices": null
     },
     {
@@ -4157,14 +2899,6 @@
       "Choices": null
     },
     {
-      "InternalName": "trial",
-      "Title": "trial",
-      "TypeAsString": "Choice",
-      "Required": false,
-      "Group": "Custom Columns",
-      "Choices": null
-    },
-    {
       "InternalName": "TTYTDDNumber",
       "Title": "TTY-TDD Phone",
       "TypeAsString": "Text",
@@ -4186,14 +2920,6 @@
       "TypeAsString": "Choice",
       "Required": false,
       "Group": "Extended Columns",
-      "Choices": null
-    },
-    {
-      "InternalName": "Unique_Appearance_ID",
-      "Title": "Unique_Appearance_ID",
-      "TypeAsString": "Text",
-      "Required": false,
-      "Group": "Custom Columns",
       "Choices": null
     },
     {
@@ -4513,12 +3239,6 @@
       "Description": "Add a new Circulation."
     },
     {
-      "Name": "Scheduled_Appearances",
-      "Id": "0x0100189CA8B4E41D20479B98B61190F5133F",
-      "Group": "Custom Content Types",
-      "Description": "Legacy ORDS-scheduled appearances"
-    },
-    {
       "Name": "New Word",
       "Id": "0x010018F21907ED4E401CB4F14422ABC65304",
       "Group": "Group Work Content Types",
@@ -4531,10 +3251,10 @@
       "Description": "WorkflowServiceDefinition"
     },
     {
-      "Name": "Modern_Scheduled_Appearances",
-      "Id": "0x010037F9790AFE5645439F6AFAEC90C7F5BA",
-      "Group": "Custom Content Types",
-      "Description": "ETL-written scheduled court appearance — all identity and ORDS fields are hidden. Users see date, person link, update flag only."
+      "Name": "News and Messages",
+      "Id": "0x01002C8252B77D639A4DA06A5568588B1570",
+      "Group": "CSB Content Types",
+      "Description": ""
     },
     {
       "Name": "Health Analyzer Rule Definition",
@@ -4549,22 +3269,10 @@
       "Description": "Add a new resource."
     },
     {
-      "Name": "Manual_Entry_Appearances",
-      "Id": "0x010056FC1404CE04414BB6F4171267D23A5F",
-      "Group": "Custom Content Types",
-      "Description": "Legacy manual appearance entry"
-    },
-    {
       "Name": "Official Notice",
       "Id": "0x01007CE30DD1206047728BAFD1C39A850120",
       "Group": "Group Work Content Types",
       "Description": "Add a new Official Notice."
-    },
-    {
-      "Name": "Search Config Content Type",
-      "Id": "0x010080060E093E2F463EBA41A5F044428F32",
-      "Group": "Search Config",
-      "Description": "Designed to facilitate the storage of Search Config information."
     },
     {
       "Name": "Phone Call Memo",
@@ -4603,12 +3311,6 @@
       "Description": "Add a new resource group."
     },
     {
-      "Name": "Modern_Manual_Appearances",
-      "Id": "0x0100EFC884012D07514FB7A07107DFBB6FBC",
-      "Group": "Custom Content Types",
-      "Description": "Manual court appearance entry — user fills in court room, method, reason, time, courthouse. ETL fills in person identity and ORDS match fields (hidden)."
-    },
-    {
       "Name": "Health Analyzer Report",
       "Id": "0x0100F95DB3A97E8046B58C6A54FB31F2BD46",
       "Group": "_Hidden",
@@ -4645,28 +3347,10 @@
       "Description": "Create a new custom CSR JavaScript Display Template."
     },
     {
-      "Name": "Click Here and Select Before Continuing",
-      "Id": "0x0101004D71B5B77F8D384FBC16E30D53264B8C",
-      "Group": "Custom Content Types",
-      "Description": "Document library placeholder CT requiring content type selection"
-    },
-    {
-      "Name": "ITAU_Case_Document_Type",
-      "Id": "0x010100577ADAA41714844883BD02D399AA6A34",
-      "Group": "Custom Content Types",
-      "Description": "ITAU case document"
-    },
-    {
-      "Name": "ICM_Case_Document_Type",
-      "Id": "0x010100577ADAA41714844883BD02D399AA6A3405",
-      "Group": "Custom Content Types",
-      "Description": "ICM case document"
-    },
-    {
-      "Name": "PIO_Case_Document_Type",
-      "Id": "0x010100577ADAA41714844883BD02D399AA6A3406",
-      "Group": "Custom Content Types",
-      "Description": "PIO case document"
+      "Name": "CITZ Classified Document",
+      "Id": "0x010100566C0A34AA0DAE44BCCC0A701474E3C2",
+      "Group": "CITZ Content Types",
+      "Description": "Documents that can be classified per ARCS and ORCS"
     },
     {
       "Name": "Office Data Connection File",
@@ -4931,23 +3615,11 @@
       "Id": "0x0120D5",
       "Group": "_Hidden",
       "Description": "Create a new Document Collection Folder"
-    },
-    {
-      "Name": "Document Set",
-      "Id": "0x0120D520",
-      "Group": "Document Set Content Types",
-      "Description": "Create a document set when you want to manage multiple documents as a single work product."
-    },
-    {
-      "Name": "CMAT Documents",
-      "Id": "0x0120D52000D845E3C160B0E64FBA587CCBEE10066F",
-      "Group": "Custom Content Types",
-      "Description": "CMAT document set"
     }
   ],
   "SiteGroups": {
     "Status": "Observed",
-    "ObservedAt": "2026-07-29T23:09:01.8360250-07:00",
+    "ObservedAt": "2026-07-31T11:17:18.7054850-07:00",
     "RequiredPermission": "",
     "ErrorType": "",
     "ErrorMessage": "",
@@ -4977,56 +3649,49 @@
   "AgentAssetsLibrary": {
     "ListTitle": "AgentAssets",
     "Exists": {
-      "Status": "Observed",
-      "ObservedAt": "2026-07-29T23:09:02.5476050-07:00",
+      "Status": "Failed",
+      "ObservedAt": "2026-07-31T11:17:19.2376490-07:00",
       "RequiredPermission": "",
-      "ErrorType": "",
-      "ErrorMessage": "",
+      "ErrorType": "Exception",
+      "ErrorMessage": "List 'AgentAssets' does not exist at site with URL 'https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV'.",
       "EvidenceSource": "Get-PnPList -Identity 'AgentAssets'",
       "DecisionImpact": "Confirms the library exists before any other probe against it is meaningful.",
-      "Data": "AgentAssets"
+      "Data": null
     },
     "HasUniqueRoleAssignments": {
-      "Status": "Observed",
-      "ObservedAt": "2026-07-29T23:09:03.3130250-07:00",
+      "Status": "Unavailable",
+      "ObservedAt": "2026-07-31T11:17:18.7151950-07:00",
       "RequiredPermission": "",
       "ErrorType": "",
       "ErrorMessage": "",
-      "EvidenceSource": "Get-PnPList -Includes HasUniqueRoleAssignments",
-      "DecisionImpact": "Whether this library breaks permission inheritance — a prerequisite signal for oversharing risk.",
-      "Data": false
+      "EvidenceSource": "",
+      "DecisionImpact": "",
+      "Data": null
     },
     "RoleAssignments": {
-      "Status": "Forbidden",
-      "ObservedAt": "2026-07-29T23:09:04.0262840-07:00",
-      "RequiredPermission": "Manage Permissions / Full Control on the list",
-      "ErrorType": "Exception",
-      "ErrorMessage": "Attempted to perform an unauthorized operation.",
-      "EvidenceSource": "Get-PnPList -Includes RoleAssignments (Member/RoleDefinitionBindings)",
-      "DecisionImpact": "Which principals/roles are actually assigned — needed to confirm no broad principal (Members/Visitors/Everyone) is overshared on a governed library. NOT determinable with a manage-only app registration; requires an account with Manage Permissions/Full Control.",
+      "Status": "Unavailable",
+      "ObservedAt": "2026-07-31T11:17:18.7153420-07:00",
+      "RequiredPermission": "",
+      "ErrorType": "",
+      "ErrorMessage": "",
+      "EvidenceSource": "",
+      "DecisionImpact": "",
       "Data": null
     },
     "Governance": {
-      "Status": "Observed",
-      "ObservedAt": "2026-07-29T23:09:04.8379310-07:00",
+      "Status": "Unavailable",
+      "ObservedAt": "2026-07-31T11:17:18.7155470-07:00",
       "RequiredPermission": "",
       "ErrorType": "",
       "ErrorMessage": "",
-      "EvidenceSource": "Get-PnPList -Includes EnableModeration,ForceCheckout,DraftVersionVisibility,NoCrawl,OnQuickLaunch,ContentTypesEnabled",
-      "DecisionImpact": "Confirms whether draft/approval/checkout controls this library depends on for governed publication are actually enabled, rather than assumed.",
-      "Data": {
-        "EnableModeration": false,
-        "ForceCheckout": false,
-        "DraftVersionVisibility": "Reader",
-        "NoCrawl": false,
-        "OnQuickLaunch": true,
-        "ContentTypesEnabled": false
-      }
+      "EvidenceSource": "",
+      "DecisionImpact": "",
+      "Data": null
     }
   },
   "CustomAgents": {
     "Status": "Empty",
-    "ObservedAt": "2026-07-29T23:09:08.8568200-07:00",
+    "ObservedAt": "2026-07-31T11:17:21.1754810-07:00",
     "RequiredPermission": "",
     "ErrorType": "",
     "ErrorMessage": "",
@@ -5036,7 +3701,7 @@
   },
   "ReadyMadeAgent": {
     "Status": "ManualRequired",
-    "ObservedAt": "2026-07-29T23:08:58.6642300-07:00",
+    "ObservedAt": "2026-07-31T11:17:16.2397480-07:00",
     "RequiredPermission": "",
     "ErrorType": "",
     "ErrorMessage": "",
@@ -5045,24 +3710,18 @@
     "Data": null
   },
   "NativeSkills": {
-    "Status": "Observed",
-    "ObservedAt": "2026-07-29T23:09:09.7021320-07:00",
+    "Status": "NotSupported",
+    "ObservedAt": "2026-07-31T11:17:21.1767040-07:00",
     "RequiredPermission": "",
     "ErrorType": "",
     "ErrorMessage": "",
-    "EvidenceSource": "Get-PnPFolderItem -FolderSiteRelativeUrl 'AgentAssets' -Recursive",
-    "DecisionImpact": "Confirms whether SKILL.md files have actually been authored/saved in AgentAssets on this site; does not confirm agent discovery or invocation of them.",
-    "Data": {
-      "Name": "SKILL.md",
-      "ServerRelativeUrl": "/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills/review-manual-topics/SKILL.md",
-      "DefinitionDiscovered": true,
-      "RuntimeInvocationVerified": false,
-      "AgentInvocationVerified": false
-    }
+    "EvidenceSource": "Derived from AgentAssetsLibrary.Exists",
+    "DecisionImpact": "AgentAssets library does not exist on this site, so no Skills subfolder can be inspected.",
+    "Data": null
   },
   "CopilotAdmin": {
     "Status": "Forbidden",
-    "ObservedAt": "2026-07-29T23:09:10.9405900-07:00",
+    "ObservedAt": "2026-07-31T11:17:22.6515940-07:00",
     "RequiredPermission": "Tenant administrator (SharePoint Administrator role)",
     "ErrorType": "Exception",
     "ErrorMessage": "Forbidden (403): ",
@@ -5072,7 +3731,7 @@
   },
   "RestrictedContentDiscovery": {
     "Status": "Forbidden",
-    "ObservedAt": "2026-07-29T23:09:11.3440420-07:00",
+    "ObservedAt": "2026-07-31T11:17:23.2575290-07:00",
     "RequiredPermission": "SharePoint Administrator role (tenant admin center access)",
     "ErrorType": "PSInvalidOperationException",
     "ErrorMessage": "Unable to connect to the SharePoint Online Admin Center at 'https://bcgov-admin.sharepoint.com' to run this cmdlet. If this URL is incorrect for your tenant, you can pass in the correct Admin Center URL using Connect-PnPOnline -TenantAdminUrl. If you are using Privileged Identity Management (PIM) on your tenant, please ensure you have activated at least the SharePoint Administrator role and allowed some time for it to activate. Error message: Attempted to perform an unauthorized operation.",
@@ -5082,7 +3741,7 @@
   },
   "PilotLibraryGovernance": {
     "Status": "NotSupported",
-    "ObservedAt": "2026-07-29T23:09:04.8399850-07:00",
+    "ObservedAt": "2026-07-31T11:17:19.2405400-07:00",
     "RequiredPermission": "",
     "ErrorType": "",
     "ErrorMessage": "",

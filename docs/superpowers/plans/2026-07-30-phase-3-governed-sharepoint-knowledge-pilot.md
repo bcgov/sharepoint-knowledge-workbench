@@ -15,7 +15,7 @@
 - TDD throughout: every new function gets a failing test committed before its implementation, per `.agent/rules/test-driven-development.md`.
 - New code lives in `plugins/docx-to-content/scripts/`, tests in `plugins/docx-to-content/tests/unit/`, matching the existing plugin's layout (`tests/conftest.py` already adds `scripts/` to `sys.path`).
 - Pilot scope is fixed: all 25 rendered CEIS topics from `runs/ceis-manual-v2/` (resolved decision #3) — no subset selection logic.
-- Pilot site/library: existing site `AG-CSB-ITAU-CMAT-DEV`, new library `CEIS-Pilot-Knowledge` (resolved decision #1) — do not parameterize a different default.
+- Pilot site/library: existing site `AG-CSB-INTRANET-DEV`, new library `CEIS-Pilot-Knowledge` (resolved decision #1) — do not parameterize a different default.
 - Republish policy: block-until-reviewed is the only policy this plan implements (resolved decision #2) — no auto-republish code path.
 - No `PublishedVersion` SharePoint column: rely on native SharePoint versioning + `TopicContentSHA256` + a publication-event log entry (resolved decision #5) — reconciliation code must not invent or expect such a column.
 - `PublicationID` is rejected terminology; the identity concept is `PackageIdentity` (`manifest.plan_id` / `publication-map.json`'s `package_identity`), already produced by Phase 2 (resolved decision #11).
@@ -1235,14 +1235,14 @@ git commit -m "feat(phase3): add sharepoint_cli.py wrapping package/dry-run/reco
 
 ### Task 5: Human-performed pilot execution (tenant-side, evidence-recorded)
 
-These steps cannot be automated — they require a human with SharePoint access to `AG-CSB-ITAU-CMAT-DEV`. They are not placeholders: each cites the exact resolved decision or tool from Tasks 1–4 to use, and the exact evidence artifact to produce. Do this task only after Tasks 1–4 are merged and the CLI smoke test in Task 4 Step 5 has been run.
+These steps cannot be automated — they require a human with SharePoint access to `AG-CSB-INTRANET-DEV`. They are not placeholders: each cites the exact resolved decision or tool from Tasks 1–4 to use, and the exact evidence artifact to produce. Do this task only after Tasks 1–4 are merged and the CLI smoke test in Task 4 Step 5 has been run.
 
 **Files:**
 - Create: `docs/superpowers/plans/evidence/phase-3-pilot-execution-log.md` (running log of what was done, when, by whom, with links/screenshots)
 
 - [ ] **Step 1: Create the pilot library**
 
-In `AG-CSB-ITAU-CMAT-DEV`, create a new document library named `CEIS-Pilot-Knowledge` (resolved decision #1). Add the 6 custom columns from this plan's "Reference: Target Schema" table (`TopicId`, `PackageIdentity`, `PublicationOrder`, `TopicContentSHA256`, `SourceDocumentSHA256`, `Sensitivity`) plus configure content approval (`LifecycleState`: Draft/Reviewed/Published/Superseded/Retired) per spec Section 7 (Model A: SharePoint-side workflow). Record the library URL and column configuration screenshot in `phase-3-pilot-execution-log.md`.
+In `AG-CSB-INTRANET-DEV`, create a new document library named `CEIS-Pilot-Knowledge` (resolved decision #1). Add the 6 custom columns from this plan's "Reference: Target Schema" table (`TopicId`, `PackageIdentity`, `PublicationOrder`, `TopicContentSHA256`, `SourceDocumentSHA256`, `Sensitivity`) plus configure content approval (`LifecycleState`: Draft/Reviewed/Published/Superseded/Retired) per spec Section 7 (Model A: SharePoint-side workflow). Record the library URL and column configuration screenshot in `phase-3-pilot-execution-log.md`.
 
 - [ ] **Step 2: Build and dry-run the upload package**
 
