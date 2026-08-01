@@ -93,26 +93,21 @@ try {
 
 Write-Host ""
 
-# Deploy file
+# Deploy file (using same pattern as working agent deployment scripts)
 Write-Host "Deploying SKILL.md..." -ForegroundColor Cyan
 try {
-    # Check if file already exists and remove it first
-    $existingFile = Get-PnPFile -Url "/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills/review-manual-topics/SKILL.md" -ErrorAction SilentlyContinue
-    if ($existingFile) {
-        Write-Host "  Removing existing SKILL.md..." -ForegroundColor Yellow
-        $existingFile | Remove-PnPFile -Force -ErrorAction Stop
-    }
+    $tempPath = [System.IO.Path]::GetTempFileName()
+    Copy-Item -Path $SkillSource -Destination $tempPath -Force
 
-    $deployedFile = Add-PnPFile `
-        -Path $SkillSource `
-        -Folder "AgentAssets/Skills/review-manual-topics" `
-        -ErrorAction Stop
+    $deployedFile = Add-PnPFile -Path $tempPath -Folder "AgentAssets/Skills/review-manual-topics" -NewFileName "SKILL.md" -ErrorAction Stop
 
     Write-Host "✓ SKILL.md deployed successfully" -ForegroundColor Green
     Write-Host "  File: $($deployedFile.Name)" -ForegroundColor Gray
     Write-Host "  URL: $($deployedFile.ServerRelativeUrl)" -ForegroundColor Gray
     Write-Host "  Size: $($deployedFile.Length) bytes" -ForegroundColor Gray
     Write-Host "  Modified: $($deployedFile.TimeLastModified)" -ForegroundColor Gray
+
+    Remove-Item $tempPath -Force
 } catch {
     Write-Error "Deployment failed: $_"
     exit 1
