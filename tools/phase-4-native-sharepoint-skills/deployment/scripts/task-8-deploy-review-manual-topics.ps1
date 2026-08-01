@@ -96,11 +96,16 @@ Write-Host ""
 # Deploy file
 Write-Host "Deploying SKILL.md..." -ForegroundColor Cyan
 try {
+    # Check if file already exists and remove it first
+    $existingFile = Get-PnPFile -Url "/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills/review-manual-topics/SKILL.md" -ErrorAction SilentlyContinue
+    if ($existingFile) {
+        Write-Host "  Removing existing SKILL.md..." -ForegroundColor Yellow
+        $existingFile | Remove-PnPFile -Force -ErrorAction Stop
+    }
+
     $deployedFile = Add-PnPFile `
         -Path $SkillSource `
         -Folder "AgentAssets/Skills/review-manual-topics" `
-        -NewFileName "SKILL.md" `
-        -Overwrite `
         -ErrorAction Stop
 
     Write-Host "✓ SKILL.md deployed successfully" -ForegroundColor Green
