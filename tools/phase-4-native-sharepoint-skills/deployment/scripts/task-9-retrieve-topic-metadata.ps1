@@ -57,17 +57,17 @@ if ($hasValidAppReg) {
 Write-Host "✓ Connected to: $($config.SiteUrl)" -ForegroundColor Green
 Write-Host ""
 
-# Load Phase 4 configuration (already has verified Phase 3 library names)
+# Load Phase 4 configuration
 $phase4Config = Import-PowerShellDataFile $ConfigFile
-$pageLibraryName = $phase4Config.PilotKnowledgeLibrary
+$topicsLibrary = $phase4Config.CEISTopicsLibrary  # "Site Pages" - where ASPX pages are
 
-# Find the CEISPilotKnowledgePages library (Phase 3 output)
-Write-Host "Locating Page Library '$pageLibraryName'..." -ForegroundColor Cyan
+# Find the Site Pages library with CEIS topics
+Write-Host "Locating CEIS topic pages in '$topicsLibrary' library..." -ForegroundColor Cyan
 try {
-    $ceisList = Get-PnPList -Identity $pageLibraryName -ErrorAction SilentlyContinue
+    $ceisList = Get-PnPList -Identity $topicsLibrary -ErrorAction SilentlyContinue
 
     if (-not $ceisList) {
-        Write-Error "Phase 3 Page Library '$pageLibraryName' not found. Verify Phase 3 pilot was run on this site."
+        Write-Error "Topics library '$topicsLibrary' not found."
         exit 1
     }
 
