@@ -46,9 +46,6 @@ if str(_THIS_DIR) not in sys.path:
 
 import analyze_structure  # noqa: E402
 import dependencies  # noqa: E402
-from renderers import multipage_markdown  # noqa: E402
-from renderers import protocol as renderer_protocol  # noqa: E402
-from renderers import validate_rendered  # noqa: E402
 
 # Compatibility shim (Phase 4.5 Wave 3, retire per wave-1-decisions.json):
 # plan construction/confirmation/verification and the analysis-plan
@@ -72,6 +69,18 @@ from plan_schema import analysis_plan as contracts  # noqa: E402
 import convert  # noqa: E402
 import package  # noqa: E402
 import canonical_package  # noqa: E402
+
+# Compatibility shim (Phase 4.5 Wave 5, retire per wave-1-decisions.json):
+# multipage_markdown/protocol/validate_rendered and the RenderResult
+# contract now live in the installed `knowledge-publication` package --
+# see
+# docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md.
+# Requires `knowledge-publication` to be `pip install -e`'d into whatever
+# environment runs this plugin's tests, a transition-only dependency,
+# removed in Wave 7/8.
+from renderers import multipage_markdown  # noqa: E402
+from renderers import protocol as renderer_protocol  # noqa: E402
+from renderers import validate_rendered  # noqa: E402
 
 
 EXIT_PASS = 0

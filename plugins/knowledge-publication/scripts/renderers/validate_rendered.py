@@ -72,7 +72,7 @@ if str(_SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_DIR))
 
 import atomic_output  # noqa: E402
-import contracts  # noqa: E402
+import render_result as contracts  # noqa: E402
 # Compatibility shim (Phase 4.5 Wave 4, retire per wave-1-decisions.json):
 # ValidationIssue/ValidationReport now live in the installed
 # `canonical-knowledge` package -- see

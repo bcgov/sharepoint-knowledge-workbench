@@ -1,0 +1,1 @@
+../../../scripts/knowledge_publication.py

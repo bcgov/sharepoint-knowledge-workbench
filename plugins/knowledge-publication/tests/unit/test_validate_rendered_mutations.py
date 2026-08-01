@@ -15,7 +15,7 @@ import json
 import pytest
 
 from renderers import validate_rendered
-from tests.unit.test_validate_rendered import _build_synthetic_package, _staged_render
+from test_validate_rendered import _build_synthetic_package, _staged_render
 
 
 TWO_CHUNK_SPECS = [

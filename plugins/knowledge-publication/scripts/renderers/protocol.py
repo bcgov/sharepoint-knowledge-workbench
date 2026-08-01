@@ -40,7 +40,7 @@ the CLI's exit-code-4 `UsageError`.
 from pathlib import Path
 from typing import Protocol, runtime_checkable
 
-from contracts import RenderResult
+from render_result import RenderResult
 from canonical_package import CanonicalPackage
 
 

@@ -15,15 +15,14 @@ before validating -- proving each detection in isolation.
 """
 
 import json
+import re
 import shutil
 from pathlib import Path
 
 import pytest
 
 import atomic_output
-# Compatibility shim (Phase 4.5 Wave 4, retire per wave-1-decisions.json):
 from canonical_schema import canonical_package as contracts
-import package as package_module
 import canonical_package as canonical_package_module
 from renderers import multipage_markdown as mpm
 from renderers import validate_rendered as vr
@@ -31,6 +30,20 @@ from renderers import validate_rendered as vr
 FIXTURES = Path(__file__).parent.parent / "fixtures"
 SMALL_SINGLE_DOCX = FIXTURES / "small_single.docx"
 PANDOC_AVAILABLE = shutil.which("pandoc") is not None
+
+_IMAGE_REF = re.compile(r"(!\[(?:[^\]\\]|\\.)*\]\()([^)]+)(\))")
+
+
+def _extract_media_refs(content: str) -> list:
+    """Local test-only duplicate of canonical-knowledge's package.py
+    extract_media_refs -- not imported cross-plugin (see
+    docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md)."""
+    refs = []
+    for match in _IMAGE_REF.finditer(content):
+        ref = match.group(2)
+        if not ref.startswith(("http://", "https://")):
+            refs.append(ref)
+    return refs
 
 FAKE_SHA = "a" * 64
 OTHER_SHA = "b" * 64
@@ -54,7 +67,7 @@ def _metadata(chunk_id, heading_path, order, content, local_links=None):
         content_file=f"chunks/{chunk_id}.md",
         content_sha256=FAKE_SHA,
         local_links=list(local_links or []),
-        media_refs=package_module.extract_media_refs(content),
+        media_refs=_extract_media_refs(content),
     )
 
 
