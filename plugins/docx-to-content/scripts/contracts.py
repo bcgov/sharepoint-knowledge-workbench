@@ -22,7 +22,6 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 
-CONVERSION_PLAN_SCHEMA_VERSION = "1.0"
 MANIFEST_SCHEMA_VERSION = "1.0"
 CHUNK_METADATA_SCHEMA_VERSION = "1.0"
 PUBLICATION_MAP_SCHEMA_VERSION = "1.0"
@@ -30,11 +29,15 @@ PUBLICATION_MAP_SCHEMA_VERSION = "1.0"
 # Backward-compatible alias: pre-Phase-2 code (and any external caller) that
 # referenced one shared SUPPORTED_SCHEMA_VERSION still resolves to a valid
 # value. New code should reference the per-contract constant above instead
-# -- these four are independent per Phase 2's design (a publication-map
-# change no longer forces a conversion-plan version bump or vice versa), not
-# migration/compatibility machinery -- each still supports exactly one
-# version.
-SUPPORTED_SCHEMA_VERSION = CONVERSION_PLAN_SCHEMA_VERSION
+# -- these are independent per Phase 2's design (a publication-map change no
+# longer forces a manifest version bump or vice versa), not migration/
+# compatibility machinery -- each still supports exactly one version.
+# (CONVERSION_PLAN_SCHEMA_VERSION moved to knowledge-analysis's
+# plan_schema/analysis_plan.py in Phase 4.5 Wave 3 -- this alias now anchors
+# to MANIFEST_SCHEMA_VERSION, same "1.0" value, since every caller of this
+# alias in this plugin is testing Manifest/renderer schema versions, not
+# ConversionPlan's.)
+SUPPORTED_SCHEMA_VERSION = MANIFEST_SCHEMA_VERSION
 
 
 def _require(data: dict, field_name: str) -> Any:
@@ -57,27 +60,10 @@ def _check_schema_version(data: dict, expected_version: str, contract_name: str)
 # Shared nested types
 # ---------------------------------------------------------------------------
 
-@dataclass
-class SourceFingerprint:
-    path: str
-    sha256: str
-    size_bytes: int
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "SourceFingerprint":
-        return cls(
-            path=_require(data, "path"),
-            sha256=_require(data, "sha256"),
-            size_bytes=_require(data, "size_bytes"),
-        )
-
-    def to_dict(self) -> dict:
-        return {
-            "path": self.path,
-            "sha256": self.sha256,
-            "size_bytes": self.size_bytes,
-        }
-
+# SourceFingerprint, StructuralAnchor, Confirmation, and ConversionPlan
+# moved to knowledge-analysis's plan_schema/analysis_plan.py in Phase 4.5
+# Wave 3 (that plugin is the analysis-plan contract's sole producer) -- see
+# docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md.
 
 @dataclass
 class ManifestSourceFingerprint:
@@ -92,135 +78,6 @@ class ManifestSourceFingerprint:
 
     def to_dict(self) -> dict:
         return {"path": self.path, "sha256": self.sha256}
-
-
-@dataclass
-class StructuralAnchor:
-    stable_key: str
-    heading_text: str
-    heading_level: int
-    occurrence: int
-    source_heading_path: list
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "StructuralAnchor":
-        return cls(
-            stable_key=_require(data, "stable_key"),
-            heading_text=_require(data, "heading_text"),
-            heading_level=_require(data, "heading_level"),
-            occurrence=_require(data, "occurrence"),
-            source_heading_path=list(_require(data, "source_heading_path")),
-        )
-
-    def to_dict(self) -> dict:
-        return {
-            "stable_key": self.stable_key,
-            "heading_text": self.heading_text,
-            "heading_level": self.heading_level,
-            "occurrence": self.occurrence,
-            "source_heading_path": list(self.source_heading_path),
-        }
-
-
-@dataclass
-class Confirmation:
-    status: str  # "draft" | "confirmed"
-    confirmed_by: str
-    confirmed_at: str
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "Confirmation":
-        return cls(
-            status=_require(data, "status"),
-            confirmed_by=_require(data, "confirmed_by"),
-            confirmed_at=_require(data, "confirmed_at"),
-        )
-
-    def to_dict(self) -> dict:
-        return {
-            "status": self.status,
-            "confirmed_by": self.confirmed_by,
-            "confirmed_at": self.confirmed_at,
-        }
-
-
-# ---------------------------------------------------------------------------
-# Section 6.2 — ConversionPlan
-# ---------------------------------------------------------------------------
-
-@dataclass
-class ConversionPlan:
-    schema_version: str
-    plan_id: str
-    source: SourceFingerprint
-    strategy: str
-    chunk_level: int
-    chunk_anchors: list  # list[StructuralAnchor]
-    content_type: str
-    template_profile: str
-    confirmation: Confirmation
-    analysis_warnings: list = field(default_factory=list)
-    # Human-reviewable, confirmed topic-root set for the "grouped" strategy
-    # (Task 18 mixed-level logical-root detection): list of
-    # {"source_heading_path": [...], "occurrence": int} dicts identifying
-    # which structural anchors are topic-root physical boundaries. None
-    # for plans that never proposed/confirmed a root set (ungrouped
-    # strategies, or older plans predating this field) -- convert falls
-    # back to recomputing the default heuristic in that case. When
-    # present, convert MUST consume this set as-is rather than
-    # independently re-deriving root classification from heading levels.
-    confirmed_topic_roots: Optional[list] = None
-    # Human-reviewable, confirmed media-disposition records (general media
-    # classification/disposition mechanism, Task 18): list of dicts shaped
-    # like `{"source_media_id", "source_position", "source_hash",
-    # "media_type", "classification", "disposition", "canonical_inclusion",
-    # "publication_inclusion", "derived_asset_allowed", "reason",
-    # "decision_authority", "requires_alt_text"}` -- see
-    # scripts/media_disposition.py for the classification/disposition
-    # vocabularies and `plans.apply_media_decision` for how a proposed
-    # ("requires-human-review") record becomes a confirmed one before
-    # `confirm_plan`. None for plans that never proposed any (e.g. a
-    # document with no preamble media, or a plan predating this field).
-    media_decisions: Optional[list] = None
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "ConversionPlan":
-        schema_version = _check_schema_version(data, CONVERSION_PLAN_SCHEMA_VERSION, "ConversionPlan")
-        return cls(
-            schema_version=schema_version,
-            plan_id=_require(data, "plan_id"),
-            source=SourceFingerprint.from_dict(_require(data, "source")),
-            strategy=_require(data, "strategy"),
-            chunk_level=_require(data, "chunk_level"),
-            chunk_anchors=[
-                StructuralAnchor.from_dict(a) for a in _require(data, "chunk_anchors")
-            ],
-            content_type=_require(data, "content_type"),
-            template_profile=_require(data, "template_profile"),
-            confirmation=Confirmation.from_dict(_require(data, "confirmation")),
-            analysis_warnings=list(_require(data, "analysis_warnings")),
-            confirmed_topic_roots=data.get("confirmed_topic_roots"),
-            media_decisions=data.get("media_decisions"),
-        )
-
-    def to_dict(self) -> dict:
-        result = {
-            "schema_version": self.schema_version,
-            "plan_id": self.plan_id,
-            "source": self.source.to_dict(),
-            "strategy": self.strategy,
-            "chunk_level": self.chunk_level,
-            "chunk_anchors": [a.to_dict() for a in self.chunk_anchors],
-            "content_type": self.content_type,
-            "template_profile": self.template_profile,
-            "confirmation": self.confirmation.to_dict(),
-            "analysis_warnings": list(self.analysis_warnings),
-        }
-        if self.confirmed_topic_roots is not None:
-            result["confirmed_topic_roots"] = self.confirmed_topic_roots
-        if self.media_decisions is not None:
-            result["media_decisions"] = self.media_decisions
-        return result
 
 
 # ---------------------------------------------------------------------------

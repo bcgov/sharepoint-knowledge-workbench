@@ -15,7 +15,7 @@ from pathlib import Path
 import pytest
 
 import cli
-import contracts
+from plan_schema import analysis_plan as contracts
 import convert as convert_module
 
 

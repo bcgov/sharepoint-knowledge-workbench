@@ -31,6 +31,7 @@ import pytest
 
 import atomic_output
 import contracts
+from plan_schema import analysis_plan as plan_contracts
 import package as package_module
 import canonical_package as canonical_package_module
 from renderers import protocol
@@ -471,7 +472,7 @@ def test_end_to_end_render_of_small_single_fixture(tmp_path):
 
     analysis_dir = tmp_path / "analysis"
     analyze_structure.analyze_document(SMALL_SINGLE_DOCX, analysis_dir)
-    draft = contracts.ConversionPlan.from_dict(
+    draft = plan_contracts.ConversionPlan.from_dict(
         json.loads((analysis_dir / "conversion-plan.draft.json").read_text())
     )
     confirmed = plans.confirm_plan(draft, confirmed_by="test-suite")

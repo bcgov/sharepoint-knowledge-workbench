@@ -22,7 +22,7 @@ from chunking import (
     reconcile_anchors,
     reconcile_and_slice,
 )
-from contracts import StructuralAnchor
+from plan_schema.analysis_plan import StructuralAnchor
 
 
 def _anchor_from_heading(h: dict) -> StructuralAnchor:

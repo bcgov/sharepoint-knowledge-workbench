@@ -20,6 +20,13 @@ import validate_canonical
 import canonical_package as canonical_package_module
 from renderers.multipage_markdown import MultipageMarkdownRenderer
 
+# Compatibility shim (Phase 4.5 Wave 3, retire per wave-1-decisions.json):
+# ConversionPlan/StructuralAnchor/SourceFingerprint/Confirmation and
+# compute_plan_id now live in the installed `knowledge-analysis` package --
+# see docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md.
+from plan_schema import analysis_plan as plan_contracts  # noqa: E402
+import plan_hashing  # noqa: E402
+
 # 1x1 transparent PNG (base64) -> bytes
 _ONE_PX_PNG = base64.b64decode(
     b"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
@@ -28,18 +35,18 @@ _ONE_PX_PNG = base64.b64decode(
 _FIXTURE_SOURCE_SHA256 = "2" * 64
 
 
-def _build_fixture_plan() -> "contracts.ConversionPlan":
-    anchor = contracts.StructuralAnchor(
+def _build_fixture_plan() -> "plan_contracts.ConversionPlan":
+    anchor = plan_contracts.StructuralAnchor(
         stable_key="intro--abc12345",
         heading_text="Introduction",
         heading_level=1,
         occurrence=1,
         source_heading_path=["Introduction"],
     )
-    plan = contracts.ConversionPlan(
-        schema_version=contracts.CONVERSION_PLAN_SCHEMA_VERSION,
+    plan = plan_contracts.ConversionPlan(
+        schema_version=plan_contracts.CONVERSION_PLAN_SCHEMA_VERSION,
         plan_id="",
-        source=contracts.SourceFingerprint(
+        source=plan_contracts.SourceFingerprint(
             path="hand-authored", sha256=_FIXTURE_SOURCE_SHA256, size_bytes=0
         ),
         strategy="chunked",
@@ -47,13 +54,13 @@ def _build_fixture_plan() -> "contracts.ConversionPlan":
         chunk_anchors=[anchor],
         content_type="manual",
         template_profile="source-structure-v1",
-        confirmation=contracts.Confirmation(
+        confirmation=plan_contracts.Confirmation(
             status="confirmed",
             confirmed_by="fixture",
             confirmed_at="2026-01-01T00:00:00Z",
         ),
     )
-    plan.plan_id = hashing.compute_plan_id(plan)
+    plan.plan_id = plan_hashing.compute_plan_id(plan)
     return plan
 
 

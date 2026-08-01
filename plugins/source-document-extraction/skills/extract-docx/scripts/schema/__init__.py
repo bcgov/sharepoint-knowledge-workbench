@@ -1,0 +1,1 @@
+../../../../scripts/schema/__init__.py

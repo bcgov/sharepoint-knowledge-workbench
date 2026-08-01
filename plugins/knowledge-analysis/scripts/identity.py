@@ -28,7 +28,7 @@ slug/hash logic.
 import re
 import unicodedata
 
-from hashing import content_hash
+from plan_hashing import content_hash
 
 _HASH_LENGTH = 8
 
