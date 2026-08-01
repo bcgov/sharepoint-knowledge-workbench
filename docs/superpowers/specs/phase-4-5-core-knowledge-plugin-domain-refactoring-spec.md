@@ -595,9 +595,11 @@ Plugin manifests must declare:
 
 ## 13. Plugin Manifests and Marketplace Model
 
-### Manifest Structure
+> **Amendment (2026-08-01, pre-planning-approval, recorded in the Specification Revision History at the end of this document):** The original manifest diagram below (`scripts/` directly on the plugin root, no packaging) was reviewed against this repository's actual Python conventions and found insufficient to prove independent installability — a requirement of spec §23 Criteria 4-5. §13b below amends the structure to a real `src/`-layout, `pyproject.toml`-based installable package per plugin, distinct from the plugin's Claude-Code distribution identity. This amendment was applied to the specification **before** implementation-plan approval, not deferred to Wave 1 execution.
 
-Each plugin uses the established repository convention:
+### Manifest Structure (Claude Code plugin metadata — unchanged by this amendment)
+
+Each plugin uses the established repository convention for its **Claude Code plugin identity** (skills, `plugin.json`, `plugin.yaml`):
 
 ```
 plugins/<plugin-name>/
@@ -610,11 +612,13 @@ plugins/<plugin-name>/
 │   │   └── SKILL.md
 │   └── <skill-2>/
 │       └── SKILL.md
-├── scripts/
+├── src/<python_package_name>/    # amended — see §13b; NOT bare scripts/
 ├── tests/
 ├── fixtures/
 └── references/
 ```
+
+The plugin's **Claude Code identity** (`plugins/<plugin-name>/`, hyphenated) and its **Python import package** (`src/<python_package_name>/`, underscored) are two distinct namespaces — see §13b.
 
 **plugin.json fields** (inspected from current plugin, Phase 4.5 maintains compatibility). The `version` and contract-version values below are **illustrative placeholders, not approved values** — see `REQUIRES_HUMAN_DECISION_AFTER_WAVE_0` in the Plugin Version Starting Values section immediately below, and `PROVISIONAL_CONTRACT_VERSION` in §12:
 
@@ -670,6 +674,76 @@ Each of the four Phase 4.5 plugins' skills are expected to be `IMPLEMENTED` at P
 ```
 
 Do not invent this field's exact schema location without confirming the repository's plugin loader supports arbitrary per-skill metadata — Wave 1 must verify and, if unsupported, document the status in the plugin's README skill table instead (GENERATED_REFERENCE category, §17).
+
+### 13b. Python Packaging and Contract Distribution Model (amendment)
+
+**This section replaces any earlier implication that a plugin's `scripts/` directory, made importable via `sys.path` manipulation in a test `conftest.py`, satisfies the independent-installability requirement of §23 Criteria 4-5.** A test passing because pytest's `conftest.py` inserted a directory onto `sys.path` proves the code runs inside a checkout under a custom path setup — it does not prove the plugin can be built, installed, and imported as an independent Python distribution outside this monorepo, which is what "independently installable" means.
+
+**Plugin distribution ID vs. Python import package — two distinct namespaces:**
+
+| Plugin distribution ID (Claude Code identity, hyphenated) | Python import package (underscored) |
+|---|---|
+| `source-document-extraction` | `source_document_extraction` |
+| `knowledge-analysis` | `knowledge_analysis` |
+| `canonical-knowledge` | `canonical_knowledge` |
+| `knowledge-publication` | `knowledge_publication` |
+
+**Required layout per plugin (`src/`-layout, matching standard Python packaging practice):**
+
+```
+plugins/source-document-extraction/
+├── .claude-plugin/
+│   └── plugin.json
+├── plugin.yaml
+├── pyproject.toml
+├── src/
+│   └── source_document_extraction/
+│       ├── __init__.py
+│       ├── extraction.py
+│       └── ...
+├── skills/
+│   └── extract-docx/
+│       └── SKILL.md
+└── tests/
+    ├── unit/
+    └── fixtures/
+```
+
+**`conftest.py` may contain test fixtures only.** Application/production imports (`import source_document_extraction.extraction`) must work after the package is installed (e.g. `pip install -e .` or a built wheel), with no `sys.path` manipulation required. This is the executable proof of independent installability.
+
+**Public contracts — independently distributable, not repository-root-discovered:**
+
+Public contract schemas (dataclasses + `validate()` functions, zero domain logic) are packaged as their own independently installable Python distribution, provisionally:
+
+```
+contracts/python/
+├── pyproject.toml
+└── src/
+    └── knowledge_workbench_contracts/
+        ├── __init__.py
+        ├── normalized_source_document.py
+        ├── analysis_plan.py
+        ├── canonical_package.py
+        ├── publication_map.py
+        └── rendered_output_profile.py
+```
+
+The exact distribution/import name (`knowledge_workbench_contracts` above) is provisional, subject to Wave 1's collision and naming review. **Requirements, non-negotiable:**
+
+- Unique import namespace, not owned by any of the four domain plugins.
+- Zero domain implementation logic — schema/dataclass validation only.
+- Independently versioned (contract version, separate from any plugin version — see §12).
+- Buildable into a wheel and independently installable.
+- Runtime code that imports it does **not** perform a repository-root lookup or upward directory walk — it is a declared package dependency, resolved through normal Python import machinery after installation, exactly like any third-party dependency.
+- Each of the four domain plugins declares this contracts distribution as a dependency in its own `pyproject.toml`; a domain plugin never imports another domain plugin's implementation package under any circumstance, including via the contracts distribution as an indirection.
+
+**Repository-level fixtures remain separate from the installable distributions:**
+
+`tests/contracts/fixtures/` (repository root) remains the authoritative, human-reviewed evidence used for monorepo-level integration testing (spec §14 Tier 2/3) — it is not itself installed or shipped. A plugin's own `tests/fixtures/` (packaged with that plugin's test suite) carries the minimal fixtures that plugin's isolated, installed test run actually needs; these may be generated from (but are not identical storage to) the repository-level fixtures.
+
+**Repository-root discovery tooling is repository-only, never runtime:** any `find_repo_root()`-style helper is confined to `tools/phase-4-5-core-plugin-refactoring/` for use by monorepo-level scripts and CI, and is explicitly prohibited from being imported by any plugin's `src/` (production) code or by the contracts distribution.
+
+**Isolated-install proof (required gate, detailed in the implementation plan):** each plugin's wheel is built, installed into a clean virtual environment alongside only its declared dependencies (including the contracts distribution), and its tests plus at least one public-API call are exercised outside pytest's `conftest.py` machinery — proving the package, not merely the checkout, is independently usable. A combined-environment test installs all four plugin distributions together to detect namespace or dependency collisions before any wave closes.
 
 ### Marketplace Model
 
@@ -1916,3 +1990,9 @@ Phase 4.5 is a bounded, evidence-backed, nine-wave refactoring that decomposes a
 6. Phase 4 exit evidence confirmed accepted and merged to main (`NOT_REVERIFIED` as of this pass)
 7. Fresh session, dedicated Phase 4.5 branch/worktree created
 8. `start-here.md` updated to record planning readiness before execution begins
+
+---
+
+## Specification Revision History
+
+**Revision 3 (2026-08-01, pre-plan-approval amendment):** Implementation-plan review (Revision 2 of the plan) surfaced that a `sys.path`/`conftest.py`-based packaging model does not satisfy this specification's own §23 Criteria 4-5 (independent testability and installability). Amended §13 (renamed the manifest diagram's `scripts/` to `src/<python_package_name>/`) and added §13b (Python Packaging and Contract Distribution Model), establishing: (1) each plugin has a distinct hyphenated distribution ID and underscored Python import package name; (2) a `src/`-layout with `pyproject.toml` per plugin, buildable and installable as a real wheel; (3) public contracts as their own independently installable distribution (`contracts/python/`, provisional import name `knowledge_workbench_contracts`), never requiring repository-root discovery at runtime; (4) `find_repo_root()`-style tooling confined to `tools/`, explicitly prohibited from plugin production code. This amendment was applied **before** implementation-plan approval — the plan must conform to it, not the reverse.
