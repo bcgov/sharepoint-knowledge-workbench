@@ -1,99 +1,103 @@
 # Phase 4.5 Target Architecture
 
-**Date:** 2026-08-01 (Wave 1)
-**Status:** Reflects the Wave 1-approved decisions in `docs/superpowers/plans/phase-4-5-evidence/wave-1-decisions.json`. Waves 2-5 implement this; nothing described here has been physically extracted yet — `plugins/docx-to-content/` remains the single running plugin until Wave 8.
+**Date:** 2026-08-01 (updated end of Wave 6)
+**Status:** Reflects the AS-BUILT architecture after Waves 1-6. The original Wave 1 model
+described a shared `knowledge_workbench_contracts`/`knowledge_workbench_runtime` distribution
+pair — that model was corrected mid-Wave-2 (see `wave-2-contract-materialization-correction.md`
+and `wave-2-flat-scripts-correction.md`) and no longer reflects reality. **No shared contracts or
+runtime distribution exists or was ever published.** Each plugin materializes its own
+contract/runtime code.
 
-## Distribution graph
+## As-built distribution graph
 
 ```
-                         ┌─────────────────────────────────┐
-                         │   knowledge_workbench_contracts  │
-                         │   (types, schemas, validation     │
-                         │    only — no runtime logic)       │
-                         │                                    │
-                         │  normalized_source_document.py    │
-                         │  analysis_plan.py                 │
-                         │  canonical_package.py              │
-                         │  publication_map.py                │
-                         │  rendered_output_profile.py        │
-                         │  tree_hash.py  repo_root.py*       │
-                         └───────────────┬────────────────────┘
-                                         │ declared dependency
-              ┌──────────────────────────┼──────────────────────────┬──────────────────────────┐
-              │                          │                          │                           │
-              ▼                          ▼                          ▼                           ▼
 ┌───────────────────────┐  ┌───────────────────────┐  ┌───────────────────────┐  ┌───────────────────────┐
 │ source-document-       │  │ knowledge-analysis     │  │ canonical-knowledge    │  │ knowledge-publication  │
-│ extraction              │  │                         │  │                         │  │                         │
-│                          │  │                         │  │                         │  │                         │
-│ extract_and_normalize() │→│ recommend_from_         │→│ build_canonical_        │→│ render()                │
-│                          │  │  normalized()           │  │  package()              │  │                         │
-│ owns (post-split):       │  │ owns (post-split):      │  │ owns:                   │  │ owns:                   │
-│ - _run_pandoc_raw        │  │ - topic-boundary        │  │ - convert.py (minus     │  │ - renderers/*            │
-│ - heading parsing        │  │   reasoning             │  │   run_pandoc_extraction)│  │                          │
-│ - source statistics      │  │ - recommend_strategy    │  │ - canonical_package.py  │  │ Declares:                │
-│ - defect detection       │  │ - analysis-plan          │  │ - chunking/dispositions │  │ - contracts              │
-│ - dependencies.py        │  │   generation             │  │ - identity/media_       │  │ - runtime (own thin      │
-│ - emf_convert.py         │  │ - topic_grouping.py     │  │   disposition            │  │   generator-info)       │
-│ - pandoc_fixes/* (6)     │  │                          │  │ - publication_map.py     │  │                          │
-│ - path_safety.py         │  │ Declares:                │  │ - validate_canonical.py  │  │                          │
-│ - pandoc_validate.py     │  │ - contracts              │  │ - hashing.py             │  │                          │
-│ - convert.py's           │  │                          │  │ - own thin generator-info│  │                          │
-│   run_pandoc_extraction  │  │                          │  │                          │  │                          │
-│   (unification with      │  │                          │  │ Declares:                │  │                          │
-│   _run_pandoc_raw is a   │  │                          │  │ - contracts               │  │                          │
-│   Wave 2 implementation  │  │                          │  │ - runtime                │  │                          │
-│   decision)              │  │                          │  │                          │  │                          │
-│                          │  │                          │  │                          │  │                          │
-│ Declares: contracts       │  │                          │  │                          │  │                          │
-└───────────┬──────────────┘  └──────────────────────────┘  └────────────┬─────────────┘  └────────────┬─────────────┘
-            │                                                              │                             │
-            └──────────────────────────────┬───────────────────────────────┴──────────────┬──────────────┘
-                                            │                                               │
-                                            ▼                                               ▼
-                         ┌─────────────────────────────────┐         ┌─────────────────────────────────┐
-                         │   knowledge_workbench_runtime     │         │   plugins/docx-to-content         │
-                         │   (small deterministic runtime     │         │   (retained through Wave 7/8       │
-                         │    primitives — NOT a general       │         │    as a compatibility layer)       │
-                         │    shared-utility dumping ground)  │         │                                    │
-                         │                                    │         │   cli.py — RETAINED, not moved:    │
-                         │  atomic_output.py                  │         │   - cmd_analyze (calls extract_    │
-                         │    create_staging_dir()            │         │     and_normalize + recommend_     │
-                         │    promote()                       │         │     from_normalized in sequence)   │
-                         │                                    │         │   - cmd_confirm / cmd_convert /    │
-                         │  (build_generator_info/             │         │     cmd_render (compatibility      │
-                         │   write_generator_info NOT here —  │         │     wrappers over the new           │
-                         │   depend on dependencies.py,        │         │     packages)                      │
-                         │   duplicated per-domain instead)   │         │                                    │
-                         └─────────────────────────────────┘         └─────────────────────────────────┘
+│ extraction (Wave 2)    │  │ (Wave 3)               │  │ (Wave 4)               │  │ (Wave 5)               │
+│                        │  │                        │  │                        │  │                        │
+│ extraction.py:         │  │ analysis.py:           │  │ canonical_knowledge.py:│  │ knowledge_publication  │
+│  extract_and_          │  │  recommend_from_       │  │  build_canonical_      │  │  .py: render()         │
+│  normalize()           │  │  normalized()          │  │  package()             │  │                        │
+│                        │  │                        │  │                        │  │                        │
+│ Produces:               │  │ Produces:              │  │ Produces:              │  │ Produces:              │
+│  normalized-source-    │  │  analysis-plan          │  │  canonical-package,    │  │  rendered-output-      │
+│  document               │  │  (schema/analysis_plan │  │  publication-map        │  │  profile               │
+│  (schema/normalized_    │  │   .py)                 │  │  (canonical_schema/)    │  │  (render_result.py)    │
+│  source_document.py)    │  │                        │  │                        │  │                        │
+│                        │  │ Consumes:               │  │ Consumes:              │  │ Consumes:              │
+│                        │  │  normalized-source-     │  │  analysis-plan          │  │  canonical-package,    │
+│                        │  │  document (local        │  │  (local consumer copy: │  │  publication-map        │
+│                        │  │  parsing only, no       │  │  canonical_schema/      │  │  (local consumer copy: │
+│                        │  │  cross-plugin import)   │  │  analysis_plan.py)     │  │  canonical_schema/)    │
+│                        │  │                        │  │                        │  │                        │
+│ pip install -e         │  │ pip install -e         │  │ pip install -e         │  │ pip install -e         │
+│  plugins/source-        │  │  plugins/knowledge-    │  │  plugins/canonical-    │  │  plugins/knowledge-    │
+│  document-extraction    │  │  analysis               │  │  knowledge              │  │  publication            │
+│                        │  │                        │  │                        │  │                        │
+│ Zero dependency on any  │  │ Zero dependency on any │  │ Zero dependency on any │  │ Zero dependency on any │
+│ other workbench dist.   │  │ other workbench dist.  │  │ other workbench dist.  │  │ other workbench dist.  │
+└───────────┬────────────┘  └───────────┬────────────┘  └───────────┬────────────┘  └───────────┬────────────┘
+            │                            │                            │                            │
+            └────────────────────────────┴──────────────┬─────────────┴────────────────────────────┘
+                                                          │  (compatibility-shim bare imports ONLY;
+                                                          │   retired in Wave 7/8)
+                                                          ▼
+                                     ┌─────────────────────────────────────┐
+                                     │   plugins/docx-to-content            │
+                                     │   (transitional, retained through   │
+                                     │    Wave 7/8 as an orchestration      │
+                                     │    layer over the four real plugins) │
+                                     │                                       │
+                                     │   cli.py — analyze/confirm/convert/  │
+                                     │   render/run subcommands, still the  │
+                                     │   only entry point end users invoke  │
+                                     │   directly; delegates to the four    │
+                                     │   installed plugins via bare-import  │
+                                     │   compatibility shims, documented    │
+                                     │   inline and retired per             │
+                                     │   wave-1-decisions.json.             │
+                                     └───────────────────────────────────────┘
 ```
 
-`*` `repo_root.py` is exported for repository-tooling use only (Wave 6 integration-evidence
-generation) — never imported by any plugin's production code or by `knowledge_workbench_runtime`,
-enforced by `tools/phase-4-5-core-plugin-refactoring/dependency_boundary.py`.
+## Key corrections from the original (Wave 1) model
 
-## Skill disposition (approved, Wave 1 — reassessed in Wave 7, not pre-decided)
+1. **No shared distribution.** The Wave 1 plan's `knowledge_workbench_contracts` (types/schemas)
+   and `knowledge_workbench_runtime` (shared runtime primitives) packages were never built as
+   real, separately-installed distributions — the mid-Wave-2 correction replaced them with each
+   contract's producer plugin materializing its own authoritative schema, and each plugin carrying
+   plugin-local **consumer copies** (kept in sync by hand, documented per-file) of any contract it
+   only consumes. `contracts/python/` and `runtime/python/` were deleted entirely.
+2. **Flat `scripts/` layout, not `src/<import_name>/`.** Every plugin uses bare top-level module
+   names (`scripts/extraction.py`, not `scripts/source_document_extraction/extraction.py`),
+   matching `docx-to-content`'s own pre-existing convention. Cohesive multi-file families are
+   grouped into a subfolder (`scripts/pandoc/`, `scripts/canonical_schema/`,
+   `scripts/renderers/`), never a package named after the plugin itself.
+3. **Local duplication over cross-plugin implementation imports.** Per spec Section 11, a real
+   domain plugin never imports another domain plugin's implementation package. Where two plugins
+   both need the same small piece of logic (e.g. `canonical-knowledge` and `knowledge-publication`
+   both need `canonical_package.py`'s loader, `dispositions.py`, `hashing.py`,
+   `publication_map.py`, `atomic_output.py`), each plugin carries its own verbatim (or
+   near-verbatim, with plugin-identity fields updated) copy — never a shared distribution. Every
+   instance of this is documented in that wave's own `wave-N-*-split-decision.md`.
+4. **A real process-isolation boundary this duplication introduces.** Because
+   `canonical-knowledge` and `knowledge-publication` both use the exact same bare names for their
+   local duplicates, importing both by bare name in ONE long-lived Python interpreter causes a
+   real namespace collision (only one plugin's copy of each shared name survives on `sys.path`).
+   This is by design, not a defect: each plugin is meant to be invoked as its own independently
+   installed skill/CLI process, never as two simultaneously-imported bare-name packages sharing
+   one interpreter. `combined_install_check.py` (Wave 6) proves each plugin's own test suite still
+   passes when all four are co-installed in one venv (each run in its own subprocess); the
+   cross-plugin golden-master integration test
+   (`tests/integration/test_full_ceis_pipeline_across_plugins.py`) proves the real
+   `canonical-knowledge → knowledge-publication` handoff also works correctly, by running each
+   stage in its own subprocess.
 
-| Skill | Disposition |
-|---|---|
-| `analyze-document` | `TEMPORARY_COMPATIBILITY_WRAPPER` |
-| `convert-document` | `TEMPORARY_COMPATIBILITY_WRAPPER` |
-| `render-content` | `TEMPORARY_COMPATIBILITY_WRAPPER` |
-| `orchestrate-conversion` | `RETAINED_PUBLIC_ORCHESTRATOR` — **not** retired in Wave 6, unlike the plan's original proposal. Preserves the `analyze → human confirmation → canonical construction → render` sequence as the intentional public workflow entry point. Orchestration only, no domain logic. |
+## `docx-to-content`'s remaining role (through Wave 7/8)
 
-All four are reassessed in Wave 7 using the final consumer scan — this diagram records the Wave 1 approval, not a Wave 7 retirement decision.
-
-## What Wave 0's 22 flagged edges resolve to
-
-Of the 22 edges Wave 0 flagged `REQUIRES_HUMAN_DECISION` (touching `analyze_structure.py`, `convert.py`, or `atomic_output.py` — all three now have approved dispositions above), **17 are resolved** by this wave's decisions (visible in `wave-0-classified-edges.json` as `PROVISIONALLY_ACCEPTED`, with `proposed_source_domain`/`proposed_target_domain` still literally `UNRESOLVED` at whole-script granularity where the split is function-level, since a script-level dependency graph cannot represent a per-function split — Wave 2's implementation resolves the concrete new-file location). **5 edges remain genuinely open**, not covered by anything approved this round — real cross-domain boundary questions deferred to the relevant extraction wave:
-
-- `package.py -> topic_grouping.py`
-- `topic_grouping.py -> identity.py`
-- `renderers/protocol.py -> canonical_package.py` (the renderer-reads-canonical-internals question, flagged since Wave 0)
-- `renderers/validate_rendered.py -> path_safety.py`
-- `validate_canonical.py -> pandoc_validate.py`
-
-## Non-goals recorded in this wave
-
-- `knowledge_workbench_runtime` is explicitly **not** a general-purpose shared-utility distribution — its scope is `atomic_output.py`'s two atomicity primitives only, per spec §13c. Adding anything else to it requires the same kind of explicit human decision this wave required for `atomic_output.py` itself.
-- Marketplace adoption remains `NOT_APPLICABLE_WITH_DECISION` — no marketplace catalog is created in Phase 4.5.
+`docx-to-content` still owns `cli.py` (the only end-user entry point) and `analyze_structure.py`
+(the orchestrator that stitches `source-document-extraction` + `knowledge-analysis` together for
+the `analyze` subcommand, plus the preamble-media-decision merge). Every other conversion-pipeline
+module it used to own directly now resolves via a documented, `pip install -e`-dependent
+compatibility-shim bare import to one of the four real plugins. Wave 7 evaluates which of these
+shims (and the skills that wrap them) can be retired; Wave 8 is the final `docx-to-content`
+decommission decision.
