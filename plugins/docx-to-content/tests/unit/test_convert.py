@@ -28,7 +28,7 @@ from pathlib import Path
 import pytest
 
 import analyze_structure
-import contracts
+from plan_schema import analysis_plan as contracts
 import convert
 import package
 import plans

@@ -20,6 +20,7 @@ import json
 import pytest
 
 import contracts
+from plan_schema import analysis_plan as plan_contracts
 import package
 import topic_grouping
 from chunking import ChunkSlice, SlicedDocument
@@ -28,7 +29,7 @@ from plans import build_draft_plan, confirm_plan
 
 
 def _anchor(path, occurrence=1, level=1):
-    return contracts.StructuralAnchor(
+    return plan_contracts.StructuralAnchor(
         stable_key=make_chunk_id(path, occurrence),
         heading_text=path[-1],
         heading_level=level,
@@ -38,7 +39,7 @@ def _anchor(path, occurrence=1, level=1):
 
 
 def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked", confirmed_topic_roots=None):
-    source_fp = contracts.SourceFingerprint(
+    source_fp = plan_contracts.SourceFingerprint(
         path="sourcedocuments/widget.docx", sha256=source_sha256, size_bytes=123
     )
     draft = build_draft_plan(

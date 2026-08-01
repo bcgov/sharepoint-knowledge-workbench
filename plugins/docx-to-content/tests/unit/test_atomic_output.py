@@ -25,7 +25,7 @@ from unittest import mock
 import pytest
 
 import atomic_output
-import contracts
+from plan_schema import analysis_plan as contracts
 import convert
 import dependencies
 import validate_canonical

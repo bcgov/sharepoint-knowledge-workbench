@@ -1,0 +1,21 @@
+{
+    "name": "knowledge-analysis",
+    "version": "0.1.0-alpha.1",
+    "description": "Semantic structure analysis: topic-boundary reasoning, chunking-strategy recommendation, and draft conversion-plan construction from a normalized-source-document.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/manual-conversion-poc",
+    "license": "MIT",
+    "keywords": [
+        "topic-grouping",
+        "chunking-strategy",
+        "draft-plan",
+        "structure-analysis"
+    ],
+    "capabilities": [
+        "topic-boundary-detection",
+        "chunking-strategy-recommendation",
+        "draft-plan-construction"
+    ]
+}

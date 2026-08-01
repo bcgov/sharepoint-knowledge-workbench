@@ -47,7 +47,7 @@ _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
-import analyze_structure  # noqa: E402
+from heading_parsing import iter_heading_matches  # noqa: E402
 import identity  # noqa: E402
 
 
@@ -118,7 +118,7 @@ def parse_headings_with_lines(markdown_text: str) -> list:
     heading's recomputed stable_key is a direct, valid identity check.
     """
     headings = []
-    for match, level, text, path, occurrence in analyze_structure.iter_heading_matches(
+    for match, level, text, path, occurrence in iter_heading_matches(
         markdown_text
     ):
         line_no = markdown_text.count("\n", 0, match.start())
