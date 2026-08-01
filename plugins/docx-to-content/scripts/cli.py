@@ -30,11 +30,9 @@ Exit codes:
 Must be run with `plugins/docx-to-content/` as the working directory (or
 with that directory on PYTHONPATH) so `python -m scripts.cli` resolves the
 `scripts` package. This file also inserts its own directory onto
-sys.path at import time so its plain top-level imports (`import
-dependencies`, `import contracts`) work the same way whether it is loaded
-as `scripts.cli` (via `-m`) or as a bare `cli` module (as tests do, via
-tests/conftest.py's sys.path setup) — matching the import convention
-already used by contracts.py/hashing.py/identity.py in this package.
+sys.path at import time so its plain top-level imports work the same way
+whether it is loaded as `scripts.cli` (via `-m`) or as a bare `cli` module
+(as tests do, via tests/conftest.py's sys.path setup).
 """
 
 import argparse
@@ -47,16 +45,25 @@ if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
 import analyze_structure  # noqa: E402
-import contracts  # noqa: E402
 import convert  # noqa: E402
 import dependencies  # noqa: E402
 import package  # noqa: E402
 import canonical_package  # noqa: E402
-import plans  # noqa: E402
-import topic_grouping  # noqa: E402
 from renderers import multipage_markdown  # noqa: E402
 from renderers import protocol as renderer_protocol  # noqa: E402
 from renderers import validate_rendered  # noqa: E402
+
+# Compatibility shim (Phase 4.5 Wave 3, retire per wave-1-decisions.json):
+# plan construction/confirmation/verification and the analysis-plan
+# contract types now live in the installed `knowledge-analysis` package
+# (flat `scripts/` layout -- see
+# docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md).
+# Requires `knowledge-analysis` to be `pip install -e`'d into whatever
+# environment runs this plugin's tests -- a transition-only dependency,
+# removed in Wave 7/8.
+import plans  # noqa: E402
+import topic_grouping  # noqa: E402
+from plan_schema import analysis_plan as contracts  # noqa: E402
 
 
 EXIT_PASS = 0

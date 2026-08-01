@@ -1,4 +1,4 @@
-# Resume — Phase 1–4 Merged; Phase 4.5 Waves 0–2 COMPLETE (Wave 2 corrected mid-wave); Wave 3 authorized, not started
+# Resume — Phase 1–4 Merged; Phase 4.5 Waves 0–3 COMPLETE; Wave 4 authorized, not started
 
 > **Phase 4.5 Status (2026-08-01, end of session):** Executing the approved nine-wave plan
 > (`docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`) on
@@ -67,17 +67,48 @@
 >   `tools/phase-4-5-core-plugin-refactoring` 40/40 passed. `symlink_manager.py diagnose`: all links
 >   OK. **Not yet committed to git as of this note being written — commit immediately after this
 >   edit, in the same session.**
-> - **Wave 3 (knowledge-analysis):** AUTHORIZED TO START IN THE NEXT SESSION. **NOT STARTED.**
->   Consumes `normalized-source-document`, produces `analysis-plan` via
->   `recommend_from_normalized` — topic-boundary reasoning and `recommend_strategy` move out of
->   `analyze_structure.py` next; `analyze_structure.py`'s remaining `analyze_document`/
->   `AnalysisResult`/`recommend_strategy` are Wave 3's starting point. **Must implement the
->   corrected consumer-side contract pattern** (generated local copy of `normalized-source-document`'s
->   schema inside `knowledge-analysis`'s own flat `scripts/schema/`, hash-checked against
->   `source-document-extraction`'s authoritative copy — never a pip dependency on
->   `source-document-extraction`) **and the flat `scripts/` layout from the start** — read both
->   correction docs first, and grep every other plugin for any bare module/package name before
->   picking one (the `contracts` collision above is exactly the mistake to avoid repeating).
+> - **Wave 3 (knowledge-analysis):** ✓ COMPLETE (same session, direct execution — not yet
+>   independently reviewed). `plugins/knowledge-analysis/` extracted as a real,
+>   **standalone-installable** package with a flat `scripts/` layout from the start:
+>   `recommend_from_normalized(normalized_source_document: dict) -> dict` (analysis-plan v1),
+>   composing `identity.py`/`topic_grouping.py`/`plans.py` (moved **wholesale**, plus 4 of
+>   `contracts.py`'s 15 dataclasses — `SourceFingerprint`/`StructuralAnchor`/`Confirmation`/
+>   `ConversionPlan` — materialized as this plugin's own authoritative `plan_schema/analysis_plan.py`,
+>   since this plugin is the sole producer of `analysis-plan`). `docx-to-content/scripts/analyze_structure.py`
+>   rewritten as a pure compatibility orchestrator: composes the installed `source-document-extraction`
+>   + `knowledge-analysis` packages, merges in the still-local `media_disposition.py` proposal
+>   (unmoved, `canonical-knowledge` domain), writes both output files. Full decision record + two
+>   real bugs found and fixed (a `hashing` bare-name collision with `docx-to-content`'s own
+>   `hashing.py` — fixed by naming this plugin's module `plan_hashing.py`; an
+>   `analyze_structure.iter_heading_matches` re-export loss that broke `chunking.py` — fixed by
+>   importing directly from `heading_parsing`):
+>   `docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md`.
+>   **Plugin Self-Containment Gate passed**: `isolated_install_check.py --plugin knowledge-analysis
+>   --import-package analysis`, exit 0, zero sibling distribution installed or importable.
+>   Dependency-boundary check: zero violations. Test counts: `knowledge-analysis` 70/70
+>   passed (isolated, standalone); `docx-to-content` 393 passed/1 skipped (down from 452/1 — tests
+>   relocated, not lost); `source-document-extraction` unaffected, 78/78;
+>   `tools/phase-4-5-core-plugin-refactoring` 40/40 (after fixing a stale test-count threshold in
+>   `test_wave0_test_ledger.py`). `symlink_manager.py diagnose`: all 26 links OK. **Not yet
+>   committed to git as of this note being written — commit immediately after this edit, in the
+>   same session.**
+> - **Wave 4 (canonical-knowledge):** AUTHORIZED TO START IN THE NEXT SESSION. **NOT STARTED.**
+>   Consumes `analysis-plan` (confirmed), produces `canonical-package`/`publication-map` via
+>   `build_canonical_package`. Known File Inventory assigns it: `validate_canonical.py`,
+>   `package.py`, `canonical_package.py`, `chunking.py`, `dispositions.py`, `media_disposition.py`,
+>   `identity.py` (**a fresh copy** — Wave 3 already moved the analysis-side copy to
+>   `knowledge-analysis`; `chunking.py`'s reconciliation needs its own, since cross-plugin imports
+>   are prohibited), `publication_map.py`, `hashing.py` (the REMAINING `docx-to-content` one, for
+>   `content_hash`/`canonical_json_bytes` — check for bare-name collisions against
+>   `knowledge-analysis`'s `plan_hashing.py` and `source-document-extraction` before naming
+>   anything), plus `convert.py`'s canonical-knowledge half and `atomic_output.py` (materialized
+>   fresh, not from a shared runtime distribution — see the Wave 2 contract-materialization
+>   correction doc). `plans.py`'s `confirm_plan`/`verify_plan_against_source`/`verify_plan_integrity`/
+>   `require_confirmed` stayed in `knowledge-analysis` per Wave 3's decision — `canonical-knowledge`
+>   consumes a *confirmed* plan dict, it does not need those functions itself; read
+>   `wave-3-analysis-plan-split-decision.md` before assuming otherwise. **Grep every other plugin
+>   for any bare module/package name before picking one** — both Wave 2 (`contracts`/`schema`) and
+>   Wave 3 (`hashing`/`plan_hashing`) hit real collisions from skipping this.
 >
 > **Wave 1 accepted decisions (binding for Wave 2 onward):**
 > - `analyze_structure.py` ownership split approved: `source-document-extraction` owns every

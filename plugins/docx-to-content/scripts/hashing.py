@@ -10,13 +10,16 @@ separators=(",", ":"))`: sort_keys guarantees identical key ordering
 regardless of dict insertion order, and the compact separators remove
 whitespace variance. The same logical payload always produces byte-identical
 output.
+
+`compute_plan_id` (ConversionPlan-specific) moved to knowledge-analysis's
+own `hashing.py` in Phase 4.5 Wave 3, alongside the ConversionPlan type
+itself -- see
+docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md.
 """
 
 import hashlib
 import json
 from typing import Any
-
-from contracts import ConversionPlan
 
 
 def canonical_json_bytes(payload: Any) -> bytes:
@@ -29,25 +32,3 @@ def content_hash(canonical_json: bytes) -> str:
     """Return the lowercase hex SHA-256 digest of the given canonical JSON
     bytes (no `sha256:` prefix — callers prefix as needed)."""
     return hashlib.sha256(canonical_json).hexdigest()
-
-
-def compute_plan_id(plan: ConversionPlan) -> str:
-    """Compute a `sha256:`-prefixed content hash for a ConversionPlan.
-
-    Excludes:
-    - the `plan_id` field itself (it cannot depend on its own value), and
-    - `confirmation.confirmed_at` (a timestamp; per spec, timestamps must
-      not alter content hashes).
-
-    All other fields, including `confirmation.status` and
-    `confirmation.confirmed_by`, participate in the hash.
-    """
-    data = plan.to_dict()
-    data.pop("plan_id", None)
-    confirmation = data.get("confirmation")
-    if isinstance(confirmation, dict):
-        confirmation = dict(confirmation)
-        confirmation.pop("confirmed_at", None)
-        data["confirmation"] = confirmation
-    digest = content_hash(canonical_json_bytes(data))
-    return f"sha256:{digest}"

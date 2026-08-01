@@ -1,17 +1,19 @@
 """
-Unit/integration tests for scripts/analyze_structure.py and scripts/plans.py
-(Task 6): draft ConversionPlan generation, topic-grouping preview, and
-recommendation heuristics on top of `extract_and_normalize`'s observations.
+Unit/integration tests for scripts/analyze_structure.py: the compatibility
+orchestrator that composes the installed `source-document-extraction` and
+`knowledge-analysis` packages, merges in the local media-disposition
+proposal, and writes the analysis package to disk.
 
 Phase 4.5 Wave 2 note: the SOURCE_DOCUMENT_EXTRACTION-tagged tests that used
 to live in this file (heading/image/defect-signal/statistics assertions
 against raw extraction) moved to
-plugins/source-document-extraction/tests/unit/test_extraction.py per the
-Wave 0 test ledger and the approved analyze_structure.py split (see
-docs/superpowers/plans/phase-4-5-evidence/wave-1-analyze-structure-split-decision.md).
-What remains here is `analyze_document`'s own orchestration behavior
-(currently unmoved; slated for `knowledge-analysis` in Wave 3) --
-recommendation, topic-grouping preview, and draft-plan generation.
+plugins/source-document-extraction/tests/unit/test_extraction.py.
+
+Phase 4.5 Wave 3 note: recommendation/topic-grouping/draft-plan-construction
+logic moved to plugins/knowledge-analysis/tests/unit/test_analysis.py. What
+remains here is analyze_document's own orchestration behavior (composition +
+media-proposal merge + file writing), per
+docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md.
 
 Fixtures live in tests/fixtures/:
     small_single.md / small_single.docx        -> expected strategy "single"
@@ -24,7 +26,7 @@ Both fixtures were generated with:
 from pathlib import Path
 
 import analyze_structure
-import contracts
+from plan_schema import analysis_plan as contracts
 
 FIXTURES = Path(__file__).resolve().parent.parent / "fixtures"
 SMALL_SINGLE = FIXTURES / "small_single.docx"
@@ -76,9 +78,9 @@ def test_repeated_headings_recommends_chunked_strategy(tmp_path):
     assert result.report["recommendation"]["reasons"]
 
 
-def test_recommendation_constants_are_named_and_configurable():
-    assert isinstance(analyze_structure.MIN_HEADINGS_FOR_CHUNKING, int)
-    assert isinstance(analyze_structure.MIN_LINES_FOR_CHUNKING, int)
+# test_recommendation_constants_are_named_and_configurable moved to
+# knowledge-analysis/tests/unit/test_analysis.py -- MIN_HEADINGS_FOR_CHUNKING/
+# MIN_LINES_FOR_CHUNKING now live in that plugin's analysis.py.
 
 
 def test_no_ceis_literal_in_analyze_structure_source():

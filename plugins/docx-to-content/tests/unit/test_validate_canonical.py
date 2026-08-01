@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pytest
 
-import contracts
+from plan_schema import analysis_plan as contracts
 import hashing
 import package
 import validate_canonical as vc
