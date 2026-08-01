@@ -10,8 +10,8 @@ written, but no task touching this may run) / `MAY_DEFER` (safe to leave open th
 
 ## 1. Pilot site/library identity — resolved
 
-- **Decision:** resolved 2026-07-30 — site `AG-CSB-ITAU-CMAT-DEV`
-  (`https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV`), new document library named
+- **Decision:** resolved 2026-07-30 — site `AG-CSB-INTRANET-DEV`
+  (`https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV`), new document library named
   **`CEIS-Pilot-Knowledge`** (to be created via PnP `New-PnPList` per the write-exploration findings'
   confirmed scriptability, at Subphase 3.2 execution time — it does not exist yet as of this decision).
 - **Why it matters:** every downstream schema/reconciliation/upload step needs a real target.

@@ -5,7 +5,7 @@
 > tracking.
 
 **Goal:** Publish the complete 25-topic CEIS rendered publication into one governed, non-production
-SharePoint pilot library (`CEIS-Pilot-Knowledge` on `AG-CSB-ITAU-CMAT-DEV`) via package-only deployment,
+SharePoint pilot library (`CEIS-Pilot-Knowledge` on `AG-CSB-INTRANET-DEV`) via package-only deployment,
 proving metadata schema, source-of-truth, reconciliation, republish, rollback, rename/retirement, and
 governance behavior — with zero autonomous writes.
 
@@ -30,7 +30,7 @@ this plan's code.
 - TDD throughout: failing test first, per `.agent/rules/test-driven-development.md`.
 - Every SharePoint-side action a human performs is staged and reversible (`TEST-DO-NOT-USE-*` naming where
   applicable), per the write-exploration findings' staged-write protocol.
-- Site: `https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV`. Pilot library: `CEIS-Pilot-Knowledge`
+- Site: `https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV`. Pilot library: `CEIS-Pilot-Knowledge`
   (does not exist yet — created in Task 2 below). Reviewer/publisher: richard.fremmerlid (accepted pilot
   exception, both roles).
 - Real fixture package for all tests: `runs/ceis-manual-v2/canonical-content/` (manifest.json, 25 chunks,
@@ -101,7 +101,7 @@ git commit -m "docs(phase3): add schema-mapping document (Task 1)"
 
 - [ ] **Step 1 (human-performed, via PnP PowerShell — reuse the existing
   `tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1` connection pattern, i.e.
-  `Connect-PnPOnline -Url https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV -Interactive
+  `Connect-PnPOnline -Url https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV -Interactive
   -ForceAuthentication`):** Run `New-PnPList -Title "CEIS-Pilot-Knowledge" -Template DocumentLibrary`, then
   `Add-PnPField` once per column in Task 1's table (14 fields), matching the exact name/type from that
   table.

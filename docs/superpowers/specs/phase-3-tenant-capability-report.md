@@ -15,8 +15,8 @@ that acceptance gate, not the acceptance itself.
   `tools/phase-3-sharepoint-discovery/aspx-experiment/` — raw experiment artifacts underlying the write
   summary above.
 
-**Tenant/scope this report describes:** BC Gov dev site `AG-CSB-ITAU-CMAT-DEV`
-(`https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV`), app registration `ag.csb.cmat.interactive`
+**Tenant/scope this report describes:** BC Gov dev site `AG-CSB-INTRANET-DEV`
+(`https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV`), app registration `ag.csb.cmat.interactive`
 (intentionally manage-only — no permission-management rights). Findings below are scoped to this tenant,
 site, and permission profile; they are not a general SharePoint-platform claim.
 
