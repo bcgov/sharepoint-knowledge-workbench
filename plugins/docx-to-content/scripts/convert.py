@@ -49,16 +49,16 @@ import emf_convert  # noqa: E402
 import package  # noqa: E402
 import plans  # noqa: E402
 import validate_canonical  # noqa: E402
-from pandoc_fixes.attrs import strip_pandoc_attrs  # noqa: E402
-from pandoc_fixes.footnotes import clean_orphaned_footnotes  # noqa: E402
-from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
-from pandoc_fixes.images import fix_glued_images  # noqa: E402
-from pandoc_fixes.tables import fix_malformed_tables  # noqa: E402
-from pandoc_fixes.toc import strip_raw_toc  # noqa: E402
+from pandoc.attrs import strip_pandoc_attrs  # noqa: E402
+from pandoc.footnotes import clean_orphaned_footnotes  # noqa: E402
+from pandoc.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
+from pandoc.images import fix_glued_images  # noqa: E402
+from pandoc.tables import fix_malformed_tables  # noqa: E402
+from pandoc.toc import strip_raw_toc  # noqa: E402
 
 
 def apply_cleanup_pipeline(markdown_text: str) -> str:
-    """Apply the pandoc_fixes cleanup steps in the exact spec Section 7.2
+    """Apply the pandoc cleanup steps in the exact spec Section 7.2
     order: attrs -> heading-emphasis -> images -> toc -> tables ->
     footnotes. Order matters -- e.g. TOC-stripping must run after
     image-fixing so a raw Word TOC dump doesn't get misidentified/mangled

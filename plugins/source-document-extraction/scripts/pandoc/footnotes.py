@@ -18,7 +18,7 @@ Function Index:
         footnote definition lines with no matching reference.
 
 Usage:
-    from pandoc_fixes.footnotes import clean_orphaned_footnotes
+    from pandoc.footnotes import clean_orphaned_footnotes
     cleaned = clean_orphaned_footnotes(raw_markdown_text)
 """
 

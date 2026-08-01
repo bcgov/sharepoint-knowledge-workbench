@@ -28,7 +28,7 @@ _THIS_DIR = Path(__file__).resolve().parent
 _SCRIPTS_DIR = _THIS_DIR.parent.parent / "scripts"
 
 _FORBIDDEN_MODULES = {
-    "analyze_structure", "pandoc_fixes", "convert", "plans", "chunking",
+    "analyze_structure", "pandoc", "convert", "plans", "chunking",
     "emf_convert", "topic_grouping", "package",  # package.py = builders only now
 }
 

@@ -19,7 +19,7 @@ Function Index:
         while leaving normal markdown links/brackets untouched.
 
 Usage:
-    from pandoc_fixes.attrs import strip_pandoc_attrs
+    from pandoc.attrs import strip_pandoc_attrs
     cleaned = strip_pandoc_attrs(raw_markdown_text)
 """
 

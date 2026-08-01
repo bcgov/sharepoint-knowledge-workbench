@@ -78,7 +78,7 @@ if str(_THIS_DIR) not in sys.path:
 
 import contracts  # noqa: E402
 import hashing  # noqa: E402
-import pandoc_validate  # noqa: E402
+from pandoc import validate as pandoc_validate  # noqa: E402
 import plans  # noqa: E402
 import publication_map  # noqa: E402
 # Note: package.py is deliberately NOT imported here for path-safety reuse.
@@ -99,7 +99,7 @@ import publication_map  # noqa: E402
 # underlying policy at the correct scope: an absolute path is always a
 # violation, and a '..'-containing relative path is a violation only when
 # it resolves OUTSIDE `package_dir` entirely.
-from pandoc_fixes.toc import _BOOKMARK_ANCHOR_LINE, _TOC_LINK_LINE  # noqa: E402
+from pandoc.toc import _BOOKMARK_ANCHOR_LINE, _TOC_LINK_LINE  # noqa: E402
 
 
 def _issue(severity: str, code: str, message: str, path: "str | None" = None) -> "contracts.ValidationIssue":

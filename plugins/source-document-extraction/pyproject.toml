@@ -12,5 +12,18 @@ requires-python = ">=3.10"
 # docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md.
 dependencies = []
 
+[tool.setuptools]
+py-modules = [
+    "extraction",
+    "dependencies",
+    "emf_convert",
+    "heading_parsing",
+    "path_safety",
+]
+
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["scripts"]
+include = ["schema", "schema.*", "pandoc", "pandoc.*"]
+
+[tool.setuptools.package-dir]
+"" = "scripts"

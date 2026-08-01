@@ -5,7 +5,7 @@ chunking.py
 Reconciles a CONFIRMED `ConversionPlan`'s `chunk_anchors` (computed during
 analysis, against RAW pandoc markdown -- Task 6/`analyze_structure.py`)
 against a CLEANED document's actual heading structure (after Task 2's
-pandoc_fixes cleanup pipeline has run), then slices the cleaned markdown into
+pandoc cleanup pipeline has run), then slices the cleaned markdown into
 per-chunk content strings using the reconciled positions.
 
 Why this exists (spec Non-Negotiable Rule 5, Section 7.2): "Chunk boundaries

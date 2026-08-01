@@ -7,6 +7,16 @@ for contracts, and reverses the plan's assumption that a plugin may
 declare a pip dependency on `knowledge-workbench-contracts` or
 `knowledge-workbench-runtime`.
 
+> **Path note:** this document's file paths below still show the original
+> `src/source_document_extraction/contracts/...` nesting from when this
+> correction was first written. That nesting was itself corrected minutes
+> later in the same session -- see
+> `wave-2-flat-scripts-correction.md` for the current, real path
+> (`scripts/schema/normalized_source_document.py`, flat, no package-name
+> subfolder). The *contract-ownership* reasoning in this document (producer
+> owns the authoritative schema, no shared pip dependency) is still fully
+> correct; only the physical path changed.
+
 ## What was wrong
 
 Wave 1 approved, and Wave 2 initially implemented, a model where every

@@ -3,7 +3,7 @@
 test_images.py
 ==============
 
-TDD-first: failing tests for pandoc_fixes/images.py.
+TDD-first: failing tests for pandoc/images.py.
 Covers detecting and fixing images glued directly onto heading lines or
 list-item markers (no separating blank line/paragraph break), moving the
 image reference to its own paragraph while preserving heading text and the
@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_images.py -v
 """
 
-from source_document_extraction.pandoc_fixes.images import fix_glued_images
+from pandoc.images import fix_glued_images
 
 
 class TestFixGluedImages:

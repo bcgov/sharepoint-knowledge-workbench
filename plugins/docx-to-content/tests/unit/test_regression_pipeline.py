@@ -3,7 +3,7 @@
 test_regression_pipeline.py
 =============================
 
-Regression fixture proving all six pandoc_fixes modules plus emf_convert
+Regression fixture proving all six pandoc modules plus emf_convert
 and pandoc_validate compose correctly, in the spec Section 7.2 pipeline
 order (attrs -> images -> toc -> tables -> footnotes -> legacy image
 conversion -> validation), against a single synthetic markdown fixture
@@ -28,12 +28,12 @@ from pathlib import Path
 import pytest
 
 from emf_convert import convert_legacy_media
-from pandoc_fixes.attrs import strip_pandoc_attrs
-from pandoc_fixes.footnotes import clean_orphaned_footnotes
-from pandoc_fixes.images import fix_glued_images
-from pandoc_fixes.tables import fix_malformed_tables
-from pandoc_fixes.toc import strip_raw_toc
-from pandoc_validate import validate_cleaned_markdown
+from pandoc.attrs import strip_pandoc_attrs
+from pandoc.footnotes import clean_orphaned_footnotes
+from pandoc.images import fix_glued_images
+from pandoc.tables import fix_malformed_tables
+from pandoc.toc import strip_raw_toc
+from pandoc.validate import validate_cleaned_markdown
 
 FIXTURE_PATH = Path(__file__).parent.parent / "fixtures" / "regression_raw.md"
 SOFFICE_AVAILABLE = shutil.which("soffice") is not None

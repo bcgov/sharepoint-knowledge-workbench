@@ -3,7 +3,7 @@
 test_heading_emphasis.py
 =========================
 
-TDD-first: failing tests for pandoc_fixes/heading_emphasis.py.
+TDD-first: failing tests for pandoc/heading_emphasis.py.
 Covers normalizing a heading whose ENTIRE text content is wrapped in a
 single matching pair of emphasis markers (bold `**...**`, or the combined
 bold+italic `***...***`) -- extraction noise, not intended canonical
@@ -14,7 +14,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_heading_emphasis.py -v
 """
 
-from source_document_extraction.pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis
+from pandoc.heading_emphasis import strip_whole_heading_emphasis
 
 
 class TestStripWholeHeadingEmphasis:
