@@ -185,6 +185,18 @@ carries only the key non-negotiables:
 - `github-issue-logging-policy.md` — issue logging conventions, if/when this repo tracks issues on GitHub
 
 
+### Phase 4+ SharePoint Copilot Agent Configuration
+
+**Critical Learning (2026-07-31):** SharePoint Copilot agents require exact resource identifiers. Common failure mode is pointing agents to wrong SharePoint resource (e.g., document library instead of SitePages subfolder). Always:
+
+1. **Extract IDs from working manual agent first** — create agent via UI as reference, download .agent JSON, extract site_id, web_id, list_id, unique_id
+2. **Use SitePages path correctly** — URL must include `/SitePages/FolderName`, not just `/FolderName`
+3. **Never use zero unique_id for folders** — folders have real unique_id values; zeros only for list items
+4. **Verify IDs before scripting** — site_id and web_id must be non-empty (from Get-PnPSite / Get-PnPWeb)
+5. **Test ASPX-only agents** — to isolate retrieval issues from ranking issues, create agent with single ASPX source and no image fallback
+
+See `docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` for full discovery path, verification checklist, and Phase 5+ recommendations.
+
 ## SUB-agent usage
 Use the cheapest models possible where possible.  If the job doesn't require spawning sub-agents don't do so.
 

@@ -1,7 +1,7 @@
 # Phase 3.0 Write-Exploration Findings — Agent/Skill/Template Capability Discovery
 
 Log of hands-on, authorized capability discovery performed directly on the BC Gov dev site
-(`AG-CSB-ITAU-CMAT-DEV`), moving beyond the read-only `phase-3-0-tenant-discovery.ps1` script into
+(`AG-CSB-INTRANET-DEV`), moving beyond the read-only `phase-3-0-tenant-discovery.ps1` script into
 staged, reversible write actions. Site owner (user) explicitly authorized this as an active
 capability-discovery exercise. All artifacts below are labeled `TEST-DO-NOT-USE-*` and are
 reversible/removable per the staged-write protocol
@@ -466,7 +466,7 @@ binary format. Structure (fields observed, values redacted/genericized where ten
           "items_by_sharepoint_ids": [],
           "items_by_url": [
             {
-              "url": "https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV/TESTDONOTUSEAgentPilot",
+              "url": "https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV/TESTDONOTUSEAgentPilot",
               "name": "TEST-DO-NOT-USE-Agent-Pilot",
               "site_id": "<guid>",
               "web_id": "<guid>",

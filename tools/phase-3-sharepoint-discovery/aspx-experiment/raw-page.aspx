@@ -13,12 +13,12 @@ saved.</p>
 </ul>
 <p>If you abandon the Initiate File sequence without having entered the
 above minimum details, this warning message will appear:</p>
-<p><img src="https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV/SiteAssets/TEST-DO-NOT-USE-aspx-experiment/image17.gif" />If you select "Yes", the file will
+<p><img src="https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV/SiteAssets/TEST-DO-NOT-USE-aspx-experiment/image17.gif" />If you select "Yes", the file will
 be deleted from the database and all details must be entered again from
 the beginning. If you select "No", the screen stays open so you can
 continue initiating the file.</p>
 <h3 id="how-to-initiate-a-file">How to Initiate a File</h3>
-<p><img src="https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-DEV/SiteAssets/TEST-DO-NOT-USE-aspx-experiment/image18.png" />The first step in initiating a file
+<p><img src="https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV/SiteAssets/TEST-DO-NOT-USE-aspx-experiment/image18.png" />The first step in initiating a file
 is to record the file identification details.</p>
 <p>NOTE - All the fields in the File Identification screen are
 mandatory</p>

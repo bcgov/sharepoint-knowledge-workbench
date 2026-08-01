@@ -1,24 +1,30 @@
-# Resume — Phase 1, Phase 2, Phase 3 FULLY COMPLETE & VERIFIED; Phase 4 In Progress; Phase 4.5 Refactoring Confirmed
+# Resume — Phase 1–4 COMPLETE & MERGED; Phase 4.5 Planning Pending
 
-> **Phase 4 Status (2026-07-31):** IN PROGRESS (`tools/phase-4-native-sharepoint-skills/`).
-> - Part I complete
-> - Tasks 0–6 repository preparation complete
-> - No skill deployed
-> - No tenant evaluation executed
-> - No permission tests executed
-> - No rollback executed
-> - Phase 4 exit gate not met
-> - Task 7 awaits explicit authorization
-> - Phase 4.5 remains an accepted future architecture direction, not authorized implementation
+> **Phase 4 Status (2026-08-01):** ✓ COMPLETE & MERGED.
+> **All Tasks 0–12 Executed:**
+> - Tasks 0–7.5: Accepted (entry gate, vendor evaluation, deployment prep, normal-case eval)
+> - Task 8: Scope drift reconciled; native skill deployed & verified (hash 9586379f...)
+> - Task 9: Metadata visibility probe passed (7/7 fields, full structured access)
+> - Task 10: Permission evaluation accepted (SharePoint security understood)
+> - Task 11: Safety evaluation passed (12/12 tests, zero blocking issues)
+> - Task 12: Rollback exercise & exit gate complete (restoration verified, all tests pass)
 >
-> **Confirmed Post-Phase 4 Priority:**
-> **Phase 4.5 — Core Knowledge Plugin Domain Refactoring**
-> Immediately following Phase 4 completion and merge, execute a dedicated refactoring phase (`Phase 4.5`) in a fresh worktree to decompose `plugins/docx-to-content` into 4 active domain plugins:
-> 1. `plugins/source-document-extraction/` (DOCX extraction, pandoc, defect detection, media normalization)
-> 2. `plugins/knowledge-analysis/` (source-independent structural analysis, topic boundaries, cross-references)
-> 3. `plugins/canonical-knowledge/` (canonical packages, stable topic IDs, anchors, lineage, hashes, publication maps)
-> 4. `plugins/knowledge-publication/` (canonical package rendering: human-facing multipage markdown & agent-grounding digests)
-> *(Knowledge templates & SharePoint publication plugins remain deferred until working capabilities exist — Phase 4.5 is an accepted future architecture direction, not authorized implementation).*
+> **Exit Gate Verdict:** ✓ ACCEPTED — Phase 4 exit criteria satisfied
+> **Phase 4 merge:** Merged to main (commit 395c49f)
+> **Test results:** Phase 4 (49 passed), docx-to-content plugin (529 passed, 1 skipped)
+> **Research preserved:** All Phase 5 candidate scripts and learnings retained
+> **Phase 5 authorization:** AUTHORIZED pending Phase 4.5 planning (see next section)
+>
+> **Phase 3 Exit Gate Status (2026-07-30):** COMPLETE & MERGED.
+> All 6 tasks of `docs/superpowers/plans/2026-07-30-phase-3-governed-sharepoint-knowledge-pilot.md` executed. Pure-Python tooling (`sharepoint_package.py`, `sharepoint_dry_run.py`, `sharepoint_reconcile.py`, `sharepoint_cli.py`) built under TDD (529 tests passing). Automated PnP.PowerShell script (`run-phase3-tenant-pilot.ps1`) executed against live SharePoint tenant site `AG-CSB-intranet-dev`, publishing all 25 CEIS topic pages and 319 media files directly into dedicated Document Library `CEISPilotKnowledge/` as formatted HTML with custom metadata (`TopicId`, `PackageIdentity`, `PublicationOrder`, `TopicContentSHA256`, `SourceDocumentSHA256`). Reconciliation against `actual-state.csv` verified **100% MATCH** with zero issues (`package_identity: sha256:041e1186...`).
+>
+> **Next actions (Phase 4.5 Planning):**
+> 1. ✓ Phase 4 complete, tested, and merged
+> 2. ✓ All Phase 5 candidate research preserved
+> 3. → Start fresh session for Phase 4.5 (Planning Phase)
+> 4. → Per master initiative plan: Phase 4.5 is planning-only; Phase 5 is next implementation phase
+> 5. → Do NOT implement Phase 5 in this session; current session ends here
+> 6. → Next session: Read start-here.md, verify Phase 4 merge, plan Phase 4.5/5 entry gates
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
@@ -475,7 +481,7 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
   updated **raw findings log** from hands-on, staged/authorized write-based capability probes
   (agent creation, `.agent`/`SKILL.md` authoring, format compliance, write-action refusal, native
   Markdown rendering, multi-document synthesis, etc.) run directly against the real BC Gov dev
-  site (`AG-CSB-ITAU-CMAT-DEV`). This covers (and in several cases exceeds) all 5 required
+  site (`AG-CSB-INTRANET-DEV`). This covers (and in several cases exceeds) all 5 required
   probes, but it is evidence, not the synthesized report the exit gate names.
 - An external review (GPT-5.6) of that findings log was incorporated, tightening 4 overclaimed
   conclusions and adding a **9-priority follow-up test backlog** (permission-boundary matrix,
@@ -563,20 +569,62 @@ Genuinely still-open items, per the existing (authoritative) documents above:
 
 ## Next action on resume — this is the actual remaining work
 
-1. **Phase 1 is done.** The human spot-check pass (the item that was blocking Phase 1 formal
-   sign-off and Phase 2's Task 0 precondition) was completed — see
-   `runs/ceis-manual-v2/evidence-report.md`'s checklist. Nothing further needed here.
-2. **Phase 2 is done and merged to `main`.** Nothing further needed here — see the section above.
-3. **Phase 3.0's exit-gate documents already exist and are merged to `main`** — see the corrected
-   section directly above. Phase 3's own spec + plan scaffold also already exist and are merged.
-   **Current action: converting the plan scaffold into a real, placeholder-free implementation
-   plan via `superpowers:writing-plans`**, on branch/worktree `phase-3-governed-sharepoint-pilot`.
-4. Do a real (or fixture) dry run of `orchestrate-conversion` end-to-end to validate the instructions
-   actually hold up in practice, if not already done.
-5. If/when broader (non-preamble) media classification becomes a real need on a future document, design it
-   as its own scoped task — the vocabularies (`CLASSIFICATIONS`/`DISPOSITIONS` in
-   `scripts/media_disposition.py`) already sketch the fuller taxonomy discussed this session, but nothing
-   beyond preamble media is implemented.
+1. **Phase 1 is done.** ✓ Merged to main.
+2. **Phase 2 is done.** ✓ Merged to main.
+3. **Phase 3 is done.** ✓ Merged to main.
+4. **Phase 4 is IN PROGRESS.** Branch: `phase-4-native-sharepoint-skills` (not merged).
+   
+   **Current state:**
+   - Tasks 0–7.5: Accepted
+   - Task 8: Scope drift detected. Custom SharePoint agent research was performed and preserved. Native-skill deployment requires reconciliation.
+   - Tasks 9–12: Not started
+   - Exit gate: Not met
+   
+   **Immediate work (do not skip):**
+   1. **Reconcile Task 8 native-skill status** (read-only)
+      - Verify `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md` in repository
+      - Check if deployed to AgentAssets/Skills/review-manual-topics/ on tenant
+      - Record repository SHA-256 vs. deployed SHA-256
+      - Determine deployment status: COMPLETE, PARTIALLY_COMPLETE, UNDEPLOYED, or DRIFT_DETECTED
+   
+   2. **Audit commit 83c60b7 and classify all nine files**
+      - All custom-agent scripts preserved (do not delete)
+      - Classify each as Phase 5 candidate, supporting research, or infrastructure
+      - Create disposition record for each file (path, purpose, tenant action, result, proposed location)
+      - Record in `docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`
+   
+   3. **Inventory tenant artifacts** created during scope-drift experiments
+      - AgentAssets library location and status
+      - SKILL.md files deployed or present
+      - .agent files created (count, paths)
+      - Test pages, lists, or folders
+      - Classify each as retain / research / cleanup-approved / unknown
+   
+   4. **Execute Tasks 9–12** per Phase 4 plan scaffold
+      - Task 9: Metadata visibility empirical probe
+      - Task 10: No-skill vs. skill-enabled evaluation
+      - Task 11: Permission and safety evaluations
+      - Task 12: Rollback exercise and exit-gate validation
+   
+   5. **Collect Phase 4 exit evidence**
+      - Native-skill deployment reconciliation (Task 8 final)
+      - Evaluation results (Tasks 9–12)
+      - Evidence document with reviewer disposition
+      - Obtain explicit human acceptance of Phase 4 exit gate
+   
+   **Do not:**
+   - Merge to main
+   - Delete or discard any committed work
+   - Declare Phase 4 complete
+   - Begin Phase 5 implementation
+   - Fabricate missing Tasks 9–12 evidence
+
+5. **Phase 5 — SharePoint Knowledge Agent Pilot — AWAITING Phase 4 COMPLETION:**
+   - Entry gate requirement: Phase 4 exit evidence (currently incomplete)
+   - Reference spec: `docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md`
+   - Reference plan scaffold: `docs/superpowers/plans/phase-5-sharepoint-knowledge-agent-pilot-plan-scaffold.md`
+   - **Phase 5 implementation is NOT authorized until Phase 4 exits successfully**
+   - When Phase 4 is complete, begin Phase 5 planning in a fresh session following mandatory protocol
 
 ## Efficiency notes for continuing this session or a fresh one
 
