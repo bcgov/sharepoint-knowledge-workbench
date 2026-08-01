@@ -85,11 +85,17 @@ try {
     }
 
     Write-Host ""
-    Write-Host "Selecting first item for metadata visibility testing..." -ForegroundColor Yellow
-    $selectedItem = $items[0]
+    Write-Host "Selecting first actual topic (skipping folders) for metadata visibility testing..." -ForegroundColor Yellow
+    # Skip CEISPilotKnowledgePages folder, select first real topic
+    $selectedItem = $items | Where-Object { $_.FieldValues.Title -and $_.FieldValues.Title -ne "CEISPilotKnowledgePages" -and $_.FieldValues.Title -ne "Home" } | Select-Object -First 1
 
     if (-not $selectedItem) {
-        Write-Error "No items available for testing"
+        Write-Host "No items after filtering. Using first non-empty item..." -ForegroundColor Yellow
+        $selectedItem = $items | Where-Object { $_.FieldValues.Title } | Select-Object -First 1
+    }
+
+    if (-not $selectedItem) {
+        Write-Error "No suitable items available for testing"
         exit 1
     }
 
