@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_footnotes.py -v
 """
 
-from pandoc_fixes.footnotes import clean_orphaned_footnotes
+from source_document_extraction.pandoc_fixes.footnotes import clean_orphaned_footnotes
 
 
 class TestCleanOrphanedFootnotes:

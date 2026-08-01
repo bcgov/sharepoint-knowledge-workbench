@@ -1,7 +1,18 @@
 # Wave 1 Step 2 — `contracts.py` / `cli.py` / `convert.py` / `atomic_output.py` Disposition
 
 **Date:** 2026-08-01
-**Status:** ✓ APPROVED (human decision, 2026-08-01), with `atomic_output.py`'s disposition **rejecting both options this document originally proposed**. See "Approved `atomic_output.py` disposition (final)" below; `contracts.py`/`cli.py`/`convert.py` dispositions are approved as originally proposed.
+**Status:** ⚠️ PARTIALLY SUPERSEDED (2026-08-01, same day) — this document's approval of a **shared pip-installable
+`knowledge-workbench-contracts` distribution** (and, by the same reasoning, the `knowledge-workbench-runtime`
+distribution it approved for `atomic_output.py`) is superseded by
+`docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`: a shared distribution
+that every plugin's `pyproject.toml` depends on makes standalone plugin installation impossible (the dependency is
+never published to a package index) and conflicts with `.agent/rules/plugin-architecture-policy.md`'s
+plugin-independence rule. Read the correction doc first. The `contracts.py` → five-schema-module split and the
+`cli.py`/`convert.py` domain-assignment dispositions below are **still valid** — only *where* each contract module
+physically lives (a shared distribution vs. materialized inside its producer plugin) changed. Retained below for
+the historical record of the original (superseded) reasoning.
+
+**Status (original, superseded in part):** ✓ APPROVED (human decision, 2026-08-01), with `atomic_output.py`'s disposition **rejecting both options this document originally proposed**. See "Approved `atomic_output.py` disposition (final)" below; `contracts.py`/`cli.py`/`convert.py` dispositions are approved as originally proposed.
 
 ## Approved `atomic_output.py` disposition (final)
 

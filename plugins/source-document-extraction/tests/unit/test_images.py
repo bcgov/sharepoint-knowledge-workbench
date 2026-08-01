@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_images.py -v
 """
 
-from pandoc_fixes.images import fix_glued_images
+from source_document_extraction.pandoc_fixes.images import fix_glued_images
 
 
 class TestFixGluedImages:
