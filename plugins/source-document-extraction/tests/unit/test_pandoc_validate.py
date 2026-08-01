@@ -15,7 +15,7 @@ Usage:
 
 from pathlib import Path
 
-from pandoc_validate import validate_cleaned_markdown
+from source_document_extraction.pandoc_validate import validate_cleaned_markdown
 
 
 class TestValidateCleanedMarkdown:

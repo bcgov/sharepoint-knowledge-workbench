@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "links": [
+    {
+      "src": "plugins/source-document-extraction/references/contracts/normalized-source-document.md",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/contracts/normalized-source-document.md",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of the normalized-source-document contract doc"
+    }
+  ]
+}

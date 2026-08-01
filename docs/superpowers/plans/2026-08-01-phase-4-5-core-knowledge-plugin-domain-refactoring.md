@@ -64,6 +64,17 @@ If any condition fails, use the standard revert procedure above instead.
 
 ---
 
+> **Correction (2026-08-01, mid-Wave-2, per spec §13d):** the "Contract Distribution Model" and
+> "Isolated-Install Harness" sections immediately below describe the **original, superseded**
+> shared-pip-distribution model (every plugin depends on `contracts/python/`/`runtime/python/` via
+> pip). That model made standalone plugin installation impossible and is corrected in
+> `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`: each
+> contract is materialized inside its producer plugin's own package; consumers carry generated,
+> hash-checked local copies; no plugin's `pyproject.toml` may depend on a workbench-family
+> distribution; `contracts/python/`/`runtime/python/` are `DEVELOPMENT_CODEGEN_SOURCE` only. The
+> Waves 2-5 common step sequence below is amended accordingly (see the note at Step 10). Read the
+> correction doc before starting Wave 3.
+
 ## Packaging Model (per specification §13b)
 
 **Plugin distribution ID vs. Python import package:**
@@ -642,12 +653,16 @@ git push origin phase-4-5-core-plugin-refactoring
 
 Each of the four extraction waves (source-document-extraction, knowledge-analysis, canonical-knowledge, knowledge-publication) follows this identical structure — detailed once here, applied per-plugin with that plugin's specific files/functions from the Known File Inventory (unchanged domain assignments from Revision 2).
 
+> **Correction (2026-08-01, per spec §13d):** Steps 2 and 4 below are amended from the original
+> (superseded) shared-contracts-dependency model. See
+> `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`.
+
 **Common step sequence per wave:**
 
-1. Scaffold `plugins/<name>/{pyproject.toml, src/<import_name>/, skills/, tests/{unit,fixtures}}`, with `pyproject.toml`'s `version`/`dependencies` read from `wave-1-decisions.json`, never hardcoded.
-2. Generate that plugin's input contract fixture (e.g. `normalized-source-document` for knowledge-analysis) by actually running the upstream plugin's installed public function — stored under **both** `tests/contracts/fixtures/<contract>/v1/` (repository-level evidence) and a minimal copy under this plugin's own `tests/fixtures/` (for isolated/installed test runs, per the Contract Distribution Model's fixture separation).
+1. Scaffold `plugins/<name>/{pyproject.toml, src/<import_name>/, references/contracts/, skills/, tests/{unit,fixtures}}`, with `pyproject.toml`'s `version` read from `wave-1-decisions.json`, never hardcoded, and `dependencies = []` unless a genuine third-party (PyPI) package is required — **never** a workbench-family distribution.
+2. If this plugin **produces** a contract: write its authoritative schema + `validate()` inside this plugin's own `src/<import_name>/contracts/<contract>.py`, plus human-readable docs at `references/contracts/<contract>.md`. If this plugin **consumes** a contract another plugin produces: generate/hand-sync a local copy of the schema subset needed into this plugin's own `src/<import_name>/contracts/<contract>.py`, recording authoritative source path, contract version, source SHA-256, generated SHA-256, and the generation command in a comment header or sidecar file, with a drift test. Either way, also generate that plugin's input contract fixture (e.g. `normalized-source-document` for knowledge-analysis) by actually running the upstream plugin's installed public function — stored under **both** `tests/contracts/fixtures/<contract>/v1/` (repository-level evidence) and a minimal copy under this plugin's own `tests/fixtures/` (for isolated/installed test runs).
 3. Write the failing test for that plugin's Public Interface Contract function, importing via the real package name (`from source_document_extraction.extraction import extract_and_normalize`), never a bare/sys.path-hacked name.
-4. Move/adapt the assigned legacy scripts into `src/<import_name>/`, fixing internal imports to use the package-relative form (`from .pandoc_fixes import images` etc.) and importing contract types via `from knowledge_workbench_contracts.canonical_package import validate`.
+4. Move/adapt the assigned legacy scripts into `src/<import_name>/`, fixing internal imports to use the package-relative form (`from .pandoc_fixes import images` etc.) and importing contract types via this plugin's own **plugin-local** contract module (`from .contracts.canonical_package import validate`) — never `from knowledge_workbench_contracts...` and never a pip dependency on another plugin's package.
 5. Run the test to pass, using `pip install -e .` in a scratch venv during development (not a permanent artifact — cleaned up before commit).
 6. Migrate every `wave-0-test-ledger.json` entry assigned to this plugin's domain — `git mv`, fix imports to the new package-relative form, record in `wave-N-test-migration-ledger.md`.
 7. Add the compatibility shim in `plugins/docx-to-content/scripts/<old-module>.py` — this shim is exempt from the "no sys.path hacking" rule since it exists specifically to bridge the *old, still-`sys.path`-based* `docx-to-content` plugin during migration, not to define the new plugin's own import model:
@@ -657,9 +672,9 @@ Each of the four extraction waves (source-document-extraction, knowledge-analysi
    from source_document_extraction.extraction import parse_headings, detect_defect_signals  # noqa: F401
    ```
    (Requires the new plugin to be `pip install -e`'d into whatever environment runs the old plugin's tests during the transition — document this explicitly in the wave's report as a transition-only dependency, removed in Wave 7/8.)
-8. Write the skill(s) and README (README now documents the real `pip install` command and package name, not a sys.path convention).
-9. Run the dependency-boundary check (`check_no_prohibited_imports` + `check_no_repo_root_import_in_production_code`) against `src/<import_name>/`.
-10. Run `isolated_install_check.py --plugin <name> --import-package <import_name>` — the real gate: build wheel, install in clean venv with only declared deps, import outside pytest, confirm no upstream plugin installed, run tests.
+8. Write the skill(s) and README (README now documents the real `pip install <plugin only>` command and package name, with no other package installed first). Any skill-local `references/`/non-Python `scripts/`/`assets/` copy is created via `.agents/skills/symlink-manager/scripts/symlink_manager.py` (never `ln -s` directly, never a hand-copy).
+9. Run the dependency-boundary check (`check_no_prohibited_imports` + `check_no_repo_root_import_in_production_code`) against `src/<import_name>/`, plus `check_no_workbench_family_dependency()` against `pyproject.toml`.
+10. Run the **Plugin Self-Containment Gate**: `isolated_install_check.py --plugin <name> --import-package <import_name>` — build wheel, install *only that wheel* (plus third-party deps) in a clean venv, confirm no other workbench distribution (sibling plugin, contracts, or runtime) is installed, confirm no repository-root lookup occurs, import outside pytest from site-packages, locate bundled contract references, validate representative output against the bundled schema, run this plugin's tests from the installed distribution. A coordinated multi-package install does not satisfy this gate.
 11. Commit named files explicitly (never `git add -A`); push.
 
 **Wave-specific Public Interface Contract function and consumed/produced contract, per plugin (unchanged from Revision 2's domain assignments):**
@@ -671,12 +686,17 @@ Each of the four extraction waves (source-document-extraction, knowledge-analysi
 | 4 | canonical-knowledge | `canonical_knowledge` | `build_canonical_package` | `analysis-plan` | `canonical-package`, `publication-map` |
 | 5 | knowledge-publication | `knowledge_publication` | `render` | `canonical-package`, `publication-map` | `rendered-output-profile` |
 
-**Wave 4's additional requirement:** the naming-collision test proving `knowledge_workbench_contracts.canonical_package` (schema) and `canonical_knowledge.canonical_package` (implementation) are genuinely distinct, importable packages with no name clash — trivially true here since real Python packages have distinct dotted paths (`knowledge_workbench_contracts.canonical_package` vs. `canonical_knowledge.canonical_package`), unlike Revision 2's bare-name model where this required a runtime proof. Still write the test as documentation of this guarantee:
+**Wave 4's additional requirement (corrected per §13d):** since `canonical-knowledge` now owns its
+`canonical-package` contract materialized at its own
+`src/canonical_knowledge/contracts/canonical_package.py` (schema-only: dataclass + `validate()`),
+prove the schema module and the plugin's own implementation module (e.g.
+`src/canonical_knowledge/package.py`, carrying the actual `CanonicalPackage` construction logic)
+are genuinely distinct, non-colliding modules within the same package:
 
 ```python
-def test_contract_schema_and_implementation_are_distinct_packages():
-    import knowledge_workbench_contracts.canonical_package as schema
-    import canonical_knowledge.canonical_package as impl
+def test_contract_schema_and_implementation_are_distinct_modules():
+    import canonical_knowledge.contracts.canonical_package as schema
+    import canonical_knowledge.package as impl
     assert schema.__name__ != impl.__name__
     assert hasattr(schema, "validate")
     assert not hasattr(schema, "CanonicalPackage")  # the implementation class stays in impl only
@@ -685,8 +705,8 @@ def test_contract_schema_and_implementation_are_distinct_packages():
 **Rollback (each of Waves 2-5):** Standard revert procedure. Pre-wave commit = the previous wave's final commit.
 
 **Gate (each of Waves 2-5):**
-- `isolated_install_check.py --plugin <name> --import-package <import_name>` exits 0 — wheel builds, installs in a clean venv with only declared deps, imports outside pytest from `site-packages` (not the checkout), confirms no upstream plugin distribution installed, tests pass.
-- Zero dependency-boundary violations, including zero `repo_root` imports in production code.
+- `isolated_install_check.py --plugin <name> --import-package <import_name>` exits 0 — wheel builds, installs **only that wheel** (plus third-party deps, zero workbench-family packages) in a clean venv, imports outside pytest from `site-packages` (not the checkout), confirms no other workbench distribution installed (sibling plugin, contracts, or runtime), tests pass. The full Plugin Self-Containment Gate (§13d) is satisfied, not merely a coordinated multi-package install.
+- Zero dependency-boundary violations, including zero `repo_root` imports in production code and zero `check_no_workbench_family_dependency()` violations in `pyproject.toml`.
 - Old `docx-to-content` suite still green via the compatibility shim (which itself now depends on the new plugin being `pip install -e`'d — documented, not hidden).
 - Every ledger-assigned test migrated and recorded.
 - README/skill(s) written with real install instructions.
@@ -711,25 +731,33 @@ def test_contract_schema_and_implementation_are_distinct_packages():
 
 - [ ] **Step 3: Combined-environment collision test**
 
+> **Corrected per §13d:** no contracts/runtime wheel is built or installed here — under the
+> materialized-contract model each plugin is self-contained, so the combined-install proof is
+> "these four independently-standalone plugins also don't collide when co-installed," not "these
+> plugins plus a shared distribution work together."
+
 ```python
 # tools/phase-4-5-core-plugin-refactoring/combined_install_check.py
-"""Installs all four plugin wheels plus the contracts wheel into ONE clean
-venv, proving zero namespace/dependency collisions and that every plugin's
-own test suite still passes in the shared environment."""
+"""Installs all four plugin wheels (no shared contracts/runtime wheel --
+each plugin materializes its own contract/runtime code per spec §13d) into
+ONE clean venv, proving zero namespace/dependency collisions and that every
+plugin's own test suite still passes in the shared environment."""
 import subprocess, sys, tempfile, venv
 from pathlib import Path
-from isolated_install_check import build_wheel
+from isolated_install_check import build_wheel, check_no_workbench_family_dependency
 
 def check_combined_install(repo_root: Path) -> dict:
     plugins = ["source-document-extraction", "knowledge-analysis", "canonical-knowledge", "knowledge-publication"]
+    for p in plugins:
+        if check_no_workbench_family_dependency(repo_root / "plugins" / p):
+            raise AssertionError(f"{p} declares a prohibited workbench-family dependency")
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp)
         venv_dir = tmp_path / "venv"
         venv.EnvBuilder(with_pip=True).create(venv_dir)
         pip, python = venv_dir / "bin" / "pip", venv_dir / "bin" / "python"
         dist_dir = tmp_path / "dist"; dist_dir.mkdir()
-        wheels = [build_wheel(repo_root / "contracts" / "python", dist_dir)]
-        wheels += [build_wheel(repo_root / "plugins" / p, dist_dir) for p in plugins]
+        wheels = [build_wheel(repo_root / "plugins" / p, dist_dir) for p in plugins]
         subprocess.run([str(pip), "install", *[str(w) for w in wheels], "pytest"], check=True, capture_output=True)
         results = {}
         for p in plugins:

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "source-document-extraction"
+version = "0.1.0-alpha.1"
+description = "Source-format inspection and extraction for the SharePoint Knowledge Workbench."
+requires-python = ">=3.10"
+# No dependency on knowledge-workbench-contracts or any other workbench
+# distribution -- this plugin must install and run standalone. See
+# docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md.
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]

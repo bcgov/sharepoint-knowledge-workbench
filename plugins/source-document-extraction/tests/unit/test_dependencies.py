@@ -8,7 +8,7 @@ import subprocess
 
 import pytest
 
-import dependencies
+from source_document_extraction import dependencies
 
 
 def test_probe_pandoc_real_environment_is_available():

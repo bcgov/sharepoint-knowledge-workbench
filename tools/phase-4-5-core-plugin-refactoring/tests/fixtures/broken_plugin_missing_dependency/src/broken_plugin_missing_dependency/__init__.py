@@ -1,8 +1,7 @@
-"""Negative-control fixture (Wave 1 Step 5): imports knowledge_workbench_contracts
-without declaring it in this fixture's own pyproject.toml [project].dependencies.
-A correct metadata-inspection check must flag this fixture's dependency
-declaration as incomplete, even though the import would happen to succeed at
-runtime if the contracts distribution is coincidentally already installed in
-the environment (which is exactly the undeclared-dependency risk this check
-guards against — see check_declares_dependency() in isolated_install_check.py)."""
-from knowledge_workbench_contracts.tree_hash import compute_tree_hash  # noqa: F401
+"""Negative-control fixture (Wave 2 correction): this pyproject.toml declares
+a workbench-family distribution (knowledge-workbench-contracts) as a pip
+dependency. Under the corrected model (see
+docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md)
+no plugin may depend on any shared workbench distribution -- every plugin
+must carry its own contract/runtime code. check_no_workbench_family_dependency()
+must flag this fixture's pyproject.toml as a violation."""

@@ -5,9 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "broken-plugin-missing-dependency"
 version = "0.0.1"
-description = "Negative-control fixture: imports the contracts distribution without declaring it in [project].dependencies."
+description = "Negative-control fixture: declares a workbench-family distribution as a pip dependency -- prohibited under the Wave 2 correction (no plugin may depend on a shared workbench distribution)."
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["knowledge-workbench-contracts==0.1.0-alpha.1"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

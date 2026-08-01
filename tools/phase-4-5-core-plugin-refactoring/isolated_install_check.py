@@ -1,7 +1,14 @@
 # tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py
-"""Builds a plugin's wheel, installs it (plus the contracts distribution and
-declared dependencies only) into a clean virtual environment, and proves the
-package works from that installation — not from the monorepo checkout."""
+"""Builds a plugin's wheel and installs ONLY that wheel (plus third-party
+PyPI dependencies) into a clean virtual environment, proving the plugin
+works standalone -- no other workbench distribution (no sibling plugin, no
+`knowledge-workbench-contracts`, no `knowledge-workbench-runtime`) is
+installed, and no repository-root path is on sys.path. This is the Wave 2
+correction to the original harness, which used to co-install the contracts
+distribution alongside every plugin -- that made "isolated" installs
+secretly depend on a sibling distribution nobody would know to install.
+See docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md.
+"""
 from __future__ import annotations
 import argparse
 import subprocess
@@ -10,20 +17,35 @@ import tempfile
 import venv
 from pathlib import Path
 
+_WORKBENCH_FAMILY_PREFIXES = ("knowledge-workbench-", "knowledge-")
+_WORKBENCH_DISTRIBUTIONS = (
+    "knowledge-workbench-contracts",
+    "knowledge-workbench-runtime",
+    "source-document-extraction",
+    "knowledge-analysis",
+    "canonical-knowledge",
+    "knowledge-publication",
+)
 
-def check_declares_dependency(project_dir: Path, dependency_distribution_name: str) -> bool:
-    """Static metadata check (Revision 3 changelog item 4's "plus a metadata-inspection
-    harness"): does this plugin's own pyproject.toml [project].dependencies list declare
-    the given dependency? The runtime check_isolated_install() below always installs the
-    contracts distribution alongside every plugin (by design — every plugin needs it), so
-    it cannot by itself catch a plugin that imports the contracts distribution without
-    declaring it as a dependency; this static check is what actually catches that."""
+
+def check_no_workbench_family_dependency(project_dir: Path) -> bool:
+    """Static metadata check: does this plugin's pyproject.toml declare a
+    pip dependency on ANY workbench-family distribution (the contracts
+    distribution, the runtime distribution, or a sibling plugin)? Under the
+    Wave 2 correction, this must always be False for a compliant plugin --
+    every plugin carries its own contract/runtime code rather than
+    depending on a shared distribution. Returns True if a violation is
+    found (i.e. "has a prohibited dependency"), False if clean."""
     import tomllib
 
     pyproject = project_dir / "pyproject.toml"
     data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
     dependencies = data.get("project", {}).get("dependencies", [])
-    return any(dep.split("=")[0].split(">")[0].split("<")[0].strip() == dependency_distribution_name for dep in dependencies)
+    for dep in dependencies:
+        dep_name = dep.split("=")[0].split(">")[0].split("<")[0].strip()
+        if dep_name in _WORKBENCH_DISTRIBUTIONS or dep_name.startswith(_WORKBENCH_FAMILY_PREFIXES):
+            return True
+    return False
 
 
 def build_wheel(project_dir: Path, dist_dir: Path) -> Path:
@@ -34,9 +56,18 @@ def build_wheel(project_dir: Path, dist_dir: Path) -> Path:
     return wheels[-1]
 
 
-def check_isolated_install(
-    plugin_dir: Path, contracts_dir: Path, repo_root: Path, import_package: str
-) -> subprocess.CompletedProcess:
+def check_isolated_install(plugin_dir: Path, import_package: str) -> subprocess.CompletedProcess:
+    """Build and install ONLY `plugin_dir`'s own wheel (plus pytest) into a
+    fresh venv -- no contracts distribution, no runtime distribution, no
+    sibling plugin, no repository checkout on sys.path at all. Proves the
+    plugin is genuinely standalone-installable."""
+    if check_no_workbench_family_dependency(plugin_dir):
+        raise AssertionError(
+            f"{plugin_dir.name}'s pyproject.toml declares a prohibited "
+            "workbench-family dependency -- every plugin must carry its own "
+            "contract/runtime code, not depend on a shared distribution."
+        )
+
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp)
         venv_dir = tmp_path / "venv"
@@ -46,16 +77,18 @@ def check_isolated_install(
 
         dist_dir = tmp_path / "dist"
         dist_dir.mkdir()
-        contracts_wheel = build_wheel(contracts_dir, dist_dir)
         plugin_wheel = build_wheel(plugin_dir, dist_dir)
 
-        subprocess.run([str(pip), "install", str(contracts_wheel), str(plugin_wheel), "pytest"], check=True, capture_output=True)
+        subprocess.run([str(pip), "install", str(plugin_wheel), "pytest"], check=True, capture_output=True)
 
-        # Confirm NO upstream plugin distribution is installed (undeclared-dependency negative control)
+        # Confirm NO other workbench distribution is installed at all --
+        # not a sibling plugin, not contracts, not runtime.
         freeze = subprocess.run([str(pip), "freeze"], capture_output=True, text=True, check=True).stdout
-        for other in ["source-document-extraction", "knowledge-analysis", "canonical-knowledge", "knowledge-publication"]:
-            if other in freeze and other != plugin_dir.name:
-                raise AssertionError(f"Undeclared upstream plugin {other} found installed: {freeze}")
+        for other in _WORKBENCH_DISTRIBUTIONS:
+            if other == plugin_dir.name:
+                continue
+            if other in freeze:
+                raise AssertionError(f"Undeclared workbench distribution {other} found installed: {freeze}")
 
         # Import the package outside pytest, from the installed distribution only
         import_check = subprocess.run(
@@ -79,12 +112,7 @@ if __name__ == "__main__":
     parser.add_argument("--import-package", required=True)
     args = parser.parse_args()
     repo_root = Path(subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip())
-    result = check_isolated_install(
-        repo_root / "plugins" / args.plugin,
-        repo_root / "contracts" / "python",
-        repo_root,
-        args.import_package,
-    )
+    result = check_isolated_install(repo_root / "plugins" / args.plugin, args.import_package)
     print(result.stdout)
     print(result.stderr)
     sys.exit(result.returncode)
