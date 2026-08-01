@@ -1,7 +1,9 @@
 # Phase 9 Specification — Reusable SharePoint Plugin Extraction
 
 
-> **Planning status:** This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Exact source and destination commits, candidate files, repository paths, commands, plugin boundaries, and test fixtures must be verified through Phase 9 reconnaissance before execution.
+> **Planning status:** `PLANNED`, `EVIDENCE_BASED`, `NOT_IMPLEMENTATION_AUTHORIZATION`, `SOURCE_BASELINE_REQUIRES_PINNING`. This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Exact source and destination commits, candidate files, repository paths, commands, plugin boundaries, and test fixtures must be verified through Phase 9 reconnaissance before execution. Phase 9 has not started.
+
+> **Evidence-baseline update (2026-08-01):** A documentation-only reconciliation pass replaced hypothetical candidate descriptions with the actual observed source inventory at `/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` — **119 directories, 272 files (144 real files + 128 symlinks)** across 33 skills. This inventory is a **source baseline for future classification**, not an extraction authorization, and not a permanent total — the source repository continues to evolve independently. See §3a (Source Evidence Baseline) below. No code, plugin, or CMAT-repository artifact was touched by this reconciliation; see the companion completion report for the exact diff.
 
 ## Planning discipline
 
@@ -38,19 +40,176 @@ SharePoint Knowledge Workbench
 
 Phase 9 does not rename, replace, dismantle, or relocate the source repository.
 
+## 3a. Source Evidence Baseline (observed, not pinned)
+
+**Status:** `SOURCE_BASELINE_REQUIRES_PINNING` — this is an observed inventory snapshot used to strengthen Phase 9 planning, not a pinned extraction baseline. Stage 9.0.1 (below) must pin an exact commit before any extraction begins.
+
+**Location:** `jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` (separate GitHub repository, local checkout only — no cross-repository dependency is created by referencing it here).
+
+**Observed scale:** 119 directories, 272 files (144 real files + 128 file-level symlinks) across 33 skills. These figures describe the supplied baseline inventory at the time of this reconciliation (2026-08-01); they are **not permanent totals** — the source repository continues to change independently.
+
+**Observed skill inventory (33 skills, grouped by likely capability family):**
+
+```text
+Discovery
+  sp-discovering-site-structure
+  sp-discovering-lists
+  sp-discovering-content-types
+  sp-discovering-pages
+  sp-discovering-web-parts
+  sp-discovering-navigation
+  sp-discovering-forms
+  sp-discovering-permissions
+  sp-discovering-workflows
+  sp-synthesizing-discovery
+
+Schema
+  sp-auditing-schema
+  sp-extracting-choices
+  sp-mapping-content-types
+  sp-mapping-lists
+  sp-mapping-taxonomy
+  sp-synthesizing-deployment-matrix
+
+Page modernization
+  sp-analysing-aspx-pages
+  sp-converting-aspx-pages
+  sp-converting-wiki-pages
+  sp-remediating-page-layouts
+  sp-remediating-web-parts
+
+Link analysis
+  sp-extracting-links
+  sp-remediating-links
+  sp-remediating-document-content-links
+  sp-validating-link-integrity
+
+Content migration
+  sp-content-migration
+  sp-migrating-content
+  sp-uploading-content
+  sp-running-sharegate-jobs
+
+Provisioning and validation
+  sp-provisioning-modern-calendars
+  sp-validating-app-registration
+  sp-validating-content
+  sp-validating-permissions
+
+Reporting and synthesis
+  sp-generating-migration-reports
+  sp-synthesizing-discovery        (cross-listed with discovery)
+  sp-synthesizing-deployment-matrix (cross-listed with schema)
+```
+
+This grouping is a **classification hypothesis for Phase 9 planning**, not a committed plugin taxonomy. Actual destination boundaries are decided during Stage 9.2 using the disposition model below, not assumed from this list.
+
+### Implementation-status signal (spot-checked, not exhaustive)
+
+A rough per-skill file count was spot-checked during this reconciliation to sanity-check the hypothesis that source maturity varies widely across skills. Confirmed:
+
+| Skill | File count (spot-check) | Preliminary signal |
+|---|---|---|
+| `sp-converting-aspx-pages` | 27 | Rich implementation — includes inventory analysis, component classification, layout selection, component mapping, manifest generation/validation, preview generation, report generation, mapping-matrix updates, page-specific scripts, fixtures, pipeline evaluations, unit tests, acceptance criteria, layout rules, manifest schema, architecture diagram |
+| `sp-remediating-page-layouts` | 4 | Thin — likely `PLANNED_WITH_NO_STANDALONE_IMPLEMENTATION` |
+| `sp-remediating-web-parts` | 4 | Thin — likely `PLANNED_WITH_NO_STANDALONE_IMPLEMENTATION` |
+| `sp-discovering-site-structure` | 3 | Thin — likely `PLANNED_WITH_NO_STANDALONE_IMPLEMENTATION` |
+| `sp-content-migration` | 4 | Thin — likely mixes generic migration behavior, PnP helpers, ShareGate integration, CMAT-specific waves, deprecated stage scripts |
+
+**This spot-check is illustrative, not the required Stage 9.1/9.2 classification.** A complete implementation-status pass over all 33 skills is required before any pilot selection, per §3b below. Do not treat the presence of `SKILL.md`, `evals.json`, or `results.tsv` as proof that a skill is implemented — the actual script/test/fixture count must be inspected per skill.
+
+## 3b. Implementation-Status and Destination-Disposition Models
+
+Phase 9 requires **two separate classifications** for every source artifact — conflating them was identified as a risk during this reconciliation (a "planned" skill and a "reject this destination" skill are different judgments).
+
+### Implementation-status vocabulary (what actually exists in the source)
+
+```text
+ACTIVE_AND_PROVEN
+ACTIVE_REQUIRES_REFACTORING
+EXPERIMENTAL
+PLANNED_WITH_NO_STANDALONE_IMPLEMENTATION
+DEPRECATED
+HISTORICAL
+PROJECT_SPECIFIC
+```
+
+### Destination-disposition vocabulary (where it belongs, if anywhere)
+
+```text
+EXTRACT_AS_NEW_PLUGIN
+EXTRACT_AS_SKILL_IN_EXISTING_PLUGIN
+MERGE_WITH_EXISTING_CAPABILITY
+EXTRACT_AS_SHARED_CONTRACT
+EXTRACT_AS_SHARED_LIBRARY
+KEEP_PROJECT_SPECIFIC
+RESEARCH
+RETIRE
+REJECT
+```
+
+These replace/extend the single `EXTRACT_NOW` / `EXTRACT_LATER` / ... disposition model in §8 below with a two-axis model: implementation status is a fact about the source; destination disposition is a decision about the workbench. Example:
+
+```text
+Source capability: sp-remediating-page-layouts
+Implementation status: PLANNED_WITH_NO_STANDALONE_IMPLEMENTATION
+Destination disposition: RESEARCH (or MERGE_WITH_EXISTING_CAPABILITY if a working
+  implementation is later found nested inside another pipeline)
+```
+
+§8's disposition vocabulary (`EXTRACT_NOW`/`EXTRACT_LATER`/etc.) remains valid as the **backlog-priority axis**; Stage 9.2 must apply all three axes (implementation status, destination disposition, backlog priority) to every artifact, not just one.
+
 ## 4. Candidate scope
 
-Candidate plugin families:
+Candidate plugin families (provisional destination hypotheses, not automatic Phase 9 deliverables — see §3b):
 
-- `sharepoint-discovery` (`RECOMMENDED` first pilot);
+- `sharepoint-discovery`;
 - `sharepoint-schema`;
-- `sharepoint-page-modernization`;
-- `sharepoint-link-analysis`;
+- `sharepoint-page-modernization` — the observed 27-file `sp-converting-aspx-pages` implementation makes this a materially stronger pilot candidate than originally assumed; see Stage 9.2.3;
+- `sharepoint-link-analysis` — kept distinct from page modernization: link extraction/classification/remediation/validation have different contracts and validation requirements than page reconstruction, and must not be folded into `sharepoint-page-modernization` by default;
 - `sharepoint-provisioning`;
 - `sharepoint-content-migration`;
-- SharePoint validation/reconciliation capability, either plugin or shared infrastructure depending on evidence.
+- `sharepoint-validation-and-reconciliation`, either plugin or shared infrastructure depending on evidence.
 
-Individual skills currently stored in the source ORDS plugin may be assessed if their actual responsibility is generic SharePoint work. The ORDS API framework and court-system business logic are excluded.
+A capability may instead resolve to a skill inside an existing plugin, a shared contract, a shared library, plugin-local/repository-level test infrastructure, research-only, or a rejected/retired item — the list above is not a commitment that seven new plugins will exist.
+
+Individual skills currently stored in the source ORDS plugin may be assessed if their actual responsibility is generic SharePoint work (e.g. generic schema validation, generic duplicate detection, a generic evidence/safe-dry-run pattern). The ORDS API framework itself, its authentication/query/pagination/retry machinery, and JUSTIN/CEIS business rules are excluded — classify by responsibility, not folder location.
+
+## 4a. Relationship to Phase 4.5
+
+```text
+Phase 4.5 → establishes the common plugin operating model:
+  plugin manifests, domain-native skill ownership, implementation-status metadata,
+  independent semantic versions, contract versions, compatibility matrix,
+  plugin-local tests, shared contract fixtures, repository integration tests,
+  documentation categories, marketplace registration, dependency rules,
+  write-safety declarations, evidence packages, lifecycle and removal gates.
+
+Phase 9 → adds selectively extracted SharePoint engineering capabilities
+  using that same model.
+```
+
+Phase 9 must reuse Phase 4.5 conventions rather than inventing a second plugin format, skill format, versioning model, test architecture, or marketplace model.
+
+**Relationship to the four Phase 4.5 core knowledge plugins** — Phase 9 must compare each source capability against these existing domains before creating a new plugin:
+
+| Source capability shape | Compare against |
+|---|---|
+| Extracting content from SP2016/classic pages | `source-document-extraction` |
+| Semantic analysis of extracted content | `knowledge-analysis` |
+| Building reusable structured knowledge | `canonical-knowledge` |
+| Rendering human- or agent-facing representations | `knowledge-publication` |
+| Reconstructing classic SharePoint pages/web parts | `sharepoint-page-modernization` (new) |
+| Inventorying sites, lists, permissions, web parts | `sharepoint-discovery` (new) |
+| Capturing/comparing fields, content types, taxonomy | `sharepoint-schema` (new) |
+| Publishing SharePoint objects | `sharepoint-provisioning` or a future `sharepoint-publication` |
+| Validating source-target parity | `sharepoint-validation-and-reconciliation` (new) |
+
+`knowledge-publication` renders canonical knowledge into consumer representations; `sharepoint-page-modernization` reconstructs legacy SharePoint page *experiences and components*. These are not the same responsibility and must not be conflated.
+
+## 4b. Long-Term Workbench Scope Intent
+
+Phase 9's eventual outcome is intended to expand this repository from a knowledge-conversion workbench into a broader SharePoint engineering workbench — covering not only knowledge publication but also site migration, page conversion/analysis, and web-part analysis. This is a **stated future direction, not an authorization**: it informs why the plugin conventions established in Phase 4.5 must be general enough for both families, but it does not change Phase 9's `LATER` disposition or its entry gate.
 
 ## 5. Non-goals
 
@@ -94,7 +253,7 @@ Read-only `sharepoint-discovery` is recommended as the first pilot because it mi
 
 ## 8. Capability disposition model
 
-Every source capability receives one status:
+Every source capability receives a backlog-priority status (this is the third axis alongside the implementation-status and destination-disposition axes defined in §3b — all three must be recorded, not just this one):
 
 ```text
 EXTRACT_NOW
@@ -118,7 +277,51 @@ Each disposition must record:
 - destination overlap;
 - owner;
 - reason;
-- safe default.
+- safe default;
+- **implementation-status** (§3b);
+- **destination-disposition** (§3b).
+
+## 8a. Symlink Inventory Requirement
+
+The source skill taxonomy makes extensive use of skill-local file symlinks pointing to centralized scripts, configuration examples, shared templates, project analysis files, references in other skills, deprecated scripts, and test harnesses (128 of the observed 272 files are symlinks — see §3a).
+
+Phase 9 must inventory every symlink before extraction, recording:
+
+```text
+link path
+resolved source
+artifact type
+current owner
+implementation status
+genericity
+runtime necessity
+destination owner
+copy / refactor / replace decision
+```
+
+Source symlinks must **not** be reproduced automatically in the destination plugin. No extracted plugin may depend at runtime on the CMAT repository — every symlink target that is retained must be physically copied and refactored into the destination plugin's own hub-and-spoke structure (per this repository's `plugin-architecture-policy.md` and `symlink-cross-platform.md` rules), never linked back to the source.
+
+## 8b. Provenance Requirement
+
+Every extracted capability must record:
+
+```text
+source repository
+source commit
+source plugin
+source skill
+source scripts
+source tests
+source references
+source implementation status
+destination plugin or skill
+removed project coupling
+intentional behavior changes
+new neutral fixtures
+parity evidence
+```
+
+The workbench must not erase a capability's origin. This is in addition to, not a replacement for, the provenance manifest already required in §18 and §19 (`provenance manifest`, Subphase 9.3.3).
 
 ## 9. Genericity contract
 
@@ -312,14 +515,17 @@ Define:
 
 ## 20. Exit criteria
 
-- One approved generic SharePoint capability family exists as an independent first-party workbench plugin.
-- The source baseline is pinned and every retained behaviour is traceable.
+**Exit statement:** At least one proven generic SharePoint capability family has been independently extracted from a pinned CMAT source baseline into the SharePoint Knowledge Workbench using the Phase 4.5 plugin conventions. The extracted capability has no runtime dependency on CMAT, ORDS, project-specific environments, source-repository paths, or cross-repository symlinks; uses neutral contracts and fixtures; passes independent and parity tests; records complete provenance; and leaves the original CMAT repository unchanged and independently operable. Every remaining source capability has an implementation-status and destination disposition rather than being copied automatically.
+
+- One approved generic SharePoint capability family exists as an independent first-party workbench plugin, built using Phase 4.5's manifest, skill-ownership, versioning, test-tier, and documentation conventions (§4a).
+- The source baseline is pinned (exact commit) and every retained behaviour is traceable.
 - No live CMAT, ORDS, JUSTIN, CEIS, tenant, environment, credential, or cross-repository runtime dependency remains.
+- No source symlink was reproduced at runtime in the destination plugin (§8a).
 - Neutral fixtures and complete tests exist.
 - Independence, semantic parity, negative, ambiguous, permission/safety, and mutation cases pass.
 - Shared rules were reconciled without importing project overlays.
 - The source CMAT repository and plugins remain unchanged and independently operable.
-- Remaining capabilities and backlog items are dispositioned rather than automatically copied.
+- Every remaining source capability (all 33 observed skills, not only the extracted one) has an implementation-status classification (§3b) and a destination disposition (§3b) — none are copied automatically.
 - Ownership and lifecycle are documented.
 - No CMAT rebind, second extraction, or general orchestrator begins automatically.
 

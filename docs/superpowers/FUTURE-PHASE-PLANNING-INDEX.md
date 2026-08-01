@@ -255,6 +255,29 @@ authorize immediate implementation.
 Do not treat Phase 8 as blocked-until-Phases-3-4-5-all-complete; do not activate any Phase 8 subphase for a
 capability that hasn't individually reached its own exit gate.
 
+## Phase 9 — Reusable SharePoint Plugin Extraction
+
+**Disposition:** `LATER`. Phase 9 has not started and is not implementation-ready.
+
+**Specification:**
+
+- `specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md`
+
+**Plan scaffold:**
+
+- `plans/phase-9-reusable-sharepoint-plugin-extraction-plan-scaffold.md`
+
+**Entry gate:**
+
+- Phase 4.5 provides the plugin operating model (manifests, skill ownership, versioning, contracts, test tiers, documentation categories, marketplace, lifecycle/removal gates) that Phase 9 must reuse.
+- Phase 3 evidence patterns (expected/actual state, reconciliation, permissions) are established.
+- A CMAT repository commit is pinned as the extraction baseline.
+- One pilot capability family is selected and approved after comparing at least `sharepoint-discovery`, `sharepoint-schema`, and `sharepoint-page-modernization`.
+
+**Evidence-based update (2026-08-01):** An actual source skill inventory is now available — `jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` observed at 119 directories, 272 files (144 real files, 128 symlinks), 33 skills. This is a source-baseline snapshot for classification, not a pinned commit, and not a permanent total (see spec §3a). The inventory mixes implemented, experimental, planned-only, deprecated, and project-specific capabilities and is heavily symlink-packaged (see spec §8a for the required symlink-resolution matrix before any extraction). Every skill requires a three-axis classification (implementation status, destination disposition, backlog priority — spec §3b) before pilot selection.
+
+**Do not mark Phase 9 implementation-ready** on the basis of this inventory — it strengthens planning evidence, it does not satisfy the entry gate.
+
 ## Agent-Cost Guidance
 
 ### Low-cost agents
