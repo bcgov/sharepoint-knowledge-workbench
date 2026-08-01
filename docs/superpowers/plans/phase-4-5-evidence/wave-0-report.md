@@ -14,14 +14,16 @@ Built under `tools/phase-4-5-core-plugin-refactoring/`: `wave0_inventory.py`, `w
 
 ```
 cd tools/phase-4-5-core-plugin-refactoring && python3 -m pytest tests/ -v
-14 passed
+16 passed
 ```
+
+**Bug found and fixed during self-review (before Wave 0 was reported complete):** the first version of `wave0_test_ledger.py` used `ast.walk(tree)` for its top-level bare-function branch, which visits every descendant node including methods nested inside classes. Every class-based test method (`class TestFoo: def test_x(self): ...`) was therefore counted twice — once correctly as `TestFoo::test_x` via the `ClassDef` branch, once again incorrectly as a bare `test_x` via the walk-based branch. This inflated the ledger to **682 entries** against pytest's real **530 collected tests** — caught by cross-checking the ledger's count against `pytest --collect-only -q`, not assumed correct from a green test suite alone. Fixed by iterating only `tree.body` (true module-level statements) for the bare-function branch, plus two new regression tests (`test_build_test_ledger_does_not_double_count_class_methods`, `test_build_test_ledger_matches_pytest_collected_count_on_real_repo`). Corrected ledger: **526 entries** (the residual gap under 530 is expected — pytest's collected count includes each `@pytest.mark.parametrize` instance separately, while the AST ledger counts each `def test_*` once regardless of how many parametrized cases it expands to).
 
 ## Step 5 — Evidence artifacts generated
 
 - `wave-0-artifact-inventory.json` — **36 scripts**, **51 test files**, **4 skills** (`analyze-document`, `convert-document`, `orchestrate-conversion`, `render-content`).
 - `wave-0-dependency-graph.json` — **58 internal script-to-script edges** (AST-based, `import`/`from . import` only; stdlib and third-party imports excluded).
-- `wave-0-test-ledger.json` — every `test_*` function across `tests/unit`, `tests/contract`, `tests/integration` (`proposed_owner_domain` left `null`; filled in Wave 1 per the plan).
+- `wave-0-test-ledger.json` — every `test_*` function across `tests/unit`, `tests/contract`, `tests/integration`: **526 entries** (`proposed_owner_domain` left `null`; filled in Wave 1 per the plan). See the double-counting bug note below — this is the corrected figure.
 
 ## Step 6 — Dependency-edge classification
 
@@ -57,10 +59,10 @@ See `wave-0-live-reference-report.md`. Full docx-to-content suite baseline recon
 
 - [x] Confirmed test baseline recorded (529 passed, 1 skipped, reconfirmed live).
 - [x] Every dependency edge classified (58/58; 17 flagged `CROSS_DOMAIN_REQUIRES_HUMAN_DECISION` for Wave 1, not silently resolved here).
-- [x] Test ledger generated (51 test files enumerated; `proposed_owner_domain` deferred to Wave 1 per plan).
+- [x] Test ledger generated (51 test files / 526 distinct test functions enumerated, after fixing a double-counting bug found during self-review; `proposed_owner_domain` deferred to Wave 1 per plan).
 - [x] External-consumer signals discovered and classified using the six-value model — no signal treated as an automatic "consumer."
 - [x] Live-reference report complete.
 - [x] All tooling under `tools/`.
-- [ ] Report committed to `phase-4-5-core-plugin-refactoring` — done immediately after this file is written (see commit following this report).
+- [x] Report committed to `phase-4-5-core-plugin-refactoring`.
 
 **Wave 0 is complete.** Wave 1 (contracts distribution, ownership, migration strategy, decision artifact) is the next wave and requires a human decision checkpoint (`wave-1-decisions.json`) before proceeding — not started in this session.

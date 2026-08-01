@@ -18,7 +18,9 @@ def build_test_ledger(plugin_root: Path) -> dict:
             tree = ast.parse(path.read_text(encoding="utf-8"))
         except SyntaxError:
             continue
-        for node in ast.walk(tree):
+        # Walk only module-level statements, not the full tree (ast.walk would also visit
+        # methods nested inside classes, double-counting them as bare top-level functions too).
+        for node in tree.body:
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name.startswith("test_"):
                 entries.append(
                     {
