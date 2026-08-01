@@ -1,0 +1,352 @@
+{
+  "edges": [
+    {
+      "from": "scripts/analyze_structure.py",
+      "to": "scripts/contracts.py",
+      "line": 41,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/analyze_structure.py",
+      "to": "scripts/dependencies.py",
+      "line": 42,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/analyze_structure.py",
+      "to": "scripts/hashing.py",
+      "line": 43,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/analyze_structure.py",
+      "to": "scripts/identity.py",
+      "line": 44,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/analyze_structure.py",
+      "to": "scripts/media_disposition.py",
+      "line": 45,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/analyze_structure.py",
+      "to": "scripts/plans.py",
+      "line": 46,
+      "classification": "KNOWLEDGE_ANALYSIS_INTERNAL"
+    },
+    {
+      "from": "scripts/analyze_structure.py",
+      "to": "scripts/topic_grouping.py",
+      "line": 47,
+      "classification": "KNOWLEDGE_ANALYSIS_INTERNAL"
+    },
+    {
+      "from": "scripts/atomic_output.py",
+      "to": "scripts/dependencies.py",
+      "line": 85,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/canonical_package.py",
+      "to": "scripts/contracts.py",
+      "line": 35,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/canonical_package.py",
+      "to": "scripts/dispositions.py",
+      "line": 36,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/canonical_package.py",
+      "to": "scripts/hashing.py",
+      "line": 37,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/canonical_package.py",
+      "to": "scripts/publication_map.py",
+      "line": 38,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/chunking.py",
+      "to": "scripts/analyze_structure.py",
+      "line": 50,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/chunking.py",
+      "to": "scripts/identity.py",
+      "line": 51,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/analyze_structure.py",
+      "line": 49,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/contracts.py",
+      "line": 50,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/convert.py",
+      "line": 51,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/dependencies.py",
+      "line": 52,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/package.py",
+      "line": 53,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/canonical_package.py",
+      "line": 54,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/plans.py",
+      "line": 55,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/cli.py",
+      "to": "scripts/topic_grouping.py",
+      "line": 56,
+      "classification": "CLI_ORCHESTRATION_EDGE"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/atomic_output.py",
+      "line": 44,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/chunking.py",
+      "line": 45,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/contracts.py",
+      "line": 46,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/dispositions.py",
+      "line": 47,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/emf_convert.py",
+      "line": 48,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/package.py",
+      "line": 49,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/plans.py",
+      "line": 50,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/convert.py",
+      "to": "scripts/validate_canonical.py",
+      "line": 51,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/dispositions.py",
+      "to": "scripts/contracts.py",
+      "line": 70,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/hashing.py",
+      "to": "scripts/contracts.py",
+      "line": 19,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/identity.py",
+      "to": "scripts/hashing.py",
+      "line": 31,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/package.py",
+      "to": "scripts/contracts.py",
+      "line": 71,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/package.py",
+      "to": "scripts/dispositions.py",
+      "line": 72,
+      "classification": "CANONICAL_KNOWLEDGE_INTERNAL"
+    },
+    {
+      "from": "scripts/package.py",
+      "to": "scripts/hashing.py",
+      "line": 73,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/package.py",
+      "to": "scripts/publication_map.py",
+      "line": 74,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/package.py",
+      "to": "scripts/topic_grouping.py",
+      "line": 75,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/plans.py",
+      "to": "scripts/contracts.py",
+      "line": 40,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/plans.py",
+      "to": "scripts/hashing.py",
+      "line": 41,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/publication_map.py",
+      "to": "scripts/contracts.py",
+      "line": 15,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/renderers/multipage_markdown.py",
+      "to": "scripts/atomic_output.py",
+      "line": 79,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/renderers/multipage_markdown.py",
+      "to": "scripts/contracts.py",
+      "line": 80,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/renderers/protocol.py",
+      "to": "scripts/contracts.py",
+      "line": 43,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/renderers/protocol.py",
+      "to": "scripts/canonical_package.py",
+      "line": 44,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/renderers/validate_rendered.py",
+      "to": "scripts/atomic_output.py",
+      "line": 74,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/renderers/validate_rendered.py",
+      "to": "scripts/contracts.py",
+      "line": 75,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/renderers/validate_rendered.py",
+      "to": "scripts/path_safety.py",
+      "line": 76,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/sharepoint_cli.py",
+      "to": "scripts/sharepoint_dry_run.py",
+      "line": 17,
+      "classification": "SHAREPOINT_DEFERRED_EDGE"
+    },
+    {
+      "from": "scripts/sharepoint_cli.py",
+      "to": "scripts/sharepoint_package.py",
+      "line": 18,
+      "classification": "SHAREPOINT_DEFERRED_EDGE"
+    },
+    {
+      "from": "scripts/sharepoint_cli.py",
+      "to": "scripts/sharepoint_reconcile.py",
+      "line": 19,
+      "classification": "SHAREPOINT_DEFERRED_EDGE"
+    },
+    {
+      "from": "scripts/sharepoint_package.py",
+      "to": "scripts/canonical_package.py",
+      "line": 18,
+      "classification": "SHAREPOINT_DEFERRED_EDGE"
+    },
+    {
+      "from": "scripts/topic_grouping.py",
+      "to": "scripts/identity.py",
+      "line": 40,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/validate_canonical.py",
+      "to": "scripts/contracts.py",
+      "line": 79,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/validate_canonical.py",
+      "to": "scripts/hashing.py",
+      "line": 80,
+      "classification": "SHARED_CONTRACT_CANDIDATE"
+    },
+    {
+      "from": "scripts/validate_canonical.py",
+      "to": "scripts/pandoc_validate.py",
+      "line": 81,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/validate_canonical.py",
+      "to": "scripts/plans.py",
+      "line": 82,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    },
+    {
+      "from": "scripts/validate_canonical.py",
+      "to": "scripts/publication_map.py",
+      "line": 83,
+      "classification": "CROSS_DOMAIN_REQUIRES_HUMAN_DECISION"
+    }
+  ]
+}
