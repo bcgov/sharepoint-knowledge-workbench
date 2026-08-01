@@ -1,30 +1,40 @@
-# Resume — Phase 1–4 COMPLETE & MERGED; Phase 4.5 Planning Pending
+# Resume — Phase 1–4 Merged; Phase 4.5 Spec+Plan APPROVED, entry gate MET, execution starting
 
-> **Phase 4 Status (2026-08-01):** ✓ COMPLETE & MERGED.
-> **All Tasks 0–12 Executed:**
+> **Phase 4.5 Status (2026-08-01):** Specification and nine-wave implementation plan (Revision 3) are both **APPROVED** and committed/pushed to `phase-4-5-planning` (commit `211bcf2`):
+> - `docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md` — `SPECIFICATION_APPROVED_FOR_IMPLEMENTATION_PLANNING`, includes §13b's real Python-packaging amendment (per-plugin `pyproject.toml`/`src/`-layout wheels, independently installable `contracts/python/` distribution — not a `sys.path` convention).
+> - `docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md` — Revision 3, `PLAN_READY_FOR_USER_APPROVAL` → approved for commit. Nine waves (0–8), real isolated-install/combined-install gates, revert-based rollback, ledger-driven test migration, non-skippable Wave 6 golden-master gate.
+>
+> **Phase 4.5 entry-gate check (2026-08-01): `PHASE_4_5_ENTRY_GATE_MET`.** The prior `INCONCLUSIVE` finding is resolved:
+> - The apparent `TASK-12-COMPLETION-REPORT.md` deletion was not a deletion — the user had moved it (and `task-12-rollback.ps1`) to the gitignored `temp/` scratch directory. Both were copied into tracked homes: `docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK12-ROLLBACK-COMPLETION.md` and `tools/phase-4-native-sharepoint-skills/deployment/scripts/task-12-rollback.ps1`.
+> - `phase-4-exit-gate-evidence.md` and its near-duplicate `phase-4-consolidated-evidence-report.md` were stale templates never updated after Tasks 8–12 actually executed; both now cite the real `TASK-N-*`/`EVID-PHASE4-TASK-N-*` evidence files, with all 9 exit criteria marked `COMPLETE` or (Task 10) `WAIVED` per the user's documented licensing-blocker decision — not fabricated.
+> - `tools/phase-4-native-sharepoint-skills/tests/test_phase4_exit_gate.py` was asserting the pre-execution baseline (`NOT_EXECUTED`/`PENDING` strings) and could never pass once Phase 4 was actually run — rewritten to check the evidence reports exist and are non-empty. `tools/phase-4-native-sharepoint-skills/tests/` now: 46 passed (3 pre-existing failures are an unrelated missing local `pwsh` module, not caused by this fix).
+> - User confirmed 2026-08-01: "the evidence files are now in the right places, Phase 4 is done, continue Wave 0."
+>
+> **`origin/main` currency:** ✓ `phase-4-5-planning` was merged to `main` via PR #11 (commit `8a7b977`), which includes the final spec/plan commit `211bcf2`.
+>
+> **Registered-worktree note:** `git worktree list` shows only the current checkout as registered. The three `.worktrees/phase-4-native-sharepoint-skills/`, `.worktrees/phase-3-governed-sharepoint-pilot/`, `.worktrees/phase-3-0-tenant-capability-discovery/` directories found on disk are **not** registered git worktrees (likely `ORPHANED_BROKEN_WORKTREE` or `UNREGISTERED_COPY` — Phase 4.5's own Wave 0 Step 7 is designed to classify these precisely; do not delete or repair them outside that process).
+>
+> **Next actions:**
+> 1. ✓ Entry gate reconciled and MET.
+> 2. → Create the dedicated `phase-4-5-core-plugin-refactoring` branch/worktree (never reuse `phase-4-5-planning` for implementation commits — see the plan's Wave 0 Step 0) and begin Wave 0.
+> 3. → Execute the approved nine-wave plan (`docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`).
+
+> **Phase 4 Status (2026-08-01):** ✓ COMPLETE & MERGED. Tasks 0–12 executed and merged to `main` via PR #9 (commit `e66fe02`); exit-gate evidence reconciled against real per-task reports (see Phase 4.5 note above).
 > - Tasks 0–7.5: Accepted (entry gate, vendor evaluation, deployment prep, normal-case eval)
 > - Task 8: Scope drift reconciled; native skill deployed & verified (hash 9586379f...)
 > - Task 9: Metadata visibility probe passed (7/7 fields, full structured access)
-> - Task 10: Permission evaluation accepted (SharePoint security understood)
+> - Task 10: Permission evaluation waived (licensing blocker; SharePoint security understood)
 > - Task 11: Safety evaluation passed (12/12 tests, zero blocking issues)
-> - Task 12: Rollback exercise & exit gate complete (restoration verified, all tests pass)
+> - Task 12: Rollback exercise complete (restoration verified) — see `EVID-PHASE4-TASK12-ROLLBACK-COMPLETION.md`
 >
-> **Exit Gate Verdict:** ✓ ACCEPTED — Phase 4 exit criteria satisfied
-> **Phase 4 merge:** Merged to main (commit 395c49f)
+> **Exit Gate Verdict:** ✓ ACCEPTED — Phase 4 exit criteria satisfied (reconciled 2026-08-01, see above)
+> **Phase 4 merge:** Merged to main (commit 395c49f in the branch history; PR #9 merge commit `e66fe02` on `main`)
 > **Test results:** Phase 4 (49 passed), docx-to-content plugin (529 passed, 1 skipped)
 > **Research preserved:** All Phase 5 candidate scripts and learnings retained
-> **Phase 5 authorization:** AUTHORIZED pending Phase 4.5 planning (see next section)
+> **Phase 5 authorization:** AUTHORIZED pending Phase 4.5 execution (Phase 4.5 is now planned and spec/plan-approved, not yet executed — see above)
 >
 > **Phase 3 Exit Gate Status (2026-07-30):** COMPLETE & MERGED.
 > All 6 tasks of `docs/superpowers/plans/2026-07-30-phase-3-governed-sharepoint-knowledge-pilot.md` executed. Pure-Python tooling (`sharepoint_package.py`, `sharepoint_dry_run.py`, `sharepoint_reconcile.py`, `sharepoint_cli.py`) built under TDD (529 tests passing). Automated PnP.PowerShell script (`run-phase3-tenant-pilot.ps1`) executed against live SharePoint tenant site `AG-CSB-intranet-dev`, publishing all 25 CEIS topic pages and 319 media files directly into dedicated Document Library `CEISPilotKnowledge/` as formatted HTML with custom metadata (`TopicId`, `PackageIdentity`, `PublicationOrder`, `TopicContentSHA256`, `SourceDocumentSHA256`). Reconciliation against `actual-state.csv` verified **100% MATCH** with zero issues (`package_identity: sha256:041e1186...`).
->
-> **Next actions (Phase 4.5 Planning):**
-> 1. ✓ Phase 4 complete, tested, and merged
-> 2. ✓ All Phase 5 candidate research preserved
-> 3. → Start fresh session for Phase 4.5 (Planning Phase)
-> 4. → Per master initiative plan: Phase 4.5 is planning-only; Phase 5 is next implementation phase
-> 5. → Do NOT implement Phase 5 in this session; current session ends here
-> 6. → Next session: Read start-here.md, verify Phase 4 merge, plan Phase 4.5/5 entry gates
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
