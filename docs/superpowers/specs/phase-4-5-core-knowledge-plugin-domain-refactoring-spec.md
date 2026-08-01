@@ -745,6 +745,33 @@ The exact distribution/import name (`knowledge_workbench_contracts` above) is pr
 
 **Isolated-install proof (required gate, detailed in the implementation plan):** each plugin's wheel is built, installed into a clean virtual environment alongside only its declared dependencies (including the contracts distribution), and its tests plus at least one public-API call are exercised outside pytest's `conftest.py` machinery — proving the package, not merely the checkout, is independently usable. A combined-environment test installs all four plugin distributions together to detect namespace or dependency collisions before any wave closes.
 
+### 13c. Neutral Runtime-Utility Distribution (amendment, Wave 1 human decision, 2026-08-01)
+
+**Trigger:** Wave 1's disposition decision for `plugins/docx-to-content/scripts/atomic_output.py` (`create_staging_dir`/`promote`, the plugin's atomic staging-and-promotion primitives). The plan's default disposition was "duplicated: canonical-knowledge + knowledge-publication"; this section records why that default, and the alternative of placing the code in `knowledge_workbench_contracts`, were both rejected, and what was approved instead.
+
+**Why `atomic_output.py` is not a contract.** §13b scopes `knowledge_workbench_contracts` to "types, schemas, and validation only — no domain implementation logic." `create_staging_dir`/`promote` are executable runtime/workflow logic (real filesystem operations with crash-recovery semantics) — not a schema, not a `validate()` function, not a data type. Placing them in the contracts distribution would violate §13b's own requirement regardless of how generic or dependency-free the code is; genericity does not make executable logic a schema.
+
+**Why duplication was rejected.** `promote()`'s crash-recovery logic (atomic-rename-with-backup, restore-on-failure) is safety-critical: a bug in it can corrupt or lose a promoted package. Two independently-maintained copies of 173 lines of this logic, one in `canonical-knowledge` and one in `knowledge-publication`, would diverge the first time either is patched without the other being updated in lockstep — a known failure mode this specification's Rollback Model and evidence-discipline sections exist specifically to avoid elsewhere in the plan. A single, independently versioned distribution avoids this by construction.
+
+**Approved runtime-utility scope.** A new, independently installable, independently versioned distribution:
+
+```
+runtime/python/
+├── pyproject.toml
+└── src/
+    └── knowledge_workbench_runtime/
+        ├── __init__.py
+        └── atomic_output.py
+```
+
+- Distribution ID (provisional, confirmed in `wave-1-decisions.json`): `knowledge-workbench-runtime`. Python import package: `knowledge_workbench_runtime`.
+- Initial approved responsibility: `create_staging_dir`/`promote` (atomic output directory promotion, crash-safe output replacement) and, if approved individually in a future wave, only other **directly related deterministic filesystem primitives** — never approved implicitly by analogy.
+- **Explicit non-goal:** this distribution must not become a generic shared-utility dumping ground. Adding a function here requires the same kind of explicit Wave-level human decision this section itself required for `atomic_output.py` — it is not a lower-friction alternative to the contracts distribution's own dependency-boundary discipline.
+- `build_generator_info`/`write_generator_info` (the two `atomic_output.py` functions that call `dependencies.probe_pandoc()`/`probe_soffice()`) are **not** part of this distribution — `dependencies.py` is `source-document-extraction`-domain logic per the Known File Inventory, and this neutral distribution must never depend on any domain plugin's implementation package, exactly as `knowledge_workbench_contracts` must not. Each of `canonical-knowledge` and `knowledge-publication` implements its own thin generator-info wrapper independently.
+- Both `canonical-knowledge` and `knowledge-publication` **declare `knowledge-workbench-runtime` explicitly** as a dependency in their own `pyproject.toml` — no implicit or transitive reliance, matching the contracts distribution's own declared-dependency discipline in §13b.
+- Independently packaged, tested (in isolation, via the same isolated-install harness pattern as every plugin and the contracts distribution), and versioned — a change to `knowledge_workbench_runtime` does not force a version bump of `knowledge_workbench_contracts` or vice versa, matching §12's per-contract independent-versioning principle.
+- The dependency-boundary checker (`tools/phase-4-5-core-plugin-refactoring/dependency_boundary.py`) applies to this distribution's own `src/` exactly as it applies to every plugin's `src/` — `knowledge_workbench_runtime`'s production code must not import `repo_root` or any domain plugin's implementation package.
+
 ### Marketplace Model
 
 **Status:** `MARKETPLACE_ADOPTION_REQUIRES_HUMAN_DECISION`

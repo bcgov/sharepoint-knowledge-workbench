@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "broken-plugin-undeclared-import"
+version = "0.0.1"
+description = "Negative-control fixture: imports an uninstalled upstream plugin's implementation package, never declared as a dependency."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]

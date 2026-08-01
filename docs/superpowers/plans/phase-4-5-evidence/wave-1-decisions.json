@@ -1,0 +1,58 @@
+{
+  "status": "APPROVED",
+  "contract_versions": {
+    "normalized-source-document": "v1",
+    "analysis-plan": "v1",
+    "canonical-package": "v1",
+    "publication-map": "v1",
+    "rendered-output-profile": "v1"
+  },
+  "contracts_distribution_name": "knowledge-workbench-contracts",
+  "contracts_distribution_version": "0.1.0-alpha.1",
+  "runtime_distribution_name": "knowledge-workbench-runtime",
+  "runtime_distribution_version": "0.1.0-alpha.1",
+  "runtime_distribution_scope": "atomic_output.py's create_staging_dir/promote only, per docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md §13c",
+  "plugin_starting_versions": {
+    "source-document-extraction": "0.1.0-alpha.1",
+    "knowledge-analysis": "0.1.0-alpha.1",
+    "canonical-knowledge": "0.1.0-alpha.1",
+    "knowledge-publication": "0.1.0-alpha.1"
+  },
+  "marketplace_adoption": "NOT_APPLICABLE_WITH_DECISION",
+  "analyze_structure_split_approved": true,
+  "analyze_structure_split_decision_reference": "docs/superpowers/plans/phase-4-5-evidence/wave-1-analyze-structure-split-decision.md",
+  "analyze_structure_split_summary": {
+    "source_document_extraction_owns": [
+      "_run_pandoc_raw", "_normalize_heading_text", "iter_heading_matches", "parse_headings",
+      "_counts_by_level", "_repeated_heading_texts", "_repeated_paths", "_image_stats",
+      "detect_raw_toc", "detect_defect_signals"
+    ],
+    "knowledge_analysis_owns": ["topic-boundary reasoning", "recommend_strategy", "analysis-plan generation"],
+    "compatibility_orchestrator": "cli.py::cmd_analyze (not analyze_structure.py::analyze_document) — calls extract_and_normalize then recommend_from_normalized in sequence"
+  },
+  "shared_contract_decision_approved": true,
+  "shared_contract_decision_reference": "docs/superpowers/plans/phase-4-5-evidence/wave-1-shared-contract-decision.md",
+  "atomic_output_disposition": {
+    "status": "APPROVED",
+    "decision": "NEW_NEUTRAL_RUNTIME_DISTRIBUTION",
+    "distribution": "knowledge-workbench-runtime",
+    "rejected_options": ["DUPLICATE_INTO_BOTH_PLUGINS", "PROMOTE_INTO_CONTRACTS_DISTRIBUTION"],
+    "spec_amendment_reference": "docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md §13c"
+  },
+  "convert_py_extraction_primitive_unification": {
+    "status": "FLAGGED_FOR_WAVE_2_IMPLEMENTATION_DECISION",
+    "note": "run_pandoc_extraction (convert.py) and _run_pandoc_raw (analyze_structure.py, now source-document-extraction-owned) are structurally parallel direct-pandoc-invocation functions; whether they become one shared source-document-extraction primitive or remain two is a Wave 2 implementation decision, not resolved here."
+  },
+  "original_skill_dispositions": {
+    "analyze-document": "TEMPORARY_COMPATIBILITY_WRAPPER",
+    "convert-document": "TEMPORARY_COMPATIBILITY_WRAPPER",
+    "render-content": "TEMPORARY_COMPATIBILITY_WRAPPER",
+    "orchestrate-conversion": "RETAINED_PUBLIC_ORCHESTRATOR"
+  },
+  "orchestrate_conversion_retention_note": "Not retired in Wave 6, unlike the original plan's proposal. Preserves the analyze -> human confirmation -> canonical construction -> render sequence as the intentional public workflow orchestrator. Must contain orchestration only, no domain logic. All four skill dispositions (including this one) are reassessed in Wave 7 using the final consumer scan; this approval does not pre-approve retirement of any of the four.",
+  "approval": {
+    "approved_by": "user (richardfremmerlid)",
+    "approved_at": "2026-08-01",
+    "note": "Approved with three revisions to the original proposal: (1) a more extraction-favoring analyze_structure.py split, (2) a new separate knowledge-workbench-runtime distribution instead of duplicating or promoting atomic_output.py into contracts, (3) orchestrate-conversion retained rather than retired, with all four skill dispositions reassessed in Wave 7 using real consumer evidence, not pre-approved for removal."
+  }
+}

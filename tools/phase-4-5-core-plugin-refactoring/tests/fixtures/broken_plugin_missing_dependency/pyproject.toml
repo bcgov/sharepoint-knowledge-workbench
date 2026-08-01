@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "broken-plugin-missing-dependency"
+version = "0.0.1"
+description = "Negative-control fixture: imports the contracts distribution without declaring it in [project].dependencies."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
