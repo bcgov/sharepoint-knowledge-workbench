@@ -106,111 +106,6 @@
       "proposed_owner_domain": null
     },
     {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_has_required_section_headings",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_has_required_front_matter_fields",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_has_no_machine_owned_fields",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_distinguishes_authors_from_code",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_does_not_expose_internals",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_documents_relative_path_rules",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_lists_permitted_and_prohibited",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_lists_toc_and_navigation_with_source",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_does_not_claim_unimplemented_as_implemented",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_documents_callout_syntax",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_lists_semantic_components",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_contains_required_elements",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_does_not_insert_empty_boilerplate",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_no_ceis_headings_in_new_docs_and_templates",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_content_authoring_guidance.py",
-      "test_name": "test_strip_raw_toc_removes_dump_keeps_headings",
-      "proposed_owner_domain": null
-    },
-    {
       "file": "tests/contract/test_contracts.py",
       "test_name": "TestSourceFingerprint::test_round_trip",
       "proposed_owner_domain": null
@@ -406,191 +301,6 @@
       "proposed_owner_domain": null
     },
     {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_missing_required_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_missing_required_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_round_trip_all_fields",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_missing_required_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_missing_schema_version_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_unsupported_schema_version_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_supported_schema_version_constant",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_confirmation_status_values",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_nested_source_and_anchors_are_typed",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_missing_required_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_missing_schema_version_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_manifest_chunk_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_manifest_chunk_missing_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_manifest_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_manifest_missing_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_manifest_missing_schema_version_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_manifest_generator_typed",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_validation_issue_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_validation_issue_optional_path",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_validation_issue_missing_required_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_validation_report_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_validation_report_with_issues",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_validation_report_missing_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_round_trip",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_missing_required_field_raises",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_deterministic_regardless_of_key_order",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_stable_across_calls",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_content_hash_is_sha256_hex",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_content_hash_deterministic",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_content_hash_changes_with_content",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_plan_id_prefixed",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_plan_id_excludes_confirmed_at_timestamp",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_plan_id_excludes_plan_id_field_itself",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_contracts.py",
-      "test_name": "test_plan_id_changes_with_content",
-      "proposed_owner_domain": null
-    },
-    {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestFutureOutputProfilesStructure::test_exists_and_documents_all_eight_profiles",
       "proposed_owner_domain": null
@@ -638,56 +348,6 @@
     {
       "file": "tests/contract/test_future_output_profiles.py",
       "test_name": "TestRendererRegistryOnlyMultipageMarkdown::test_cli_supported_renderers_constant_has_only_multipage_markdown",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_exists_and_documents_all_eight_profiles",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_only_multipage_markdown_is_implemented",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_sharepoint_profile_requires_platform_authorization",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_no_aspx_described_as_authoring_or_canonical_format",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_word_and_sharepoint_have_drift_warning",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_no_profile_claims_automatic_round_trip_editing",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_no_forbidden_terms_in_plugin_source",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_future_output_profiles_doc_names_sharepoint_only_as_designed_only",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_registry_used_by_cli_registers_only_multipage_markdown",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_future_output_profiles.py",
-      "test_name": "test_cli_supported_renderers_constant_has_only_multipage_markdown",
       "proposed_owner_domain": null
     },
     {
@@ -803,121 +463,6 @@
     {
       "file": "tests/contract/test_skill_contracts.py",
       "test_name": "TestRenderContentSkillContract::test_documents_cmd_render_as_fully_wired",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_has_exact_cli_invocation",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_transitory_raw_output",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_draft_plan",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_exit_codes",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_pass_warn_fail",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_prohibited_shortcuts",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_handoff",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_has_exact_cli_invocations",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_confirmed_plan",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_source_hash",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_staging",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_canonical_validation",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_exit_codes",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_pass_warn_fail",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_prohibited_shortcuts",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_handoff",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_has_exact_cli_invocation",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_canonical_only_input",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_emphasizes_renderer_validation",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_exit_codes",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_pass_warn_fail",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_prohibited_shortcuts",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/contract/test_skill_contracts.py",
-      "test_name": "test_documents_cmd_render_as_fully_wired",
       "proposed_owner_domain": null
     },
     {
@@ -1043,81 +588,6 @@
     {
       "file": "tests/integration/test_plugin_structure.py",
       "test_name": "TestPluginStructure::test_requirements_txt_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_plugin_directory_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_plugin_json_exists_and_valid",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_plugin_yaml_exists_and_valid",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_skills_directories_exist",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_skill_metadata_files_exist",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_scripts_directory_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_required_script_files_exist",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_pandoc_fixes_directory_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_renderers_directory_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_required_renderer_files_exist",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_tests_directories_exist",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_references_directory_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_required_reference_files_exist",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_requirements_in_exists",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/integration/test_plugin_structure.py",
-      "test_name": "test_requirements_txt_exists",
       "proposed_owner_domain": null
     },
     {
@@ -1348,36 +818,6 @@
     {
       "file": "tests/unit/test_attrs.py",
       "test_name": "TestStripPandocAttrs::test_strips_multiple_attrs_in_document",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_attrs.py",
-      "test_name": "test_strips_image_dimension_attrs",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_attrs.py",
-      "test_name": "test_strips_underline_span_preserving_text",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_attrs.py",
-      "test_name": "test_strips_mark_span_preserving_text",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_attrs.py",
-      "test_name": "test_leaves_plain_text_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_attrs.py",
-      "test_name": "test_leaves_normal_brackets_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_attrs.py",
-      "test_name": "test_strips_multiple_attrs_in_document",
       "proposed_owner_domain": null
     },
     {
@@ -1781,21 +1221,6 @@
       "proposed_owner_domain": null
     },
     {
-      "file": "tests/unit/test_emf_convert.py",
-      "test_name": "test_empty_directory_returns_empty_mapping",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_emf_convert.py",
-      "test_name": "test_directory_with_no_legacy_media_returns_empty_mapping",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_emf_convert.py",
-      "test_name": "test_converts_emf_to_png_and_returns_mapping",
-      "proposed_owner_domain": null
-    },
-    {
       "file": "tests/unit/test_footnotes.py",
       "test_name": "TestCleanOrphanedFootnotes::test_leaves_matched_footnote_untouched",
       "proposed_owner_domain": null
@@ -1813,26 +1238,6 @@
     {
       "file": "tests/unit/test_footnotes.py",
       "test_name": "TestCleanOrphanedFootnotes::test_handles_mixed_matched_and_orphaned",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_footnotes.py",
-      "test_name": "test_leaves_matched_footnote_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_footnotes.py",
-      "test_name": "test_removes_orphaned_reference_with_no_definition",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_footnotes.py",
-      "test_name": "test_removes_orphaned_definition_with_no_reference",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_footnotes.py",
-      "test_name": "test_handles_mixed_matched_and_orphaned",
       "proposed_owner_domain": null
     },
     {
@@ -1888,61 +1293,6 @@
     {
       "file": "tests/unit/test_heading_emphasis.py",
       "test_name": "TestStripWholeHeadingEmphasis::test_leaves_single_asterisk_italic_whole_heading_untouched_if_ambiguous",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_strips_whole_heading_bold",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_strips_whole_heading_bold_italic",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_leaves_partial_emphasis_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_leaves_non_heading_emphasis_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_leaves_plain_heading_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_preserves_heading_level",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_handles_multiple_headings",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_strips_whole_heading_underscore_italic",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_leaves_mismatched_marker_boundary_untouched_open_two_close_three",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_leaves_mismatched_marker_boundary_untouched_open_three_close_two",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_heading_emphasis.py",
-      "test_name": "test_leaves_single_asterisk_italic_whole_heading_untouched_if_ambiguous",
       "proposed_owner_domain": null
     },
     {
@@ -2048,41 +1398,6 @@
     {
       "file": "tests/unit/test_images.py",
       "test_name": "TestFixGluedImages::test_handles_multiple_headings_with_glued_images",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_images.py",
-      "test_name": "test_separates_image_glued_to_heading",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_images.py",
-      "test_name": "test_separates_image_glued_to_list_item",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_images.py",
-      "test_name": "test_leaves_image_already_on_own_line",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_images.py",
-      "test_name": "test_leaves_plain_heading_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_images.py",
-      "test_name": "test_separates_image_glued_to_start_of_heading",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_images.py",
-      "test_name": "test_separates_image_glued_to_start_of_list_item",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_images.py",
-      "test_name": "test_handles_multiple_headings_with_glued_images",
       "proposed_owner_domain": null
     },
     {
@@ -2431,31 +1746,6 @@
       "proposed_owner_domain": null
     },
     {
-      "file": "tests/unit/test_pandoc_validate.py",
-      "test_name": "test_passes_clean_document",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_pandoc_validate.py",
-      "test_name": "test_fails_on_unresolved_image_link",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_pandoc_validate.py",
-      "test_name": "test_fails_on_leftover_attribute_artifact",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_pandoc_validate.py",
-      "test_name": "test_fails_on_image_embedded_in_heading",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_pandoc_validate.py",
-      "test_name": "test_reports_multiple_errors_together",
-      "proposed_owner_domain": null
-    },
-    {
       "file": "tests/unit/test_plans.py",
       "test_name": "test_build_draft_plan_accepts_grouped_strategy",
       "proposed_owner_domain": null
@@ -2573,11 +1863,6 @@
     {
       "file": "tests/unit/test_regression_pipeline.py",
       "test_name": "TestRegressionPipeline::test_all_modules_compose_without_conflict",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_regression_pipeline.py",
-      "test_name": "test_all_modules_compose_without_conflict",
       "proposed_owner_domain": null
     },
     {
@@ -2746,31 +2031,6 @@
       "proposed_owner_domain": null
     },
     {
-      "file": "tests/unit/test_tables.py",
-      "test_name": "test_inserts_missing_separator_row",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_tables.py",
-      "test_name": "test_fixes_separator_row_with_wrong_column_count",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_tables.py",
-      "test_name": "test_leaves_well_formed_table_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_tables.py",
-      "test_name": "test_leaves_non_table_text_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_tables.py",
-      "test_name": "test_leaves_grid_table_untouched",
-      "proposed_owner_domain": null
-    },
-    {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_strips_raw_toc_block",
       "proposed_owner_domain": null
@@ -2808,46 +2068,6 @@
     {
       "file": "tests/unit/test_toc.py",
       "test_name": "TestStripRawToc::test_strips_toc_preceded_by_title_heading",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_strips_raw_toc_block",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_leaves_normal_links_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_leaves_document_with_no_toc_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_strips_toc_without_bookmark_anchor",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_strips_slug_anchor_toc_block",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_leaves_legitimate_internal_link_list_untouched",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_leaves_single_legitimate_link_adjacent_to_stripped_toc",
-      "proposed_owner_domain": null
-    },
-    {
-      "file": "tests/unit/test_toc.py",
-      "test_name": "test_strips_toc_preceded_by_title_heading",
       "proposed_owner_domain": null
     },
     {
