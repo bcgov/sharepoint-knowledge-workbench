@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_toc.py -v
 """
 
-from pandoc_fixes.toc import strip_raw_toc
+from source_document_extraction.pandoc_fixes.toc import strip_raw_toc
 
 
 class TestStripRawToc:

@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_attrs.py -v
 """
 
-from pandoc_fixes.attrs import strip_pandoc_attrs
+from source_document_extraction.pandoc_fixes.attrs import strip_pandoc_attrs
 
 
 class TestStripPandocAttrs:

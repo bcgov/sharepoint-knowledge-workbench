@@ -14,7 +14,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_heading_emphasis.py -v
 """
 
-from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis
+from source_document_extraction.pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis
 
 
 class TestStripWholeHeadingEmphasis:

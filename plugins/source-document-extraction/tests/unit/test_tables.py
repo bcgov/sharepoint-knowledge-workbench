@@ -12,7 +12,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_tables.py -v
 """
 
-from pandoc_fixes.tables import fix_malformed_tables
+from source_document_extraction.pandoc_fixes.tables import fix_malformed_tables
 
 
 class TestFixMalformedTables:
