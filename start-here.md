@@ -1,4 +1,52 @@
-# Resume — Phase 1–4 Merged; Phase 4.5 Waves 0–3 COMPLETE; Wave 4 authorized, not started
+# Resume — Phase 1–4 Merged; Phase 4.5 Waves 0–6 COMPLETE; Wave 7 authorized, not started
+
+> **2026-08-01 update (Waves 4-6, same session, human pre-authorized execution of Waves 5-8 with
+> per-wave commits, direct execution not yet independently reviewed):**
+>
+> - **Wave 4 (`canonical-knowledge`):** ✓ COMPLETE, committed (`2a210e6`), pushed. Extracted
+>   `convert.py`/`chunking.py`/`package.py`/`canonical_package.py`/`dispositions.py`/
+>   `media_disposition.py`/`publication_map.py`/`hashing.py`/`validate_canonical.py`/
+>   `atomic_output.py` wholesale, plus the `canonical-package`/`publication-map` contract
+>   dataclasses (materialized as `canonical_schema/`). Fixed five real cross-plugin-dependency
+>   violations via local duplication (`chunk_identity`/`chunk_grouping`/`pandoc_cleanup`/
+>   `plan_verification`/`emf_convert`), including a genuine `cli.py` bug (caught the wrong
+>   `PlanVerificationError` class after `convert.py` moved). 173/173 tests, isolated-install proof
+>   passed. See `docs/superpowers/plans/phase-4-5-evidence/wave-4-canonical-knowledge-split-decision.md`.
+> - **Wave 5 (`knowledge-publication`):** ✓ COMPLETE, committed (`199343e`), pushed. Extracted
+>   `renderers/` (protocol, multipage-markdown renderer, render validator) and the `RenderResult`
+>   contract (renamed `render_result.py`; `docx-to-content/scripts/contracts.py` deleted outright,
+>   zero remaining local consumers). Duplicated the full consumer-side chain needed to load/validate
+>   a canonical package (`canonical_package`/`dispositions`/`hashing`/`publication_map`/
+>   `atomic_output`/`path_safety`/`canonical_schema`) locally, since the render pipeline's
+>   dependency graph runs deeper than the convert pipeline's did. 49/49 tests, isolated-install
+>   proof passed. See `docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md`.
+> - **Wave 6 (repository-wide reconciliation):** ✓ COMPLETE. Built
+>   `combined_install_check.py` (all four plugin wheels co-installed in one clean venv, zero
+>   collisions, each plugin's own suite passes) — caught and fixed a real bug in the harness itself
+>   (`build_wheel()`'s alphabetical-last-wheel-in-shared-dir picking logic silently returned the
+>   same wheel four times when building into one shared dist dir). Ran the real, non-skipped
+>   golden-master proof: the CEIS manual converted through `canonical_knowledge.build_canonical_package`
+>   → `knowledge_publication.render` (each stage in its own subprocess — `canonical-knowledge` and
+>   `knowledge-publication` share several duplicated bare module names, so both cannot be imported
+>   in one long-lived interpreter without a namespace collision; this is an expected architecture
+>   boundary, documented in `docs/architecture/phase-4-5-target-architecture.md`) reproduces
+>   `runs/ceis-manual-v2/`'s canonical-content and rendered-output trees byte-identically (modulo
+>   documented run-specific fields: `generator-info.json`'s timestamp,
+>   `render-result.json`'s absolute `output_files` paths). Hashes recorded in
+>   `docs/superpowers/plans/phase-4-5-evidence/wave-6-golden-master-manifest.json`. New
+>   `tests/integration/test_full_ceis_pipeline_across_plugins.py` executed with zero skips.
+>   Not yet committed as of this note — commit immediately after, same session.
+>
+> **Combined test totals, end of Wave 6:** `source-document-extraction` 78,
+> `knowledge-analysis` 70, `canonical-knowledge` 173, `knowledge-publication` 49,
+> `docx-to-content` 171 (170 passed/1 skipped), `tools/phase-4-5-core-plugin-refactoring` 42
+> (40 fast + 2 slow), repo-root `tests/integration/` 1 — see
+> `docs/superpowers/plans/phase-4-5-evidence/wave-6-final-test-migration-ledger.md`.
+>
+> **Next action on resume: Wave 7** (retire approved compatibility facades — read the plan's Wave
+> 7 section, `docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`,
+> before starting).
+
 
 > **Phase 4.5 Status (2026-08-01, end of session):** Executing the approved nine-wave plan
 > (`docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`) on

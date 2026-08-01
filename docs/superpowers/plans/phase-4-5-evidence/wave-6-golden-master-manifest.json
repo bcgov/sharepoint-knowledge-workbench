@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-08-01",
+  "wave": 6,
+  "description": "Byte-identical proof that the four independently-installed Phase 4.5 domain plugins (source-document-extraction, knowledge-analysis, canonical-knowledge, knowledge-publication), chained via canonical_knowledge.build_canonical_package -> knowledge_publication.render, reproduce the same canonical-content and rendered-output trees as the pre-Phase-4.5 combined docx-to-content pipeline's own recorded baseline (runs/ceis-manual-v2/).",
+  "source_docx_path": "intake/CEIS MANUAL - working version.docx",
+  "source_docx_sha256": "c804b65559ff8ad8d3a8dd66f01067ab468191a3487384514cdd1614a9f9178c",
+  "confirmed_plan_source_path": "temp/ceis-manual-analysis/conversion-plan.confirmed.json",
+  "confirmed_plan_note": "Gitignored (per start-here.md); a real analyze+confirm run against the current intake docx reproduces it. Its recorded source.sha256 matches source_docx_sha256 above.",
+  "canonical_content_tree_hash_excl_generator_info": "ea17e633053e58e34dd8acffebb350b98dae98871abadfab2cdc2a4afa90f2b5",
+  "rendered_output_tree_hash_excl_generator_info_and_render_result": "9d283a2b144d64ce3df33c17b521229da3ae9fdda712bde418bc6397474eb26c",
+  "excluded_from_hash": [
+    "generator-info.json (run_timestamp field is deliberately run-specific, per atomic_output.write_generator_info's own documented exclusion rule)",
+    "render-result.json (output_files entries are absolute, run-location-specific paths; every other field participates in the hash)"
+  ],
+  "baseline_reference": {
+    "path": "runs/ceis-manual-v2/",
+    "description": "Task 18 cutover: the same CEIS source document converted through the pre-Phase-4.5 combined docx-to-content plugin's full analyze/confirm/convert/render pipeline, validated PASS at both the canonical and rendered stages. Referenced by path+hash per Wave 6 Step 2's evidence-safety classification -- not duplicated (248MB tracked evidence)."
+  },
+  "process_isolation_note": "canonical-knowledge and knowledge-publication both duplicate several identically-named bare modules (canonical_schema, atomic_output, hashing, dispositions, publication_map, canonical_package -- see wave-4/wave-5 decision docs). Co-installing both into ONE long-lived Python interpreter and importing both by bare name in that same process causes a real namespace collision (only one plugin's copy of each shared bare name survives on sys.path). The golden-master run above therefore executes canonical_knowledge.build_canonical_package and knowledge_publication.render in two SEPARATE Python processes (matching how these plugins are actually meant to be invoked -- each as its own independently-installed skill/CLI, not a shared long-lived multi-plugin interpreter). This is not a bug in the pipeline; it is the expected boundary of the flat-bare-module, zero-shared-distribution architecture, and is the same reason combined_install_check.py runs each plugin's own test suite in an isolated subprocess rather than one shared pytest session."
+}
