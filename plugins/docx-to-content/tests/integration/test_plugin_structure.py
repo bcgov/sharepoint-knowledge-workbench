@@ -82,12 +82,17 @@ class TestPluginStructure:
         assert scripts_dir.is_dir(), f"scripts path is not a directory: {scripts_dir}"
 
     def test_required_script_files_exist(self):
-        """All required script files must exist (as placeholders)."""
+        """All required script files must exist (as placeholders).
+
+        `dependencies.py` is intentionally absent (Phase 4.5 Wave 2): it now
+        lives in the installed `source-document-extraction` package
+        (compatibility path during the migration), not as a local file --
+        see docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md.
+        """
         required_scripts = [
             "cli.py",
             "contracts.py",
             "hashing.py",
-            "dependencies.py",
             "analyze_structure.py",
             "plans.py",
             "convert.py",
@@ -100,11 +105,18 @@ class TestPluginStructure:
             script_path = PLUGIN_ROOT / "scripts" / script_name
             assert script_path.exists(), f"Script file does not exist: {script_path}"
 
-    def test_pandoc_fixes_directory_exists(self):
-        """pandoc_fixes/ subdirectory must exist in scripts/."""
-        pandoc_fixes_dir = PLUGIN_ROOT / "scripts" / "pandoc_fixes"
-        assert pandoc_fixes_dir.exists(), f"pandoc_fixes directory does not exist: {pandoc_fixes_dir}"
-        assert pandoc_fixes_dir.is_dir(), f"pandoc_fixes path is not a directory: {pandoc_fixes_dir}"
+    def test_pandoc_directory_no_longer_local(self):
+        """scripts/pandoc/ (formerly scripts/pandoc_fixes/) is intentionally
+        absent (Phase 4.5 Wave 2): it now lives in the installed
+        `source-document-extraction` package (compatibility path during the
+        migration), not as a local directory -- see
+        docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md.
+        """
+        pandoc_dir = PLUGIN_ROOT / "scripts" / "pandoc"
+        assert not pandoc_dir.exists(), (
+            f"scripts/pandoc/ should not exist locally -- it's supplied by "
+            f"the installed source-document-extraction package: {pandoc_dir}"
+        )
 
     def test_renderers_directory_exists(self):
         """renderers/ subdirectory must exist in scripts/."""

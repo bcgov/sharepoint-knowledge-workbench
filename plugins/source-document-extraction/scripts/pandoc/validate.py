@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 """
-pandoc_validate.py
-===================
+pandoc/validate.py
+=========================
 
 Hard-fail validator for cleaned pandoc markdown output. Run after the
-pandoc_fixes/* cleanup pipeline (attrs -> images -> toc -> tables ->
-footnotes -> legacy image conversion, per spec Section 7.2) to catch
-regressions the pipeline should have already fixed:
+sibling attrs/images/toc/tables/footnotes cleanup modules in this same
+pandoc/ package (attrs -> images -> toc -> tables -> footnotes ->
+legacy image conversion, per spec Section 7.2) to catch regressions the
+pipeline should have already fixed:
 
   (a) unresolved image links: a relative image path that does not exist
       under the given base directory.
@@ -25,7 +26,7 @@ Function Index:
         Returns {"status": "PASS" | "FAIL", "errors": list[str]}.
 
 Usage:
-    from pandoc_validate import validate_cleaned_markdown
+    from pandoc.validate import validate_cleaned_markdown
     result = validate_cleaned_markdown(cleaned_text, Path("output/my-doc"))
     if result["status"] == "FAIL":
         raise RuntimeError("\\n".join(result["errors"]))

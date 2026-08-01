@@ -4,7 +4,7 @@ plugin: source-document-extraction
 description: Run pandoc against a source .docx and produce a normalized-source-document contract (markdown text, media files, heading structure, defect signals, statistics) for downstream knowledge-analysis.
 allowed-tools: Bash, Read
 examples:
-  - "python -c \"from source_document_extraction.extraction import extract_and_normalize; extract_and_normalize('intake/Manual.docx', 'analysis/Manual')\""
+  - "python -c \"from extraction import extract_and_normalize; extract_and_normalize('intake/Manual.docx', 'analysis/Manual')\""
 ---
 
 # Extract DOCX
@@ -25,7 +25,7 @@ canonical content.
 ## Public Interface
 
 ```python
-from source_document_extraction.extraction import extract_and_normalize
+from extraction import extract_and_normalize
 
 result = extract_and_normalize(source="intake/Manual.docx", output_dir="analysis/Manual")
 ```
@@ -39,8 +39,7 @@ result = extract_and_normalize(source="intake/Manual.docx", output_dir="analysis
   lookup required).
 
 Raises `FileNotFoundError` if `source` does not exist, and
-`source_document_extraction.dependencies.MissingDependencyError` if `pandoc`
-is not on PATH.
+`dependencies.MissingDependencyError` if `pandoc` is not on PATH.
 
 ## Installation
 

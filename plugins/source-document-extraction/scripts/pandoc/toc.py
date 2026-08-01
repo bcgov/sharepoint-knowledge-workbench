@@ -36,7 +36,7 @@ Function Index:
         never touched.
 
 Usage:
-    from pandoc_fixes.toc import strip_raw_toc
+    from pandoc.toc import strip_raw_toc
     cleaned = strip_raw_toc(raw_markdown_text)
 """
 

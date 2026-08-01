@@ -23,7 +23,7 @@ from pathlib import Path
 
 import pytest
 
-from source_document_extraction.emf_convert import convert_legacy_media
+from emf_convert import convert_legacy_media
 
 SOFFICE_AVAILABLE = shutil.which("soffice") is not None
 

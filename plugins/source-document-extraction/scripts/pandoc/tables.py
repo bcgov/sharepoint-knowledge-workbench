@@ -20,7 +20,7 @@ Function Index:
         the header.
 
 Usage:
-    from pandoc_fixes.tables import fix_malformed_tables
+    from pandoc.tables import fix_malformed_tables
     cleaned = fix_malformed_tables(raw_markdown_text)
 """
 

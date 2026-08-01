@@ -71,9 +71,19 @@ If any condition fails, use the standard revert procedure above instead.
 > `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`: each
 > contract is materialized inside its producer plugin's own package; consumers carry generated,
 > hash-checked local copies; no plugin's `pyproject.toml` may depend on a workbench-family
-> distribution; `contracts/python/`/`runtime/python/` are `DEVELOPMENT_CODEGEN_SOURCE` only. The
-> Waves 2-5 common step sequence below is amended accordingly (see the note at Step 10). Read the
-> correction doc before starting Wave 3.
+> distribution; `contracts/python/`/`runtime/python/` are deleted entirely (no plugin ever depended
+> on them beyond the one now-removed dependency). The Waves 2-5 common step sequence below is
+> amended accordingly (see the note at Step 10).
+>
+> **Second correction, same session:** the packaging model below also shows `src/<import_name>/`
+> nesting (`plugins/<plugin>/src/<import_name>/...`). That nesting is itself superseded — see
+> `docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md`: every plugin uses
+> a **flat `scripts/` directory** instead (bare module names, e.g. `scripts/extraction.py`; cohesive
+> multi-file families only, e.g. `scripts/pandoc/`, `scripts/schema/`), matching `docx-to-content`'s
+> own pre-existing convention. Real `pip` installability is proven the same way (wheel build +
+> clean-venv install + import-from-site-packages), just via `py-modules` +
+> `package-dir = {"" = "scripts"}` instead of `src/`-layout discovery. Read both correction docs
+> before starting Wave 3.
 
 ## Packaging Model (per specification §13b)
 

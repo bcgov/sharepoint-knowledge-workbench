@@ -245,7 +245,7 @@ def test_single_anchor_plan_handled_uniformly_as_one_chunk():
 # Regression: analysis-time anchor identity must match convert-time
 # reconciliation identity even when a heading's raw text is affected by a
 # cleanup step that changes heading TEXT itself (not just trailing
-# attribute syntax) -- e.g. pandoc_fixes.heading_emphasis's whole-heading
+# attribute syntax) -- e.g. pandoc.heading_emphasis's whole-heading
 # bold/italic stripping. If analysis builds stable_key from the RAW
 # (un-normalized) heading text while reconciliation recomputes stable_key
 # from the CLEANED (normalized) text, the two will never match and
@@ -253,7 +253,7 @@ def test_single_anchor_plan_handled_uniformly_as_one_chunk():
 # ---------------------------------------------------------------------------
 
 def test_anchor_identity_survives_whole_heading_emphasis_normalization():
-    from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis
+    from pandoc.heading_emphasis import strip_whole_heading_emphasis
 
     raw = (
         "# **PROTECTION ORDERS**\n"
@@ -292,13 +292,13 @@ def test_anchor_identity_survives_whole_heading_emphasis_normalization():
 # ---------------------------------------------------------------------------
 # Regression (Task 18, discovered against a real pilot document): a heading
 # with an image glued directly onto its own line has that image stripped by
-# convert-time cleanup (pandoc_fixes.images.fix_glued_images) before
+# convert-time cleanup (pandoc.images.fix_glued_images) before
 # reconciliation. Analysis-time identity must strip it too, the same way it
 # already had to for whole-heading emphasis stripping above.
 # ---------------------------------------------------------------------------
 
 def test_anchor_identity_survives_glued_image_normalization():
-    from pandoc_fixes.images import fix_glued_images
+    from pandoc.images import fix_glued_images
 
     raw = (
         "# Locate A File\n"

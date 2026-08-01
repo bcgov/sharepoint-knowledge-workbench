@@ -32,7 +32,7 @@ Function Index:
         preserving heading level and the underlying text exactly.
 
 Usage:
-    from pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis
+    from pandoc.heading_emphasis import strip_whole_heading_emphasis
     cleaned = strip_whole_heading_emphasis(raw_markdown_text)
 """
 
