@@ -11,27 +11,34 @@ author: Richard Fremmerlid
 
 ## 1. Status and Authority
 
-**Status:** `SPECIFICATION_READY_FOR_REVIEW`
+**Specification status:** `SPECIFICATION_APPROVED_FOR_IMPLEMENTATION_PLANNING`
 
-**This status is explicitly NOT `PHASE_4_5_READY_FOR_EXECUTION`.** Specification approval and implementation-plan approval are separate gates from the actual execution entry gate. The sequence is:
+**Implementation status:** `NOT_AUTHORIZED`
+
+**Entry-gate status:** `NOT_REVERIFIED`
+
+The architecture was reviewed and approved (2026-08-01) subject to a narrow specification-correction pass (six items — see revision note below), which has now been applied. This status authorizes proceeding to `superpowers:writing-plans` for implementation-plan authoring. **It does not authorize Phase 4.5 implementation or Phase 9 implementation.** Do not use `PHASE_4_5_READY_FOR_EXECUTION` — that status remains unearned until the full sequence below completes.
 
 ```text
-1. SPECIFICATION_READY_FOR_REVIEW  ← this document, now
-2. SPECIFICATION_APPROVED           ← after user review/approval
-3. IMPLEMENTATION_PLAN_WRITTEN      ← after superpowers:writing-plans
-4. IMPLEMENTATION_PLAN_APPROVED     ← after adversarial plan review + user approval
-5. PHASE_4_5_ENTRY_GATE_MET         ← only once Phase 4 exit evidence is accepted
-                                        AND the Phase 4 feature branch is merged to main
-                                        AND main is clean and current
-6. PHASE_4_5_READY_FOR_EXECUTION    ← only after 1-5 above, in a fresh session,
-                                        on a dedicated Phase 4.5 branch/worktree
+1. SPECIFICATION_READY_FOR_REVIEW              ← completed
+2. SPECIFICATION_APPROVED_FOR_IMPLEMENTATION_PLANNING  ← this document, now
+3. IMPLEMENTATION_PLAN_WRITTEN                 ← after superpowers:writing-plans
+4. IMPLEMENTATION_PLAN_APPROVED                ← after adversarial plan review + user approval
+5. PHASE_4_5_ENTRY_GATE_MET                    ← only once Phase 4 exit evidence is accepted
+                                                   AND the Phase 4 feature branch is merged to main
+                                                   AND main is clean and current
+                                                   (status: NOT_REVERIFIED as of this pass)
+6. PHASE_4_5_READY_FOR_EXECUTION               ← only after 1-5 above, in a fresh session,
+                                                   on a dedicated Phase 4.5 branch/worktree
 ```
 
-Steps 1-4 (specification and plan authoring/review) may proceed **before** Phase 4 formally closes — this is planning work, not execution. Step 5 (the actual implementation entry gate) requires Phase 4's exit evidence to be accepted and merged. As of this review pass, **Phase 4's formal closure status has not been re-verified in this session** — the entry gate for step 5 is not confirmed met and must be checked explicitly before any Phase 4.5 branch/worktree is created.
+Steps 1-4 (specification and plan authoring/review) may proceed **before** Phase 4 formally closes — this is planning work, not execution. Step 5 (the actual implementation entry gate) requires Phase 4's exit evidence to be accepted and merged. **Phase 4's formal closure status remains `NOT_REVERIFIED`** — it has not been checked in this or the prior review pass — and must be explicitly reverified before any Phase 4.5 branch/worktree is created.
 
 **Precondition:** This specification may only be activated (i.e., moved to execution) after Phase 4 exit evidence is accepted, the Phase 4 feature branch is merged to main, and a fresh Phase 4.5 branch/worktree is created. Phase 4.5 must not begin inside the Phase 4 worktree.
 
-**Evidence Base:** Established during Phase 4.5 brainstorming (2026-08-01). Incorporates 14 formal corrections to the initial design proposal, plus one specification-integrity review pass (2026-08-01) that corrected a stale repository reference, imprecise test-count wording, and added missing Phase 9 evidence/extensibility detail (see revision note below).
+**Evidence Base:** Established during Phase 4.5 brainstorming (2026-08-01). Incorporates 14 formal corrections to the initial design proposal, one specification-integrity review pass (2026-08-01) that corrected a stale repository reference, imprecise test-count wording, and added missing Phase 9 evidence/extensibility detail, and a second correction pass (2026-08-01) resolving six specification-hardening findings from architecture review — see revision notes below.
+
+**Revision note 2 (2026-08-01, six-item correction pass, architecture approved):** Corrected: (1) marketplace language — replaced unconditional marketplace requirements with `MARKETPLACE_ADOPTION_REQUIRES_HUMAN_DECISION` (§13); (2) contract/plugin version values — replaced asserted `1.0.0`/`v1` values with `PROVISIONAL_CONTRACT_VERSION` (§12, §23 Criterion 8) and `REQUIRES_HUMAN_DECISION_AFTER_WAVE_0` (§13 Plugin Version Starting Values); (3) orchestration sequence contradiction — clarified that the compatibility orchestrator preserves the enforced analyze-confirm-convert-render sequence while domain plugins remain independently invocable (§10); (4) dependency diagram — clarified arrows represent contract/data flow, never implementation-package imports (§11, §23 Criterion 6); (5) original-skill dispositions — changed from final dispositions to `PROPOSED_DISPOSITION`, pending Wave 0/1 consumer evidence (§23 Criterion 10); (6) unsupported-output and deferred-domain assumptions — separated "implemented during Phase 4.5" (existing Markdown renderer) from "architecturally supported but not implemented" (PDF/ASPX/agent-grounding) in knowledge-publication's domain description (§8), broadened the `knowledge-templates` trigger beyond a single renderer-count gate, and corrected the `sharepoint-publication` deferral rationale to avoid mischaracterizing Phase 3's SharePoint work as CMAT-owned (§25).
 
 **Revision note (2026-08-01, specification-integrity pass):** This document was reviewed in full against the latest accepted brainstorming decisions and corrected for: (1) a stale `manual-conversion-poc` repository reference in §5, (2) imprecise "530 tests" wording that should distinguish collected/passed/skipped counts (§2, §5, §18 Wave 6, §26), (3) missing linkage to the Phase 9 observed source-inventory evidence baseline (§6a, new), (4) missing implementation-status metadata in the plugin manifest model to support future Phase 9 plugins with mixed maturity (§13a, new).
 
@@ -293,8 +300,18 @@ The ORDS framework is excluded from Phase 9 scope.
 - Navigation assembly (index.md, breadcrumbs, etc.)
 - Media reference resolution and placement
 - Rendered-output validation
-- Human-facing output profiles (multipage Markdown, PDF, ASPX, etc.)
-- Future agent-grounding output profiles (topic digests, source maps, etc.)
+
+**Implemented during Phase 4.5:**
+- Existing multipage Markdown renderer (migrated from `docx-to-content`)
+- Existing rendered-output validation (migrated from `docx-to-content`)
+
+**Architecturally supported by this plugin's renderer-registry design, but NOT implemented during Phase 4.5** (consistent with §4's non-goals — no new renderer profiles, no PDF rendering, no SharePoint publication):
+- PDF output
+- ASPX output
+- Agent-grounding output profile (topic digests, source maps)
+- Any other future output profile
+
+Do not let the implementation plan create new renderers to satisfy this domain description — the renderer-registry architecture is deliberately extensible, but Phase 4.5's deliverable is limited to migrating the one renderer that already exists.
 
 **Does NOT own:**
 - DOCX extraction or source parsing
@@ -409,7 +426,26 @@ workflow orchestration layer
 The orchestration layer:
 - Contains NO domain logic
 - Does not hard-code plugin paths (uses interfaces)
-- Does not enforce a particular workflow sequence (may be composed differently by users)
+
+**Clarification (resolves an apparent contradiction with §3/§23's preserved-workflow requirement):**
+
+```text
+The compatibility workflow orchestrator (the thin layer behind the temporary
+analyze-document / convert-document / render-content skills, §9) preserves
+the established analyze → human-confirmation → canonical-construction →
+render sequence. This sequence remains a required, enforced gate — it is
+not optional or reorderable by that orchestrator.
+
+The underlying domain plugins (source-document-extraction, knowledge-analysis,
+canonical-knowledge, knowledge-publication) do not enforce that sequence
+internally. Each plugin remains independently invocable through its public
+contract by other callers who are not going through the compatibility
+orchestrator — e.g. a future Phase 5 consumer that only needs
+knowledge-publication's rendering capability against an already-built
+canonical package, without re-running extraction or analysis.
+```
+
+This preserves both requirements simultaneously: the backward-compatible, human-gated CEIS workflow is never bypassed when using the compatibility orchestrator, while the domain plugins themselves remain composable and do not control or depend on one another's invocation order.
 
 **Dependency violations:**
 
@@ -432,7 +468,32 @@ new plugin
 
 ## 11. Dependency Direction and Prohibited Imports
 
-### Mandated Direction
+### Mandated Direction — Contract/Data Flow, Not Implementation Chaining
+
+**Important clarification:** the vertical arrow diagram below (and the similar diagram in §10) represents **contract/data flow** — the order in which artifacts are produced and consumed — not permission for one plugin to import or invoke another plugin's implementation. Read every arrow as "produces an artifact consumed by," never as "calls into" or "depends on the package of."
+
+**Precise (non-misleading) statement of the architecture:**
+
+```text
+source-document-extraction
+  → produces normalized-source-document
+
+knowledge-analysis
+  → consumes normalized-source-document
+  → produces analysis-plan (confirmed via human-confirmation gate)
+
+canonical-knowledge
+  → consumes confirmed analysis-plan
+  → produces canonical-package and publication-map
+
+knowledge-publication
+  → consumes canonical-package and publication-map
+  → produces rendered outputs
+```
+
+The workflow orchestrator (§10) passes these artifacts between plugins at runtime. No plugin imports, calls, or links against another plugin's package.
+
+**Shorthand diagram (retained for quick reference only — always defer to the precise statement above if the two appear to conflict):**
 
 ```
 source-document-extraction
@@ -442,6 +503,18 @@ knowledge-analysis
 canonical-knowledge
       ↓
 knowledge-publication
+```
+
+**The desired implementation dependency direction is:**
+
+```text
+plugin → shared public contract schema/interface   (ALLOWED)
+```
+
+**Never:**
+
+```text
+plugin → next plugin's implementation package        (PROHIBITED)
 ```
 
 ### Prohibited Imports
@@ -482,15 +555,17 @@ Automated dependency tests must reject prohibited imports at every wave boundary
 
 ### Explicit Versioned Contracts
 
+**Status:** `PROVISIONAL_CONTRACT_VERSION`. The version labels below (shown as "v1") are illustrative, not approved. Wave 1 must explicitly approve the first authoritative contract versions after confirming current schema compatibility, existing contract history, breaking-change implications, supported manifest syntax, and fixture compatibility. The implementation plan may recommend "v1" as a starting point, but Wave 1's approval — not this specification — is the authoritative source.
+
 Minimum documented contracts:
 
-| Contract | Version | Producer | Consumer | Purpose |
+| Contract | Version (provisional) | Producer | Consumer | Purpose |
 |----------|---------|----------|----------|---------|
-| normalized-source-document | v1 | source-extraction | knowledge-analysis | Extracted and cleaned source structure |
-| analysis-plan | v1 | knowledge-analysis | canonical-knowledge | Confirmed topic boundaries and content decisions |
-| canonical-package | v1 | canonical-knowledge | knowledge-publication | Versioned, hashable, lineage-rich content package |
-| publication-map | v1 | canonical-knowledge | knowledge-publication | Topic ordering, navigation, chapter structure |
-| rendered-output-profile | v1 | knowledge-publication | (users) | Final formatted output (Markdown, PDF, ASPX, etc.) |
+| normalized-source-document | PROVISIONAL_CONTRACT_VERSION (illustrated as v1) | source-extraction | knowledge-analysis | Extracted and cleaned source structure |
+| analysis-plan | PROVISIONAL_CONTRACT_VERSION (illustrated as v1) | knowledge-analysis | canonical-knowledge | Confirmed topic boundaries and content decisions |
+| canonical-package | PROVISIONAL_CONTRACT_VERSION (illustrated as v1) | canonical-knowledge | knowledge-publication | Versioned, hashable, lineage-rich content package |
+| publication-map | PROVISIONAL_CONTRACT_VERSION (illustrated as v1) | canonical-knowledge | knowledge-publication | Topic ordering, navigation, chapter structure |
+| rendered-output-profile | PROVISIONAL_CONTRACT_VERSION (illustrated as v1) | knowledge-publication | (users) | Final formatted output (existing multipage Markdown renderer; see §8 correction on implemented-vs-future output profiles) |
 
 ### Contract Record
 
@@ -541,12 +616,12 @@ plugins/<plugin-name>/
 └── references/
 ```
 
-**plugin.json fields** (inspected from current plugin, Phase 4.5 maintains compatibility):
+**plugin.json fields** (inspected from current plugin, Phase 4.5 maintains compatibility). The `version` and contract-version values below are **illustrative placeholders, not approved values** — see `REQUIRES_HUMAN_DECISION_AFTER_WAVE_0` in the Plugin Version Starting Values section immediately below, and `PROVISIONAL_CONTRACT_VERSION` in §12:
 
 ```json
 {
   "name": "source-document-extraction",
-  "version": "1.0.0",
+  "version": "<REQUIRES_HUMAN_DECISION_AFTER_WAVE_0>",
   "description": "...",
   "author": { "name": "..." },
   "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -554,14 +629,16 @@ plugins/<plugin-name>/
   "keywords": [...],
   "capabilities": [...],
   "consumed_contracts": {
-    "normalized-source-document": "1.x"
+    "normalized-source-document": "<PROVISIONAL_CONTRACT_VERSION>"
   },
   "produced_contracts": {
-    "normalized-source-document": "1.0.0"
+    "normalized-source-document": "<PROVISIONAL_CONTRACT_VERSION>"
   },
   "dependencies": [...]
 }
 ```
+
+Do not hard-code `1.0.0` into generated manifests during early waves merely because this specification uses it illustratively elsewhere.
 
 Do not invent manifest fields unsupported by the repository's actual plugin loader. Document compatibility and add executable validation where supported.
 
@@ -596,21 +673,28 @@ Do not invent this field's exact schema location without confirming the reposito
 
 ### Marketplace Model
 
-**Preferred approach:**
+**Status:** `MARKETPLACE_ADOPTION_REQUIRES_HUMAN_DECISION`
 
-One repository-level marketplace catalog (`.claude-plugin/marketplace.json` at repo root) references all four independently installable plugins.
+Current repository inspection found no active `marketplace.json`. Marketplace adoption is an **unmade distribution decision**, not a Phase 4.5 requirement. Wave 1 surfaces this decision explicitly for human approval; it does not default to "yes" merely because the specification describes what a marketplace catalog would look like if adopted.
 
-Do not duplicate a complete marketplace catalog inside every plugin unless current tooling requires it.
+**If marketplace adoption is approved (Wave 1 decision):**
+- Create one repository-level marketplace catalog (`.claude-plugin/marketplace.json` at repo root) referencing all four independently installable plugins. Do not duplicate a complete marketplace catalog inside every plugin unless current tooling requires it.
+- Include marketplace validation in wave gates and the final exit gate.
 
-Current repository inspection found no active marketplace.json — Wave 1 must create one if the plugin ecosystem adopts marketplace distribution.
+**If marketplace adoption is not approved (Wave 1 decision):**
+- Record `NOT_APPLICABLE_WITH_DECISION` in the Wave 1 report.
+- Do not create a marketplace catalog merely to satisfy this specification.
+- Omit marketplace validation from required executable gates — every later section in this document that references "marketplace catalog," "marketplace validation," or "marketplace entries" as a gate item applies **only if marketplace adoption was approved**; read those references as "marketplace validation, if adopted" throughout §14, §18 (Wave 6 gate), §19, §23 (Criterion 5, 14), and §26.
 
 ### Plugin Version Starting Values
 
-Initial decomposition should establish one coordinated tested compatibility release, but starting version numbers must derive from the current plugin's history.
+**Status:** `REQUIRES_HUMAN_DECISION_AFTER_WAVE_0`
+
+Initial decomposition should establish one coordinated tested compatibility release, but starting version numbers must derive from the current plugin's history and be explicitly approved after Wave 0's inventory, not assumed from this specification.
 
 Current plugin version: v0.1.0 (early development)
 
-**Recommendation (PROVISIONAL):** Initial decomposed plugins start at v1.0.0 to signal the beginning of independent versioning. Starting versions are subject to change after Wave 0 inspection.
+**Illustrative starting point only (not approved):** starting decomposed plugins at v1.0.0 would signal the beginning of independent versioning. This is one candidate the implementation plan may propose, but the actual starting version for each of the four plugins is `REQUIRES_HUMAN_DECISION_AFTER_WAVE_0` — a human must explicitly approve it, and it must not be hard-coded into any generated manifest before that approval.
 
 ---
 
@@ -1245,7 +1329,7 @@ Every wave closes only when ALL applicable test layers pass:
 2. Contract tests (cross-plugin boundary validation)
 3. Cross-plugin integration tests
 4. Import and dependency-boundary tests (no prohibited imports)
-5. Manifest and marketplace validation
+5. Manifest validation (always required); marketplace validation, if adopted (§13 Marketplace Model)
 6. Accepted CEIS canonical-package comparison (byte-identical by default)
 7. Accepted CEIS rendered-output comparison (byte-identical by default)
 8. Stale-reference and path validation
@@ -1468,7 +1552,7 @@ Independent installation does NOT mean every workflow runs with one plugin. It m
 
 ### 6. Architectural Dependency Direction Is Proven
 
-The implemented dependency graph matches:
+The implemented dependency graph matches — arrows are contract/data flow, not implementation imports (see §11):
 
 ```
 source-document-extraction
@@ -1484,7 +1568,7 @@ knowledge-publication
         ↓ rendered outputs
 ```
 
-**Automated dependency tests** reject prohibited imports. Zero prohibited imports at wave close.
+**Automated dependency tests** reject prohibited imports — specifically, they verify each plugin imports only shared public contract schemas/interfaces, never another plugin's implementation package. Zero prohibited imports at wave close.
 
 ### 7. No Reverse or Circular Dependencies Exist
 
@@ -1500,15 +1584,15 @@ Temporary compatibility wrappers may point toward new plugin APIs. New plugins M
 
 ### 8. Public Contracts Are Explicit and Versioned
 
-**Minimum documented contracts:**
+**Minimum documented contracts** (versions are `PROVISIONAL_CONTRACT_VERSION` per §12 until Wave 1 approves the authoritative first versions):
 
-| Contract | Version | Producer | Consumer |
+| Contract | Version (Wave-1-approved, not pre-decided) | Producer | Consumer |
 |----------|---------|----------|----------|
-| normalized-source-document | 1.0.0 | source-extraction | knowledge-analysis |
-| analysis-plan | 1.0.0 | knowledge-analysis | canonical-knowledge |
-| canonical-package | 1.0.0 | canonical-knowledge | knowledge-publication |
-| publication-map | 1.0.0 | canonical-knowledge | knowledge-publication |
-| rendered-output-profile | 1.0.0 | knowledge-publication | users |
+| normalized-source-document | PROVISIONAL_CONTRACT_VERSION | source-extraction | knowledge-analysis |
+| analysis-plan | PROVISIONAL_CONTRACT_VERSION | knowledge-analysis | canonical-knowledge |
+| canonical-package | PROVISIONAL_CONTRACT_VERSION | canonical-knowledge | knowledge-publication |
+| publication-map | PROVISIONAL_CONTRACT_VERSION | canonical-knowledge | knowledge-publication |
+| rendered-output-profile | PROVISIONAL_CONTRACT_VERSION | knowledge-publication | users |
 
 **For every contract recorded:**
 
@@ -1537,14 +1621,23 @@ Each plugin exposes only skills backed by working capability.
 
 ### 10. Original Skills Are Dispositioned
 
-The former skills must receive explicit final dispositions:
+**Status:** The table below records `PROPOSED_DISPOSITION`, not a final decision. Wave 0 and Wave 1 must identify actual consumers before any disposition becomes final — internal consumers, documentation consumers, installed-plugin consumers, CLI users, automation or agent references, historical-only references, and compatibility requirements. It would be inconsistent to require this consumer analysis while simultaneously pre-deciding its result.
 
-| Skill | Disposition | Reason | Retirement |
+| Skill | Proposed Disposition | Rationale (subject to Wave 0/1 evidence) | Proposed Retirement Wave |
 |-------|-------------|--------|-----------|
-| analyze-document | TEMPORARY_COMPATIBILITY_WRAPPER | Orchestrates new domain skills | Wave 7 |
-| convert-document | TEMPORARY_COMPATIBILITY_WRAPPER | Orchestrates new domain skills | Wave 7 |
-| render-content | TEMPORARY_COMPATIBILITY_WRAPPER | Orchestrates new domain skills | Wave 7 |
-| orchestrate-conversion | REPLACED_AND_RETIRED | Merged into compatibility wrappers | Wave 6 |
+| analyze-document | PROPOSED_DISPOSITION: TEMPORARY_COMPATIBILITY_WRAPPER | Orchestrates new domain skills, pending consumer review | Wave 7 (proposed) |
+| convert-document | PROPOSED_DISPOSITION: TEMPORARY_COMPATIBILITY_WRAPPER | Orchestrates new domain skills, pending consumer review | Wave 7 (proposed) |
+| render-content | PROPOSED_DISPOSITION: TEMPORARY_COMPATIBILITY_WRAPPER | Orchestrates new domain skills, pending consumer review | Wave 7 (proposed) |
+| orchestrate-conversion | PROPOSED_DISPOSITION: REPLACED_AND_RETIRED | Candidate merge into compatibility wrappers, pending consumer review | Wave 6 (proposed) |
+
+**Allowed final outcomes (determined by Wave 0/1 consumer evidence, not pre-decided here):**
+
+- `REPLACED_AND_RETIRED`
+- `TEMPORARY_COMPATIBILITY_WRAPPER`
+- `RETAINED_PUBLIC_ORCHESTRATOR`
+- `HISTORICAL_REFERENCE_ONLY`
+
+Preferred direction may remain retirement, but this specification does not guarantee that `orchestrate-conversion` (or any of the other three) disappears at its proposed wave before consumer evidence exists.
 
 If a temporary wrapper remains at Phase 4.5 exit, the report must identify:
 - Reason (bridge to existing workflows)
@@ -1552,7 +1645,7 @@ If a temporary wrapper remains at Phase 4.5 exit, the report must identify:
 - Replacement (new skills or commands)
 - Retirement owner and trigger
 
-Preferred state: **consumers migrated, wrappers removed, documentation preserved as historical.**
+Preferred state (subject to evidence): **consumers migrated, wrappers removed, documentation preserved as historical.**
 
 ### 11. Independent Versioning Is Operational
 
@@ -1603,7 +1696,7 @@ No test or fixture may be missing or silently dropped.
 - Current diagrams — show final four-plugin architecture
 - Skill documentation — reflects actual implemented skills
 - Command examples — use actual working commands
-- Marketplace catalog — references valid plugins
+- Marketplace catalog — references valid plugins, if marketplace adoption was approved (§13); otherwise `NOT_APPLICABLE_WITH_DECISION` is recorded
 - Compatibility matrix — final, tested combination recorded
 - Test instructions — describe how to test individual plugins and full suite
 
@@ -1709,15 +1802,15 @@ Can Phase 5 consume the new plugin boundaries without:
 ### Explicitly Documented but Not Implemented
 
 **`plugins/knowledge-templates/`**
-- Deferred: Future phase after multiple renderer profiles exist
-- Rationale: Templates and presentation logic are not yet independently reusable
-- Gate: Second renderer profile implementation or explicit reuse requirement
+- Deferred: Future phase, gated on evidence rather than a single narrow trigger
+- Rationale: Template-management logic is not yet demonstrated as independently reusable
+- **Gate (broadened — a second renderer profile is one possible trigger, not the only one):** Create `knowledge-templates` when at least one independently reusable template-management capability exists, such as: a semantic content-template catalog, template validation, template versioning, template selection, reusable template application, or presentation-template management across multiple consumers. A second renderer profile may provide supporting evidence for this gate, but it is not itself required or sufficient on its own.
 - Owner: To be determined when authorized
 
 **`plugins/sharepoint-publication/`**
-- Deferred: Future phase after Phase 5 SharePoint agent capabilities stabilize
-- Rationale: Publication and deployment logic is currently tightly coupled to CMAT
-- Gate: Independent publication requirements or explicit separation need
+- Deferred: Future phase, gated on demonstrated independent reusability
+- **Rationale (corrected — not solely a CMAT-coupling claim):** `sharepoint-publication` remains deferred because the current SharePoint publication capabilities (Phase 3's publish/reconciliation/rollback/evidence tooling) are phase-specific pilot tooling and have not yet been demonstrated as an independently reusable plugin boundary. This is a maturity/reusability gap, not a claim that all current publication behavior is CMAT-owned — Phase 3's SharePoint publication work belongs to this workbench, not to CMAT. Phase 3 provides source evidence for future extraction; Phase 9 may separately provide additional overlapping SharePoint-engineering capabilities from the CMAT source ecosystem. The eventual `sharepoint-publication` plugin boundary requires an overlap analysis between these two evidence sources before it is scaffolded.
+- Gate: Independent publication requirements, explicit separation need, or the overlap analysis above
 - Owner: To be determined when authorized
 
 ### Phase 9 Candidates
@@ -1806,16 +1899,20 @@ Phase 4.5 is a bounded, evidence-backed, nine-wave refactoring that decomposes a
 
 ---
 
-**Specification Status:** `SPECIFICATION_READY_FOR_REVIEW` (see §1 for the full planning-vs-execution status sequence)
+**Specification status:** `SPECIFICATION_APPROVED_FOR_IMPLEMENTATION_PLANNING`
+**Implementation status:** `NOT_AUTHORIZED`
+**Entry-gate status:** `NOT_REVERIFIED`
 
-**Required Before `superpowers:writing-plans`:**
-1. User review of this specification
-2. Explicit approval to proceed
+(see §1 for the full planning-vs-execution status sequence)
+
+**Completed:**
+1. ✓ User review of this specification
+2. ✓ Explicit approval to proceed to `superpowers:writing-plans`, conditional on the six-item correction pass (completed, see §1 Revision note 2)
 
 **Required Before Implementation (separate, later gate — do not conflate with the above):**
 3. `superpowers:writing-plans` produces the implementation plan
 4. Adversarial review of the implementation plan
 5. Explicit user approval of the implementation plan
-6. Phase 4 exit evidence confirmed accepted and merged to main (not yet re-verified in this specification-review pass)
+6. Phase 4 exit evidence confirmed accepted and merged to main (`NOT_REVERIFIED` as of this pass)
 7. Fresh session, dedicated Phase 4.5 branch/worktree created
 8. `start-here.md` updated to record planning readiness before execution begins
