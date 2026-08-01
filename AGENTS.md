@@ -1,6 +1,5 @@
 # AGENTS.md
 
-
 Behavioral guidelines to reduce common LLM coding mistakes, plus project-specific context for this repo.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
@@ -77,10 +76,12 @@ authoritative, kept-current resume document for this work (supersedes any stale 
 summary). Phase 1 work happened directly on `main` (no worktree). Starting with Phase 2, each
 phase works in its own branch/worktree, following the Per-Phase Git & Session Workflow section of
 `docs/vision/master-initiative-plan-workstreams-and-phases.md` — branch/worktree per phase, commit
-per task, merge only once the phase's exit gate evidence exists, update `start-here.md`, then start
-the next phase in a fresh session. Task execution within a phase follows
+per task, push each completed task commit to `origin/<feature-branch>`, and merge into `main` only once the phase's exit gate evidence exists and human approval is given. Update `start-here.md` after merge, then start the next phase in a fresh session. Task execution within a phase follows
 `superpowers:subagent-driven-development` (fresh implementer + fresh reviewer per task) or
 `superpowers:executing-plans`, TDD throughout.
+
+**Confirmed Post-Phase 4 Priority (Phase 4.5):**
+Immediately following Phase 4 completion and merge, execute a dedicated refactoring phase (`Phase 4.5`) in a fresh worktree to decompose `plugins/docx-to-content/` into 4 active domain plugins: `source-document-extraction`, `knowledge-analysis`, `canonical-knowledge`, and `knowledge-publication` (`knowledge-templates` and `sharepoint-publication` remain deferred until working capabilities exist).
 
 ### Layout
 
@@ -178,7 +179,7 @@ carries only the key non-negotiables:
 
 - `dependency-management.md` — pip-compile workflow for Python deps; does not cover system tools
 - `coding-conventions.md` — file headers, naming, documentation conventions
-- `self-evolution-policy.md` — no file deletions without explicit user permission
+- `self-evolution-policy.md` — no file deletions without explicit human permission; mandatory map-debt.md tracking for all friction/learnings
 - `test-driven-development.md` — TDD approach where code is involved
 - `symlink-cross-platform.md` — symlink protocol if shared scripts are introduced
 - `github-issue-logging-policy.md` — issue logging conventions, if/when this repo tracks issues on GitHub
