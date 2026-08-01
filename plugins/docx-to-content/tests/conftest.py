@@ -3,9 +3,9 @@ conftest.py
 ===========
 
 Adds the plugin's scripts/ directory to sys.path so tests can import
-`pandoc_fixes.*` and other script modules directly (e.g.
-`from pandoc_fixes.attrs import strip_pandoc_attrs`), matching the
-scripts/pandoc_fixes/ layout on disk without requiring package installation.
+`pandoc.*` and other script modules directly (e.g.
+`from pandoc.attrs import strip_pandoc_attrs`), matching the
+scripts/pandoc/ layout on disk without requiring package installation.
 """
 
 import sys

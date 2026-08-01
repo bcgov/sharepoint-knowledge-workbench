@@ -3,7 +3,7 @@
 test_attrs.py
 =============
 
-TDD-first: failing tests for pandoc_fixes/attrs.py.
+TDD-first: failing tests for pandoc/attrs.py.
 Covers stripping of leftover pandoc attribute syntax that renders as literal
 visible text in GitHub/VS Code/standard markdown viewers:
   - image dimension attrs: {width="624" height="325"}
@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_attrs.py -v
 """
 
-from source_document_extraction.pandoc_fixes.attrs import strip_pandoc_attrs
+from pandoc.attrs import strip_pandoc_attrs
 
 
 class TestStripPandocAttrs:

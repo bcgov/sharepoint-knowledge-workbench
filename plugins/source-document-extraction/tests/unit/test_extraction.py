@@ -1,5 +1,5 @@
 """
-Unit/integration tests for source_document_extraction.extraction
+Unit/integration tests for extraction.extract_and_normalize
 (Phase 4.5 Wave 2): real pandoc invocation against synthetic .docx
 fixtures and the source-level observations (heading structure, image
 stats, defect signals, statistics) `extract_and_normalize` produces.
@@ -20,8 +20,8 @@ from pathlib import Path
 
 import pytest
 
-from source_document_extraction.extraction import extract_and_normalize
-from source_document_extraction.heading_parsing import (
+from extraction import extract_and_normalize
+from heading_parsing import (
     compute_statistics,
     detect_defect_signals,
     detect_raw_toc,
@@ -101,7 +101,7 @@ def test_no_images_in_small_single(tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# Raw TOC evidence / known defect signals (reused from pandoc_fixes)
+# Raw TOC evidence / known defect signals (reused from pandoc)
 # ---------------------------------------------------------------------------
 
 def test_raw_toc_evidence_absent_in_synthetic_fixtures(tmp_path):
@@ -114,7 +114,7 @@ def test_raw_toc_evidence_detected_when_present():
     # markdown text and run detection directly (rather than requiring a
     # real Word-generated TOC docx, which pandoc-from-markdown cannot
     # produce).
-    from source_document_extraction.pandoc_fixes.toc import strip_raw_toc
+    from pandoc.toc import strip_raw_toc
 
     text = "[]{#_Toc1}\n[Intro](#_Toc123456)\n\n# Real Heading\n"
     cleaned = strip_raw_toc(text)
@@ -239,7 +239,7 @@ def test_source_not_found_raises(tmp_path):
 
 def test_extract_and_normalize_matches_normalized_source_document_contract(tmp_path):
     result = extract_and_normalize(SMALL_SINGLE, tmp_path / "analysis")
-    from source_document_extraction.contracts.normalized_source_document import validate
+    from schema.normalized_source_document import validate
 
     validate(result)  # raises if required fields are missing
     assert len(result["source_content_sha256"]) == 64

@@ -3,19 +3,18 @@
 test_pandoc_validate.py
 ========================
 
-TDD-first: failing tests for pandoc_validate.py.
-Covers the hard-fail validator: unresolved image links (relative paths that
-don't exist under base_dir), leftover pandoc attribute artifacts (proves
-attrs.py actually ran), and images still embedded directly in heading
-lines.
+Tests for pandoc/validate.py's hard-fail validator: unresolved image
+links (relative paths that don't exist under base_dir), leftover pandoc
+attribute artifacts (proves attrs.py actually ran), and images still
+embedded directly in heading lines.
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_pandoc_validate.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_pandoc_validate.py -v
 """
 
 from pathlib import Path
 
-from source_document_extraction.pandoc_validate import validate_cleaned_markdown
+from pandoc.validate import validate_cleaned_markdown
 
 
 class TestValidateCleanedMarkdown:

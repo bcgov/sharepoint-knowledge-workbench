@@ -24,7 +24,7 @@ Function Index:
         the text-only line, with the image moved to a following paragraph.
 
 Usage:
-    from pandoc_fixes.images import fix_glued_images
+    from pandoc.images import fix_glued_images
     cleaned = fix_glued_images(raw_markdown_text)
 """
 

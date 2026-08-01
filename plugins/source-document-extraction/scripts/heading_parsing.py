@@ -2,15 +2,12 @@
 heading_parsing.py
 ===================
 
-Source-level observation functions extracted from `docx-to-content`'s
-`analyze_structure.py` (Phase 4.5 Wave 2), per the approved split in
-`docs/superpowers/plans/phase-4-5-evidence/wave-1-analyze-structure-split-decision.md`:
-source-document-extraction owns every function that produces a source-level
-*observation* (heading structure, statistics, defect signals) from
-already-extracted pandoc markdown text, regardless of whether it touches
-`pandoc` directly. Semantic interpretation of these observations (topic
-boundaries, strategy recommendation) is `knowledge-analysis`'s
-responsibility, not this module's.
+Source-level observation functions: this plugin owns every function that
+produces a source-level *observation* (heading structure, statistics,
+defect signals) from already-extracted pandoc markdown text, regardless of
+whether it touches `pandoc` directly. Semantic interpretation of these
+observations (topic boundaries, strategy recommendation) is
+`knowledge-analysis`'s responsibility, not this module's.
 
 Function Index:
     - parse_headings(markdown_text) -> list[dict]
@@ -22,10 +19,10 @@ Function Index:
 
 import re
 
-from .pandoc_fixes.attrs import strip_pandoc_attrs
-from .pandoc_fixes.heading_emphasis import strip_whole_heading_emphasis
-from .pandoc_fixes.images import fix_glued_images
-from .pandoc_fixes.toc import _TOC_SLUG_LINE, _TOC_LINK_LINE, strip_raw_toc
+from pandoc.attrs import strip_pandoc_attrs
+from pandoc.heading_emphasis import strip_whole_heading_emphasis
+from pandoc.images import fix_glued_images
+from pandoc.toc import _TOC_SLUG_LINE, _TOC_LINK_LINE, strip_raw_toc
 
 _HEADING_RE_TEMPLATE = r"^(#{{1,6}})\s+(.+?)\s*$"
 _HEADING_LINE = re.compile(_HEADING_RE_TEMPLATE.format(), re.MULTILINE)
@@ -135,15 +132,15 @@ def _image_stats(media_dir) -> dict:
 
 
 def detect_raw_toc(markdown_text: str) -> bool:
-    """Reuses pandoc_fixes.toc.strip_raw_toc's detection logic: if stripping
+    """Reuses pandoc.toc.strip_raw_toc's detection logic: if stripping
     raw-TOC field dumps changes the text, raw TOC evidence was present."""
     return strip_raw_toc(markdown_text) != markdown_text
 
 
 def detect_defect_signals(markdown_text: str) -> dict:
-    """Reuses pandoc_fixes.images.fix_glued_images,
-    pandoc_fixes.attrs.strip_pandoc_attrs, and
-    pandoc_fixes.heading_emphasis.strip_whole_heading_emphasis detection
+    """Reuses pandoc.images.fix_glued_images,
+    pandoc.attrs.strip_pandoc_attrs, and
+    pandoc.heading_emphasis.strip_whole_heading_emphasis detection
     logic rather than re-implementing pattern matching from scratch."""
     return {
         "raw_toc_detected": detect_raw_toc(markdown_text),

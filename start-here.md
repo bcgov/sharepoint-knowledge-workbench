@@ -7,54 +7,77 @@
 > - **Wave 0:** ✓ COMPLETE, reviewed, committed, and pushed (commits `9b14629`, `ae9933a`, `99e4b87`).
 > - **Wave 1:** ✓ COMPLETE, reviewed, committed, and pushed (commit `6ee91b3`, accepted). Its
 >   shared-contracts-distribution decision was later corrected — see next bullet.
-> - **⚠️ Mid-Wave-2 architecture correction (2026-08-01, same session, human-flagged):** Wave 1's
->   approved model — every plugin's `pyproject.toml` depends on a shared, unpublished
->   `knowledge-workbench-contracts` pip distribution (`contracts/python/`) — was correctly flagged
->   as making standalone plugin installation impossible and conflicting with
->   `.agent/rules/plugin-architecture-policy.md`'s plugin-independence rule. **Corrected before
->   Wave 2 was closed**: each contract is now materialized inside its *producer* plugin's own
->   package (`source-document-extraction` now owns `normalized_source_document.py` locally, zero
->   pip dependency on `contracts/python/`); consumers will carry generated, hash-checked local
->   copies (Wave 3+); `contracts/python/`/`runtime/python/` reclassified `DEVELOPMENT_CODEGEN_SOURCE`
->   (kept, not required at runtime by any plugin). Full record:
->   `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`. Spec
->   amended (§13d, Revision 4), `wave-1-decisions.json` updated (`shared_contract_decision_approved:
->   false`), plan amended (Waves 2-5 common sequence + Wave 6 combined-install script), isolated-install
->   harness rewritten (`isolated_install_check.py` no longer co-installs a contracts wheel; new
->   `check_no_workbench_family_dependency()` static gate). **Read the correction doc before starting
->   Wave 3** — Wave 3's `knowledge-analysis` is the first plugin to implement the consumer side
->   (generated local copy) of this corrected model.
-> - **Wave 2:** ✓ COMPLETE, corrected, and re-verified (this session, direct execution — not yet
->   independently reviewed). `plugins/source-document-extraction/` extracted as a real,
->   **standalone-installable** package (zero dependency on any other workbench distribution):
+> - **⚠️ Two mid-Wave-2 architecture corrections (2026-08-01, same session, human-flagged):**
+>   1. **Shared-distribution correction:** Wave 1's approved model — every plugin's
+>      `pyproject.toml` depends on a shared, unpublished `knowledge-workbench-contracts` pip
+>      distribution (`contracts/python/`) — made standalone plugin installation impossible and
+>      conflicted with `.agent/rules/plugin-architecture-policy.md`'s plugin-independence rule.
+>      **Corrected:** each contract is materialized inside its *producer* plugin's own package
+>      (no shared pip dependency); `contracts/python/` and `runtime/python/` were **deleted
+>      entirely** (not just reclassified — zero plugin ever ended up depending on either after the
+>      fix). Full record:
+>      `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`.
+>   2. **Flat-`scripts/`-layout correction:** the first fix still nested the plugin's code under
+>      `src/source_document_extraction/...` — that nesting was itself corrected in the same session
+>      to a **flat `scripts/` directory** (bare module names, e.g. `scripts/extraction.py`; cohesive
+>      multi-file families grouped into a subfolder, e.g. `scripts/pandoc/`, `scripts/schema/`),
+>      matching `docx-to-content`'s own pre-existing convention exactly. This also surfaced and fixed
+>      a real bare-name collision (`contracts/` collided with `docx-to-content/scripts/contracts.py`,
+>      an unrelated pre-existing module — renamed to `schema/`) and a self-shadowing bug in
+>      `docx-to-content`'s compatibility shim files (deleted entirely rather than rewritten, since
+>      `pip install -e`'d `source-document-extraction` now supplies those bare names directly). Full
+>      record: `docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md`.
+>
+>   Spec amended (§13d, Revision 4), `wave-1-decisions.json` updated
+>   (`shared_contract_decision_approved: false`), plan amended (Waves 2-5 common sequence + Wave 6
+>   combined-install script, both correction notices), isolated-install harness rewritten
+>   (`isolated_install_check.py` no longer co-installs a contracts wheel; new
+>   `check_no_workbench_family_dependency()` static gate; `--import-package extraction`, not a
+>   package name). **Read both correction docs before starting Wave 3** — Wave 3's
+>   `knowledge-analysis` is the first plugin to implement the consumer side (generated local schema
+>   copy) of the corrected contract model, using the flat `scripts/` layout from the start.
+> - **Wave 2:** ✓ COMPLETE, corrected twice, and fully re-verified (this session, direct execution
+>   — not yet independently reviewed). `plugins/source-document-extraction/` is a real,
+>   **standalone-installable** package with a **flat `scripts/` layout**:
+>   ```
+>   plugins/source-document-extraction/scripts/
+>   ├── extraction.py        # public interface: extract_and_normalize()
+>   ├── dependencies.py
+>   ├── emf_convert.py
+>   ├── heading_parsing.py
+>   ├── path_safety.py
+>   ├── schema/              # this plugin's own schema for what it produces (was `contracts/` -- renamed, real name collision)
+>   │   └── normalized_source_document.py
+>   └── pandoc/              # cleanup + validation, one family (was `pandoc_fixes/`; `validate.py` folded in)
+>   ```
 >   `extract_and_normalize` produces `normalized-source-document` v1, validated against this
->   plugin's own materialized `src/source_document_extraction/contracts/normalized_source_document.py`
->   (authoritative — this plugin is the producer) plus `references/contracts/normalized-source-document.md`
->   (symlinked into `skills/extract-docx/references/contracts/` via `symlink_manager.py`).
->   `dependencies.py`/`emf_convert.py`/`path_safety.py`/`pandoc_validate.py`/`pandoc_fixes/*` moved
->   (`git mv`); `_run_pandoc_raw` and the source-observation functions (`parse_headings`,
->   `detect_defect_signals`, `compute_statistics`, etc.) extracted out of `analyze_structure.py` per
->   the Wave 1-approved split. `docx-to-content/scripts/analyze_structure.py` and the moved modules
->   carry compatibility shims importing from the installed `source_document_extraction` package
->   (retire in Wave 7/8). **Plugin Self-Containment Gate passed**: `isolated_install_check.py
->   --plugin source-document-extraction --import-package source_document_extraction`, exit 0, real
->   wheel build in a clean venv, **zero other workbench distribution installed or importable**
->   (verified `import knowledge_workbench_contracts` fails in that venv). Dependency-boundary check:
->   zero violations, including zero workbench-family `pyproject.toml` dependencies. Test counts:
->   `source-document-extraction` 78 passed (isolated, standalone); `docx-to-content` 452 passed/1
->   skipped (down from 529/1 — tests relocated, not lost; see
->   `docs/superpowers/plans/phase-4-5-evidence/wave-2-test-migration-ledger.md`). **Not yet committed
->   to git as of this note being written — commit immediately after this edit, in the same
->   session.**
+>   plugin's own materialized `scripts/schema/normalized_source_document.py` (authoritative — this
+>   plugin is the producer) plus `references/contracts/normalized-source-document.md` (symlinked
+>   into `skills/extract-docx/references/contracts/` via `symlink_manager.py`). Old
+>   `docx-to-content` compatibility shim files (`dependencies.py`, `emf_convert.py`,
+>   `pandoc_validate.py`, `path_safety.py`, `pandoc_fixes/*.py`) were **deleted**, not rewritten —
+>   `docx-to-content`'s existing bare imports now resolve directly to the installed
+>   `source-document-extraction` package. **Plugin Self-Containment Gate passed**:
+>   `isolated_install_check.py --plugin source-document-extraction --import-package extraction`,
+>   exit 0, real wheel build in a clean venv, **zero other workbench distribution installed or
+>   importable**. Dependency-boundary check: zero violations. Test counts:
+>   `source-document-extraction` 78/78 passed (isolated, standalone, both editable-install and real
+>   wheel-install); `docx-to-content` 452 passed/1 skipped (down from 529/1 — tests relocated, not
+>   lost; see `docs/superpowers/plans/phase-4-5-evidence/wave-2-test-migration-ledger.md`);
+>   `tools/phase-4-5-core-plugin-refactoring` 40/40 passed. `symlink_manager.py diagnose`: all links
+>   OK. **Not yet committed to git as of this note being written — commit immediately after this
+>   edit, in the same session.**
 > - **Wave 3 (knowledge-analysis):** AUTHORIZED TO START IN THE NEXT SESSION. **NOT STARTED.**
 >   Consumes `normalized-source-document`, produces `analysis-plan` via
 >   `recommend_from_normalized` — topic-boundary reasoning and `recommend_strategy` move out of
 >   `analyze_structure.py` next; `analyze_structure.py`'s remaining `analyze_document`/
 >   `AnalysisResult`/`recommend_strategy` are Wave 3's starting point. **Must implement the
 >   corrected consumer-side contract pattern** (generated local copy of `normalized-source-document`'s
->   schema inside `knowledge-analysis`'s own package, hash-checked against
+>   schema inside `knowledge-analysis`'s own flat `scripts/schema/`, hash-checked against
 >   `source-document-extraction`'s authoritative copy — never a pip dependency on
->   `source-document-extraction` or `contracts/python/`) — read the correction doc first.
+>   `source-document-extraction`) **and the flat `scripts/` layout from the start** — read both
+>   correction docs first, and grep every other plugin for any bare module/package name before
+>   picking one (the `contracts` collision above is exactly the mistake to avoid repeating).
 >
 > **Wave 1 accepted decisions (binding for Wave 2 onward):**
 > - `analyze_structure.py` ownership split approved: `source-document-extraction` owns every

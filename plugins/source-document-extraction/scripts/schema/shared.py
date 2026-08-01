@@ -1,7 +1,9 @@
-"""Shared validation helpers, matching the pattern already established in
-plugins/docx-to-content/scripts/contracts.py (_require/_check_schema_version).
-Not part of the public API of this distribution — imported by the five
-contract modules only."""
+"""Shared validation helpers for this plugin's own schema module(s).
+
+This plugin carries every module its public API needs, including its own
+schema/validation code, so it installs and runs standalone with no
+dependency on any other workbench package. Not part of this plugin's
+public interface -- imported by normalized_source_document.py only."""
 from __future__ import annotations
 
 from typing import Any

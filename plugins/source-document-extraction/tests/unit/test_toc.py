@@ -3,7 +3,7 @@
 test_toc.py
 ===========
 
-TDD-first: failing tests for pandoc_fixes/toc.py.
+TDD-first: failing tests for pandoc/toc.py.
 Covers detecting and stripping a raw Word-generated table-of-contents field
 dump: a nested bracket-link tree (e.g. `[Section Name](#_Toc123456)`
 repeated many times), often preceded by a bookmark anchor, that pandoc
@@ -13,7 +13,7 @@ Usage:
     pytest plugins/docx-to-content/tests/unit/test_toc.py -v
 """
 
-from source_document_extraction.pandoc_fixes.toc import strip_raw_toc
+from pandoc.toc import strip_raw_toc
 
 
 class TestStripRawToc:

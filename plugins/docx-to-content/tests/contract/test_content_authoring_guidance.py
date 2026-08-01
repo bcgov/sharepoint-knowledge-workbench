@@ -188,7 +188,7 @@ class TestTocStrippingIntegration:
     calls the actual implementation, not a reimplementation."""
 
     def test_strip_raw_toc_removes_dump_keeps_headings(self):
-        from pandoc_fixes.toc import strip_raw_toc
+        from pandoc.toc import strip_raw_toc
 
         raw = (
             "# Manual Title\n\n"
