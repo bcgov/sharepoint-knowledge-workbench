@@ -121,7 +121,7 @@ try {
     $deploymentPath = "$($targetFolder.ServerRelativeUrl)/SKILL.md"
     $tempPath = [System.IO.Path]::GetTempFileName()
 
-    Get-PnPFile -Url $deploymentPath -Path $tempPath -AsFile -Force -ErrorAction Stop | Out-Null
+    Get-PnPFile -AsFile -Filename $tempPath -Url $deploymentPath -Force -ErrorAction Stop | Out-Null
 
     $deployedHash = (Get-FileHash -Path $tempPath -Algorithm SHA256).Hash.ToLower()
 
