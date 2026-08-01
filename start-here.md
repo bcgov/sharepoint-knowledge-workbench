@@ -1,13 +1,13 @@
 # Resume — Phase 1–3 COMPLETE & MERGED; Phase 4 IN PROGRESS
 
-> **Phase 4 Status (2026-07-31):** IN PROGRESS — Scope Drift Detected and Under Audit.
-> **Task 8 (Scope Drift) — Agent Provisioning & Grounding Experiments:** Custom SharePoint agent provisioning and grounding experiments were performed and documented as valuable research (commit 83c60b7). These experiments inform Phase 5 but do NOT satisfy the approved Phase 4 native-skill contract. All custom-agent research, scripts, resource-ID findings, AgentAssets observations, and ASPX grounding evidence are PRESERVED as supporting research and Phase 5 candidates. The approved native `review-manual-topics` SKILL.md deployment status requires reconciliation. See `docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` for preserved learnings.
+> **Phase 4 Status (2026-08-01):** IN PROGRESS — Tasks 0–9 Complete.
+> **Task 8 (Scope Drift & Deployment):** Reconciled. Custom SharePoint agent research preserved as Phase 5 candidate (commit 83c60b7). Native `review-manual-topics` SKILL.md deployed to AgentAssets/Skills/ and hash-verified. ✓ COMPLETE
+> **Task 9 (Metadata Visibility Empirical Probe):** ✓ COMPLETE. All 7 metadata fields tested via Copilot + deployed skill. Evidence: skill has full structured metadata access (2 exact matches, 5 correct null responses, 0 inference). Ground truth: DATA CAPTURE STANDARDS (ID: 182). Results: TASK-9-METADATA-VISIBILITY-REPORT.md.
 >
-> **Tasks completed:** 0–7.5 (accepted)  
-> **Task 8:** Scope drift detected; native-skill reconciliation in progress  
-> **Tasks pending:** 9–12 (not started)  
-> **Phase 4 exit gate:** NOT YET MET  
-> **Phase 4 branch status:** Not merged; awaiting Task 8 reconciliation + Tasks 9–12 completion  
+> **Tasks completed:** 0–9 (all accepted)  
+> **Tasks pending:** 10–12 (not started)  
+> **Phase 4 exit gate:** NOT YET MET (Tasks 10–12 required)  
+> **Phase 4 branch status:** Not merged; awaiting Tasks 10–12 completion + exit gate  
 > **Phase 5 authorization status:** Not authorized pending Phase 4 exit gate
 >
 > **Phase 3 Exit Gate Status (2026-07-30):** COMPLETE & MERGED.
