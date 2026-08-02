@@ -1,0 +1,70 @@
+flowchart TD
+
+    subgraph SP1["SharePoint - propose/review only"]
+        A["Content owner / reader"]
+        B["Published structured content"]
+        C["Edit, change proposal, or review comment"]
+        D["SharePoint agent / native skill"]
+
+        B --> A
+        A --> C
+        D -. "Helps find content, proposes edits,\nreviews changes, gathers intent" .-> C
+    end
+
+    subgraph WB["GitHub Copilot / Claude workbench - applies the change"]
+        E["Pull approved change proposal"]
+        F["Apply change to structured source content"]
+        G["Content-engineering environment\n(not authoritative on its own)"]
+
+        C --> E
+        E --> F
+        F --> G
+    end
+
+    subgraph DET["Deterministic tooling - validation and rendering authority"]
+        H["Validate schema, IDs, links, media, provenance"]
+        I["Recalculate identity, lineage, hashes,\ncross-references, publication maps"]
+        J{"Validated structured content package?"}
+        K["Impact analysis across related topics"]
+        L["Re-render affected representations"]
+
+        G --> H
+        H --> I
+        I --> J
+        J -- "No - return for revision" --> E
+        J -- "Yes" --> K
+        K --> L
+    end
+
+    subgraph PUB2["SharePoint - hosts and reconciles"]
+        M["Republish and reconcile updated outputs"]
+        N["Governed publication approval"]
+        O{"Publication approved?"}
+
+        L --> N
+        N --> O
+        O -- "No" --> E
+        O -- "Yes" --> M
+    end
+
+    subgraph CONS["SharePoint agents - consuming interface"]
+        P["SharePoint agents / native skills consume\nupdated published content"]
+        Q["Reader discovers another improvement"]
+
+        M --> P
+        P --> Q
+    end
+
+    Q -. "loop repeats" .-> C
+
+    classDef proposeOnly fill:#fff2cc,stroke:#bf9000,stroke-width:2px,color:#000;
+    classDef workbench fill:#d9eaf7,stroke:#3d85c6,stroke-width:2px,color:#000;
+    classDef authority fill:#d9ead3,stroke:#38761d,stroke-width:3px,color:#000;
+    classDef hosted fill:#eadcf8,stroke:#674ea7,stroke-width:2px,color:#000;
+    classDef consuming fill:#f4cccc,stroke:#990000,stroke-width:2px,color:#000;
+
+    class A,B,C,D proposeOnly;
+    class E,F,G workbench;
+    class H,I,J,K,L authority;
+    class M,N,O hosted;
+    class P,Q consuming;

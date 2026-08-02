@@ -38,3 +38,14 @@ it is a speculative Phase 3 illustration, not an authorized workflow.
    Approved, at which point the Power Automate publisher notification (the entry point of diagram
    07) fires. Deliberately excludes Git/publisher machinery — see the editing-workflow document's
    "Third round of review" section for why. Also speculative Phase 3 territory, not authorized.
+9. `09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` — the runtime-division loop for the
+   future **Phase 6.5 — Ongoing Structured Content Authoring and Republishing** (see
+   `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Phase 6.5 section and
+   `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for
+   the full architecture note and external-review resolution this diagram is drawn from). Distinct
+   from diagrams 06-08 (Phase 3's business-authoring/approval candidates): this one shows the
+   *runtime* split — a SharePoint agent/native skill may only propose/review/gather intent; the
+   GitHub Copilot/Claude workbench applies the approved change to structured source content;
+   deterministic tooling remains the sole validation/rendering/hashing/lineage authority; the loop
+   closes when SharePoint agents consume the republished content and a reader discovers another
+   improvement. Speculative Phase 6.5 territory — NOT TRIGGERED, NOT AUTHORIZED, structure only.

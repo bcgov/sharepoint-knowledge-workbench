@@ -330,6 +330,16 @@ library's physical folder layout is set here, in Phase 3, and is expensive to ch
   skills: get-approved-chunks / render / publish) usable before any GitHub↔SharePoint integration
   exists. Stage 3.1.4's answers should be informed by that document's eventual Phase 3.0 findings, not
   assume any of its candidate models in advance.
+  **Scope clarification (external review finding, 2026-08-02, GPT 5.6 — Phase 5 brainstorming
+  placement question):** Stage 3.1.4 owns the full **ongoing structured-content maintenance
+  workflow**, not just "where editing happens." That includes: which representation is
+  authoritative; how changes are proposed, reviewed, approved, versioned, and audited; how an
+  edited topic re-enters the structured content package; and how IDs, lineage, hashes, manifests,
+  cross-references, and publication maps are recalculated after an edit. This stage does **not**
+  decide which runtime (deterministic pipeline vs. native skill vs. conversational agent) performs
+  any of the above steps — that is Phase 6's responsibility (see its Subphase 6.3 below). See
+  `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for
+  the full architecture note and resolution this scope clarification is drawn from.
 
 ### Subphase 3.2 — Package-only deployment mode
 
@@ -592,6 +602,14 @@ one does not close the other. **Detail level:** Structure only.
 **Entry gate:** A concrete required output format (Word, PDF, HTML, PowerPoint) is identified with a real
 need behind it — not invented to exercise this phase.
 
+**Scope guardrail (external review finding, 2026-08-02, GPT 5.6):** this phase stays limited to
+**deterministic** renderer expansion — `structured content package → deterministic renderer →
+validated output format`. Do not broaden it into an agent editing-and-publication workflow, or into
+agent-performed rendering of edited content. That concern belongs to Phase 6 Subphase 6.3 (runtime
+placement) and the future placeholder Phase 6.5 (Ongoing Structured Content Maintenance and
+Assisted Republishing) — see
+`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.
+
 ### Subphase 5.5B.1 — Renderer Expansion
 - Stage 5.5B.1.1 — identify a real required output format (not speculative). **Deliverable:** format
   requirement memo. **Verification:** a real, named need exists for this format. **Evidence:** the memo.
@@ -657,9 +675,119 @@ SharePoint-side runtimes exist — gate not met).
   **Verification:** at least one real reuse-vs-specific decision made using the rules, not hypothetically.
   **Evidence:** the applied decision record.
 
+### Subphase 6.3 — Runtime placement for content-lifecycle actions
+
+**(Added from external review, 2026-08-02, GPT 5.6 — Phase 5 brainstorming placement question. See
+`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
+
+Phase 3 Stage 3.1.4 decides *what* the ongoing structured-content maintenance workflow must do
+(review, approval, versioning, lineage/hash/manifest recalculation). This subphase decides *which
+runtime* performs each step, once ≥2 real runtimes exist to decide against (this subphase inherits
+Phase 6's overall entry gate — not separately triggered).
+
+- Stage 6.3.1 — for each content-lifecycle action (propose edit, validate edit, recalculate
+  lineage/hashes/manifests, render to a format, publish/reconcile), decide: may an agent only
+  recommend the action; may a native skill invoke approved deterministic tooling; must a
+  deterministic pipeline/workstation process perform the authoritative update. **Deliverable:**
+  runtime-placement decision table, one row per action. **Verification:** every action in Phase
+  3.1.4's maintenance workflow has an explicit runtime assignment, not a default assumption.
+  **Evidence:** the decision table.
+- Stage 6.3.2 — define when an agent-generated representation (e.g. an ad hoc rendering of edited
+  content) is a non-authoritative preview versus an official publication. **Deliverable:**
+  preview-vs-authoritative rule. **Verification:** the rule states the exact contract/validation an
+  agent-generated output must pass before it can be treated as authoritative (same contracts as
+  the deterministic pipeline, not a lighter bar). **Evidence:** the rule document.
+  **Non-negotiable, stated here to prevent drift:** conversational/agent rendering is never
+  authoritative for official publication on its own. The operating model is: agent assists or
+  requests → deterministic tooling updates/renders → validation executes → human/governed workflow
+  approves → publication reconciles.
+- Stage 6.3.3 — how evidence, permissions, and rollback differ by runtime (deterministic pipeline
+  vs. native skill vs. agent). **Deliverable:** per-runtime evidence/rollback matrix.
+  **Verification:** each runtime's rollback/audit story is concretely described, not assumed
+  equivalent to the others. **Evidence:** the matrix.
+
+**Exit gate (for this subphase only):** every Phase 3.1.4 maintenance-workflow action has a
+recorded runtime-placement decision, and the preview-vs-authoritative rule is defined. Feeds a
+future Phase 6.5 entry gate (see below) — does not itself authorize that phase.
+
 **Exit gate:** Shared spec + common evaluation cases demonstrably prevent drift across ≥2 runtimes, proven
 against original intent (Stage 6.1.3), not just cross-runtime agreement. Not evaluable until the entry gate
 is met.
+
+---
+
+## Phase 6.5 — Ongoing Structured Content Authoring and Republishing
+
+**(Added from external review, 2026-08-02, GPT 5.6 — Phase 5 brainstorming placement question;
+elaborated in a follow-up review the same day. See
+`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for the
+full architecture note this phase is drawn from. Named "Ongoing Structured Content Authoring and
+Republishing" per the follow-up review's clearer naming — supersedes the initial working title
+"Ongoing Structured Content Maintenance and Assisted Republishing.")**
+
+**Disposition:** NOT TRIGGERED, NOT AUTHORIZED (RESEARCH once triggered). **Detail level:**
+Structure only — this phase is a placeholder so the concern has a named future home; it does not
+authorize any implementation. Per the follow-up review: this should become a later dedicated
+phase, *after* the current Phase 5 prototype clarifies how people actually interact with the
+published content — not pulled forward ahead of that evidence.
+
+**Goal:** Implement the ongoing structured-content authoring/republishing loop, once Phase 3
+Stage 3.1.4 (what the workflow must do) and Phase 6 Subphase 6.3 (which runtime does each step)
+have both answered their respective design questions.
+
+**Diagram:** `docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` renders the
+loop and runtime division below.
+
+**The loop this phase closes** (three flows total, correcting the original two-flow framing in
+the architecture note above — ingestion and publication already exist; this is the third,
+currently missing, flow):
+
+```text
+Published structured content
+  → edit or change proposal (SharePoint surface: direct edit, change proposal, review comment,
+    agent-assisted drafting)
+  → GitHub Copilot/Claude-assisted review and update (workstation content-engineering environment
+    applies the approved change to structured source content)
+  → validated structured content package (deterministic tooling: identity, lineage, hashes,
+    cross-references, publication mappings recalculated)
+  → re-render (deterministic renderer(s), all affected output representations)
+  → republish and reconcile in SharePoint
+  → SharePoint agents/native skills consume the updated published content
+  → discover another improvement (loop repeats)
+```
+
+**Runtime division** (feeds Phase 6 Subphase 6.3's per-action runtime-placement decisions, not a
+substitute for them):
+- **SharePoint agent / native skill** — helps find content, proposes edits, reviews changes,
+  gathers intent. Does not itself become the authoritative update path.
+- **GitHub Copilot/Claude workbench** — applies the approved change to structured source content
+  (the content-engineering environment, not SharePoint).
+- **Deterministic tooling** — validates the change, updates hashes/lineage, renders, and
+  republishes. This is the validation and rendering authority; official outputs must pass through
+  it even when an agent assisted upstream.
+- **SharePoint** — hosts the governed human-facing and agent-facing outputs.
+- **SharePoint agents** — the user-facing knowledge interface consuming the republished result.
+
+**Entry gate (all required, not yet met):**
+- one real post-conversion content correction exists (not hypothetical);
+- an identified business editor for that correction;
+- an approved authoritative-source model (from Phase 3.1.4);
+- one demonstrated second-format or republishing need;
+- a runtime-placement decision covering the correction's lifecycle actions (from Phase 6.3);
+- a permissions and approval model for the correction.
+
+**Likely scope once triggered** (not authorized, not detailed at stage level yet): editing or
+change-proposal models; SharePoint-to-Git change intake; agent-assisted authoring; human approval;
+structured package updates; lineage and hash regeneration; impact analysis across related topics
+(a change to one topic may affect cross-references in others); selective or complete re-rendering;
+SharePoint republication and reconciliation; rollback and audit history.
+
+**Explicit non-goal:** this phase does not fold into, or get folded into, Phase 5.5B. Phase 5.5B
+stays limited to deterministic renderer expansion (structured content package → deterministic
+renderer → validated output format, e.g. ASPX/PDF/Word/agent-grounding representation) — it must
+not be broadened into an agent editing-and-publication workflow.
+
+**Exit gate:** Not evaluable until the entry gate is met and the phase is explicitly authorized.
 
 ---
 
