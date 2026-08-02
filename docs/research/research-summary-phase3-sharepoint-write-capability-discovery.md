@@ -265,7 +265,7 @@ updates its value, and confirm Autofill never alters deterministic package field
 Published/Retired items and under two different permission identities; record whether the
 generated value is a proposal a human must approve, an auto-applied value, or both. **Exit
 evidence:** confirmation that SharePoint's AI metadata enrichment can safely coexist with the
-canonical field-authority matrix without any deterministic field ever being silently overwritten.
+structured field-authority matrix without any deterministic field ever being silently overwritten.
 
 **Priority 12 — Agent-optimized rendering target (added 2026-07-30, from user design idea, not
 yet phase-scoped).** Today's per-agent 20-source-item limit (§16) rewards fewer, denser items.
@@ -314,11 +314,11 @@ SharePoint agents       → permission-aware Q&A and synthesis over approved sou
 Native SharePoint skills → reusable, site-scoped procedures within the supported runtime
 ```
 
-The one genuinely new idea is the **Autofill vs. canonical-authority boundary**: AI-generated
+The one genuinely new idea is the **Autofill vs. structured-authority boundary**: AI-generated
 descriptive metadata (subject, audience, category, summary) is a legitimate SharePoint-native
 enrichment layer, but it must never be allowed to compete with or silently overwrite the
 deterministic package fields (`TopicID`, `ChunkID`, `PackageIdentity`, `TopicContentSHA256`,
-`PublicationOrder`) that this repository's canonical pipeline is the sole source of truth for.
+`PublicationOrder`) that this repository's structured pipeline is the sole source of truth for.
 This is now captured as **Priority 11** in the backlog above.
 
 
@@ -535,7 +535,7 @@ Notable fields:
     an existing library. This is full, working, end-to-end scriptable agent authoring.
 - **Implication for the broader initiative:** this opens a real, evidence-backed path to a future
   "agent factory" — generating one `.agent` JSON per manual/topic-set from our `docx-to-content`
-  plugin's canonical/rendered output and batch-uploading via PnP, rather than manually
+  plugin's structured/rendered output and batch-uploading via PnP, rather than manually
   building each agent one-by-one through the Copilot UI wizard. NOT yet authorized or in scope
   beyond this discovery — would need its own reviewed spec (naming conventions, source-folder
   layout, instruction/behavior templating, `discourage_model_knowledge` policy, versioning/update
@@ -804,7 +804,7 @@ CEIS manual?"*
   multi-topic-spanning question answering with accurate citations — the core value proposition
   of the broader AI-Assisted Structured Knowledge Workbench vision. Combined with §13's native
   Markdown rendering confirmation, this is meaningful, real evidence (not synthetic-content-only)
-  that grounding a SharePoint agent on canonical/rendered manual content is viable.
+  that grounding a SharePoint agent on structured/rendered manual content is viable.
 
 - Also notable: the response included a distinct "**Cross-Topic Conclusion**" section that
   carefully avoided overclaiming a causal relationship — explicitly stating *"The manual does not
@@ -819,7 +819,7 @@ CEIS manual?"*
 ## 15. ASPX / modern-page conversion experiment — testing SharePoint as a multi-format Renderer target
 
 **Motivation:** this repo's own stated vision is `Content + Template + Renderer = Published
-Output` — a single canonical Markdown source rendered to multiple output formats. This probe
+Output` — a single structured Markdown source rendered to multiple output formats. This probe
 tests whether SharePoint itself can be one such Renderer target, using a real CEIS manual topic
 (`initiate-a-file--51d1f554.md`, 4 headings, 2 images, 2 tables) converted via `pandoc -t html`.
 
@@ -847,7 +847,7 @@ only, consistent with the "Scope corrections" section above; not a universal Sha
 about every tenant/ring/licensing configuration.
 
 **Implication for the multi-format vision:** SharePoint modern pages are a **viable Renderer
-target** for this initiative's canonical Markdown source, via the `Add-PnPPage` +
+target** for this initiative's structured Markdown source, via the `Add-PnPPage` +
 `Add-PnPPageTextPart` route specifically — **not** via raw `.aspx` authoring, which is a real,
 confirmed platform boundary, not just an unsupported convention. Practical caveats for any future
 production pipeline: (1) image assets need their own upload-and-rewrite step, not a drop-in file
@@ -1042,7 +1042,7 @@ sensitive; only `config.psd1` (live credentials) stays gitignored.
 4. **Can an agent's `.agent` JSON reference a skill and/or template directly** (e.g. an additional
    `capabilities` entry, or a distinct top-level field) — inspect a UI-created agent that has a
    skill/template attached, once one exists, to find that field.
-5. Once these are answered: decide whether a small scriptable "agent factory" (canonical CEIS
+5. Once these are answered: decide whether a small scriptable "agent factory" (structured CEIS
    content → generated `.agent` + skill + template files → batch PnP upload) is worth building as
    a documented, optional future capability — NOT yet authorized/in scope beyond this discovery.
 

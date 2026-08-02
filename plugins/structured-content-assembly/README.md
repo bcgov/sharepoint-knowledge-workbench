@@ -30,7 +30,7 @@ bare module names, no enclosing package-name folder):
 ```
 plugins/structured-content-assembly/
 ├── scripts/
-│   ├── canonical_knowledge.py   # public interface: build_canonical_package()
+│   ├── structured_content_assembly.py   # public interface: build_canonical_package()
 │   ├── convert.py               # pandoc extraction + cleanup + chunk/promote pipeline
 │   ├── chunking.py              # heading-slice -> ChunkSlice/SlicedDocument
 │   ├── package.py               # canonical-package builder (chunk/media/manifest writer)
@@ -54,7 +54,7 @@ plugins/structured-content-assembly/
 │       ├── analysis_plan.py
 │       └── shared.py
 ├── references/contracts/
-├── skills/build-canonical-package/
+├── skills/assemble-structured-content/
 └── tests/
 ```
 
@@ -72,7 +72,7 @@ producer plugin being present. See
 `docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md`
 for the full rationale and verification evidence (this superseded the
 original hand-duplication approach recorded in
-`wave-4-structured-content-assembly-split-decision.md`).
+`wave-4-canonical-knowledge-split-decision.md`).
 
 Part of Phase 4.5's decomposition of the combined `docx-to-content` plugin
 into four independently installable domain plugins — see
@@ -89,7 +89,7 @@ No other package needs to be installed first.
 ## Public interface
 
 ```python
-from canonical_knowledge import build_canonical_package
+from structured_content_assembly import build_canonical_package
 
 result = build_canonical_package(analysis_plan_dict, source_dir, output_dir)
 # {"manifest": ..., "validation_report": ..., "promoted": bool, "package_dir": str}
@@ -114,5 +114,5 @@ package):
 
 ```bash
 cd tools/phase-4-5-core-plugin-refactoring
-python isolated_install_check.py --plugin structured-content-assembly --import-package canonical_knowledge
+python isolated_install_check.py --plugin structured-content-assembly --import-package structured_content_assembly
 ```
