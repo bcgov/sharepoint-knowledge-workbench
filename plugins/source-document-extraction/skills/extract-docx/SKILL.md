@@ -20,7 +20,7 @@ without re-parsing.
 
 This plugin only observes the source; it never interprets strategy
 (single/chunked), never proposes topic boundaries, and never writes
-canonical content.
+structured content.
 
 ## Public Interface
 

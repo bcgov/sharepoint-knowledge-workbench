@@ -4,6 +4,8 @@ Semantic structure analysis for the SharePoint Knowledge Workbench:
 topic-boundary reasoning, chunking-strategy recommendation, and draft-plan
 construction from a `normalized-source-document`.
 
+For a visual walkthrough of this stage, see `references/diagrams/02-analyze-and-confirm.mmd` (bundled with this plugin).
+
 This plugin is the **producer** of `analysis-plan`: the authoritative
 schema lives inside this plugin at `scripts/plan_schema/analysis_plan.py`
 and `references/contracts/analysis-plan.md`, not in a shared top-level
@@ -17,18 +19,18 @@ module names, no enclosing package-name folder):
 ```
 plugins/document-structure-analysis/
 ├── scripts/
-│   ├── analysis.py               # public interface: recommend_from_normalized()
+│   ├── document_structure_analysis.py  # public interface: recommend_from_normalized()
 │   ├── identity.py               # thin re-export of identity_core.py
-│   ├── identity_core.py          # CANONICAL: stable chunk/topic identity -- also consumed
+│   ├── identity_core.py          # AUTHORITATIVE: stable chunk/topic identity -- also consumed
 │   │                              # by structured-content-assembly via a managed cross-plugin symlink
 │   ├── topic_grouping.py         # thin re-export of topic_boundary_core.py
-│   ├── topic_boundary_core.py    # CANONICAL: topic-boundary detection -- also consumed
+│   ├── topic_boundary_core.py    # AUTHORITATIVE: topic-boundary detection -- also consumed
 │   │                              # by structured-content-assembly via a managed cross-plugin symlink
 │   ├── plans.py                   # draft-plan construction, confirmation, media decisions
-│   ├── plan_verification_core.py  # CANONICAL: plan-ID computation + confirmed-plan
+│   ├── plan_verification_core.py  # AUTHORITATIVE: plan-ID computation + confirmed-plan
 │   │                              # verification -- also consumed by structured-content-assembly
 │   │                              # via a managed cross-plugin symlink
-│   ├── plan_hashing.py            # canonical-JSON hashing (thin re-export of
+│   ├── plan_hashing.py            # deterministic-JSON hashing (thin re-export of
 │   │                              # plan_verification_core's compute_plan_id; named to
 │   │                              # avoid colliding with other plugins' own hashing.py)
 │   └── plan_schema/               # this plugin's own analysis-plan contract
@@ -40,7 +42,7 @@ plugins/document-structure-analysis/
 ```
 
 Three modules here (`identity_core.py`, `topic_boundary_core.py`,
-`plan_verification_core.py`) are this plugin's own **canonical
+`plan_verification_core.py`) are this plugin's own **authoritative$
 ownership** of behavior that `structured-content-assembly` also needs at
 convert-time. `structured-content-assembly` consumes each via a **managed
 cross-plugin file-level symlink** (see `symlinks.json`) under the exact
@@ -63,7 +65,7 @@ No other package needs to be installed first.
 ## Public interface
 
 ```python
-from analysis import recommend_from_normalized
+from document_structure_analysis import recommend_from_normalized
 
 analysis_plan = recommend_from_normalized(normalized_source_document)
 ```
@@ -87,5 +89,5 @@ package):
 
 ```bash
 cd tools/phase-4-5-core-plugin-refactoring
-python isolated_install_check.py --plugin document-structure-analysis --import-package analysis
+python isolated_install_check.py --plugin document-structure-analysis --import-package document_structure_analysis
 ```
