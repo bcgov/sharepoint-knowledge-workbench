@@ -24,6 +24,10 @@ tools/phase-3-sharepoint-discovery/config.psd1
 # config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
 tools/phase-4-native-sharepoint-skills/config.psd1
 
+# Real tenant credentials for the Phase 5 CEIS grounding prototype — never commit.
+# config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
+tools/phase-5-sharepoint-knowledge-agent-pilot/config.psd1
+
 
 # Superpowers transient working state
 .superpowers/
