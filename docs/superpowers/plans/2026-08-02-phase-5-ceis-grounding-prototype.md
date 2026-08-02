@@ -577,21 +577,43 @@ site even for real, working agents). The browser is authoritative here.
 - Produces: `results/task4-aspx-agent-selection.md`'s recorded baseline agent name, consumed by
   Task 6 (which agent to run every case against).
 
+**Update (2026-08-02, mid-execution finding):** two distinct access paths exist and were found to
+behave differently — see `docs/research/field-note-ready-made-copilot-agent-launch-by-name.md`
+for the full observation:
+1. Opening a `.agent` file directly (e.g. via its SharePoint URL, or clicking it in the library
+   listing) opens that specific custom agent's own chat pane.
+2. The generic **ready-made/default Copilot** (opened via the library toolbar's "Copilot" button)
+   can apparently be asked, in natural language, to "launch" a named custom agent — but this claim
+   is **unverified**: its cited sources on doing so were direct `.aspx` content files, not
+   evidence the target agent's own distinct instructions were actually applied. Do not treat
+   path 2 as equivalent to path 1 until Step 3 below's verification method confirms it; if
+   unverified, use path 1 (direct `.agent` file access) as the authoritative test method for this
+   task.
+
 - [ ] **Step 1: Open the SharePoint site's Copilot chat pane in a browser**
 
-Navigate to `https://bcgov.sharepoint.com/sites/AG-CSB-intranet-dev` and open the Copilot/agent
-chat entry point (site-level Copilot icon or the `CEISPilotKnowledgePages` page's chat pane).
+Navigate to `https://bcgov.sharepoint.com/sites/AG-CSB-intranet-dev`, into
+`Site Pages/CEISPilotKnowledgePages`. Use path 1 above (open each `.agent` file directly) as the
+primary method for Steps 2-3.
 
 - [ ] **Step 2: List every agent that appears as selectable**
 
-For each of the 5 candidates, note whether it appears in the chat pane's agent picker:
-`CEIS-Pilot-Knowledge-Agent`, `CEIS-Pilot-Knowledge-Agent-Corrected`, `CEIS-ASPX-Only-Test`,
-`CEIS-Topic-Reviewer-with-Skills`, `CEISPilotKnowledgePages-manuallycreated`.
+For each of the 5 candidates, note whether opening its `.agent` file directly launches a working
+chat pane: `CEIS-Pilot-Knowledge-Agent`, `CEIS-Pilot-Knowledge-Agent-Corrected`,
+`CEIS-ASPX-Only-Test`, `CEIS-Topic-Reviewer-with-Skills`, `CEISPilotKnowledgePages-manuallycreated`.
 
-- [ ] **Step 3: For each selectable agent, ask one smoke-test question**
+- [ ] **Step 3: For each selectable agent, ask one smoke-test question, then verify path-2 claims**
 
 Ask: "What are the steps to initiate a new file in CEIS?" (same as `NORM-01`). Confirm it grounds
 on the `.aspx` content and cites a source page, not a hallucinated answer.
+
+Then, separately, test whether path 2 (asking the generic ready-made Copilot to "launch" a named
+agent) is a real hand-off: ask the ready-made Copilot to launch `CEIS-ASPX-Only-Test` specifically,
+then ask a question that agent's stricter instructions would answer differently than the generic
+Copilot would (e.g. an out-of-scope question — `CEIS-ASPX-Only-Test`'s instructions say to
+explicitly state "the procedure is not documented" and never search images/other sources). If the
+response shows that agent's distinctive refusal behavior, path 2 is confirmed real; if it answers
+however the generic Copilot normally would, record path 2 as unconfirmed/likely self-answering.
 
 - [ ] **Step 4: Record the result and pick the baseline**
 

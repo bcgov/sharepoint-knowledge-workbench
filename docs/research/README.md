@@ -140,6 +140,9 @@ business-user-facing interaction.
 6. [`field-note-sharepoint-agentassets-review-manual-topics-skill.md`](field-note-sharepoint-agentassets-review-manual-topics-skill.md)  
    Records the successful tenant experiment using the `AgentAssets` library and the generated `review-manual-topics` native skill. It also identifies hardening and evaluation requirements.
 
+7. [`field-note-ready-made-copilot-agent-launch-by-name.md`](field-note-ready-made-copilot-agent-launch-by-name.md)  
+   Records an unverified observation from Phase 5 Task 4: the ready-made/default Copilot appears to "launch" a named custom `.agent` when asked in natural language, but its cited sources suggest it may be self-answering rather than truly handing off to that agent's distinct instructions. Do not treat as confirmed until verified per that note's method.
+
 ### Content creation, curation, and Markdown
 
 7. [`research-summary-native-markdown-sharepoint-onedrive.md`](research-summary-native-markdown-sharepoint-onedrive.md)  
