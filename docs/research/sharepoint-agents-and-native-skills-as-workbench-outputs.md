@@ -12,7 +12,7 @@
 
 ## 1. Executive Summary
 
-The AI-Assisted SharePoint Knowledge Workbench can produce more than canonical content and publication packages. Two important deployment targets are:
+The AI-Assisted SharePoint Knowledge Workbench can produce more than structured content and publication packages. Two important deployment targets are:
 
 1. **Native Copilot in SharePoint skills** — constrained, reusable, site-scoped workflows stored as Markdown in SharePoint.
 2. **SharePoint agents** — purpose-specific conversational knowledge experiences grounded in selected SharePoint content.
@@ -26,7 +26,7 @@ GitHub Copilot / VS Code Knowledge Workbench
     v
 Governed deployment artifacts
     |
-    +-- Canonical Markdown topics
+    +-- Structured Markdown topics
     +-- Publication maps
     +-- SharePoint schema specifications
     +-- Native SharePoint SKILL.md definitions
@@ -317,8 +317,8 @@ Possible interim patterns include:
 
 - approved rendered HTML or SharePoint pages;
 - approved Word, PDF, text, or other documented supported formats;
-- a governed index or summary page linking to canonical Markdown;
-- a dual-output model where Markdown remains canonical and an approved agent-facing representation is generated.
+- a governed index or summary page linking to structured Markdown;
+- a dual-output model where Markdown remains structured and an approved agent-facing representation is generated.
 
 ## 10. Licensing for SharePoint Agents
 
@@ -385,7 +385,7 @@ The workbench can be treated as a compiler, test environment, and release-manage
 ```text
 Government standards and business intent
         +
-Canonical content and metadata
+Structured content and metadata
         +
 Workflow requirements
         +
@@ -399,7 +399,7 @@ Validated SharePoint-native deployment artifacts
 Potential output targets include:
 
 ```text
-Target: Canonical Markdown package
+Target: Structured Markdown package
 Target: SharePoint content-model specification
 Target: SharePoint deployment package
 Target: Native SharePoint SKILL.md
@@ -581,7 +581,7 @@ External workbench code that creates or modifies SharePoint pages, `.aspx` artif
 
 Architecture rule:
 
-> Prefer native Copilot in SharePoint capabilities for supported interactive content operations. Treat external page or web-part publishing as a separately authorized adapter. Never manipulate raw `.aspx` markup as though it were canonical content.
+> Prefer native Copilot in SharePoint capabilities for supported interactive content operations. Treat external page or web-part publishing as a separately authorized adapter. Never manipulate raw `.aspx` markup as though it were structured content.
 
 ## 19. Validation Requirements for Native SharePoint Skills
 
@@ -715,7 +715,7 @@ The workbench should expose explicit modes.
 
 ### Phase A — Workbench Preparation
 
-1. Complete the CEIS canonical-content pilot.
+1. Complete the CEIS structured-content pilot.
 2. Define a manageable topic package and publication map.
 3. Select one low-risk native SharePoint workflow.
 4. Create a native skill specification and evaluation cases.

@@ -1,6 +1,6 @@
 """
-analysis.py
-===========
+document_structure_analysis.py
+==============================
 
 Public interface for the `document-structure-analysis` plugin: consumes a
 `normalized-source-document` v1 dict (produced by `source-document-
