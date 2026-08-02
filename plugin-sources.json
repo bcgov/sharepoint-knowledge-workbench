@@ -16,6 +16,16 @@
         "dev-utils",
         "plugin-manager"
       ]
+    },
+    {
+      "source": ".",
+      "plugins": [
+        "document-structure-analysis",
+        "sharepoint-content-publication",
+        "source-document-extraction",
+        "structured-content-assembly",
+        "structured-content-rendering"
+      ]
     }
   ]
 }

@@ -570,6 +570,438 @@
       "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/document_structure_analysis.py",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "Visual pipeline diagram for the extraction/analysis stage, shared with document-structure-analysis"
+    },
+    {
+      "src": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "Visual pipeline diagram for the extraction/analysis stage, shared with source-document-extraction"
+    },
+    {
+      "src": "docs/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "Visual pipeline diagram for the structured-content-assembly stage"
+    },
+    {
+      "src": "docs/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "Visual pipeline diagram for the structured-content-rendering stage"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of the visual pipeline diagram"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy of the visual pipeline diagram"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy of the visual pipeline diagram"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy of the visual pipeline diagram"
+    },
+    {
+      "src": "docs/diagrams/high-level.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "Overall end-to-end system diagram for context, bundled with source-document-extraction"
+    },
+    {
+      "src": "docs/diagrams/high-level.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "Overall end-to-end system diagram for context, bundled with document-structure-analysis"
+    },
+    {
+      "src": "docs/diagrams/high-level.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "Overall end-to-end system diagram for context, bundled with structured-content-assembly"
+    },
+    {
+      "src": "docs/diagrams/high-level.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "Overall end-to-end system diagram for context, bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/high-level.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy of the overall system diagram"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/high-level.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy of the overall system diagram"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/high-level.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy of the overall system diagram"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/high-level.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/high-level.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy of the overall system diagram"
+    },
+    {
+      "src": "docs/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with source-document-extraction"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with source-document-extraction"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with source-document-extraction"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with source-document-extraction"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with source-document-extraction"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with source-document-extraction"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with source-document-extraction"
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "extract-docx skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with document-structure-analysis"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with document-structure-analysis"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with document-structure-analysis"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with document-structure-analysis"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with document-structure-analysis"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with document-structure-analysis"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with document-structure-analysis"
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "analyze-document-structure skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-assembly"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-assembly"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-assembly"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/04-generate-and-render.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-assembly"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-assembly"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-assembly"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-assembly"
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "assemble-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/01-phase1-overview.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/02-analyze-and-confirm.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/03-create-canonical-content.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/05-validation-and-evidence.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy"
+    },
+    {
+      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "Full diagram set bundled with structured-content-rendering"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": "render-structured-content skill's bundled copy"
     }
   ]
 }

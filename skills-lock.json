@@ -35,6 +35,13 @@
       "skillPath": "skills/algorithmic-art/SKILL.md",
       "computedHash": "b2ca295de7f9c86c444f1fa21239e22e0eb7013ced1c652169b9402cc96ff744"
     },
+    "analyze-document-structure": {
+      "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+      "sourceType": "local",
+      "computedHash": "",
+      "installedAt": "2026-08-02T07:27:21.692343Z",
+      "updatedAt": "2026-08-02T07:35:19.556007Z"
+    },
     "analyze-plugin": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
@@ -48,6 +55,13 @@
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
       "updatedAt": "2026-07-25T21:17:13.480200Z"
+    },
+    "assemble-structured-content": {
+      "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+      "sourceType": "local",
+      "computedHash": "",
+      "installedAt": "2026-08-02T07:27:21.787863Z",
+      "updatedAt": "2026-08-02T07:35:19.659318Z"
     },
     "audit-plugin": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
@@ -282,6 +296,13 @@
       "computedHash": "",
       "installedAt": "2026-07-25T21:16:39.053090Z",
       "updatedAt": "2026-07-25T21:16:39.053090Z"
+    },
+    "extract-docx": {
+      "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+      "sourceType": "local",
+      "computedHash": "",
+      "installedAt": "2026-08-02T07:27:21.738132Z",
+      "updatedAt": "2026-08-02T07:35:19.606890Z"
     },
     "finishing-a-development-branch": {
       "source": "https://github.com/obra/superpowers",
@@ -627,6 +648,13 @@
       "computedHash": "",
       "installedAt": "2026-07-25T21:16:39.053090Z",
       "updatedAt": "2026-07-25T21:16:39.053090Z"
+    },
+    "render-structured-content": {
+      "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+      "sourceType": "local",
+      "computedHash": "",
+      "installedAt": "2026-08-02T07:27:21.831774Z",
+      "updatedAt": "2026-08-02T07:35:19.709054Z"
     },
     "requesting-code-review": {
       "source": "https://github.com/obra/superpowers",
