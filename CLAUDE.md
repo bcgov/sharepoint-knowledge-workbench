@@ -139,6 +139,18 @@ in `DEPENDENCIES.md` — update that file whenever a new external tool is introd
 of this kind are outside the scope of `.agent/rules/dependency-management.md` (which governs
 Python `.in`/`.txt` lockfiles only) and should be confirmed explicitly.
 
+### Tenant-scripting destination configuration (design pending — do not implement ad hoc)
+
+`tools/phase-3-sharepoint-discovery/`, `tools/phase-4-native-sharepoint-skills/`, and `tools/
+phase-5-sharepoint-knowledge-agent-pilot/` each currently hardcode their own destination decisions
+(library/folder/agent names) and duplicate their own `config.psd1`. This does not scale to a
+second real document/manual without risking duplication or collisions — see
+`docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md` for the full
+design (root connection config + per-document publication profile + explicit script parameters,
+in that precedence order). **Design only, not authorized to implement** — before adding any new
+tenant-scripting tool or touching an existing one's destination logic, read that spec first rather
+than hardcoding another one-off default.
+
 ### Skills in use
 
 Word↔Markdown conversion in this repo is built directly on **pandoc**, not a third-party docx
