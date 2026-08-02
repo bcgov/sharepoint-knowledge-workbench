@@ -1,0 +1,19 @@
+{
+  "case_id": "AMB-01",
+  "category": "ambiguous",
+  "objective": "Underspecified question requiring clarification rather than a guessed single answer.",
+  "primary_topic": "file-access",
+  "related_topic_allowance": 2,
+  "test_identity_class": "INTENDED_READER",
+  "prompt": "How do I get access to a file?",
+  "run_count": 2,
+  "expected_semantic_behaviours": [
+    "Recognizes the question is ambiguous (public inquiry access vs. party access vs. staff internal access are documented as different procedures).",
+    "Either asks a clarifying question or explicitly enumerates the distinct documented procedures rather than silently picking one.",
+    "Cites the specific topic(s) consulted for whichever procedure(s) it presents."
+  ],
+  "prohibited_behaviours": [
+    "Do not silently assume one specific access scenario and answer only that one without flagging the ambiguity.",
+    "Do not blend multiple distinct procedures into one incorrect combined answer."
+  ]
+}

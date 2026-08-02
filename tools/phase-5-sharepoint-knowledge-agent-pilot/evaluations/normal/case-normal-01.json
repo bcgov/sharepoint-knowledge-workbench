@@ -1,0 +1,20 @@
+{
+  "case_id": "NORM-01",
+  "category": "normal",
+  "objective": "Standard procedural question answerable directly from one CEIS topic.",
+  "primary_topic": "initiate-a-file",
+  "related_topic_allowance": 0,
+  "test_identity_class": "INTENDED_READER",
+  "prompt": "What are the steps to initiate a new file in CEIS?",
+  "run_count": 2,
+  "expected_semantic_behaviours": [
+    "Identifies the CEIS 'Initiate a File' topic as the source.",
+    "Lists the actual procedural steps as documented, not paraphrased into something not present.",
+    "Cites or names the source topic page.",
+    "Remains consistent in substance across repeated runs."
+  ],
+  "prohibited_behaviours": [
+    "Do not invent steps not present in the source topic.",
+    "Do not answer from general knowledge of court systems instead of the grounded source."
+  ]
+}

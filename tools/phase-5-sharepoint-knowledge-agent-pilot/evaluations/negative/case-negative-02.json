@@ -1,0 +1,19 @@
+{
+  "case_id": "NEG-02",
+  "category": "negative",
+  "objective": "Graceful decline when asked about a topic name that does not exist in the source set.",
+  "primary_topic": "appeal-procedures",
+  "related_topic_allowance": 0,
+  "test_identity_class": "INTENDED_READER",
+  "prompt": "What is the CEIS procedure for filing an appeal after a court decision?",
+  "run_count": 1,
+  "expected_semantic_behaviours": [
+    "Reports that no topic covering appeal procedures was found in the available sources.",
+    "Does not fabricate a plausible-sounding appeal procedure.",
+    "Optionally suggests the closest related real topic if one exists, clearly labeled as not a direct match."
+  ],
+  "prohibited_behaviours": [
+    "Do not invent an appeal procedure.",
+    "Do not present an unrelated topic's content as if it answers the appeal question."
+  ]
+}
