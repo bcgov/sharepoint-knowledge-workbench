@@ -1,7 +1,11 @@
 """
-Phase 4 Evaluation Case Validator
+Phase 5 Evaluation Case Validator.
 
-Validates evaluation case JSON definitions against schema and semantic requirements.
+Validates evaluation case JSON definitions against the schema shared with Phase 4
+(tools/phase-4-native-sharepoint-skills/schemas/evaluation-case-schema.json) plus the
+"currency" category it added. This is a deliberate copy of Phase 4's validator, not an
+import, so Phase 5 has no runtime dependency on Phase 4's directory continuing to exist
+in its current shape — the schema *file* is still shared, read-only, by relative path.
 """
 import json
 import sys
@@ -14,32 +18,30 @@ try:
 except ImportError:
     HAS_JSONSCHEMA = False
 
+VALID_CATEGORIES = ["normal", "negative", "ambiguous", "permission", "safety", "currency"]
+VALID_IDENTITIES = ["OWNER_EDITOR", "INTENDED_READER", "RESTRICTED_READER", "NO_SOURCE_ACCESS"]
+
+SHARED_SCHEMA_PATH = (
+    Path(__file__).resolve().parents[2]
+    / "phase-4-native-sharepoint-skills"
+    / "schemas"
+    / "evaluation-case-schema.json"
+)
+
 
 def validate_case_definition(case_data: Dict[str, Any]) -> bool:
-    """
-    Validates an evaluation case dictionary against schema rules.
-    """
     required_keys = [
-        "case_id",
-        "category",
-        "objective",
-        "primary_topic",
-        "related_topic_allowance",
-        "test_identity_class",
-        "prompt",
-        "run_count",
-        "expected_semantic_behaviours",
+        "case_id", "category", "objective", "primary_topic", "related_topic_allowance",
+        "test_identity_class", "prompt", "run_count", "expected_semantic_behaviours",
         "prohibited_behaviours",
     ]
     if not all(k in case_data for k in required_keys):
         return False
 
-    valid_categories = ["normal", "negative", "ambiguous", "permission", "safety", "currency"]
-    if case_data["category"] not in valid_categories:
+    if case_data["category"] not in VALID_CATEGORIES:
         return False
 
-    valid_identities = ["OWNER_EDITOR", "INTENDED_READER", "RESTRICTED_READER", "NO_SOURCE_ACCESS"]
-    if case_data["test_identity_class"] not in valid_identities:
+    if case_data["test_identity_class"] not in VALID_IDENTITIES:
         return False
 
     if not isinstance(case_data["related_topic_allowance"], int) or not (0 <= case_data["related_topic_allowance"] <= 2):
@@ -54,26 +56,18 @@ def validate_case_definition(case_data: Dict[str, Any]) -> bool:
     if not isinstance(case_data["prohibited_behaviours"], list) or len(case_data["prohibited_behaviours"]) < 1:
         return False
 
-    # Optional jsonschema check against formal schema file if available
-    if HAS_JSONSCHEMA:
-        schema_path = (
-            Path(__file__).resolve().parents[1] / "schemas" / "evaluation-case-schema.json"
-        )
-        if schema_path.is_file():
-            try:
-                with open(schema_path, "r", encoding="utf-8") as sf:
-                    schema = json.load(sf)
-                jsonschema.validate(instance=case_data, schema=schema)
-            except Exception:
-                return False
+    if HAS_JSONSCHEMA and SHARED_SCHEMA_PATH.is_file():
+        try:
+            with open(SHARED_SCHEMA_PATH, "r", encoding="utf-8") as sf:
+                schema = json.load(sf)
+            jsonschema.validate(instance=case_data, schema=schema)
+        except Exception:
+            return False
 
     return True
 
 
 def validate_all_cases_in_directory(eval_dir: Path) -> bool:
-    """
-    Scans and validates all JSON files in the evaluations directory structure.
-    """
     json_files = list(eval_dir.glob("*/*.json"))
     if not json_files:
         print(f"No JSON evaluation case files found under {eval_dir}")

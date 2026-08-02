@@ -61,3 +61,19 @@ def test_unexecuted_report_templates_exist():
 
     assert "Status: NOT_EXECUTED" in summary_file.read_text(encoding="utf-8")
     assert "Status: NOT_EXECUTED" in perm_file.read_text(encoding="utf-8")
+
+
+def test_currency_category_is_accepted_by_schema():
+    case = {
+        "case_id": "CUR-00-SCHEMA-CHECK",
+        "category": "currency",
+        "objective": "Schema smoke test only.",
+        "primary_topic": "initiate-a-file",
+        "related_topic_allowance": 0,
+        "test_identity_class": "INTENDED_READER",
+        "prompt": "Schema smoke test prompt.",
+        "run_count": 1,
+        "expected_semantic_behaviours": ["Placeholder behaviour for schema smoke test."],
+        "prohibited_behaviours": ["Placeholder prohibition for schema smoke test."],
+    }
+    assert validate_cases.validate_case_definition(case)

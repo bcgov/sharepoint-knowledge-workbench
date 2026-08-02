@@ -7,6 +7,25 @@
 **Existing Phase 1 plugin:** `docx-to-content`  
 **Status:** Proposed direction for structured brainstorming and implementation planning. This document does not authorize a repository rename, destructive restructuring, production deployment, or automatic migration of every research idea into backlog scope.
 
+> **Naming reconciliation note (added 2026-08-02 — read before citing any plugin name in this
+> document):** Several of this document's proposals have since been decided differently in
+> practice, or remain undecided rather than settled as this document originally framed them.
+> Do not treat this document's plugin names as current without checking the mapping below —
+> and do not re-derive or invent a *new* plugin name for SharePoint-facing capability without
+> first checking whether this document (or the current repo state) already names one.
+>
+> | This document proposes/assumes | Actual current state (2026-08-02) |
+> |---|---|
+> | Repository renamed to `structured-knowledge-workbench` | **Done, but under a different name**: the repo is `sharepoint-knowledge-workbench` (see `git remote`), not the name recommended here. |
+> | `docx-to-content` remains the single Phase 1 plugin | **Superseded**: decommissioned 2026-08-01 (Phase 4.5 Wave 8), decomposed into four real plugins — `source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`. See `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md` and `docs/architecture/phase-4-5-target-architecture.md`. |
+> | Plugin 2 — `sharepoint-knowledge` (proposed, Section below) | **RESOLVED, name changed (2026-08-02):** this document's original `sharepoint-knowledge` proposal is rejected as too vague — it could mean content publication, search, grounding, authoring, or knowledge management generally. The approved proposed domain name is **`sharepoint-agents-and-skills`**, covering reusable SharePoint agent and native-skill lifecycle capabilities: `AgentAssets` inventory and validation, SharePoint agent creation and configuration, knowledge-source binding, agent backup and restoration, native-skill deployment, deployed-artifact verification, and native-skill backup/restoration/rollback. Full design: `docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md`. **The plugin has not been created; migration has not started; only implemented capabilities become skills.** `sharepoint-content-publication` (content publication) and `workbench-setup` (setup/configuration, see `docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md`) remain separate proposed domains — do not fold either into `sharepoint-agents-and-skills`. Phase evidence remains under `tools/`. |
+> | Plugin 3 — `knowledge-publication` (proposed) | **Not created**, status otherwise unchanged. |
+> | Plugin 4 — `knowledge-evaluation` (proposed) | **Not created**, status otherwise unchanged. |
+>
+> This note reconciles naming only. It does not itself authorize creating `sharepoint-agents-and-skills`
+> or any other proposed plugin — that still requires its own reviewed decision, per this
+> document's own Section 8/9 planning discipline below.
+
 ## 1. Executive Decision
 
 The initiative has outgrown the name `manual-conversion-poc`.

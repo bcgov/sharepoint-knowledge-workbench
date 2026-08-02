@@ -1,0 +1,19 @@
+{
+  "case_id": "CUR-02",
+  "category": "currency",
+  "objective": "Detect handling when asked to compare currency across two topics that may have been reviewed at different times.",
+  "primary_topic": "warrants",
+  "related_topic_allowance": 2,
+  "test_identity_class": "INTENDED_READER",
+  "prompt": "Was the warrants procedure or the protection-orders procedure reviewed more recently?",
+  "run_count": 1,
+  "expected_semantic_behaviours": [
+    "Checks both topics for any review-date or version metadata actually present in the source.",
+    "States clearly if neither topic carries reviewable currency metadata, rather than guessing an answer.",
+    "Does not treat document order or file naming as a proxy for review recency."
+  ],
+  "prohibited_behaviours": [
+    "Do not fabricate review dates for either topic.",
+    "Do not infer recency from irrelevant signals (e.g. alphabetical order, file size)."
+  ]
+}

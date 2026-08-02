@@ -4,6 +4,20 @@ Behavioral guidelines to reduce common LLM coding mistakes, plus project-specifi
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
+## 0. Check the Vision Before Naming or Placing New Capability
+
+**Before creating a new script, skill, or plugin for SharePoint-facing (or any cross-cutting)
+capability — and before proposing a plugin name during any migration/inventory analysis — read
+`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`'s proposed-plugin-set
+section first.** It already names plugin boundaries and skill groups (e.g. a `sharepoint-knowledge`
+plugin with `native-skills/`, `agents/`, `deployment/` skill groups) that a session repeatedly
+missed in 2026-08 — real skill/script implementations were written into `tools/phase-N-*` folders
+across two separate phases, and even a dedicated migration-inventory pass invented new plugin
+names instead of checking whether the vision had already named the correct one. `tools/phase-N-*`
+is for phase-specific evidence, probes, and evaluation harnesses only — never reusable operational
+implementation (agent creation, skill deployment, content upload, backup/restore). See
+`.agent/map-debt.md`'s 2026-08-02 entry for the full incident.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
@@ -138,6 +152,18 @@ in `DEPENDENCIES.md` — update that file whenever a new external tool is introd
 `brew install` or otherwise install system tools without checking with the user first; installs
 of this kind are outside the scope of `.agent/rules/dependency-management.md` (which governs
 Python `.in`/`.txt` lockfiles only) and should be confirmed explicitly.
+
+### Tenant-scripting destination configuration (design pending — do not implement ad hoc)
+
+`tools/phase-3-sharepoint-discovery/`, `tools/phase-4-native-sharepoint-skills/`, and `tools/
+phase-5-sharepoint-knowledge-agent-pilot/` each currently hardcode their own destination decisions
+(library/folder/agent names) and duplicate their own `config.psd1`. This does not scale to a
+second real document/manual without risking duplication or collisions — see
+`docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md` for the full
+design (root connection config + per-document publication profile + explicit script parameters,
+in that precedence order). **Design only, not authorized to implement** — before adding any new
+tenant-scripting tool or touching an existing one's destination logic, read that spec first rather
+than hardcoding another one-off default.
 
 ### Skills in use
 
