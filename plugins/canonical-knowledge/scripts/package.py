@@ -72,7 +72,7 @@ from canonical_schema import canonical_package as contracts  # noqa: E402
 import dispositions  # noqa: E402
 import hashing  # noqa: E402
 import publication_map  # noqa: E402
-import chunk_grouping as topic_grouping  # noqa: E402
+import topic_boundary_core as topic_grouping  # noqa: E402
 
 _LEGACY_MEDIA_EXTENSIONS = {".emf", ".wmf"}
 

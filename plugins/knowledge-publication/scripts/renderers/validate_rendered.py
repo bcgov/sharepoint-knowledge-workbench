@@ -425,7 +425,9 @@ def render_and_promote(
     final_dir = Path(final_dir) if final_dir is not None else output_root / "rendered-output"
 
     result, staging_dir = mpm.render_to_staging(package, output_root, renderer=renderer)
-    atomic_output.write_generator_info(staging_dir, plugin_version=plugin_version)
+    atomic_output.write_generator_info(
+        staging_dir, plugin_name="knowledge-publication", plugin_version=plugin_version
+    )
     write_render_result(result, staging_dir)
 
     report = validate_rendered_output(staging_dir, package)

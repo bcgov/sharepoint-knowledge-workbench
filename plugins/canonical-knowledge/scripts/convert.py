@@ -297,7 +297,9 @@ def convert_and_promote(
         source, plan, run_staging_root, package_staging_dir
     )
 
-    atomic_output.write_generator_info(package_staging_dir, plugin_version=plugin_version)
+    atomic_output.write_generator_info(
+        package_staging_dir, plugin_name="canonical-knowledge", plugin_version=plugin_version
+    )
 
     validation_report = validate_canonical.validate_canonical_package(
         package_staging_dir, plan, source_path=source, cleaned_markdown_text=cleaned_text

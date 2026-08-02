@@ -176,18 +176,6 @@
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/chunk_grouping.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunk_grouping.py",
-      "strategy": "symlink",
-      "description": ""
-    },
-    {
-      "src": "plugins/canonical-knowledge/scripts/chunk_identity.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunk_identity.py",
-      "strategy": "symlink",
-      "description": ""
-    },
-    {
       "src": "plugins/canonical-knowledge/scripts/chunking.py",
       "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunking.py",
       "strategy": "symlink",
@@ -436,6 +424,150 @@
     {
       "src": "plugins/knowledge-publication/references/contracts/rendered-output-profile.md",
       "dst": "plugins/knowledge-publication/skills/render-content/references/contracts/rendered-output-profile.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/emf_convert.py",
+      "dst": "plugins/canonical-knowledge/scripts/emf_convert.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge consumes source-document-extraction's emf_convert.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/path_safety.py",
+      "dst": "plugins/knowledge-publication/scripts/path_safety.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes source-document-extraction's path_safety.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/__init__.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/__init__.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/__init__.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/attrs.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/attrs.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/attrs.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/footnotes.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/footnotes.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/footnotes.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/heading_emphasis.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/heading_emphasis.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/heading_emphasis.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/images.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/images.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/images.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/tables.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/tables.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/tables.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/toc.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/toc.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/toc.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/validate.py",
+      "dst": "plugins/canonical-knowledge/scripts/pandoc_cleanup/validate.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's pandoc_cleanup consumes source-document-extraction's pandoc/validate.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_package.py",
+      "dst": "plugins/knowledge-publication/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's canonical_package.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/dispositions.py",
+      "dst": "plugins/knowledge-publication/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's dispositions.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/hashing.py",
+      "dst": "plugins/knowledge-publication/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's hashing.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/publication_map.py",
+      "dst": "plugins/knowledge-publication/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's publication_map.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/knowledge-publication/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's canonical_schema/__init__.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/shared.py",
+      "dst": "plugins/knowledge-publication/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's canonical_schema/shared.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/knowledge-publication/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's canonical_schema/canonical_package.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/knowledge-publication/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's canonical_schema/publication_map.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/atomic_output.py",
+      "dst": "plugins/knowledge-publication/scripts/atomic_output.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: knowledge-publication consumes canonical-knowledge's atomic_output.py (domain-neutral staging/promotion primitive; plugin identity now passed as data via build_generator_info/write_generator_info's plugin_name parameter)"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/identity_core.py",
+      "dst": "plugins/canonical-knowledge/scripts/identity_core.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge consumes knowledge-analysis's canonical identity_core.py directly (bare module name kept consistent across both plugins)"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/topic_boundary_core.py",
+      "dst": "plugins/canonical-knowledge/scripts/topic_boundary_core.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge consumes knowledge-analysis's canonical topic_boundary_core.py directly (bare module name kept consistent across both plugins)"
+    },
+    {
+      "src": "plugins/knowledge-analysis/scripts/plan_verification_core.py",
+      "dst": "plugins/canonical-knowledge/scripts/plan_verification.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: canonical-knowledge's plan_verification consumes knowledge-analysis's canonical plan_verification_core.py"
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/identity_core.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/identity_core.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/canonical-knowledge/scripts/topic_boundary_core.py",
+      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/topic_boundary_core.py",
       "strategy": "symlink",
       "description": ""
     }

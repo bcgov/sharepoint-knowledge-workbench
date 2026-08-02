@@ -17,19 +17,36 @@ module names, no enclosing package-name folder):
 ```
 plugins/knowledge-analysis/
 ├── scripts/
-│   ├── analysis.py           # public interface: recommend_from_normalized()
-│   ├── identity.py           # stable chunk/topic identity
-│   ├── topic_grouping.py     # topic-boundary detection
-│   ├── plans.py               # draft-plan construction, confirmation, verification
-│   ├── plan_hashing.py        # canonical-JSON hashing + plan_id (named to avoid
-│   │                          # colliding with docx-to-content's own hashing.py)
-│   └── plan_schema/           # this plugin's own analysis-plan contract
+│   ├── analysis.py               # public interface: recommend_from_normalized()
+│   ├── identity.py               # thin re-export of identity_core.py
+│   ├── identity_core.py          # CANONICAL: stable chunk/topic identity -- also consumed
+│   │                              # by canonical-knowledge via a managed cross-plugin symlink
+│   ├── topic_grouping.py         # thin re-export of topic_boundary_core.py
+│   ├── topic_boundary_core.py    # CANONICAL: topic-boundary detection -- also consumed
+│   │                              # by canonical-knowledge via a managed cross-plugin symlink
+│   ├── plans.py                   # draft-plan construction, confirmation, media decisions
+│   ├── plan_verification_core.py  # CANONICAL: plan-ID computation + confirmed-plan
+│   │                              # verification -- also consumed by canonical-knowledge
+│   │                              # via a managed cross-plugin symlink
+│   ├── plan_hashing.py            # canonical-JSON hashing (thin re-export of
+│   │                              # plan_verification_core's compute_plan_id; named to
+│   │                              # avoid colliding with other plugins' own hashing.py)
+│   └── plan_schema/               # this plugin's own analysis-plan contract
 │       ├── analysis_plan.py
 │       └── shared.py
 ├── references/contracts/
 ├── skills/analyze-content-structure/
 └── tests/
 ```
+
+Three modules here (`identity_core.py`, `topic_boundary_core.py`,
+`plan_verification_core.py`) are this plugin's own **canonical
+ownership** of behavior that `canonical-knowledge` also needs at
+convert-time. `canonical-knowledge` consumes each via a **managed
+cross-plugin file-level symlink** (see `symlinks.json`) under the exact
+same bare module name — never a hand-maintained duplicate, never a
+runtime cross-plugin import. See
+`docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md`.
 
 Part of Phase 4.5's decomposition of the combined `docx-to-content` plugin
 into four independently installable domain plugins — see

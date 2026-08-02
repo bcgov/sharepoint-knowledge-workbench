@@ -22,9 +22,9 @@ import pytest
 from canonical_schema import canonical_package as contracts
 from canonical_schema import analysis_plan as plan_contracts
 import package
-import chunk_grouping as topic_grouping
+import topic_boundary_core as topic_grouping
 from chunking import ChunkSlice, SlicedDocument
-from chunk_identity import make_chunk_id
+from identity_core import make_chunk_id
 
 
 def _anchor(path, occurrence=1, level=1):

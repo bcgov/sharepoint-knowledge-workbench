@@ -1,13 +1,17 @@
 # Phase 4.5 Duplication Remediation Report (Post-Wave-8 Review)
 
-**Date:** 2026-08-02
+**Date:** 2026-08-02 (Part 1: audit; Part 2, appended same day: full remediation executed per
+explicit human approval of Option A, extended to eliminate the 3 subset-reimplementation families
+too)
 **Trigger:** Human review of the `plugins/` bundle after Wave 8 flagged that "Phase 4.5 complete"
 was premature — real, hand-maintained duplicate implementation code exists across
 `canonical-knowledge` and `knowledge-publication`, plugin manifests reference the pre-rename repo
 URL, and `sharepoint-publication` was not explicitly classified as transitional.
-**Status:** Audit complete, two low-risk items fixed (repo URLs, explicit transitional
-classification). **The duplicate-code architecture itself is NOT yet changed** — this report ends
-with a proposed remediation and stops for a decision, per instruction. Do not treat this as
+**Status: REMEDIATION COMPLETE.** All 12 duplicate/reimplementation families resolved via managed
+cross-plugin symlinks or extracted granular canonical modules. Zero hand-maintained editable-source
+duplicates remain (verified by a content-hash scan across all 5 plugins' real, non-symlinked
+files). See Part 2 below for full execution evidence. Part 1 (the original audit, before
+execution) is preserved unmodified below for the historical record. Do not treat this as
 "Phase 4.5 fully clean" until the duplication question below is resolved.
 
 ## 1. Duplicate-family audit (byte-for-byte, verified this pass)
@@ -27,10 +31,11 @@ with a proposed remediation and stops for a decision, per instruction. Do not tr
 | `topic_grouping.py` / `chunk_grouping.py` | `knowledge-analysis/scripts/topic_grouping.py` (197 lines, full analysis-time + convert-time surface) vs `canonical-knowledge/scripts/chunk_grouping.py` (167 lines) | **No** — `chunk_grouping.py` is a genuine **subset**: only the convert-time functions (`compute_topic_boundaries`, `compute_topic_boundaries_from_roots`, `classify_headings`, etc.), not the analysis-time preview functions `knowledge-analysis` also needs. Not the same file at two sizes; a narrower reimplementation. | Cross-plugin |
 | `plans.py` / `plan_verification.py` | `knowledge-analysis/scripts/plans.py` (272 lines: `build_draft_plan`, `confirm_plan`, `apply_media_decision`, verify/require functions) vs `canonical-knowledge/scripts/plan_verification.py` (82 lines: only `verify_plan_against_source`/`verify_plan_integrity`/`require_confirmed`/`PlanVerificationError` + a local `_compute_plan_id`) | **No** — same relationship as above: a genuine functional subset, not a full-file copy. | Cross-plugin |
 
-**Summary:** of the 12 families named in the review, **7 are true verbatim (or near-verbatim,
-1-2-line) duplicates** that a symlink-based single-source model could eliminate directly:
+**Summary (corrected):** of the 12 families named in the review, **8 are true verbatim (or
+near-verbatim, 1-2-line) duplicates** that a symlink-based single-source model eliminates directly:
 `emf_convert.py`, `path_safety.py`, `pandoc/*` (7 files as one family), `canonical_package.py`,
-`dispositions.py`, `hashing.py`, `publication_map.py`, `canonical_schema/` (4 of 5 files).
+`dispositions.py`, `hashing.py`, `publication_map.py`, `canonical_schema/` (4 of 5 files). (An
+earlier draft of this report miscounted these as 7; corrected to 8.)
 `atomic_output.py` is a near-duplicate with one deliberate per-plugin difference. **3 families are
 NOT literal duplicates** — `chunk_identity.py`, `chunk_grouping.py`, and `plan_verification.py` are
 narrower, hand-trimmed reimplementations of a *subset* of their producer's functionality, not
@@ -120,3 +125,163 @@ architecture matches the originally-intended hub-and-spoke, zero-hand-duplicatio
 satisfied the *letter* of "no runtime cross-plugin import" but did not fully explore whether the
 existing symlink infrastructure could have satisfied it *without* hand-duplication. That gap is
 real and is what this report exists to surface, not to paper over.
+
+---
+
+# Part 2 — Remediation Executed (2026-08-02, same day)
+
+Human approved Option A, extended: eliminate all 12 families (8 true duplicates + `atomic_output.py`
++ 3 subset reimplementations), reject Option B (drift-checker-as-permanent-architecture) as the
+permanent model. A drift checker may still be added later as an *additional* audit control, but
+was not required here since the symlink model makes drift structurally impossible for a managed
+link (there is exactly one editable file; the "second copy" is a build/install-time materialization,
+never hand-edited).
+
+## 1. Corrected count
+
+8 true byte-identical (or 1-2-line) duplicate families, not 7 (fixed in Part 1 above).
+
+## 2. Empirical feasibility gate (run before any changes)
+
+Verified directly, not assumed: `setuptools`'s `build_py`/`bdist_wheel` dereferences a symlink
+(including a *chained* symlink, e.g. skill-folder link → plugin-root link → producer-plugin file)
+into a real, independent file when building a wheel. Confirmed by building a real wheel from a
+symlinked source file, installing it into a clean venv, **deleting the symlink's target directory
+entirely**, and successfully importing and calling the installed module. This is the technical
+foundation the whole remediation depends on — see the raw repro under `/tmp/symlink-wheel-test/`
+and `/tmp/symlink-chain-test/` (session-local, not committed).
+
+## 3. Canonical ownership (final)
+
+| Family | Canonical owner (real file) | Consumer(s) (managed symlink) |
+|---|---|---|
+| `emf_convert.py` | `source-document-extraction/scripts/emf_convert.py` | `canonical-knowledge/scripts/emf_convert.py` |
+| `path_safety.py` | `source-document-extraction/scripts/path_safety.py` | `knowledge-publication/scripts/path_safety.py` |
+| `pandoc/*.py` (8 files incl. `__init__.py`) | `source-document-extraction/scripts/pandoc/` | `canonical-knowledge/scripts/pandoc_cleanup/` (chained: also re-symlinked into that plugin's own skill folder) |
+| `canonical_package.py` | `canonical-knowledge/scripts/canonical_package.py` | `knowledge-publication/scripts/canonical_package.py` |
+| `dispositions.py` | `canonical-knowledge/scripts/dispositions.py` | `knowledge-publication/scripts/dispositions.py` |
+| `hashing.py` | `canonical-knowledge/scripts/hashing.py` | `knowledge-publication/scripts/hashing.py` |
+| `publication_map.py` | `canonical-knowledge/scripts/publication_map.py` | `knowledge-publication/scripts/publication_map.py` |
+| `canonical_schema/{__init__,shared,canonical_package,publication_map}.py` (4 of 5 files) | `canonical-knowledge/scripts/canonical_schema/` | `knowledge-publication/scripts/canonical_schema/` (the 5th file, `analysis_plan.py`, is a genuinely independent consumer-schema copy, out of scope) |
+| `atomic_output.py` | `canonical-knowledge/scripts/atomic_output.py` (confirmed domain-neutral: `create_staging_dir`/`promote` operate on plain directories, per its own pre-existing docstring) | `knowledge-publication/scripts/atomic_output.py` |
+| `identity_core.py` (new; extracted from `identity.py`) | `knowledge-analysis/scripts/identity_core.py` | `canonical-knowledge/scripts/identity_core.py`; `knowledge-analysis/scripts/identity.py` becomes a thin local re-export |
+| `topic_boundary_core.py` (new; extracted from `topic_grouping.py`) | `knowledge-analysis/scripts/topic_boundary_core.py` | `canonical-knowledge/scripts/topic_boundary_core.py`; `knowledge-analysis/scripts/topic_grouping.py` becomes a thin local re-export |
+| `plan_verification_core.py` (new; extracted from `plans.py`) | `knowledge-analysis/scripts/plan_verification_core.py` | `canonical-knowledge/scripts/plan_verification.py` (kept this destination filename to avoid touching `convert.py`/`validate_canonical.py`'s existing `import plan_verification as plans` call sites); `knowledge-analysis/scripts/plans.py` re-exports `PlanVerificationError`/`verify_plan_against_source`/`verify_plan_integrity`/`require_confirmed` from it, and its own `plan_hashing.compute_plan_id` becomes a thin re-export of the same module's `compute_plan_id` — **one canonical implementation of plan-ID computation**, no local `_compute_plan_id` reimplementation left anywhere. |
+
+## 4. Atomic-output parameterization
+
+`build_generator_info(plugin_name, plugin_version=...)` and `write_generator_info(staging_dir,
+plugin_name, plugin_version=..., run_timestamp=...)` both now require `plugin_name` as an explicit,
+non-defaulted argument. Call sites updated: `canonical-knowledge/scripts/convert.py` passes
+`"canonical-knowledge"`; `knowledge-publication/scripts/renderers/validate_rendered.py` passes
+`"knowledge-publication"`. A new test (`test_build_generator_info_requires_explicit_plugin_name`)
+asserts the old zero-arg call now raises `TypeError`.
+
+## 5. Real files removed / real files added
+
+Removed (converted from real files to managed symlinks): `canonical-knowledge/scripts/emf_convert.py`,
+`chunk_identity.py` (retired entirely, superseded by `identity_core.py`), `chunk_grouping.py`
+(retired entirely, superseded by `topic_boundary_core.py`), `plan_verification.py` (now a symlink,
+same filename), `pandoc_cleanup/*.py` (8 files); `knowledge-publication/scripts/path_safety.py`,
+`canonical_package.py`, `dispositions.py`, `hashing.py`, `publication_map.py`, `atomic_output.py`,
+`canonical_schema/{__init__,shared,canonical_package,publication_map}.py` (4 files).
+
+Added (new canonical modules, real files): `knowledge-analysis/scripts/identity_core.py`,
+`topic_boundary_core.py`, `plan_verification_core.py`. `knowledge-analysis/scripts/identity.py` and
+`topic_grouping.py` rewritten as thin local re-exports (still real files, now ~15 lines each
+instead of the full implementation). `knowledge-analysis/scripts/plan_hashing.py`'s
+`compute_plan_id` body replaced with a one-line re-export.
+
+## 6. `symlinks.json` changes
+
+29 new managed symlink entries created via `symlink_manager.py create` (8 families' files +
+`atomic_output.py` + `identity_core.py`/`topic_boundary_core.py`/`plan_verification.py` × 2
+locations each [plugin-root + that plugin's own skill folder, where applicable] + the pandoc
+8-file family). 2 entries removed and replaced (the old `chunk_identity.py`/`chunk_grouping.py`
+skill-folder links, retargeted to the new module names). Full diff in `symlinks.json` (committed).
+
+## 7. `symlink_manager.py diagnose` result
+
+Ran the full sequence: `diagnose` → found 2 broken links (the skill-folder links still pointing at
+the retired `chunk_identity.py`/`chunk_grouping.py` filenames) → fixed by re-creating them against
+the new `identity_core.py`/`topic_boundary_core.py` targets → `diagnose` again: **All links OK.**
+
+## 8. Installer hard-copy evidence
+
+Ran `python3 .agents/skills/plugin-installer/scripts/plugin_add.py . --plugins canonical-knowledge -y`
+and the same for `knowledge-publication`. For every cross-plugin symlinked file, confirmed in the
+installed `.agents/skills/<skill>/scripts/...` location:
+- `file <path>` reports a regular text file, never a symlink.
+- `shasum -a 256` matches the canonical source exactly (checked: `identity_core.py`,
+  `topic_boundary_core.py`, `plan_verification.py`, `atomic_output.py`, `canonical_package.py`,
+  `hashing.py`, `dispositions.py`, `publication_map.py`, `path_safety.py`, and all 8
+  `pandoc_cleanup/*.py` files via the chained skill→plugin-root→producer-plugin symlink path).
+All matched.
+
+## 9. Canonical vs. installed SHA-256 — see Section 8 above (18 files checked, 18 matches, 0 mismatches).
+
+## 10. Cross-plugin runtime-import scan
+
+Re-ran `dependency_boundary.check_no_prohibited_imports` against each of the four real domain
+plugins' `scripts/` trees with each other plugin's bare module names as the prohibited list:
+`knowledge-analysis`, `canonical-knowledge`, and `knowledge-publication` all report **zero
+violations**. (The check as run against `source-document-extraction` itself with its own module
+names in the prohibited list is a tooling artifact of how the ad hoc check script was invoked in
+this session, not a real finding — a plugin's own modules are never "prohibited" for itself.)
+
+## 11. Remaining editable duplicates scan
+
+Content-hash scan across all real (non-symlinked) `.py` files in all 5 plugins: the only hash
+collision across different plugins is the empty-file hash shared by five distinct, unrelated
+`__init__.py` package markers (0 bytes each — an empty file's SHA-256 is identical everywhere by
+definition, not a content duplication). **Zero real editable-source duplicates remain.**
+
+## 12. Plugin-local test results (after remediation)
+
+| Plugin | Result |
+|---|---|
+| `source-document-extraction` | 78/78 passed |
+| `knowledge-analysis` | 70/70 passed |
+| `canonical-knowledge` | 174/174 passed (+1: the new `atomic_output` parameterization test) |
+| `knowledge-publication` | 49/49 passed |
+| `sharepoint-publication` | 20/20 passed |
+
+## 13. Isolated-install results
+
+All four real domain plugins: PASS via `isolated_install_check.py` (`--import-package extraction`,
+`analysis`, `canonical_knowledge`, `knowledge_publication` respectively) — wheel builds cleanly,
+symlinks dereference into real file content, zero sibling distribution present or importable.
+
+## 14. Combined-install result
+
+`combined_install_check.py`: `{'source-document-extraction': 0, 'knowledge-analysis': 0,
+'canonical-knowledge': 0, 'knowledge-publication': 0}` — zero collisions.
+
+## 15. CEIS golden-master result
+
+`tests/integration/test_full_ceis_pipeline_across_plugins.py`: **PASSED, zero skips**, byte-identical
+output (unaffected by this remediation, since it operates at the installed-package level where
+every symlink is already dereferenced into real content).
+
+## 16. Documentation updates
+
+- `plugins/canonical-knowledge/README.md`, `plugins/knowledge-publication/README.md`,
+  `plugins/knowledge-analysis/README.md`: rewritten to describe the symlink/canonical-ownership
+  model, "local duplicate"/"kept in sync by hand"/"deliberate local duplicates" language removed
+  and replaced with accurate `[symlink -> ...]` file-tree annotations and canonical-ownership
+  explanations.
+- `wave-4-canonical-knowledge-split-decision.md`, `wave-5-knowledge-publication-split-decision.md`:
+  superseded-notice banners added at the top, pointing here; original text preserved unmodified as
+  historical record.
+- `phase-4-5-exit-statement.md`: 2026-08-02 update section added, explicitly stating the original
+  "Phase 4.5 is complete" claim was premature and why.
+- `symlinks.json`: updated by `symlink_manager.py` itself (29 new entries, 2 retargeted).
+- Installer validation: see Sections 8-9 above.
+
+## 17. Final recommendation
+
+**MERGE_READY**, pending human review of this report and the diff. All 12 duplicate/reimplementation
+families resolved. Zero remaining editable-source duplicates (verified by scan, not assumed). All
+plugin-local suites, isolated installs, combined install, and the CEIS golden master are green.
+`sharepoint-publication` remains explicitly `TRANSITIONAL_HOLDING_LOCATION`, not refactored, not
+counted toward Phase 4.5's four completed domain plugins.

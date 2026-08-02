@@ -185,7 +185,7 @@ def _fake_probe_version(name):
 
 def test_build_generator_info_reuses_probe_version_helper():
     with mock.patch.object(atomic_output, "_probe_version", side_effect=_fake_probe_version) as mock_probe:
-        info = atomic_output.build_generator_info(plugin_version="0.1.0")
+        info = atomic_output.build_generator_info("canonical-knowledge", plugin_version="0.1.0")
 
     assert mock_probe.call_count == 2
     assert info["plugin"] == "canonical-knowledge"
@@ -195,12 +195,24 @@ def test_build_generator_info_reuses_probe_version_helper():
     assert "python_version" in info
 
 
+def test_build_generator_info_requires_explicit_plugin_name():
+    # plugin identity is data supplied by the caller, not a hardcoded
+    # default, since this module is shared as one canonical
+    # implementation across multiple plugins.
+    with pytest.raises(TypeError):
+        atomic_output.build_generator_info()
+
+
 def test_write_generator_info_is_deterministic_json_utf8(tmp_path):
     with mock.patch.object(atomic_output, "_probe_version", side_effect=_fake_probe_version):
-        record1 = atomic_output.write_generator_info(tmp_path, run_timestamp="2026-01-01T00:00:00Z")
+        record1 = atomic_output.write_generator_info(
+            tmp_path, "canonical-knowledge", run_timestamp="2026-01-01T00:00:00Z"
+        )
         raw1 = (tmp_path / "generator-info.json").read_bytes()
 
-        record2 = atomic_output.write_generator_info(tmp_path, run_timestamp="2099-12-31T00:00:00Z")
+        record2 = atomic_output.write_generator_info(
+            tmp_path, "canonical-knowledge", run_timestamp="2099-12-31T00:00:00Z"
+        )
         raw2 = (tmp_path / "generator-info.json").read_bytes()
 
     # Non-timestamp fields identical
