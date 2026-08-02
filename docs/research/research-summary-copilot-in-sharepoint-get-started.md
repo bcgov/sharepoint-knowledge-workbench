@@ -227,7 +227,7 @@ Best suited to capabilities requiring:
 - DOCX parsing and cleanup;
 - deterministic transformations;
 - hashing and structural identity;
-- canonical package generation;
+- structured package generation;
 - schema and contract testing;
 - Git branches and pull requests;
 - reproducible releases;
@@ -431,7 +431,7 @@ analyze-document
 convert-document
 recommend-topic-boundaries
 generate-content-metadata
-validate-canonical-content
+validate-structured-content
 generate-publication-map
 render-content
 design-sharepoint-content-model
@@ -471,7 +471,7 @@ A bounded pilot could test both workbench layers.
 
 ### Phase A — Repository Preparation
 
-1. Complete the CEIS canonical-content conversion and evidence review.
+1. Complete the CEIS structured-content conversion and evidence review.
 2. Produce a manageable topic package and explicit publication map.
 3. Define a minimal SharePoint metadata schema.
 4. Prepare skill specifications and evaluation cases.
@@ -525,7 +525,7 @@ Before implementation, verify:
 - records treatment of skill definitions and execution outputs;
 - how native skill changes are promoted across development, test, and production sites;
 - how skill versions and evaluations are recorded;
-- how Copilot in SharePoint interacts with the canonical-content source-of-truth model.
+- how Copilot in SharePoint interacts with the structured-content source-of-truth model.
 
 ## 17. Research-Informed Vision Statement
 
@@ -561,4 +561,4 @@ The feature is documented as preview, and Microsoft notes that:
 - the managed model may change;
 - unsupported environments remain excluded until Microsoft documents otherwise.
 
-The Microsoft documentation does not define this project's canonical-content architecture, government operating model, GitHub workbench, publication-map contract, or approval design. Those sections are project recommendations and must be reviewed separately.
+The Microsoft documentation does not define this project's structured-content architecture, government operating model, GitHub workbench, publication-map contract, or approval design. Those sections are project recommendations and must be reviewed separately.

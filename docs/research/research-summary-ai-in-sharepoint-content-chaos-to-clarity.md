@@ -119,7 +119,7 @@ Source document
 → temporary extraction
 → analysis
 → approved organization
-→ canonical content
+→ structured content
 → validation
 → rendering
 ```
@@ -129,7 +129,7 @@ The Microsoft presentation suggests additional layers around that pipeline:
 ```text
 Natural-language requirements
 → SharePoint library/schema design
-→ content migration and canonicalization
+→ content migration and structuring
 → metadata enrichment
 → organization and cleanup
 → review and approval
@@ -223,7 +223,7 @@ Ingest source content
 → analyze structure and quality
 → recommend knowledge type and topic boundaries
 → obtain confirmation
-→ create canonical content
+→ create structured content
 → validate and prepare publication
 ```
 
@@ -352,7 +352,7 @@ analyze-document
 recommend-topic-boundaries
 convert-document
 generate-content-metadata
-validate-canonical-content
+validate-structured-content
 generate-publication-map
 render-content
 ```
@@ -374,7 +374,7 @@ monitor-knowledge-health
 prepare-content-review
 validate-publication
 prepare-approval-package
-publish-canonical-content-to-sharepoint
+publish-structured-content-to-sharepoint
 produce-release-evidence
 ```
 
@@ -556,7 +556,7 @@ knowledge-workbench/
     training/
 
   schemas/
-    canonical-content/
+    structured-content/
     publication-map/
     sharepoint-metadata/
     workflow-definition/
@@ -602,7 +602,7 @@ It proves or tests:
 - source and plan integrity;
 - explicit confirmation;
 - structural anchors and stable identity;
-- canonical content packaging;
+- structured content packaging;
 - validation and atomic promotion;
 - renderer independence;
 - evidence generation.
@@ -621,7 +621,7 @@ AI-assisted SharePoint Knowledge Workbench
 ## 15. Practical Sequencing
 
 ```text
-1. Complete and evaluate the CEIS canonical-content pilot.
+1. Complete and evaluate the CEIS structured-content pilot.
 2. Validate maintainable topic boundaries and publication assembly.
 3. Test a lightweight SharePoint document-library governance model.
 4. Define metadata authority and controlled vocabularies.

@@ -35,7 +35,7 @@ plugins/document-structure-analysis/
 │       ├── analysis_plan.py
 │       └── shared.py
 ├── references/contracts/
-├── skills/analyze-content-structure/
+├── skills/analyze-document-structure/
 └── tests/
 ```
 

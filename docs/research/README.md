@@ -2,7 +2,7 @@
 
 This directory contains research, field notes, and architecture guidance supporting an emerging **AI-Assisted SharePoint Knowledge Workbench**.
 
-The work began with a practical document-conversion problem: how to turn large Word manuals into maintainable, structured knowledge without treating raw Markdown conversion as the final product. It expanded into a broader investigation of how canonical Markdown, SharePoint governance, native SharePoint skills, SharePoint agents, Copilot Cowork, Copilot Studio, and GitHub Copilot can work together across the knowledge lifecycle.
+The work began with a practical document-conversion problem: how to turn large Word manuals into maintainable, structured knowledge without treating raw Markdown conversion as the final product. It expanded into a broader investigation of how structured Markdown, SharePoint governance, native SharePoint skills, SharePoint agents, Copilot Cowork, Copilot Studio, and GitHub Copilot can work together across the knowledge lifecycle.
 
 ## Vision
 
@@ -30,7 +30,7 @@ The workbench is not a single SharePoint agent or a collection of unrelated prom
 ```text
 GitHub Copilot / VS Code Knowledge Workbench
     |
-    +-- Canonical Markdown content
+    +-- Structured Markdown content
     +-- Publication maps
     +-- Metadata and content-model specifications
     +-- Native SharePoint SKILL.md files
@@ -89,7 +89,7 @@ Use when a solution requires broader enterprise-process capabilities such as con
 Use for engineering-heavy and deterministic work:
 
 - DOCX extraction and cleanup;
-- canonical-content conversion;
+- structured-content conversion;
 - structural anchors and stable identities;
 - schema validation;
 - automated tests;
@@ -186,9 +186,9 @@ Capability layering
 
 ## Key Research Findings
 
-### Markdown is transitional during conversion but can be canonical afterward
+### Markdown is transitional during conversion but can be structured afterward
 
-Raw DOCX-to-Markdown output is an intermediate extraction. It still requires analysis, restructuring, cleanup, validation, and packaging. Approved Markdown topics may then become maintainable canonical content if identity, lineage, metadata, review, and publication controls are preserved.
+Raw DOCX-to-Markdown output is an intermediate extraction. It still requires analysis, restructuring, cleanup, validation, and packaging. Approved Markdown topics may then become maintainable structured content if identity, lineage, metadata, review, and publication controls are preserved.
 
 ### Content creation and curation are one lifecycle
 
@@ -204,7 +204,7 @@ Repository, SharePoint, and Cowork skill definitions may look structurally simil
 
 ### Dual-target rendering resolves human visual vs. agent indexing conflicts
 
-Human readers need rich layout, CSS, breadcrumbs, and visual formatting, whereas AI indexing agents need high semantic density, token-efficient chunking, and clear citation instructions. Rendering the single canonical source of truth into distinct human-facing and agent-optimized publication targets resolves context window and index crawler limitations while providing rich display links to users.
+Human readers need rich layout, CSS, breadcrumbs, and visual formatting, whereas AI indexing agents need high semantic density, token-efficient chunking, and clear citation instructions. Rendering the single structured source of truth into distinct human-facing and agent-optimized publication targets resolves context window and index crawler limitations while providing rich display links to users.
 
 ### The studio should define capabilities once and compile for targets
 
@@ -269,7 +269,7 @@ This evidence does not yet prove every custom-agent-to-skill invocation scenario
 
 ## Near-Term Research and Pilot Priorities
 
-1. Complete and evaluate the CEIS canonical-content pilot.
+1. Complete and evaluate the CEIS structured-content pilot.
 2. Confirm maintainable topic boundaries and publication-map behaviour.
 3. Test a bounded SharePoint Markdown authoring and approval model.
 4. Harden and evaluate the `review-manual-topics` native skill.

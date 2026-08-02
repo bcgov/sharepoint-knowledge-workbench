@@ -1,6 +1,6 @@
 """
-knowledge_publication.py
-==========================
+structured_content_rendering.py
+===============================
 
 Public interface for the `structured-content-rendering` plugin: consumes an
 already-promoted `canonical-package` (and, for the "grouped" strategy,
