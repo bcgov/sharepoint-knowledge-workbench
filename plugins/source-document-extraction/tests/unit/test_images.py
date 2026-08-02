@@ -10,7 +10,7 @@ image reference to its own paragraph while preserving heading text and the
 image reference itself.
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_images.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_images.py -v
 """
 
 from pandoc.images import fix_glued_images

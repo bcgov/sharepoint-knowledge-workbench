@@ -3,9 +3,10 @@ conftest.py
 ===========
 
 Adds the plugin's scripts/ directory to sys.path so tests can import
-`pandoc.*` and other script modules directly (e.g.
-`from pandoc.attrs import strip_pandoc_attrs`), matching the
-scripts/pandoc/ layout on disk without requiring package installation.
+sharepoint_*.py modules directly, matching docx-to-content's original
+pre-Phase-4.5 convention (this plugin was carried out of docx-to-content
+wholesale in Wave 8, unmigrated -- sharepoint-publication is out of
+Phase 4.5's scope, per CLAUDE.md).
 """
 
 import sys

@@ -63,13 +63,19 @@ a structural level only, gated on evidence (tenant facts, pilot outcomes) that d
 see the master plan's own detail-level discipline before assuming any phase beyond 2 is ready to
 implement.
 
-The active implementation is the `docx-to-content` plugin at `plugins/docx-to-content/` — a
-self-contained Claude Code plugin (built from scratch under TDD, see
-`docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md` and its
-companion implementation plan) providing three CLI-backed skills — `analyze-document`,
-`convert-document`, `render-content` — that take a source `.docx` through analysis, human plan
-confirmation, cleanup/chunking/canonicalization, validation, and rendering to a multipage
-Markdown package, with atomic promotion and full test coverage at every stage.
+The active implementation is four independently-installable domain plugins under `plugins/` —
+`source-document-extraction`, `knowledge-analysis`, `canonical-knowledge`, `knowledge-publication`
+(built from scratch under TDD, see
+`docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md`,
+`docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md`, and their
+companion plans) — chained together via a real analyze→confirm→convert→render pipeline that takes
+a source `.docx` through structural analysis, human plan confirmation, cleanup/chunking/
+canonicalization, validation, and rendering to a multipage Markdown package, with atomic promotion
+and full test coverage at every stage. Each plugin installs and runs standalone (`pip install -e
+plugins/<name>`); see `docs/architecture/phase-4-5-target-architecture.md` for the as-built
+distribution graph. This decomposed architecture superseded the original combined
+`plugins/docx-to-content/` plugin, decommissioned in Phase 4.5 Wave 8 — see
+`docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md`.
 
 **Current status and how to resume:** read `start-here.md` at the repo root — it is the
 authoritative, kept-current resume document for this work (supersedes any stale in-conversation
@@ -80,15 +86,18 @@ per task, push each completed task commit to `origin/<feature-branch>`, and merg
 `superpowers:subagent-driven-development` (fresh implementer + fresh reviewer per task) or
 `superpowers:executing-plans`, TDD throughout.
 
-**Confirmed Post-Phase 4 Priority (Phase 4.5):**
-Immediately following Phase 4 completion and merge, execute a dedicated refactoring phase (`Phase 4.5`) in a fresh worktree to decompose `plugins/docx-to-content/` into 4 active domain plugins: `source-document-extraction`, `knowledge-analysis`, `canonical-knowledge`, and `knowledge-publication` (`knowledge-templates` and `sharepoint-publication` remain deferred until working capabilities exist).
+**Phase 4.5 (complete):** `plugins/docx-to-content/` was decomposed into 4 active domain plugins:
+`source-document-extraction`, `knowledge-analysis`, `canonical-knowledge`, and
+`knowledge-publication` (`knowledge-templates` and `sharepoint-publication` remain deferred until
+working capabilities exist) — see
+`docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md`.
 
 ### Layout
 
 ```
 intake/                 ← source .docx files awaiting/pending conversion (read-only inputs)
 runs/<doc-name>/         ← per-document-run output (staged and promoted, via the plugin CLI)
-plugins/docx-to-content/ ← the self-contained conversion plugin — see Purpose above
+plugins/                ← the four domain conversion plugins — see Purpose above
 docs/vision/             ← broader initiative direction (naming, phases, plugin/agent boundaries)
 docs/superpowers/        ← plugin design specs, implementation plans, SDD ledgers
 DEPENDENCIES.md          ← running log of required external tools (non-Python) and install commands
@@ -104,20 +113,23 @@ file alone and requires its own reviewed plan (see `docs/vision/README.md`'s cha
 
 ### Conversion workflow — via the plugin (current, authoritative)
 
-Real document conversion runs through `plugins/docx-to-content/`'s CLI (`analyze` → `confirm` →
-`convert` → `render`), not a bare `pandoc` invocation — see that plugin's `skills/*/SKILL.md` for
-the exact commands, preconditions, and exit-code contract. The bare-`pandoc` snippet that used to
-live in this section predates the plugin and is superseded. Two CEIS output directories exist side
+Real document conversion runs through the four domain plugins' chained public interfaces
+(`extract_and_normalize` → `recommend_from_normalized` → human confirmation →
+`build_canonical_package` → `render`), not a bare `pandoc` invocation — see each plugin's
+`skills/*/SKILL.md` for the exact commands, preconditions, and its own README for the
+`pip install -e plugins/<name>` command. The bare-`pandoc` snippet that used to live in this
+section predates the plugin architecture and is superseded. Two CEIS output directories exist side
 by side, deliberately, as a record of this repo's own journey: `runs/ceis-manual/` is the original
 pre-plugin, known-broken output (raw TOC dump, glued images, pandoc attribute artifacts — see
 `JOURNAL.md`), kept as historical evidence of the problem the plugin was built to solve.
 `runs/ceis-manual-v2/` is the real Task 18 cutover — the same source document converted through the
-plugin's full `analyze`/`confirm`/`convert`/`render` pipeline, validated PASS at both the canonical
-and rendered stages. Do not treat `runs/ceis-manual/` as current or authoritative; it is retained
-for comparison only.
+full `analyze`/`confirm`/`convert`/`render` pipeline, validated PASS at both the canonical and
+rendered stages, and reproduced byte-identically through the four-plugin architecture at Phase 4.5
+Wave 6 (see `docs/superpowers/plans/phase-4-5-evidence/wave-6-golden-master-manifest.json`). Do
+not treat `runs/ceis-manual/` as current or authoritative; it is retained for comparison only.
 
-- Legacy `.emf` images (older Word documents can contain these) do not render in browsers/GitHub/most markdown viewers. The plugin's `convert` step converts them to `.png` via LibreOffice (`soffice`) automatically — see `DEPENDENCIES.md`.
-- Verification is built into the pipeline: `convert` validates the staged canonical package (content-loss/duplication, media references, structural-anchor completeness, etc.) before promoting it, and `render` validates rendered output before promoting that — see the plugin's `validate_canonical.py`/`renderers/validate_rendered.py`.
+- Legacy `.emf` images (older Word documents can contain these) do not render in browsers/GitHub/most markdown viewers. `source-document-extraction`'s cleanup step converts them to `.png` via LibreOffice (`soffice`) automatically — see `DEPENDENCIES.md`.
+- Verification is built into the pipeline: `canonical-knowledge` validates the staged canonical package (content-loss/duplication, media references, structural-anchor completeness, etc.) before promoting it, and `knowledge-publication` validates rendered output before promoting that — see those plugins' `validate_canonical.py`/`renderers/validate_rendered.py`.
 
 ### Dependencies
 
@@ -133,9 +145,9 @@ Word↔Markdown conversion in this repo is built directly on **pandoc**, not a t
 skill — the Anthropic `docx` skill was evaluated and removed (2026-07-25): its read path was a
 bare, unpostprocessed `pandoc -t markdown` call that produced structurally broken output on a
 real document (see `JOURNAL.md`), and its license prohibits building derivative works on it
-anyway. The purpose-built replacement is the `docx-to-content` plugin (see Purpose above) — built
+anyway. The purpose-built replacement is the four domain plugins (see Purpose above) — built
 directly in this repo, from scratch under TDD, not relocated from the sibling monorepo (an
-earlier plan to build it there and pull it in was superseded; see the v3.1 Deviation Notice in
+earlier plan to build them there and pull them in was superseded; see the v3.1 Deviation Notice in
 the plugin design spec for why). `pdf`/`xlsx` skills remain installed for future source formats
 but are not yet used.
 
@@ -172,10 +184,12 @@ same policies but govern *this* repo, not the monorepo):
    After merge, the same command against the now-updated local checkout keeps this repo in sync
    without waiting for a separate GitHub-sourced reinstall.
 
-### Plugin-Local Resource Sharing (this repo's own `plugins/*`, e.g. `docx-to-content` and the Phase 4.5 domain plugins)
+### Plugin-Local Resource Sharing (this repo's own `plugins/*`, the four Phase 4.5 domain plugins)
 
-Unlike the marketplace skills described above, `plugins/docx-to-content/` and the Phase 4.5 domain
-plugins (`plugins/source-document-extraction/`, etc.) *are* authored directly in this repo, and
+Unlike the marketplace skills described above, the Phase 4.5 domain plugins
+(`plugins/source-document-extraction/`, `plugins/knowledge-analysis/`,
+`plugins/canonical-knowledge/`, `plugins/knowledge-publication/`) *are* authored directly in this
+repo, and
 their Python code lives in a **flat `plugins/<plugin>/scripts/` directory** (bare module names,
 e.g. `scripts/extraction.py`, `scripts/dependencies.py` — no `src/<import_name>/` nesting layer;
 group only cohesive multi-file families into a subfolder, e.g. `scripts/pandoc/`, `scripts/schema/`

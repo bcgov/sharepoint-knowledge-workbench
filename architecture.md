@@ -22,8 +22,11 @@ manual-conversion-poc/
 │   │                          #   historical evidence only, not authoritative — see §3
 │   └── ceis-manual-v2/       # the real, plugin-produced, validated PASS output — canonical-content/,
 │                              #   render/rendered-output/, evidence-report.md — current & authoritative
-├── plugins/
-│   └── docx-to-content/     # the self-contained conversion plugin — see §3
+├── plugins/                  # four independently-installable domain plugins (Phase 4.5) — see §3
+│   ├── source-document-extraction/
+│   ├── knowledge-analysis/
+│   ├── canonical-knowledge/
+│   └── knowledge-publication/
 ├── docs/
 │   ├── vision/               # broader-initiative direction: naming, phases, plugin/agent
 │   │                          #   boundaries, open questions — see docs/vision/README.md
@@ -88,29 +91,37 @@ preserved as sidecar metadata and ordering driven by `publication-map.json`) —
 `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md` and
 `docs/superpowers/plans/2026-07-28-docx-to-content-topic-grouping.md`.
 
-## 3. Plugin — self-contained in this repo, not the sibling monorepo
+## 3. Plugins — self-contained in this repo, not the sibling monorepo
 
-Word-conversion work is authored directly in this repo's `plugins/docx-to-content/`, built from
-scratch under TDD, not relocated from the sibling monorepo `agent-plugins-skills` (an earlier plan
-to build it there and pull it in was superseded — see the v3.1 Deviation Notice in the plugin
-design spec). This repo's actual purpose is to demonstrate the concept end-to-end, including the
-plugin itself, not just consume one built elsewhere.
+Word-conversion work is authored directly in this repo, built from scratch under TDD, not
+relocated from the sibling monorepo `agent-plugins-skills` (an earlier plan to build it there and
+pull it in was superseded — see the v3.1 Deviation Notice in the plugin design spec). This repo's
+actual purpose is to demonstrate the concept end-to-end, including the plugins themselves, not
+just consume ones built elsewhere.
 
-`plugins/docx-to-content/` uses the same structural conventions as `agent-plugins-skills`
-(`.claude-plugin/plugin.json`, `plugin.yaml`, `skills/<skill>/SKILL.md`, hub-and-spoke `scripts/`)
-but is authored, tested, and lives only in this repo. No PR/merge/reinstall cycle applies to it
-(that protocol, documented in `CLAUDE.md`, governs the *installed* skills in `.agents/skills/`,
-sourced from the sibling monorepo — a separate concern from this first-party plugin).
+Originally built as one combined plugin (`docx-to-content`), Phase 4.5 decomposed it into four
+independently-installable domain plugins, each installing and running standalone (`pip install -e
+plugins/<name>`, zero dependency on any other workbench distribution) — see
+`docs/architecture/phase-4-5-target-architecture.md` for the full distribution graph and
+`docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md` for the exit record. Each
+uses the same structural conventions as `agent-plugins-skills` (`.claude-plugin/plugin.json`,
+`plugin.yaml`, `skills/<skill>/SKILL.md`, hub-and-spoke `scripts/`) but is authored, tested, and
+lives only in this repo. No PR/merge/reinstall cycle applies to them (that protocol, documented in
+`CLAUDE.md`, governs the *installed* skills in `.agents/skills/`, sourced from the sibling
+monorepo — a separate concern from these first-party plugins).
 
-**Three skills, fully implemented** (design: `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md`):
-- `analyze-document` — real pandoc extraction, structural analysis, defect-signal detection,
-  proposed-topic preview, draft `ConversionPlan` — never converts content, never writes canonical
-  output.
-- `convert-document` — `confirm` (draft → confirmed plan) then `convert` (cleanup pipeline →
-  chunking → canonical package build → `validate_canonical.py` → atomic promotion, only if
-  validation allows it).
-- `render-content` — `CanonicalPackage.load()` (full re-validation) → a registered renderer
-  (`renderers/multipage_markdown.py`) → `renderers/validate_rendered.py` → atomic promotion.
+**Four plugins, chained via their real public interfaces:**
+- `source-document-extraction` — real pandoc extraction, structural analysis, defect-signal
+  detection, produces `normalized-source-document`.
+- `knowledge-analysis` — topic-boundary reasoning, chunking-strategy recommendation, produces a
+  draft `ConversionPlan` (`analysis-plan`) — requires explicit human confirmation before
+  proceeding.
+- `canonical-knowledge` — cleanup pipeline → chunking → canonical package build →
+  `validate_canonical.py` → atomic promotion, only if validation allows it; produces
+  `canonical-package`/`publication-map`.
+- `knowledge-publication` — `CanonicalPackage.load()` (full re-validation) → a registered renderer
+  (`renderers/multipage_markdown.py`) → `renderers/validate_rendered.py` → atomic promotion;
+  produces `rendered-output-profile`.
 
 **Installed skills remain a separate concern:** `.agents/skills/` (superpowers, agent-scaffolders,
 cli-agents, dependency-management, dev-utils) are consumed from `agent-plugins-skills` and
@@ -134,8 +145,9 @@ scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles 
   publication-map-driven multi-target rendering, and knowledge-access agents are later-phase
   concerns described in `docs/vision/`, not built or authorized here.
 - No renderers beyond `multipage_markdown.py` — see
-  `plugins/docx-to-content/references/future-output-profiles.md` for candidate profiles
-  (including dual-target rendering for human visual consumption vs. agent-optimized RAG digests).
+  `docs/architecture/docx-to-content-legacy-references/future-output-profiles.md` for candidate
+  profiles (including dual-target rendering for human visual consumption vs. agent-optimized RAG
+  digests).
 
 ## 6. Roadmap / Open Questions
 

@@ -11,7 +11,7 @@ heading text. Partial emphasis inside a heading (only part of the text
 wrapped) must be left untouched.
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_heading_emphasis.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_heading_emphasis.py -v
 """
 
 from pandoc.heading_emphasis import strip_whole_heading_emphasis
