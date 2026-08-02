@@ -33,7 +33,7 @@ flowchart TD
         L --> M
     end
 
-    subgraph GIT["Git repository - Validation and canonical content"]
+    subgraph GIT["Git repository - Validation and structured content"]
         N["Proposed Markdown change"]
         O["Run deterministic validation"]
         P["Validate schema, IDs, links, media and provenance"]
@@ -41,8 +41,8 @@ flowchart TD
         R["Generate change and impact report"]
         S{"Repository review accepted?"}
         T["Return findings for revision"]
-        U["Merge into protected canonical branch"]
-        V["Authoritative canonical Markdown"]
+        U["Merge into protected structured branch"]
+        V["Authoritative structured Markdown"]
         W["Create release manifest and evidence"]
 
         N --> O
@@ -101,12 +101,12 @@ flowchart TD
 
     classDef proposal fill:#fff2cc,stroke:#bf9000,stroke-width:2px,color:#000;
     classDef integration fill:#d9eaf7,stroke:#3d85c6,stroke-width:2px,color:#000;
-    classDef canonical fill:#d9ead3,stroke:#38761d,stroke-width:3px,color:#000;
+    classDef structured fill:#d9ead3,stroke:#38761d,stroke-width:3px,color:#000;
     classDef projection fill:#eadcf8,stroke:#674ea7,stroke-width:2px,color:#000;
     classDef decision fill:#f4cccc,stroke:#990000,stroke-width:2px,color:#000;
 
     class B,H,N proposal;
     class I,J,K,L,M integration;
-    class V,W canonical;
+    class V,W structured;
     class AC,AD,AF,AG projection;
     class G,S,AB decision;
