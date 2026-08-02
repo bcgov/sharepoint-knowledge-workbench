@@ -1,0 +1,34 @@
+{
+  "name": "sharepoint-knowledge-workbench",
+  "description": "Four independently-installable domain plugins that convert a source .docx manual into validated, canonical, published Markdown content: source-document-extraction, knowledge-analysis, canonical-knowledge, knowledge-publication.",
+  "owner": {
+    "name": "Richard Fremmerlid"
+  },
+  "plugins": [
+    {
+      "name": "source-document-extraction",
+      "source": "./plugins/source-document-extraction",
+      "strict": true
+    },
+    {
+      "name": "knowledge-analysis",
+      "source": "./plugins/knowledge-analysis",
+      "strict": true
+    },
+    {
+      "name": "canonical-knowledge",
+      "source": "./plugins/canonical-knowledge",
+      "strict": true
+    },
+    {
+      "name": "knowledge-publication",
+      "source": "./plugins/knowledge-publication",
+      "strict": true
+    },
+    {
+      "name": "sharepoint-publication",
+      "source": "./plugins/sharepoint-publication",
+      "strict": true
+    }
+  ]
+}
