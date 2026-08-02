@@ -4,18 +4,20 @@ Renders a validated `canonical-package` (and its `publication-map`, for
 grouped packages) to a multipage-markdown publication output, for the
 SharePoint Knowledge Workbench.
 
+For a visual walkthrough of this stage, see `references/diagrams/04-generate-and-render.mmd` (bundled with this plugin).
+
 This plugin is the **producer** of `rendered-output-profile`
 (`RenderResult`): the authoritative schema lives inside this plugin at
 `scripts/render_result.py` and `references/contracts/rendered-output-profile.md`,
 not in a shared top-level distribution. This plugin has **zero dependency
 on any other workbench distribution or the repository root at
 install/runtime** — it installs and runs standalone. Everything it needs
-to load and validate a canonical package (`canonical_package.py`,
+to load and validate a structured content package (`canonical_package.py`,
 `dispositions.py`, `hashing.py`, `publication_map.py`, `atomic_output.py`,
 `path_safety.py`, and the `canonical-package`/`publication-map` schemas
 under `canonical_schema/`) is a **managed cross-plugin file-level
 symlink** to `structured-content-assembly`'s or `source-document-extraction`'s
-canonical source (see `symlinks.json`), not a hand-maintained duplicate —
+authoritative source (see `symlinks.json`), not a hand-maintained duplicate —
 `setuptools` dereferences each symlink into a real, independent file when
 building this plugin's wheel, so the installed/distributed artifact never
 depends on the producer plugin being present at runtime.
@@ -29,12 +31,12 @@ plugins/structured-content-rendering/
 ├── scripts/
 │   ├── structured_content_rendering.py  # public interface: render()
 │   ├── render_result.py          # this plugin's own RenderResult contract (real file)
-│   ├── canonical_package.py      # [symlink -> structured-content-assembly is the canonical owner]
-│   ├── dispositions.py           # [symlink -> structured-content-assembly is the canonical owner]
-│   ├── hashing.py                # [symlink -> structured-content-assembly is the canonical owner]
-│   ├── publication_map.py        # [symlink -> structured-content-assembly is the canonical owner]
-│   ├── atomic_output.py          # [symlink -> structured-content-assembly is the canonical owner]
-│   ├── path_safety.py            # [symlink -> source-document-extraction is the canonical owner]
+│   ├── canonical_package.py      # [symlink -> structured-content-assembly is the authoritative owner]
+│   ├── dispositions.py           # [symlink -> structured-content-assembly is the authoritative owner]
+│   ├── hashing.py                # [symlink -> structured-content-assembly is the authoritative owner]
+│   ├── publication_map.py        # [symlink -> structured-content-assembly is the authoritative owner]
+│   ├── atomic_output.py          # [symlink -> structured-content-assembly is the authoritative owner]
+│   ├── path_safety.py            # [symlink -> source-document-extraction is the authoritative owner]
 │   ├── canonical_schema/         # [symlinks -> structured-content-assembly's canonical_schema/*]
 │   └── renderers/                 # real files (this plugin's own domain logic)
 │       ├── protocol.py            # Renderer structural protocol + registry

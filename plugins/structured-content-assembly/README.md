@@ -1,9 +1,11 @@
 # structured-content-assembly
 
-Canonical content package construction for the SharePoint Knowledge
+Structured content package construction for the SharePoint Knowledge
 Workbench: cleanup, chunking, validation, and atomic promotion from a
 confirmed `analysis-plan` into a `canonical-package` (plus a
 `publication-map` for grouped packages).
+
+For a visual walkthrough of this stage, see `references/diagrams/03-create-canonical-content.mmd` (bundled with this plugin).
 
 This plugin is the **producer** of `canonical-package` and
 `publication-map`: the authoritative schemas live inside this plugin at
@@ -19,7 +21,7 @@ runtime. Several other modules that used to be hand-duplicated
 implementation code are now **managed cross-plugin file-level symlinks**
 instead (see `symlinks.json` and
 `docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md`)
-— editing the canonical source automatically updates every consumer, and
+— editing the authoritative source automatically updates every consumer, and
 the installed wheel/skill copy is a real, independent file materialized
 at build/install time, never a runtime dependency on the producer plugin.
 
@@ -39,13 +41,13 @@ plugins/structured-content-assembly/
 │   ├── media_disposition.py     # media-decision classification
 │   ├── publication_map.py       # publication-map builder (grouped packages)
 │   ├── validate_canonical.py    # canonical-package validator
-│   ├── atomic_output.py         # [symlink -> structured-content-assembly is the canonical owner]
-│   ├── hashing.py                # [symlink -> structured-content-assembly is the canonical owner]
-│   ├── identity_core.py          # [symlink -> document-structure-analysis's canonical identity_core.py]
-│   ├── topic_boundary_core.py    # [symlink -> document-structure-analysis's canonical topic_boundary_core.py]
-│   ├── plan_verification.py      # [symlink -> document-structure-analysis's canonical plan_verification_core.py]
+│   ├── atomic_output.py         # [symlink -> structured-content-assembly is the authoritative owner]
+│   ├── hashing.py                # [symlink -> structured-content-assembly is the authoritative owner]
+│   ├── identity_core.py          # [symlink -> document-structure-analysis's authoritative identity_core.py]
+│   ├── topic_boundary_core.py    # [symlink -> document-structure-analysis's authoritative topic_boundary_core.py]
+│   ├── plan_verification.py      # [symlink -> document-structure-analysis's authoritative plan_verification_core.py]
 │   ├── pandoc_cleanup/            # [symlinks -> source-document-extraction's scripts/pandoc/*]
-│   ├── emf_convert.py             # [symlink -> source-document-extraction is the canonical owner]
+│   ├── emf_convert.py             # [symlink -> source-document-extraction is the authoritative owner]
 │   └── canonical_schema/          # this plugin's own canonical-package/publication-map
 │       │                          # contracts (real files); analysis_plan.py is a genuinely
 │       │                          # independent, hand-synced consumer schema copy

@@ -8,6 +8,8 @@ statistics) — the single upstream extraction step every other domain plugin
 (`document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`)
 builds on.
 
+For a visual walkthrough of this stage, see `references/diagrams/02-analyze-and-confirm.mmd` (bundled with this plugin).
+
 This plugin is the **producer** of `normalized-source-document`: the
 authoritative schema lives inside this plugin at
 `scripts/schema/normalized_source_document.py` and
@@ -40,7 +42,7 @@ plugins/source-document-extraction/
 │       ├── tables.py
 │       ├── toc.py
 │       └── validate.py
-├── references/contracts/        # canonical docs -- symlinked into skills/extract-docx/ via symlink_manager.py
+├── references/contracts/        # authoritative docs -- symlinked into skills/extract-docx/ via symlink_manager.py
 ├── skills/extract-docx/
 └── tests/
 ```
