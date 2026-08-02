@@ -1,4 +1,10 @@
-# docx-to-content Diagram Set
+# Structured Content Pipeline Diagram Set
+
+(Originally authored during Phase 1 as the "docx-to-content Diagram Set" — the diagrams below
+depict the conceptual pipeline stages, which are unchanged; the implementation has since been
+decomposed into `source-document-extraction`, `document-structure-analysis`,
+`structured-content-assembly`, and `structured-content-rendering`, per
+`docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`.)
 
 Files:
 
