@@ -4,6 +4,20 @@ Behavioral guidelines to reduce common LLM coding mistakes, plus project-specifi
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
+## 0. Check the Vision Before Naming or Placing New Capability
+
+**Before creating a new script, skill, or plugin for SharePoint-facing (or any cross-cutting)
+capability — and before proposing a plugin name during any migration/inventory analysis — read
+`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`'s proposed-plugin-set
+section first.** It already names plugin boundaries and skill groups (e.g. a `sharepoint-knowledge`
+plugin with `native-skills/`, `agents/`, `deployment/` skill groups) that a session repeatedly
+missed in 2026-08 — real skill/script implementations were written into `tools/phase-N-*` folders
+across two separate phases, and even a dedicated migration-inventory pass invented new plugin
+names instead of checking whether the vision had already named the correct one. `tools/phase-N-*`
+is for phase-specific evidence, probes, and evaluation harnesses only — never reusable operational
+implementation (agent creation, skill deployment, content upload, backup/restore). See
+`.agent/map-debt.md`'s 2026-08-02 entry for the full incident.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**

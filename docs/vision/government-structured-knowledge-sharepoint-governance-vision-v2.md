@@ -1,7 +1,13 @@
 # Content Management, Reimagined with AI — Government Structured Knowledge and SharePoint Governance Vision
 
-**Status:** Future-state architecture and capability backlog  
-**Relationship to Phase 1:** This document extends the `docx-to-content` proof of concept. It does not authorize expansion of the current Phase 1 implementation or bypass its acceptance gates.
+**Status:** Superseded (see `docs/vision/README.md`'s document-authority table — retained for
+history, not current direction). Future-state architecture and capability backlog  
+**Relationship to Phase 1:** This document extends the `docx-to-content` proof of concept —
+historically accurate as written; `docx-to-content` itself was decommissioned 2026-08-01
+(Phase 4.5 Wave 8) and decomposed into four real plugins. See the naming-reconciliation note in
+`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md` for the current mapping
+before citing any plugin name from this superseded document. It does not authorize expansion of
+the current Phase 1 implementation or bypass its acceptance gates.
 
 ## 1. Purpose
 
