@@ -131,3 +131,41 @@ reuse-versus-specific decision record
 - Target-specific differences are explicit, not erased.
 - A deliberate drift is detected.
 - One real reuse-versus-specific decision is made using the rules.
+
+## 13. Runtime placement for content-lifecycle actions
+
+**(Added from external review, 2026-08-02, GPT 5.6 — see
+`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
+Master plan Subphase 6.3. Phase 3 Stage 3.1.4 owns *what* the ongoing structured-content
+maintenance workflow must do (propose/review/approve/version an edit; recalculate lineage, hashes,
+manifests, cross-references, publication maps). This section owns *which runtime* performs each
+step, once the Section 1 entry gate (≥2 real runtimes) is met — it is not separately gated.
+
+For each content-lifecycle action, decide explicitly:
+- may an agent only **recommend** the action;
+- may a native skill **invoke** approved deterministic tooling;
+- must a **deterministic pipeline/workstation process** perform the authoritative update.
+
+**Preview-vs-authoritative rule (non-negotiable):** conversational/agent rendering of edited
+content is never authoritative for official publication on its own. An agent-generated
+representation is a non-authoritative preview unless it passes the exact same contracts and
+validation as the deterministic pipeline (not a lighter bar). The operating model:
+
+```text
+agent assists or requests
+  → deterministic tooling updates/renders
+  → validation executes
+  → human/governed workflow approves
+  → publication reconciles
+```
+
+Also define, per runtime (deterministic pipeline / native skill / agent): how evidence,
+permissions, and rollback differ — do not assume they are equivalent across runtimes.
+
+**Deliverables:** runtime-placement decision table (one row per Phase 3.1.4 maintenance action);
+preview-vs-authoritative rule document; per-runtime evidence/rollback matrix. These feed a future
+Phase 6.5 (Ongoing Structured Content Authoring and Republishing) entry gate — this
+section's completion does not itself authorize that phase.
+
+**Explicit non-goal:** do not let this section, or Phase 5.5B, become an agent editing-and-
+publication workflow. Phase 5.5B stays limited to deterministic renderer expansion.

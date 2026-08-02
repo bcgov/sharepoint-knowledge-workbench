@@ -66,6 +66,18 @@ Define shared-spec and adapter compatibility, migration, and deprecation behavio
 
 Produce derivation trace, evaluations, drift proof, intent review, and decision record. Obtain explicit approval before merge.
 
+## Task 12 — Runtime placement for content-lifecycle actions (Subphase 6.3)
+
+**(Added from external review, 2026-08-02, GPT 5.6 — see
+`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
+For each action in Phase 3 Stage 3.1.4's ongoing structured-content maintenance workflow, decide
+whether an agent may only recommend it, a native skill may invoke approved deterministic tooling,
+or a deterministic pipeline/workstation process must perform it. Write the preview-vs-authoritative
+rule (agent-generated output is a non-authoritative preview unless it passes the deterministic
+pipeline's own contracts/validation) and the per-runtime evidence/rollback matrix. Do not broaden
+Phase 5.5B's deterministic-renderer-expansion scope to cover this. Output feeds a future Phase 6.5
+entry gate; does not itself authorize that phase.
+
 ## Cost allocation
 
 - Low-cost: inventories, trace tables, evidence packaging.
