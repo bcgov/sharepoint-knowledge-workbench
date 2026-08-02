@@ -84,23 +84,21 @@ class TestPluginStructure:
     def test_required_script_files_exist(self):
         """All required script files must exist (as placeholders).
 
-        `dependencies.py` is intentionally absent (Phase 4.5 Wave 2) and
-        `plans.py` is intentionally absent (Phase 4.5 Wave 3): both now
-        live in installed packages (`source-document-extraction` and
-        `knowledge-analysis` respectively; compatibility path during the
-        migration), not as local files -- see
-        docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md
-        and wave-3-analysis-plan-split-decision.md.
+        `dependencies.py` is intentionally absent (Phase 4.5 Wave 2),
+        `plans.py` is intentionally absent (Phase 4.5 Wave 3), and
+        `hashing.py`/`convert.py`/`chunking.py`/`package.py`/
+        `validate_canonical.py` are intentionally absent (Phase 4.5 Wave 4):
+        all now live in installed packages (`source-document-extraction`,
+        `knowledge-analysis`, and `canonical-knowledge` respectively;
+        compatibility path during the migration), not as local files -- see
+        docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md,
+        wave-3-analysis-plan-split-decision.md,
+        wave-4-canonical-knowledge-split-decision.md, and
+        wave-5-knowledge-publication-split-decision.md.
         """
         required_scripts = [
             "cli.py",
-            "contracts.py",
-            "hashing.py",
             "analyze_structure.py",
-            "convert.py",
-            "chunking.py",
-            "package.py",
-            "validate_canonical.py",
         ]
 
         for script_name in required_scripts:
@@ -120,23 +118,18 @@ class TestPluginStructure:
             f"the installed source-document-extraction package: {pandoc_dir}"
         )
 
-    def test_renderers_directory_exists(self):
-        """renderers/ subdirectory must exist in scripts/."""
+    def test_renderers_directory_no_longer_local(self):
+        """scripts/renderers/ is intentionally absent (Phase 4.5 Wave 5):
+        it now lives in the installed `knowledge-publication` package
+        (compatibility path during the migration), not as a local
+        directory -- see
+        docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md.
+        """
         renderers_dir = PLUGIN_ROOT / "scripts" / "renderers"
-        assert renderers_dir.exists(), f"renderers directory does not exist: {renderers_dir}"
-        assert renderers_dir.is_dir(), f"renderers path is not a directory: {renderers_dir}"
-
-    def test_required_renderer_files_exist(self):
-        """All required renderer files must exist."""
-        required_renderers = [
-            "protocol.py",
-            "multipage_markdown.py",
-            "validate_rendered.py",
-        ]
-
-        for renderer_name in required_renderers:
-            renderer_path = PLUGIN_ROOT / "scripts" / "renderers" / renderer_name
-            assert renderer_path.exists(), f"Renderer file does not exist: {renderer_path}"
+        assert not renderers_dir.exists(), (
+            f"scripts/renderers/ should not exist locally -- it's supplied by "
+            f"the installed knowledge-publication package: {renderers_dir}"
+        )
 
     def test_tests_directories_exist(self):
         """Test subdirectories must exist."""

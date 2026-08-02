@@ -21,7 +21,7 @@ from pathlib import Path
 import pytest
 
 import analyze_structure
-import contracts
+from canonical_schema import canonical_package as contracts
 from plan_schema import analysis_plan as plan_contracts
 import convert
 import package
@@ -95,7 +95,7 @@ def test_load_returns_package_with_manifest_chunks_and_media(tmp_path):
     loaded = canonical_package.CanonicalPackage.load(final_dir)
 
     assert isinstance(loaded, canonical_package.CanonicalPackage)
-    assert loaded.manifest.schema_version == contracts.SUPPORTED_SCHEMA_VERSION
+    assert loaded.manifest.schema_version == contracts.MANIFEST_SCHEMA_VERSION
     assert len(loaded.chunks) == loaded.manifest.chunk_count
     assert loaded.media_dir == final_dir / "media"
     assert loaded.package_dir == final_dir
