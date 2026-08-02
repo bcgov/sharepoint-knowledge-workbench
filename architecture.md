@@ -3,18 +3,22 @@
 This is a proof-of-concept repo, not a running application — there is no frontend, backend,
 database, or deployed service. It is **Phase 1** ("Structured Knowledge Conversion and Canonical
 Content POC") of a broader initiative, the **AI-Assisted Structured Knowledge Workbench**: pulling
-content out of Word documents (where content and formatting are baked together) into structured,
-canonical content that can be rendered into many outputs and eventually ground knowledge-access
-agents. The **CEIS Manual** is the Phase 1 pilot document. Phase 1's scope is deliberately narrow
-— the full initiative's direction (repository/plugin boundaries beyond Phase 1, SharePoint
-delivery, native skills, agents, publication, evaluation) is described in `docs/vision/`, not here.
-Update this file as the repo's actual shape changes — don't let it drift into describing a system
-that isn't here.
+content out of Word documents (where content and formatting are baked together) into structured
+content that can be rendered into many outputs and eventually ground knowledge-access agents. The
+**CEIS Manual** is the Phase 1 pilot document. Phase 1's scope is deliberately narrow — the full
+initiative's direction (repository/plugin boundaries beyond Phase 1, SharePoint delivery, native
+skills, agents, publication, evaluation) is described in `docs/vision/`, not here. Update this file
+as the repo's actual shape changes — don't let it drift into describing a system that isn't here.
+
+**Phase 4.5 is complete** (2026-08-02): the original combined `docx-to-content` plugin has been
+decomposed into four independently-installable domain plugins (§3 below), each installing and
+running standalone with zero editable-source duplication between them. See `start-here.md` for
+current branch/merge status.
 
 ## 1. Project Structure
 
 ```
-manual-conversion-poc/
+sharepoint-knowledge-workbench/
 ├── intake/                  # Source .docx files awaiting/pending conversion (read-only inputs)
 │   └── CEIS MANUAL - working version.docx   # Phase 1 pilot document
 ├── runs/                    # Per-document-run conversion output
@@ -53,40 +57,46 @@ manual-conversion-poc/
 (per `docs/vision/`) may reorganize per-document work under `examples/<name>/` alongside other
 pilot documents — not authorized by this file alone, requires its own reviewed plan.
 
-This repo **is** a git repository, pushed to `github.com/richfrem/manual-conversion-poc` (`main`
-is the default branch).
+This repo **is** a git repository, pushed to `github.com/richfrem/sharepoint-knowledge-workbench`
+(`main` is the default branch).
 
 There is no `src/`, `backend/`, `frontend/`, or `Dockerfile` — none of that applies.
 
-## 2. High-Level Flow (Phase 1)
+## 2. High-Level Flow (Phase 1, now running through the four Phase 4.5 domain plugins)
 
 Still no live system, no request/response cycle, no database. The flow is a multi-stage,
-CLI-driven pipeline, gated by explicit human plan confirmation between analysis and conversion:
+CLI-driven pipeline, gated by explicit human plan confirmation between analysis and conversion,
+chained across the four domain plugins' real public interfaces (see §3):
 
 ```
 intake/<doc>.docx
         |
-        v  analyze-document skill: real pandoc extraction, structural analysis
-        |     (headings, defect signals, statistics, proposed_topics preview),
-        |     writes a DRAFT ConversionPlan
+        v  source-document-extraction: extract_and_normalize()
+        |     real pandoc extraction, structural analysis, defect-signal detection
+        |     -> normalized-source-document
+        |
+        v  document-structure-analysis: recommend_from_normalized()
+        |     topic-boundary reasoning, chunking-strategy recommendation
+        |     -> DRAFT ConversionPlan (analysis-plan)
         |
 Draft ConversionPlan  ── requires explicit human confirmation before proceeding
         |
-        v  convert-document skill: confirm (draft -> confirmed) then convert
-        |     (pandoc + cleanup pipeline -> structural-anchor reconciliation/chunking
-        |      -> canonical package build -> validate_canonical.py -> atomic promotion)
+        v  structured-content-assembly: build_canonical_package()
+        |     cleanup pipeline -> structural-anchor reconciliation/chunking
+        |     -> package build -> validate_canonical.py -> atomic promotion
         |
-Canonical Content Package (manifest.json, validated chunks + sidecars, media/,
+Structured Content Package (manifest.json, validated chunks + sidecars, media/,
 publication-map.json for the "grouped" strategy)
         |
-        v  render-content skill: CanonicalPackage.load() -> a registered renderer
+        v  structured-content-rendering: render()
+        |     CanonicalPackage.load() (full re-validation) -> a registered renderer
         |     (currently multipage-markdown) -> renderers/validate_rendered.py -> atomic promotion
         |
 Published Output (navigable human-facing pages/ASPX + token-dense agent-optimized digests)
 ```
 
-Three chunking strategies are supported end to end: `"single"`, `"chunked"` (one canonical chunk
-per heading), and `"grouped"` (headings folded into ~topic-sized files, with per-heading identity
+Three chunking strategies are supported end to end: `"single"`, `"chunked"` (one chunk per
+heading), and `"grouped"` (headings folded into ~topic-sized files, with per-heading identity
 preserved as sidecar metadata and ordering driven by `publication-map.json`) — see
 `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md` and
 `docs/superpowers/plans/2026-07-28-docx-to-content-topic-grouping.md`.
@@ -174,10 +184,10 @@ scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles 
 
 ## 7. Project Identification
 
-Project Name: manual-conversion-poc
+Project Name: sharepoint-knowledge-workbench
 
-Repository: `github.com/richfrem/manual-conversion-poc`, `main` branch (default, pushed)
+Repository: `github.com/richfrem/sharepoint-knowledge-workbench`, `main` branch (default, pushed)
 
 Primary Contact: Richard Fremmerlid
 
-Date of Last Update: 2026-07-28
+Date of Last Update: 2026-08-02

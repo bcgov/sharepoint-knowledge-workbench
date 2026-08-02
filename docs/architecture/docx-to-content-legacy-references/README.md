@@ -9,7 +9,7 @@ either because it spans more than one plugin's domain (`content-authoring-guide.
 `pandoc-docx-setup.md`, `supported-markdown-profile.md`).
 
 `canonical-contract.md` and `publication-map-contract.md` are the **pre-Wave-4** versions of the
-`canonical-package`/`publication-map` contracts — superseded by `canonical-knowledge`'s own
+`canonical-package`/`publication-map` contracts — superseded by `structured-content-assembly`'s own
 authoritative `references/contracts/canonical-package.md` and `publication-map.md`. Kept here for
 historical reference only; do not treat them as current.
 

@@ -6,7 +6,7 @@ Moving document-centric manuals (Word/PDF) into a content-centric, governed know
 
 ## 🎯 Overview
 
-The **AI-Assisted Structured Knowledge Workbench** is a multi-phase initiative designed to transform legacy enterprise manuals into modular, version-controlled, canonical Markdown assets. This enables multi-target publishing to human readers (SharePoint/ASPX/Web) and grounded AI RAG agents (Microsoft Copilot, custom SharePoint Agents).
+The **AI-Assisted Structured Knowledge Workbench** is a multi-phase initiative designed to transform legacy enterprise manuals into modular, version-controlled, structured Markdown assets. This enables multi-target publishing to human readers (SharePoint/ASPX/Web) and grounded AI RAG agents (Microsoft Copilot, custom SharePoint Agents).
 
 Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx` analysis, human plan confirmation, structured content chunking, TDD validation, and multipage Markdown rendering on the pilot **CEIS Manual**. Phase 3.0 has completed substantial tenant discovery in real SharePoint Online environments. Phase 4.5 is **complete**: the original combined conversion plugin has been decomposed into four independently-installable domain plugins (`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`), each installable and testable standalone — see [start-here.md](start-here.md) for the branch/merge status and Phase 5 readiness.
 
@@ -26,7 +26,7 @@ Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx
                                               |
                                               v  TDD Validation
                                +-----------------------------+
-                               |  Canonical Markdown Core    |
+                               |  Structured Markdown Core   |
                                |  (Single Source of Truth)   |
                                +-----------------------------+
                                               |
@@ -72,10 +72,10 @@ Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx
 
 The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/](docs/diagrams/README.md):
 
-1. **[Overall System Architecture](docs/diagrams/high-level.mmd)** — End-to-end view from `.docx` intake to canonical storage and multi-runtime agent delivery.
+1. **[Overall System Architecture](docs/diagrams/high-level.mmd)** — End-to-end view from `.docx` intake to structured storage and multi-runtime agent delivery.
 2. **[Phase 1 Conversion Pipeline](docs/diagrams/01-phase1-overview.mmd)** — Stage breakdown (`analyze` → `confirm` → `convert` → `render`).
 3. **[Document Analysis & Plan Confirmation](docs/diagrams/02-analyze-and-confirm.mmd)** — Interactive human-in-the-loop plan confirmation.
-4. **[Canonical Content Creation](docs/diagrams/03-create-canonical-content.mmd)** — Pandoc AST cleanup, media extraction, structural anchor resolution, and packaging.
+4. **[Structured Content Creation](docs/diagrams/03-create-canonical-content.mmd)** — Pandoc AST cleanup, media extraction, structural anchor resolution, and packaging.
 5. **[Render & Multi-Target Generation](docs/diagrams/04-generate-and-render.mmd)** — Multipage Markdown & dual-target rendering engine.
 6. **[Validation & Atomic Promotion](docs/diagrams/05-validation-and-evidence.mmd)** — Content-loss prevention, schema validation, and atomic staging promotion.
 
@@ -86,7 +86,7 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
 - **Core Conversion Plugins** (Phase 4.5, `plugins/`): four independently-installable domain plugins
   - `source-document-extraction` — Structural analysis, defect detection, normalized-source-document extraction.
   - `document-structure-analysis` — Topic-boundary reasoning, chunking-strategy recommendation, draft conversion-plan construction.
-  - `structured-content-assembly` — Pandoc AST postprocessing, chunking, canonical package build and validation.
+  - `structured-content-assembly` — Pandoc AST postprocessing, chunking, structured package build and validation.
   - `structured-content-rendering` — Multi-target publication rendering & validation.
 - **Intake & Runs**:
   - `intake/` — Source `.docx` input files (CEIS Manual pilot).

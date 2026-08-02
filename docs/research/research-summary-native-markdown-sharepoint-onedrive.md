@@ -108,13 +108,13 @@ team-shared skills
 
 ## 3. Why This Matters to the `docx-to-content` POC
 
-The current proof of concept uses Markdown as the human-maintained canonical prose format after analysis, cleanup, approved organization, packaging, and validation.
+The current proof of concept uses Markdown as the human-maintained structured prose format after analysis, cleanup, approved organization, packaging, and validation.
 
 The Microsoft announcement strengthens several assumptions behind that architecture.
 
 ### 3.1 Markdown Can Be Business-Accessible
 
-The browser viewer, editor, split preview, and formatting toolbar reduce the risk that canonical Markdown is usable only by technical authors.
+The browser viewer, editor, split preview, and formatting toolbar reduce the risk that structured Markdown is usable only by technical authors.
 
 This does not prove that all intended content owners will accept Markdown, but it creates a more credible business-authoring option inside SharePoint and OneDrive.
 
@@ -123,7 +123,7 @@ This does not prove that all intended content owners will accept Markdown, but i
 Native file support makes the following pilot model more practical:
 
 ```text
-Canonical Markdown topics
+Structured Markdown topics
 → SharePoint document library
 → file-level metadata
 → version history
@@ -140,7 +140,7 @@ The same Markdown may be readable by people and useful as structured instruction
 
 That supports the broader workbench vision in which Markdown can represent:
 
-- canonical knowledge topics;
+- structured knowledge topics;
 - content-authoring templates;
 - standards and guidance;
 - repeatable skill instructions;
@@ -156,9 +156,9 @@ These artifacts should not all share the same schema or governance rules merely 
 
 Native Markdown support enables a possible division of responsibility.
 
-### Canonical and Engineering Controls
+### Structured and Engineering Controls
 
-A repository and canonical package may remain authoritative for:
+A repository and structured package may remain authoritative for:
 
 - stable topic identities;
 - source lineage;
@@ -206,7 +206,7 @@ Accountable people remain responsible for:
 
 Native Markdown support makes several operating models possible. The project must choose one explicitly.
 
-### Model A — SharePoint as Canonical Authoring Repository
+### Model A — SharePoint as Structured Authoring Repository
 
 ```text
 Users edit Markdown in SharePoint
@@ -222,16 +222,16 @@ Potential advantage:
 
 Primary design questions:
 
-- how canonical IDs and machine metadata are preserved;
+- how structured IDs and machine metadata are preserved;
 - how approved versions are retrieved;
 - how package integrity is established;
 - how automation connects through approved permissions;
 - how releases are reproduced.
 
-### Model B — Git as Canonical; SharePoint as Governed Publication
+### Model B — Git as Structured; SharePoint as Governed Publication
 
 ```text
-Canonical edits occur in Git
+Structured edits occur in Git
 → validation and review
 → approved release
 → publish Markdown and metadata to SharePoint
@@ -271,7 +271,7 @@ Primary design questions:
 ### Model D — Hybrid Authority
 
 ```text
-Canonical Markdown text and machine metadata
+Structured Markdown text and machine metadata
     owned by pipeline/repository
 
 Business ownership, review dates, and approval status
@@ -297,10 +297,10 @@ A deliberate authority matrix remains required.
 
 | Field | Candidate authority |
 |---|---|
-| Topic ID | Deterministic canonical pipeline |
-| Content hash | Deterministic canonical pipeline |
-| Source lineage | Canonical package |
-| Title | Canonical Markdown or SharePoint; choose one |
+| Topic ID | Deterministic structured pipeline |
+| Content hash | Deterministic structured pipeline |
+| Source lineage | Structured package |
+| Title | Structured Markdown or SharePoint; choose one |
 | Knowledge type | Controlled vocabulary, human-confirmed |
 | Business owner | SharePoint governance process |
 | Approval status | SharePoint approval workflow |
@@ -321,7 +321,7 @@ Distributed Markdown topics do not require reviewers to review isolated fragment
 A workable model separates storage from review context.
 
 ```text
-Canonical topic files
+Structured topic files
 → changed-topic set
 → assembled publication context
 → AI-assisted change and impact summary
@@ -377,7 +377,7 @@ The announcement supports Markdown as a useful common format across the proposed
 Possible Markdown artifacts include:
 
 ```text
-canonical topics
+structured topics
 content-authoring templates
 knowledge standards
 publication maps or map documentation
@@ -408,13 +408,13 @@ The announcement strengthens the case for using Markdown as the versioned instru
 
 Potential skills include:
 
-### Migration and Canonicalization
+### Migration and Structuring
 
 ```text
 analyze-document
 recommend-topic-boundaries
 convert-document
-validate-canonical-content
+validate-structured-content
 ```
 
 ### Metadata and SharePoint Setup
@@ -441,7 +441,7 @@ prepare-approval-package
 generate-publication-map
 validate-publication
 render-content
-publish-canonical-content-to-sharepoint
+publish-structured-content-to-sharepoint
 ```
 
 ### Knowledge Health
@@ -490,9 +490,9 @@ Do not treat browser support as proof of agent-grounding support.
 
 ## 11. Accessibility Considerations
 
-The browser renderer and editor may improve readability and approachability, but the project still needs canonical and destination-specific accessibility rules.
+The browser renderer and editor may improve readability and approachability, but the project still needs structured and destination-specific accessibility rules.
 
-Canonical rules should address:
+Structured rules should address:
 
 - meaningful heading order;
 - descriptive links;
@@ -537,11 +537,11 @@ Content should not be considered safe for AI use merely because SharePoint can s
 
 ## 13. Proposed Pilot Validation
 
-After the CEIS canonical-content pilot is accepted, test a bounded SharePoint Markdown pilot.
+After the CEIS structured-content pilot is accepted, test a bounded SharePoint Markdown pilot.
 
 ### Pilot Scope
 
-1. Upload a small, coherent set of approved canonical Markdown topics and media.
+1. Upload a small, coherent set of approved structured Markdown topics and media.
 2. Apply stable topic IDs and minimal business metadata.
 3. Test browser View, Edit, and Split experiences.
 4. Verify headings, tables, links, images, checkboxes, and code blocks relevant to the content profile.
@@ -572,7 +572,7 @@ After the CEIS canonical-content pilot is accepted, test a bounded SharePoint Ma
 The announcement strengthens this architecture:
 
 ```text
-Canonical Topic Library
+Structured Topic Library
 +
 Publication Map
 +
@@ -602,7 +602,7 @@ Find, analyze, visualize, generate, and create agents from approved knowledge
 
 ## 15. Recommended Architecture Decision
 
-Do not treat native Markdown support as a reason to abandon the current canonical-package controls.
+Do not treat native Markdown support as a reason to abandon the current structured-package controls.
 
 Instead:
 
@@ -616,7 +616,7 @@ Instead:
 
 ## 16. Research-Informed Vision Statement
 
-> Native Markdown support in SharePoint and OneDrive makes Markdown a more credible bridge between human-maintained structured content, Microsoft 365 governance, and AI-assisted work. For the proposed government knowledge workbench, Markdown can serve as a readable canonical and instructional format, while SharePoint provides business-facing file management, metadata, versioning, permissions, and workflow capabilities. The implementation must still preserve explicit source-of-truth ownership, deterministic validation, approval boundaries, records and security controls, and independent evaluation of Copilot and agent grounding.
+> Native Markdown support in SharePoint and OneDrive makes Markdown a more credible bridge between human-maintained structured content, Microsoft 365 governance, and AI-assisted work. For the proposed government knowledge workbench, Markdown can serve as a readable structured and instructional format, while SharePoint provides business-facing file management, metadata, versioning, permissions, and workflow capabilities. The implementation must still preserve explicit source-of-truth ownership, deterministic validation, approval boundaries, records and security controls, and independent evaluation of Copilot and agent grounding.
 
 ## 17. Source and Research Limitations
 

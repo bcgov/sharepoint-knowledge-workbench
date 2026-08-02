@@ -124,14 +124,14 @@ Find, answer, analyze, and generate from governed content
 
 ## 4. Relationship to the `docx-to-content` Proof of Concept
 
-The current proof of concept focuses on migration into canonical structured content:
+The current proof of concept focuses on migration into structured structured content:
 
 ```text
 Word source
 → temporary extraction
 → analysis
 → confirmed organization
-→ canonical Markdown
+→ structured Markdown
 → validation
 → rendered output
 ```
@@ -139,7 +139,7 @@ Word source
 The SharePoint announcement adds an ongoing authoring and curation layer after migration:
 
 ```text
-Canonical content
+Structured content
 → SharePoint authoring experience
 → AI-assisted drafting and revision
 → review and approval
@@ -150,7 +150,7 @@ Canonical content
 
 This means the future architecture should not stop after successful conversion. It should support the complete operational lifecycle of the converted knowledge.
 
-## 5. Implications for Canonical Markdown
+## 5. Implications for Structured Markdown
 
 The announcement makes the distinction between content and presentation even more important.
 
@@ -159,13 +159,13 @@ AI-assisted SharePoint pages may become a useful authoring and publication exper
 Possible models remain:
 
 ```text
-A. Canonical Markdown in a repository; SharePoint pages are generated outputs.
+A. Structured Markdown in a repository; SharePoint pages are generated outputs.
 
-B. Markdown files in SharePoint are the canonical authoring source.
+B. Markdown files in SharePoint are the structured authoring source.
 
 C. SharePoint edits become controlled change proposals synchronized into Git.
 
-D. Hybrid ownership: canonical content and machine metadata are pipeline-owned,
+D. Hybrid ownership: structured content and machine metadata are pipeline-owned,
    while SharePoint owns operational metadata, approval state, and selected local fields.
 ```
 
@@ -317,7 +317,7 @@ prepare-bulk-curation-plan
 
 ```text
 prepare-ai-edit-review
-compare-page-to-canonical-source
+compare-page-to-structured-source
 assess-publication-impact
 prepare-approval-package
 record-review-disposition
@@ -342,7 +342,7 @@ The existing workbench journeys should be expanded to include continuous content
 ### Author and Improve Content
 
 ```text
-Start from idea, template, existing page, or canonical topic
+Start from idea, template, existing page, or structured topic
 → draft or revise with AI
 → preview structure and presentation
 → validate content and metadata
@@ -432,7 +432,7 @@ dispose with authorization
 
 AI recommendations for clarity and engagement should not replace accessibility validation.
 
-Canonical and rendered content still need explicit checks for:
+Structured and rendered content still need explicit checks for:
 
 - meaningful heading order;
 - alternative text;
@@ -465,7 +465,7 @@ SETUP
 Design governed SharePoint structure
         ↓
 MIGRATE
-Convert legacy documents into canonical content
+Convert legacy documents into structured content
         ↓
 CREATE
 Draft and edit content with AI assistance
@@ -500,7 +500,7 @@ Update standards, schemas, skills, templates, and content
 
 After the CEIS conversion pilot is complete, a bounded follow-on experiment could test:
 
-1. Upload a manageable set of canonical Markdown topics to a dedicated SharePoint library.
+1. Upload a manageable set of structured Markdown topics to a dedicated SharePoint library.
 2. Apply owner, knowledge type, review date, status, publication ID, stable topic ID, and validation status.
 3. Select one topic for an AI-assisted edit.
 4. Record the original and proposed versions.
@@ -524,7 +524,7 @@ The experiment should measure:
 - quality of curation recommendations;
 - false positives and false negatives;
 - agent-answer grounding and permission behaviour;
-- confidence that canonical content and SharePoint content have not drifted.
+- confidence that structured content and SharePoint content have not drifted.
 
 ## 15. Relationship to Other Research
 

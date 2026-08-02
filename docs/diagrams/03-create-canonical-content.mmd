@@ -10,11 +10,11 @@ flowchart TD
     Media["Copy Media and Rewrite References\nSafe relative paths"]
     Metadata["Create Metadata Sidecars\nLineage, source path, hashes, links and media"]
     Manifest["Create Versioned Manifest"]
-    Validate{"Validate Canonical Package\nContracts, hashes and counts\nContent loss or duplication\nLinks, media, orphans and unsafe paths"}
+    Validate{"Validate Structured Package\nContracts, hashes and counts\nContent loss or duplication\nLinks, media, orphans and unsafe paths"}
     Warn["Explicitly Accept or Resolve\nEvery Warning"]
     Fail["FAIL\nRetain staging for diagnosis\nLeave accepted output unchanged"]
     Promote["Atomically Promote Validated Package"]
-    Canonical["Accepted Canonical Content Package\nAuthor-maintained Markdown content\n+ metadata + media + validation"]
+    Structured["Accepted Structured Content Package\nAuthor-maintained Markdown content\n+ metadata + media + validation"]
 
     Input --> Verify
     Verify -- "No" --> Fail
@@ -23,8 +23,8 @@ flowchart TD
     Reconcile -- "Resolved" --> Organize --> Identity --> Media --> Metadata --> Manifest --> Validate
     Validate -- "FAIL" --> Fail
     Validate -- "WARN" --> Warn --> Validate
-    Validate -- "PASS or dispositioned WARN" --> Promote --> Canonical
+    Validate -- "PASS or dispositioned WARN" --> Promote --> Structured
 
     style Extract fill:#fff3cd,stroke:#856404,stroke-width:2px,stroke-dasharray:5 5
     style Fail fill:#f8d7da,stroke:#842029,stroke-width:2px
-    style Canonical fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px
+    style Structured fill:#c8f7c5,stroke:#2e7d32,stroke-width:3px

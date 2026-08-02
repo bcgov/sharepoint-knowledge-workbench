@@ -27,7 +27,7 @@ subfolders):
 ```
 plugins/structured-content-rendering/
 ├── scripts/
-│   ├── knowledge_publication.py  # public interface: render()
+│   ├── structured_content_rendering.py  # public interface: render()
 │   ├── render_result.py          # this plugin's own RenderResult contract (real file)
 │   ├── canonical_package.py      # [symlink -> structured-content-assembly is the canonical owner]
 │   ├── dispositions.py           # [symlink -> structured-content-assembly is the canonical owner]
@@ -41,7 +41,7 @@ plugins/structured-content-rendering/
 │       ├── multipage_markdown.py  # the concrete multipage-markdown Renderer
 │       └── validate_rendered.py   # render validator + render_and_promote
 ├── references/contracts/
-├── skills/render-content/
+├── skills/render-structured-content/
 └── tests/
 ```
 
@@ -54,7 +54,8 @@ there is exactly one editable copy of each. See
 `docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md`
 for the full rationale and verification evidence (this superseded the
 original hand-duplication approach recorded in
-`wave-5-structured-content-rendering-split-decision.md`).
+`wave-5-knowledge-publication-split-decision.md`, using the plugin name in
+effect at that time).
 
 Part of Phase 4.5's decomposition of the combined `docx-to-content` plugin
 into four independently installable domain plugins — see
@@ -71,7 +72,7 @@ No other package needs to be installed first.
 ## Public interface
 
 ```python
-from knowledge_publication import render
+from structured_content_rendering import render
 
 result = render(package_dir, output_dir)
 # {"render_result": ..., "validation_report": ..., "promoted": bool, "output_dir": str}
@@ -96,5 +97,5 @@ package):
 
 ```bash
 cd tools/phase-4-5-core-plugin-refactoring
-python isolated_install_check.py --plugin structured-content-rendering --import-package knowledge_publication
+python isolated_install_check.py --plugin structured-content-rendering --import-package structured_content_rendering
 ```

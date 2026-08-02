@@ -351,7 +351,7 @@ These skills remain AI-assisted and require evaluation. A plausible result is no
 ### Conversion and extraction
 
 ```text
-convert-docx-to-canonical-content
+convert-docx-to-structured-content
 run-pandoc-extraction
 convert-legacy-media
 normalize-extracted-content
@@ -408,7 +408,7 @@ Analyze source
 → preserve provenance
 → prove no loss or duplication
 → validate schema, links, media, and identity
-→ produce canonical package and evidence
+→ produce structured package and evidence
 ```
 
 #### Native SharePoint implementation
