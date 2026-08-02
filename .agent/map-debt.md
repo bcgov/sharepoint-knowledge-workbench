@@ -56,3 +56,27 @@
 - **Severity**: S
 - **Repeat**: NO (new Hard Gate #14 in `self-evolution-policy.md`)
 - **Status**: RESOLVED
+
+### [2026-08-02] Phase 4/5 — Reusable SharePoint Capability Written Into `tools/phase-N-*` Instead of an Already-Designed Plugin
+
+- **Logged Date**: 2026-08-02
+- **Cycle/Session**: Phase 4 native-skills work (prior session) + Phase 5 CEIS grounding prototype (this session)
+- **Artifact Affected**: `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md` (a real skill implementation, not phase evidence); `tools/phase-5-sharepoint-knowledge-agent-pilot/{upload-rendered-markdown.ps1, backup-existing-agents.ps1, backup-skills-and-templates.ps1}` (agent creation/backup, native-skill backup, content upload — all reusable operational capability).
+- **Friction Observed**: `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md` (lines ~230-269) already proposes a plugin named `sharepoint-knowledge` with skill groups explicitly named `native-skills/`, `agents/`, `deployment/`, `governance/`, `health/` — exactly the destination for this capability. The agent never read this document before or during either phase's execution, and instead (a) let a real skill implementation live inside a `tools/phase-4-*` folder, then (b) repeated the same mistake in Phase 5 by writing three new reusable `.ps1` scripts directly into `tools/phase-5-*` rather than checking the vision's plugin boundary first. When the user first raised it ("why are there skills inside tools/..."), the agent produced an inventory/migration-analysis document but proposed *inventing new plugin names* (`sharepoint-agents`, `sharepoint-native-skills`, `workbench-setup`) rather than checking whether the vision had already named the correct one — confirming the check still hadn't happened even after being directly prompted twice. Only stopped, and the real cause named, on the user's third direct challenge ("do you not understand the purpose of this repo and architecture even now?").
+- **Why it wasn't caught earlier**: no step in this session's (or the referenced prior session's) workflow included "check `docs/vision/` for an existing plugin-boundary decision" before creating a new script or skill file. The `tools/phase-N-*` convention was inherited from earlier sessions and treated as settled precedent rather than re-checked against the vision each time new capability was added.
+- **Fix**: **DESIGN_COMPLETE.** The domain and plugin name are now decided —
+  `sharepoint-agents-and-skills` (not `sharepoint-knowledge`, rejected as too vague; not split
+  into two plugins). Full migration design: `docs/superpowers/specs/
+  2026-08-02-sharepoint-agents-and-skills-plugin-design.md` — final artifact disposition matrix,
+  plugin tree, skill list, script parameter matrix, phase-wrapper strategy, evidence-preservation
+  strategy, and 6 migration waves. **IMPLEMENTATION_NOT_AUTHORIZED. MIGRATION_NOT_STARTED.** Reusable
+  agent/native-skill capability (`review-manual-topics/SKILL.md` and the scripts/backups listed in
+  Artifact Affected above) is still mixed with Phase 3-5 phase evidence in `tools/`, unresolved
+  until a migration wave is separately authorized and executed. New rule added (see `CLAUDE.md`
+  Section 0): before creating any new script/skill file for SharePoint-facing capability, or before
+  proposing a plugin name for a migration, read the vision doc's proposed-plugin-set section (and
+  now this design doc) first.
+- **Evidence**: this session's transcript; `docs/reports/multi-document-destination-config/{script-inventory-and-plugin-migration-candidates.md, complete-artifact-classification.md}` (the full artifact-level evidence inventory, still valid and reused by the design doc); `docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md` (the accepted domain model).
+- **Severity**: M (no data loss or tenant damage, but real rework risk and repeated user correction across two phases)
+- **Repeat**: YES — happened in Phase 4, then again in Phase 5 within the same architecture area. Per the aging rule, must escalate immediately on next encounter, not be deferred a third time.
+- **Status**: OPEN (design complete; do not mark RESOLVED until a migration wave actually executes — see the design doc's Section 7)

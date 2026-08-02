@@ -577,29 +577,48 @@ site even for real, working agents). The browser is authoritative here.
 - Produces: `results/task4-aspx-agent-selection.md`'s recorded baseline agent name, consumed by
   Task 6 (which agent to run every case against).
 
-- [ ] **Step 1: Open the SharePoint site's Copilot chat pane in a browser**
+**Update (2026-08-02, mid-execution finding, now confirmed):** two distinct access paths exist —
+see `docs/research/field-note-ready-made-copilot-agent-launch-by-name.md` for the full record:
+1. Opening a `.agent` file directly (e.g. via its SharePoint URL, or clicking it in the library
+   listing) opens that specific custom agent's own chat pane. **This is the only confirmed-
+   reliable test method — use it exclusively for Steps 1-3 below.**
+2. The generic **ready-made/default Copilot** (opened via the library toolbar's "Copilot" button)
+   can be asked, in natural language, to "launch" a named custom agent — **confirmed NOT a real
+   hand-off**: asked it to launch `CEIS-ASPX-Only-Test`, then asked an out-of-scope question that
+   agent's instructions require refusing; it answered with real general legal knowledge instead
+   and cited broad site-wide, non-CEIS results (`Home.aspx` among them) — proof it never actually
+   switched grounding scope. Do not use path 2 for any agent-specific testing in this task.
 
-Navigate to `https://bcgov.sharepoint.com/sites/AG-CSB-intranet-dev` and open the Copilot/agent
-chat entry point (site-level Copilot icon or the `CEISPilotKnowledgePages` page's chat pane).
+- [ ] **Step 1: Open each `.agent` file directly in a browser**
 
-- [ ] **Step 2: List every agent that appears as selectable**
+Navigate to `https://bcgov.sharepoint.com/sites/AG-CSB-intranet-dev/SitePages/CEISPilotKnowledgePages`
+and open each of the 5 `.agent` files directly (path 1 above) — do not use the generic ready-made
+Copilot's "launch by name" path (path 2, confirmed unreliable).
 
-For each of the 5 candidates, note whether it appears in the chat pane's agent picker:
-`CEIS-Pilot-Knowledge-Agent`, `CEIS-Pilot-Knowledge-Agent-Corrected`, `CEIS-ASPX-Only-Test`,
-`CEIS-Topic-Reviewer-with-Skills`, `CEISPilotKnowledgePages-manuallycreated`.
+- [ ] **Step 2: List every agent that opens a working chat pane**
 
-- [ ] **Step 3: For each selectable agent, ask one smoke-test question**
+For each of the 5 candidates, note whether opening its `.agent` file directly launches a working
+chat pane: `CEIS-Pilot-Knowledge-Agent`, `CEIS-Pilot-Knowledge-Agent-Corrected`,
+`CEIS-ASPX-Only-Test`, `CEIS-Topic-Reviewer-with-Skills`, `CEISPilotKnowledgePages-manuallycreated`.
+
+- [ ] **Step 3: For each working agent, ask one smoke-test question**
 
 Ask: "What are the steps to initiate a new file in CEIS?" (same as `NORM-01`). Confirm it grounds
 on the `.aspx` content and cites a source page, not a hallucinated answer.
 
 - [ ] **Step 4: Record the result and pick the baseline**
 
-Create `tools/phase-5-sharepoint-knowledge-agent-pilot/results/task4-aspx-agent-selection.md` with:
-which agents were selectable, the smoke-test response for each, and which one is chosen as the
-`.aspx` baseline for Task 6 (prefer `CEIS-ASPX-Only-Test` if selectable and working — its stricter
-refusal-if-not-found instructions make `NEG-01`/`NEG-02` more discriminating; otherwise fall back
-to `CEIS-Pilot-Knowledge-Agent`). State the reason for the choice explicitly.
+**Baseline already confirmed (2026-08-02):** `CEIS-ASPX-Only-Test` is the `.aspx` baseline for
+Task 6/7, after its instructions were tightened to explicit folder/extension scoping (see
+`docs/research/field-note-ready-made-copilot-agent-launch-by-name.md`'s "Follow-up confirmation"
+section for the exact instructions text and verification evidence — correct refusal on an
+out-of-scope legal question, citing only real CEIS `.aspx` content, via direct `.agent`-file
+access). Use that exact instructions text as-is; do not re-derive it.
+
+Create `tools/phase-5-sharepoint-knowledge-agent-pilot/results/task4-aspx-agent-selection.md`
+recording: which of the 5 agents opened a working chat pane via direct access, the smoke-test
+response for each (`NORM-01`'s prompt), and the confirmed baseline choice with its exact
+instructions text and the out-of-scope refusal evidence above as the stated reason.
 
 - [ ] **Step 5: Commit**
 
@@ -804,27 +823,47 @@ git push
 
 **Interfaces:**
 - Consumes: `CEISPilotKnowledgeMarkdown` library from Task 5; the baseline `.aspx` agent's
-  instructions text recorded in Task 4's results file (to mirror wording, swapping only the source
-  binding, per the design doc's Section 5).
+  confirmed, tightened instructions text (below), to mirror wording, swapping only the source
+  binding, per the design doc's Section 5.
 
-- [ ] **Step 1: Retrieve the chosen baseline `.aspx` agent's exact `.agent` JSON**
+**Baseline instructions text (confirmed working, from `CEIS-ASPX-Only-Test` after tightening —
+see `docs/research/field-note-ready-made-copilot-agent-launch-by-name.md`'s "Follow-up
+confirmation" section):**
+
+> "You are the CEIS Procedures Agent. You must answer ONLY using content from `.aspx` files
+> located in the SharePoint folder `/SitePages/CEISPilotKnowledgePages`. Do not use any other
+> folder, site, image, or general knowledge as a source. If the requested information is not found
+> in a `.aspx` file in that exact folder, respond only with: 'This procedure is not documented in
+> the CEIS Manual.' Do not answer any question unrelated to CEIS procedures, even if you know the
+> answer from general knowledge. Never cite or reference content outside
+> `/SitePages/CEISPilotKnowledgePages`."
+
+**Explicit, unambiguous substitution for the `.md` agent** — the exact two changes to make (no
+other wording changes, so the comparison isolates format, not instruction clarity):
+1. `.aspx files located in the SharePoint folder /SitePages/CEISPilotKnowledgePages` →
+   `.md files located in the SharePoint folder /CEISPilotKnowledgeMarkdown`
+2. `Never cite or reference content outside /SitePages/CEISPilotKnowledgePages` →
+   `Never cite or reference content outside /CEISPilotKnowledgeMarkdown`
+
+- [ ] **Step 1: Confirm the baseline text matches what's actually live on the tenant**
 
 ```bash
 pwsh -Command '
 Import-Module PnP.PowerShell
 $config = Import-PowerShellDataFile -Path ./config.psd1
 Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication
-Get-PnPFile -Url "/sites/AG-CSB-INTRANET-DEV/SitePages/CEISPilotKnowledgePages/<baseline-agent-filename>.agent" -AsString
+Get-PnPFile -Url "/sites/AG-CSB-INTRANET-DEV/SitePages/CEISPilotKnowledgePages/CEIS-ASPX-Only-Test.agent" -AsString
 '
 ```
-(Use the exact filename recorded in Task 4's results file.)
+Confirm the `gptDefinition.instructions` field matches the confirmed text above verbatim (it was
+edited live via the browser UI in Task 4, not via this script, so this step is a verification
+check, not the source of truth — the text above is).
 
-- [ ] **Step 2: Write the agent-creation script, swapping only the source binding**
+- [ ] **Step 2: Write the agent-creation script, applying the exact substitution above**
 
-Create `tools/phase-5-sharepoint-knowledge-agent-pilot/create-md-comparison-agent.ps1`. Fill in
-`$baselineInstructions` with the exact text retrieved in Step 1 (word-for-word except changing
-literal mentions of "`.aspx`"/"`CEISPilotKnowledgePages`" to "`.md`"/"`CEISPilotKnowledgeMarkdown`"
-so the comparison isolates format, not instruction wording):
+Create `tools/phase-5-sharepoint-knowledge-agent-pilot/create-md-comparison-agent.ps1`, with
+`$baselineInstructions` set to the confirmed baseline text with the two substitutions above
+applied — word-for-word otherwise:
 
 ```powershell
 <#
@@ -848,8 +887,10 @@ $library = Get-PnPList -Identity "CEISPilotKnowledgeMarkdown" -ErrorAction Stop
 $web = Get-PnPWeb -Includes Id
 $site = Get-PnPSite -Includes Id
 
-# Fill this in with the exact text retrieved in Step 1, adapted per the docstring above.
-$baselineInstructions = "REPLACE ME: paste the baseline agent's instructions here, with .aspx/CEISPilotKnowledgePages mentions swapped to .md/CEISPilotKnowledgeMarkdown"
+# Confirmed baseline text (CEIS-ASPX-Only-Test, tightened and verified — see
+# docs/research/field-note-ready-made-copilot-agent-launch-by-name.md), with the two
+# explicit substitutions applied: .aspx -> .md, /SitePages/CEISPilotKnowledgePages -> /CEISPilotKnowledgeMarkdown.
+$baselineInstructions = "You are the CEIS Procedures Agent. You must answer ONLY using content from .md files located in the SharePoint folder /CEISPilotKnowledgeMarkdown. Do not use any other folder, site, image, or general knowledge as a source. If the requested information is not found in a .md file in that exact folder, respond only with: 'This procedure is not documented in the CEIS Manual.' Do not answer any question unrelated to CEIS procedures, even if you know the answer from general knowledge. Never cite or reference content outside /CEISPilotKnowledgeMarkdown."
 
 $agentDefinition = @{
     schemaVersion = "0.2.0"
@@ -886,10 +927,11 @@ Add-PnPFile -Path $tempPath -Folder "SitePages/CEISPilotKnowledgePages" -NewFile
 Write-Host "Created CEIS-Markdown-Comparison-Agent.agent" -ForegroundColor Green
 ```
 
-- [ ] **Step 3: Fill in `$baselineInstructions` and run the script**
+- [ ] **Step 3: Run the script**
 
-Edit the script to paste in the real instructions text from Step 1 (adapted per the docstring),
-then:
+`$baselineInstructions` is already filled in with the confirmed text — no editing needed unless
+Step 1's live check found a mismatch (in which case, update the script to match what's actually
+live, and note the discrepancy in Task 6's results file).
 
 ```bash
 pwsh -File ./create-md-comparison-agent.ps1
@@ -995,8 +1037,9 @@ explicit human review/approval before merge. Stop here and present the branch fo
   4-6; Section 4 (evaluation design, schema change, category mapping) → Tasks 1-3, 5; Section 5
   (agent plan) → Tasks 4, 6; Section 6 (non-goals) → explicitly restated in Global Constraints and
   Task 8's findings doc.
-- **No placeholders:** the one intentional placeholder (`$baselineInstructions = "REPLACE ME..."`
-  in Task 6 Step 2) is deliberate and immediately resolved in Task 6 Step 3, which names the exact
-  source (Task 4's results file) and exact edit to make — not a deferred unknown.
+- **No placeholders:** Task 6's `$baselineInstructions` now holds the actual confirmed instructions
+  text (verified live during Task 4 execution, recorded in
+  `docs/research/field-note-ready-made-copilot-agent-launch-by-name.md`), not a fill-in-later
+  placeholder — updated after Task 4 completed and confirmed the working baseline.
 - **Type/signature consistency:** `validate_case_definition`/`validate_all_cases_in_directory`
   signatures in Task 2 match Phase 4's existing module exactly (deliberate parity, not divergence).
