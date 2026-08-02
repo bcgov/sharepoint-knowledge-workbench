@@ -298,6 +298,15 @@ later once an agent needs to be scoped to it. This is a structural decision for 
 schema-mapping work, not a detail to defer to Phase 5 (SharePoint agent grounding), since the
 library's physical folder layout is set here, in Phase 3, and is expensive to change afterward.
 
+**Design consideration added 2026-08-02 (Phase 5 Task 5 defect, real duplication caught before it
+landed):** `docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md`
+specifies a three-layer destination-configuration model (root connection config + per-document
+publication profile + explicit script parameters) so a second real manual/policy/procedure doesn't
+duplicate or collide with the first. Recommended entry gate: trigger together with Phase 5.5A's
+own entry gate (a concrete second content type identified with a real document/need). **Design
+only — not authorized to implement.** Read that spec before adding or modifying any
+tenant-scripting tool's destination logic.
+
 - Stage 3.1.1 — map canonical/publication contract → minimal library schema: owner, status, review date,
   topic ID, publication ID, validation state. **Deliverable:** schema-mapping document. **Verification:**
   every canonical/publication field has an explicit mapped library column or a stated reason it's omitted.
