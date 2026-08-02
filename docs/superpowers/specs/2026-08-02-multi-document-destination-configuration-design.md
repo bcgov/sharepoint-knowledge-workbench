@@ -33,27 +33,55 @@ Tracked template: `config.psd1.example` (already exists per-phase-folder; this d
 consolidates to one root-level file: `config.psd1.example` at the repo root). User-owned,
 git-ignored file: `config.psd1` at the repo root.
 
+**Corrected structure (2026-08-02 external review):** the original single flat hashtable mixed
+authentication with destination defaults, and used one ambiguous `DefaultPublicationRoot` value
+that the resolver treated as a library name — `Root` can mean a library, a folder, a
+server-relative path, or a publication root within a library, so it was never actually
+unambiguous. Split into three named sub-sections, and rename the defaults to be artifact-specific
+(each one maps 1:1 to an `ArtifactType` in Section 6's resolver, never a generic fallback):
+
 ```powershell
 @{
-    SiteUrl                = "https://tenant.sharepoint.com/sites/site"
-    TenantId                = ""
-    ClientId                = ""
-    AuthenticationMode      = "Interactive"
+    Connection = @{
+        SiteUrl            = "https://tenant.sharepoint.com/sites/site"
+        TenantId           = ""
+        ClientId           = ""
+        AuthenticationMode = "Interactive"
+    }
 
-    # Optional, depending on authentication mode
-    CertificateThumbprint   = ""
-    TenantAdminUrl          = ""
+    Authentication = @{
+        # Optional, depending on AuthenticationMode
+        CertificateThumbprint = ""
+        TenantAdminUrl        = ""
+    }
 
-    # Optional defaults, not mandatory operational targets
-    DefaultPublicationRoot  = "KnowledgePublications"
-    DefaultAgentAssetsRoot  = "AgentAssets"
+    Defaults = @{
+        # Optional artifact-specific defaults, not mandatory operational targets. Each key maps
+        # to exactly one ArtifactType in Section 6 — there is no generic "publication root"
+        # fallback that every artifact type shares, because a human-topic default and a
+        # native-skill default are never interchangeable.
+        DefaultHumanPublicationLibrary  = "KnowledgePublications"
+        DefaultAgentGroundingLibrary    = "AgentGrounding"
+        DefaultAgentAssetsLibrary       = "AgentAssets"
+        DefaultSitePagesLibrary         = "Site Pages"
+    }
 }
 ```
 
+**Mandatory vs. optional vs. conditional keys:** `Connection.SiteUrl`, `Connection.TenantId`,
+`Connection.ClientId`, and `Connection.AuthenticationMode` are mandatory — a script cannot connect
+without them. `Authentication.*` are conditional — required only when `AuthenticationMode` is a
+mode that needs them (e.g. certificate-based auth needs `CertificateThumbprint`; interactive mode
+needs neither). `Defaults.*` are optional — a script always accepts an explicit override parameter
+that takes precedence, per Section 1 Layer 3's precedence order.
+
 Must never contain: client secrets, access tokens, certificate passwords, user passwords, or any
-document-specific value (library names, folder names, agent names, page names, skill names,
-overwrite decisions, rollback targets). Connection configuration answers "where and how do I
-connect?" — never "what exact artifact should this script create or modify?"
+document-specific value (library names *for a specific document*, folder names, agent names, page
+names, skill names, overwrite decisions, rollback targets — the `Defaults.*` keys above are
+tenant-wide fallbacks, not per-document values, which is the distinction that matters). Connection
+configuration answers "where and how do I connect, and what are this tenant's general-purpose
+library defaults?" — never "what exact artifact should this specific document's script create or
+modify?"
 
 ### Layer 2 — Per-document publication profile
 
@@ -75,6 +103,16 @@ intent.
         ContentType       = "Manual"
         ContentOwner      = ""
         SourcePackagePath = "runs/ceis-manual-v2"
+        # PackageIdentity is the canonical package's own identity (Phase 2's package_identity —
+        # see docs/architecture/docx-to-content-legacy-references/canonical-contract.md), not a
+        # value invented here. Combined with DocumentId and each section's own
+        # PublicationProfile/TargetType, it forms the stable composite publication identity —
+        # DocumentId + PublicationProfile + PackageIdentity — used wherever a single DocumentId is
+        # not specific enough (one document has a Markdown publication, an ASPX publication, AND
+        # an agent-grounding publication simultaneously; each needs its own identity, not one
+        # shared DocumentId). Section 6's resolver and Section 7's collision check both derive
+        # a PublicationId from this triple; it is never set by hand.
+        PackageIdentity   = ""
     }
 
     HumanPublication = @{
@@ -116,7 +154,15 @@ intent.
         }
     )
 
-    NativeSkills = @()   # Add only approved deployed skills
+    # NativeSkills lists which approved, already-deployed skills this document's agents may
+    # reference — it is a reference list, NOT a resolvable target section. Resolving a
+    # NativeSkill target (Section 6) never reads this array's shape directly; it takes an exact
+    # -SkillName, looks that name up in this list to confirm it's approved for this document, and
+    # resolves the skill's OWN deployment target from Defaults.DefaultAgentAssetsLibrary /
+    # explicit -SkillsFolder — a document does not own a skill's deployment location.
+    NativeSkills = @(
+        # @{ SkillName = "review-manual-topics"; Approved = $true }
+    )
 
     Evidence = @{
         OutputPath = "docs/reports/publications/ceis-manual"
@@ -222,30 +268,72 @@ references it.)
 
 ## 6. Target-resolution algorithm
 
-One reusable component resolves: root config + publication profile + script parameters + artifact
-type → exact resolved SharePoint target, with the configuration source of every resolved value
-recorded. Conceptually: `SiteUrl + artifact type + (explicit LibraryName or profile default) +
-DocumentId + artifact-specific folder → exact target URL`. Examples:
+**Corrected (2026-08-02 external review):** the original algorithm let every unresolved artifact
+type fall back to one generic `DefaultPublicationRoot` — wrong, since a human topic, an agent
+grounding file, an ASPX page, and a native skill each have their own default library and must
+never silently borrow another artifact type's default. Fallback is now artifact-specific and fails
+closed (raises, does not guess) when the specific default is absent:
 
 ```text
-Human topic:    KnowledgePublications/ceis-manual/topics/topic-001.md
-Media:          KnowledgePublications/ceis-manual/media/image-001.png
+ArtifactType    -> Default source (Section 1 Layer 1's Defaults.*)
+HumanTopic      -> Defaults.DefaultHumanPublicationLibrary
+Media           -> Defaults.DefaultHumanPublicationLibrary   (media lives alongside topics)
+AgentGrounding  -> Defaults.DefaultAgentGroundingLibrary
+AspxPage        -> Defaults.DefaultSitePagesLibrary
+NativeSkill     -> Defaults.DefaultAgentAssetsLibrary          (resolves the SKILL's own
+                                                                  deployment target, never a
+                                                                  per-document target — see
+                                                                  Section 1 Layer 2's NativeSkills
+                                                                  note)
+```
+
+One reusable component resolves: root config `Connection`/`Defaults` + publication profile +
+script parameters + `ArtifactType` → exact resolved SharePoint target, with the configuration
+source of every resolved value recorded (`OverrideParameter` | `PublicationProfile` | `RootConfig`
+| `Default` — `Default` only applies where no root config, profile, or parameter value exists at
+all, e.g. `RootFolder` falling back to `DocumentId` itself). Resolution also emits a
+`PublicationId` — the composite `DocumentId + PublicationProfile-or-TargetType + PackageIdentity`
+identity from Section 1 Layer 2's note — used by Section 7's collision check instead of the raw
+resolved path string alone. Examples:
+
+```text
+Human topic:     KnowledgePublications/ceis-manual/topics/topic-001.md
+Media:           KnowledgePublications/ceis-manual/media/image-001.png
 Agent grounding: AgentGrounding/ceis-manual/grounding.md
-ASPX page:      Site Pages/ceis-manual/topic-001.aspx
-Native skill:   AgentAssets/Skills/review-manual-topics/SKILL.md
+ASPX page:       Site Pages/ceis-manual/topic-001.aspx
+Native skill:    AgentAssets/Skills/review-manual-topics/SKILL.md
 ```
 
 Every write script prints: resolved `SiteUrl`, resolved library, resolved `DocumentId`, resolved
-folder, resolved exact target, the configuration source of each value, and dry-run/write mode.
+`PublicationId`, resolved folder, resolved exact target, the configuration source of each value,
+and dry-run/write mode.
+
+**Path safety (added 2026-08-02 external review):** the resolver rejects, rather than silently
+normalizing away, any of: `..` path-traversal segments; an absolute item path where a relative one
+is expected; empty required path segments; duplicate slashes; filename characters invalid for
+SharePoint; and any resolved path that would place the item outside its own `DocumentId`'s folder
+boundary (e.g. an override that tries to write to `<other-document-id>/...`). A rejected input is
+a hard failure, not a best-effort correction — a script must never silently rewrite an unsafe path
+into a safe-looking one and proceed.
 
 ## 7. Collision prevention (validated before any write)
 
-`DocumentId` non-empty and normalized; target folder belongs to the intended document; same
-filename under a different `DocumentId` is safe (different folder); same filename within the same
-`DocumentId` is detected as a real collision; package identity matches the publication profile;
-overwrite behavior is explicit, never implicit; one manual's write can never overwrite another
-manual's content; rollback is bounded to exactly one document package. A script must not default
-to a flat library root for multi-document publication unless the profile explicitly approves it.
+**Corrected collision identity (2026-08-02 external review):** comparing only the resolved path
+string is insufficient — it ignores the site, so identical paths on two different sites (or two
+different `PublicationId`s that happen to resolve to visually similar strings before
+normalization) could be falsely flagged as colliding, or a real cross-site collision could be
+missed. Collision identity is the tuple: **normalized `SiteUrl` + `LibraryName` + normalized
+folder/item path** (equivalently, the resolved `PublicationId` plus the exact resolved path within
+it). Two targets collide only when all three match.
+
+Validated before any write: `DocumentId` non-empty and normalized; target folder belongs to the
+intended document (path-safety check from Section 6); same filename under a different `DocumentId`
+is safe (different folder, different `PublicationId`); same filename within the same `DocumentId`
++ same `PublicationId` is detected as a real collision; `PackageIdentity` matches the publication
+profile's recorded value; overwrite behavior is explicit, never implicit; one manual's write can
+never overwrite another manual's content; rollback is bounded to exactly one document's
+`PublicationId`. A script must not default to a flat library root for multi-document publication
+unless the profile explicitly approves it.
 
 ## 8. Setup plugin
 
@@ -254,15 +342,35 @@ new *skill* is authored in the sibling `agent-plugins-skills` monorepo, PR'd, an
 human partner — not written directly in this repo. This section specifies what the skill(s) must
 do; it does not authorize writing skill code here.
 
-**`setup-sharepoint-connection`** — creates the root, git-ignored `config.psd1`. Asks: `SiteUrl`,
-`ClientId`, `TenantId`, `AuthenticationMode`, optional certificate thumbprint, optional default
-publication roots.
+**Canonical template ownership (corrected 2026-08-02 external review):** there must be exactly one
+hand-maintained source of truth for `config.psd1.example`'s content, not two. The
+`workbench-setup` plugin owns the canonical copy at its own `assets/config.psd1.example`. Any
+consuming repo's root `config.psd1.example` (this repo's included) is a materialized hard copy
+produced by the plugin's installer, not an independently hand-maintained duplicate — the same
+hub-and-spoke, installer-materializes-a-real-copy pattern this repo's own `CLAUDE.md` already
+requires for plugin-local resource sharing (`symlink_manager.py` for in-repo sharing; here, the
+installer's copy step is the cross-repo equivalent, since a real filesystem symlink cannot cross
+repository/plugin package boundaries the way it can within one repo's `plugins/*` tree).
+
+**`setup-sharepoint-connection`** — creates the root, git-ignored `config.psd1` from the canonical
+template above. **Corrected behavior (2026-08-02 external review):** the original spec said the
+skill "never connects to SharePoint," which directly contradicted this same section's own mention
+of an optional read-only validation — those two statements cannot both be true as written. The
+corrected, non-contradictory behavior: **generating the config file is the default action and
+never connects to anything; an explicit, separate `-TestConnection` flag performs a read-only
+validation only after the user deliberately opts in.** Mandatory questions: `SiteUrl`, `TenantId`,
+`ClientId`, `AuthenticationMode` (these four are the only unconditionally mandatory keys, matching
+Section 1 Layer 1's `Connection.*` block exactly). Conditional: `CertificateThumbprint`/
+`TenantAdminUrl`, asked only when `AuthenticationMode` needs them. Optional: the four
+`Defaults.*` library names, offered with sensible defaults the user can accept or override.
 
 **`initialize-publication-profile`** (later) — creates
 `publication-profiles/<DocumentId>.publication.psd1` by asking the Section 5 questions. Must:
-propose defaults; show every resolved destination before writing; allow overrides; validate
-collisions; write only after explicit confirmation; never connect to or modify SharePoint during
-profile generation unless the user separately requests read-only target validation.
+propose defaults; show every resolved destination (via Section 6's resolver) before writing; allow
+overrides; validate collisions (via Section 7's check); write only after explicit confirmation;
+never connect to or modify SharePoint during profile generation unless the user separately
+requests the same kind of explicit, opt-in read-only target validation as
+`setup-sharepoint-connection`'s `-TestConnection`.
 
 ## 9. Agent-assisted setup behavior
 
