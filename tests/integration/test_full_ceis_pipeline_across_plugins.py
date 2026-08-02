@@ -2,27 +2,30 @@
 test_full_ceis_pipeline_across_plugins.py
 ============================================
 
-Phase 4.5 Wave 6, repository-wide reconciliation: proves the CEIS manual
-converts byte-identically (modulo documented run-specific fields) when
-run through the four independently-installed domain plugins
-(source-document-extraction, knowledge-analysis, canonical-knowledge,
-knowledge-publication) chained via their real public interfaces --
-`canonical_knowledge.build_canonical_package` then
-`knowledge_publication.render` -- compared against the pre-Phase-4.5
-combined docx-to-content pipeline's own recorded baseline
-(`runs/ceis-manual-v2/`).
+Phase 4.5 Wave 6, repository-wide reconciliation (plugin/skill names
+updated for the post-Wave-9 naming refactor -- see
+docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md):
+proves the CEIS manual converts byte-identically (modulo documented
+run-specific fields) when run through the four independently-installed
+domain plugins (source-document-extraction, document-structure-analysis,
+structured-content-assembly, structured-content-rendering) chained via
+their real public interfaces -- `structured_content_assembly.
+build_canonical_package` then `structured_content_rendering.render` --
+compared against the pre-Phase-4.5 combined docx-to-content pipeline's
+own recorded baseline (`runs/ceis-manual-v2/`).
 
 Each stage runs in its OWN subprocess with only that plugin's scripts/
-directory on sys.path. This is not a workaround: canonical-knowledge and
-knowledge-publication both duplicate several identically-named bare
-modules (canonical_schema, atomic_output, hashing, dispositions,
-publication_map, canonical_package -- see the Wave 4/5 decision docs), so
-importing both by bare name in ONE long-lived interpreter causes a real
-namespace collision (only one plugin's copy of each shared name survives
-on sys.path). Running each stage in its own process is how these plugins
-are actually meant to be invoked -- each as its own independently
-installed skill/CLI -- and mirrors combined_install_check.py's own choice
-to run each plugin's test suite in an isolated subprocess.
+directory on sys.path. This is not a workaround: structured-content-
+assembly and structured-content-rendering both share several identically-
+named bare modules via managed cross-plugin symlinks (canonical_schema,
+atomic_output, hashing, dispositions, publication_map, canonical_package
+-- see wave-9-duplication-remediation-report.md), so importing both by
+bare name in ONE long-lived interpreter causes a real namespace collision
+(only one plugin's copy of each shared name survives on sys.path).
+Running each stage in its own process is how these plugins are actually
+meant to be invoked -- each as its own independently installed
+skill/CLI -- and mirrors combined_install_check.py's own choice to run
+each plugin's test suite in an isolated subprocess.
 
 Per the Wave 6 plan: the `pytest.skip` branch below (missing gitignored
 confirmed plan, missing intake docx, or pandoc unavailable) is retained
@@ -60,13 +63,13 @@ def _tree_hash(root: Path, exclude: set) -> str:
 
 
 def _run_canonical_stage(plan: dict, source_path: Path, output_dir: Path) -> dict:
-    """Subprocess 1: only canonical-knowledge's scripts/ on sys.path."""
+    """Subprocess 1: only structured-content-assembly's scripts/ on sys.path."""
     script = f"""
 import sys, json
-sys.path.insert(0, {str(REPO_ROOT / "plugins" / "canonical-knowledge" / "scripts")!r})
-import canonical_knowledge
+sys.path.insert(0, {str(REPO_ROOT / "plugins" / "structured-content-assembly" / "scripts")!r})
+import structured_content_assembly
 plan = json.loads({json.dumps(json.dumps(plan))})
-result = canonical_knowledge.build_canonical_package(
+result = structured_content_assembly.build_canonical_package(
     plan, {str(source_path)!r}, {str(output_dir)!r}
 )
 print(json.dumps(result))
@@ -77,12 +80,12 @@ print(json.dumps(result))
 
 
 def _run_render_stage(package_dir: str, output_dir: Path) -> dict:
-    """Subprocess 2: only knowledge-publication's scripts/ on sys.path."""
+    """Subprocess 2: only structured-content-rendering's scripts/ on sys.path."""
     script = f"""
 import sys, json
-sys.path.insert(0, {str(REPO_ROOT / "plugins" / "knowledge-publication" / "scripts")!r})
-import knowledge_publication
-result = knowledge_publication.render({package_dir!r}, {str(output_dir)!r})
+sys.path.insert(0, {str(REPO_ROOT / "plugins" / "structured-content-rendering" / "scripts")!r})
+import structured_content_rendering
+result = structured_content_rendering.render({package_dir!r}, {str(output_dir)!r})
 print(json.dumps(result))
 """
     proc = subprocess.run([sys.executable, "-c", script], capture_output=True, text=True)

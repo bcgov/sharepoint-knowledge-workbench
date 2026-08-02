@@ -23,9 +23,9 @@ from isolated_install_check import build_wheel, check_no_workbench_family_depend
 
 PLUGINS = (
     "source-document-extraction",
-    "knowledge-analysis",
-    "canonical-knowledge",
-    "knowledge-publication",
+    "document-structure-analysis",
+    "structured-content-assembly",
+    "structured-content-rendering",
 )
 
 

@@ -1,1 +1,0 @@
-../../canonical-knowledge/scripts/publication_map.py

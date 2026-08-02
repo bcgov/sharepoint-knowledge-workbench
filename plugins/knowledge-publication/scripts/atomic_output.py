@@ -1,1 +1,0 @@
-../../canonical-knowledge/scripts/atomic_output.py

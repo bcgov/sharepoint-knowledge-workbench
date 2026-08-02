@@ -8,7 +8,7 @@ not in any shared/top-level distribution. See
 for why: an independently installed plugin must not require an unpublished
 sibling Python distribution to function.
 
-**Consumers:** `knowledge-analysis`'s `recommend_from_normalized` (Wave 3).
+**Consumers:** `document-structure-analysis`'s `recommend_from_normalized` (Wave 3).
 A consumer plugin carries its own plugin-local copy of this schema
 (generated/synced from this file, hash-checked for equivalence during
 development) — it never imports this plugin's package at runtime.

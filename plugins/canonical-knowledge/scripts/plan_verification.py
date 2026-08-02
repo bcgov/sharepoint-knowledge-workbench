@@ -1,1 +1,0 @@
-../../knowledge-analysis/scripts/plan_verification_core.py

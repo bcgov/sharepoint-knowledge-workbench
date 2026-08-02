@@ -1,8 +1,17 @@
 # Phase 4.5 Exit Statement
 
-**Date:** 2026-08-01 (updated 2026-08-02, Wave 9 — see below)
+**Date:** 2026-08-01 (updated 2026-08-02, Wave 9 — see below; updated again 2026-08-02 for the
+naming refactor — see next note)
 **Branch:** `phase-4-5-core-plugin-refactoring` (not merged to `main` by this plan — merge is a
 separate, explicit human decision).
+
+> **2026-08-02 naming-refactor note:** `knowledge-analysis`, `canonical-knowledge`,
+> `knowledge-publication`, and `sharepoint-publication` (all named below) were renamed to
+> `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`,
+> and `sharepoint-content-publication` respectively — see
+> `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`. This document's
+> body below is preserved as the historical record of Wave 1-8's execution and uses the OLD names
+> throughout, accurately describing what was true when those waves ran.
 
 > **2026-08-02 update:** human review of the merged Wave 1-8 result found real hand-maintained
 > editable-source duplication across `canonical-knowledge`/`knowledge-publication` that this

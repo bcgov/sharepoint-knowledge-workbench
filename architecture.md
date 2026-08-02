@@ -24,9 +24,9 @@ manual-conversion-poc/
 │                              #   render/rendered-output/, evidence-report.md — current & authoritative
 ├── plugins/                  # four independently-installable domain plugins (Phase 4.5) — see §3
 │   ├── source-document-extraction/
-│   ├── knowledge-analysis/
-│   ├── canonical-knowledge/
-│   └── knowledge-publication/
+│   ├── document-structure-analysis/
+│   ├── structured-content-assembly/
+│   └── structured-content-rendering/
 ├── docs/
 │   ├── vision/               # broader-initiative direction: naming, phases, plugin/agent
 │   │                          #   boundaries, open questions — see docs/vision/README.md
@@ -113,13 +113,13 @@ monorepo — a separate concern from these first-party plugins).
 **Four plugins, chained via their real public interfaces:**
 - `source-document-extraction` — real pandoc extraction, structural analysis, defect-signal
   detection, produces `normalized-source-document`.
-- `knowledge-analysis` — topic-boundary reasoning, chunking-strategy recommendation, produces a
+- `document-structure-analysis` — topic-boundary reasoning, chunking-strategy recommendation, produces a
   draft `ConversionPlan` (`analysis-plan`) — requires explicit human confirmation before
   proceeding.
-- `canonical-knowledge` — cleanup pipeline → chunking → canonical package build →
+- `structured-content-assembly` — cleanup pipeline → chunking → canonical package build →
   `validate_canonical.py` → atomic promotion, only if validation allows it; produces
   `canonical-package`/`publication-map`.
-- `knowledge-publication` — `CanonicalPackage.load()` (full re-validation) → a registered renderer
+- `structured-content-rendering` — `CanonicalPackage.load()` (full re-validation) → a registered renderer
   (`renderers/multipage_markdown.py`) → `renderers/validate_rendered.py` → atomic promotion;
   produces `rendered-output-profile`.
 
@@ -164,7 +164,7 @@ scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles 
   `docs/vision/master-initiative-plan-workstreams-and-phases.md`. This supersedes the original
   high-level proposal in `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`
   (kept for historical comparison) with a structure that survived several rounds of external
-  review: proposed plugin boundaries (`sharepoint-knowledge`, `knowledge-publication`,
+  review: proposed plugin boundaries (`sharepoint-knowledge`, `structured-content-rendering`,
   `knowledge-evaluation`) and a repository rename are explicitly deferred, not authorized by either
   document alone — each requires its own reviewed decision when its trigger condition is met (see
   the master plan's traceability matrix and extraction-triggers reference).

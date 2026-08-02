@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "structured-content-rendering"
+version = "0.1.0-alpha.1"
+description = "Renders a validated structured content package (and publication-map, for grouped packages) to a multipage-markdown publication output, validated and atomically promoted. (Renamed from knowledge-publication in the post-Wave-9 naming refactor.)"
+requires-python = ">=3.10"
+# No dependency on source-document-extraction, document-structure-analysis,
+# structured-content-assembly, or any other workbench distribution -- this
+# plugin must install and run standalone. See
+# docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md
+# and wave-2-flat-scripts-correction.md for the model this follows.
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "structured_content_rendering",
+    "render_result",
+    "canonical_package",
+    "dispositions",
+    "hashing",
+    "publication_map",
+    "path_safety",
+    "atomic_output",
+]
+
+[tool.setuptools.packages.find]
+where = ["scripts"]
+include = ["canonical_schema", "canonical_schema.*", "renderers", "renderers.*"]
+
+[tool.setuptools.package-dir]
+"" = "scripts"
