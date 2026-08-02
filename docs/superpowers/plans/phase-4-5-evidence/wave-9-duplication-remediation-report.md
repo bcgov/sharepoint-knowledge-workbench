@@ -1,5 +1,14 @@
 # Phase 4.5 Duplication Remediation Report (Post-Wave-8 Review)
 
+> **2026-08-02 naming-refactor note:** the plugin names used throughout this document
+> (`knowledge-analysis`, `canonical-knowledge`, `knowledge-publication`, `sharepoint-publication`)
+> were the names in effect when this report was written and the remediation executed. They were
+> renamed immediately after (same day) to `document-structure-analysis`,
+> `structured-content-assembly`, `structured-content-rendering`, and
+> `sharepoint-content-publication` — see
+> `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`. This document's
+> body is preserved unmodified as the historical audit/execution record.
+
 **Date:** 2026-08-02 (Part 1: audit; Part 2, appended same day: full remediation executed per
 explicit human approval of Option A, extended to eliminate the 3 subset-reimplementation families
 too)

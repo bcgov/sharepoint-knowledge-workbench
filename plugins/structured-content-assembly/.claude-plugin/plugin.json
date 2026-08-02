@@ -1,0 +1,21 @@
+{
+    "name": "structured-content-assembly",
+    "version": "0.1.0-alpha.1",
+    "description": "Structured content package assembly: cleanup, chunking, validation, and atomic promotion from a confirmed conversion plan into a structured content package and publication map. (Renamed from canonical-knowledge in the post-Wave-9 naming refactor.)",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "canonical-content",
+        "chunking",
+        "validation",
+        "atomic-promotion"
+    ],
+    "capabilities": [
+        "content-canonicalization",
+        "content-validation",
+        "atomic-promotion"
+    ]
+}

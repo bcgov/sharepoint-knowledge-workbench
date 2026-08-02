@@ -1,4 +1,14 @@
-# Resume — Phase 1–4 Merged; Phase 4.5 COMPLETE (all 8 waves) — branch not yet merged to main
+# Resume — Phase 1–4 Merged; Phase 4.5 COMPLETE (all 8 waves + Wave 9 dedup + naming refactor) — branch not yet merged to main
+
+> **2026-08-02 naming refactor:** the four core domain plugins and their skills were renamed to
+> plain operational-purpose names (see
+> `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md` for the full
+> old→new mapping): `knowledge-analysis` → `document-structure-analysis`, `canonical-knowledge` →
+> `structured-content-assembly`, `knowledge-publication` → `structured-content-rendering`,
+> `sharepoint-publication` → `sharepoint-content-publication` (still
+> `TRANSITIONAL_HOLDING_LOCATION`). `source-document-extraction` unchanged. All references below
+> this banner that predate 2026-08-02 use the OLD names as a historical record of what was true
+> when each wave executed — do not mechanically rewrite them.
 
 > **Phase 4.5 is fully complete as of 2026-08-01.** All 8 waves executed on branch
 > `phase-4-5-core-plugin-refactoring` (human pre-authorized Waves 5-8 execution and per-wave

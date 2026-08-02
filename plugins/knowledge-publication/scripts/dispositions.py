@@ -1,1 +1,0 @@
-../../canonical-knowledge/scripts/dispositions.py

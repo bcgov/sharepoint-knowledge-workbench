@@ -1,1 +1,0 @@
-../../canonical-knowledge/scripts/canonical_package.py

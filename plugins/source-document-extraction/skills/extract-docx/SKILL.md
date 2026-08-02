@@ -1,7 +1,7 @@
 ---
 name: extract-docx
 plugin: source-document-extraction
-description: Run pandoc against a source .docx and produce a normalized-source-document contract (markdown text, media files, heading structure, defect signals, statistics) for downstream knowledge-analysis.
+description: Run pandoc against a source .docx and produce a normalized-source-document contract (markdown text, media files, heading structure, defect signals, statistics) for downstream document-structure-analysis.
 allowed-tools: Bash, Read
 examples:
   - "python -c \"from extraction import extract_and_normalize; extract_and_normalize('intake/Manual.docx', 'analysis/Manual')\""
@@ -15,7 +15,7 @@ Use this skill to extract a source `.docx` into a `normalized-source-document`
 v1 contract: raw markdown text (via a single `pandoc` pass), the extracted
 media file list, a source content hash, and source-level observations
 (heading structure, image stats, raw-TOC/defect signals, extended
-statistics) that `knowledge-analysis`'s `recommend_from_normalized` consumes
+statistics) that `document-structure-analysis`'s `recommend_from_normalized` consumes
 without re-parsing.
 
 This plugin only observes the source; it never interprets strategy

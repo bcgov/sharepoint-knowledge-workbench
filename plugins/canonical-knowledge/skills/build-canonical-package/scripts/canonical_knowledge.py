@@ -1,1 +1,0 @@
-../../../scripts/canonical_knowledge.py

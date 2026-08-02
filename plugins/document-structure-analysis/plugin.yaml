@@ -1,0 +1,11 @@
+name: document-structure-analysis
+version: 0.1.0-alpha.1
+description: "Semantic structure analysis: topic-boundary reasoning, chunking-strategy recommendation, and draft conversion-plan construction from a normalized-source-document."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - analyze-document-structure
