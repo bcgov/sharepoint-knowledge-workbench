@@ -14,7 +14,7 @@ requires-python = ">=3.10"
 dependencies = []
 
 [tool.setuptools]
-py-modules = ["analysis", "identity", "topic_grouping", "plans", "plan_hashing"]
+py-modules = ["analysis", "identity", "identity_core", "topic_grouping", "topic_boundary_core", "plans", "plan_verification_core", "plan_hashing"]
 
 [tool.setuptools.packages.find]
 where = ["scripts"]

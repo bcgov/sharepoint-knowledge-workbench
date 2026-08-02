@@ -149,11 +149,19 @@ def promote(staging_dir: Path, final_dir: Path) -> None:
             shutil.rmtree(backup_dir)
 
 
-def build_generator_info(plugin_version: str = DEFAULT_PLUGIN_VERSION) -> dict:
+def build_generator_info(plugin_name: str, plugin_version: str = DEFAULT_PLUGIN_VERSION) -> dict:
     """Return the content-affecting generator record (no timestamp):
-    plugin name/version, Python version, pandoc version, soffice version."""
+    plugin name/version, Python version, pandoc version, soffice version.
+
+    `plugin_name` is required, not defaulted: this module is shared as a
+    single canonical implementation across multiple plugins (via a managed
+    cross-plugin symlink -- see symlinks.json and
+    docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md),
+    so plugin identity must be supplied as data by each caller rather than
+    hardcoded here.
+    """
     return {
-        "plugin": "canonical-knowledge",
+        "plugin": plugin_name,
         "plugin_version": plugin_version,
         "python_version": platform.python_version(),
         "pandoc_version": _probe_version("pandoc"),
@@ -163,6 +171,7 @@ def build_generator_info(plugin_version: str = DEFAULT_PLUGIN_VERSION) -> dict:
 
 def write_generator_info(
     staging_dir: Path,
+    plugin_name: str,
     plugin_version: str = DEFAULT_PLUGIN_VERSION,
     run_timestamp: "str | None" = None,
 ) -> dict:
@@ -180,7 +189,7 @@ def write_generator_info(
     `package.py`/`validate_canonical.py` for deterministic ordering, and
     writes explicit UTF-8 bytes (not platform-default text encoding).
     """
-    record = build_generator_info(plugin_version)
+    record = build_generator_info(plugin_name, plugin_version)
     record["run_timestamp"] = run_timestamp or datetime.now(timezone.utc).isoformat()
     (Path(staging_dir) / "generator-info.json").write_bytes(
         json.dumps(record, indent=2, sort_keys=True).encode("utf-8")

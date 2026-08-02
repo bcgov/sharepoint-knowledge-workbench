@@ -23,7 +23,7 @@ import hashlib
 import json
 from typing import Any
 
-from plan_schema.analysis_plan import ConversionPlan
+from plan_verification_core import compute_plan_id  # noqa: F401
 
 
 def canonical_json_bytes(payload: Any) -> bytes:
@@ -38,23 +38,7 @@ def content_hash(canonical_json: bytes) -> str:
     return hashlib.sha256(canonical_json).hexdigest()
 
 
-def compute_plan_id(plan: ConversionPlan) -> str:
-    """Compute a `sha256:`-prefixed content hash for a ConversionPlan.
-
-    Excludes:
-    - the `plan_id` field itself (it cannot depend on its own value), and
-    - `confirmation.confirmed_at` (a timestamp; per spec, timestamps must
-      not alter content hashes).
-
-    All other fields, including `confirmation.status` and
-    `confirmation.confirmed_by`, participate in the hash.
-    """
-    data = plan.to_dict()
-    data.pop("plan_id", None)
-    confirmation = data.get("confirmation")
-    if isinstance(confirmation, dict):
-        confirmation = dict(confirmation)
-        confirmation.pop("confirmed_at", None)
-        data["confirmation"] = confirmation
-    digest = content_hash(canonical_json_bytes(data))
-    return f"sha256:{digest}"
+# compute_plan_id itself now lives in plan_verification_core.py (the single
+# canonical implementation, also consumed cross-plugin by canonical-knowledge
+# via a managed symlink) -- re-exported above so existing callers
+# (`plans.py`) are unaffected.

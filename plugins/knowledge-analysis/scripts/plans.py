@@ -14,19 +14,14 @@ Function Index:
         Builds a NEW confirmed ConversionPlan from a draft; never mutates
         the draft object passed in.
     - verify_plan_against_source(plan, source_path) -> None
-        Raises PlanVerificationError if the source file on disk right now
-        doesn't match the sha256 recorded in `plan.source` at confirm time.
     - verify_plan_integrity(plan) -> None
-        Raises PlanVerificationError if recomputing plan_id over the
-        plan's current content doesn't match the stored plan_id (detects
-        hand-tampering of a confirmed plan JSON file after it was written).
     - require_confirmed(plan) -> None
-        Raises PlanVerificationError unless confirmation.status ==
-        "confirmed". Lower-level counterpart to cli.py's
-        `_require_confirmed_plan` (which loads from a file path and maps to
-        an exit code); this one operates on an already-loaded
-        ConversionPlan for non-CLI callers (e.g. Task 9's convert pipeline
-        calling directly into plans.py).
+        These three plus `PlanVerificationError` are re-exported here from
+        `plan_verification_core.py` (the single canonical implementation,
+        also consumed cross-plugin by `canonical-knowledge` via a managed
+        symlink) so existing callers of `plans.verify_plan_against_source`
+        etc. are unaffected. See
+        docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md.
 """
 
 import sys
@@ -39,16 +34,17 @@ if str(_THIS_DIR) not in sys.path:
 
 from plan_schema import analysis_plan as contracts  # noqa: E402
 import plan_hashing as hashing  # noqa: E402
+from plan_verification_core import (  # noqa: E402,F401
+    PlanVerificationError,
+    verify_plan_against_source,
+    verify_plan_integrity,
+    require_confirmed,
+)
 
 DEFAULT_CONTENT_TYPE = "manual"
 DEFAULT_TEMPLATE_PROFILE = "source-structure-v1"
 DEFAULT_CONFIRMED_BY = "user-or-supervising-agent"
 
-
-class PlanVerificationError(Exception):
-    """Raised by confirm/verify checks: an unconfirmed plan, a source file
-    that no longer matches its recorded fingerprint, or a confirmed plan
-    whose content was hand-tampered after it was written."""
 
 
 def build_draft_plan(
@@ -219,54 +215,10 @@ def apply_media_decision(
 
 
 # ---------------------------------------------------------------------------
-# Verification (Task 7): used by later convert/run preconditions
+# Verification (Task 7): used by later convert/run preconditions.
+# PlanVerificationError/verify_plan_against_source/verify_plan_integrity/
+# require_confirmed now live in plan_verification_core.py (the single
+# canonical implementation, imported above) -- this used to be their home
+# directly; see the module docstring and
+# docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md.
 # ---------------------------------------------------------------------------
-
-def verify_plan_against_source(plan: "contracts.ConversionPlan", source_path: Path) -> None:
-    """Re-fingerprint the source file as it exists on disk right now and
-    compare its sha256 against `plan.source.sha256` (the fingerprint
-    recorded at confirmation time). Raises PlanVerificationError on any
-    mismatch -- this is how a modified/swapped source file after
-    confirmation gets rejected before a stale plan is used to convert it."""
-    current_sha256 = hashing.content_hash(Path(source_path).read_bytes())
-    if current_sha256 != plan.source.sha256:
-        raise PlanVerificationError(
-            f"source file {source_path} does not match the fingerprint "
-            f"recorded in the plan (expected sha256={plan.source.sha256}, "
-            f"got sha256={current_sha256}); the source was modified after "
-            "confirmation -- re-run analyze/confirm against the current file"
-        )
-
-
-def verify_plan_integrity(plan: "contracts.ConversionPlan") -> None:
-    """Recompute plan_id over the plan's current content (same exclusion
-    rules as hashing.compute_plan_id) and compare against the plan_id
-    field stored on the plan. Raises PlanVerificationError if they don't
-    match -- this detects hand-editing of a confirmed plan JSON file after
-    it was written (e.g. a tampered chunk_anchors entry) while the stored
-    plan_id was left untouched."""
-    recomputed = hashing.compute_plan_id(plan)
-    if recomputed != plan.plan_id:
-        raise PlanVerificationError(
-            f"plan_id mismatch: stored plan_id={plan.plan_id!r} does not "
-            f"match recomputed plan_id={recomputed!r}; the plan content was "
-            "modified after confirmation without regenerating plan_id "
-            "(tampering or manual edit)"
-        )
-
-
-def require_confirmed(plan: "contracts.ConversionPlan") -> None:
-    """Raise PlanVerificationError unless `plan.confirmation.status ==
-    "confirmed"`. Lower-level, file-independent counterpart to
-    `cli.py`'s `_require_confirmed_plan` (which loads a plan from a file
-    path and maps this same check to CLI exit code 4); this version is for
-    callers that already hold a loaded ConversionPlan object directly
-    (e.g. Task 9's convert pipeline) so the "is this plan confirmed" rule
-    has exactly one implementation, not two independently-maintained ones.
-    """
-    if plan.confirmation.status != "confirmed":
-        raise PlanVerificationError(
-            f"plan is not confirmed (confirmation.status="
-            f"{plan.confirmation.status!r}); run the `confirm` command "
-            "first"
-        )

@@ -13,7 +13,7 @@ Fixture heading names are invented placeholders (e.g. "Section Alpha",
 
 import pytest
 
-import chunk_identity as identity
+import identity_core as identity
 from chunking import (
     AmbiguousAnchorError,
     MissingAnchorError,

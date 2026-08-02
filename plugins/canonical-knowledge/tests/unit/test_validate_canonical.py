@@ -22,7 +22,7 @@ import hashing
 import package
 import validate_canonical as vc
 from chunking import ChunkSlice, SlicedDocument
-from chunk_identity import make_chunk_id
+from identity_core import make_chunk_id
 import plan_verification
 
 
@@ -53,7 +53,7 @@ def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked"):
             status="confirmed", confirmed_by="tester", confirmed_at="2026-01-01T00:00:00Z"
         ),
     )
-    plan.plan_id = plan_verification._compute_plan_id(plan)
+    plan.plan_id = plan_verification.compute_plan_id(plan)
     return plan
 
 
@@ -981,7 +981,7 @@ def _plan_with_media_decision(record):
         ),
         media_decisions=[record],
     )
-    plan.plan_id = plan_verification._compute_plan_id(plan)
+    plan.plan_id = plan_verification.compute_plan_id(plan)
     return plan
 
 
@@ -1023,7 +1023,7 @@ def test_no_media_decisions_is_not_blocking():
             status="confirmed", confirmed_by="tester", confirmed_at="2026-01-01T00:00:00Z"
         ),
     )
-    plan.plan_id = plan_verification._compute_plan_id(plan)
+    plan.plan_id = plan_verification.compute_plan_id(plan)
     assert vc._check_media_decisions(plan) == []
 
 

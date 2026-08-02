@@ -1,3 +1,10 @@
+> **Superseded note (2026-08-02, Wave 9):** the "local duplication" approach this doc records
+> below (hand-copying `identity.py`, `topic_grouping.py`, `plans.py`'s verify functions,
+> `pandoc/*`, `emf_convert.py` into this plugin) was replaced with managed cross-plugin
+> file-level symlinks to each producer's canonical source — see
+> `docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md`. The
+> reasoning below is kept as the historical record of the original (superseded) decision.
+
 # Wave 4 — `canonical-knowledge` Extraction and `canonical-package`/`publication-map` Split Decision
 
 **Date:** 2026-08-01

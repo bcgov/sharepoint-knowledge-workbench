@@ -48,7 +48,7 @@ _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
 
-import chunk_identity as identity  # noqa: E402
+import identity_core as identity  # noqa: E402
 from pandoc_cleanup.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
 from pandoc_cleanup.images import fix_glued_images  # noqa: E402
 

@@ -13,7 +13,7 @@ import pytest
 
 from canonical_schema import publication_map as contracts
 import publication_map
-import chunk_grouping as topic_grouping
+import topic_boundary_core as topic_grouping
 
 
 def _boundary(topic_id, title, member_paths):
