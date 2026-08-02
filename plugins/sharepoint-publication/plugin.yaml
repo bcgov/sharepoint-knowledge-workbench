@@ -1,0 +1,10 @@
+name: sharepoint-publication
+version: 0.1.0-alpha.1
+description: "SharePoint tenant publication tooling: packages a rendered publication output, dry-runs the upload plan, and reconciles it against live tenant state. Not yet decomposed to the Phase 4.5 domain-plugin model."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills: []
