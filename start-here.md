@@ -1,282 +1,60 @@
-# Resume — Phase 1–4 Merged; Phase 4.5 COMPLETE (all 8 waves + Wave 9 dedup + naming refactor) — branch not yet merged to main
+# Resume — Phase 1–4.5 Complete; Phase 5 Not Yet Started
 
-> **2026-08-02 naming refactor:** the four core domain plugins and their skills were renamed to
-> plain operational-purpose names (see
-> `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md` for the full
-> old→new mapping): `knowledge-analysis` → `document-structure-analysis`, `canonical-knowledge` →
-> `structured-content-assembly`, `knowledge-publication` → `structured-content-rendering`,
-> `sharepoint-publication` → `sharepoint-content-publication` (still
-> `TRANSITIONAL_HOLDING_LOCATION`). `source-document-extraction` unchanged. All references below
-> this banner that predate 2026-08-02 use the OLD names as a historical record of what was true
-> when each wave executed — do not mechanically rewrite them.
+## Current status (2026-08-02)
 
-> **Phase 4.5 is fully complete as of 2026-08-01.** All 8 waves executed on branch
-> `phase-4-5-core-plugin-refactoring` (human pre-authorized Waves 5-8 execution and per-wave
-> commits in the same session). See
-> `docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md` for the full exit record.
->
-> - **Wave 7:** ✓ COMPLETE, committed (`f6e6521`), pushed. Reassessed all four original skill
->   dispositions using a fresh external-consumer scan (unchanged from Wave 0/1: zero live
->   consumers, all three `.worktrees/` entries still `ORPHANED_BROKEN_WORKTREE`) — concluded
->   RETAIN, not retire, for all four (`cli.py`'s Wave 4/5 compatibility shims are load-bearing
->   until `docx-to-content` itself is decommissioned; no external caller was waiting on removal).
->   No code changed. See `wave-7-compatibility-retirement-record.md`.
-> - **Wave 8:** ✓ COMPLETE. Full removal gate checklist verified (see
->   `wave-8-removal-gate-checklist.md`). A real, unplanned discovery mid-wave: `sharepoint_*.py`
->   (Phase 3's tenant-verified SharePoint publication tooling) was never part of the four-plugin
->   Known File Inventory — flagged to the human before deleting anything; relocated wholesale to a
->   new, explicitly-provisional `plugins/sharepoint-publication/` holding location (20/20 tests
->   pass) rather than lost. Non-contract reference docs with no per-plugin home relocated to
->   `docs/architecture/docx-to-content-legacy-references/`. `plugins/docx-to-content/` then fully
->   removed (`git rm -r`). Fresh-install proof re-run and passing for all four real domain plugins
->   from the final repository state (`extraction`/`analysis`/`canonical_knowledge`/
->   `knowledge_publication`). `CLAUDE.md`/`AGENTS.md`/`GEMINI.md`/`.github/copilot-instructions.md`/
->   `README.md`/`architecture.md` updated to describe the four-plugin architecture as current, not
->   `docx-to-content`. **This plan does not merge the branch to `main`** — that remains a separate,
->   explicit human decision.
->
-> **Next action on resume:** decide whether/when to merge `phase-4-5-core-plugin-refactoring` into
-> `main`, per the Per-Phase Git & Session Workflow in
-> `docs/vision/master-initiative-plan-workstreams-and-phases.md`. Separately, `sharepoint-publication`
-> remains a provisional holding location, not a real Phase-4.5-style domain plugin — a future
-> session should either build it out properly or fold it into a Phase 5+ plan.
+**Phase 4.5 is fully complete**, including Wave 9 (duplication remediation) and the follow-on
+plugin/skill naming refactor. All work lives on branch `phase-4-5-core-plugin-refactoring`,
+**not yet merged to `main`** — merging remains an explicit human decision, per the Per-Phase Git &
+Session Workflow in `docs/vision/master-initiative-plan-workstreams-and-phases.md`.
 
+**Current plugin names** (renamed 2026-08-02 from internal architecture terms to plain
+operational-purpose names — see `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`
+for the full old→new mapping):
+- `source-document-extraction` — DOCX/Pandoc extraction, structural analysis, defect detection.
+- `document-structure-analysis` — topic-boundary reasoning, chunking-strategy recommendation, draft plan construction.
+- `structured-content-assembly` — cleanup, chunking, canonical package build and validation.
+- `structured-content-rendering` — multi-target publication rendering and validation.
+- `sharepoint-content-publication` — SharePoint publication tooling, still `TRANSITIONAL_HOLDING_LOCATION` (not yet a real Phase-4.5-style domain plugin).
 
-> **2026-08-01 update (Waves 4-6, same session, human pre-authorized execution of Waves 5-8 with
-> per-wave commits, direct execution not yet independently reviewed):**
->
-> - **Wave 4 (`canonical-knowledge`):** ✓ COMPLETE, committed (`2a210e6`), pushed. Extracted
->   `convert.py`/`chunking.py`/`package.py`/`canonical_package.py`/`dispositions.py`/
->   `media_disposition.py`/`publication_map.py`/`hashing.py`/`validate_canonical.py`/
->   `atomic_output.py` wholesale, plus the `canonical-package`/`publication-map` contract
->   dataclasses (materialized as `canonical_schema/`). Fixed five real cross-plugin-dependency
->   violations via local duplication (`chunk_identity`/`chunk_grouping`/`pandoc_cleanup`/
->   `plan_verification`/`emf_convert`), including a genuine `cli.py` bug (caught the wrong
->   `PlanVerificationError` class after `convert.py` moved). 173/173 tests, isolated-install proof
->   passed. See `docs/superpowers/plans/phase-4-5-evidence/wave-4-canonical-knowledge-split-decision.md`.
-> - **Wave 5 (`knowledge-publication`):** ✓ COMPLETE, committed (`199343e`), pushed. Extracted
->   `renderers/` (protocol, multipage-markdown renderer, render validator) and the `RenderResult`
->   contract (renamed `render_result.py`; `docx-to-content/scripts/contracts.py` deleted outright,
->   zero remaining local consumers). Duplicated the full consumer-side chain needed to load/validate
->   a canonical package (`canonical_package`/`dispositions`/`hashing`/`publication_map`/
->   `atomic_output`/`path_safety`/`canonical_schema`) locally, since the render pipeline's
->   dependency graph runs deeper than the convert pipeline's did. 49/49 tests, isolated-install
->   proof passed. See `docs/superpowers/plans/phase-4-5-evidence/wave-5-knowledge-publication-split-decision.md`.
-> - **Wave 6 (repository-wide reconciliation):** ✓ COMPLETE. Built
->   `combined_install_check.py` (all four plugin wheels co-installed in one clean venv, zero
->   collisions, each plugin's own suite passes) — caught and fixed a real bug in the harness itself
->   (`build_wheel()`'s alphabetical-last-wheel-in-shared-dir picking logic silently returned the
->   same wheel four times when building into one shared dist dir). Ran the real, non-skipped
->   golden-master proof: the CEIS manual converted through `canonical_knowledge.build_canonical_package`
->   → `knowledge_publication.render` (each stage in its own subprocess — `canonical-knowledge` and
->   `knowledge-publication` share several duplicated bare module names, so both cannot be imported
->   in one long-lived interpreter without a namespace collision; this is an expected architecture
->   boundary, documented in `docs/architecture/phase-4-5-target-architecture.md`) reproduces
->   `runs/ceis-manual-v2/`'s canonical-content and rendered-output trees byte-identically (modulo
->   documented run-specific fields: `generator-info.json`'s timestamp,
->   `render-result.json`'s absolute `output_files` paths). Hashes recorded in
->   `docs/superpowers/plans/phase-4-5-evidence/wave-6-golden-master-manifest.json`. New
->   `tests/integration/test_full_ceis_pipeline_across_plugins.py` executed with zero skips.
->   Not yet committed as of this note — commit immediately after, same session.
->
-> **Combined test totals, end of Wave 6:** `source-document-extraction` 78,
-> `knowledge-analysis` 70, `canonical-knowledge` 173, `knowledge-publication` 49,
-> `docx-to-content` 171 (170 passed/1 skipped), `tools/phase-4-5-core-plugin-refactoring` 42
-> (40 fast + 2 slow), repo-root `tests/integration/` 1 — see
-> `docs/superpowers/plans/phase-4-5-evidence/wave-6-final-test-migration-ledger.md`.
->
-> **Next action on resume: Wave 7** (retire approved compatibility facades — read the plan's Wave
-> 7 section, `docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`,
-> before starting).
+Each of the four core plugins installs and runs standalone (`pip install -e plugins/<name>`), with
+zero editable-source duplication between them — cross-plugin sharing goes through managed
+file-level symlinks (`symlink_manager.py`, `symlinks.json`), verified to dereference into real,
+independent files at wheel-build time. `plugins/docx-to-content/` (the original combined plugin)
+was fully decommissioned in Wave 8.
 
+**Read these first, in this order, for the full evidence trail** (all other wave-by-wave detail
+that used to live in this file has been consolidated into these documents — do not look for it
+here anymore):
+1. `docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md` — the Wave 0-8 exit record.
+2. `docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md` — the
+   post-hoc architecture correction (symlink-based deduplication) and its full verification evidence.
+3. `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md` — the
+   2026-08-02 naming refactor's old→new mapping and verification evidence.
+4. `docs/architecture/phase-4-5-target-architecture.md` — as-built distribution graph (diagram
+   preserved under the pre-rename names as historical record, with a pointer to the current names).
 
-> **Phase 4.5 Status (2026-08-01, end of session):** Executing the approved nine-wave plan
-> (`docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`) on
-> branch `phase-4-5-core-plugin-refactoring`.
->
-> - **Wave 0:** ✓ COMPLETE, reviewed, committed, and pushed (commits `9b14629`, `ae9933a`, `99e4b87`).
-> - **Wave 1:** ✓ COMPLETE, reviewed, committed, and pushed (commit `6ee91b3`, accepted). Its
->   shared-contracts-distribution decision was later corrected — see next bullet.
-> - **⚠️ Two mid-Wave-2 architecture corrections (2026-08-01, same session, human-flagged):**
->   1. **Shared-distribution correction:** Wave 1's approved model — every plugin's
->      `pyproject.toml` depends on a shared, unpublished `knowledge-workbench-contracts` pip
->      distribution (`contracts/python/`) — made standalone plugin installation impossible and
->      conflicted with `.agent/rules/plugin-architecture-policy.md`'s plugin-independence rule.
->      **Corrected:** each contract is materialized inside its *producer* plugin's own package
->      (no shared pip dependency); `contracts/python/` and `runtime/python/` were **deleted
->      entirely** (not just reclassified — zero plugin ever ended up depending on either after the
->      fix). Full record:
->      `docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md`.
->   2. **Flat-`scripts/`-layout correction:** the first fix still nested the plugin's code under
->      `src/source_document_extraction/...` — that nesting was itself corrected in the same session
->      to a **flat `scripts/` directory** (bare module names, e.g. `scripts/extraction.py`; cohesive
->      multi-file families grouped into a subfolder, e.g. `scripts/pandoc/`, `scripts/schema/`),
->      matching `docx-to-content`'s own pre-existing convention exactly. This also surfaced and fixed
->      a real bare-name collision (`contracts/` collided with `docx-to-content/scripts/contracts.py`,
->      an unrelated pre-existing module — renamed to `schema/`) and a self-shadowing bug in
->      `docx-to-content`'s compatibility shim files (deleted entirely rather than rewritten, since
->      `pip install -e`'d `source-document-extraction` now supplies those bare names directly). Full
->      record: `docs/superpowers/plans/phase-4-5-evidence/wave-2-flat-scripts-correction.md`.
->
->   Spec amended (§13d, Revision 4), `wave-1-decisions.json` updated
->   (`shared_contract_decision_approved: false`), plan amended (Waves 2-5 common sequence + Wave 6
->   combined-install script, both correction notices), isolated-install harness rewritten
->   (`isolated_install_check.py` no longer co-installs a contracts wheel; new
->   `check_no_workbench_family_dependency()` static gate; `--import-package extraction`, not a
->   package name). **Read both correction docs before starting Wave 3** — Wave 3's
->   `knowledge-analysis` is the first plugin to implement the consumer side (generated local schema
->   copy) of the corrected contract model, using the flat `scripts/` layout from the start.
-> - **Wave 2:** ✓ COMPLETE, corrected twice, and fully re-verified (this session, direct execution
->   — not yet independently reviewed). `plugins/source-document-extraction/` is a real,
->   **standalone-installable** package with a **flat `scripts/` layout**:
->   ```
->   plugins/source-document-extraction/scripts/
->   ├── extraction.py        # public interface: extract_and_normalize()
->   ├── dependencies.py
->   ├── emf_convert.py
->   ├── heading_parsing.py
->   ├── path_safety.py
->   ├── schema/              # this plugin's own schema for what it produces (was `contracts/` -- renamed, real name collision)
->   │   └── normalized_source_document.py
->   └── pandoc/              # cleanup + validation, one family (was `pandoc_fixes/`; `validate.py` folded in)
->   ```
->   `extract_and_normalize` produces `normalized-source-document` v1, validated against this
->   plugin's own materialized `scripts/schema/normalized_source_document.py` (authoritative — this
->   plugin is the producer) plus `references/contracts/normalized-source-document.md` (symlinked
->   into `skills/extract-docx/references/contracts/` via `symlink_manager.py`). Old
->   `docx-to-content` compatibility shim files (`dependencies.py`, `emf_convert.py`,
->   `pandoc_validate.py`, `path_safety.py`, `pandoc_fixes/*.py`) were **deleted**, not rewritten —
->   `docx-to-content`'s existing bare imports now resolve directly to the installed
->   `source-document-extraction` package. **Plugin Self-Containment Gate passed**:
->   `isolated_install_check.py --plugin source-document-extraction --import-package extraction`,
->   exit 0, real wheel build in a clean venv, **zero other workbench distribution installed or
->   importable**. Dependency-boundary check: zero violations. Test counts:
->   `source-document-extraction` 78/78 passed (isolated, standalone, both editable-install and real
->   wheel-install); `docx-to-content` 452 passed/1 skipped (down from 529/1 — tests relocated, not
->   lost; see `docs/superpowers/plans/phase-4-5-evidence/wave-2-test-migration-ledger.md`);
->   `tools/phase-4-5-core-plugin-refactoring` 40/40 passed. `symlink_manager.py diagnose`: all links
->   OK. **Not yet committed to git as of this note being written — commit immediately after this
->   edit, in the same session.**
-> - **Wave 3 (knowledge-analysis):** ✓ COMPLETE (same session, direct execution — not yet
->   independently reviewed). `plugins/knowledge-analysis/` extracted as a real,
->   **standalone-installable** package with a flat `scripts/` layout from the start:
->   `recommend_from_normalized(normalized_source_document: dict) -> dict` (analysis-plan v1),
->   composing `identity.py`/`topic_grouping.py`/`plans.py` (moved **wholesale**, plus 4 of
->   `contracts.py`'s 15 dataclasses — `SourceFingerprint`/`StructuralAnchor`/`Confirmation`/
->   `ConversionPlan` — materialized as this plugin's own authoritative `plan_schema/analysis_plan.py`,
->   since this plugin is the sole producer of `analysis-plan`). `docx-to-content/scripts/analyze_structure.py`
->   rewritten as a pure compatibility orchestrator: composes the installed `source-document-extraction`
->   + `knowledge-analysis` packages, merges in the still-local `media_disposition.py` proposal
->   (unmoved, `canonical-knowledge` domain), writes both output files. Full decision record + two
->   real bugs found and fixed (a `hashing` bare-name collision with `docx-to-content`'s own
->   `hashing.py` — fixed by naming this plugin's module `plan_hashing.py`; an
->   `analyze_structure.iter_heading_matches` re-export loss that broke `chunking.py` — fixed by
->   importing directly from `heading_parsing`):
->   `docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md`.
->   **Plugin Self-Containment Gate passed**: `isolated_install_check.py --plugin knowledge-analysis
->   --import-package analysis`, exit 0, zero sibling distribution installed or importable.
->   Dependency-boundary check: zero violations. Test counts: `knowledge-analysis` 70/70
->   passed (isolated, standalone); `docx-to-content` 393 passed/1 skipped (down from 452/1 — tests
->   relocated, not lost); `source-document-extraction` unaffected, 78/78;
->   `tools/phase-4-5-core-plugin-refactoring` 40/40 (after fixing a stale test-count threshold in
->   `test_wave0_test_ledger.py`). `symlink_manager.py diagnose`: all 26 links OK. **Not yet
->   committed to git as of this note being written — commit immediately after this edit, in the
->   same session.**
-> - **Wave 4 (canonical-knowledge):** AUTHORIZED TO START IN THE NEXT SESSION. **NOT STARTED.**
->   Consumes `analysis-plan` (confirmed), produces `canonical-package`/`publication-map` via
->   `build_canonical_package`. Known File Inventory assigns it: `validate_canonical.py`,
->   `package.py`, `canonical_package.py`, `chunking.py`, `dispositions.py`, `media_disposition.py`,
->   `identity.py` (**a fresh copy** — Wave 3 already moved the analysis-side copy to
->   `knowledge-analysis`; `chunking.py`'s reconciliation needs its own, since cross-plugin imports
->   are prohibited), `publication_map.py`, `hashing.py` (the REMAINING `docx-to-content` one, for
->   `content_hash`/`canonical_json_bytes` — check for bare-name collisions against
->   `knowledge-analysis`'s `plan_hashing.py` and `source-document-extraction` before naming
->   anything), plus `convert.py`'s canonical-knowledge half and `atomic_output.py` (materialized
->   fresh, not from a shared runtime distribution — see the Wave 2 contract-materialization
->   correction doc). `plans.py`'s `confirm_plan`/`verify_plan_against_source`/`verify_plan_integrity`/
->   `require_confirmed` stayed in `knowledge-analysis` per Wave 3's decision — `canonical-knowledge`
->   consumes a *confirmed* plan dict, it does not need those functions itself; read
->   `wave-3-analysis-plan-split-decision.md` before assuming otherwise. **Grep every other plugin
->   for any bare module/package name before picking one** — both Wave 2 (`contracts`/`schema`) and
->   Wave 3 (`hashing`/`plan_hashing`) hit real collisions from skipping this.
->
-> **Wave 1 accepted decisions (binding for Wave 2 onward):**
-> - `analyze_structure.py` ownership split approved: `source-document-extraction` owns every
->   source-observation function (`_run_pandoc_raw`, heading parsing, statistics, defect
->   detection); `knowledge-analysis` owns only semantic interpretation (topic-boundary reasoning,
->   `recommend_strategy`). See `docs/superpowers/plans/phase-4-5-evidence/wave-1-analyze-structure-split-decision.md`.
-> - `cli.py::cmd_analyze` remains the compatibility orchestrator (not `analyze_structure.py::analyze_document`).
-> - `knowledge-workbench-contracts` (`contracts/python/`) remains contract/schema-only — no
->   executable runtime logic ever goes here.
-> - `knowledge-workbench-runtime` (`runtime/python/`) owns approved shared runtime primitives —
->   currently only `atomic_output.py`'s `create_staging_dir`/`promote`. Explicitly **not** a
->   general-purpose shared-utility dumping ground; adding anything else requires the same kind of
->   explicit human decision this got. See spec §13c.
-> - `orchestrate-conversion` remains `RETAINED_PUBLIC_ORCHESTRATOR` — the public workflow
->   orchestrator, not retired in Wave 6 as the plan's original example proposed.
-> - `analyze-document`, `convert-document`, `render-content` remain `TEMPORARY_COMPATIBILITY_WRAPPER`.
-> - **All four original skills (including `orchestrate-conversion`) are reassessed in Wave 7**
->   using the final consumer scan — none pre-approved for removal.
-> - Five dependency edges remain genuinely unresolved for later boundary decisions (`package.py ->
->   topic_grouping.py`, `topic_grouping.py -> identity.py`, `renderers/protocol.py ->
->   canonical_package.py`, `renderers/validate_rendered.py -> path_safety.py`,
->   `validate_canonical.py -> pandoc_validate.py`) — see `wave-0-classified-edges.json`.
-> - **No plugin extraction has started.** `plugins/docx-to-content/` is still the only running
->   plugin.
->
-> **Current test baseline (end of Wave 1):**
-> - Contracts distribution (`contracts/python/`): 21 passed
-> - Runtime distribution (`runtime/python/`): 5 passed
-> - Phase 4.5 tooling (`tools/phase-4-5-core-plugin-refactoring/`): 38 passed, 1 slow test passed
-> - Existing `docx-to-content` suite: 529 passed, 1 skipped (unchanged by Waves 0–1)
->
-> **`origin/main` currency:** ✓ `phase-4-5-planning` was merged to `main` via PR #11 (`8a7b977`) and
-> the Phase 4 exit-gate reconciliation merged via PR #12 (`98c1943`). Waves 0–1 live only on
-> `phase-4-5-core-plugin-refactoring` (not yet merged to `main` — merge is not authorized until the
-> full plan's exit gate, per the plan's own git workflow).
->
-> **Registered-worktree note:** `git worktree list` shows only the current checkout as registered.
-> The three `.worktrees/phase-4-native-sharepoint-skills/`, `.worktrees/phase-3-governed-sharepoint-pilot/`,
-> `.worktrees/phase-3-0-tenant-capability-discovery/` directories found on disk are classified
-> `ORPHANED_BROKEN_WORKTREE` (Wave 0 Step 7 evidence — stale `.git` pointers to this repo's
-> pre-rename path). **Do not delete, repair, or touch them** — out of scope until Wave 7 Step 1's
-> re-classification.
->
-> **Next actions (start of next session):**
-> 1. Start a fresh session, read this file in full.
-> 2. **Before writing any Wave 2 code**, read
->    `docs/superpowers/plans/2026-08-01-phase-4-5-core-knowledge-plugin-domain-refactoring.md`'s
->    "Waves 2-5 — Extract Each Plugin as a Real Installable Package" section in full — the 11-step
->    common sequence (scaffold → fixture generation → failing test → move/adapt code → ledger
->    migration → compatibility shim → skill/README → dependency-boundary check → isolated-install
->    gate → commit) and Wave 2's specific row in that section's Public Interface Contract table
->    (`extract_and_normalize`, consumes nothing, produces `normalized-source-document`). The
->    decisions summarized above are what to build; that section is how — do not improvise the
->    mechanics from the summary alone.
-> 3. Begin Wave 2 (`plugins/source-document-extraction/`) per that plan section and the Wave
->    1-approved decisions above: extract DOCX/Pandoc source handling and the Wave 1-approved
->    source-observation functions; produce the `normalized-source-document` contract; prove wheel
->    build, isolated installation, public import, and independent tests; maintain the existing 529
->    passed/1 skipped baseline; preserve byte-identical accepted output.
-> 4. Do not begin Wave 2 work retroactively tonight — this session stopped deliberately at the
->    Wave 1 checkpoint with no Wave 2 files created.
+Historical wave-by-wave narrative (what was decided and why, using the plugin names in effect at
+the time each wave executed) lives in `docs/superpowers/plans/phase-4-5-evidence/wave-0-*` through
+`wave-9-*`. Those files are the authoritative historical record and are deliberately not rewritten
+for the naming refactor — only the three most-recently-active ones carry a banner pointing to the
+migration map.
 
-> **Phase 4 Status (2026-08-01):** ✓ COMPLETE & MERGED. Tasks 0–12 executed and merged to `main` via PR #9 (commit `e66fe02`); exit-gate evidence reconciled against real per-task reports (see Phase 4.5 note above).
-> - Tasks 0–7.5: Accepted (entry gate, vendor evaluation, deployment prep, normal-case eval)
-> - Task 8: Scope drift reconciled; native skill deployed & verified (hash 9586379f...)
-> - Task 9: Metadata visibility probe passed (7/7 fields, full structured access)
-> - Task 10: Permission evaluation waived (licensing blocker; SharePoint security understood)
-> - Task 11: Safety evaluation passed (12/12 tests, zero blocking issues)
-> - Task 12: Rollback exercise complete (restoration verified) — see `EVID-PHASE4-TASK12-ROLLBACK-COMPLETION.md`
->
-> **Exit Gate Verdict:** ✓ ACCEPTED — Phase 4 exit criteria satisfied (reconciled 2026-08-01, see above)
-> **Phase 4 merge:** Merged to main (commit 395c49f in the branch history; PR #9 merge commit `e66fe02` on `main`)
-> **Test results:** Phase 4 (49 passed), docx-to-content plugin (529 passed, 1 skipped)
-> **Research preserved:** All Phase 5 candidate scripts and learnings retained
-> **Phase 5 authorization:** AUTHORIZED pending Phase 4.5 execution (Phase 4.5 is now planned and spec/plan-approved, not yet executed — see above)
->
-> **Phase 3 Exit Gate Status (2026-07-30):** COMPLETE & MERGED.
-> All 6 tasks of `docs/superpowers/plans/2026-07-30-phase-3-governed-sharepoint-knowledge-pilot.md` executed. Pure-Python tooling (`sharepoint_package.py`, `sharepoint_dry_run.py`, `sharepoint_reconcile.py`, `sharepoint_cli.py`) built under TDD (529 tests passing). Automated PnP.PowerShell script (`run-phase3-tenant-pilot.ps1`) executed against live SharePoint tenant site `AG-CSB-intranet-dev`, publishing all 25 CEIS topic pages and 319 media files directly into dedicated Document Library `CEISPilotKnowledge/` as formatted HTML with custom metadata (`TopicId`, `PackageIdentity`, `PublicationOrder`, `TopicContentSHA256`, `SourceDocumentSHA256`). Reconciliation against `actual-state.csv` verified **100% MATCH** with zero issues (`package_identity: sha256:041e1186...`).
+**Next action on resume:** decide whether/when to merge `phase-4-5-core-plugin-refactoring` into
+`main`. Separately, `sharepoint-content-publication` remains a provisional holding location — a
+future session should either build it out as a real domain plugin or fold its scope into a Phase 5+
+plan.
+
+## Phase 5 readiness (not started — do not begin planning here)
+
+Per `docs/vision/master-initiative-plan-workstreams-and-phases.md`, Phase 5 ("SharePoint Knowledge
+Agent Pilot") is disposition **RESEARCH**, gated behind **Phase 3** (not unconditionally Phase 4):
+its entry gate is Phase 3's governed knowledge library existing and populated, plus Phase 3.0
+confirming agent-creation permissions. Phase 4/4.5 is a prerequisite only if the specific agent
+scenario invokes a native skill — otherwise Phase 4/4.5 and Phase 5 may run as parallel sibling
+pilots. Phase 3's exit gate is complete (see the Phase 3 status section below); Phase 4.5 is now
+also complete, so both conditions for a Phase 5 pilot are in place. Starting Phase 5 planning
+itself requires the project's Mandatory Planning Protocol (brainstorming skill before entering plan
+mode) in its own session — do not begin that work from this file.
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
