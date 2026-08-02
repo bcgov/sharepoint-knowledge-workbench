@@ -14,7 +14,7 @@ the whole suite over a missing system dependency), but non-conversion
 behavior (empty dir, no legacy media present) is always exercised.
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_emf_convert.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_emf_convert.py -v
 """
 
 import shutil

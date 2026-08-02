@@ -1,7 +1,11 @@
 # Phase 4.5 Target Architecture
 
-**Date:** 2026-08-01 (updated end of Wave 6)
-**Status:** Reflects the AS-BUILT architecture after Waves 1-6. The original Wave 1 model
+**Date:** 2026-08-01 (updated end of Wave 8 — Phase 4.5 complete)
+**Status:** Reflects the AS-BUILT architecture after all 8 waves. `plugins/docx-to-content/`
+(described below as "transitional, retained through Wave 7/8") has now been removed — see
+`docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md`. The distribution graph
+below is kept as a historical record of the transition period; the four domain plugins at the top
+remain current. The original Wave 1 model
 described a shared `knowledge_workbench_contracts`/`knowledge_workbench_runtime` distribution
 pair — that model was corrected mid-Wave-2 (see `wave-2-contract-materialization-correction.md`
 and `wave-2-flat-scripts-correction.md`) and no longer reflects reality. **No shared contracts or

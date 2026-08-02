@@ -10,7 +10,7 @@ visible text in GitHub/VS Code/standard markdown viewers:
   - bracketed span attrs: [text]{.underline}, [text]{.mark}
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_attrs.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_attrs.py -v
 """
 
 from pandoc.attrs import strip_pandoc_attrs

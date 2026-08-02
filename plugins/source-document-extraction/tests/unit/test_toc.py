@@ -10,7 +10,7 @@ repeated many times), often preceded by a bookmark anchor, that pandoc
 converts literally instead of as real document structure.
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_toc.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_toc.py -v
 """
 
 from pandoc.toc import strip_raw_toc

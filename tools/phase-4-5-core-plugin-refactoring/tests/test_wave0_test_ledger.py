@@ -1,11 +1,21 @@
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from wave0_test_ledger import build_test_ledger
 
+_SKIP_REASON = (
+    "plugins/docx-to-content was removed in Phase 4.5 Wave 8 (see "
+    "docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md). Kept as a "
+    "historical record, not re-targeted -- build_test_ledger's own logic is still exercised "
+    "by the tmp_path-based tests below."
+)
 
+
+@pytest.mark.skip(reason=_SKIP_REASON)
 def test_build_test_ledger_lists_real_test_functions():
     plugin_root = Path(__file__).resolve().parents[3] / "plugins" / "docx-to-content"
     ledger = build_test_ledger(plugin_root)
@@ -38,6 +48,7 @@ def test_build_test_ledger_does_not_double_count_class_methods(tmp_path):
     assert names == {"TestFoo::test_one", "TestFoo::test_two"}
 
 
+@pytest.mark.skip(reason=_SKIP_REASON)
 def test_build_test_ledger_matches_pytest_collected_count_on_real_repo():
     plugin_root = Path(__file__).resolve().parents[3] / "plugins" / "docx-to-content"
     ledger = build_test_ledger(plugin_root)
