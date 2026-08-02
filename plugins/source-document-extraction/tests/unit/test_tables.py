@@ -9,7 +9,7 @@ malformed header separator rows (must exist and match the header column
 count).
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_tables.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_tables.py -v
 """
 
 from pandoc.tables import fix_malformed_tables

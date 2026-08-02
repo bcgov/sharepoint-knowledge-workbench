@@ -1,4 +1,36 @@
-# Resume — Phase 1–4 Merged; Phase 4.5 Waves 0–6 COMPLETE; Wave 7 authorized, not started
+# Resume — Phase 1–4 Merged; Phase 4.5 COMPLETE (all 8 waves) — branch not yet merged to main
+
+> **Phase 4.5 is fully complete as of 2026-08-01.** All 8 waves executed on branch
+> `phase-4-5-core-plugin-refactoring` (human pre-authorized Waves 5-8 execution and per-wave
+> commits in the same session). See
+> `docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md` for the full exit record.
+>
+> - **Wave 7:** ✓ COMPLETE, committed (`f6e6521`), pushed. Reassessed all four original skill
+>   dispositions using a fresh external-consumer scan (unchanged from Wave 0/1: zero live
+>   consumers, all three `.worktrees/` entries still `ORPHANED_BROKEN_WORKTREE`) — concluded
+>   RETAIN, not retire, for all four (`cli.py`'s Wave 4/5 compatibility shims are load-bearing
+>   until `docx-to-content` itself is decommissioned; no external caller was waiting on removal).
+>   No code changed. See `wave-7-compatibility-retirement-record.md`.
+> - **Wave 8:** ✓ COMPLETE. Full removal gate checklist verified (see
+>   `wave-8-removal-gate-checklist.md`). A real, unplanned discovery mid-wave: `sharepoint_*.py`
+>   (Phase 3's tenant-verified SharePoint publication tooling) was never part of the four-plugin
+>   Known File Inventory — flagged to the human before deleting anything; relocated wholesale to a
+>   new, explicitly-provisional `plugins/sharepoint-publication/` holding location (20/20 tests
+>   pass) rather than lost. Non-contract reference docs with no per-plugin home relocated to
+>   `docs/architecture/docx-to-content-legacy-references/`. `plugins/docx-to-content/` then fully
+>   removed (`git rm -r`). Fresh-install proof re-run and passing for all four real domain plugins
+>   from the final repository state (`extraction`/`analysis`/`canonical_knowledge`/
+>   `knowledge_publication`). `CLAUDE.md`/`AGENTS.md`/`GEMINI.md`/`.github/copilot-instructions.md`/
+>   `README.md`/`architecture.md` updated to describe the four-plugin architecture as current, not
+>   `docx-to-content`. **This plan does not merge the branch to `main`** — that remains a separate,
+>   explicit human decision.
+>
+> **Next action on resume:** decide whether/when to merge `phase-4-5-core-plugin-refactoring` into
+> `main`, per the Per-Phase Git & Session Workflow in
+> `docs/vision/master-initiative-plan-workstreams-and-phases.md`. Separately, `sharepoint-publication`
+> remains a provisional holding location, not a real Phase-4.5-style domain plugin — a future
+> session should either build it out properly or fold it into a Phase 5+ plan.
+
 
 > **2026-08-01 update (Waves 4-6, same session, human pre-authorized execution of Waves 5-8 with
 > per-wave commits, direct execution not yet independently reviewed):**

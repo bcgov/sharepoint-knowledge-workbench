@@ -10,7 +10,7 @@ in text with no matching `[^1]: definition` anywhere in the document, or a
 matching reference AND definition must never be touched.
 
 Usage:
-    pytest plugins/docx-to-content/tests/unit/test_footnotes.py -v
+    pytest plugins/source-document-extraction/tests/unit/test_footnotes.py -v
 """
 
 from pandoc.footnotes import clean_orphaned_footnotes

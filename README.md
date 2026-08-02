@@ -19,7 +19,7 @@ Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx
                                |     Legacy Intake (.docx)   |
                                +-----------------------------+
                                               |
-                                              v  plugins/docx-to-content
+                                              v  plugins/ (4 domain plugins)
                                +-----------------------------+
                                |   Analysis & Cleanup Plan   |
                                +-----------------------------+
@@ -83,10 +83,11 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
 
 ## 🛠️ Active Implementation & Tools
 
-- **Core Conversion Plugin**: `plugins/docx-to-content/`
-  - `analyze-document` — Structural analysis & proposed plan preview.
-  - `convert-document` — Pandoc AST postprocessing, chunking, and canonical package build.
-  - `render-content` — Dual-target publication rendering & validation.
+- **Core Conversion Plugins** (Phase 4.5, `plugins/`): four independently-installable domain plugins
+  - `source-document-extraction` — Structural analysis, defect detection, normalized-source-document extraction.
+  - `knowledge-analysis` — Topic-boundary reasoning, chunking-strategy recommendation, draft conversion-plan construction.
+  - `canonical-knowledge` — Pandoc AST postprocessing, chunking, canonical package build and validation.
+  - `knowledge-publication` — Multi-target publication rendering & validation.
 - **Intake & Runs**:
   - `intake/` — Source `.docx` input files (CEIS Manual pilot).
   - `runs/ceis-manual-v2/` — Current authoritative, fully validated conversion run.
