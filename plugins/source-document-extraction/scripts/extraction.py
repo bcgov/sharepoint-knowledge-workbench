@@ -5,8 +5,8 @@ extraction.py
 Public interface for the `source-document-extraction` plugin: runs pandoc
 once against a real source `.docx` and produces a `normalized-source-document`
 v1 dict, validated against this plugin's own `schema.normalized_source_document`
-module. This plugin is the sole producer of that contract; canonical-knowledge
-and knowledge-publication never import this module directly -- they consume
+module. This plugin is the sole producer of that contract; structured-content-assembly
+and structured-content-rendering never import this module directly -- they consume
 the dict this function returns.
 """
 
@@ -65,7 +65,7 @@ def extract_and_normalize(source: Path, output_dir: Path) -> dict:
     `normalized-source-document` v1 dict: raw markdown text, media file
     list, source content hash, and the source-level observations
     (heading structure, statistics, defect signals) that
-    `knowledge-analysis` consumes without re-parsing.
+    `document-structure-analysis` consumes without re-parsing.
 
     Raises FileNotFoundError if `source` does not exist, and
     `dependencies.MissingDependencyError` if `pandoc` is not on PATH.

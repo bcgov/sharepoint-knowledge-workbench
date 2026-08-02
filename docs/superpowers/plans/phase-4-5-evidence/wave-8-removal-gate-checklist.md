@@ -1,5 +1,11 @@
 # Wave 8 — Removal Gate Checklist
 
+> **2026-08-02 naming-refactor note:** plugin names below (`knowledge-analysis`,
+> `canonical-knowledge`, `knowledge-publication`, `sharepoint-publication`) were renamed the same
+> day this checklist's remediation follow-up ran — see
+> `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`. Preserved
+> unmodified as the historical record.
+
 **Date:** 2026-08-01
 
 - [x] `wave-6-final-test-migration-ledger.md` / fixture ledger: zero unresolved entries.

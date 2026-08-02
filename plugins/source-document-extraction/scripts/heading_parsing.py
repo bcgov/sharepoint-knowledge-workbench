@@ -7,7 +7,7 @@ produces a source-level *observation* (heading structure, statistics,
 defect signals) from already-extracted pandoc markdown text, regardless of
 whether it touches `pandoc` directly. Semantic interpretation of these
 observations (topic boundaries, strategy recommendation) is
-`knowledge-analysis`'s responsibility, not this module's.
+`document-structure-analysis`'s responsibility, not this module's.
 
 Function Index:
     - parse_headings(markdown_text) -> list[dict]
@@ -40,7 +40,7 @@ def _normalize_heading_text(text: str) -> str:
 
     Structural anchor identity is computed from heading path text both at
     analysis time (this module, against RAW pandoc extraction) and at
-    reconciliation time (canonical-knowledge's chunking, against the
+    reconciliation time (structured-content-assembly's chunking, against the
     CLEANED document, after the cleanup pipeline has already run). If
     analysis computed identity from raw, un-normalized text while
     reconciliation recomputed it from normalized text, the two would never

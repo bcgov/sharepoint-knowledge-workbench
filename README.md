@@ -85,9 +85,9 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
 
 - **Core Conversion Plugins** (Phase 4.5, `plugins/`): four independently-installable domain plugins
   - `source-document-extraction` — Structural analysis, defect detection, normalized-source-document extraction.
-  - `knowledge-analysis` — Topic-boundary reasoning, chunking-strategy recommendation, draft conversion-plan construction.
-  - `canonical-knowledge` — Pandoc AST postprocessing, chunking, canonical package build and validation.
-  - `knowledge-publication` — Multi-target publication rendering & validation.
+  - `document-structure-analysis` — Topic-boundary reasoning, chunking-strategy recommendation, draft conversion-plan construction.
+  - `structured-content-assembly` — Pandoc AST postprocessing, chunking, canonical package build and validation.
+  - `structured-content-rendering` — Multi-target publication rendering & validation.
 - **Intake & Runs**:
   - `intake/` — Source `.docx` input files (CEIS Manual pilot).
   - `runs/ceis-manual-v2/` — Current authoritative, fully validated conversion run.

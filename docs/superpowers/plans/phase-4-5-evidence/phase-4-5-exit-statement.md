@@ -1,8 +1,33 @@
 # Phase 4.5 Exit Statement
 
-**Date:** 2026-08-01
+**Date:** 2026-08-01 (updated 2026-08-02, Wave 9 — see below; updated again 2026-08-02 for the
+naming refactor — see next note)
 **Branch:** `phase-4-5-core-plugin-refactoring` (not merged to `main` by this plan — merge is a
 separate, explicit human decision).
+
+> **2026-08-02 naming-refactor note:** `knowledge-analysis`, `canonical-knowledge`,
+> `knowledge-publication`, and `sharepoint-publication` (all named below) were renamed to
+> `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`,
+> and `sharepoint-content-publication` respectively — see
+> `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`. This document's
+> body below is preserved as the historical record of Wave 1-8's execution and uses the OLD names
+> throughout, accurately describing what was true when those waves ran.
+
+> **2026-08-02 update:** human review of the merged Wave 1-8 result found real hand-maintained
+> editable-source duplication across `canonical-knowledge`/`knowledge-publication` that this
+> statement's original text below did not adequately flag as a defect. A follow-up remediation
+> (Wave 9) replaced every true duplicate family with managed cross-plugin file-level symlinks
+> (source-document-extraction/knowledge-analysis own the canonical files; canonical-knowledge/
+> knowledge-publication consume them via `symlink_manager.py`, recorded in `symlinks.json`) and
+> extracted the three subset-reimplementation families (`identity`/`chunk_identity`,
+> `topic_grouping`/`chunk_grouping`, `plans`/`plan_verification`) into granular canonical modules
+> (`identity_core.py`, `topic_boundary_core.py`, `plan_verification_core.py`) also consumed via
+> managed symlink. Zero hand-maintained editable-source duplicates remain. See
+> `docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md` for the
+> full before/after audit and verification evidence. The original "Phase 4.5 is complete"
+> statement below was premature in exactly the way that review identified — passing tests and
+> passing wave gates do not by themselves prove the architecture matches the intended
+> zero-hand-duplication model.
 
 The former combined `plugins/docx-to-content/` implementation has been decomposed into four
 independently installable, independently testable, domain-scoped plugins
@@ -30,7 +55,9 @@ is complete.**
    same session; see `wave-2-flat-scripts-correction.md`.
 3. Real cross-plugin-dependency violations found and fixed at Waves 4/5 via local duplication
    (never a shared distribution) — see `wave-4-canonical-knowledge-split-decision.md` and
-   `wave-5-knowledge-publication-split-decision.md`.
+   `wave-5-knowledge-publication-split-decision.md`. **Superseded in Wave 9**: local
+   hand-duplication was itself replaced with managed cross-plugin file-level symlinks — see the
+   2026-08-02 update above and `wave-9-duplication-remediation-report.md`.
 4. A real bug in `combined_install_check.py` itself (Wave 6) — `build_wheel()`'s
    alphabetical-last-wheel-in-shared-directory selection silently returned the same wheel four
    times — found and fixed before the combined-install gate could be trusted.

@@ -1,3 +1,11 @@
+> **Superseded note (2026-08-02, Wave 9):** the "local duplication" approach this doc records
+> below (hand-copying `canonical_package.py`, `dispositions.py`, `hashing.py`,
+> `publication_map.py`, `atomic_output.py`, `path_safety.py`, `canonical_schema/*` into this
+> plugin) was replaced with managed cross-plugin file-level symlinks to `canonical-knowledge`'s
+> and `source-document-extraction`'s canonical source — see
+> `docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md`. The
+> reasoning below is kept as the historical record of the original (superseded) decision.
+
 # Wave 5 — `knowledge-publication` Extraction and `rendered-output-profile` Split Decision
 
 **Date:** 2026-08-01
