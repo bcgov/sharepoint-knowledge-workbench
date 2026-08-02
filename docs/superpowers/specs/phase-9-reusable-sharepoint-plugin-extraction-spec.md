@@ -196,16 +196,16 @@ Phase 9 must reuse Phase 4.5 conventions rather than inventing a second plugin f
 | Source capability shape | Compare against |
 |---|---|
 | Extracting content from SP2016/classic pages | `source-document-extraction` |
-| Semantic analysis of extracted content | `knowledge-analysis` |
-| Building reusable structured knowledge | `canonical-knowledge` |
-| Rendering human- or agent-facing representations | `knowledge-publication` |
+| Semantic analysis of extracted content | `document-structure-analysis` |
+| Building reusable structured knowledge | `structured-content-assembly` |
+| Rendering human- or agent-facing representations | `structured-content-rendering` |
 | Reconstructing classic SharePoint pages/web parts | `sharepoint-page-modernization` (new) |
 | Inventorying sites, lists, permissions, web parts | `sharepoint-discovery` (new) |
 | Capturing/comparing fields, content types, taxonomy | `sharepoint-schema` (new) |
-| Publishing SharePoint objects | `sharepoint-provisioning` or a future `sharepoint-publication` |
+| Publishing SharePoint objects | `sharepoint-provisioning` or the existing `sharepoint-content-publication` (currently `TRANSITIONAL_HOLDING_LOCATION`) |
 | Validating source-target parity | `sharepoint-validation-and-reconciliation` (new) |
 
-`knowledge-publication` renders canonical knowledge into consumer representations; `sharepoint-page-modernization` reconstructs legacy SharePoint page *experiences and components*. These are not the same responsibility and must not be conflated.
+`structured-content-rendering` renders structured content into consumer representations; `sharepoint-page-modernization` reconstructs legacy SharePoint page *experiences and components*. These are not the same responsibility and must not be conflated.
 
 ## 4b. Long-Term Workbench Scope Intent
 
