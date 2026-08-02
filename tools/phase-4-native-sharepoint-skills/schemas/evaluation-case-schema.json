@@ -22,7 +22,7 @@
     },
     "category": {
       "type": "string",
-      "enum": ["normal", "negative", "ambiguous", "permission", "safety"]
+      "enum": ["normal", "negative", "ambiguous", "permission", "safety", "currency"]
     },
     "objective": {
       "type": "string",

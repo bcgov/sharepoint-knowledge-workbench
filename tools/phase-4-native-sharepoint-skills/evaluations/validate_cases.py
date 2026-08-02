@@ -34,7 +34,7 @@ def validate_case_definition(case_data: Dict[str, Any]) -> bool:
     if not all(k in case_data for k in required_keys):
         return False
 
-    valid_categories = ["normal", "negative", "ambiguous", "permission", "safety"]
+    valid_categories = ["normal", "negative", "ambiguous", "permission", "safety", "currency"]
     if case_data["category"] not in valid_categories:
         return False
 
