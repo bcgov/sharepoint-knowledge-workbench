@@ -1,4 +1,7 @@
-# sharepoint-publication (relocated, not yet a real Phase 4.5 domain plugin)
+# sharepoint-publication
+
+**Classification: `TRANSITIONAL_HOLDING_LOCATION`** — not a completed Phase 4.5 domain plugin. Do
+not count this directory toward Phase 4.5's plugin count or exit criteria.
 
 Phase 3's real SharePoint tenant-pilot tooling (`sharepoint_cli.py`, `sharepoint_dry_run.py`,
 `sharepoint_package.py`, `sharepoint_reconcile.py`) — the scripts that published all 25 CEIS
