@@ -1,7 +1,15 @@
 # AI-Assisted SharePoint Knowledge Workbench — Government Structured Knowledge, Governance, and Insight Vision
 
 **Status:** Future-state architecture and capability backlog  
-**Relationship to Phase 1:** This document extends the `docx-to-content` proof of concept. It does not authorize expansion of the current Phase 1 implementation or bypass its acceptance gates.
+**Relationship to Phase 1:** This document extends the `docx-to-content` proof of concept (historically accurate description of Phase 1 as it ran — see the naming-reconciliation note below for what exists now). It does not authorize expansion of the current Phase 1 implementation or bypass its acceptance gates.
+
+> **Naming reconciliation note (added 2026-08-02):** `docx-to-content` was decommissioned
+> 2026-08-01 (Phase 4.5 Wave 8), decomposed into `source-document-extraction`,
+> `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`.
+> This document's proposed `sharepoint-knowledge-governance-agent` has no plugin home yet — see
+> `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`'s own naming-
+> reconciliation note (near its top) for the full current-vs-proposed plugin mapping before citing
+> any plugin/agent name from this document as settled.
 
 ## 1. Purpose
 

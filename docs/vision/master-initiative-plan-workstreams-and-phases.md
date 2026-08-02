@@ -1017,7 +1017,7 @@ asserted completeness without demonstrating it.
 | Apply-content-outline capability | Phase 4, Subphase 4.1 (candidate list) | RESEARCH | same as quiz generation | — | same |
 | SharePoint agent grounding | Phase 5 | RESEARCH | Phase 3 library exists; Phase 3.0 confirms agent-creation permissions | Stage 5.1.1's grounding-source record | gated on 3/3.0, NOT unconditionally on Phase 4 (corrected dependency) |
 | Permission-aware / stale-content agent behavior | Phase 5, Subphase 5.2 | RESEARCH | Phase 5 entry gate | Stage 5.2.1/5.2.2 test transcripts | — |
-| GitHub/Claude skills (existing `docx-to-content` skills) | Phase 1/2 | DONE/NOW | — | existing skill files | — |
+| GitHub/Claude skills (existing skills, originally under `docx-to-content`, decomposed 2026-08-01 into `source-document-extraction`/`document-structure-analysis`/`structured-content-assembly`/`structured-content-rendering` — see `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`) | Phase 1/2/4.5 | DONE/NOW | — | existing skill files | — |
 | Common capability definitions across runtimes | Phase 6 | LATER | ≥2 real runtimes | Stage 6.1.3's intent-preservation check | no second runtime exists yet |
 | Cowork | Phase 7 | RESEARCH | concrete use case + owner | Stage 7.2.2's build/no-build decision | no owner/use case yet — NOT a scope rejection |
 | Copilot Studio | Phase 7 | RESEARCH | concrete use case + owner | Stage 7.2.2's build/no-build decision | same |
@@ -1038,7 +1038,13 @@ asserted completeness without demonstrating it.
 ## Global Gating Rules (carried from architecture review, unchanged)
 
 - Repository rename: **deferred**, not rejected — low-urgency, revisit anytime.
-- No new plugins beyond `docx-to-content` until Phase 3 justifies `sharepoint-knowledge`.
+- No new plugins beyond the four Phase 4.5 core plugins (successors to `docx-to-content`, decommissioned
+  2026-08-01) until Phase 3/4.5 evidence justifies the next one — **note (2026-08-02): `sharepoint-content-publication`
+  already exists as a `TRANSITIONAL_HOLDING_LOCATION` (see `CLAUDE.md`), and `docs/vision/
+  ai-assisted-structured-knowledge-workbench-broader-plan.md` separately proposes a `sharepoint-knowledge`
+  plugin (native-skills/agents/deployment skill groups) that has NOT been created — do not assume either
+  name is settled without checking both documents; this line itself needs reconciliation with that
+  proposal, not treated as superseding it.
 - **No new general-purpose routing/orchestration agent** (e.g. a `knowledge-workbench-agent` that decides
   which plugin/journey to invoke) **until ≥2 plugins with ≥2 distinct user journeys exist.** This is
   distinct from Phase 5's bounded knowledge-agent pilot (round-5 clarification, GPT 5.6): a single,

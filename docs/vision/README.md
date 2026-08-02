@@ -23,6 +23,14 @@ Phase 1 pilot:
 CEIS Manual
 ```
 
+**Naming reconciliation (added 2026-08-02):** the repository was renamed, but to
+`sharepoint-knowledge-workbench`, not the `structured-knowledge-workbench` recommended above.
+`docx-to-content` was decommissioned 2026-08-01 (Phase 4.5 Wave 8) and decomposed into four real
+plugins (`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`,
+`structured-content-rendering`). See the fuller naming-reconciliation note in
+`ai-assisted-structured-knowledge-workbench-broader-plan.md` (near its top) before treating any
+plugin name in this directory's documents as current.
+
 The initiative name is intentionally broader than SharePoint. SharePoint is a major operational platform and deployment target, but the workbench also covers canonical content, publication assembly, validation, GitHub Copilot skills, Cowork packaging, Copilot Studio integration, evaluation, and generated outputs.
 
 ## Directory Purpose
