@@ -11,9 +11,9 @@ from combined_install_check import PLUGINS, check_combined_install
 def test_plugins_tuple_matches_the_four_domain_plugins():
     assert set(PLUGINS) == {
         "source-document-extraction",
-        "knowledge-analysis",
-        "canonical-knowledge",
-        "knowledge-publication",
+        "document-structure-analysis",
+        "structured-content-assembly",
+        "structured-content-rendering",
     }
 
 

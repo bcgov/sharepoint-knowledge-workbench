@@ -64,7 +64,7 @@ see the master plan's own detail-level discipline before assuming any phase beyo
 implement.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
-`source-document-extraction`, `knowledge-analysis`, `canonical-knowledge`, `knowledge-publication`
+`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`
 (built from scratch under TDD, see
 `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md`,
 `docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md`, and their
@@ -87,8 +87,8 @@ per task, push each completed task commit to `origin/<feature-branch>`, and merg
 `superpowers:executing-plans`, TDD throughout.
 
 **Phase 4.5 (complete):** `plugins/docx-to-content/` was decomposed into 4 active domain plugins:
-`source-document-extraction`, `knowledge-analysis`, `canonical-knowledge`, and
-`knowledge-publication` (`knowledge-templates` and `sharepoint-publication` remain deferred until
+`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, and
+`structured-content-rendering` (`knowledge-templates` and `sharepoint-content-publication` remain deferred until
 working capabilities exist) — see
 `docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md`.
 
@@ -129,7 +129,7 @@ Wave 6 (see `docs/superpowers/plans/phase-4-5-evidence/wave-6-golden-master-mani
 not treat `runs/ceis-manual/` as current or authoritative; it is retained for comparison only.
 
 - Legacy `.emf` images (older Word documents can contain these) do not render in browsers/GitHub/most markdown viewers. `source-document-extraction`'s cleanup step converts them to `.png` via LibreOffice (`soffice`) automatically — see `DEPENDENCIES.md`.
-- Verification is built into the pipeline: `canonical-knowledge` validates the staged canonical package (content-loss/duplication, media references, structural-anchor completeness, etc.) before promoting it, and `knowledge-publication` validates rendered output before promoting that — see those plugins' `validate_canonical.py`/`renderers/validate_rendered.py`.
+- Verification is built into the pipeline: `structured-content-assembly` validates the staged canonical package (content-loss/duplication, media references, structural-anchor completeness, etc.) before promoting it, and `structured-content-rendering` validates rendered output before promoting that — see those plugins' `validate_canonical.py`/`renderers/validate_rendered.py`.
 
 ### Dependencies
 

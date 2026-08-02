@@ -5,7 +5,7 @@ Workbench. Runs `pandoc` once against a source `.docx` and produces a
 `normalized-source-document` v1 contract (markdown text, media files, source
 content hash, heading structure, raw-TOC/defect signals, extended
 statistics) — the single upstream extraction step every other domain plugin
-(`knowledge-analysis`, `canonical-knowledge`, `knowledge-publication`)
+(`document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`)
 builds on.
 
 This plugin is the **producer** of `normalized-source-document`: the

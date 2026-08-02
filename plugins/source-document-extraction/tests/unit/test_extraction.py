@@ -9,7 +9,7 @@ the Wave 0 test ledger's SOURCE_DOCUMENT_EXTRACTION-tagged entries,
 adapted to `extract_and_normalize`'s normalized-source-document dict
 shape (the orchestration-level `analyze_document`/`AnalysisResult` this
 file used to test no longer exists here -- that composition now lives in
-`knowledge-analysis` and the compatibility orchestrator).
+`document-structure-analysis` and the compatibility orchestrator).
 
 Fixtures live in tests/fixtures/:
     small_single.docx        -> no repeated headings, no images

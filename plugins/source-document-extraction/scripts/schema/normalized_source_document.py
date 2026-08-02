@@ -6,7 +6,7 @@ this plugin so the plugin installs and runs standalone. Human-readable
 documentation lives alongside it at
 `references/contracts/normalized-source-document.md`.
 
-Consumer plugins (e.g. `knowledge-analysis`) never import this module or
+Consumer plugins (e.g. `document-structure-analysis`) never import this module or
 declare a dependency on this plugin. Each consumer validates the dict
 `extraction.extract_and_normalize` returns against its own plugin-local
 schema check (`schema_version` + required-field check) -- never across the

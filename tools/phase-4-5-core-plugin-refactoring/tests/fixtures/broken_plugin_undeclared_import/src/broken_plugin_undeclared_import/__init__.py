@@ -2,4 +2,4 @@
 implementation package that is never installed by isolated_install_check.py
 and never declared in this fixture's own pyproject.toml dependencies. A
 correct isolated-install check must fail on this fixture."""
-import canonical_knowledge  # noqa: F401  (deliberately undeclared, never installed)
+import structured_content_assembly  # noqa: F401  (deliberately undeclared, never installed)

@@ -1,0 +1,11 @@
+name: structured-content-rendering
+version: 0.1.0-alpha.1
+description: "Renders a validated canonical-package (and publication-map, for grouped packages) to a multipage-markdown publication output, validated and atomically promoted."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - render-structured-content

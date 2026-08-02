@@ -22,9 +22,9 @@ _WORKBENCH_DISTRIBUTIONS = (
     "knowledge-workbench-contracts",
     "knowledge-workbench-runtime",
     "source-document-extraction",
-    "knowledge-analysis",
-    "canonical-knowledge",
-    "knowledge-publication",
+    "document-structure-analysis",
+    "structured-content-assembly",
+    "structured-content-rendering",
 )
 
 

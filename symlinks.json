@@ -104,338 +104,470 @@
       "description": "extract-docx skill's bundled copy of schema/shared.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/analysis.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/analysis.py",
+      "src": "plugins/document-structure-analysis/scripts/identity.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/identity.py",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of analysis.py"
+      "description": "analyze-document-structure skill's bundled copy of identity.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/identity.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/identity.py",
+      "src": "plugins/document-structure-analysis/scripts/plan_hashing.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_hashing.py",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of identity.py"
+      "description": "analyze-document-structure skill's bundled copy of plan_hashing.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/plan_hashing.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_hashing.py",
+      "src": "plugins/document-structure-analysis/scripts/plans.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plans.py",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of plan_hashing.py"
+      "description": "analyze-document-structure skill's bundled copy of plans.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/plans.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plans.py",
+      "src": "plugins/document-structure-analysis/scripts/topic_grouping.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/topic_grouping.py",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of plans.py"
+      "description": "analyze-document-structure skill's bundled copy of topic_grouping.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/topic_grouping.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/topic_grouping.py",
+      "src": "plugins/document-structure-analysis/scripts/plan_schema/__init__.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/__init__.py",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of topic_grouping.py"
+      "description": "analyze-document-structure skill's bundled copy of plan_schema/__init__.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/plan_schema/__init__.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_schema/__init__.py",
+      "src": "plugins/document-structure-analysis/scripts/plan_schema/analysis_plan.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/analysis_plan.py",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of plan_schema/__init__.py"
+      "description": "analyze-document-structure skill's bundled copy of plan_schema/analysis_plan.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/plan_schema/analysis_plan.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_schema/analysis_plan.py",
+      "src": "plugins/document-structure-analysis/scripts/plan_schema/shared.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/shared.py",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of plan_schema/analysis_plan.py"
+      "description": "analyze-document-structure skill's bundled copy of plan_schema/shared.py"
     },
     {
-      "src": "plugins/knowledge-analysis/scripts/plan_schema/shared.py",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/scripts/plan_schema/shared.py",
+      "src": "plugins/document-structure-analysis/references/contracts/analysis-plan.md",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/contracts/analysis-plan.md",
       "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of plan_schema/shared.py"
+      "description": "analyze-document-structure skill's bundled copy of analysis-plan.md"
     },
     {
-      "src": "plugins/knowledge-analysis/references/contracts/analysis-plan.md",
-      "dst": "plugins/knowledge-analysis/skills/analyze-content-structure/references/contracts/analysis-plan.md",
-      "strategy": "symlink",
-      "description": "analyze-content-structure skill's bundled copy of analysis-plan.md"
-    },
-    {
-      "src": "plugins/canonical-knowledge/scripts/atomic_output.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/atomic_output.py",
+      "src": "plugins/structured-content-assembly/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/canonical_knowledge.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_knowledge.py",
+      "src": "plugins/structured-content-assembly/scripts/structured_content_assembly.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/structured_content_assembly.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/canonical_package.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_package.py",
+      "src": "plugins/structured-content-assembly/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/chunk_grouping.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunk_grouping.py",
+      "src": "plugins/structured-content-assembly/scripts/chunking.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/chunking.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/chunk_identity.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunk_identity.py",
+      "src": "plugins/structured-content-assembly/scripts/convert.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/convert.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/chunking.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/chunking.py",
+      "src": "plugins/structured-content-assembly/scripts/dispositions.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/dispositions.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/convert.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/convert.py",
+      "src": "plugins/structured-content-assembly/scripts/emf_convert.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/emf_convert.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/dispositions.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/dispositions.py",
+      "src": "plugins/structured-content-assembly/scripts/hashing.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/hashing.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/emf_convert.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/emf_convert.py",
+      "src": "plugins/structured-content-assembly/scripts/media_disposition.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/media_disposition.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/hashing.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/hashing.py",
+      "src": "plugins/structured-content-assembly/scripts/package.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/media_disposition.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/media_disposition.py",
+      "src": "plugins/structured-content-assembly/scripts/plan_verification.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/plan_verification.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/package.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/package.py",
+      "src": "plugins/structured-content-assembly/scripts/publication_map.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/plan_verification.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/plan_verification.py",
+      "src": "plugins/structured-content-assembly/scripts/validate_canonical.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/validate_canonical.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/publication_map.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/publication_map.py",
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/validate_canonical.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/validate_canonical.py",
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/analysis_plan.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/analysis_plan.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/__init__.py",
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/canonical_schema/analysis_plan.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/analysis_plan.py",
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/__init__.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/canonical_schema/shared.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/canonical_schema/shared.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/attrs.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/attrs.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/__init__.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/__init__.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/footnotes.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/footnotes.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/attrs.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/attrs.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/heading_emphasis.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/heading_emphasis.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/footnotes.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/footnotes.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/images.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/images.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/heading_emphasis.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/heading_emphasis.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/tables.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/tables.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/images.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/images.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/toc.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/toc.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/tables.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/tables.py",
+      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/validate.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/validate.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/toc.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/toc.py",
+      "src": "plugins/structured-content-assembly/references/contracts/canonical-package.md",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/contracts/canonical-package.md",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/scripts/pandoc_cleanup/validate.py",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/scripts/pandoc_cleanup/validate.py",
+      "src": "plugins/structured-content-assembly/references/contracts/publication-map.md",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/contracts/publication-map.md",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/references/contracts/canonical-package.md",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/references/contracts/canonical-package.md",
+      "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/canonical-knowledge/references/contracts/publication-map.md",
-      "dst": "plugins/canonical-knowledge/skills/build-canonical-package/references/contracts/publication-map.md",
+      "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/atomic_output.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/atomic_output.py",
+      "src": "plugins/structured-content-rendering/scripts/dispositions.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/dispositions.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/canonical_package.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_package.py",
+      "src": "plugins/structured-content-rendering/scripts/hashing.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/hashing.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/dispositions.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/dispositions.py",
+      "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/structured_content_rendering.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/hashing.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/hashing.py",
+      "src": "plugins/structured-content-rendering/scripts/path_safety.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/path_safety.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/knowledge_publication.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/knowledge_publication.py",
+      "src": "plugins/structured-content-rendering/scripts/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/path_safety.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/path_safety.py",
+      "src": "plugins/structured-content-rendering/scripts/render_result.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/render_result.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/publication_map.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/publication_map.py",
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/render_result.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/render_result.py",
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/__init__.py",
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/canonical_schema/shared.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/canonical_schema/shared.py",
+      "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/multipage_markdown.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/renderers/__init__.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/__init__.py",
+      "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/protocol.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/renderers/multipage_markdown.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/multipage_markdown.py",
+      "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/validate_rendered.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/renderers/protocol.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/protocol.py",
+      "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/scripts/renderers/validate_rendered.py",
-      "dst": "plugins/knowledge-publication/skills/render-content/scripts/renderers/validate_rendered.py",
+      "src": "plugins/source-document-extraction/scripts/emf_convert.py",
+      "dst": "plugins/structured-content-assembly/scripts/emf_convert.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly consumes source-document-extraction's emf_convert.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/path_safety.py",
+      "dst": "plugins/structured-content-rendering/scripts/path_safety.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes source-document-extraction's path_safety.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/__init__.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/__init__.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/__init__.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/attrs.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/attrs.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/attrs.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/footnotes.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/footnotes.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/footnotes.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/heading_emphasis.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/heading_emphasis.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/heading_emphasis.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/images.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/images.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/images.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/tables.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/tables.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/tables.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/toc.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/toc.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/toc.py"
+    },
+    {
+      "src": "plugins/source-document-extraction/scripts/pandoc/validate.py",
+      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/validate.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/validate.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/dispositions.py",
+      "dst": "plugins/structured-content-rendering/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's dispositions.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/hashing.py",
+      "dst": "plugins/structured-content-rendering/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's hashing.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/publication_map.py",
+      "dst": "plugins/structured-content-rendering/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/__init__.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/shared.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-rendering/scripts/atomic_output.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's atomic_output.py (domain-neutral staging/promotion primitive; plugin identity now passed as data via build_generator_info/write_generator_info's plugin_name parameter)"
+    },
+    {
+      "src": "plugins/document-structure-analysis/scripts/identity_core.py",
+      "dst": "plugins/structured-content-assembly/scripts/identity_core.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly consumes document-structure-analysis's canonical identity_core.py directly (bare module name kept consistent across both plugins)"
+    },
+    {
+      "src": "plugins/document-structure-analysis/scripts/topic_boundary_core.py",
+      "dst": "plugins/structured-content-assembly/scripts/topic_boundary_core.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly consumes document-structure-analysis's canonical topic_boundary_core.py directly (bare module name kept consistent across both plugins)"
+    },
+    {
+      "src": "plugins/document-structure-analysis/scripts/plan_verification_core.py",
+      "dst": "plugins/structured-content-assembly/scripts/plan_verification.py",
+      "strategy": "symlink",
+      "description": "cross-plugin: structured-content-assembly's plan_verification consumes document-structure-analysis's canonical plan_verification_core.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/identity_core.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/identity_core.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/knowledge-publication/references/contracts/rendered-output-profile.md",
-      "dst": "plugins/knowledge-publication/skills/render-content/references/contracts/rendered-output-profile.md",
+      "src": "plugins/structured-content-assembly/scripts/topic_boundary_core.py",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/topic_boundary_core.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/document-structure-analysis/scripts/document_structure_analysis.py",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/document_structure_analysis.py",
       "strategy": "symlink",
       "description": ""
     }
