@@ -14,7 +14,8 @@ import json
 import base64
 from pathlib import Path
 
-import contracts
+# Compatibility shim (Phase 4.5 Wave 4, retire per wave-1-decisions.json):
+from canonical_schema import canonical_package as contracts
 import hashing
 import validate_canonical
 import canonical_package as canonical_package_module
