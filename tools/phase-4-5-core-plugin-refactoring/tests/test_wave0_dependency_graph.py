@@ -1,11 +1,21 @@
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from wave0_dependency_graph import build_dependency_graph
 
 
+@pytest.mark.skip(
+    reason=(
+        "plugins/docx-to-content was removed in Phase 4.5 Wave 8 (see "
+        "docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md). Kept as a "
+        "historical record, not re-targeted -- build_dependency_graph's own logic is still "
+        "exercised by the tmp_path-based test below."
+    )
+)
 def test_build_dependency_graph_finds_real_internal_edge():
     plugin_root = Path(__file__).resolve().parents[3] / "plugins" / "docx-to-content"
     graph = build_dependency_graph(plugin_root)

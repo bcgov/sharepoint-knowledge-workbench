@@ -1,11 +1,23 @@
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from wave0_inventory import build_inventory
 
 
+@pytest.mark.skip(
+    reason=(
+        "plugins/docx-to-content was this tool's real-repo integration-test target during "
+        "Waves 0-8; it was fully decomposed and removed in Wave 8 (see "
+        "docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md). This test is "
+        "kept as a historical record of the tool's real-baseline behavior, not re-targeted at "
+        "a live plugin -- build_inventory's own logic is still exercised by the tmp_path-based "
+        "tests below."
+    )
+)
 def test_build_inventory_finds_top_level_scripts_and_tests():
     plugin_root = Path(__file__).resolve().parents[3] / "plugins" / "docx-to-content"
     inv = build_inventory(plugin_root)
