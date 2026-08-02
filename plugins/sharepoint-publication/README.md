@@ -16,10 +16,11 @@ somewhere to live rather than being deleted along with it — they were carried 
 package) — requires `pip install -e plugins/canonical-knowledge` in whatever environment runs
 this plugin's tests, same transition-only dependency pattern used throughout Phase 4.5.
 
-No `pyproject.toml`/`.claude-plugin/` yet — this is a holding location, not an installable
-package. A future session should either build this out as a real `sharepoint-publication` domain
-plugin (per `docs/vision/`) or fold it into whatever Phase 5+ plan eventually covers SharePoint
-delivery.
+Has a `.claude-plugin/plugin.json`/`plugin.yaml` (so it registers as a Claude Code plugin and
+loads without error), but no `pyproject.toml` and no `skills/` — this is a holding location for
+the raw scripts, not an installable Python package or a skill-wrapped plugin yet. A future session
+should either build this out as a real `sharepoint-publication` domain plugin (per `docs/vision/`)
+or fold it into whatever Phase 5+ plan eventually covers SharePoint delivery.
 
 ## Tests
 
