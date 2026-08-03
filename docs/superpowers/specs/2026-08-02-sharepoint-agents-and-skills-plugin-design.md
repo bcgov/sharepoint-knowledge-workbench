@@ -42,7 +42,7 @@ Every artifact from `complete-artifact-classification.md`, mapped to its final d
 
 | Artifact | Extracted capability | Target skill (if any) |
 |---|---|---|
-| `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/{SKILL.md,README.md}` | **Blocked on an ownership decision (corrected — was "moves as-is").** Verified: this skill is explicitly CEIS-specific (CEIS topic pages, `CEISPilotKnowledgePages`, "Phase 3 CEIS publication standards," a fixed editorial boundary of one topic + two related topics). Whether `sharepoint-agents-and-skills` permits solution-specific configured skills alongside reusable platform capabilities, or only generic platform capabilities, is an unrecorded domain decision — see "Ownership decision required" below. Do not move until that decision is recorded. | `skills/review-manual-topics/` **only if** `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS` is chosen |
+| `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/{SKILL.md,README.md}` | **`RESOLVED` (2026-08-03) — see "Ownership decision required" below.** `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS` is the recorded decision. `review-manual-topics` is a `CONFIGURED_SOLUTION_SKILL` / `CEIS_SPECIFIC` owned by this plugin, labeled as such — not described as generic. It moves/is implemented as-is, no generalization pass required. | `skills/review-manual-topics/` |
 | `inventory-skills.ps1` | Native-skill inventory query | `skills/deploy-sharepoint-native-skill/` (shared script) or its own `scripts/native-skills/` capability, exposed via `deploy-sharepoint-native-skill`'s supporting logic |
 | `deploy-and-verify-skill.ps1` | Native-skill deployment + SHA-256 readback verification | `skills/deploy-sharepoint-native-skill/` |
 | `task-8a-reconcile-deployed-skill.ps1` | **Corrected — do not move as-is (was listed as a direct move).** Verified by reading the file: it hard-codes a repository SHA-256 (`9586379f...`) as a default parameter, Phase 4 task language ("TASK 8A" banners), `review-manual-topics`-specific special-casing (`$isReviewManualTopics`), a Phase-3-config-fallback block, and direct frontmatter regex parsing. Extract a generic reconciliation capability instead — see the script parameter matrix's new entry. | `skills/verify-sharepoint-native-skill/` (backed by the extracted generic script, not this file) |
@@ -55,18 +55,18 @@ Every artifact from `complete-artifact-classification.md`, mapped to its final d
 | `create-test-agent.ps1`, `create-corrected-agent.ps1`, `create-aspx-only-agent-test.ps1`, `create-updated-agent-sitepages.ps1` | **Not moved as-is.** A NEW parameterized `create-sharepoint-agent` script is designed from the pattern these four scripts demonstrate (see script parameter matrix) — the four originals stay in `tools/phase-4-*` as research/evidence of the pattern, per "treat custom agent experiments carefully" below | `skills/create-sharepoint-agent/`; `configure-agent-knowledge` is **provisional**, not a confirmed skill — see below |
 | `task-9-retrieve-topic-metadata.ps1` | Agent-grounding-adjacent metadata query | Folds into `configure-agent-knowledge` support logic, or stays research-only — **requires human decision**, not resolved by this design (its capability is closer to a grounding-source diagnostic than agent lifecycle management proper) |
 
-### Ownership decision required — does this plugin permit solution-specific skills?
+### Ownership decision — does this plugin permit solution-specific skills? `RESOLVED` (2026-08-03)
 
-Not resolved by this document. Choose and record one of:
+**Recorded decision:** `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS`.
 
-- `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS`
-- `PLUGIN_CONTAINS_ONLY_GENERIC_PLATFORM_CAPABILITIES`
-
-`review-manual-topics` is **not** generic — do not describe it as such, and do not move it "as-is"
-until this decision is recorded. If the plugin is generic-only, `review-manual-topics` needs a
-different home (a CEIS-specific solution package, not this platform plugin) or a generalization
-pass (parameterize the topic/related-topic-count boundary and the CEIS-specific standards
-reference) before it could move here at all.
+`sharepoint-agents-and-skills` holds both generic platform tooling (agent creation, native-skill
+deployment/verification/rollback) and CEIS-specific configured skills, side by side, clearly
+labeled by kind. `review-manual-topics` is a `CONFIGURED_SOLUTION_SKILL` / `CEIS_SPECIFIC` skill
+owned by this plugin — not generic, not described as such, moved/implemented as-is with no
+generalization pass required. Generic platform scripts remain organizationally separate from
+configured-solution-skill resources within the plugin (e.g. `scripts/` for shared platform
+capabilities vs. a skill's own resources under its `skills/<skill>/` folder), but both live in this
+one plugin.
 
 ### Backup skill naming — not finalized
 
