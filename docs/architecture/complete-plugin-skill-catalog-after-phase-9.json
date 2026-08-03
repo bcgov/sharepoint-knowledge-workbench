@@ -409,7 +409,7 @@
           "overlap_notes": null
         }
       ],
-      "authoring_constraint": "Category 1 (marketplace-style) - authored in sibling agent-plugins-skills monorepo",
+      "authoring_constraint": "Authored directly in this repo at plugins/workbench-setup/, same as sharepoint-agents-and-skills/sharepoint-content-publication. Corrected 2026-08-03: an earlier version wrongly claimed Category 1 (marketplace-style, sibling agent-plugins-skills monorepo) -- that conflated using the marketplace-manager skill (installed from agent-plugins-skills) as the procedure for marketplace.json updates with authoring the plugin's code there. See start-here.md's Task 0.17 correction record.",
       "installation_status": "not yet created"
     },
     {
