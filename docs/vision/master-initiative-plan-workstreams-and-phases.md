@@ -653,8 +653,12 @@ evaluable until its entry gate is met.
 **Goal:** Define a shared capability specification once two real runtimes (e.g. GitHub/Claude skill +
 native SharePoint skill) exist to specify against — preventing behavioral drift across runtimes.
 
-**Entry gate:** At least two runtimes implement the same capability in production (currently zero
-SharePoint-side runtimes exist — gate not met).
+**Entry gate:** At least two runtimes implement the same capability in production. **Status
+(verified 2026-08-03): `SECOND_RUNTIME_REQUIRED` — gate not met.** One SharePoint-side runtime
+exists (the deployed, tenant-exercised `review-manual-topics` native skill, Phase 4); no
+repository/GitHub/Claude-side skill implements the same capability yet. See
+`docs/superpowers/specs/phase-6-multi-runtime-capability-model-spec.md` Section 1 for the full
+evidence review and the smallest bounded second-runtime candidate.
 
 ### Subphase 6.1 — Capability specification format
 - Stage 6.1.1 — extract the shared contract from the two existing runtime implementations (do not design

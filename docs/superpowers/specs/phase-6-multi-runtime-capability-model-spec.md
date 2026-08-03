@@ -16,8 +16,31 @@
 
 ## 1. Status and authority
 
-**Disposition:** LATER.  
-**Entry gate:** At least two real runtimes implement the same capability in operational use. Until then, this document is a decision framework, not an implementation specification.
+**Disposition:** LATER.
+**Entry gate:** At least two real runtimes implement the same capability in operational use.
+
+**Entry-gate status (verified 2026-08-03):** `SECOND_RUNTIME_REQUIRED`. One real SharePoint-side
+runtime exists — `review-manual-topics`
+(`tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md`), deployed to the
+real dev tenant and exercised in Phase 4 (hash-verified deployment, 7/7 metadata probes, 12/12
+safety tests, rollback proven — see `docs/reports/phase-4-native-sharepoint-skills/
+phase-4-exit-gate-evidence.md`). No repository/GitHub/Claude-side skill implements the same
+capability (single-topic-scoped semantic editorial review: completeness, section structure,
+cross-reference consistency, terminology clarity, read-only, no metadata writes, no hash claims,
+no full-library scan). The nearest candidate,
+`tools/phase-3-sharepoint-discovery/skills/reference-real-skill-review-manual-topics.SKILL.md`, is
+a different capability (metadata-gap tracking into a Content Review list) and a different runtime
+type (itself a native-SharePoint-skill design, never deployed) — not a match. Until a second real
+runtime implementing this same capability exists, this document remains a decision framework, not
+an implementation specification.
+
+**Smallest bounded second-runtime candidate:** a repository-owned Claude Code skill implementing
+the same `review-manual-topics` capability (same input boundary — one topic, ≤2 cross-referenced;
+same prohibited scope — no writes, no hash claims, no full-library scan; same output structure)
+over `runs/ceis-manual-v2/`'s rendered Markdown pages. Phase 4's evaluation cases
+(`tools/phase-4-native-sharepoint-skills/evaluations/`) are reusable as-is as the Stage 6.1.2
+common evaluation set once both runtimes exist. Not implemented as part of this spec — implementing
+this second runtime is itself gated on its own scoping/approval, not authorized by this note.
 
 ## 2. Goal
 
