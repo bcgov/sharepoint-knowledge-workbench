@@ -132,9 +132,9 @@
         },
         {
           "name": "render-sharepoint-aspx",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build, renderer + unit tests + validate-rendered-output/ASPX extension complete; golden-master fidelity proof still pending",
+          "source_provenance": "new build, renderer + unit tests + validate-rendered-output/ASPX extension + golden-master fidelity proof (real CEIS manual, runs/ceis-manual-v2/render-aspx/) all complete",
           "overlap_notes": "CMAT sp-converting-aspx-pages richer; Phase 6 stays minimal-interface, full extraction is Phase 9 candidate sharepoint-page-modernization"
         },
         {
@@ -167,9 +167,9 @@
         },
         {
           "name": "compare-rendered-output",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "existing golden-master pattern, not packaged",
+          "source_provenance": "golden-master pattern from Phase 2 Subphase 2.5.4, packaged as a standalone primitive; used by the real ASPX golden-master proof (tests/integration/test_golden_master_aspx.py)",
           "overlap_notes": null
         }
       ],

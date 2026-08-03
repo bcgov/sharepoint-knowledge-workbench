@@ -1,0 +1,1 @@
+../../../../../../assets/templates/solutions/ceis/markdown/page.template.md
