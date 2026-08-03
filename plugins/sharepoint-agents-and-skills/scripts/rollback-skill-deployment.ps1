@@ -19,8 +19,8 @@
 #>
 [CmdletBinding(ConfirmImpact="High", SupportsShouldProcess=$true)]
 param (
-    [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
-    [string]$ManifestFile = "tools/phase-4-native-sharepoint-skills/deployment/deployment-manifest.example.json",
+    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$ManifestFile = "plugins/sharepoint-agents-and-skills/deployment-manifest.example.json",
     [switch]$Execute,
     [string]$ConfirmExactTarget,
     [string]$JsonOutputPath

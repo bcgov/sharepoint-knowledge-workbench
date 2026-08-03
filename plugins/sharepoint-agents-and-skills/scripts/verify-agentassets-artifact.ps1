@@ -16,8 +16,10 @@
 
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
-    [string]$RepoSkillPath = "tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md",
+    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$FallbackConfigFile = "tools/phase-3-sharepoint-discovery/config.psd1",
+    [string]$RepoSkillPath = "plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md",
+    [string]$TargetSkillName = "review-manual-topics",
     [string]$TempDownloadDir = "temp/artifact-verification"
 )
 
@@ -38,7 +40,7 @@ $hasValidAppReg = ($config.ClientId -and $config.TenantId -and `
 if ($hasValidAppReg) {
     Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
 } else {
-    $phase3ConfigPath = "../../tools/phase-3-sharepoint-discovery/config.psd1"
+    $phase3ConfigPath = $FallbackConfigFile
     if (Test-Path $phase3ConfigPath) {
         $phase3Config = Import-PowerShellDataFile $phase3ConfigPath
         Connect-PnPOnline -Url $config.SiteUrl -ClientId $phase3Config.ClientId -Tenant $phase3Config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
@@ -146,7 +148,7 @@ if (Test-Path $RepoSkillPath) {
     $repoHash = [System.BitConverter]::ToString($repoSha256.ComputeHash($repoBytes)).Replace("-","").ToLower()
     $repoSha256.Dispose()
 
-    Write-Host "  Repository review-manual-topics/SKILL.md SHA-256: $repoHash" -ForegroundColor Cyan
+    Write-Host "  Repository $TargetSkillName/SKILL.md SHA-256: $repoHash" -ForegroundColor Cyan
 
     foreach ($artifact in $artifacts) {
         Write-Host "  Comparing with deployed $($artifact.FolderName)..." -ForegroundColor Cyan
@@ -180,10 +182,10 @@ if ($artifacts.Count -eq 0) {
         Write-Host "  Frontmatter Name: $($artifact.FrontmatterName)" -ForegroundColor Cyan
         Write-Host "  Hash Match Repository: $($artifact.HashMatch)" -ForegroundColor Cyan
 
-        if ($artifact.FolderName -eq "review-manual-topics") {
+        if ($artifact.FolderName -eq $TargetSkillName) {
             Write-Host ""
             if ($artifact.HashMatch) {
-                Write-Host "Task 8 Disposition: ARTIFACT_ALREADY_PRESENT (review-manual-topics matches repository)" -ForegroundColor Yellow
+                Write-Host "Task 8 Disposition: ARTIFACT_ALREADY_PRESENT ($TargetSkillName matches repository)" -ForegroundColor Yellow
                 Write-Host "  → Task 8 deployment is SUPERSEDED" -ForegroundColor Yellow
                 Write-Host "  → Revise Task 8 to hash reconciliation only" -ForegroundColor Yellow
             } else {
@@ -193,9 +195,9 @@ if ($artifacts.Count -eq 0) {
             }
         } else {
             Write-Host ""
-            Write-Host "Task 8 Disposition: DEPLOYMENT_CANDIDATE_NOT_YET_PRESENT (existing skill is $($artifact.FolderName), not review-manual-topics)" -ForegroundColor Yellow
+            Write-Host "Task 8 Disposition: DEPLOYMENT_CANDIDATE_NOT_YET_PRESENT (existing skill is $($artifact.FolderName), not $TargetSkillName)" -ForegroundColor Yellow
             Write-Host "  → Existing skill identified: $($artifact.FrontmatterName)" -ForegroundColor Yellow
-            Write-Host "  → No collision detected with review-manual-topics" -ForegroundColor Green
+            Write-Host "  → No collision detected with $TargetSkillName" -ForegroundColor Green
             Write-Host "  → Task 8 deployment can proceed" -ForegroundColor Green
         }
     }

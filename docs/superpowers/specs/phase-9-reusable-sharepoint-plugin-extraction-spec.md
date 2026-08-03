@@ -3,7 +3,7 @@
 
 > **Planning status:** `PLANNED`, `EVIDENCE_BASED`, `NOT_IMPLEMENTATION_AUTHORIZATION`, `SOURCE_BASELINE_REQUIRES_PINNING`. This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Exact source and destination commits, candidate files, repository paths, commands, plugin boundaries, and test fixtures must be verified through Phase 9 reconnaissance before execution. Phase 9 has not started.
 
-> **Evidence-baseline update (2026-08-01):** A documentation-only reconciliation pass replaced hypothetical candidate descriptions with the actual observed source inventory at `/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` — **119 directories, 272 files (144 real files + 128 symlinks)** across 33 skills. This inventory is a **source baseline for future classification**, not an extraction authorization, and not a permanent total — the source repository continues to evolve independently. See §3a (Source Evidence Baseline) below. No code, plugin, or CMAT-repository artifact was touched by this reconciliation; see the companion completion report for the exact diff.
+> **Evidence-baseline update (2026-08-01):** A documentation-only reconciliation pass replaced hypothetical candidate descriptions with the actual observed source inventory at `/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` — **119 directories, 272 files (144 real files + 128 symlinks)** across 33 skills (historical snapshot, dated 2026-08-01). This inventory is a **source baseline for future classification**, not an extraction authorization, and not a permanent total — the source repository continues to evolve independently. **A direct recount on 2026-08-03 found 34 skill directories — see §8d for the current, verified figure and complete per-skill mapping.** See §3a (Source Evidence Baseline) below for the 2026-08-01 historical snapshot. No code, plugin, or CMAT-repository artifact was touched by this reconciliation; see the companion completion report for the exact diff.
 
 ## Planning discipline
 
@@ -46,9 +46,9 @@ Phase 9 does not rename, replace, dismantle, or relocate the source repository.
 
 **Location:** `jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` (separate GitHub repository, local checkout only — no cross-repository dependency is created by referencing it here).
 
-**Observed scale:** 119 directories, 272 files (144 real files + 128 file-level symlinks) across 33 skills. These figures describe the supplied baseline inventory at the time of this reconciliation (2026-08-01); they are **not permanent totals** — the source repository continues to change independently.
+**Observed scale (historical, 2026-08-01):** 119 directories, 272 files (144 real files + 128 file-level symlinks) across 33 skills. These figures describe the supplied baseline inventory at the time of that reconciliation; they are **not permanent totals** — the source repository continues to change independently. **Superseded by a direct recount on 2026-08-03: 34 skill directories — see §8d.**
 
-**Observed skill inventory (33 skills, grouped by likely capability family):**
+**Observed skill inventory (33 skills as of the 2026-08-01 historical snapshot, grouped by likely capability family — see §8d for the current 2026-08-03 recount of 34):**
 
 ```text
 Discovery
@@ -116,7 +116,7 @@ A rough per-skill file count was spot-checked during this reconciliation to sani
 | `sp-discovering-site-structure` | 3 | Thin — likely `PLANNED_WITH_NO_STANDALONE_IMPLEMENTATION` |
 | `sp-content-migration` | 4 | Thin — likely mixes generic migration behavior, PnP helpers, ShareGate integration, CMAT-specific waves, deprecated stage scripts |
 
-**This spot-check is illustrative, not the required Stage 9.1/9.2 classification.** A complete implementation-status pass over all 33 skills is required before any pilot selection, per §3b below. Do not treat the presence of `SKILL.md`, `evals.json`, or `results.tsv` as proof that a skill is implemented — the actual script/test/fixture count must be inspected per skill.
+**This spot-check is illustrative, not the required Stage 9.1/9.2 classification.** A complete implementation-status pass over all 34 skills (§8d) is required before any pilot selection, per §3b below. Do not treat the presence of `SKILL.md`, `evals.json`, or `results.tsv` as proof that a skill is implemented — the actual script/test/fixture count must be inspected per skill.
 
 ## 3b. Implementation-Status and Destination-Disposition Models
 
@@ -218,7 +218,7 @@ Phase 9's eventual outcome is intended to expand this repository from a knowledg
 - No cross-repository symlinks, runtime imports, or hidden source dependency.
 - No ORDS API/auth/query/paging/retry framework extraction.
 - No JUSTIN, CEIS, court-appearance, courthouse, calendar-routing, or CMAT business-rule extraction.
-- No automatic migration of all 28 skills, seven agents, source backlog, planned stubs, or historical scripts.
+- No automatic migration of all 34 skills (§8d), seven agents, source backlog, planned stubs, or historical scripts.
 - No immediate CMAT rebind to the extracted plugin.
 - No general-purpose routing agent.
 - No assumption that the source plugin taxonomy is the correct destination plugin taxonomy.
@@ -322,6 +322,179 @@ parity evidence
 ```
 
 The workbench must not erase a capability's origin. This is in addition to, not a replacement for, the provenance manifest already required in §18 and §19 (`provenance manifest`, Subphase 9.3.3).
+
+## 8c. Phase 6 Overlap Findings (2026-08-03) — not Phase 9 execution
+
+**Purpose:** prevent Phase 6 Task 0 from recreating capabilities already proven in the CMAT
+repository (`/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online`, plugin
+`sharepoint-migration`), and record where Phase 6 should stay minimal pending Phase 9 extraction.
+This section is a **finding record only** — it does not begin Phase 9 work, does not extract any
+CMAT file, and does not modify CMAT.
+
+**Scope surveyed:** `plugins/sharepoint-migration/` (34 skills — see §8d for the complete mapping; `scripts/{diagnostics,upload,
+content-migration,page-migration,link-conversion,schema-audit,inventory,waves,...}`).
+`plugins/ords-integration-migration/` is out of scope — court-scheduling ETL, disposition
+`ORDS_SPECIFIC_OUT_OF_SCOPE`, no overlap with any Phase 6 skill.
+
+**Disposition vocabulary for this section** (distinct from §8's three-axis model, used here for
+direct Phase-6-skill-to-CMAT-capability comparison):
+
+```text
+PHASE_6_IMPLEMENT_NOW
+PHASE_6_REUSE_EXISTING_WORKBENCH_CODE
+PHASE_6_MINIMAL_INTERFACE_PENDING_PHASE_9
+PHASE_9_EXTRACT_TO_EXISTING_PLUGIN
+PHASE_9_CREATE_NEW_PLUGIN
+PHASE_9_MERGE_WITH_EXISTING_SKILL
+KEEP_CMAT_SPECIFIC
+ORDS_SPECIFIC_OUT_OF_SCOPE
+REQUIRES_HUMAN_DECISION
+```
+
+| Phase 6 skill/script | CMAT plugin/skill/script | Source path | Responsibility comparison | Maturity | Test evidence | Richer implementation | Disposition |
+|---|---|---|---|---|---|---|---|
+| `render-sharepoint-aspx` (structured-content-rendering, Task 0.16) | `sp-converting-aspx-pages` | `plugins/sharepoint-migration/skills/sp-converting-aspx-pages/` | CMAT: analyzes existing classic `.aspx` and produces modern-SPO *conversion* manifests/layout decisions/component mappings/previews. Phase 6: renders a structured-content package (never was SharePoint) into new `.aspx`-compatible artifacts — no source-page analysis step, different input entirely. Related but not identical: one converts existing pages, the other originates new ones. | CMAT: `status: active`, real implementation | CMAT has a populated `scripts/tests/` suite (wave/matrix tests); Phase 6 has none yet | CMAT (real conversion logic, page-layout decisions, preview generation) | `PHASE_6_MINIMAL_INTERFACE_PENDING_PHASE_9` — build the narrow origination-only renderer now (page-creation API output shape only); do not attempt page-analysis/conversion logic Phase 6 doesn't need. Full page-layout/component-mapping sophistication deferred to Phase 9 `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` (→ `structured-content-rendering`) if a future need for analyzing/converting *existing* SharePoint pages arises. |
+| `publish-aspx-to-sharepoint` (sharepoint-content-publication, Task 0.15) | `sp-uploading-content`, `scripts/upload/upload-modern-page.ps1`, `upload-modern-page-rest.ps1` | `plugins/sharepoint-migration/skills/sp-uploading-content/`, `scripts/upload/` | Both use the `Add-PnPPage`/`Add-PnPPageTextPart`-equivalent modern-page creation approach. CMAT's is generalized across HTML/page/site-asset content and both PnP-PowerShell and raw-REST paths; Phase 6's is scoped to one structured-content package's rendered ASPX output only. | CMAT: `status: active`, two working upload mechanisms (PnP + REST) | CMAT: none of the `scripts/tests/` files target `upload/` specifically (gap in CMAT too, not just Phase 6) | CMAT (broader, dual-mechanism, already tenant-proven) | `PHASE_6_REUSE_EXISTING_WORKBENCH_CODE` for the page-creation call pattern (already independently confirmed working in this workbench's own Phase 3.0 §15 probe — do not re-derive from CMAT, use the workbench's own confirmed evidence); `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` (→ `sharepoint-content-publication`) for CMAT's richer dual-mechanism/generalized upload capability once genericized. |
+| `inventory-and-validate-agentassets` (sharepoint-agents-and-skills, Task 0.4) | `sp-discovering-site-structure`, `sp-synthesizing-discovery` | `plugins/sharepoint-migration/skills/sp-discovering-site-structure/`, `sp-synthesizing-discovery/` | CMAT: full site-structure/list/library/field/view/content-type/permissions inventory across an entire site collection, feeding a 13-domain discovery meta-review. Phase 6: narrowly checks `AgentAssets` library/`Skills` folder existence and inventories `SKILL.md` files only — a tiny, single-purpose subset of CMAT's capability, different domain object (`AgentAssets`, a Copilot-specific library, vs. general site structure). | CMAT: `status: active`, deep | Phase 6's basis (`verify-agentassets-ready.ps1`) has no dedicated unit tests yet; CMAT's discovery skills have populated `scripts/tests/` | CMAT (far broader scope) | `PHASE_6_IMPLEMENT_NOW` — the two are not the same capability at the scope Phase 6 needs; do not adopt CMAT's general-purpose site-structure discovery for this narrow `AgentAssets`-only check. `REQUIRES_HUMAN_DECISION` on whether a future, broader "SharePoint site inventory" capability belongs in `sharepoint-agents-and-skills` at all, or is purely a Phase 9 `sp-discovering-*` extraction target with no Phase 6 counterpart. |
+| `setup-sharepoint-connection`, `validate-workbench-environment` (workbench-setup, Task 0.17) | `sp-validating-app-registration`, `scripts/diagnostics/test-spo-auth.ps1`, `test-csb-intranet-connections.ps1` | `plugins/sharepoint-migration/skills/sp-validating-app-registration/`, `scripts/diagnostics/` | CMAT: validates Entra ID app registrations (delegated + app-only) against a live tenant, confirms auth succeeds and permission boundaries are enforced — real tenant-write-adjacent validation. Phase 6: `setup-sharepoint-connection` never connects by default (explicit opt-in `-TestConnection` only); `validate-workbench-environment` validates local config/profile *files*, not live tenant auth. Different point in the lifecycle — CMAT validates an existing tenant identity, Phase 6 validates local setup before any connection is attempted. | CMAT: `status: active`, real | CMAT: `app-reg-tests/test-etl-app-registration.ps1` exists (ORDS-side, not directly this skill's own test); Phase 6 skills not yet built | CMAT (proven against real tenant) | `PHASE_6_IMPLEMENT_NOW` for the two narrow, non-overlapping Phase 6 skills as designed. `PHASE_9_MERGE_WITH_EXISTING_SKILL` — once `setup-sharepoint-connection`'s optional `-TestConnection` path is built, its live-validation logic should reuse `sp-validating-app-registration`'s proven approach rather than re-deriving auth-validation from scratch; extract into `workbench-setup` (or symlink-share, per this repo's hub-and-spoke rule) at that time. |
+| `publish-markdown-to-sharepoint` (sharepoint-content-publication, Task 0.15) | `sp-migrating-content`, `scripts/content-migration/`, `scripts/upload/migrate-site-assets.ps1` | `plugins/sharepoint-migration/skills/sp-migrating-content/`, `scripts/content-migration/` | CMAT: runs a 10-wave (`wave0a`–`wave9`) full-schema provisioning + content migration pipeline with TDD RED→GREEN gates, clean-slate wipe, choices extraction. Phase 6: uploads one document's rendered Markdown + navigation + media to one target library/folder — a single-document operation, not a schema-provisioning pipeline. | CMAT: `status: active`, extremely deep (10 waves, dedicated test suite per wave: `test-wave0a.ps1` through `test-wave9.ps1`) | CMAT: `scripts/tests/test-wave{0a..9}.ps1`, `test-all.ps1` — real, populated | CMAT (dramatically richer — full migration pipeline vs. single-document upload) | `PHASE_6_IMPLEMENT_NOW` — scale mismatch is intentional; Phase 6 does not need wave-based schema migration. `KEEP_CMAT_SPECIFIC` for the wave pipeline itself (deeply CMAT-schema-coupled); `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` only for the underlying single-item upload primitive (`migrate-site-assets.ps1`-style), if genericized, → `sharepoint-content-publication`. |
+| `reconcile-sharepoint-publication`, `validate-sharepoint-publication` (sharepoint-content-publication, Task 0.15) | `sp-validating-link-integrity`, `sp-generating-migration-reports`, `sp-validating-content` (planned) | `plugins/sharepoint-migration/skills/sp-validating-link-integrity/`, `sp-generating-migration-reports/` | CMAT: `sp-validating-link-integrity` verifies converted links resolve post-migration (active); `sp-generating-migration-reports` produces executive/strategic/technical reports (active); `sp-validating-content` (item-count/field-value/attachment-integrity parity check) is `status: planned`, **no backing script exists** in CMAT either. Phase 6's `reconcile-sharepoint-publication`/`validate-sharepoint-publication` target a narrower, single-document publication-map reconciliation. | CMAT: 2 of 3 relevant skills active, 1 planned/unbuilt | CMAT: link-integrity has real evidence; content-validation does not (same gap as Phase 6) | CMAT (for link integrity and reporting specifically); **neither** repo has a mature content-parity validator | `PHASE_6_IMPLEMENT_NOW` for the two Phase 6 skills as scoped (package-only, matches existing zero-tenant-I/O `sharepoint_reconcile.py`/`sharepoint_dry_run.py` basis). `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` (→ `sharepoint-content-publication`) for CMAT's link-integrity-validation technique specifically, once genericized. The content-parity-validation gap (`sp-validating-content`) is real in both repos — `REQUIRES_HUMAN_DECISION` on whether either project builds it first. |
+| `rollback-sharepoint-publication` (sharepoint-content-publication, Task 0.15) | none found | — | **No CMAT skill or script matches this responsibility.** Surveyed `scripts/calendars/clean-all-calendars.ps1`, `scripts/utilities/reset-and-recreate-appearance-schema.ps1`, `scripts/utilities/audit-spo-duplicates.ps1` — all are CMAT-schema-specific reset/cleanup utilities (calendar events, appearance lists), not a general exact-target publication rollback with a confirm-string safety gate. | n/a — no CMAT equivalent | n/a | n/a — genuinely missing in both repos | `PHASE_6_IMPLEMENT_NOW` — this is real new-build work, not duplicative of anything in CMAT. No Phase 9 action implied; nothing to extract. |
+| Rendering-template creation (`create-markdown-rendering-template`, `create-aspx-rendering-template`, structured-content-rendering, Task 0.16) | `sp-converting-aspx-pages`'s layout-decision/component-mapping output, `sp-remediating-page-layouts` (planned), `sp-remediating-web-parts` (planned) | `plugins/sharepoint-migration/skills/sp-converting-aspx-pages/`, `sp-remediating-page-layouts/`, `sp-remediating-web-parts/` | CMAT's page-layout-rules/web-part-mapping-matrix concept (`layout-rules.json` LR-001–LR-004, referenced by `sp-remediating-page-layouts`) is the closest analog to a rendering-template schema, but **`sp-remediating-page-layouts` and `sp-remediating-web-parts` are both `status: planned` — no backing script exists in CMAT either.** Only `sp-converting-aspx-pages` (active) actually produces layout decisions/previews, as a byproduct of page conversion, not as a standalone reusable template system. | CMAT: 1 of 3 relevant capabilities active, 2 planned/unbuilt | CMAT: none specific to template/layout-rule validation | Neither repo has a mature, standalone rendering-template system | `PHASE_6_IMPLEMENT_NOW` — build Phase 6's narrow template-validation scope (schema/placeholder/section/asset/profile checks) fresh; CMAT has no reusable template system to draw from, only conversion-time layout decisions embedded in one active skill. `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` (→ `structured-content-rendering`) only if CMAT's `layout-rules.json` concept is later formalized into its own reusable schema — not proven mature enough to extract now. |
+
+**Explicit non-duplication instruction followed:** no CMAT file was migrated, copied, or referenced
+as executable source during Phase 6 Task 0. Every `PHASE_6_IMPLEMENT_NOW`/`PHASE_6_MINIMAL_
+INTERFACE_PENDING_PHASE_9` row above scopes Phase 6's build to its own narrow, already-specified
+requirements — none of them were widened or narrowed based on what CMAT happens to already have.
+
+### Phase 9 destination-plugin-matching rule (added 2026-08-03)
+
+Before any future Phase 9 extraction creates a new plugin, it must first be matched against the
+**current** destination plugin inventory: `source-document-extraction`, `document-structure-
+analysis`, `structured-content-assembly`, `structured-content-rendering`, `sharepoint-content-
+publication`, `sharepoint-agents-and-skills`, `workbench-setup`. If an existing plugin already owns
+the responsibility, Phase 9 adds or merges a skill there (`PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` /
+`PHASE_9_MERGE_WITH_EXISTING_SKILL`) rather than automatically creating another plugin
+(`PHASE_9_CREATE_NEW_PLUGIN`). A new Phase 9 plugin is justified only when the capability has: a
+distinct domain; independent user journeys; independent installation value; its own lifecycle/
+versioning; and no suitable existing owner. Every candidate row in the §8c table has been checked
+against this rule for the Phase-6-overlap subset only — **no new Phase 9 plugin is justified by
+the Phase 6 overlap subset alone. The broader CMAT inventory still contains distinct SharePoint
+engineering domains that require Phase 9 destination classification** — see §8d below for the
+complete 34-skill mapping and §8e for the full destination-architecture evaluation, including 7
+provisional Phase 9 plugin candidates not yet approved.
+
+## 8d. Complete CMAT skill mapping (2026-08-03) — all 34 `sharepoint-migration` skills
+
+**Directly audited** (not inferred from filenames): `ls plugins/sharepoint-migration/skills/*/`
+returns **34 skill directories**, not 31 — the 31 figure named in the audit request undercounted;
+corrected here to the actual count. Per instruction, `SKILL.md` frontmatter's `status:` field,
+`evals.json`, and `results.tsv` are **not** treated as proof of implementation — each row's
+"backing evidence" column reflects actual files found (regular script files or real, verified
+symlinks into the skill folder), not the claimed status.
+
+Every row's source is the CMAT repository (`/Users/richardfremmerlid/Projects/jag-csb-cmat-
+sharepoint-online`, `plugins/sharepoint-migration/skills/<name>/`) — no row in this table has any
+other source. **Implementation-status category is strictly one of three, mutually exclusive, and
+sums to exactly 34** (genericity/CMAT-specificity and cross-skill scope questions are separate
+axes recorded in their own columns, not folded into the status count):
+
+- `IMPLEMENTED` — real script files or real, verified symlinks found in the skill folder (21 skills).
+- `UNVERIFIED_ACTIVE_CLAIM` — `SKILL.md` claims `status: active`, zero script files and zero symlinks found; the claim itself is unconfirmed, not treated as implemented (2 skills).
+- `PLANNED_WITH_NO_IMPLEMENTATION` — `SKILL.md` claims `status: planned`, zero backing found — confirms the claim (11 skills).
+
+| Skill | Implementation status | Generic vs. CMAT-specific | Destination plugin | Destination skill name | Extraction disposition | Phase 9 task | Deliverable | Tests | Acceptance criteria | Overlap with Phase 6 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `sp-discovering-site-structure` | `IMPLEMENTED` (3 symlinks) | generic | `sharepoint-discovery` (candidate) | `discover-site-structure` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 (inventory) → Task 12 (extract) | extracted skill + scripts under `sharepoint-discovery` | Task 9 contract/safety tests + Task 16 parity | passes genericity contract (§9); parity vs. CMAT source behavior proven | none (Phase 6's `inventory-and-validate-agentassets` is `AgentAssets`-only, narrower) |
+| `sp-discovering-lists` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-discovery` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none — no CMAT implementation to extract | n/a — gap, not a future guaranteed skill | n/a | CMAT skill must be built first, or this row is dropped from the eventual plugin | none |
+| `sp-discovering-content-types` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-discovery` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | same as above | none |
+| `sp-discovering-pages` | `IMPLEMENTED` (3 symlinks) | generic | `sharepoint-discovery` | `discover-pages` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill + scripts | Task 9 + Task 16 | genericity + parity proven | none |
+| `sp-discovering-web-parts` | `IMPLEMENTED` (19 symlinks, richest discovery skill) | generic concept; CMAT's mapping-matrix content needs genericity review | `sharepoint-discovery` | `discover-web-parts` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 6 (contract) → Task 12 | extracted skill + genericized mapping matrix | Task 9 + Task 16 | CMAT-specific mapping entries removed/parameterized before parity proof | none |
+| `sp-discovering-navigation` | `IMPLEMENTED` (2 symlinks) | generic | `sharepoint-discovery` | `discover-navigation` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | none |
+| `sp-discovering-forms` | `IMPLEMENTED` (2 symlinks) | generic | `sharepoint-discovery` | `discover-forms` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | none |
+| `sp-discovering-permissions` | `IMPLEMENTED` (1 symlink, thin) | generic | `sharepoint-discovery` | `discover-permissions` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | verify real depth beyond 1 symlink before parity claim | none |
+| `sp-discovering-workflows` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-discovery` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | none |
+| `sp-synthesizing-discovery` | `IMPLEMENTED` (1 symlink, thin) | generic (13-domain meta-review) | `sharepoint-discovery` | `synthesize-discovery-report` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | conceptual only, vs. `inventory-and-validate-agentassets`'s reporting shape |
+| `sp-auditing-schema` | `IMPLEMENTED` (7 symlinks) | generic | `sharepoint-schema` (candidate) | `audit-schema` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | none |
+| `sp-extracting-choices` | `IMPLEMENTED` (1 symlink, thin) | generic | `sharepoint-schema` | `extract-choice-fields` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | verify depth beyond 1 symlink | none |
+| `sp-mapping-content-types` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-schema` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | none |
+| `sp-mapping-lists` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-schema` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | none |
+| `sp-mapping-taxonomy` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-schema` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | none |
+| `sp-synthesizing-deployment-matrix` | `UNVERIFIED_ACTIVE_CLAIM` (0 symlinks, 0 scripts) | unverified | `sharepoint-provisioning` (candidate, not currently justified) | — | `REQUIRES_HUMAN_DECISION` | Task 3 re-verification before any Task 4 classification | n/a until verified | n/a | direct script inspection in CMAT repo to confirm or correct the `active` claim | none |
+| `sp-provisioning-modern-calendars` | `IMPLEMENTED` (4 symlinks) | CMAT-specific (calendar/court-scheduling concept) | n/a | n/a | `KEEP_CMAT_SPECIFIC` | none — not extraction-eligible | n/a | n/a | n/a | none |
+| `sp-analysing-aspx-pages` | `IMPLEMENTED` (5 symlinks) | generic (classic-page analysis) | `sharepoint-page-modernization` (candidate) | `analyze-aspx-pages` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | feeds `render-sharepoint-aspx`'s analysis gap (§8c) |
+| `sp-converting-aspx-pages` | `IMPLEMENTED` (12 scripts + 5 symlinks, richest in repo) | generic (conversion manifest/layout/component-mapping) | `sharepoint-page-modernization` | `convert-aspx-pages` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 1 (pilot-family candidate) → Task 3 → Task 6 → Task 12 | extracted skill, highest-value single extraction in the whole repo | Task 9 + Task 16 + Task 17 (adversarial) | genericity + parity + adversarial evaluation proven | directly overlaps `render-sharepoint-aspx` — Phase 6 stays `PHASE_6_MINIMAL_INTERFACE_PENDING_PHASE_9` (§8c) |
+| `sp-converting-wiki-pages` | `IMPLEMENTED` (2 symlinks) | generic | `sharepoint-page-modernization` | `convert-wiki-pages` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | none |
+| `sp-remediating-page-layouts` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-page-modernization` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | closest analog to Task 0.16's rendering-template creation, itself also unbuilt in Phase 6 |
+| `sp-remediating-web-parts` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-page-modernization` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | none |
+| `sp-extracting-links` | `IMPLEMENTED` (5 symlinks) | generic | `sharepoint-link-remediation` (candidate) | `extract-links` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | none |
+| `sp-remediating-links` | `IMPLEMENTED` (3 symlinks) | generic (regex URL-rewrite) | `sharepoint-link-remediation` | `remediate-links` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | genericity + parity proven | none |
+| `sp-remediating-document-content-links` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-link-remediation` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | none |
+| `sp-validating-link-integrity` | `IMPLEMENTED` (1 symlink, thin) | generic | `sharepoint-link-remediation` | `validate-link-integrity` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 12 | extracted skill | Task 9 + Task 16 | verify depth beyond 1 symlink | candidate technique for `reconcile-/validate-sharepoint-publication` (§8c) |
+| `sp-content-migration` | `IMPLEMENTED` (6 symlinks + 1 reference doc) | mixed — scope vs. `sp-migrating-content` unresolved | `sharepoint-content-migration` (candidate) | `migrate-content` (or merged into `sp-migrating-content`'s extraction) | `REQUIRES_HUMAN_DECISION` | Task 4b (overlap analysis) before Task 12 | n/a until scope resolved | n/a | direct script-content comparison against `sp-migrating-content` before assigning final disposition | overlaps `publish-markdown-to-sharepoint` at the single-item-upload level (§8c) |
+| `sp-migrating-content` | `IMPLEMENTED` (44 symlinks, richest skill in repo by link count) | mixed — wave-execution mechanism may generalize, wave *content* is CMAT-schema-coupled | `sharepoint-content-migration` | `run-migration-waves` (mechanism only) | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` (mechanism) + `KEEP_CMAT_SPECIFIC` (wave content) | Task 1 (pilot-family candidate) → Task 6 (contract, separate mechanism from content) → Task 12 | extracted mechanism skill, wave content stays in CMAT | Task 9 + Task 16 + Task 17 | mechanism/content separation proven, not just claimed | explicitly compared in §8c — scale mismatch intentional, Phase 6 does not need this |
+| `sp-running-sharegate-jobs` | `IMPLEMENTED` (3 symlinks) | generic if Sharegate is an assumed available tool; record as external dependency otherwise | `sharepoint-content-migration` | `run-sharegate-jobs` | `PHASE_9_EXTRACT_AS_NEW_PLUGIN` | Task 3 → Task 5 (coupling matrix, confirm Sharegate licensing assumption) → Task 12 | extracted skill | Task 9 + Task 16 | Sharegate dependency documented, not silently assumed | none |
+| `sp-uploading-content` | `IMPLEMENTED` (4 symlinks) | generic (PnP + REST modern-page/asset upload) | **`sharepoint-content-publication` (existing plugin)** | `upload-content` | `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` | Task 4a (destination classification) → Task 12 (extract into existing plugin, not a new one) | new skill inside the existing `sharepoint-content-publication` plugin | Task 9 + Task 16 | merges cleanly with `publish-aspx-to-sharepoint`'s already-confirmed page-creation approach | directly named in §8c |
+| `sp-validating-content` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-validation-and-reconciliation` (candidate, not currently justified) | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | neither repo has a mature content-parity validator — build first, or drop | directly named in §8c |
+| `sp-validating-permissions` | `PLANNED_WITH_NO_IMPLEMENTATION` | n/a | `sharepoint-validation-and-reconciliation` | — | `PLANNED_WITH_NO_IMPLEMENTATION` | none | n/a — gap | n/a | build first, or drop | none |
+| `sp-validating-app-registration` | `IMPLEMENTED` (7 symlinks) | generic (Entra ID app-registration validation) | **`workbench-setup` (existing plugin)** | `validate-app-registration` | `PHASE_9_MERGE_WITH_EXISTING_SKILL` | Task 4a → Task 12 (merge into existing plugin, not a new one) | new skill inside the existing `workbench-setup` plugin | Task 9 + Task 16 | reused by `setup-sharepoint-connection`'s optional `-TestConnection` path | directly named in §8c |
+| `sp-generating-migration-reports` | `UNVERIFIED_ACTIVE_CLAIM` (0 symlinks, 0 scripts) | unverified | `sharepoint-validation-and-reconciliation` | — | `REQUIRES_HUMAN_DECISION` | Task 3 re-verification before any Task 4 classification | n/a until verified | n/a | direct script inspection in CMAT repo to confirm or correct the `active` claim | none |
+
+**ORDS boundary (unchanged, re-confirmed):** `plugins/ords-integration-migration/` is entirely
+outside this table — `ORDS_SPECIFIC_OUT_OF_SCOPE` by default for its whole scope (ORDS queries,
+JUSTIN/CEIS matching, courthouse routing, monitored-person logic, appearance cleanup, CMAT
+calendars, CMAT retention rules). Only a generic SharePoint helper found inside it would ever be
+extraction-eligible, and none was identified in this audit.
+
+**Tally — mutually exclusive, sums to exactly 34, computed directly from the table above:**
+
+| Implementation status | Count |
+|---|---|
+| `IMPLEMENTED` | 21 |
+| `UNVERIFIED_ACTIVE_CLAIM` | 2 (`sp-synthesizing-deployment-matrix`, `sp-generating-migration-reports`) |
+| `PLANNED_WITH_NO_IMPLEMENTATION` | 11 |
+| **Total** | **34** |
+
+`KEEP_CMAT_SPECIFIC` (`sp-provisioning-modern-calendars`) and the `sp-content-migration`/
+`sp-migrating-content` scope-overlap flag are recorded in the **genericity** and **extraction-
+disposition** columns respectively — separate axes from implementation status, not additional
+tally buckets. No skill is counted twice.
+
+## 8e. Destination architecture — existing plugins vs. Phase 9 candidate plugins (2026-08-03)
+
+**Existing workbench plugins** (use when responsibility already fits — no new plugin needed):
+`workbench-setup`, `structured-content-rendering`, `sharepoint-content-publication`,
+`sharepoint-agents-and-skills`, `source-document-extraction`, `document-structure-analysis`,
+`structured-content-assembly`. Per §8d, `sp-validating-app-registration` and `sp-uploading-content`
+already map here (`PHASE_9_MERGE_WITH_EXISTING_SKILL` / `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN`).
+
+**Candidate new Phase 9 plugins** (provisional — none approved yet; a new plugin is justified only
+when the audited capabilities demonstrate distinct user intent, cohesive responsibility,
+independent installation value, real implemented skills/scripts, independent testing,
+lifecycle/versioning rationale, and no suitable existing owner):
+
+| Candidate plugin | Skills mapped (§8d) | Implemented | Planned-empty | Unverified | Justification status |
+|---|---|---|---|---|---|
+| `sharepoint-discovery` | 10 | 7 | 3 | 0 | Real implemented core (7 skills, up to 19 symlinks on the richest). Cohesive "inventory an existing site" user intent, distinct from all existing workbench plugins. **Provisionally justified**, pending genericity review of `sp-discovering-web-parts`'s mapping-matrix content. |
+| `sharepoint-schema` | 5 | 2 | 3 | 0 | Only 2 of 5 implemented, both thin (1 symlink each for the richer one, `sp-auditing-schema` has 7 — actually the stronger of the two). Real but narrow. **Provisionally justified** on `sp-auditing-schema` alone; the other 4 are speculative until built. |
+| `sharepoint-provisioning` | 2 | 0 confirmed | 0 | 2 | **Not justified as a standalone plugin** — both mapped skills are unverified (`REQUIRES_HUMAN_DECISION`) or CMAT-specific (`KEEP_CMAT_SPECIFIC`). No confirmed generic implemented skill exists here at all. Re-evaluate after §8d's two `REQUIRES_HUMAN_DECISION` items are resolved by direct CMAT inspection. |
+| `sharepoint-page-modernization` | 5 | 3 | 2 | 0 | Contains the single richest implementation in the entire CMAT audit (`sp-converting-aspx-pages`, 12 scripts + 5 symlinks). Distinct domain from `structured-content-rendering` per the user's own boundary (reconstructs legacy pages vs. renders new content from structured workbench data). **Justified**, and the strongest single Phase 9 pilot candidate. |
+| `sharepoint-link-remediation` | 4 | 3 | 1 | 0 | Real, cohesive, distinct "fix broken links post-migration" user intent. **Provisionally justified.** |
+| `sharepoint-content-migration` | 4 | 3 confirmed + 1 unclear | 0 | 1 | Contains `sp-migrating-content`, the richest single skill by symlink count (44) — but genericity is the hardest open question here (separating the reusable wave-execution mechanism from CMAT's specific wave content). `sp-uploading-content` is reassigned to `sharepoint-content-publication` instead (existing plugin preferred). **Provisionally justified** on `sp-migrating-content`'s mechanism alone, contingent on genericity review; `sp-content-migration` vs. `sp-migrating-content` overlap must be resolved first. |
+| `sharepoint-validation-and-reconciliation` | 4 | 1 confirmed + 1 reassigned | 2 | 1 | Only 1 skill has real backing (`sp-validating-app-registration`), and that one is being reassigned to `workbench-setup` (existing plugin preferred per the destination-matching rule). **Not currently justified as a standalone plugin** — after reassignment, only 2 planned-empty skills and 1 unverified skill remain, no real implemented core. Re-evaluate if `sp-validating-content`/`sp-validating-permissions` are ever built. |
+
+**No reporting-plugin created automatically**, per instruction — discovery reports stay owned by
+`sharepoint-discovery`, modernization reports by `sharepoint-page-modernization`, migration
+reports by `sharepoint-content-migration`, validation evidence by `sharepoint-validation-and-
+reconciliation` (if it ever becomes justified), provisioning evidence by `sharepoint-provisioning`
+(if it ever becomes justified).
+
+**Bottom line:** of the 7 candidate plugins, **5 are provisionally justified by real implemented
+evidence** (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-modernization`,
+`sharepoint-link-remediation`, `sharepoint-content-migration`), **2 are not currently justified as
+standalone plugins** (`sharepoint-provisioning`, `sharepoint-validation-and-reconciliation`)
+pending further evidence or reassignment to existing plugins. None of this authorizes Phase 9
+execution — these are classification findings only.
 
 ## 9. Genericity contract
 
@@ -525,7 +698,7 @@ Define:
 - Independence, semantic parity, negative, ambiguous, permission/safety, and mutation cases pass.
 - Shared rules were reconciled without importing project overlays.
 - The source CMAT repository and plugins remain unchanged and independently operable.
-- Every remaining source capability (all 33 observed skills, not only the extracted one) has an implementation-status classification (§3b) and a destination disposition (§3b) — none are copied automatically.
+- Every remaining source capability (all 34 observed skills — §8d, not only the extracted one) has an implementation-status classification (§3b) and a destination disposition (§3b) — none are copied automatically.
 - Ownership and lifecycle are documented.
 - No CMAT rebind, second extraction, or general orchestrator begins automatically.
 

@@ -1,33 +1,18 @@
 <#
 .SYNOPSIS
-    Read-only backup: downloads the 5 existing .agent files from
-    SitePages/CEISPilotKnowledgePages on AG-CSB-INTRANET-DEV to a local directory, so they
-    exist as a reference before any tenant cleanup/recreation is considered. Makes no changes
-    to the tenant.
+    Phase 5 historical entry point: back up the 5 CEIS pilot .agent files.
 
-    Idempotent and deterministic: always writes to the same fixed OutputDir (no timestamp in
-    the default path) and overwrites each file's content on every run — rerunning refreshes
-    the backup in place rather than accumulating dated folders.
+.DESCRIPTION
+    Thin wrapper supplying Phase 5's real target list to the canonical
+    backup-sharepoint-agents capability
+    (plugins/sharepoint-agents-and-skills/scripts/backup-sharepoint-agents.ps1). No independent
+    tenant logic remains here.
 #>
-
 [CmdletBinding()]
 param(
     [string]$ConfigPath = (Join-Path $PSScriptRoot "config.psd1"),
     [string]$OutputDir = (Join-Path $PSScriptRoot "backups/agents")
 )
-
-$ErrorActionPreference = "Stop"
-
-if (-not (Test-Path $ConfigPath)) {
-    Write-Error "Config file not found: $ConfigPath. Copy config.psd1.example to config.psd1 and fill in ClientId/TenantId/SiteUrl."
-    exit 1
-}
-
-$config = Import-PowerShellDataFile -Path $ConfigPath
-Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
-Write-Host "Connected successfully!" -ForegroundColor Green
-
-New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
 
 $agentFiles = @(
     "CEIS-Pilot-Knowledge-Agent.agent",
@@ -37,16 +22,6 @@ $agentFiles = @(
     "CEISPilotKnowledgePages-manuallycreated.agent"
 )
 
-foreach ($fileName in $agentFiles) {
-    $sourceUrl = "/sites/AG-CSB-INTRANET-DEV/SitePages/CEISPilotKnowledgePages/$fileName"
-    $destPath = Join-Path $OutputDir $fileName
-    try {
-        $content = Get-PnPFile -Url $sourceUrl -AsString
-        Set-Content -Path $destPath -Value $content -Encoding UTF8
-        Write-Host "  Backed up: $fileName" -ForegroundColor Green
-    } catch {
-        Write-Warning "Could not back up $fileName : $_"
-    }
-}
-
-Write-Host "`nDone. Backups written to: $OutputDir" -ForegroundColor Green
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "../..")).Path
+$canonicalScript = Join-Path $repoRoot "plugins/sharepoint-agents-and-skills/scripts/backup-sharepoint-agents.ps1"
+& $canonicalScript -ConfigFile $ConfigPath -SitePath "/sites/AG-CSB-INTRANET-DEV/SitePages/CEISPilotKnowledgePages" -AgentFileNames $agentFiles -OutputDir $OutputDir

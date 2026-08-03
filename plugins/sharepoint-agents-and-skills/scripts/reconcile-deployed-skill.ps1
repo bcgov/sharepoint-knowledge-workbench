@@ -15,13 +15,30 @@
 
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
-    [string]$RepositorySHA = "9586379f777d2064004e747b2d73e49a3d16680efd0dc3e2c67d5d3c5e71ce2c"
+    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$FallbackConfigFile = "tools/phase-3-sharepoint-discovery/config.psd1",
+    [string]$TargetSkillName = "review-manual-topics",
+    [string]$RepoSkillPath = "plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md",
+    [string]$RepositorySHA = ""
 )
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "=== TASK 8A: SKILL.md DEPLOYMENT RECONCILIATION ===" -ForegroundColor Cyan
+if (-not $RepositorySHA) {
+    if (-not (Test-Path $RepoSkillPath)) {
+        Write-Error "Repository skill file '$RepoSkillPath' not found and no -RepositorySHA supplied."
+        exit 1
+    }
+    $repoBytes = [System.IO.File]::ReadAllBytes((Resolve-Path $RepoSkillPath))
+    $repoHasher = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $RepositorySHA = [System.BitConverter]::ToString($repoHasher.ComputeHash($repoBytes)).Replace("-", "").ToLower()
+    } finally {
+        $repoHasher.Dispose()
+    }
+}
+
+Write-Host "=== SKILL.md DEPLOYMENT RECONCILIATION: $TargetSkillName ===" -ForegroundColor Cyan
 Write-Host "Repository SHA-256: $RepositorySHA" -ForegroundColor Yellow
 Write-Host ""
 
@@ -41,7 +58,7 @@ $hasValidAppReg = ($config.ClientId -and $config.TenantId -and `
 if ($hasValidAppReg) {
     Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ErrorAction Stop
 } else {
-    $phase3ConfigPath = "../../tools/phase-3-sharepoint-discovery/config.psd1"
+    $phase3ConfigPath = $FallbackConfigFile
     if (Test-Path $phase3ConfigPath) {
         Write-Host "Using Phase 3 credentials for authentication..." -ForegroundColor Yellow
         $phase3Config = Import-PowerShellDataFile $phase3ConfigPath
@@ -140,7 +157,7 @@ try {
             }
 
             # Check if this matches review-manual-topics
-            $isReviewManualTopics = ($folderName -eq "review-manual-topics" -or $skillName -eq "review-manual-topics")
+            $isReviewManualTopics = ($folderName -eq $TargetSkillName -or $skillName -eq $TargetSkillName)
             $hashMatch = ($fileHash -eq $RepositorySHA)
 
             $deployedSkills += [PSCustomObject]@{

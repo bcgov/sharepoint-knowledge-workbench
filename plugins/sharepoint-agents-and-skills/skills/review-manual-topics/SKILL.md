@@ -5,8 +5,18 @@ description: Reviews one explicitly selected CEIS manual topic page for content 
 
 # review-manual-topics
 
+**Two runtimes, one capability intent (Phase 6 Task 0.2–0.3):**
+- **`native-sharepoint`** — deployed to the real dev tenant's `AgentAssets/Skills/review-manual-
+  topics/SKILL.md`, invoked by Copilot in SharePoint against the live `CEISPilotKnowledgePages/`
+  library. This is the original runtime this document was authored for.
+- **`repository-claude`** — this repository's own Claude Code skill, invoked against
+  `runs/ceis-manual-v2/render/rendered-output/pages/*.md` instead of a live tenant, using
+  `../../scripts/review_manual_topics.py` for deterministic topic resolution. Same intent, same
+  input boundary, same prohibited scope, same output structure as below — only the content
+  source and the resolution mechanism differ (see "Repository/Claude Runtime Execution" below).
+
 ## Purpose & Overview
-Use this skill to perform a semantic editorial review of **exactly one** selected CEIS topic page published in `CEISPilotKnowledgePages/`. The skill operates as a read-only editorial synthesis capability.
+Use this skill to perform a semantic editorial review of **exactly one** selected CEIS topic page. The skill operates as a read-only editorial synthesis capability. **`native-sharepoint`** reads from the published `CEISPilotKnowledgePages/` library; **`repository-claude`** reads from `runs/ceis-manual-v2/render/rendered-output/pages/`.
 
 ## Input Resolution Hierarchy
 When selecting the target topic for review, resolve inputs in the following order of precedence:
@@ -66,6 +76,42 @@ Classify cross-reference link findings using these standardized observation term
 4. **Identify Ambiguities & Conflicts**: Check for unclear instructions, missing steps, or terminology mismatches across consulted topics.
 5. **State Missing/Unavailable Evidence**: If metadata or referenced content is missing or inaccessible, state it explicitly under "Unable to evaluate items".
 6. **Formulate Recommendations**: Provide human-focused follow-up recommendations for human editors.
+
+## Repository/Claude Runtime Execution
+
+For the `repository-claude` runtime only, Step 1 (Identify Primary Subject) and Step 3 (Audit
+Cross-References) are performed deterministically, not by the model:
+
+```python
+import sys
+# NOTE: per plugin-architecture-policy.md this should be a file-level symlink into this
+# skill's own scripts/ folder, created via .agents/skills/symlink-manager/scripts/
+# symlink_manager.py. That tool does not exist in this repository (confirmed absent —
+# flagged as a real gap, not worked around by hand-symlinking). Referencing the
+# plugin-root script directly until that tool is available or restored.
+sys.path.insert(0, "../../scripts")  # plugins/sharepoint-agents-and-skills/scripts/
+from review_manual_topics import resolve_topic, TopicNotFoundError, TooManyRelatedTopicsError
+from pathlib import Path
+
+pages_dir = Path("runs/ceis-manual-v2/render/rendered-output/pages")
+result = resolve_topic(pages_dir, "<requested-topic-filename-or-slug>")
+# result.primary.content -- the primary topic's raw Markdown
+# result.related          -- list of at most 2 Topic objects (empty if no cross-references)
+```
+
+- `TopicNotFoundError` — report exactly per this document's "Honest Metadata Unavailable
+  Language" pattern: the topic was not found, do not invent its content.
+- `TooManyRelatedTopicsError` — the primary topic links to more than 2 other topic pages; report
+  this explicitly rather than silently picking 2, matching the native runtime's own max-2
+  boundary.
+- No metadata fields (`TopicContentSHA256`, `TopicID`, `Status`, `PublicationOrder`, `ReviewDate`,
+  `TransitionAction`, `TransitionTarget`) are available in this runtime at all — always use the
+  "Honest Metadata Unavailable Language" phrasing for every one of them, every invocation.
+- No tenant identity/permission model exists for this runtime — permission-scoped evaluation
+  cases are `NOT_APPLICABLE_NO_TENANT_IDENTITY` here, not silently skipped.
+
+Once `resolve_topic()` returns, Steps 2, 4, 5, and 6 (the actual editorial synthesis) proceed
+identically to the native runtime, over the resolved content.
 
 ## Logical Output Structure
 Format your review using the following semantic sections:
