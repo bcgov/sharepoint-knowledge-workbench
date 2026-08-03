@@ -1344,6 +1344,72 @@
       "dst": "plugins/structured-content-rendering/skills/compare-rendered-output/scripts/compare_rendered_output.py",
       "strategy": "symlink",
       "description": "compare-rendered-output skill's bundled copy of compare_rendered_output.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/config_setup.py",
+      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/scripts/config_setup.py",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-connection skill's bundled copy of config_setup.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/psd1_writer.py",
+      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/scripts/psd1_writer.py",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-connection skill's bundled copy of psd1_writer.py"
+    },
+    {
+      "src": "plugins/workbench-setup/assets/config.psd1.example",
+      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/assets/config.psd1.example",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-connection skill's bundled copy of config.psd1.example"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/document_workflow.py",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/scripts/document_workflow.py",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of document_workflow.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/psd1_writer.py",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/scripts/psd1_writer.py",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of psd1_writer.py"
+    },
+    {
+      "src": "plugins/workbench-setup/assets/document-workflow.psd1.example",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/assets/document-workflow.psd1.example",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of document-workflow.psd1.example"
+    },
+    {
+      "src": "plugins/workbench-setup/assets/publication-profile.psd1.example",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/assets/publication-profile.psd1.example",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of publication-profile.psd1.example"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/workflow_validation.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/workflow_validation.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of workflow_validation.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/config_setup.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/config_setup.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of config_setup.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/document_workflow.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/document_workflow.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of document_workflow.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/psd1_writer.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/psd1_writer.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of psd1_writer.py"
     }
   ]
 }

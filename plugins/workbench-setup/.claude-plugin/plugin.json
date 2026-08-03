@@ -1,0 +1,22 @@
+{
+    "name": "workbench-setup",
+    "version": "0.1.0-alpha.1",
+    "description": "Foundational connection/config/workflow setup for the whole workbench: generates the root, git-ignored SharePoint connection config from a canonical template; runs the document-workflow intake wizard (source-document identity, requested processing stages, requested output formats -- only implemented renderer profiles offered as executable choices, publication locations, agent-grounding representations, governance/evidence settings) producing a document-workflow profile and a publication profile; validates written configuration/profile files before other plugins consume them. Zero SharePoint tenant I/O (beyond an explicit, opt-in read-only connection test) and zero document extraction/rendering in this version.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "workbench-setup",
+        "configuration",
+        "document-workflow",
+        "publication-profile",
+        "validation"
+    ],
+    "capabilities": [
+        "connection-config-generation",
+        "document-workflow-intake",
+        "configuration-validation"
+    ]
+}

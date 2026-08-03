@@ -1,0 +1,59 @@
+@{
+    SchemaVersion = "1.0"
+
+    Document = @{
+        DocumentId        = "ceis-manual"
+        Title             = "CEIS Manual"
+        ContentType       = "Manual"
+        ContentOwner      = ""
+        SourcePackagePath = "runs/ceis-manual-v2"
+        PackageIdentity   = ""
+    }
+
+    HumanPublication = @{
+        Enabled            = $true
+        TargetType         = "DocumentLibrary"
+        LibraryName        = "KnowledgePublications"
+        RootFolder         = "ceis-manual"
+        TopicFolder        = "topics"
+        MediaFolder        = "media"
+        NavigationFolder   = "navigation"
+        PublicationProfile = "multipage-markdown"
+    }
+
+    PagePublication = @{
+        Enabled            = $false
+        TargetType         = "SitePages"
+        LibraryName        = "Site Pages"
+        RootFolder         = "ceis-manual"
+        PageTemplate       = ""
+        PageNamePattern    = "{TopicId}.aspx"
+    }
+
+    AgentGrounding = @{
+        Enabled            = $true
+        LibraryName        = "AgentGrounding"
+        RootFolder         = "ceis-manual"
+        GroundingProfile   = "manual-grounding"
+    }
+
+    Agents = @(
+        @{
+            Enabled             = $true
+            AgentId             = "ceis-knowledge-agent"
+            AgentName           = "CEIS Knowledge Agent"
+            AgentTemplate       = ""
+            KnowledgeTargets    = @("HumanPublication")
+            IncludeNativeSkills = $false
+            Skills              = @()
+        }
+    )
+
+    NativeSkills = @(
+        # @{ SkillName = "review-manual-topics"; Approved = $true }
+    )
+
+    Evidence = @{
+        OutputPath = "docs/reports/publications/ceis-manual"
+    }
+}
