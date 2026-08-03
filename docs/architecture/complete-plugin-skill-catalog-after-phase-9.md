@@ -20,7 +20,7 @@ each block):
 
 | Category | Count | Detail |
 |---|---|---|
-| Unique installed skill names currently implemented | **5** | `extract-docx`, `analyze-document-structure`, `assemble-structured-content`, `render-structured-content` (4 core-pipeline skills) + `review-manual-topics` (native SharePoint runtime only; its repository/Claude runtime is not yet built) |
+| Unique installed skill names currently implemented | **5** | `extract-docx`, `analyze-document-structure`, `assemble-structured-content`, `render-multipage-markdown` (renamed from `render-structured-content` at Phase 6 Task 0.16; 4 core-pipeline skills) + `review-manual-topics` (native SharePoint runtime only; its repository/Claude runtime is not yet built). See `start-here.md`'s Phase 6 Task 0 progress section for the current, kept-up-to-date count of the 30-name Task 0 list (27/30 complete as of Task 0.16's close — all 7 `structured-content-rendering` skills plus the 20 `sharepoint-agents-and-skills`/`sharepoint-content-publication` skills; only `workbench-setup`'s 3 remain). |
 | Unique additional Phase 6 skill names approved (Task 0, not yet built or partially built) | **29** | Phase 6 Task 0's full skill-name list is **30** names total; `review-manual-topics` is one of those 30 and is already counted above as implemented (native runtime) — so 29 is the count of Phase 6 names with no implementation yet, plus `review-manual-topics`'s own outstanding repository-runtime work is tracked under its existing single entry, not as a 30th separate "additional" name. |
 
 **CMAT (Phase 9 source, spec §8d — 34 skills directly audited, mutually exclusive, sums to 34):**
@@ -75,20 +75,18 @@ a single unified skill count that does not exist; none is published here.
 - **Installation:** standalone.
 
 ### `structured-content-rendering`
-- **Status:** existing (core skill) + Phase 6 Task 0.16 additions (planned)
+- **Status:** Phase 6 Task 0.16 complete — all 7 skill names implemented, packaged, tested (96/96, including a real isolated wheel install and a real CEIS-manual ASPX golden-master proof).
 - **Purpose:** render a canonical package to output formats.
-- **Responsibilities (existing):** multipage-Markdown rendering, render validation.
-- **Responsibilities (Phase 6 Task 0.16, not yet built):** `render-sharepoint-aspx`, rendering-template creation/validation, rendered-output comparison.
+- **Responsibilities:** multipage-Markdown rendering, ASPX (SharePoint modern-page) rendering, render validation (both formats), rendering-template creation/validation (both formats), rendered-output comparison.
 - **Non-responsibilities:** SharePoint tenant I/O (owned by `sharepoint-content-publication`); legacy-page *analysis/conversion* (Phase 9 candidate `sharepoint-page-modernization`, distinct domain per master-roadmap boundary).
 - **Skills:**
-  - `render-structured-content` — implemented (existing).
-  - `render-multipage-markdown` — Phase 6 Task 0.16, substantially exists under a different skill name; packaging verification pending.
-  - `render-sharepoint-aspx` — Phase 6 Task 0.16, not yet built.
-  - `create-markdown-rendering-template` — Phase 6 Task 0.16, not yet built.
-  - `create-aspx-rendering-template` — Phase 6 Task 0.16, not yet built.
-  - `validate-rendering-template` — Phase 6 Task 0.16, not yet built.
-  - `validate-rendered-output` — Phase 6 Task 0.16, partial (Markdown side exists).
-  - `compare-rendered-output` — Phase 6 Task 0.16, not yet built.
+  - `render-multipage-markdown` — implemented (renamed from `render-structured-content` at Task 0.16).
+  - `render-sharepoint-aspx` — implemented; golden-master fidelity proof against the real CEIS manual complete (`runs/ceis-manual-v2/render-aspx/`).
+  - `create-markdown-rendering-template` — implemented.
+  - `create-aspx-rendering-template` — implemented.
+  - `validate-rendering-template` — implemented.
+  - `validate-rendered-output` — implemented (both Markdown and ASPX).
+  - `compare-rendered-output` — implemented.
 - **Phase 9 overlap:** `sp-converting-aspx-pages` (CMAT, richest implementation in the audit) — Phase 6 stays minimal-interface, full page-analysis/conversion sophistication is a Phase 9 candidate targeting *this* plugin (`PHASE_9_EXTRACT_TO_EXISTING_PLUGIN`), per spec §8c.
 - **Installation:** standalone.
 

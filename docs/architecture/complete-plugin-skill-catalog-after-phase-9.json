@@ -110,7 +110,7 @@
     },
     {
       "name": "structured-content-rendering",
-      "status": "existing_plus_phase_6_additions",
+      "status": "phase_6_task_0.16_complete",
       "purpose": "Render a canonical package to output formats.",
       "responsibilities": [
         "multipage-Markdown rendering",

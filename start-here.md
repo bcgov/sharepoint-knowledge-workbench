@@ -1,4 +1,4 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Task 0 In Progress (20/30)
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Task 0 In Progress (27/30)
 
 ## Current status (2026-08-03, verified against git)
 
@@ -26,7 +26,7 @@ Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
   20 recorded runs retained in the provenance ledger, no technical retries.
 - Task 8: consolidated findings accepted.
 - Citation status: **`CITATION_SUPPORT_NOT_VERIFIED`**.
-- **Phase 6: Task 0 `AUTHORIZED_AND_IN_PROGRESS` — 20/30 skill names complete. See "Phase 6 —
+- **Phase 6: Task 0 `AUTHORIZED_AND_IN_PROGRESS` — 27/30 skill names complete. See "Phase 6 —
   Task 0 handoff (2026-08-03)" below for the full resume state.**
 
 **Phase 5's bounded conclusion:**
@@ -47,14 +47,14 @@ validation.
 
 **Branch:** `phase-6-multi-runtime-capability-model`, worktree at
 `.worktrees/phase-6-multi-runtime-capability-model`.
-**Latest pushed commit:** `c157665` ("feat(phase6-task0.15): complete sharepoint-content-
-publication skills"), pushed to `origin/phase-6-multi-runtime-capability-model`.
+**Latest pushed commit:** `30bd605` ("feat(phase6-task0.16): package compare-rendered-output
+skill"), pushed to `origin/phase-6-multi-runtime-capability-model`.
 **Not merged to `main`.** Task 0's own exit gate (all 30 skill names implemented/packaged/
 tested + migration ledger + one focused context-bundler review package) is not yet met — do not
-merge, and do not treat the 20 completed skills below as separately, finally accepted. They are
+merge, and do not treat the 27 completed skills below as separately, finally accepted. They are
 accepted as in-progress Task 0 work only. Final external review occurs once all 30 are complete.
 
-**Task 0 progress: 20/30 skill names complete.**
+**Task 0 progress: 27/30 skill names complete.**
 
 - `sharepoint-agents-and-skills`: **15/15 complete**, plugin manifests in place, **31/31 tests
   passing**. Includes the repository/Claude second runtime for `review-manual-topics` that closes
@@ -71,24 +71,46 @@ accepted as in-progress Task 0 work only. Final external review occurs once all 
   skills (`publish-markdown-to-sharepoint`, `publish-aspx-to-sharepoint`,
   `rollback-sharepoint-publication`) produce human-actionable plans, not tenant writes.
 
-**Next: Task 0.16 — `structured-content-rendering` (7 skills), not yet started.**
+**Task 0.16 — `structured-content-rendering` (7 skills): COMPLETE.**
 
-- `render-multipage-markdown` likely needs only a naming/boundary verification pass (the
-  underlying `render-structured-content` skill already exists and works).
-- `render-sharepoint-aspx` is a genuine new renderer requiring `Renderer` protocol conformance
-  (`plugins/structured-content-rendering/scripts/renderers/protocol.py`) and golden-master
-  fidelity proof, per the plan's own Stage 5.5B.1.5 standard — not a rushed task.
-- `create-markdown-rendering-template`, `create-aspx-rendering-template`,
-  `validate-rendering-template`, `compare-rendered-output` are all genuinely new builds.
-- **Test-collection finding (checked, not a code defect):** running `pytest` directly inside
-  `plugins/structured-content-rendering/` without first running
-  `pip install -e plugins/structured-content-rendering` fails with `ModuleNotFoundError` for the
-  plugin's own flat-scripts modules (`atomic_output`, `renderers`, etc.) — this is a missing
-  install precondition, not a bug in the plugin's code. Confirmed: after `pip install -e
-  plugins/structured-content-rendering`, all **49/49** existing tests pass. Run the install step
-  before starting Task 0.16 work; do not "fix" this as if it were a real collection defect.
+- `render-multipage-markdown` — renamed from `render-structured-content` (naming/boundary
+  verification only; the underlying renderer already worked). 49/49 pre-existing tests still pass
+  after the rename.
+- `render-sharepoint-aspx` — genuine new `Renderer`-protocol-conformant renderer
+  (`scripts/renderers/sharepoint_aspx.py`): one HTML fragment per chunk + `page-manifest.json`,
+  staged for `Add-PnPPage`/`Add-PnPPageTextPart` (raw `.aspx` upload confirmed `Access denied`,
+  Phase 3.0 §15). Zero SharePoint tenant I/O. **Golden-master fidelity proof complete**: the real
+  CEIS manual canonical package (25 chunks, 319 media files, grouped strategy) renders end-to-end
+  with validation PASS, and a fresh render is byte-identical to a recorded baseline committed at
+  `runs/ceis-manual-v2/render-aspx/rendered-output/` (see
+  `plugins/structured-content-rendering/tests/integration/test_golden_master_aspx.py`).
+- `create-markdown-rendering-template` / `create-aspx-rendering-template` — shared
+  `scripts/templates.py` module; canonical starter templates for both profiles (`generic`, `ceis`)
+  and both formats under `assets/templates/`.
+- `validate-rendering-template` — `scripts/template_validation.py`, one negative-control test per
+  detection class (unknown profile/format, missing/unknown placeholder, title not in a real
+  heading construct, forbidden ASPX full-page wrapper).
+- `validate-rendered-output` — extended `renderers/validate_rendered.py` with an ASPX counterpart
+  to every Markdown detection, plus `render_and_promote_aspx`; packaged as its own named skill
+  (previously only reachable indirectly through `render-multipage-markdown`'s bundled scripts).
+- `compare-rendered-output` — new `scripts/compare_rendered_output.py`, packaging the Phase 2
+  Subphase 2.5.4 golden-master comparison pattern as a standalone, reusable primitive (used by the
+  ASPX golden-master proof above).
+- **Real packaging defect found and fixed while verifying installability:** `templates.py`'s
+  canonical starter templates lived at the plugin root, outside `pyproject.toml`'s
+  `package-dir=scripts/` boundary — invisible under `pip install -e` (editable installs point back
+  at the live source tree) but broke a real isolated wheel install
+  (`tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py`) with
+  `FileNotFoundError`. Fixed via `scripts/assets/templates/...` as real packages (empty
+  `__init__.py` markers + file-level symlinks back to the plugin-root canonical source, per the
+  hub-and-spoke convention) plus `package-data`/`py-modules` declarations. Isolated wheel install
+  now passes.
+- **Final verification:** full plugin suite **96/96 passing** (unit + contract + integration), a
+  fresh isolated wheel install also passes 96/96, no broken symlinks anywhere in the plugin.
+- Latest Task 0.16 commits (chronological): `20849b8`, `2d06426`, `506e193`, `ef80836`, `e98b17f`,
+  `5c6aee2`, `617514e`, `30bd605`.
 
-**Then: Task 0.17 — `workbench-setup` (3 skills), already authorized, cross-repository.**
+**Next: Task 0.17 — `workbench-setup` (3 skills), already authorized, cross-repository.**
 
 - `setup-sharepoint-connection`, `initialize-document-workflow`, `validate-workbench-environment`
   (per `docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md`
@@ -111,14 +133,12 @@ Task 0's exit gate is met.
 1. Read this file in full.
 2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
    model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
-   itself isn't present), confirm `HEAD` matches `c157665`.
-3. `pip install -e plugins/structured-content-rendering` before running that plugin's tests.
-4. Continue Task 0.16, fixing nothing that isn't a real defect (see the test-collection note
-   above).
-5. Continue Task 0.17 in the sibling `agent-plugins-skills` repo per the cross-repository
+   itself isn't present), confirm `HEAD` matches `30bd605`.
+3. Task 0.16 (`structured-content-rendering`) is complete — do not redo it.
+4. Continue Task 0.17 in the sibling `agent-plugins-skills` repo per the cross-repository
    instructions above.
-6. Do not start Phase 6 Tasks 1–12.
-7. Do not create another review gate before all 30 skill names are complete — the approved
+5. Do not start Phase 6 Tasks 1–12.
+6. Do not create another review gate before all 30 skill names are complete — the approved
    external-review gate is after Task 0 in full, not after each plugin.
 
 **Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
