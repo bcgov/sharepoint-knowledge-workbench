@@ -79,7 +79,10 @@ if (-not $Execute) {
 
 # Require explicit -ConfirmExactTarget "CONFIRM-REMOVE" when -Execute is specified
 if ($ConfirmExactTarget -cne "CONFIRM-REMOVE") {
-    Write-Error "Execution denied: -Execute requires explicit -ConfirmExactTarget 'CONFIRM-REMOVE'. Provided: '$ConfirmExactTarget'"
+    # Write evidence BEFORE Write-Error: under $ErrorActionPreference = "Stop", Write-Error is a
+    # terminating error and the JSON-write below never ran until this fix (found via a real
+    # pwsh-executed test on the sibling restore-sharepoint-native-skills.ps1, which copied this
+    # same ordering bug).
     if ($JsonOutputPath) {
         $resultObj = [PSCustomObject]@{
             status = "CANCELLED"
@@ -90,6 +93,7 @@ if ($ConfirmExactTarget -cne "CONFIRM-REMOVE") {
         }
         $resultObj | ConvertTo-Json -Depth 5 | Set-Content -Path $JsonOutputPath
     }
+    Write-Error "Execution denied: -Execute requires explicit -ConfirmExactTarget 'CONFIRM-REMOVE'. Provided: '$ConfirmExactTarget'"
     exit 1
 }
 
