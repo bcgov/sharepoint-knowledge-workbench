@@ -462,3 +462,14 @@ human-authored change
 generated derived element
 ```
 
+**Tenant-tested evidence added 2026-08-03 (Phase 5 Task 7/8):** on the "model output is
+inconsistent" question specifically —
+`docs/research/field-note-aspx-vs-markdown-grounding-comparison.md` documents a real, reproducible
+case: two live SharePoint Copilot agents, unmodified, asked the identical cross-topic-relationship
+question twice each, gave a hedged/declined answer on the first run and a confident-but-mutually-
+contradictory answer on the second (across both agents independently). The same evidence also shows
+agents inferring "currency" from SharePoint file-upload timestamps rather than authored review
+metadata when no real currency signal exists — a concrete example of the "can an AI classify
+requirements as guidance incorrectly" and "what is the fallback when model output is inconsistent"
+risks this section already names, not yet a proposed answer to either.
+
