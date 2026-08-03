@@ -94,21 +94,27 @@ a single unified skill count that does not exist; none is published here.
 ## Phase 6 Operational Plugins (Task 0, `AUTHORIZED_AND_IN_PROGRESS`)
 
 ### `sharepoint-content-publication`
-- **Status:** Phase 6 planned (existing `TRANSITIONAL_HOLDING_LOCATION`, completed under Task 0.15)
+- **Status:** Phase 6 Task 0.15 complete — all 5 skill names implemented, packaged, tested (26/26).
 - **Purpose:** consume rendered artifacts and deploy/reconcile/validate/rollback in SharePoint.
 - **Responsibilities:** upload, page create/update, reconciliation, validation, rollback.
 - **Non-responsibilities:** rendering, rendering templates, agent/native-skill lifecycle.
 - **Skills:**
-  - `publish-markdown-to-sharepoint` — Phase 6 Task 0.15, not yet built.
-  - `publish-aspx-to-sharepoint` — Phase 6 Task 0.15, not yet built.
-  - `reconcile-sharepoint-publication` — Phase 6 Task 0.15, existing Python basis (`sharepoint_reconcile.py`), packaging pending.
-  - `validate-sharepoint-publication` — Phase 6 Task 0.15, existing partial Python basis, extension pending.
-  - `rollback-sharepoint-publication` — Phase 6 Task 0.15, not yet built (no CMAT counterpart either).
+  - `publish-markdown-to-sharepoint` — implemented.
+  - `publish-aspx-to-sharepoint` — implemented.
+  - `reconcile-sharepoint-publication` — implemented.
+  - `validate-sharepoint-publication` — implemented.
+  - `rollback-sharepoint-publication` — implemented.
 - **Phase 9 overlap:** `sp-uploading-content` (CMAT, active, dual PnP+REST mechanism) → `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` here; `sp-migrating-content`'s single-item upload primitive (extracted from the 10-wave engine) is a further candidate once genericized.
-- **Installation:** existing Python package structure; skills/manifests not yet complete.
+- **Installation (corrected 2026-08-03, Phase 6 remediation):** manifests/skills complete;
+  `pyproject.toml` added this remediation pass — but a real isolated wheel install **FAILS**:
+  `sharepoint_package.py` has an undeclared runtime dependency on `canonical_package`
+  (`structured-content-rendering`'s own module), a genuine cross-plugin dependency violation of
+  this repo's "no shared distribution" rule, verified directly via
+  `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py`. Not fixed by this
+  remediation pass — a real architecture fix, out of its bounded-correction scope.
 
 ### `sharepoint-agents-and-skills`
-- **Status:** Phase 6 planned (new plugin, Task 0.1–0.14, partially scaffolded)
+- **Status:** Phase 6 Task 0.1–0.14 complete — all 15 skill names implemented, packaged, tested (46/46 as of Phase 6 remediation, up from 31 at initial Task 0 completion — 9 new common-evaluation-case tests plus a new `drift_detection.py` module with 9 tests added during remediation).
 - **Purpose:** own agents, agent templates, `AgentAssets`, and native-skill lifecycle.
 - **Responsibilities:** agent create/update/knowledge-configuration/backup/restore/template; native-skill create/deploy/verify/rollback/backup/restore; `AgentAssets` inventory/validation.
 - **Non-responsibilities:** content rendering, publication, workbench setup/config-file generation.
@@ -116,25 +122,30 @@ a single unified skill count that does not exist; none is published here.
   not two skill names:**
   - `review-manual-topics`
     - runtimes:
-      - `native-sharepoint` — **implemented** (moved from Phase 4, real deployed skill).
-      - `repository-claude` — Task 0.3, not yet built.
-  - `create-sharepoint-native-skill` — Task 0.4, not yet built.
-  - `deploy-sharepoint-native-skill` — Task 0.4, scripts moved, packaging pending.
-  - `verify-sharepoint-native-skill` — Task 0.4, scripts extracted, packaging pending.
-  - `rollback-sharepoint-native-skill` — Task 0.4, script moved, packaging pending.
-  - `inventory-and-validate-agentassets` — Task 0.4, script moved, `provision-agentassets` canonical-version decision resolved (Phase-4 copy), packaging pending.
-  - `backup-sharepoint-native-skills` — Task 0.5, script generalized, packaging pending.
-  - `restore-sharepoint-native-skills` — Task 0.5, not yet built.
-  - `create-sharepoint-agent` — Task 0.6, not yet built.
-  - `update-sharepoint-agent` — Task 0.6, not yet built (previously missing entirely).
-  - `configure-sharepoint-agent-knowledge` — Task 0.6, not yet built.
-  - `backup-sharepoint-agents` — Task 0.6, script generalized, packaging pending.
-  - `restore-sharepoint-agents` — Task 0.6, not yet built (includes `get-agent-resource-identifiers`).
-  - `create-sharepoint-agent-template` — Task 0.7, not yet built.
-  - `apply-sharepoint-agent-template` — Task 0.7, not yet built.
+      - `native-sharepoint` — implemented (moved from Phase 4, real deployed skill).
+      - `repository-claude` — implemented (`review_manual_topics.py`, deterministic resolution + real semantic-review execution proven at Phase 6 remediation — see `docs/superpowers/plans/phase-6-tasks-1-12-evidence/task-6-baseline-evaluation-findings.md`).
+  - `create-sharepoint-native-skill` — implemented.
+  - `deploy-sharepoint-native-skill` — implemented.
+  - `verify-sharepoint-native-skill` — implemented.
+  - `rollback-sharepoint-native-skill` — implemented.
+  - `inventory-and-validate-agentassets` — implemented.
+  - `backup-sharepoint-native-skills` — implemented.
+  - `restore-sharepoint-native-skills` — implemented.
+  - `create-sharepoint-agent` — implemented.
+  - `update-sharepoint-agent` — implemented.
+  - `configure-sharepoint-agent-knowledge` — implemented.
+  - `backup-sharepoint-agents` — implemented.
+  - `restore-sharepoint-agents` — implemented (includes `get-agent-resource-identifiers`).
+  - `create-sharepoint-agent-template` — implemented.
+  - `apply-sharepoint-agent-template` — implemented.
 - **Excluded from Task 0:** `review-manual-topics-metadata` (write-capable, UI-generated, distinct capability) — `RETAIN_AS_PHASE_EVIDENCE`, not implemented, not counted in the 15.
 - **Phase 9 overlap:** `sp-validating-app-registration` (CMAT, active) → `PHASE_9_MERGE_WITH_EXISTING_SKILL` target is actually `workbench-setup`, not this plugin (per spec §8c/§8e) — noted here to prevent future misassignment.
-- **Installation:** scaffold only; no `plugin.json`/`plugin.yaml`/`README.md` yet.
+- **Installation (corrected 2026-08-03, Phase 6 remediation):** manifests/skills complete
+  (15/15). Python layer (`review_manual_topics.py`, `drift_detection.py`) is standalone —
+  `pyproject.toml` added this remediation pass, real isolated wheel install **PASSES**, 46/46
+  (re-verified through the isolated harness at this exact count). PowerShell scripts (`scripts/*.ps1`) have no wheel-based
+  install story and are consumed directly from the repository checkout — a structural property of
+  mixed-language plugins, not a gap.
 
 ### `workbench-setup`
 - **Status:** Phase 6 Task 0.17 complete — all 3 skill names implemented, packaged, tested (36/36, including a real isolated wheel install).
