@@ -143,6 +143,9 @@ business-user-facing interaction.
 7. [`field-note-ready-made-copilot-agent-launch-by-name.md`](field-note-ready-made-copilot-agent-launch-by-name.md)  
    Records an unverified observation from Phase 5 Task 4: the ready-made/default Copilot appears to "launch" a named custom `.agent` when asked in natural language, but its cited sources suggest it may be self-answering rather than truly handing off to that agent's distinct instructions. Do not treat as confirmed until verified per that note's method.
 
+8. [`field-note-aspx-vs-markdown-grounding-comparison.md`](field-note-aspx-vs-markdown-grounding-comparison.md)  
+   Records tenant-tested findings from Phase 5's Task 7/8 live comparison of two grounding formats. Two reproducible failure modes appeared on **both** agents regardless of format — inferring "currency" from file-upload timestamps instead of real review metadata, and giving mutually contradictory confident answers across repeated runs of a cross-topic-relationship question — suggesting model-level rather than format-specific behavior. One single-case finding suggests a possible Markdown-side ambiguity-handling advantage, not yet confirmed at scale.
+
 ### Content creation, curation, and Markdown
 
 7. [`research-summary-native-markdown-sharepoint-onedrive.md`](research-summary-native-markdown-sharepoint-onedrive.md)  
