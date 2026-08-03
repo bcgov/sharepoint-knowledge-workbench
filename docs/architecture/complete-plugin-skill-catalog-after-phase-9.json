@@ -132,9 +132,9 @@
         },
         {
           "name": "render-sharepoint-aspx",
-          "status": "phase_6_approved_not_built",
+          "status": "phase_6_approved_partial",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build",
+          "source_provenance": "new build, renderer + unit tests complete; golden-master fidelity proof and validate-rendered-output/ASPX extension still pending",
           "overlap_notes": "CMAT sp-converting-aspx-pages richer; Phase 6 stays minimal-interface, full extraction is Phase 9 candidate sharepoint-page-modernization"
         },
         {
