@@ -1110,6 +1110,12 @@
       "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of the rendered-output-profile contract doc"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/templates.py",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/templates.py",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of templates.py"
     }
   ]
 }
