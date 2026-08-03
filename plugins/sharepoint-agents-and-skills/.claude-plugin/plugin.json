@@ -1,0 +1,17 @@
+{
+    "name": "sharepoint-agents-and-skills",
+    "version": "0.1.0-alpha.1",
+    "description": "SharePoint Copilot agent and native-skill lifecycle tooling: AgentAssets inventory/validation, agent creation/update/knowledge-configuration/backup/restore/templates, native-skill creation/deployment/verification/rollback/backup/restore. Phase 6 Task 0, in progress -- see plugins/sharepoint-agents-and-skills/README.md.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "copilot-agent",
+        "native-skill",
+        "agentassets",
+        "tenant-pilot"
+    ]
+}

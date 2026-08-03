@@ -3,7 +3,11 @@
 
 > **Planning status:** `PLANNED`, `EVIDENCE_BASED`, `NOT_IMPLEMENTATION_AUTHORIZATION`, `SOURCE_BASELINE_REQUIRES_PINNING`. This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Exact source and destination commits, candidate files, repository paths, commands, plugin boundaries, and test fixtures must be verified through Phase 9 reconnaissance before execution. Phase 9 has not started.
 
-> **Evidence-baseline update (2026-08-01):** See `phase-9-reusable-sharepoint-plugin-extraction-spec.md` §3a for the observed source inventory (119 dirs / 272 files / 33 skills) that now grounds Tasks 1–5 below. This is a source baseline for classification, not a pinned extraction commit.
+> **Evidence-baseline update (2026-08-01, historical):** See `phase-9-reusable-sharepoint-plugin-extraction-spec.md` §3a for the observed source inventory (119 dirs / 272 files / 33 skills) that grounded Tasks 1–5 below at the time. This is a source baseline for classification, not a pinned extraction commit.
+>
+> **Superseded (2026-08-03):** a direct recount found **34 skill directories**, not 33/31 —
+> corrected across all Phase 9 documents. See spec §8d for the complete, current 34-skill mapping
+> with per-skill implementation-status, destination, and disposition.
 
 ## Planning discipline
 
@@ -19,6 +23,19 @@
 ## Entry gate
 
 Do not finalize or execute this plan until the Phase 9 specification is approved, the source baseline is pinned, one pilot capability is selected, and current destination plugin conventions are verified.
+
+**Phase 6 overlap finding (2026-08-03, not Phase 9 execution):** see the Phase 9 spec's §8c for
+the full comparison of Phase 6 Task 0's 30 skills against CMAT's `sharepoint-migration` plugin.
+`rollback-sharepoint-publication` has no CMAT counterpart at all (confirmed genuinely new work,
+both repos). **No new Phase 9 plugin is justified by the Phase 6 overlap subset alone. The
+broader CMAT inventory still contains distinct SharePoint engineering domains that require Phase
+9 destination classification** — see spec §8d for the complete 34-skill mapping (corrected from
+the previously-cited 31/33) and §8e for the full destination-architecture evaluation: 5 of 7
+provisional candidate plugins (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-
+modernization`, `sharepoint-link-remediation`, `sharepoint-content-migration`) are provisionally
+justified by real implemented evidence; 2 (`sharepoint-provisioning`, `sharepoint-validation-and-
+reconciliation`) are not currently justified as standalone plugins. None of this authorizes Phase
+9 execution.
 
 ## Task 0 — Confirm entry evidence
 
@@ -47,7 +64,7 @@ Record the CMAT repository commit or immutable bundle, hashes, source plugin ver
 
 Inventory relevant plugins, skills, agents, scripts, modules, tests, fixtures, references, rules, assets, configuration, symlinks, planned stubs, and consumers.
 
-Use the observed baseline in spec §3a (119 dirs / 272 files / 33 skills across discovery, schema, page-modernization, link-analysis, content-migration, provisioning/validation, and reporting families) as the starting point — re-verify it against the pinned commit from Task 2, since the source repository continues to change independently and the §3a figures are a snapshot, not a permanent total.
+Use the observed baseline in spec §3a/§8d (119 dirs / 272 files, **34 skills** — directly re-counted 2026-08-03, corrected from the earlier 33/31 figures — across discovery, schema, page-modernization, link-analysis, content-migration, provisioning/validation, and reporting families) as the starting point — re-verify it against the pinned commit from Task 2, since the source repository continues to change independently and these figures are a snapshot, not a permanent total.
 
 Create a source-behaviour matrix linking capability claims to real tests or evidence. Do not treat the presence of `SKILL.md`, `evals.json`, or `results.tsv` alone as proof of implementation — inspect actual script/test/fixture counts per skill (spec §3a's spot-check found a range from 3 files to 27 files across skills).
 
@@ -55,7 +72,8 @@ Create a source-behaviour matrix linking capability claims to real tests or evid
 
 ## Task 4 — Classify capabilities and backlog (three-axis model)
 
-Apply all three classification axes to every one of the 33 observed skills (spec §3b), not just one:
+Apply all three classification axes to every one of the **34** observed skills (spec §3b/§8d —
+corrected from the earlier 33/31 counts), not just one:
 
 **Axis 1 — Implementation status** (what actually exists in source):
 ```text
@@ -97,6 +115,37 @@ Review individual skills under the ORDS plugin for generic SharePoint value (e.g
 **Evidence:** three-axis capability matrix and backlog disposition record.  
 **No automatic migration.**
 
+## Task 4a — Destination classification against the final workbench plugin inventory
+
+Match every capability from Task 4 against the **current, final** workbench plugin inventory —
+`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`,
+`structured-content-rendering`, `sharepoint-content-publication`, `sharepoint-agents-and-skills`,
+`workbench-setup` — before considering any new plugin. Spec §8e is the starting classification
+(5 of 7 candidate plugins provisionally justified, 2 not); this task re-verifies it against
+whatever the workbench plugin inventory actually looks like at Phase 9 execution time (it may have
+changed since this note was written).
+
+**Deliverable:** destination-classification record, one row per capability, stating existing-
+plugin-owner-found or no-suitable-owner-found.  
+**Verification:** every capability assigned to an existing plugin unless it demonstrably has no
+suitable owner.  
+**Evidence:** the classification record plus spec §8e's justification criteria applied per
+candidate plugin.
+
+## Task 4b — Overlap analysis with Phase 6 capabilities
+
+Cross-check every Task 4 capability against the Phase 6 Task 0 skill set (spec §8c, 30 skills).
+Confirm no Phase 9 candidate silently duplicates a Phase 6 skill's *scope* (narrower Phase 6
+skills and broader CMAT capabilities may share a name without being the same responsibility — see
+§8c's `render-sharepoint-aspx` vs. `sp-converting-aspx-pages` comparison for the pattern to
+follow).
+
+**Deliverable:** overlap-analysis record.  
+**Verification:** every Phase 6 skill with a CMAT counterpart (§8c's 8 explicit comparisons) has
+its Phase 9 disposition re-confirmed against Phase 6's actual built state at Phase 9 execution
+time (not just this note's snapshot).  
+**Evidence:** the overlap record.
+
 ## Task 5 — Build the coupling matrix
 
 Search and classify:
@@ -113,6 +162,20 @@ Search and classify:
 
 **Verification:** every dependency has a disposition.  
 **Evidence:** raw scan output plus reviewed coupling matrix.
+
+## Task 5a — Plugin-boundary confirmation
+
+For each of the 7 candidate plugins (spec §8e), confirm or reject its boundary justification using
+the stated criteria: distinct domain, cohesive responsibility, independent installation value,
+real implemented skills/scripts (not `SKILL.md`/`evals.json`/`results.tsv` alone), independent
+testing, lifecycle/versioning rationale, no suitable existing owner. §8e's provisional finding (5
+justified, 2 not) is a starting point, not a final decision — this task re-verifies it with
+current evidence and produces the actual go/no-go per candidate plugin.
+
+**Deliverable:** plugin-boundary confirmation record, one disposition per candidate plugin.  
+**Verification:** every `PHASE_9_EXTRACT_AS_NEW_PLUGIN`-disposed skill traces to an approved
+plugin boundary, not an assumed one.  
+**Evidence:** the confirmation record.
 
 ## Task 6 — Define the generic capability contract
 
