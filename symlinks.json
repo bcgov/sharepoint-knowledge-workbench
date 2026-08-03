@@ -1116,6 +1116,12 @@
       "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/templates.py",
       "strategy": "symlink",
       "description": "create-markdown-rendering-template skill's bundled copy of templates.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/templates.py",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/templates.py",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of templates.py"
     }
   ]
 }
