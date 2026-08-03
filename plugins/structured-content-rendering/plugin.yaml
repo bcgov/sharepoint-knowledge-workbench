@@ -8,4 +8,4 @@ platforms:
   - macos
   - windows
 skills:
-  - render-structured-content
+  - render-multipage-markdown
