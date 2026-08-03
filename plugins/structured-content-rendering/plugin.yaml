@@ -10,3 +10,4 @@ platforms:
 skills:
   - render-multipage-markdown
   - render-sharepoint-aspx
+  - create-markdown-rendering-template

@@ -139,9 +139,9 @@
         },
         {
           "name": "create-markdown-rendering-template",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build",
+          "source_provenance": "new build, backed by runs/ceis-manual-v2/ rendered-output evidence",
           "overlap_notes": null
         },
         {
