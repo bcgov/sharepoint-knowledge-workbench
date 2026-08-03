@@ -1,0 +1,11 @@
+name: sharepoint-agents-and-skills
+version: 0.1.0-alpha.1
+description: "SharePoint Copilot agent and native-skill lifecycle tooling: AgentAssets inventory/validation, agent lifecycle (create/update/knowledge-configuration/backup/restore/templates), native-skill lifecycle (create/deploy/verify/rollback/backup/restore). Phase 6 Task 0, in progress."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - review-manual-topics
