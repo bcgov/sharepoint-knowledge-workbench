@@ -56,9 +56,19 @@ if (-not $existingLib) {
     Write-Error "Library '$TargetLibrary' does not exist. This script deliberately reuses the existing CEIS-Pilot-Knowledge library (with its already-uploaded media/) — it does not create a new one. Confirm the library name."
     exit 1
 }
-Write-Host "Reusing existing library '$TargetLibrary' (id: $($existingLib.Id)) — its existing media/ is NOT touched by this script." -ForegroundColor Yellow
+# Use the library's REAL URL segment, not its display Title — SharePoint strips hyphens from
+# the Title when generating the library's URL segment (confirmed: Title "CEIS-Pilot-Knowledge"
+# -> URL segment "CEISPilotKnowledge"). Resolve-PnPFolder's -SiteRelativePath is relative to the
+# WEB, not the full server-relative URL (confirmed by direct test: passing the /sites/<site>
+# prefix causes "Access denied", since it tries to resolve a path outside the web's own root) —
+# so strip the web's own server-relative URL prefix from RootFolder.ServerRelativeUrl.
+$web = Get-PnPWeb
+$webServerRelativeUrl = $web.ServerRelativeUrl.TrimEnd("/")
+$libraryServerRelativeUrl = $existingLib.RootFolder.ServerRelativeUrl
+$libraryWebRelativeUrl = $libraryServerRelativeUrl.Substring($webServerRelativeUrl.Length).TrimStart("/")
+Write-Host "Reusing existing library '$TargetLibrary' (id: $($existingLib.Id), web-relative URL: $libraryWebRelativeUrl) — its existing media/ is NOT touched by this script." -ForegroundColor Yellow
 
-$targetFolder = "$TargetLibrary/$TargetSubFolder"
+$targetFolder = "$libraryWebRelativeUrl/$TargetSubFolder"
 Resolve-PnPFolder -SiteRelativePath $targetFolder | Out-Null
 
 $pageFiles = Get-ChildItem -Path $SourcePagesPath -File
@@ -67,7 +77,7 @@ Write-Host "Uploading $($allFiles.Count) Markdown files ($($pageFiles.Count) pag
 
 $uploadedCount = 0
 foreach ($file in $allFiles) {
-    $destinationFolder = if ($file.FullName -eq (Resolve-Path $SourceIndexPath).Path) { $TargetLibrary } else { $targetFolder }
+    $destinationFolder = if ($file.FullName -eq (Resolve-Path $SourceIndexPath).Path) { $libraryWebRelativeUrl } else { $targetFolder }
     Add-PnPFile -Path $file.FullName -Folder $destinationFolder -ErrorAction Stop | Out-Null
     Write-Host "  Uploaded: $($file.Name) -> $destinationFolder"
     $uploadedCount++
