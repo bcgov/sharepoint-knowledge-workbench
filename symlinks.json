@@ -321,103 +321,103 @@
     },
     {
       "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/dispositions.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/dispositions.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/dispositions.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/hashing.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/hashing.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/hashing.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/structured_content_rendering.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/structured_content_rendering.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/path_safety.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/path_safety.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/path_safety.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/render_result.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/render_result.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/render_result.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/multipage_markdown.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/protocol.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/protocol.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/validate_rendered.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": ""
     },
@@ -615,9 +615,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy of the visual pipeline diagram"
+      "description": "render-multipage-markdown skill's bundled copy of the visual pipeline diagram"
     },
     {
       "src": "docs/diagrams/high-level.mmd",
@@ -663,9 +663,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/high-level.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/high-level.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/high-level.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy of the overall system diagram"
+      "description": "render-multipage-markdown skill's bundled copy of the overall system diagram"
     },
     {
       "src": "docs/diagrams/01-phase1-overview.mmd",
@@ -927,9 +927,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/02-analyze-and-confirm.mmd",
@@ -939,9 +939,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/03-create-canonical-content.mmd",
@@ -951,9 +951,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/05-validation-and-evidence.mmd",
@@ -963,9 +963,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
@@ -975,9 +975,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/06-editing-workflow-hybrid-option.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
@@ -987,9 +987,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/07-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
@@ -999,9 +999,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     }
   ]
 }

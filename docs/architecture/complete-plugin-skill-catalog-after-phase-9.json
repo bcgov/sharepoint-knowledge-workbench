@@ -124,17 +124,10 @@
       ],
       "skills": [
         {
-          "name": "render-structured-content",
-          "status": "implemented",
-          "phase_task": "Phase 1",
-          "source_provenance": "built-in-repo",
-          "overlap_notes": null
-        },
-        {
           "name": "render-multipage-markdown",
-          "status": "phase_6_approved_partial",
-          "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "existing render-structured-content, packaging verification pending",
+          "status": "implemented",
+          "phase_task": "Phase 1, renamed from render-structured-content at Phase 6 Task 0.16",
+          "source_provenance": "built-in-repo",
           "overlap_notes": null
         },
         {

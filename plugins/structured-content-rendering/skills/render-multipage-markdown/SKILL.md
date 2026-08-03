@@ -1,5 +1,5 @@
 ---
-name: render-structured-content
+name: render-multipage-markdown
 plugin: structured-content-rendering
 description: Renders a validated structured content package and publication map into supported consumer output formats. Currently supports the implemented multipage Markdown profile. Does not extract source documents, determine topic boundaries, assemble the source package, or publish to SharePoint.
 allowed-tools: Bash, Read

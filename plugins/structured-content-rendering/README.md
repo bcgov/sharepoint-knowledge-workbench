@@ -43,7 +43,7 @@ plugins/structured-content-rendering/
 │       ├── multipage_markdown.py  # the concrete multipage-markdown Renderer
 │       └── validate_rendered.py   # render validator + render_and_promote
 ├── references/contracts/
-├── skills/render-structured-content/
+├── skills/render-multipage-markdown/
 └── tests/
 ```
 
