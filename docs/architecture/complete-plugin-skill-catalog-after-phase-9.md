@@ -146,7 +146,7 @@ a single unified skill count that does not exist; none is published here.
   - `setup-sharepoint-connection` — not yet built.
   - `initialize-document-workflow` — not yet built (absorbs `initialize-publication-profile`, not a 4th skill).
   - `validate-workbench-environment` — not yet built.
-- **Authoring constraint:** Category 1 (marketplace-style) — authored in the sibling `agent-plugins-skills` monorepo per `CLAUDE.md`, not directly in this repo.
+- **Authoring constraint (corrected 2026-08-03):** authored directly in this repo at `plugins/workbench-setup/`, same as `sharepoint-agents-and-skills`/`sharepoint-content-publication` — an earlier version of this line wrongly claimed Category 1 (marketplace-style, sibling `agent-plugins-skills` monorepo); that conflated using the `marketplace-manager` skill (installed from `agent-plugins-skills`) as the *procedure* for `marketplace.json` updates with authoring the plugin's code there. See `start-here.md`'s Task 0.17 correction record.
 - **Phase 9 overlap:** `sp-validating-app-registration` (CMAT, active) is the richer connection/auth-validation implementation — `PHASE_9_MERGE_WITH_EXISTING_SKILL` target once `setup-sharepoint-connection`'s optional `-TestConnection` path is built.
 - **Installation:** not yet created.
 

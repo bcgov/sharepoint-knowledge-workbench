@@ -110,21 +110,27 @@ accepted as in-progress Task 0 work only. Final external review occurs once all 
 - Latest Task 0.16 commits (chronological): `20849b8`, `2d06426`, `506e193`, `ef80836`, `e98b17f`,
   `5c6aee2`, `617514e`, `30bd605`.
 
-**Next: Task 0.17 — `workbench-setup` (3 skills), already authorized, cross-repository.**
+**Next: Task 0.17 — `workbench-setup` (3 skills). Corrected 2026-08-03: owned by this repo, NOT
+cross-repository.**
 
+- **Correction record:** an earlier pass of this plan/handoff wrongly concluded `workbench-setup`
+  was a Category 1 (marketplace-style) skill set that had to be authored in the sibling
+  `agent-plugins-skills` repo. That was a real mistake, not a design decision — it conflated "use
+  the `marketplace-manager` skill *installed from* `agent-plugins-skills` as a tool/procedure for
+  `marketplace.json` updates" with "author this new plugin *inside* `agent-plugins-skills`." Those
+  are unrelated: `agent-plugins-skills` is a generic marketplace repo consumed by this repo (and
+  others) for reusable, cross-project skills; `workbench-setup` is a workbench-specific plugin,
+  same category as `sharepoint-agents-and-skills`/`sharepoint-content-publication`. A worktree/
+  branch briefly created in `agent-plugins-skills` for this task (3 untracked `.psd1.example`
+  files only, never committed or pushed) has been deleted; that repo is unaffected.
 - `setup-sharepoint-connection`, `initialize-document-workflow`, `validate-workbench-environment`
   (per `docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md`
-  Section 8). Per `CLAUDE.md`'s Skill Development Protocol, these are Category 1 (marketplace-
-  style) skills — authored in the sibling `agent-plugins-skills` repo
-  (`/Users/richardfremmerlid/Projects/agent-plugins-skills`), not in this repo.
-- That repo's current branch (`feat/update-plugin-architecture-policy`) has unrelated uncommitted
-  work (a stray `.DS_Store` change) — **do not touch that branch.** Create a separate, clean
-  branch/worktree from that repo's current `main` instead.
-- Implement the three `workbench-setup` skills there, commit, push, and open the required PR —
-  then **stop for the user to merge that cross-repository PR** (the agent does not merge, per this
-  repo's own protocol). After merge, install/reference the plugin in this workbench
-  (`python3 .agents/skills/plugin-installer/scripts/plugin_add.py <path> --plugins workbench-setup
-  -y`) and complete integration verification here.
+  Section 8) belong at `plugins/workbench-setup/` in **this** repo, following the same
+  plugin-manifest/`SKILL.md`/`symlink_manager.py`/installer-hard-copy/test conventions as every
+  other Phase 4.5/Phase 6 domain plugin here (see CLAUDE.md's "Plugin-Local Resource Sharing").
+- The `marketplace-manager` skill (installed from `agent-plugins-skills` into this repo's
+  `.agents/skills/`) is consulted only as the procedure/tool for the applicable `marketplace.json`
+  registration step — not as an indication of where the plugin's code lives.
 
 **Phase 6 Tasks 1–12 (shared-capability derivation): `NOT_STARTED`.** Do not begin these until
 Task 0's exit gate is met.
@@ -135,8 +141,8 @@ Task 0's exit gate is met.
    model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
    itself isn't present), confirm `HEAD` matches `30bd605`.
 3. Task 0.16 (`structured-content-rendering`) is complete — do not redo it.
-4. Continue Task 0.17 in the sibling `agent-plugins-skills` repo per the cross-repository
-   instructions above.
+4. Continue Task 0.17 at `plugins/workbench-setup/` in **this** repo (not in `agent-plugins-skills`
+   — see the correction record above).
 5. Do not start Phase 6 Tasks 1–12.
 6. Do not create another review gate before all 30 skill names are complete — the approved
    external-review gate is after Task 0 in full, not after each plugin.
