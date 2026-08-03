@@ -7,6 +7,14 @@ name = "sharepoint-content-publication"
 version = "0.1.0-alpha.1"
 description = "SharePoint tenant publication tooling: packages a rendered publication output, dry-runs the upload plan, and reconciles it against live tenant state. TRANSITIONAL_HOLDING_LOCATION, not yet decomposed to the Phase 4.5 domain-plugin model -- see README.md."
 requires-python = ">=3.10"
+# No dependency on any other workbench distribution -- canonical_package.py and its transitive
+# canonical_schema/dispositions/hashing/publication_map modules are shared via managed
+# file-level symlinks back to structured-content-assembly (their real, authoritative source),
+# per this repo's hub-and-spoke convention (see symlinks.json) -- not a pip dependency on that
+# plugin being installed. setuptools dereferences each symlink into a real, independent file at
+# wheel-build time (Phase 6 remediation, 2026-08-03 -- fixes a prior undeclared runtime
+# dependency on canonical_package that only worked by accident when structured-content-rendering
+# happened to be pip-installed in the same environment).
 dependencies = []
 
 [tool.setuptools]
@@ -16,7 +24,15 @@ py-modules = [
     "sharepoint_package",
     "sharepoint_publish_plan",
     "sharepoint_reconcile",
+    "canonical_package",
+    "dispositions",
+    "hashing",
+    "publication_map",
 ]
+
+[tool.setuptools.packages.find]
+where = ["scripts"]
+include = ["canonical_schema", "canonical_schema.*"]
 
 [tool.setuptools.package-dir]
 "" = "scripts"

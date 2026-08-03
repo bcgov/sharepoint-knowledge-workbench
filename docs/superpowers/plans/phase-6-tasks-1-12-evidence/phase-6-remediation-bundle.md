@@ -88,10 +88,65 @@ isolated-install findings above (PASS with a scope note for agents-and-skills; F
 root cause for content-publication) rather than the stale "manifests/skills incomplete"/"scaffold
 only" text.
 
-## What this remediation did NOT do (bounded correction, not redesign)
+## What round 1 did NOT do (left for round 2, per the human review's follow-up)
 
-- Did not fix `sharepoint-content-publication`'s `canonical_package` cross-plugin dependency —
-  real, but a design fix, not a bounded correction.
-- Did not resolve `BOUND-01`'s case-vs-code mismatch by picking a side — a human decision.
+- Did not fix `sharepoint-content-publication`'s `canonical_package` cross-plugin dependency.
+- Did not resolve `BOUND-01`'s case-vs-code mismatch.
 - Did not obtain live tenant access or simulate `native-sharepoint` execution.
 - Did not start Phase 7. Did not merge this branch.
+
+---
+
+## Round 2 addendum (2026-08-03) — response to `PHASE_6_REMEDIATION_REQUIRED` round 2
+
+The round-1 review correctly identified that Task 0's own exit gate requires plugin independence,
+which `sharepoint-content-publication`'s isolated-install failure violated — Task 0 was not fully
+complete either, not just Tasks 1–12's evaluation gate.
+
+### 1. `sharepoint-content-publication`'s dependency — fixed, following repository dependency rules
+
+Determined `canonical_package.py` is neither a shared contract nor a wrongly-placed
+implementation — it is `structured-content-assembly`'s own real module, already shared with
+`structured-content-rendering` via this repo's existing hub-and-spoke convention (a managed
+file-level symlink, dereferenced into a real independent copy at wheel-build time, per
+`symlinks.json`). `sharepoint-content-publication` was simply missing that same symlink +
+`pyproject.toml` declaration — not a case requiring a new sharing mechanism. Applied the identical
+pattern: 4 top-level modules (`canonical_package.py`, `dispositions.py`, `hashing.py`,
+`publication_map.py`) + 4 `canonical_schema/` submodules symlinked from `structured-content-
+assembly`'s real source, registered in `symlinks.json`, declared in `pyproject.toml`. **Not** a
+blind copy (a real symlink, one authoritative source), **not** a runtime repository-path
+dependency (resolves through the normal Python package/wheel mechanism, proven by the isolated
+harness itself). Re-ran isolated wheel installation for real: **PASS, 26/26**, genuinely isolated.
+
+### 2. `BOUND-01` — resolved from the approved capability contract, not convenience
+
+Read `SKILL.md`'s own "Repository/Claude Runtime Execution" section directly (not assumed): it
+already specifies `TooManyRelatedTopicsError` / explicit-refusal as the approved
+`repository-claude` contract — "report this explicitly rather than silently picking 2, matching
+the native runtime's own max-2 boundary" — verbatim matching the existing, already-tested
+`review_manual_topics.py` code. **The implementation was correct; the case definition
+(`BOUND-01`'s original `expected_semantic_behaviours`) was wrong** — it described a soft-cap flow
+that contradicts the approved contract. Corrected the case file to state per-runtime expected
+behavior explicitly (hard-reject for `repository-claude`, per the specific contract note; soft
+`REFERENCE_NOT_RETRIEVED` cap for `native-sharepoint`, per the general Cross-Reference Terminology
+section that governs that runtime instead). No implementation change was made or needed.
+
+### 3. Seven native-sharepoint cases prepared for live execution
+
+`plugins/sharepoint-agents-and-skills/evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md`
+— preconditions, per-case execution steps, raw-response-preservation and grading requirements,
+results location. **The 7 case files' prompts and expectations were not changed** to prepare this
+runbook (verified: `AMB-01` plus the 6 `PERM-*` cases, confirmed programmatically as exactly the
+set with `applicable_runtimes == ["native-sharepoint"]`).
+
+### 4. Stopped before live execution
+
+Per Item 4: this session has no live tenant/PnP/Copilot access, so the runbook was prepared and
+the live run was not attempted, simulated, or worked around.
+
+### Disposition after round 2
+
+`PHASE_6_IMPLEMENTATION_COMPLETE_EVALUATION_BLOCKED_ON_LIVE_TENANT_ONLY`. Task 0's exit gate is
+now genuinely met (all plugins isolated-installable). Tasks 1–12 are complete with `BOUND-01`
+resolved. The **only** remaining item is running the prepared 7-case runbook against a live
+tenant. Not starting Phase 7. Not merging this branch.

@@ -227,7 +227,7 @@
           "overlap_notes": "genuinely new work, both repos"
         }
       ],
-      "installation_status": "manifests/skills complete (5/5), pyproject.toml added at Phase 6 remediation (2026-08-03), but ISOLATED INSTALL FAILS: sharepoint_package.py has an undeclared runtime dependency on canonical_package (structured-content-rendering's module) -- a real, pre-existing cross-plugin dependency violation, verified via tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py, not fixed by this remediation pass (out of its bounded-correction scope)"
+      "installation_status": "manifests/skills complete (5/5). ISOLATED INSTALL PASSES, 26/26 (fixed at Phase 6 remediation round 2, 2026-08-03): canonical_package.py and its transitive canonical_schema/dispositions/hashing/publication_map modules are now shared via managed file-level symlinks back to structured-content-assembly (their real, authoritative source), matching structured-content-rendering's own already-proven pattern for the same module -- not a pip dependency on that plugin. Genuinely isolated, no sibling plugin needs to be co-installed."
     },
     {
       "name": "sharepoint-agents-and-skills",

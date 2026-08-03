@@ -1410,6 +1410,54 @@
       "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/psd1_writer.py",
       "strategy": "symlink",
       "description": "validate-workbench-environment skill's bundled copy of psd1_writer.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_package.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_package.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/dispositions.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of dispositions.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/hashing.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of hashing.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/publication_map.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of publication_map.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/__init__.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/canonical_package.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/publication_map.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/shared.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/shared.py (Phase 6 remediation, 2026-08-03)"
     }
   ]
 }

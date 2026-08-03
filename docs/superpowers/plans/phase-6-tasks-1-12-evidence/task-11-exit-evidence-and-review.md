@@ -1,18 +1,23 @@
-# Phase 6 Task 11 — Exit Evidence and Review (CORRECTED, remediation pass)
+# Phase 6 Task 11 — Exit Evidence and Review (CORRECTED, remediation round 2)
 
-**Corrected 2026-08-03** per human review disposition `PHASE_6_REMEDIATION_REQUIRED`. The original
-version of this document described the four evaluation gaps below as "genuine open items,
-correctly left open," implying they were non-blocking. **That was wrong.** They block the Phase 6
-evaluation exit criterion, even though they do not invalidate the completed implementation work
-(30/30 skills, 46+189 passing tests, real drift-detection code). This version states that
-explicitly and does not soften it.
+**Round 2 correction, 2026-08-03.** Round 1 fixed the evaluation-gap framing. The human review of
+round 1 correctly identified that Task 0's own exit gate requires **plugin independence**
+(isolated installability), which `sharepoint-content-publication`'s isolated-install failure
+violated — meaning Task 0 was not actually fully complete either, not just Tasks 1–12's evaluation
+gate. Round 2 fixes that (real dependency fix, not a workaround) and resolves `BOUND-01`'s
+case-vs-code question from the actual approved contract, per the round-2 review's exact
+instructions. See `phase-6-remediation-bundle.md`'s round-2 addendum for the full index.
 
 ## Disposition
 
-**`PHASE_6_IMPLEMENTATION_COMPLETE_EVALUATION_BLOCKED`.** Implementation (Task 0's 30 skills,
-Tasks 1–10/12's shared-capability-model artifacts) is complete and tested. The Phase 6 evaluation
-exit criterion — both runtimes' common evaluation set actually run and graded — is **not met**,
-for reasons that are real capability/access boundaries in this session, not deferred convenience.
+**`PHASE_6_IMPLEMENTATION_COMPLETE_EVALUATION_BLOCKED_ON_LIVE_TENANT_ONLY`.** Task 0's exit gate
+(30/30 skills, all now genuinely isolated-installable) is met. Tasks 1–12's shared-capability-
+model artifacts are complete, tested, and — after round 2 — `BOUND-01` is resolved from the
+approved `SKILL.md` contract (no implementation change needed; the case definition was wrong, not
+the code). The **only** remaining blocker to the Phase 6 evaluation exit criterion is the 7 native-
+sharepoint cases needing live tenant execution, which this session cannot perform (no PnP/Copilot
+access) — a runbook is prepared (`evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md`), not
+executed, per the review's own Item 4 ("stop immediately before the live tenant run").
 
 ## Derivation trace (updated)
 
@@ -78,26 +83,37 @@ Unchanged: Task 4's adversarial pass, accepted with corrections already applied.
 
 Unchanged: Task 9's table.
 
-## Blocking items (corrected — these ARE blocking, not optional follow-ups)
+## Blocking items — after round 2, exactly one remains
 
-1. **`native-sharepoint` execution of the Task 5 common set** — 0 of 7 applicable cases executed;
-   no live tenant/PnP/Copilot access in this session. **This blocks the Phase 6 evaluation exit
-   criterion.** Requires a session with live tenant access.
-2. **`BOUND-01`'s case-definition-vs-code mismatch** — needs a human decision (correct the case to
-   match the actual hard-reject behavior, or change the code to soft-cap). **Blocks full
-   confidence in the boundary case's disposition** until resolved, though the underlying code
-   behavior itself was proven safe (over-strict, not under-strict).
-3. **`sharepoint-content-publication`'s isolated-install failure** (`canonical_package`
-   cross-plugin dependency) — a real, pre-existing architecture defect surfaced by this
-   remediation's Item 6 check, not previously known/documented. **Blocks that plugin's own
-   isolated-installability claim** until fixed; does not block Task 0's skill-completion count
-   (the skills themselves work correctly when co-installed with `structured-content-rendering`,
-   which every real invocation of this repo's plugins already does).
+1. **`native-sharepoint` execution of the 7 applicable cases** — 0 of 7 executed; no live tenant/
+   PnP/Copilot access in this session. **This is the sole remaining blocker to the Phase 6
+   evaluation exit criterion.** A runbook is prepared
+   (`plugins/sharepoint-agents-and-skills/evaluations/common/
+   NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md`) but not run, per the round-2 review's Item 4. Requires
+   a session with live tenant access to close.
+
+## Resolved at round 2 (previously blocking, now closed)
+
+- **`sharepoint-content-publication`'s isolated-install failure** — fixed for real, not worked
+  around: `canonical_package.py` and its transitive `canonical_schema`/`dispositions`/`hashing`/
+  `publication_map` modules are now shared via managed file-level symlinks back to
+  `structured-content-assembly` (their real, authoritative source), exactly matching
+  `structured-content-rendering`'s own already-proven pattern for the same module (see
+  `symlinks.json`). Re-ran the isolated install check for real: **PASS, 26/26**, genuinely
+  isolated — no dependency on any sibling plugin being co-installed. Task 0's exit gate (plugin
+  independence) is now actually met for all four Task 0.15/0.16/0.17 plugins plus
+  `sharepoint-agents-and-skills`.
+- **`BOUND-01`'s case-vs-code question** — resolved from the actual approved contract, not
+  convenience: `SKILL.md`'s own "Repository/Claude Runtime Execution" section already specifies
+  hard-reject (`TooManyRelatedTopicsError`, "report this explicitly rather than silently picking
+  2") as the approved `repository-claude` behavior, verbatim matching the existing, already-tested
+  code. **The case definition was wrong, not the implementation** — corrected `BOUND-01` to state
+  per-runtime expected behavior explicitly (`expected_semantic_behaviours_by_runtime`: hard-reject
+  for `repository-claude`, soft `REFERENCE_NOT_RETRIEVED` cap for `native-sharepoint`, since that
+  runtime's general Cross-Reference Terminology section — not the repository-claude-specific note
+  — governs it). No implementation change was needed or made.
 
 ## What is genuinely resolved, not blocking
-
-- `AMB-01`'s scope correction (native-only, verified) — resolved.
-- Repository-claude semantic-review execution for all 5 applicable cases — resolved.
 - Catalog documentation drift for `sharepoint-agents-and-skills`/`sharepoint-content-publication`
   — resolved (both `.json` and `.md` catalog files corrected to reflect actual implementation
   status).
@@ -106,9 +122,9 @@ Unchanged: Task 9's table.
 ## Explicit approval before merge
 
 **Still required, still not obtained.** This corrected document, and the remediation bundle it
-belongs to (see the remediation bundle index), are ready for the human partner's review. Per this
-repo's own Mandatory Phase Transition Protocol, merge does not happen until that review is given
-and accepted, and — per this remediation's own corrected disposition — **the Phase 6 evaluation
-exit criterion specifically requires either completing the two remaining blocking items above, or
-an explicit human decision to accept the phase as implementation-complete-but-evaluation-blocked
-and proceed anyway.** That decision is the human partner's to make, not this session's.
+belongs to, are ready for the human partner's review. Per this repo's own Mandatory Phase
+Transition Protocol, merge does not happen until that review is given and accepted, and — per this
+remediation's own corrected disposition — **the Phase 6 evaluation exit criterion specifically
+requires either running the 7 prepared native-sharepoint cases against a live tenant, or an
+explicit human decision to accept the phase as implementation-complete-but-evaluation-blocked and
+proceed anyway.** That decision is the human partner's to make, not this session's.
