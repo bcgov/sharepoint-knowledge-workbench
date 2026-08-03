@@ -1,0 +1,24 @@
+@{
+    Connection = @{
+        SiteUrl            = "https://tenant.sharepoint.com/sites/site"
+        TenantId           = ""
+        ClientId           = ""
+        AuthenticationMode = "Interactive"
+    }
+
+    Authentication = @{
+        # Optional, depending on AuthenticationMode
+        CertificateThumbprint = ""
+        TenantAdminUrl        = ""
+    }
+
+    Defaults = @{
+        # Optional artifact-specific defaults, not mandatory operational targets. Each key maps
+        # to exactly one ArtifactType in the destination-resolution algorithm -- there is no
+        # generic "publication root" fallback that every artifact type shares.
+        DefaultHumanPublicationLibrary  = "KnowledgePublications"
+        DefaultAgentGroundingLibrary    = "AgentGrounding"
+        DefaultAgentAssetsLibrary       = "AgentAssets"
+        DefaultSitePagesLibrary         = "Site Pages"
+    }
+}
