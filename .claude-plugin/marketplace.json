@@ -1,6 +1,6 @@
 {
   "name": "sharepoint-knowledge-workbench",
-  "description": "Four independently-installable domain plugins that convert a source .docx manual into validated, structured, published Markdown content: source-document-extraction, document-structure-analysis, structured-content-assembly, structured-content-rendering.",
+  "description": "Independently-installable domain plugins for the SharePoint Knowledge Workbench: source-document-extraction, document-structure-analysis, structured-content-assembly, and structured-content-rendering convert a source .docx manual into validated, structured, published content (Markdown and SharePoint ASPX); sharepoint-content-publication and sharepoint-agents-and-skills handle tenant publication and agent/native-skill lifecycle; workbench-setup provides foundational connection/config/workflow setup for the whole workbench.",
   "owner": {
     "name": "Richard Fremmerlid"
   },
@@ -28,6 +28,16 @@
     {
       "name": "sharepoint-content-publication",
       "source": "./plugins/sharepoint-content-publication",
+      "strict": true
+    },
+    {
+      "name": "sharepoint-agents-and-skills",
+      "source": "./plugins/sharepoint-agents-and-skills",
+      "strict": true
+    },
+    {
+      "name": "workbench-setup",
+      "source": "./plugins/workbench-setup",
       "strict": true
     }
   ]
