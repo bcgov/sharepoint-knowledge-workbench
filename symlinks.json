@@ -1242,6 +1242,108 @@
       "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of the rendered-output-profile contract doc"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/generic/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/generic/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/compare_rendered_output.py",
+      "dst": "plugins/structured-content-rendering/skills/compare-rendered-output/scripts/compare_rendered_output.py",
+      "strategy": "symlink",
+      "description": "compare-rendered-output skill's bundled copy of compare_rendered_output.py"
     }
   ]
 }
