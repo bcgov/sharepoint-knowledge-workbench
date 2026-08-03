@@ -6,9 +6,9 @@
     runs in preflight mode with zero tenant writes. When -Execute is passed, uploads the skill file,
     downloads it back to a temporary file location, and verifies a 100% byte-for-byte SHA-256 match.
 .PARAMETER ConfigFile
-    Path to the PSD1 configuration file (defaults to tools/phase-4-native-sharepoint-skills/config.psd1).
+    Path to the PSD1 configuration file (defaults to plugins/sharepoint-agents-and-skills/config.psd1).
 .PARAMETER ManifestFile
-    Path to the JSON deployment manifest (defaults to tools/phase-4-native-sharepoint-skills/deployment/deployment-manifest.example.json).
+    Path to the JSON deployment manifest (defaults to plugins/sharepoint-agents-and-skills/deployment-manifest.example.json).
 .PARAMETER Execute
     Switch to authorize actual tenant writes and PnP online execution. Default is false (preflight mode).
 .PARAMETER JsonOutputPath
@@ -16,8 +16,8 @@
 #>
 [CmdletBinding()]
 param (
-    [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
-    [string]$ManifestFile = "tools/phase-4-native-sharepoint-skills/deployment/deployment-manifest.example.json",
+    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$ManifestFile = "plugins/sharepoint-agents-and-skills/deployment-manifest.example.json",
     [switch]$Execute,
     [string]$JsonOutputPath
 )

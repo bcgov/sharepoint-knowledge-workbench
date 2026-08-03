@@ -4,7 +4,10 @@
 #>
 [CmdletBinding()]
 param (
-    [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
+    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$SitePagesLibraryName = "Site Pages",
+    [string[]]$ExcludedSitePagesFiles = @("Home.aspx", "TopicHome.aspx", "Site-Links.aspx", "Chief-Sheriff-Messages.aspx", "ADM-Messages.aspx"),
+    [string[]]$MediaFileExtensions = @("*.png", "*.jpeg", "*.jpg", "*.gif"),
     [string]$JsonOutputPath = ""
 )
 
@@ -60,8 +63,8 @@ try {
 
 # 2. Pilot Knowledge / Site Pages
 try {
-    $sitePages = Get-PnPListItem -List "Site Pages" -PageSize 500
-    $topicPages = $sitePages | Where-Object { $_["FileLeafRef"] -like "*.aspx" -and $_["FileLeafRef"] -ne "Home.aspx" -and $_["FileLeafRef"] -ne "TopicHome.aspx" -and $_["FileLeafRef"] -ne "Site-Links.aspx" -and $_["FileLeafRef"] -ne "Chief-Sheriff-Messages.aspx" -and $_["FileLeafRef"] -ne "ADM-Messages.aspx" }
+    $sitePages = Get-PnPListItem -List $SitePagesLibraryName -PageSize 500
+    $topicPages = $sitePages | Where-Object { $_["FileLeafRef"] -like "*.aspx" -and $ExcludedSitePagesFiles -notcontains $_["FileLeafRef"] }
     foreach ($tp in $topicPages) {
         $inventoryResult.KnowledgePagesFound += [PSCustomObject]@{
             Id          = $tp.Id
@@ -69,21 +72,22 @@ try {
             FileRef     = $tp["FileRef"]
         }
     }
-    $inventoryResult.LibraryStatuses["SitePages"] = "EXISTS"
+    $inventoryResult.LibraryStatuses[$SitePagesLibraryName] = "EXISTS"
     Write-Host "Found $($topicPages.Count) ASPX topic pages in Site Pages."
 } catch {
-    $inventoryResult.LibraryStatuses["SitePages"] = "ERROR"
+    $inventoryResult.LibraryStatuses[$SitePagesLibraryName] = "ERROR"
 }
 
 # 3. Media Assets
 try {
-    $mediaItems = Get-PnPListItem -List "CEIS-Pilot-Knowledge" -PageSize 500
-    $images = $mediaItems | Where-Object { $_["FileLeafRef"] -like "*.png" -or $_["FileLeafRef"] -like "*.jpeg" -or $_["FileLeafRef"] -like "*.jpg" -or $_["FileLeafRef"] -like "*.gif" }
+    $mediaLibrary = $config.PilotKnowledgeLibrary
+    $mediaItems = Get-PnPListItem -List $mediaLibrary -PageSize 500
+    $images = $mediaItems | Where-Object { $ext = $_["FileLeafRef"]; $MediaFileExtensions | Where-Object { $ext -like $_ } }
     $inventoryResult.MediaAssetsCount = $images.Count
-    $inventoryResult.LibraryStatuses["CEIS-Pilot-Knowledge"] = "EXISTS"
-    Write-Host "Found $($images.Count) media assets in CEIS-Pilot-Knowledge."
+    $inventoryResult.LibraryStatuses[$mediaLibrary] = "EXISTS"
+    Write-Host "Found $($images.Count) media assets in $mediaLibrary."
 } catch {
-    $inventoryResult.LibraryStatuses["CEIS-Pilot-Knowledge"] = "NOT_FOUND"
+    $inventoryResult.LibraryStatuses[$config.PilotKnowledgeLibrary] = "NOT_FOUND"
 }
 
 if ($JsonOutputPath) {

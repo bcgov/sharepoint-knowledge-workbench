@@ -15,7 +15,8 @@
 
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
+    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$FallbackConfigFile = "tools/phase-3-sharepoint-discovery/config.psd1",
     [string]$JsonOutputPath = ""
 )
 
@@ -40,7 +41,7 @@ if ($hasValidAppReg) {
     Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
 } else {
     # Fall back to Phase 3 config if Phase 4 has placeholder values
-    $phase3ConfigPath = "../../tools/phase-3-sharepoint-discovery/config.psd1"
+    $phase3ConfigPath = $FallbackConfigFile
     if (Test-Path $phase3ConfigPath) {
         Write-Host "Phase 4 config has placeholder values. Using Phase 3 config for authentication..." -ForegroundColor Yellow
         $phase3Config = Import-PowerShellDataFile $phase3ConfigPath
