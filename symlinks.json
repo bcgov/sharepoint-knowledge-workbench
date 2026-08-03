@@ -1134,6 +1134,114 @@
       "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/template_validation.py",
       "strategy": "symlink",
       "description": "validate-rendering-template skill's bundled copy of template_validation.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/atomic_output.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of atomic_output.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/dispositions.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of dispositions.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/hashing.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of hashing.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/path_safety.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/path_safety.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of path_safety.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/render_result.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/render_result.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of render_result.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/structured_content_rendering.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of structured_content_rendering.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/__init__.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/__init__.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/multipage_markdown.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/multipage_markdown.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/sharepoint_aspx.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/sharepoint_aspx.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/sharepoint_aspx.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/protocol.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/protocol.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/validate_rendered.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/validate_rendered.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/__init__.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/shared.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/references/contracts/rendered-output-profile.md",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of the rendered-output-profile contract doc"
     }
   ]
 }

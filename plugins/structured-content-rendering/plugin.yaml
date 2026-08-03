@@ -13,3 +13,4 @@ skills:
   - create-markdown-rendering-template
   - create-aspx-rendering-template
   - validate-rendering-template
+  - validate-rendered-output
