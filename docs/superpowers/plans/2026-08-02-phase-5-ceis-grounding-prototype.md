@@ -838,12 +838,19 @@ confirmation" section):**
 > answer from general knowledge. Never cite or reference content outside
 > `/SitePages/CEISPilotKnowledgePages`."
 
+**Corrected 2026-08-02:** Task 5 was corrected to upload the rendered `.md` pages into a `pages/`
+subfolder inside the *existing* `CEIS-Pilot-Knowledge` library (reusing its already-uploaded
+`media/`), not a new `CEISPilotKnowledgeMarkdown` library as originally planned. The real
+web-relative URL is `CEISPilotKnowledge/pages` (SharePoint strips hyphens from the library's
+`CEIS-Pilot-Knowledge` title when generating its URL — confirmed live during Task 5). This task's
+target below is updated to match what was actually uploaded.
+
 **Explicit, unambiguous substitution for the `.md` agent** — the exact two changes to make (no
 other wording changes, so the comparison isolates format, not instruction clarity):
 1. `.aspx files located in the SharePoint folder /SitePages/CEISPilotKnowledgePages` →
-   `.md files located in the SharePoint folder /CEISPilotKnowledgeMarkdown`
+   `.md files located in the SharePoint folder /CEISPilotKnowledge/pages`
 2. `Never cite or reference content outside /SitePages/CEISPilotKnowledgePages` →
-   `Never cite or reference content outside /CEISPilotKnowledgeMarkdown`
+   `Never cite or reference content outside /CEISPilotKnowledge/pages`
 
 - [ ] **Step 1: Confirm the baseline text matches what's actually live on the tenant**
 
@@ -883,14 +890,16 @@ $ErrorActionPreference = "Stop"
 $config = Import-PowerShellDataFile -Path $ConfigPath
 Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
 
-$library = Get-PnPList -Identity "CEISPilotKnowledgeMarkdown" -ErrorAction Stop
-$web = Get-PnPWeb -Includes Id
+$library = Get-PnPList -Identity "CEIS-Pilot-Knowledge" -ErrorAction Stop
+$web = Get-PnPWeb -Includes Id, ServerRelativeUrl
 $site = Get-PnPSite -Includes Id
+$webRelativeLibraryUrl = $library.RootFolder.ServerRelativeUrl.Substring($web.ServerRelativeUrl.TrimEnd("/").Length).TrimStart("/")
+$pagesFolderWebRelativeUrl = "$webRelativeLibraryUrl/pages"
 
 # Confirmed baseline text (CEIS-ASPX-Only-Test, tightened and verified — see
 # docs/research/field-note-ready-made-copilot-agent-launch-by-name.md), with the two
-# explicit substitutions applied: .aspx -> .md, /SitePages/CEISPilotKnowledgePages -> /CEISPilotKnowledgeMarkdown.
-$baselineInstructions = "You are the CEIS Procedures Agent. You must answer ONLY using content from .md files located in the SharePoint folder /CEISPilotKnowledgeMarkdown. Do not use any other folder, site, image, or general knowledge as a source. If the requested information is not found in a .md file in that exact folder, respond only with: 'This procedure is not documented in the CEIS Manual.' Do not answer any question unrelated to CEIS procedures, even if you know the answer from general knowledge. Never cite or reference content outside /CEISPilotKnowledgeMarkdown."
+# explicit substitutions applied: .aspx -> .md, /SitePages/CEISPilotKnowledgePages -> /CEISPilotKnowledge/pages.
+$baselineInstructions = "You are the CEIS Procedures Agent. You must answer ONLY using content from .md files located in the SharePoint folder /CEISPilotKnowledge/pages. Do not use any other folder, site, image, or general knowledge as a source. If the requested information is not found in a .md file in that exact folder, respond only with: 'This procedure is not documented in the CEIS Manual.' Do not answer any question unrelated to CEIS procedures, even if you know the answer from general knowledge. Never cite or reference content outside /CEISPilotKnowledge/pages."
 
 $agentDefinition = @{
     schemaVersion = "0.2.0"
@@ -907,8 +916,8 @@ $agentDefinition = @{
                 name = "OneDriveAndSharePoint"
                 items_by_sharepoint_ids = @()
                 items_by_url = @(@{
-                    url = "$($config.SiteUrl)/CEISPilotKnowledgeMarkdown"
-                    name = "CEISPilotKnowledgeMarkdown"
+                    url = "$($config.SiteUrl)/$pagesFolderWebRelativeUrl"
+                    name = "pages"
                     site_id = $site.Id.ToString()
                     web_id = $web.Id.ToString()
                     list_id = $library.Id.ToString()
