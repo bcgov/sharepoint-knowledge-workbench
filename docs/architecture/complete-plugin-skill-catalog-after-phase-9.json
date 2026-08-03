@@ -134,7 +134,7 @@
           "name": "render-sharepoint-aspx",
           "status": "phase_6_approved_partial",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build, renderer + unit tests complete; golden-master fidelity proof and validate-rendered-output/ASPX extension still pending",
+          "source_provenance": "new build, renderer + unit tests + validate-rendered-output/ASPX extension complete; golden-master fidelity proof still pending",
           "overlap_notes": "CMAT sp-converting-aspx-pages richer; Phase 6 stays minimal-interface, full extraction is Phase 9 candidate sharepoint-page-modernization"
         },
         {
@@ -160,9 +160,9 @@
         },
         {
           "name": "validate-rendered-output",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "existing renderers/validate_rendered.py, Markdown side only",
+          "source_provenance": "existing renderers/validate_rendered.py (Markdown), extended with validate_aspx_rendered_output/render_and_promote_aspx (ASPX), packaged as its own skill",
           "overlap_notes": null
         },
         {
