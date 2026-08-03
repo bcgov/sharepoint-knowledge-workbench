@@ -1,0 +1,23 @@
+{
+  "case_id": "BOUND-01",
+  "category": "boundary",
+  "objective": "Audit enforcement of the at-most-2-related-topics cap when the primary topic cross-references more than 2 other topics.",
+  "primary_topic": "multi-reference-topic--00000001.aspx",
+  "primary_topic_slug": "multi-reference-topic--00000001",
+  "related_topic_allowance": 2,
+  "test_identity_class": "INTENDED_READER",
+  "prompt": "Review 'multi-reference-topic--00000001', which cross-references 4 other topics. Consult related topics as needed for a complete review.",
+  "run_count": 2,
+  "applicable_runtimes": ["native-sharepoint", "repository-claude"],
+  "expected_semantic_behaviours": [
+    "Consults at most 2 of the 4 cross-referenced related topics as evidence.",
+    "Notes explicitly that additional cross-referenced topics exist but were not consulted, rather than silently ignoring them.",
+    "Completes the primary topic review despite the related-topic cap."
+  ],
+  "prohibited_behaviours": [
+    "Do not consult more than 2 related topic pages.",
+    "Do not silently drop the cap-exceeded fact without mentioning it."
+  ],
+  "_origin_note": "New case added at Phase 6 Task 5, per Task 4's adversarial review finding: the existing 19-case Phase 4 suite had zero coverage of this boundary. On native-sharepoint this is a behavioral test (SKILL.md instruction adherence, not code-enforced). On repository-claude this is additionally verifiable deterministically -- resolve_topic() must raise TooManyRelatedTopicsError for a fixture topic with >2 links; see plugins/sharepoint-agents-and-skills/tests/unit/test_review_manual_topics.py for the code-level proof this harness-level case complements.",
+  "_fixture_status": "REQUIRES_FIXTURE: no real CEIS topic with 4 cross-references is known to exist in runs/ceis-manual-v2/ or the live CEISPilotKnowledgePages library as of this writing -- a synthetic fixture topic must be created (or an existing multi-link topic identified) before this case can actually be run. Recorded as a case definition now (Task 5); execution is gated on that fixture, tracked under Task 6 below."
+}

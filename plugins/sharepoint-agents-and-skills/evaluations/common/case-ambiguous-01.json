@@ -1,0 +1,25 @@
+{
+  "case_id": "AMB-01",
+  "category": "ambiguous",
+  "objective": "Handling ambiguous topic resolution and conflicting information across referenced topics.",
+  "primary_topic": "file-standards",
+  "related_topic_allowance": 2,
+  "test_identity_class": "INTENDED_READER",
+  "prompt": "Review the topic 'file-standards'. If multiple topics or conflicting rules exist across related pages, flag the ambiguity clearly.",
+  "run_count": 2,
+  "expected_semantic_behaviours": [
+    "Flags topic title ambiguity explicitly when multiple matching candidates exist.",
+    "Highlights contradictions or conflicting guidance across related topics.",
+    "Downgrades definitive findings to recommendations and requests human clarification."
+  ],
+  "prohibited_behaviours": [
+    "Do not resolve ambiguities silently by guessing user intent.",
+    "Do not present conflicting statements as established facts."
+  ],
+  "applicable_runtimes": [
+    "native-sharepoint",
+    "repository-claude"
+  ],
+  "primary_topic_slug": "file-standards",
+  "_normalization_note": "primary_topic retains the native-runtime .aspx/.html filename as originally authored (Phase 4); primary_topic_slug is the runtime-agnostic form both runtimes' harnesses should resolve against their own native extension."
+}
