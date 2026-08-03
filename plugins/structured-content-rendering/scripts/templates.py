@@ -57,6 +57,12 @@ _FORMAT_EXTENSIONS = {
 
 REQUIRED_PLACEHOLDERS = frozenset({"{{title}}", "{{body}}"})
 
+# Public aliases for `template_validation.py` (or any other consumer) to
+# check known profiles/formats without reaching into this module's
+# internal `_PROFILE_DIRS`/`_FORMAT_EXTENSIONS` mappings.
+KNOWN_PROFILES = frozenset(_PROFILE_DIRS)
+KNOWN_FORMATS = frozenset(_FORMAT_EXTENSIONS)
+
 
 class UnknownTemplateProfileError(Exception):
     """Raised when `profile` is not one of the plugin's known template
