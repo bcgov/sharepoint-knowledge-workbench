@@ -1,4 +1,4 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Task 0 In Progress (27/30)
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Task 0 Implementation Complete (30/30), Exit-Gate Review Pending
 
 ## Current status (2026-08-03, verified against git)
 
@@ -26,7 +26,7 @@ Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
   20 recorded runs retained in the provenance ledger, no technical retries.
 - Task 8: consolidated findings accepted.
 - Citation status: **`CITATION_SUPPORT_NOT_VERIFIED`**.
-- **Phase 6: Task 0 `AUTHORIZED_AND_IN_PROGRESS` — 27/30 skill names complete. See "Phase 6 —
+- **Phase 6: Task 0 `IMPLEMENTATION_COMPLETE_EXIT_GATE_REVIEW_PENDING` — 30/30 skill names complete. See "Phase 6 —
   Task 0 handoff (2026-08-03)" below for the full resume state.**
 
 **Phase 5's bounded conclusion:**
@@ -47,14 +47,19 @@ validation.
 
 **Branch:** `phase-6-multi-runtime-capability-model`, worktree at
 `.worktrees/phase-6-multi-runtime-capability-model`.
-**Latest pushed commit:** `30bd605` ("feat(phase6-task0.16): package compare-rendered-output
-skill"), pushed to `origin/phase-6-multi-runtime-capability-model`.
-**Not merged to `main`.** Task 0's own exit gate (all 30 skill names implemented/packaged/
-tested + migration ledger + one focused context-bundler review package) is not yet met — do not
-merge, and do not treat the 27 completed skills below as separately, finally accepted. They are
-accepted as in-progress Task 0 work only. Final external review occurs once all 30 are complete.
+**Latest pushed commit:** `8064805` ("feat(phase6-task0.17): register workbench-setup in
+marketplace.json"), pushed to `origin/phase-6-multi-runtime-capability-model`.
+**Not merged to `main`.** Task 0's own exit gate requires all 30 skill names implemented/
+packaged/tested (now true) **plus** a migration ledger and **one focused external-review bundle
+accepted by the human partner** (not yet done — nobody has reviewed this work yet). Do not merge,
+and do not treat any of the 30 skills as separately, finally accepted ahead of that review.
 
-**Task 0 progress: 27/30 skill names complete.**
+**Task 0 progress: 30/30 skill names complete. Implementation-complete, NOT yet reviewer-accepted.
+READ THIS BEFORE DOING ANYTHING ELSE if resuming after 2026-08-03's overnight session — it ran
+unattended past Task 0.17 completion per explicit user permission ("feel free to complete all of
+phase 6 ... ill review tomorrow morning"), but deliberately stopped at the Task 0 exit gate rather
+than starting Phase 6 Tasks 1–12, since those require a human-accepted review bundle first (see
+"Phase 6 Tasks 1–12" below). Nothing beyond this point has been reviewed by anyone yet.**
 
 - `sharepoint-agents-and-skills`: **15/15 complete**, plugin manifests in place, **31/31 tests
   passing**. Includes the repository/Claude second runtime for `review-manual-topics` that closes
@@ -110,39 +115,69 @@ accepted as in-progress Task 0 work only. Final external review occurs once all 
 - Latest Task 0.16 commits (chronological): `20849b8`, `2d06426`, `506e193`, `ef80836`, `e98b17f`,
   `5c6aee2`, `617514e`, `30bd605`.
 
-**Next: Task 0.17 — `workbench-setup` (3 skills). Corrected 2026-08-03: owned by this repo, NOT
-cross-repository.**
+**Task 0.17 — `workbench-setup` (3 skills): COMPLETE.**
 
-- **Correction record:** an earlier pass of this plan/handoff wrongly concluded `workbench-setup`
-  was a Category 1 (marketplace-style) skill set that had to be authored in the sibling
-  `agent-plugins-skills` repo. That was a real mistake, not a design decision — it conflated "use
-  the `marketplace-manager` skill *installed from* `agent-plugins-skills` as a tool/procedure for
-  `marketplace.json` updates" with "author this new plugin *inside* `agent-plugins-skills`." Those
-  are unrelated: `agent-plugins-skills` is a generic marketplace repo consumed by this repo (and
-  others) for reusable, cross-project skills; `workbench-setup` is a workbench-specific plugin,
-  same category as `sharepoint-agents-and-skills`/`sharepoint-content-publication`. A worktree/
-  branch briefly created in `agent-plugins-skills` for this task (3 untracked `.psd1.example`
-  files only, never committed or pushed) has been deleted; that repo is unaffected.
-- `setup-sharepoint-connection`, `initialize-document-workflow`, `validate-workbench-environment`
-  (per `docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md`
-  Section 8) belong at `plugins/workbench-setup/` in **this** repo, following the same
-  plugin-manifest/`SKILL.md`/`symlink_manager.py`/installer-hard-copy/test conventions as every
-  other Phase 4.5/Phase 6 domain plugin here (see CLAUDE.md's "Plugin-Local Resource Sharing").
-- The `marketplace-manager` skill (installed from `agent-plugins-skills` into this repo's
-  `.agents/skills/`) is consulted only as the procedure/tool for the applicable `marketplace.json`
-  registration step — not as an indication of where the plugin's code lives.
+- **Correction record (2026-08-03):** an earlier pass of this plan/handoff wrongly concluded
+  `workbench-setup` was a Category 1 (marketplace-style) skill set that had to be authored in the
+  sibling `agent-plugins-skills` repo, and a worktree/branch was briefly created there under that
+  premise (3 untracked `.psd1.example` files, never committed/pushed — deleted; that repo is
+  unaffected, verified via `git status`/`git log`). The real mistake: conflating "use the
+  `marketplace-manager` skill *installed from* `agent-plugins-skills` as a tool/procedure for
+  `marketplace.json` updates" with "author this new plugin *inside* `agent-plugins-skills`." Full
+  incident: `.agent/map-debt.md`'s 2026-08-03 entry; new Hard Gate #15 in
+  `.agent/rules/self-evolution-policy.md`; new CLAUDE.md Section 0a.
+- Implemented at `plugins/workbench-setup/` in **this** repo (standalone plugin, same category as
+  `sharepoint-agents-and-skills`/`sharepoint-content-publication` — none of the six other Task 0
+  plugins own these cross-cutting, upstream-of-everything setup questions).
+- `setup-sharepoint-connection` — generates the root, git-ignored `config.psd1`. Default action
+  never connects to anything; `test_connection()` requires an explicitly injected connector
+  (raises `NotImplementedError` without one — this module ships no live PnP/SharePoint SDK
+  connector itself).
+- `initialize-document-workflow` — builds/validates/writes both `document-workflows/
+  <DocumentId>.workflow.psd1` and `publication-profiles/<DocumentId>.publication.psd1`. Only
+  implemented renderer profiles (`multipage-markdown`, `sharepoint-aspx`) may appear as requested/
+  executable; anything else lands in `UnsupportedRequests`. Execution boundary (ask → propose →
+  validate → display → write → stop) enforced structurally — no extraction/rendering/tenant-I/O
+  imports exist in this module.
+- `validate-workbench-environment` — validates already-built connection/workflow/publication
+  dicts. Deliberately scoped to already-parsed dicts, not raw `.psd1` file text (see
+  `workflow_validation.py`'s docstring for why a custom `.psd1` parser was not attempted).
+- New shared `psd1_writer.py` (Python dict → PowerShell hashtable text), used by both
+  `config_setup.py` and `document_workflow.py`.
+- **Final verification:** full plugin suite **36/36 passing**, a fresh isolated wheel install also
+  passes 36/36 (checked this time — Task 0.16 taught the lesson that editable installs can hide a
+  real packaging gap).
+- `workbench-setup` and the previously-unregistered `sharepoint-agents-and-skills` both added to
+  `.claude-plugin/marketplace.json` (validated clean via `claude plugin validate .`).
+- Task 0.17 commits (chronological): `c17f4c1`, `8064805`.
 
-**Phase 6 Tasks 1–12 (shared-capability derivation): `NOT_STARTED`.** Do not begin these until
-Task 0's exit gate is met.
+**Task 0 exit gate — cross-plugin verification run this session (2026-08-03):** every Task 0
+plugin's own test suite passes: `structured-content-rendering` 96/96, `sharepoint-agents-and-
+skills` 31/31, `sharepoint-content-publication` 26/26, `workbench-setup` 36/36. No broken symlinks
+found in any of them. The migration ledger is written:
+`docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md` (skill-by-skill
+completion table, test evidence, defects found/fixed this session, known doc drift flagged for
+follow-up, and explicit open items). **Not yet done for the exit gate — the actual gating item:**
+**nobody has reviewed and accepted that bundle yet.** Implementation-complete is not the same as
+exit-gate-met; do not treat Task 0 as closed, do not merge this branch, until that review happens
+and is accepted.
+
+**Phase 6 Tasks 1–12 (shared-capability derivation): `NOT_STARTED`, and deliberately NOT begun
+this session despite broad overnight permission to "complete all of phase 6"** — Task 0's exit
+gate (external-review-bundle acceptance) is a human checkpoint this repo's own Mandatory Phase
+Transition Protocol requires before Tasks 1–12 may start; skipping it would repeat exactly the
+kind of unreviewed-assumption error this session already had to correct twice (see the
+correction record above and `.agent/map-debt.md`). Next session: get the migration ledger/review
+bundle reviewed and accepted, then start Tasks 1–12 in a fresh session per the protocol.
 
 **Resume instructions for the next session:**
 1. Read this file in full.
 2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
    model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
-   itself isn't present), confirm `HEAD` matches `30bd605`.
-3. Task 0.16 (`structured-content-rendering`) is complete — do not redo it.
-4. Continue Task 0.17 at `plugins/workbench-setup/` in **this** repo (not in `agent-plugins-skills`
-   — see the correction record above).
+   itself isn't present), confirm `HEAD` matches the latest commit on this branch.
+3. Tasks 0.1–0.17 (all 30 skill names) are implementation-complete — do not redo any of them.
+4. Get `docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md` reviewed and
+   accepted by the human partner before touching Tasks 1–12.
 5. Do not start Phase 6 Tasks 1–12.
 6. Do not create another review gate before all 30 skill names are complete — the approved
    external-review gate is after Task 0 in full, not after each plugin.
