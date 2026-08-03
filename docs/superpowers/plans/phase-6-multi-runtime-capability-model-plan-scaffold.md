@@ -32,14 +32,49 @@ skill (`tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL
 implementation of the same capability, running repository-side. This task is scoped narrowly to
 building that one skill — it does not start Tasks 1–12.
 
-**Plugin domain:** `plugins/sharepoint-content-publication/` — the only existing plugin scoped to
-publication-facing content for the same rendered artifact set (`runs/ceis-manual-v2/`), with no
-tenant-write requirement for a read-only review skill. `sharepoint-agents-and-skills` (agent/native-
-skill lifecycle tooling — creation, deployment, backup/restore) and `knowledge-evaluation`
-(evaluation-schema infrastructure) are both a scope mismatch — this skill *performs* a review, it
-doesn't manage agent lifecycle or define evaluation schemas.
+**Plugin domain (corrected 2026-08-03 — see revision note below):** `plugins/sharepoint-agents-and-
+skills/` — the plugin already designed to own `review-manual-topics` in both its runtime
+representations (repository/Claude skill and native SharePoint skill), per
+`docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md`. This plugin does
+not exist yet; Task 0a creates its minimum real structure. `sharepoint-content-publication` (which
+owns publication, reconciliation, and rollback of rendered output) is not the right domain — a
+read-only topic-review skill is not content publication merely because it reads published
+Markdown; it belongs with the capability it reviews, not the pipeline stage that happens to have
+produced the file it reads.
 
-0a.1. **Deterministic topic-resolution module** — `plugins/sharepoint-content-publication/scripts/
+**Revision note (2026-08-03):** an earlier draft of this task placed the skill under
+`sharepoint-content-publication`, reasoning from where the content it reads happens to live rather
+than the capability's actual domain ownership. Corrected before implementation began. This also
+required resolving `sharepoint-agents-and-skills`'s previously `BLOCKED` ownership question (does
+the plugin permit solution-specific configured skills, not just generic platform capabilities) —
+now `RESOLVED`: `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS`.
+See that design doc's "Ownership decision" section for the recorded decision.
+
+0a.1. **Minimum real plugin structure** — create:
+   ```
+   plugins/sharepoint-agents-and-skills/
+   ├── plugin.json          (Claude Code plugin manifest)
+   ├── plugin.yaml           (this repo's plugin metadata, matching the four core plugins' pattern)
+   ├── README.md
+   ├── scripts/
+   │   └── review_manual_topics.py
+   ├── skills/
+   │   └── review-manual-topics/
+   │       └── SKILL.md
+   ├── evaluations/
+   │   └── {normal,negative,ambiguous,safety,permission}/
+   └── tests/
+       └── unit/
+           └── test_review_manual_topics.py
+   ```
+   `review_manual_topics.py` and `SKILL.md` are labeled `CONFIGURED_SOLUTION_SKILL` /
+   `CEIS_SPECIFIC` per the recorded ownership decision — not described as generic platform
+   capability. Future generic platform capabilities (agent creation, native-skill
+   deployment/verification/rollback, per the design doc's other extraction rows) live alongside
+   this skill in the same plugin, organizationally separate (their own `scripts/`/`skills/`
+   entries), not blocked by or blocking this task.
+
+0a.2. **Deterministic topic-resolution module** — `plugins/sharepoint-agents-and-skills/scripts/
    review_manual_topics.py`: given a primary topic filename/slug and `runs/ceis-manual-v2/render/`
    as the content root, resolve exactly one primary topic page and at most 2 explicitly
    cross-referenced related topic pages (mirroring the native skill's Input Resolution Hierarchy
@@ -49,7 +84,7 @@ doesn't manage agent lifecycle or define evaluation schemas.
    no-tenant-write, no-hash-verification-claims constraints (there is nothing to write here since
    the source is the repo's own `runs/` output).
 
-0a.2. **Skill instructions** — `plugins/sharepoint-content-publication/skills/review-manual-topics/
+0a.3. **Skill instructions** — `plugins/sharepoint-agents-and-skills/skills/review-manual-topics/
    SKILL.md`: same user intent as the native skill (semantic editorial review — completeness,
    section structure, cross-reference consistency, terminology clarity), same input boundary
    (exactly one primary topic, ≤2 related), same prohibited-scope list (no full-library scan, no
@@ -61,26 +96,27 @@ doesn't manage agent lifecycle or define evaluation schemas.
    instructions to the model — same division of labor as the native skill (deterministic resolution,
    model-performed synthesis).
 
-0a.3. **Hub-and-spoke resource wiring** — if the skill folder needs direct access to the script
+0a.4. **Hub-and-spoke resource wiring** — if the skill folder needs direct access to the script
    (rather than invoking it via the plugin CLI), create the reference via
    `.agents/skills/symlink-manager/scripts/symlink_manager.py create`, never `ln -s` directly. Run
    `diagnose` after, per `.agent/rules/symlink-cross-platform.md`.
 
-0a.4. **Tests** — `plugins/sharepoint-content-publication/tests/unit/
+0a.5. **Tests** — `plugins/sharepoint-agents-and-skills/tests/unit/
    test_review_manual_topics.py`, TDD-first: primary-topic resolution, related-topic boundary
    enforcement (rejects a 3rd related topic), not-found handling (no hallucinated content),
-   ambiguous-match handling. Run existing plugin suite alongside to confirm no regression.
+   ambiguous-match handling.
 
-0a.5. **Evals reused from Phase 4** — adapt (not duplicate wholesale) the applicable cases from
-   `tools/phase-4-native-sharepoint-skills/evaluations/{normal,negative,ambiguous,safety}/` by
-   pointing `primary_topic`/`related_topic_allowance` at the equivalent `runs/ceis-manual-v2/render/
-   pages/*.md` filenames instead of `.aspx`. The `permission/` cases are SharePoint-identity-scoped
+0a.6. **Evals reused from Phase 4** — adapt (not duplicate wholesale) the applicable cases from
+   `tools/phase-4-native-sharepoint-skills/evaluations/{normal,negative,ambiguous,safety}/` into
+   `plugins/sharepoint-agents-and-skills/evaluations/`, pointing `primary_topic`/
+   `related_topic_allowance` at the equivalent `runs/ceis-manual-v2/render/pages/*.md` filenames
+   instead of `.aspx`. The `permission/` cases are SharePoint-identity-scoped
    (`test_identity_class` against tenant permission tiers) and have no repository-side equivalent —
    record them explicitly as `NOT_APPLICABLE_NO_TENANT_IDENTITY`, not silently dropped. Run the
    adapted cases against the new skill and record results — this becomes the Stage 6.1.2 common
    evaluation baseline once Task 1 actually starts.
 
-0a.6. **Evidence record** — a short artifact (location: `docs/reports/` per this repo's evidence
+0a.7. **Evidence record** — a short artifact (location: `docs/reports/` per this repo's evidence
    convention) recording: skill built, tests passing, adapted-eval results, and the entry-gate
    re-check (does a second real, exercised runtime of `review-manual-topics` now exist). This
    feeds directly into Task 0's "record runtimes, owners, operational status, versions, artifacts,
