@@ -1,4 +1,4 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Not Yet Started
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Task 0 In Progress (20/30)
 
 ## Current status (2026-08-03, verified against git)
 
@@ -26,7 +26,8 @@ Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
   20 recorded runs retained in the provenance ledger, no technical retries.
 - Task 8: consolidated findings accepted.
 - Citation status: **`CITATION_SUPPORT_NOT_VERIFIED`**.
-- **Phase 6: `NOT_STARTED`.**
+- **Phase 6: Task 0 `AUTHORIZED_AND_IN_PROGRESS` — 20/30 skill names complete. See "Phase 6 —
+  Task 0 handoff (2026-08-03)" below for the full resume state.**
 
 **Phase 5's bounded conclusion:**
 
@@ -41,6 +42,84 @@ Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
 **Deferred out of Phase 5, not yet done:** citation-support verification, multi-identity
 permission/oversharing testing, production governance, native-skill comparison, legal-accuracy
 validation.
+
+## Phase 6 — Task 0 handoff (2026-08-03)
+
+**Branch:** `phase-6-multi-runtime-capability-model`, worktree at
+`.worktrees/phase-6-multi-runtime-capability-model`.
+**Latest pushed commit:** `c157665` ("feat(phase6-task0.15): complete sharepoint-content-
+publication skills"), pushed to `origin/phase-6-multi-runtime-capability-model`.
+**Not merged to `main`.** Task 0's own exit gate (all 30 skill names implemented/packaged/
+tested + migration ledger + one focused context-bundler review package) is not yet met — do not
+merge, and do not treat the 20 completed skills below as separately, finally accepted. They are
+accepted as in-progress Task 0 work only. Final external review occurs once all 30 are complete.
+
+**Task 0 progress: 20/30 skill names complete.**
+
+- `sharepoint-agents-and-skills`: **15/15 complete**, plugin manifests in place, **31/31 tests
+  passing**. Includes the repository/Claude second runtime for `review-manual-topics` that closes
+  Phase 6's actual entry gate (two real runtimes of the same capability now exist). Two real bugs
+  found and fixed via testing during this work: a `Write-Error`-terminates-before-JSON-write
+  ordering bug (fixed in `rollback-skill-deployment.ps1` and the new restore scripts), and a
+  `ConvertTo-Json` single-element-array-collapse bug (fixed in `create-sharepoint-agent.ps1` with
+  an explicit `[System.Object[]]` cast).
+- `sharepoint-content-publication`: **5/5 complete**, **6/6 new tests passing**. Real
+  architectural finding, correctly respected rather than bypassed: this plugin's Phase 3 design is
+  explicitly package-only/zero-tenant-I/O, and real automated tenant writes remain gated behind
+  Stage 3.4.3's unapproved write-identity decision — **this package-only behavior is correct as-
+  is; the current design still excludes unauthorized tenant writes.** The 3 new-build publication
+  skills (`publish-markdown-to-sharepoint`, `publish-aspx-to-sharepoint`,
+  `rollback-sharepoint-publication`) produce human-actionable plans, not tenant writes.
+
+**Next: Task 0.16 — `structured-content-rendering` (7 skills), not yet started.**
+
+- `render-multipage-markdown` likely needs only a naming/boundary verification pass (the
+  underlying `render-structured-content` skill already exists and works).
+- `render-sharepoint-aspx` is a genuine new renderer requiring `Renderer` protocol conformance
+  (`plugins/structured-content-rendering/scripts/renderers/protocol.py`) and golden-master
+  fidelity proof, per the plan's own Stage 5.5B.1.5 standard — not a rushed task.
+- `create-markdown-rendering-template`, `create-aspx-rendering-template`,
+  `validate-rendering-template`, `compare-rendered-output` are all genuinely new builds.
+- **Test-collection finding (checked, not a code defect):** running `pytest` directly inside
+  `plugins/structured-content-rendering/` without first running
+  `pip install -e plugins/structured-content-rendering` fails with `ModuleNotFoundError` for the
+  plugin's own flat-scripts modules (`atomic_output`, `renderers`, etc.) — this is a missing
+  install precondition, not a bug in the plugin's code. Confirmed: after `pip install -e
+  plugins/structured-content-rendering`, all **49/49** existing tests pass. Run the install step
+  before starting Task 0.16 work; do not "fix" this as if it were a real collection defect.
+
+**Then: Task 0.17 — `workbench-setup` (3 skills), already authorized, cross-repository.**
+
+- `setup-sharepoint-connection`, `initialize-document-workflow`, `validate-workbench-environment`
+  (per `docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md`
+  Section 8). Per `CLAUDE.md`'s Skill Development Protocol, these are Category 1 (marketplace-
+  style) skills — authored in the sibling `agent-plugins-skills` repo
+  (`/Users/richardfremmerlid/Projects/agent-plugins-skills`), not in this repo.
+- That repo's current branch (`feat/update-plugin-architecture-policy`) has unrelated uncommitted
+  work (a stray `.DS_Store` change) — **do not touch that branch.** Create a separate, clean
+  branch/worktree from that repo's current `main` instead.
+- Implement the three `workbench-setup` skills there, commit, push, and open the required PR —
+  then **stop for the user to merge that cross-repository PR** (the agent does not merge, per this
+  repo's own protocol). After merge, install/reference the plugin in this workbench
+  (`python3 .agents/skills/plugin-installer/scripts/plugin_add.py <path> --plugins workbench-setup
+  -y`) and complete integration verification here.
+
+**Phase 6 Tasks 1–12 (shared-capability derivation): `NOT_STARTED`.** Do not begin these until
+Task 0's exit gate is met.
+
+**Resume instructions for the next session:**
+1. Read this file in full.
+2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
+   model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
+   itself isn't present), confirm `HEAD` matches `c157665`.
+3. `pip install -e plugins/structured-content-rendering` before running that plugin's tests.
+4. Continue Task 0.16, fixing nothing that isn't a real defect (see the test-collection note
+   above).
+5. Continue Task 0.17 in the sibling `agent-plugins-skills` repo per the cross-repository
+   instructions above.
+6. Do not start Phase 6 Tasks 1–12.
+7. Do not create another review gate before all 30 skill names are complete — the approved
+   external-review gate is after Task 0 in full, not after each plugin.
 
 **Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
 
