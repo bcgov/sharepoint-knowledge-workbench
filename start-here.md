@@ -1,14 +1,63 @@
-# Resume — Phase 1–5 Complete; Phase 6 Not Yet Started
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Not Yet Started
 
-## Current status (2026-08-03)
+## Current status (2026-08-03, verified against git)
+
+**`PHASE_TRANSITION_READY`** — Phase 5 → Phase 6. All Mandatory Phase Transition Protocol checks
+below are satisfied: Phase 5 tasks have explicit dispositions, evidence/exit report exist, the
+feature branch is merged with a recorded merge commit, `main` sync is verified (see "Verified
+repository state" below), handoff documentation is current, and no Phase 6 files/branch exist yet.
 
 **Phase 4.5 is fully complete and merged to `main`** (PR #25, merge commit `8719f49`), including
 Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
 
-**Phase 5 (CEIS grounding-only prototype) is complete**, disposition
-**`PHASE_5_ACCEPTED_WITH_LIMITATIONS`** (confirmed by the user 2026-08-03). This was an exploratory
-prototype, not a full governed Phase-5 exit-gate pilot — see the "Phase 5" section below for the
-full summary and where the branch/PR stand.
+**Phase 5 (CEIS grounding-only prototype) is complete AND merged to `main`.**
+
+- Disposition: **`PHASE_5_ACCEPTED_WITH_LIMITATIONS`**.
+- Merged through PR #29.
+- Phase 5 merge commit: `e104d1a`.
+- Phase 5 closure disposition commit: `7735764` ("docs(phase5): close Phase 5 — PHASE_5_ACCEPTED_WITH_LIMITATIONS").
+- Design-stream corrections commit: `7735b6d`.
+- Tasks 0–8: **COMPLETE**.
+- Manual control testing: **COMPLETE** — no additional Phase 5 agent-question runs required.
+- Task 5 (upload): 25 Markdown topic pages, 1 `index.md`, 319 existing media items unchanged,
+  0 image duplication, 0 upload failures.
+- Task 6: Markdown-grounded comparison agent created and verified.
+- Task 7: 7 evaluation cases run against both agents — 14 final agent/case evidence records,
+  20 recorded runs retained in the provenance ledger, no technical retries.
+- Task 8: consolidated findings accepted.
+- Citation status: **`CITATION_SUPPORT_NOT_VERIFIED`**.
+- **Phase 6: `NOT_STARTED`.**
+
+**Phase 5's bounded conclusion:**
+
+- ASPX and Markdown grounding were compared using seven approved cases.
+- Both representations produced usable responses within the prototype scope.
+- Evidence was mixed and no winner was declared.
+- The prototype does not certify production readiness, legal accuracy, citation correctness, or
+  complete permission safety.
+- This was an exploratory prototype, not a full governed Phase-5 exit-gate pilot — see the
+  "Phase 5" section below for the full summary.
+
+**Deferred out of Phase 5, not yet done:** citation-support verification, multi-identity
+permission/oversharing testing, production governance, native-skill comparison, legal-accuracy
+validation.
+
+**Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
+
+- `sharepoint-agents-and-skills` plugin design: **`DESIGN_COMPLETE`**, **`IMPLEMENTATION_NOT_AUTHORIZED`**, **`MIGRATION_NOT_STARTED`**.
+- Multi-document destination configuration design: **`PLANNING_ONLY`**, **`IMPLEMENTATION_NOT_AUTHORIZED`**.
+- Design-stream documents (the multi-document-destination-configuration design,
+  sharepoint-agents-and-skills plugin design, broader-plan vision update, and CLAUDE.md
+  correction) are committed on `main` through `7735b6d` ("docs: land remaining design-stream
+  corrections onto main"). Do not treat these designs as authorization to implement.
+
+**Verified repository state (as of this entry):**
+
+- Local `main` tracks `origin/main`.
+- `HEAD` equals `origin/main` (`7735b6d`).
+- Working tree clean.
+- No Phase 6 branch or worktree exists.
+- No Phase 6 implementation has started.
 
 **Current plugin names** (renamed 2026-08-02 from internal architecture terms to plain
 operational-purpose names — see `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`
@@ -52,8 +101,8 @@ session should either build it out as a real domain plugin or fold its scope int
 complete picture (tasks, tenant artifacts retained, findings, limitations, citation-verification
 status, deferred work).
 
-- Branch: `phase-5-ceis-grounding-prototype` (17 commits ahead of `main`). Not yet merged — merge
-  remains an explicit human decision, same as every other phase.
+- Branch: `phase-5-ceis-grounding-prototype`. **Merged to `main` via PR #29** (merge commit
+  `e104d1a`; closure disposition commit `7735764`).
 - Design/spec: `docs/superpowers/specs/2026-08-02-phase-5-ceis-grounding-prototype-design.md`.
 - Plan: `docs/superpowers/plans/2026-08-02-phase-5-ceis-grounding-prototype.md`.
 - Consolidated findings: `tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md`.
@@ -70,29 +119,141 @@ status, deferred work).
   `docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md` — that remains open for
   a future, more rigorous pilot if one is ever authorized.
 
-## Separate, uncommitted architecture-design stream — not part of Phase 5, do not lose
+## Separate architecture-design stream — design-complete, committed, not implemented
 
 Real architecture drift was found during Phase 5 (reusable SharePoint scripts/skills were being
 written into `tools/phase-N-*/` instead of an installable plugin — see `.agent/map-debt.md`'s
 2026-08-02 entry). The corrective design work is **design-complete, implementation/migration NOT
-authorized**, and deliberately kept as a separate planning stream, currently **uncommitted**:
+authorized**, and was landed on `main` through commit `7735b6d` ("docs: land remaining
+design-stream corrections onto main"):
 
 ```
- M CLAUDE.md
- M docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md
- M docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md
- M docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md
+CLAUDE.md
+docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md
+docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md
+docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md
 ```
 
-A future session should decide whether to commit these on their own planning branch (after review)
-or continue iterating before committing. Do not fold them into any Phase 5 or Phase 6 commit.
+- `sharepoint-agents-and-skills` plugin design: `DESIGN_COMPLETE`, `IMPLEMENTATION_NOT_AUTHORIZED`, `MIGRATION_NOT_STARTED`.
+- Multi-document destination configuration design: `PLANNING_ONLY`, `IMPLEMENTATION_NOT_AUTHORIZED`.
+
+Do not implement either of these as part of Phase 6 unless separately authorized.
+
+## MANDATORY PHASE TRANSITION PROTOCOL
+
+No phase may be declared closed, and no next phase may begin, until every applicable item below is
+verified. This section is permanent — apply it at every future phase boundary, not just the
+Phase 5 → Phase 6 transition that motivated writing it down.
+
+### Phase completion
+
+- All planned tasks have explicit dispositions.
+- Required tests and evidence are complete.
+- External or independent review is recorded.
+- Human exit disposition is recorded.
+- Limitations and deferred items are explicit.
+- A final phase exit report exists.
+
+### Feature branch and merge
+
+- All phase-owned changes are committed.
+- The feature branch is pushed.
+- No unrelated planning stream is included in the phase's PR.
+- The PR is reviewed and merged by the user.
+- The merge commit is identified (recorded by hash, not description).
+- The phase branch is not treated as authoritative after merge — `main` is.
+
+### Main synchronization
+
+Run and verify:
+
+```bash
+git fetch origin --prune
+git checkout main
+git branch --set-upstream-to=origin/main main
+git pull --ff-only origin main
+git rev-parse HEAD
+git rev-parse origin/main
+git status --short --branch
+```
+
+Required result:
+
+- Local `main` tracks `origin/main`.
+- `HEAD` equals `origin/main`.
+- Working tree is clean.
+
+Do not infer synchronization from a successful pull alone. Do not interpret ahead/behind counts
+until the tracked upstream branch has been verified.
+
+### Handoff documentation
+
+Before ending the phase:
+
+- Update `start-here.md` after the merge.
+- Record the actual merge commit.
+- Record the exact next phase and its status.
+- Record parallel planning streams separately from the phase that just closed.
+- List outstanding human decisions.
+- Provide exact fresh-session resume steps.
+- Remove stale statements about unmerged branches or uncommitted files.
+
+### Next-phase contamination gate
+
+Before the next phase begins, confirm:
+
+- No next-phase implementation files exist.
+- No next-phase branch or worktree exists unless intentionally created after closure.
+- No background agent or command remains active.
+- No tenant write remains in progress.
+- No unrelated files are staged.
+- The next phase has its own approved scope, branch, worktree, and session.
+
+### Fresh-session rule
+
+The next phase must begin in a fresh session. The new session must be able to resume from:
+
+- `start-here.md`;
+- committed specifications and plans;
+- phase exit evidence;
+- Git history.
+
+The new session must not depend on the previous conversation transcript.
+
+### Fail-closed transition status
+
+Every phase-transition check ends in exactly one of:
+
+- `PHASE_TRANSITION_READY`
+- `PHASE_TRANSITION_BLOCKED`
+
+If blocked, list the exact failed checks.
+
+Do not use phrases such as "essentially complete," "ready except for documentation," "not a
+blocker," or "can be fixed later" when a mandatory transition check remains unresolved. A stale
+`start-here.md` is a transition blocker, not a cosmetic gap.
 
 ## Phase 6 (not started)
 
 Per `docs/vision/master-initiative-plan-workstreams-and-phases.md`, Phase 6 requires its own fresh
 branch/worktree and session, following the Mandatory Planning Protocol below (brainstorming before
 plan mode). Treat this file and committed evidence as authority — not any prior conversation
-transcript. No Phase 6 files exist yet.
+transcript. No Phase 6 branch/worktree or files exist yet; no Phase 6 implementation has started.
+
+### Next-session procedure
+
+1. Open a fresh session.
+2. Read this file (`start-here.md`) in full.
+3. `git fetch origin` and confirm current `main` is clean (`HEAD` == `origin/main`, working tree
+   clean).
+4. Create a dedicated Phase 6 branch/worktree via `superpowers:using-git-worktrees`.
+5. Invoke `superpowers:brainstorming` before any planning or implementation — do not begin from
+   `docs/superpowers/specs/phase-6-multi-runtime-capability-model-spec.md` as though its scope is
+   already approved; it is a forward-looking scaffold only.
+6. Reuse Phase 4 and Phase 5 evidence rather than re-deriving it.
+7. Do not repeat Phase 5's full manual test matrix.
+8. Do not implement `sharepoint-agents-and-skills` or the multi-document destination
+   configuration design as part of Phase 6 unless separately authorized.
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
@@ -648,24 +809,13 @@ followed — do not treat any status claim below as current.
 4. **Phase 4 / 4.5 are done.** ✓ Merged to main (see Phase 4.5 section above for the naming
    refactor and evidence trail).
 5. **Phase 5 is done** (exploratory prototype, `PHASE_5_ACCEPTED_WITH_LIMITATIONS`) — see the
-   Phase 5 section above. Branch `phase-5-ceis-grounding-prototype` not yet merged.
+   Phase 5 section above. Merged to `main` via PR #29 (`e104d1a`).
 6. **Phase 6 is next** — not started. Requires a fresh branch/worktree/session and the Mandatory
    Planning Protocol below (brainstorming before plan mode). Do not begin Phase 6 work from a
    continuation of the Phase 5 session/branch.
 
-**Resume instructions for a fresh session:**
-1. Read this file (`start-here.md`) in full — it is authoritative, not any prior chat transcript.
-2. Read `docs/reports/phase-5-sharepoint-knowledge-agent-pilot/EXIT-REPORT.md` for full Phase 5
-   detail if relevant to the next task.
-3. Decide (with the user) whether to merge `phase-5-ceis-grounding-prototype` into `main` now, or
-   defer merge until Phase 6 also lands — either is fine, but do not merge without explicit
-   instruction.
-4. Decide (with the user) whether/when to commit the separate uncommitted design stream (see
-   section above) — it is independent of both the Phase 5 merge decision and Phase 6 start.
-5. For Phase 6: create a fresh branch/worktree via `superpowers:using-git-worktrees`, then run
-   `superpowers:brainstorming` before any planning or implementation — do not skip straight to
-   `docs/superpowers/specs/phase-6-multi-runtime-capability-model-spec.md` as if it were already
-   approved; it is a forward-looking scaffold, not an approved spec.
+**Resume instructions for a fresh session:** superseded by the "Next-session procedure" in the
+"Phase 6 (not started)" section above — use that, not this historical block.
 
 ## Efficiency notes for continuing this session or a fresh one
 
