@@ -69,12 +69,13 @@ agents, publication, and evaluation — is planned in
 `docs/vision/master-initiative-plan-workstreams-and-phases.md` (the authoritative, phase/subphase/
 stage-level master plan, reviewed across multiple rounds of external adversarial review) and
 originally proposed in `docs/vision/README.md` and
-`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. Only Phase 1 (complete)
-and Phase 2 (spec + implementation plan approved, execution not yet started — see
-`docs/superpowers/specs/2026-07-28-phase2-canonical-publication-contract-hardening-design.md` and
-its companion plan) are currently authorized to be built; later phases are deliberately planned at
+`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. **Updated 2026-08-03:**
+Phases 1–5 are complete; Phase 6 Task 0 (`docs/superpowers/plans/phase-6-multi-runtime-
+capability-model-plan-scaffold.md`) is `AUTHORIZED_AND_IN_PROGRESS` — see `start-here.md` for
+current status. Phase 6 Tasks 1–12 (shared-capability derivation) remain
+`NOT_AUTHORIZED_UNTIL_TASK_0_EXIT_GATE`; later phases beyond 6 are deliberately planned at
 a structural level only, gated on evidence (tenant facts, pilot outcomes) that doesn't exist yet —
-see the master plan's own detail-level discipline before assuming any phase beyond 2 is ready to
+see the master plan's own detail-level discipline before assuming any phase beyond 6 is ready to
 implement.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
