@@ -1,11 +1,14 @@
-# Resume — Phase 1–4.5 Complete; Phase 5 Not Yet Started
+# Resume — Phase 1–5 Complete; Phase 6 Not Yet Started
 
-## Current status (2026-08-02)
+## Current status (2026-08-03)
 
-**Phase 4.5 is fully complete**, including Wave 9 (duplication remediation) and the follow-on
-plugin/skill naming refactor. All work lives on branch `phase-4-5-core-plugin-refactoring`,
-**not yet merged to `main`** — merging remains an explicit human decision, per the Per-Phase Git &
-Session Workflow in `docs/vision/master-initiative-plan-workstreams-and-phases.md`.
+**Phase 4.5 is fully complete and merged to `main`** (PR #25, merge commit `8719f49`), including
+Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
+
+**Phase 5 (CEIS grounding-only prototype) is complete**, disposition
+**`PHASE_5_ACCEPTED_WITH_LIMITATIONS`** (confirmed by the user 2026-08-03). This was an exploratory
+prototype, not a full governed Phase-5 exit-gate pilot — see the "Phase 5" section below for the
+full summary and where the branch/PR stand.
 
 **Current plugin names** (renamed 2026-08-02 from internal architecture terms to plain
 operational-purpose names — see `docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md`
@@ -39,22 +42,57 @@ the time each wave executed) lives in `docs/superpowers/plans/phase-4-5-evidence
 for the naming refactor — only the three most-recently-active ones carry a banner pointing to the
 migration map.
 
-**Next action on resume:** decide whether/when to merge `phase-4-5-core-plugin-refactoring` into
-`main`. Separately, `sharepoint-content-publication` remains a provisional holding location — a
-future session should either build it out as a real domain plugin or fold its scope into a Phase 5+
-plan.
+Separately, `sharepoint-content-publication` remains a provisional holding location — a future
+session should either build it out as a real domain plugin or fold its scope into a later phase.
 
-## Phase 5 readiness (not started — do not begin planning here)
+## Phase 5 — CEIS Grounding-Only Prototype (complete)
 
-Per `docs/vision/master-initiative-plan-workstreams-and-phases.md`, Phase 5 ("SharePoint Knowledge
-Agent Pilot") is disposition **RESEARCH**, gated behind **Phase 3** (not unconditionally Phase 4):
-its entry gate is Phase 3's governed knowledge library existing and populated, plus Phase 3.0
-confirming agent-creation permissions. Phase 4/4.5 is a prerequisite only if the specific agent
-scenario invokes a native skill — otherwise Phase 4/4.5 and Phase 5 may run as parallel sibling
-pilots. Phase 3's exit gate is complete (see the Phase 3 status section below); Phase 4.5 is now
-also complete, so both conditions for a Phase 5 pilot are in place. Starting Phase 5 planning
-itself requires the project's Mandatory Planning Protocol (brainstorming skill before entering plan
-mode) in its own session — do not begin that work from this file.
+**Disposition: `PHASE_5_ACCEPTED_WITH_LIMITATIONS`.** Full exit report:
+`docs/reports/phase-5-sharepoint-knowledge-agent-pilot/EXIT-REPORT.md` — read this first for the
+complete picture (tasks, tenant artifacts retained, findings, limitations, citation-verification
+status, deferred work).
+
+- Branch: `phase-5-ceis-grounding-prototype` (17 commits ahead of `main`). Not yet merged — merge
+  remains an explicit human decision, same as every other phase.
+- Design/spec: `docs/superpowers/specs/2026-08-02-phase-5-ceis-grounding-prototype-design.md`.
+- Plan: `docs/superpowers/plans/2026-08-02-phase-5-ceis-grounding-prototype.md`.
+- Consolidated findings: `tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md`.
+- Generalizable findings extracted into `docs/research/field-note-aspx-vs-markdown-grounding-comparison.md`
+  (two reproducible failure modes found on **both** tested agents — a currency-from-upload-timestamp
+  inference bug, and cross-run relationship-answer instability — likely model-level, not
+  format-specific).
+- **Standing protocol established this phase:** after each task (not just each phase), check
+  whether its findings are generalizable enough to warrant a `docs/research/` field note or update —
+  do this as part of the task's own closure, don't wait to be asked.
+- Explicitly deferred (not tested, not "passed"): native-skill comparison, multi-identity
+  permission/oversharing testing, citation-accuracy verification, production governance/exit-gate
+  evidence. This prototype does **not** satisfy the full governed
+  `docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md` — that remains open for
+  a future, more rigorous pilot if one is ever authorized.
+
+## Separate, uncommitted architecture-design stream — not part of Phase 5, do not lose
+
+Real architecture drift was found during Phase 5 (reusable SharePoint scripts/skills were being
+written into `tools/phase-N-*/` instead of an installable plugin — see `.agent/map-debt.md`'s
+2026-08-02 entry). The corrective design work is **design-complete, implementation/migration NOT
+authorized**, and deliberately kept as a separate planning stream, currently **uncommitted**:
+
+```
+ M CLAUDE.md
+ M docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md
+ M docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md
+ M docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md
+```
+
+A future session should decide whether to commit these on their own planning branch (after review)
+or continue iterating before committing. Do not fold them into any Phase 5 or Phase 6 commit.
+
+## Phase 6 (not started)
+
+Per `docs/vision/master-initiative-plan-workstreams-and-phases.md`, Phase 6 requires its own fresh
+branch/worktree and session, following the Mandatory Planning Protocol below (brainstorming before
+plan mode). Treat this file and committed evidence as authority — not any prior conversation
+transcript. No Phase 6 files exist yet.
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
@@ -599,62 +637,35 @@ Genuinely still-open items, per the existing (authoritative) documents above:
 
 ## Next action on resume — this is the actual remaining work
 
+**This section is historical** (it describes the Phase 4 native-skills reconciliation work as it
+stood mid-phase). That work was completed and merged; see the Phase 4.5 and Phase 5 sections above
+for current, accurate status. Left in place as a record of the reconciliation process actually
+followed — do not treat any status claim below as current.
+
 1. **Phase 1 is done.** ✓ Merged to main.
 2. **Phase 2 is done.** ✓ Merged to main.
 3. **Phase 3 is done.** ✓ Merged to main.
-4. **Phase 4 is IN PROGRESS.** Branch: `phase-4-native-sharepoint-skills` (not merged).
-   
-   **Current state:**
-   - Tasks 0–7.5: Accepted
-   - Task 8: Scope drift detected. Custom SharePoint agent research was performed and preserved. Native-skill deployment requires reconciliation.
-   - Tasks 9–12: Not started
-   - Exit gate: Not met
-   
-   **Immediate work (do not skip):**
-   1. **Reconcile Task 8 native-skill status** (read-only)
-      - Verify `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md` in repository
-      - Check if deployed to AgentAssets/Skills/review-manual-topics/ on tenant
-      - Record repository SHA-256 vs. deployed SHA-256
-      - Determine deployment status: COMPLETE, PARTIALLY_COMPLETE, UNDEPLOYED, or DRIFT_DETECTED
-   
-   2. **Audit commit 83c60b7 and classify all nine files**
-      - All custom-agent scripts preserved (do not delete)
-      - Classify each as Phase 5 candidate, supporting research, or infrastructure
-      - Create disposition record for each file (path, purpose, tenant action, result, proposed location)
-      - Record in `docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`
-   
-   3. **Inventory tenant artifacts** created during scope-drift experiments
-      - AgentAssets library location and status
-      - SKILL.md files deployed or present
-      - .agent files created (count, paths)
-      - Test pages, lists, or folders
-      - Classify each as retain / research / cleanup-approved / unknown
-   
-   4. **Execute Tasks 9–12** per Phase 4 plan scaffold
-      - Task 9: Metadata visibility empirical probe
-      - Task 10: No-skill vs. skill-enabled evaluation
-      - Task 11: Permission and safety evaluations
-      - Task 12: Rollback exercise and exit-gate validation
-   
-   5. **Collect Phase 4 exit evidence**
-      - Native-skill deployment reconciliation (Task 8 final)
-      - Evaluation results (Tasks 9–12)
-      - Evidence document with reviewer disposition
-      - Obtain explicit human acceptance of Phase 4 exit gate
-   
-   **Do not:**
-   - Merge to main
-   - Delete or discard any committed work
-   - Declare Phase 4 complete
-   - Begin Phase 5 implementation
-   - Fabricate missing Tasks 9–12 evidence
+4. **Phase 4 / 4.5 are done.** ✓ Merged to main (see Phase 4.5 section above for the naming
+   refactor and evidence trail).
+5. **Phase 5 is done** (exploratory prototype, `PHASE_5_ACCEPTED_WITH_LIMITATIONS`) — see the
+   Phase 5 section above. Branch `phase-5-ceis-grounding-prototype` not yet merged.
+6. **Phase 6 is next** — not started. Requires a fresh branch/worktree/session and the Mandatory
+   Planning Protocol below (brainstorming before plan mode). Do not begin Phase 6 work from a
+   continuation of the Phase 5 session/branch.
 
-5. **Phase 5 — SharePoint Knowledge Agent Pilot — AWAITING Phase 4 COMPLETION:**
-   - Entry gate requirement: Phase 4 exit evidence (currently incomplete)
-   - Reference spec: `docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md`
-   - Reference plan scaffold: `docs/superpowers/plans/phase-5-sharepoint-knowledge-agent-pilot-plan-scaffold.md`
-   - **Phase 5 implementation is NOT authorized until Phase 4 exits successfully**
-   - When Phase 4 is complete, begin Phase 5 planning in a fresh session following mandatory protocol
+**Resume instructions for a fresh session:**
+1. Read this file (`start-here.md`) in full — it is authoritative, not any prior chat transcript.
+2. Read `docs/reports/phase-5-sharepoint-knowledge-agent-pilot/EXIT-REPORT.md` for full Phase 5
+   detail if relevant to the next task.
+3. Decide (with the user) whether to merge `phase-5-ceis-grounding-prototype` into `main` now, or
+   defer merge until Phase 6 also lands — either is fine, but do not merge without explicit
+   instruction.
+4. Decide (with the user) whether/when to commit the separate uncommitted design stream (see
+   section above) — it is independent of both the Phase 5 merge decision and Phase 6 start.
+5. For Phase 6: create a fresh branch/worktree via `superpowers:using-git-worktrees`, then run
+   `superpowers:brainstorming` before any planning or implementation — do not skip straight to
+   `docs/superpowers/specs/phase-6-multi-runtime-capability-model-spec.md` as if it were already
+   approved; it is a forward-looking scaffold, not an approved spec.
 
 ## Efficiency notes for continuing this session or a fresh one
 
