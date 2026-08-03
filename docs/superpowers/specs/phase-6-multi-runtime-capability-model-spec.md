@@ -1,6 +1,12 @@
 # Phase 6 Specification — Multi-Runtime Capability Model
 
-> **Planning status:** This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Tenant-dependent details, exact repository paths, commands, identities, field types, licensing, and platform behavior must be replaced with observed evidence before execution.
+> **Planning status:**
+> **Task 0 (`docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md`):
+> `AUTHORIZED_AND_IN_PROGRESS`.**
+> **Tasks 1–12 (this spec's shared-capability-derivation model): `NOT_AUTHORIZED_UNTIL_TASK_0_
+> EXIT_GATE`.** Tenant-dependent details, exact repository paths, commands, identities, field
+> types, licensing, and platform behavior for Tasks 1–12 must be replaced with observed evidence
+> before execution of those tasks.
 
 ## Planning discipline
 
@@ -20,8 +26,10 @@
 **Entry gate:** At least two real runtimes implement the same capability in operational use.
 
 **Entry-gate status (verified 2026-08-03):** `SECOND_RUNTIME_REQUIRED`. One real SharePoint-side
-runtime exists — `review-manual-topics`
-(`tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md`), deployed to the
+runtime exists — `review-manual-topics`, native-SharePoint-runtime, **now at
+`plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md`** (moved from
+`tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md`, its historical
+provenance path, under Phase 6 Task 0.2), deployed to the
 real dev tenant and exercised in Phase 4 (hash-verified deployment, 7/7 metadata probes, 12/12
 safety tests, rollback proven — see `docs/reports/phase-4-native-sharepoint-skills/
 phase-4-exit-gate-evidence.md`). No repository/GitHub/Claude-side skill implements the same
@@ -39,8 +47,43 @@ the same `review-manual-topics` capability (same input boundary — one topic, �
 same prohibited scope — no writes, no hash claims, no full-library scan; same output structure)
 over `runs/ceis-manual-v2/`'s rendered Markdown pages. Phase 4's evaluation cases
 (`tools/phase-4-native-sharepoint-skills/evaluations/`) are reusable as-is as the Stage 6.1.2
-common evaluation set once both runtimes exist. Not implemented as part of this spec — implementing
-this second runtime is itself gated on its own scoping/approval, not authorized by this note.
+common evaluation set once both runtimes exist.
+
+**Scope correction (2026-08-03):** closing this entry gate was originally scoped as an isolated
+second-runtime build. It has since been widened into the full `sharepoint-agents-and-skills`
+plugin migration (`docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md`
+Task 0) — a two-pass audit (this session, cross-checked against an independent GPT-5.6 review)
+found that scoping only the second runtime in isolation would have re-stranded the rest of the
+already-designed plugin's capability set (agent creation/update/knowledge-configuration,
+agent-template authoring, native-skill creation, backup/restore for both agents and native skills,
+output-formatting templates) under `tools/`, unavailable to anyone who installs this repo's
+plugins. Task 0 completes the full migration before Task 1 (shared-capability derivation) begins;
+implementing it is authorized per that plan, not by this spec note alone.
+
+**Revision note (2026-08-03):** Phase 6 Task 0 was expanded after repository audit confirmed that
+required agent, native-skill, template, backup/restore, and configured-solution capabilities had
+been documented but not assigned executable implementation tasks.
+
+**Revision note (2026-08-03, second pass):** Task 0 was further expanded with **Task 0.15 —
+Complete `sharepoint-content-publication`** (5 skills: `publish-markdown-to-sharepoint`,
+`publish-aspx-to-sharepoint`, `reconcile-sharepoint-publication`, `validate-sharepoint-
+publication`, `rollback-sharepoint-publication`) — a distinct capability domain from
+`sharepoint-agents-and-skills` (agents/native-skills). Phases 1, 2, 3, 4, 4.5, and 5 are complete
+and closed and were not modified by this revision.
+
+**Revision note (2026-08-03, third pass):** Task 0 was expanded further with **Task 0.16 —
+Structured-content rendering** (7 skills: `render-multipage-markdown`, `render-sharepoint-aspx`,
+`create-markdown-rendering-template`, `create-aspx-rendering-template`, `validate-rendering-
+template`, `validate-rendered-output`, `compare-rendered-output`, owner `structured-content-
+rendering`) and **Task 0.17 — `workbench-setup` foundational skills** (3 skills:
+`setup-sharepoint-connection`, `initialize-document-workflow`, `validate-workbench-environment`,
+owner new plugin `workbench-setup`; `initialize-publication-profile` is absorbed into
+`initialize-document-workflow` per that design's own scoping, not a fourth skill). Rendering was
+previously assigned to Phase 5.5B, Subphase 5.5B.2 in the master roadmap — that assignment is
+reversed; the master roadmap's copy has been removed so this plan is the single source. Task 0's
+exit gate now covers **30 installed skill names total**: 15 under `sharepoint-agents-and-skills` +
+5 under `sharepoint-content-publication` + 7 under `structured-content-rendering` + 3 under
+`workbench-setup`.
 
 ## 2. Goal
 
@@ -190,5 +233,15 @@ preview-vs-authoritative rule document; per-runtime evidence/rollback matrix. Th
 Phase 6.5 (Ongoing Structured Content Authoring and Republishing) entry gate — this
 section's completion does not itself authorize that phase.
 
-**Explicit non-goal:** do not let this section, or Phase 5.5B, become an agent editing-and-
-publication workflow. Phase 5.5B stays limited to deterministic renderer expansion.
+**Explicit non-goal:** do not let this section, or Task 0.16 (structured-content rendering, this
+document's earlier revision notes), become an agent editing-and-publication workflow. Deterministic
+renderer expansion stays limited to `structured content package → deterministic renderer →
+validated output format` — no agent-performed rendering of edited content.
+
+**Superseded (2026-08-03):** this section previously said "Phase 5.5B stays limited to
+deterministic renderer expansion." Rendering-skill packaging (`render-multipage-markdown`,
+`render-sharepoint-aspx`, and the 5 rendering-template skills) was reassigned from Phase 5.5B into
+**Phase 6 Task 0.16** — Task 0.16 is now the active executable home for these 7 skills, not
+Phase 5.5B. See `docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md`
+Task 0.16 for the current task record; the master roadmap's Subphase 5.5B.2 was removed to avoid
+a duplicate/contradictory copy.

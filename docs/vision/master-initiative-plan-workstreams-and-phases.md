@@ -608,8 +608,12 @@ one does not close the other. **Detail level:** Structure only.
 **Goal:** Prove or disprove that the publication contract generalizes beyond one renderer
 ("multipage-markdown"), using a real required output format rather than speculative design.
 
-**Entry gate:** A concrete required output format (Word, PDF, HTML, PowerPoint) is identified with a real
-need behind it — not invented to exercise this phase.
+**Entry gate:** A concrete required output format (Word, PDF, HTML, PowerPoint, SharePoint `.aspx`) is
+identified with a real need behind it — not invented to exercise this phase. **SharePoint `.aspx`'s entry
+gate is met:** Phase 3.0's ASPX/modern-page conversion experiment
+(`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` §15) and Phase 5's
+ASPX-vs-Markdown grounding comparison (`docs/research/field-note-aspx-vs-markdown-grounding-comparison.md`)
+are both real, evidenced needs for a deterministic ASPX renderer, not invented ones.
 
 **Scope guardrail (external review finding, 2026-08-02, GPT 5.6):** this phase stays limited to
 **deterministic** renderer expansion — `structured content package → deterministic renderer →
@@ -644,21 +648,36 @@ Assisted Republishing) — see
 **Exit gate:** One additional renderer implemented and passing fidelity/golden-master validation. Not
 evaluable until its entry gate is met.
 
+**Rendering-skill packaging reassigned (2026-08-03):** the 7 rendering/rendering-template skills
+(`render-multipage-markdown`, `render-sharepoint-aspx`, `create-markdown-rendering-template`,
+`create-aspx-rendering-template`, `validate-rendering-template`, `validate-rendered-output`,
+`compare-rendered-output`) were briefly recorded here as Subphase 5.5B.2, then reassigned into
+**Phase 6 Task 0.16** per explicit direction, to keep all of Task 0's capability additions in one
+place. See `docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md`
+Task 0.16 for the full task table — not duplicated here.
+
 ---
 
 ## Phase 6 — Multi-Runtime Capability Model
 
-**Disposition:** LATER, gated behind ≥2 real runtimes. **Detail level:** Decision framework only.
+**Disposition (as of 2026-08-03): split.** **Task 0: `AUTHORIZED_AND_IN_PROGRESS`** — builds the
+missing repository/Claude second runtime for `review-manual-topics` plus the full `sharepoint-
+agents-and-skills`, `sharepoint-content-publication` (completion), `structured-content-rendering`
+(skill packaging), and `workbench-setup` (foundational) capability sets — see
+`docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md` Task 0 for the
+full 31-skill task table. **Tasks 1–12 (below): `NOT_AUTHORIZED_UNTIL_TASK_0_EXIT_GATE`**,
+`LATER`, gated behind ≥2 real runtimes existing. **Detail level (Tasks 1–12 only):** Decision
+framework only.
 
 **Goal:** Define a shared capability specification once two real runtimes (e.g. GitHub/Claude skill +
 native SharePoint skill) exist to specify against — preventing behavioral drift across runtimes.
 
-**Entry gate:** At least two runtimes implement the same capability in production. **Status
-(verified 2026-08-03): `SECOND_RUNTIME_REQUIRED` — gate not met.** One SharePoint-side runtime
-exists (the deployed, tenant-exercised `review-manual-topics` native skill, Phase 4); no
-repository/GitHub/Claude-side skill implements the same capability yet. See
+**Entry gate (Tasks 1–12 only):** At least two runtimes implement the same capability in
+production. **Status (verified 2026-08-03): `SECOND_RUNTIME_REQUIRED` — gate not met.** One
+SharePoint-side runtime exists (the deployed, tenant-exercised `review-manual-topics` native
+skill, Phase 4); the repository/Claude-side runtime is being built now under Task 0.3. See
 `docs/superpowers/specs/phase-6-multi-runtime-capability-model-spec.md` Section 1 for the full
-evidence review and the smallest bounded second-runtime candidate.
+evidence review.
 
 ### Subphase 6.1 — Capability specification format
 - Stage 6.1.1 — extract the shared contract from the two existing runtime implementations (do not design
@@ -1010,8 +1029,10 @@ asserted completeness without demonstrating it.
 | DOCX is a transitional extraction format, not the canonical management format | Phase 1 (done), Phase 2 (hardens the independence) | NOW | — | **Combined evidence (round-5 correction, GPT 5.6 — a single import-boundary test proves only that the renderer doesn't transitively import DOCX-analysis modules, not the full claim):** Phase 2 Stage 2.3.2's import-boundary test, PLUS Stage 2.5.1's independent-fixture proof (canonical package loads/renders with no DOCX ever having produced it), PLUS Stage 2.5.2's runtime-independence test (DOCX/intake/temp physically absent), PLUS Phase 3 Stage 3.1.3's source-of-truth rule naming canonical (not DOCX, not published SharePoint pages) as authoritative | — |
 | Structured content authoring guidance (manual) | Phase 1, `references/content-authoring-guide.md` | DONE | — | existing contract-test coverage | — |
 | Policies, procedures, training content types | Phase 5.5A, Subphase 5.5A.1 | RESEARCH | a real second content type identified | Stage 5.5A.1.7's generalization decision | no second content type exists yet |
-| SharePoint publication | Phase 3, Subphase 3.2 | NEXT | Phase 3.0 confirms feasibility | Stage 3.2.3's manual upload record | gated on 3.0 |
-| Multi-format rendering / non-SharePoint targets (broader vision, not yet phase-scoped) | not yet assigned a phase | RESEARCH | a real second output-format need identified | Phase 3.0's ASPX/modern-page probe (`research-summary-phase3-sharepoint-write-capability-discovery.md` §15): raw `.aspx` upload confirmed blocked, `Add-PnPPage`/`Add-PnPPageTextPart` confirmed working as an alternative SharePoint-native-page Renderer target; docx/pptx generation not yet tested | no phase currently scopes page-based (vs. library-file) publishing or non-Markdown output formats — this is forward-looking evidence only |
+| SharePoint publication (Phase 3 manual pilot) | Phase 3, Subphase 3.2 | DONE | Phase 3.0 confirms feasibility | Stage 3.2.3's manual upload record | Phase 3 complete/closed, historical — not reopened |
+| SharePoint publication (reusable skill automation) | Phase 6, Task 0.15 | `AUTHORIZED_AND_IN_PROGRESS` | Phase 3's manual pilot proved feasibility | the 5 packaged `sharepoint-content-publication` skills + tests, per Task 0's exit gate | — |
+| Multi-format rendering / non-SharePoint targets (broader vision) | Phase 6, Task 0.16 | `AUTHORIZED_AND_IN_PROGRESS` | a real second output-format need identified | the 7 packaged `structured-content-rendering` skills + fidelity/golden-master validation, per Task 0's exit gate | ASPX's need is evidenced (Phase 3.0 §15, Phase 5's grounding comparison); Word/PDF/PowerPoint remain unneeded |
+| Workbench setup / destination configuration (`workbench-setup` plugin) | Phase 6, Task 0.17 | `AUTHORIZED_AND_IN_PROGRESS` | design-complete (`docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md` Section 8) | the 3 packaged `workbench-setup` skills + tests, per Task 0's exit gate | `initialize-publication-profile` absorbed into `initialize-document-workflow`, not a separate skill |
 | Package-only vs. authorized-write deployment | Phase 3, Subphase 3.2/3.4.3 | NEXT (package-only), LATER (authorized-write) | approved write identity for authorized-write | Stage 3.2.3 (package-only); Stage 3.3.6 dry-run report (authorized-write gate) | write path needs an approved owner/identity first |
 | Publication reconciliation, rollback, drift | Phase 3, Subphase 3.3 | NEXT | Subphase 3.2 pilot exists | Stage 3.3.6's dry-run reconciliation report | — |
 | Source-of-truth lifecycle (editing/drift/republish rules) | Phase 3, Stage 3.1.4 | NEXT | — | `source-of-truth-lifecycle.md` | — |
@@ -1035,7 +1056,7 @@ asserted completeness without demonstrating it.
 ---
 
 
-| Reusable SharePoint plugin extraction from the CMAT replatform repository | Phase 9, Subphases 9.1–9.9 | LATER | Pinned source baseline, stable destination conventions, Phase 3 evidence patterns, and one approved pilot capability | Phase 9 exit gate: one independent reusable plugin with neutral fixtures, parity and independence proof, source repository unchanged | Must not interrupt current Phases 3–8 or copy project-specific plugins wholesale |
+| Reusable SharePoint plugin extraction from the CMAT replatform repository | Phase 9, Subphases 9.1–9.9 | LATER | Pinned source baseline, stable destination conventions, Phase 3 evidence patterns, and one approved pilot capability | Phase 9 exit gate: one independent reusable plugin with neutral fixtures, parity and independence proof, source repository unchanged | Must not interrupt current Phases 3–8 or copy project-specific plugins wholesale. **Updated 2026-08-03:** the CMAT `sharepoint-migration` source inventory (34 skills, directly audited, corrected from earlier 31/33 estimates) has been directly audited — see `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md` §8c–§8e. Phase 9 covers all applicable `sharepoint-migration` capabilities, not only the subset overlapping Phase 6. Phase 9 reuses the final workbench plugin structure (destination-plugin-matching rule, §8e) — existing plugins are preferred over new ones. 5 of 7 candidate new engineering plugins (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-migration`) are provisionally evidence-justified; 2 (`sharepoint-provisioning`, `sharepoint-validation-and-reconciliation`) are not — all remain evidence-gated, none approved. No CMAT migration or extraction has started; the CMAT repository remains intact and unmodified. `ords-integration-migration` remains excluded from Phase 9 by default (`ORDS_SPECIFIC_OUT_OF_SCOPE`). |
 | Selective reuse of generic skills currently housed under project-specific or ORDS plugins | Phase 9, Stages 9.2.2 and 9.9.2 | LATER | Skill-level responsibility and coupling review | Skill disposition and backlog decision records | ORDS integration framework and court-system business rules are out of scope; only independently generic SharePoint skills may qualify |
 | Shared Claude/Copilot rule reconciliation from the CMAT repository | Phase 9, Subphase 9.4 | LATER | Pinned source rules plus current destination instruction hierarchy | Rule-classification report, reviewed destination diffs, and proof that CMAT/environment overlays remain in the source repository | Wholesale copying would mix reusable engineering rules with project and environment facts |
 
@@ -1043,12 +1064,16 @@ asserted completeness without demonstrating it.
 
 - Repository rename: **deferred**, not rejected — low-urgency, revisit anytime.
 - No new plugins beyond the four Phase 4.5 core plugins (successors to `docx-to-content`, decommissioned
-  2026-08-01) until Phase 3/4.5 evidence justifies the next one — **note (2026-08-02): `sharepoint-content-publication`
-  already exists as a `TRANSITIONAL_HOLDING_LOCATION` (see `CLAUDE.md`), and `docs/vision/
-  ai-assisted-structured-knowledge-workbench-broader-plan.md` separately proposes a `sharepoint-knowledge`
-  plugin (native-skills/agents/deployment skill groups) that has NOT been created — do not assume either
-  name is settled without checking both documents; this line itself needs reconciliation with that
-  proposal, not treated as superseding it.
+  2026-08-01) until Phase 3/4.5 evidence justifies the next one — **note (updated 2026-08-03):
+  `sharepoint-content-publication` already exists as a `TRANSITIONAL_HOLDING_LOCATION` (see
+  `CLAUDE.md`), being completed under Phase 6 Task 0.15. The naming reconciliation this line
+  previously flagged is resolved: the approved domain name is `sharepoint-agents-and-skills` (not
+  `sharepoint-knowledge`, that name is rejected/superseded — see `docs/superpowers/specs/
+  2026-08-02-sharepoint-agents-and-skills-plugin-design.md`), being created under Phase 6 Task 0.
+  `workbench-setup` (design-complete per `docs/superpowers/specs/2026-08-02-multi-document-
+  destination-configuration-design.md` Section 8) is a third authorized exception, created under
+  Phase 6 Task 0.17. All three are explicit, named exceptions to this gating rule, not violations
+  of it.
 - **No new general-purpose routing/orchestration agent** (e.g. a `knowledge-workbench-agent` that decides
   which plugin/journey to invoke) **until ≥2 plugins with ≥2 distinct user journeys exist.** This is
   distinct from Phase 5's bounded knowledge-agent pilot (round-5 clarification, GPT 5.6): a single,
