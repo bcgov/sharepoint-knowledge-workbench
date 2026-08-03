@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-agents-and-skills"
+version = "0.1.0-alpha.1"
+description = "SharePoint Copilot agent and native-skill lifecycle tooling -- Python layer only (review_manual_topics.py, drift_detection.py). The PowerShell scripts in scripts/*.ps1 have no wheel-based install story and are not part of this package; they are consumed directly from the repository checkout, matching this plugin's existing PnP.PowerShell-based deployment model."
+requires-python = ">=3.10"
+# No dependency on any other workbench distribution -- this plugin's Python layer must install
+# and run standalone, matching the pip-installable domain plugins' own convention.
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "review_manual_topics",
+    "drift_detection",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"

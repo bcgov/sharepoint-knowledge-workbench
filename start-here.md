@@ -162,41 +162,52 @@ follow-up, and explicit open items). **Not yet done for the exit gate — the ac
 exit-gate-met; do not treat Task 0 as closed, do not merge this branch, until that review happens
 and is accepted.
 
-**Phase 6 Tasks 1–12 (shared-capability derivation): `IMPLEMENTATION_COMPLETE`, per explicit
-authorization from the human partner to proceed through all of Phase 6 without waiting for a live
-session.** Full evidence trail at `docs/superpowers/plans/phase-6-tasks-1-12-evidence/`
-(`task-1-brainstorming-and-task-2-inventory.md` through `task-12-runtime-placement-content-
-lifecycle-actions.md`), plus `plugins/sharepoint-agents-and-skills/evaluations/common/` (Task 5's
-12-case common evaluation set) and `plugins/sharepoint-agents-and-skills/scripts/
-drift_detection.py` (Task 8, 9 passing tests including a deliberate-drift proof). Full plugin
-suite 40/40. This was a solo, evidence-based pass — every claim traces to a cited file, judgment
-calls a human needs to make are marked as open items, not guessed. **Task 11's exit-evidence
-document (`task-11-exit-evidence-and-review.md`) is the consolidated index — read that first.**
+**Phase 6 Tasks 1–12 (shared-capability derivation): `IMPLEMENTATION_COMPLETE`, disposition
+`PHASE_6_IMPLEMENTATION_COMPLETE_EVALUATION_BLOCKED` after a human review + remediation round
+(2026-08-03).** The human partner reviewed the first pass and returned
+`PHASE_6_REMEDIATION_REQUIRED` — 10 bounded corrections, all applied; see
+`docs/superpowers/plans/phase-6-tasks-1-12-evidence/phase-6-remediation-bundle.md` (the
+consolidated index, **read this first**, then `task-11-exit-evidence-and-review.md`). No plugin
+redesign or new governance layer was added, per the review's own instruction.
 
-**Genuine open items, honestly disclosed, not resolved by this session (see Task 6/11's own
-findings for full detail):**
-1. `AMB-01`'s evaluation case references a topic slug (`file-standards`) that does not exist in
-   the real rendered CEIS corpus — needs a human decision (rewrite vs. mark native-only).
-2. `native-sharepoint` runtime execution of the Task 5 common set — blocked in this session by
-   lack of live tenant/PnP/Copilot access; needs a session with that access.
-3. Full semantic-review execution/grading (beyond the deterministic-resolver-layer proof this
-   session ran for real) — a real, bounded follow-up.
-4. `BOUND-01`'s fixture (a topic with >2 cross-references) does not exist yet, real or synthetic.
+**Real findings from the remediation pass, not previously known:**
+1. `sharepoint-content-publication` **fails a real isolated wheel install** — `sharepoint_
+   package.py` has an undeclared cross-plugin dependency on `canonical_package`
+   (`structured-content-rendering`'s module). Genuine, pre-existing architecture defect, not fixed
+   this pass (a design fix, out of bounded-correction scope). `sharepoint-agents-and-skills`, by
+   contrast, now passes isolated install cleanly (46/46, `pyproject.toml` added this pass).
+2. `BOUND-01`'s real execution (new synthetic fixture, `evaluations/fixtures/bound-01/`) revealed
+   the actual code behavior (hard-reject via `TooManyRelatedTopicsError`) does not match that
+   case's originally-written expected behavior (soft-cap-and-continue) — needs a human decision
+   between correcting the case or changing the code.
+3. `AMB-01` corrected to `native-sharepoint`-only (verified: zero topic-prefix collisions exist
+   anywhere in the real 25-topic corpus, so no genuine resolver-ambiguous topic exists to test
+   against on `repository-claude`).
+4. `sharepoint-agents-and-skills`/`sharepoint-content-publication`'s catalog entries (20 skills)
+   corrected from stale `not_built`/`partial` to `implemented`, matching their actual status.
+5. Task 12 corrected: publication is now split into 5a (deterministic prep/validate/reconcile,
+   `sharepoint-content-publication`'s real scope) and 5b (still-human-authorized tenant write,
+   gated behind Stage 3.4.3) — the original version overstated deterministic tooling's write
+   authority.
+
+**Still blocking the Phase 6 evaluation exit criterion (2 items, not resolvable by this session):**
+1. `native-sharepoint` runtime execution of the Task 5 common set — 0 of 7 applicable cases run;
+   no live tenant/PnP/Copilot access exists in this environment.
+2. `sharepoint-content-publication`'s isolated-install failure (item 1 above) — a real
+   architecture fix, not a bounded correction.
 
 **Resume instructions for the next session:**
-1. Read this file in full, then `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
-   task-11-exit-evidence-and-review.md`.
+1. Read this file, then `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
+   phase-6-remediation-bundle.md`, then `task-11-exit-evidence-and-review.md`.
 2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
    model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
    itself isn't present), confirm `HEAD` matches the latest commit on this branch.
-3. All of Phase 6 (Tasks 0 through 12) is implementation-complete — do not redo any of it.
-4. Get `docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md` **and**
-   `docs/superpowers/plans/phase-6-tasks-1-12-evidence/task-11-exit-evidence-and-review.md`
-   reviewed and accepted by the human partner — Task 11's own "explicit approval before merge"
-   requirement is the one remaining gate before this branch merges.
-5. Resolve the four open items above (or explicitly defer/dispose each), per the human's
-   direction.
-6. Do not create another review gate before this final one — this is the stopping point.
+3. All of Phase 6 (Tasks 0 through 12) is implementation-complete, remediated once — do not redo
+   any of it.
+4. The human partner decides: complete the 2 remaining blocking items (needs live tenant access
+   for one, a real architecture fix for the other), or explicitly accept the phase as
+   implementation-complete-but-evaluation-blocked and proceed anyway. Not this session's call.
+5. Do not start Phase 7. Do not merge this branch until that decision is made.
 
 **Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
 

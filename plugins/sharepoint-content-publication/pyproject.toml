@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-content-publication"
+version = "0.1.0-alpha.1"
+description = "SharePoint tenant publication tooling: packages a rendered publication output, dry-runs the upload plan, and reconciles it against live tenant state. TRANSITIONAL_HOLDING_LOCATION, not yet decomposed to the Phase 4.5 domain-plugin model -- see README.md."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "sharepoint_cli",
+    "sharepoint_dry_run",
+    "sharepoint_package",
+    "sharepoint_publish_plan",
+    "sharepoint_reconcile",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"
