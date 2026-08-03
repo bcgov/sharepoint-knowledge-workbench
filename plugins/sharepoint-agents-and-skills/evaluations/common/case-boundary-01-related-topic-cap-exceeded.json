@@ -9,15 +9,23 @@
   "prompt": "Review 'multi-reference-topic--00000001', which cross-references 4 other topics. Consult related topics as needed for a complete review.",
   "run_count": 2,
   "applicable_runtimes": ["native-sharepoint", "repository-claude"],
-  "expected_semantic_behaviours": [
-    "Consults at most 2 of the 4 cross-referenced related topics as evidence.",
-    "Notes explicitly that additional cross-referenced topics exist but were not consulted, rather than silently ignoring them.",
-    "Completes the primary topic review despite the related-topic cap."
-  ],
+  "expected_semantic_behaviours_by_runtime": {
+    "repository-claude": [
+      "Resolution is refused outright (TooManyRelatedTopicsError) -- the review does not proceed with a partial set of related topics.",
+      "The refusal explicitly states the primary topic links to more than 2 other topic pages and names the boundary, rather than silently picking 2 and continuing.",
+      "Matches SKILL.md's 'Repository/Claude Runtime Execution' section verbatim: 'TooManyRelatedTopicsError -- the primary topic links to more than 2 other topic pages; report this explicitly rather than silently picking 2, matching the native runtime's own max-2 boundary.'"
+    ],
+    "native-sharepoint": [
+      "Consults at most 2 of the 4 cross-referenced related topics as evidence.",
+      "Classifies the remaining, unconsulted related topics as REFERENCE_NOT_RETRIEVED per SKILL.md's Cross-Reference Terminology section, rather than silently ignoring them.",
+      "Completes the primary topic review despite the related-topic cap -- the native runtime's Cross-Reference Terminology section describes a soft cap (mark excess links as REFERENCE_NOT_RETRIEVED, continue), distinct from repository-claude's explicit hard-reject contract above."
+    ]
+  },
   "prohibited_behaviours": [
-    "Do not consult more than 2 related topic pages.",
-    "Do not silently drop the cap-exceeded fact without mentioning it."
+    "repository-claude: do not consult more than 2 related topic pages, and do not silently proceed with a truncated set without reporting the refusal explicitly.",
+    "native-sharepoint: do not consult more than 2 related topic pages, and do not silently drop the cap-exceeded fact without marking it REFERENCE_NOT_RETRIEVED."
   ],
-  "_origin_note": "New case added at Phase 6 Task 5, per Task 4's adversarial review finding: the existing 19-case Phase 4 suite had zero coverage of this boundary. On native-sharepoint this is a behavioral test (SKILL.md instruction adherence, not code-enforced). On repository-claude this is additionally verifiable deterministically -- resolve_topic() must raise TooManyRelatedTopicsError for a fixture topic with >2 links; see plugins/sharepoint-agents-and-skills/tests/unit/test_review_manual_topics.py for the code-level proof this harness-level case complements.",
-  "_fixture_status": "REQUIRES_FIXTURE: no real CEIS topic with 4 cross-references is known to exist in runs/ceis-manual-v2/ or the live CEISPilotKnowledgePages library as of this writing -- a synthetic fixture topic must be created (or an existing multi-link topic identified) before this case can actually be run. Recorded as a case definition now (Task 5); execution is gated on that fixture, tracked under Task 6 below."
+  "_correction_2026_08_03": "Corrected at Phase 6 remediation, round 2: the case's original single expected_semantic_behaviours list described a soft-cap-and-continue flow for BOTH runtimes, which does not match SKILL.md's own 'Repository/Claude Runtime Execution' section (verified by reading it directly) -- that section explicitly specifies TooManyRelatedTopicsError / hard-refuse-and-report as the approved contract for repository-claude, matching the already-implemented, already-tested code in review_manual_topics.py exactly. The implementation was correct; the case definition was wrong. Split into expected_semantic_behaviours_by_runtime because the two runtimes' approved contracts genuinely differ here (repository-claude: hard reject; native-sharepoint: soft REFERENCE_NOT_RETRIEVED cap per the general Cross-Reference Terminology section, which is not code-enforced on that runtime and remains a behavioral/instruction-adherence property there). No implementation change was made -- the fix was entirely to this case file.",
+  "_origin_note": "New case added at Phase 6 Task 5, per Task 4's adversarial review finding: the existing 19-case Phase 4 suite had zero coverage of this boundary.",
+  "_fixture_status": "RESOLVED at Phase 6 remediation: synthetic fixture created at plugins/sharepoint-agents-and-skills/evaluations/fixtures/bound-01/ (a primary topic linking to 4 related topics; verified no real CEIS topic with >2 links exists in the rendered corpus first). Real execution against this fixture: resolve_topic() raises TooManyRelatedTopicsError exactly as expected_semantic_behaviours_by_runtime.repository-claude now describes. Regression-proofed in plugins/sharepoint-agents-and-skills/tests/unit/test_common_evaluation_cases.py::test_bound_01_fixture_raises_too_many_related_topics."
 }

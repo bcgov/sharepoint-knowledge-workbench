@@ -105,13 +105,13 @@ a single unified skill count that does not exist; none is published here.
   - `validate-sharepoint-publication` — implemented.
   - `rollback-sharepoint-publication` — implemented.
 - **Phase 9 overlap:** `sp-uploading-content` (CMAT, active, dual PnP+REST mechanism) → `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` here; `sp-migrating-content`'s single-item upload primitive (extracted from the 10-wave engine) is a further candidate once genericized.
-- **Installation (corrected 2026-08-03, Phase 6 remediation):** manifests/skills complete;
-  `pyproject.toml` added this remediation pass — but a real isolated wheel install **FAILS**:
-  `sharepoint_package.py` has an undeclared runtime dependency on `canonical_package`
-  (`structured-content-rendering`'s own module), a genuine cross-plugin dependency violation of
-  this repo's "no shared distribution" rule, verified directly via
-  `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py`. Not fixed by this
-  remediation pass — a real architecture fix, out of its bounded-correction scope.
+- **Installation (corrected 2026-08-03, Phase 6 remediation round 2):** manifests/skills complete;
+  isolated wheel install **PASSES, 26/26**. Round 1 found a real defect — `sharepoint_package.py`
+  had an undeclared runtime dependency on `canonical_package` — fixed in round 2 by sharing that
+  module and its transitive `canonical_schema`/`dispositions`/`hashing`/`publication_map`
+  dependencies via managed file-level symlinks back to `structured-content-assembly` (their real,
+  authoritative source), matching `structured-content-rendering`'s own already-proven pattern for
+  the same module. Genuinely isolated now, no sibling plugin needs co-installing.
 
 ### `sharepoint-agents-and-skills`
 - **Status:** Phase 6 Task 0.1–0.14 complete — all 15 skill names implemented, packaged, tested (46/46 as of Phase 6 remediation, up from 31 at initial Task 0 completion — 9 new common-evaluation-case tests plus a new `drift_detection.py` module with 9 tests added during remediation).
