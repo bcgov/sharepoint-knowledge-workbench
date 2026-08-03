@@ -146,9 +146,9 @@
         },
         {
           "name": "create-aspx-rendering-template",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build",
+          "source_provenance": "new build, backed by Phase 3.0 Sec.15's confirmed modern-page fragment structure",
           "overlap_notes": null
         },
         {
