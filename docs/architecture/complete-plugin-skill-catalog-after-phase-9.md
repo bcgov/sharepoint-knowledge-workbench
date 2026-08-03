@@ -20,8 +20,7 @@ each block):
 
 | Category | Count | Detail |
 |---|---|---|
-| Unique installed skill names currently implemented | **5** | `extract-docx`, `analyze-document-structure`, `assemble-structured-content`, `render-multipage-markdown` (renamed from `render-structured-content` at Phase 6 Task 0.16; 4 core-pipeline skills) + `review-manual-topics` (native SharePoint runtime only; its repository/Claude runtime is not yet built). See `start-here.md`'s Phase 6 Task 0 progress section for the current, kept-up-to-date count of the 30-name Task 0 list (27/30 complete as of Task 0.16's close — all 7 `structured-content-rendering` skills plus the 20 `sharepoint-agents-and-skills`/`sharepoint-content-publication` skills; only `workbench-setup`'s 3 remain). |
-| Unique additional Phase 6 skill names approved (Task 0, not yet built or partially built) | **29** | Phase 6 Task 0's full skill-name list is **30** names total; `review-manual-topics` is one of those 30 and is already counted above as implemented (native runtime) — so 29 is the count of Phase 6 names with no implementation yet, plus `review-manual-topics`'s own outstanding repository-runtime work is tracked under its existing single entry, not as a 30th separate "additional" name. |
+| Unique installed skill names currently implemented | **30 / 30** | Phase 6 Task 0's full skill-name list is now implemented as of Task 0.17 (2026-08-03): 15 `sharepoint-agents-and-skills` + 5 `sharepoint-content-publication` + 7 `structured-content-rendering` + 3 `workbench-setup`. `review-manual-topics`'s repository/Claude runtime is one of the 15. **Implementation-complete, not yet reviewer-accepted** — Task 0's own exit gate additionally requires a focused external-review bundle to be accepted before it is formally closed and before Phase 6 Tasks 1–12 may begin. See `start-here.md` for current disposition. |
 
 **CMAT (Phase 9 source, spec §8d — 34 skills directly audited, mutually exclusive, sums to 34):**
 
@@ -138,17 +137,17 @@ a single unified skill count that does not exist; none is published here.
 - **Installation:** scaffold only; no `plugin.json`/`plugin.yaml`/`README.md` yet.
 
 ### `workbench-setup`
-- **Status:** Phase 6 planned (new plugin, Task 0.17, not yet created)
+- **Status:** Phase 6 Task 0.17 complete — all 3 skill names implemented, packaged, tested (36/36, including a real isolated wheel install).
 - **Purpose:** foundational connection/config/workflow setup for the whole workbench.
 - **Responsibilities:** `config.psd1` generation, document-workflow/publication-profile intake wizard, config/profile validation.
 - **Non-responsibilities:** document extraction, rendering, tenant writes beyond opt-in connection testing, agent/skill creation.
 - **Skills (3, Task 0.17):**
-  - `setup-sharepoint-connection` — not yet built.
-  - `initialize-document-workflow` — not yet built (absorbs `initialize-publication-profile`, not a 4th skill).
-  - `validate-workbench-environment` — not yet built.
+  - `setup-sharepoint-connection` — implemented.
+  - `initialize-document-workflow` — implemented (absorbs `initialize-publication-profile`, not a 4th skill).
+  - `validate-workbench-environment` — implemented.
 - **Authoring constraint (corrected 2026-08-03):** authored directly in this repo at `plugins/workbench-setup/`, same as `sharepoint-agents-and-skills`/`sharepoint-content-publication` — an earlier version of this line wrongly claimed Category 1 (marketplace-style, sibling `agent-plugins-skills` monorepo); that conflated using the `marketplace-manager` skill (installed from `agent-plugins-skills`) as the *procedure* for `marketplace.json` updates with authoring the plugin's code there. See `start-here.md`'s Task 0.17 correction record.
-- **Phase 9 overlap:** `sp-validating-app-registration` (CMAT, active) is the richer connection/auth-validation implementation — `PHASE_9_MERGE_WITH_EXISTING_SKILL` target once `setup-sharepoint-connection`'s optional `-TestConnection` path is built.
-- **Installation:** not yet created.
+- **Phase 9 overlap:** `sp-validating-app-registration` (CMAT, active) is the richer connection/auth-validation implementation — `PHASE_9_MERGE_WITH_EXISTING_SKILL` target once `setup-sharepoint-connection`'s optional connection-test path is built out with a real connector.
+- **Installation:** standalone, `pip install -e plugins/workbench-setup`.
 
 ---
 

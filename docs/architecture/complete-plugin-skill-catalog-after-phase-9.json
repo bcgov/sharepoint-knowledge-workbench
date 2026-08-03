@@ -11,10 +11,9 @@
   "totals": {
     "note": "Two independent groupings. Do not sum across them - they describe different things (workbench skills vs. a separate repository's unextracted skills).",
     "workbench": {
-      "unique_installed_skill_names_currently_implemented": 5,
-      "detail": "4 core-pipeline skills + review-manual-topics (native-sharepoint runtime only; repository-claude runtime not yet built)",
-      "unique_additional_phase_6_skill_names_approved": 29,
-      "detail_2": "Phase 6 Task 0 approves 30 skill names total; review-manual-topics is one of the 30 and is already counted in currently_implemented above, so 29 is the remaining count with no implementation yet"
+      "unique_installed_skill_names_currently_implemented": 30,
+      "detail": "Phase 6 Task 0's full 30-skill-name list is now implemented as of Task 0.17 (2026-08-03): 15 sharepoint-agents-and-skills + 5 sharepoint-content-publication + 7 structured-content-rendering + 3 workbench-setup. review-manual-topics's repository/Claude runtime is one of the 15. Task 0's own exit gate (manifests/symlinks/installer/tests pass, focused external-review bundle accepted) is implementation-complete but NOT yet reviewer-accepted -- see start-here.md for current disposition before treating Task 0 as formally closed.",
+      "unique_additional_phase_6_skill_names_approved": 0
     },
     "cmat_phase_9_source": {
       "phase_9_source_skills_audited": 34,
@@ -373,7 +372,7 @@
     },
     {
       "name": "workbench-setup",
-      "status": "phase_6_planned_new_plugin",
+      "status": "phase_6_task_0.17_complete",
       "purpose": "Foundational connection/config/workflow setup for the whole workbench.",
       "responsibilities": [
         "config.psd1 generation",
@@ -389,28 +388,28 @@
       "skills": [
         {
           "name": "setup-sharepoint-connection",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.17",
           "source_provenance": "design spec Section 8",
           "overlap_notes": "CMAT sp-validating-app-registration richer, PHASE_9_MERGE_WITH_EXISTING_SKILL target"
         },
         {
           "name": "initialize-document-workflow",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.17",
           "source_provenance": "design spec Section 8, absorbs initialize-publication-profile",
           "overlap_notes": null
         },
         {
           "name": "validate-workbench-environment",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.17",
           "source_provenance": "design spec Section 8, validate_workflow_configuration.py",
           "overlap_notes": null
         }
       ],
       "authoring_constraint": "Authored directly in this repo at plugins/workbench-setup/, same as sharepoint-agents-and-skills/sharepoint-content-publication. Corrected 2026-08-03: an earlier version wrongly claimed Category 1 (marketplace-style, sibling agent-plugins-skills monorepo) -- that conflated using the marketplace-manager skill (installed from agent-plugins-skills) as the procedure for marketplace.json updates with authoring the plugin's code there. See start-here.md's Task 0.17 correction record.",
-      "installation_status": "not yet created"
+      "installation_status": "standalone, pip install -e plugins/workbench-setup"
     },
     {
       "name": "sharepoint-discovery",
