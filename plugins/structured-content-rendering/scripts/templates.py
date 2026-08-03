@@ -23,16 +23,28 @@ templating engine dependency (this plugin's stated policy: nothing
 beyond the Python standard library).
 
 Canonical starter templates (this module's only content source -- it
-never invents template text) live at:
+never invents template text) are authored once at the plugin root
+(hub-and-spoke convention -- see CLAUDE.md's "Plugin-Local Resource
+Sharing"):
 
     assets/templates/generic/markdown/page.template.md
     assets/templates/solutions/ceis/markdown/page.template.md
     assets/templates/generic/aspx/page.template.html
     assets/templates/solutions/ceis/aspx/page.template.html
 
-Each starter's own comment header documents the real evidence its
-structure is derived from (CEIS rendered output for markdown, the
-Phase 3.0 Sec.15 tenant experiment for ASPX).
+and read at runtime through this module's own file-level symlinked
+copies under `scripts/assets/templates/...` -- unlike the references/
+symlinked into skill folders (consumed by an agent/skill runner, never
+by imported Python), these starters are read by `templates.py` itself
+at import/call time, so they must live inside this plugin's own
+`scripts/` package boundary to survive a real wheel build (`pyproject.
+toml`'s `package-dir = {"" = "scripts"}` means only `scripts/`'s
+contents are ever packaged) -- a plugin-root-only reference would work
+under `pip install -e` (editable installs point back at the live source
+tree) but silently go missing from an isolated wheel install. Each
+starter's own comment header documents the real evidence its structure
+is derived from (CEIS rendered output for markdown, the Phase 3.0
+Sec.15 tenant experiment for ASPX).
 """
 
 import json
@@ -42,8 +54,7 @@ from pathlib import Path
 TEMPLATE_SCHEMA_VERSION = "1.0"
 
 _THIS_DIR = Path(__file__).resolve().parent
-_PLUGIN_ROOT = _THIS_DIR.parent
-_TEMPLATES_ROOT = _PLUGIN_ROOT / "assets" / "templates"
+_TEMPLATES_ROOT = _THIS_DIR / "assets" / "templates"
 
 _PROFILE_DIRS = {
     "generic": _TEMPLATES_ROOT / "generic",
