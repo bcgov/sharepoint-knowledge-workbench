@@ -189,6 +189,48 @@ explicit script parameter
 
 Scripts must never silently infer a write target from filenames or the current working directory.
 
+### Layer 1b — Document-workflow profile (added 2026-08-02, architecture decision)
+
+A fourth artifact, upstream of the publication profile: `document-workflows/
+<DocumentId>.workflow.psd1`, produced by the future `initialize-document-workflow` skill (Section
+8). Where the publication profile (Layer 2) records **where** artifacts go, the workflow profile
+records **what processing should occur**:
+
+```powershell
+@{
+    SchemaVersion = "1.0"
+
+    Document = @{
+        DocumentId  = "ceis-manual"
+        SourcePath  = "intake/CEIS MANUAL - working version.docx"
+        SourceFormat = "docx"
+        IsRevision  = $false   # vs. new conversion
+    }
+
+    RequestedStages = @("extract", "analyze", "assemble", "render")
+
+    RequestedRendererProfiles = @("multipage-markdown")   # only implemented profiles may appear
+    UnsupportedRequests = @()   # e.g. "PDF" if requested but no renderer exists yet — recorded,
+                                 # never silently treated as executable
+
+    HumanConfirmationGates = @{
+        TopicBoundaries = $true
+        PublicationTargets = $true
+    }
+
+    PublicationProfilePath = "publication-profiles/ceis-manual.publication.psd1"
+
+    AgentActionsRequested = @()   # e.g. "create-agent", "update-existing-agent" — requests only,
+                                   # never auto-executed by this profile's existence
+
+    OutstandingDecisions = @()   # explicit list of unresolved human decisions surfaced during intake
+}
+```
+
+This profile is planning data only — its existence never triggers execution. A future
+`run-document-workflow` orchestration skill (not authorized or designed here) would be the only
+thing that reads it to actually invoke domain-plugin capabilities in sequence.
+
 ## 2. Common parameter contract
 
 Every SharePoint-connected script supports, as applicable: `-ConfigPath`, `-SiteUrl`, `-ClientId`,
@@ -371,6 +413,77 @@ overrides; validate collisions (via Section 7's check); write only after explici
 never connect to or modify SharePoint during profile generation unless the user separately
 requests the same kind of explicit, opt-in read-only target validation as
 `setup-sharepoint-connection`'s `-TestConnection`.
+
+**`initialize-document-workflow`** (added 2026-08-02, architecture decision — the broader
+interactive intake wizard). **Ownership:** `workbench-setup`, not `source-document-extraction`.
+`source-document-extraction` answers "given this source document and output directory, extract and
+normalize its contents" — it begins only after source identity and workflow intent are already
+established. The intake wizard answers the upstream questions (what is this document, what should
+happen to it, where do outputs go, which agents use them, what's still undecided) that would
+otherwise force `source-document-extraction` to become a cross-domain orchestrator (owning
+SharePoint destinations, output formats, publication profiles, agent configuration, native-skill
+selection — none of which are its domain).
+
+Covers, across all domains without performing any of their work: source-document identity; new
+conversion vs. revision; content type and ownership; requested processing stages; topic-analysis
+requirements; requested output formats (**only implemented renderer profiles are offered as
+executable choices** — unimplemented formats may be recorded as requested-but-unsupported, never
+silently accepted as if executable); human-facing publication locations (via Section 5's
+questions); media locations; ASPX publication; agent-grounding representations; existing-vs-new
+agent decision; native-skill requirements; governance/evidence settings (owner, status, effective/
+review dates, evidence-output location, prototype/dev/test/production intent); and an explicit
+list of unresolved human decisions.
+
+**Two distinct output artifacts, not one:**
+- `document-workflows/<DocumentId>.workflow.psd1` — records **what processing should occur**
+  (pipeline stages requested, renderer profiles requested, human-confirmation gates, agent actions
+  requested, unsupported requests, outstanding decisions). New schema, specified in the addendum to
+  Section 1 below.
+- `publication-profiles/<DocumentId>.publication.psd1` — records **where each resulting artifact
+  should be published and which agents may consume it** (unchanged from Section 1 Layer 2 above).
+  `initialize-document-workflow` produces this too (superseding `initialize-publication-profile` as
+  a standalone entry point — the narrower skill's question set is absorbed into the broader
+  wizard's flow, not duplicated as a separate skill).
+
+**Execution boundary — initialization only, first version:**
+```text
+ask -> propose defaults -> validate -> display resolved configuration -> write profile files -> stop
+```
+Must **not**, in this first version: extract documents; confirm topic boundaries; render content;
+connect to or modify SharePoint; upload files; create pages; create agents; deploy native skills.
+Every one of those stays a separate, explicitly invoked domain-plugin capability — a conversational
+answer must never silently trigger tenant writes or pipeline execution. A later, separate
+`run-document-workflow` orchestration skill may execute an already-approved workflow profile — not
+authorized or designed here, and not to be combined with `initialize-document-workflow` in one
+skill (combining them would let a planning conversation accidentally start real execution).
+
+**Plugin structure** (`workbench-setup`, only create a `skills/` subfolder once its implementation,
+schema, and tests actually exist — no empty taxonomy folders, per this design's own Section 8
+canonical-template precedent and the sibling `sharepoint-agents-and-skills` design's Wave 0
+correction):
+```text
+plugins/workbench-setup/
+├── scripts/
+│   ├── initialize_sharepoint_config.ps1
+│   ├── initialize_document_workflow.py
+│   ├── initialize_publication_profile.ps1
+│   └── validate_workflow_configuration.py
+├── assets/
+│   ├── config.psd1.example
+│   ├── document-workflow.psd1.example
+│   └── publication-profile.psd1.example
+├── references/
+│   ├── destination-decision-guide.md
+│   ├── output-profile-catalog.md
+│   └── workflow-stage-catalog.md
+├── skills/
+│   ├── setup-sharepoint-connection/
+│   └── initialize-document-workflow/
+└── tests/
+```
+
+**Not authorized by this section:** creating `workbench-setup`, writing any of the scripts above,
+or building `initialize-document-workflow`. This is architecture recording only.
 
 ## 9. Agent-assisted setup behavior
 

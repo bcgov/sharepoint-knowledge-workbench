@@ -177,12 +177,24 @@ earlier plan to build them there and pull them in was superseded; see the v3.1 D
 the plugin design spec for why). `pdf`/`xlsx` skills remain installed for future source formats
 but are not yet used.
 
-### Skill Development Protocol — authoring/updating skills for this repo
+### Skill Development Protocol — two skill sources, do not conflate them
 
-This repo is a **consumer** of skills; it has no `plugins/` source tree of its own. Any new or
-updated skill (e.g. `pandoc-docx-convert`) is authored in the sibling monorepo
-`/Users/richardfremmerlid/Projects/agent-plugins-skills` (source of truth, published to GitHub
-and the Claude Code marketplace) and pulled into this repo's `.agents/skills/` once merged.
+**Corrected 2026-08-02** (external review of `.agents/skills/`/`plugins/` conflation): this repo
+has **two distinct skill sources**, not one:
+
+1. **External/general-purpose marketplace skills** (e.g. `pandoc-docx-convert`, `docx`/`pdf`/`xlsx`)
+   — authored in the sibling monorepo `/Users/richardfremmerlid/Projects/agent-plugins-skills`
+   (source of truth, published to GitHub and the Claude Code marketplace), pulled into this repo's
+   `.agents/skills/` once merged. This repo is a pure *consumer* for this category only.
+2. **Workbench-specific plugin skills, owned by this repository** — authored directly under this
+   repo's own `plugins/<plugin>/skills/` (e.g. `plugins/source-document-extraction/skills/
+   extract-docx/`, and the future `plugins/sharepoint-agents-and-skills/skills/*` per
+   `docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md`), following
+   this repo's own plugin/`symlink_manager.py`/installer/TDD/manifest rules (see "Plugin-Local
+   Resource Sharing" below) — **not** the sibling-monorepo protocol.
+
+Category 1's protocol (below) applies only to marketplace-style skills, not this repo's own
+`plugins/` source tree.
 
 Every skill create/update in that repo follows its own rules — read them there before touching
 anything, they are the authoritative versions (this repo's `.agent/rules/` copies describe the
