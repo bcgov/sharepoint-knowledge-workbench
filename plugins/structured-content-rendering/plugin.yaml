@@ -14,3 +14,4 @@ skills:
   - create-aspx-rendering-template
   - validate-rendering-template
   - validate-rendered-output
+  - compare-rendered-output
