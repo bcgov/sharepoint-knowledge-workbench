@@ -1,5 +1,20 @@
 # Broader Initiative Plan — AI-Assisted Structured Knowledge Workbench
 
+> **CURRENT STATE (added 2026-08-02 — read this before the header fields below, which are
+> historical proposal text, not current fact):**
+> - Current repository: **`sharepoint-knowledge-workbench`** (not `manual-conversion-poc`, and not
+>   `structured-knowledge-workbench` as recommended below).
+> - Current active conversion plugins: **`source-document-extraction`,
+>   `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`**
+>   (the four Phase 4.5 plugins) — `docx-to-content` is historical/decommissioned (2026-08-01).
+> - **`sharepoint-agents-and-skills`** is design-complete (see
+>   `docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md`) but **not
+>   created** — no migration has started.
+> - Everything below this note — the repository/plugin name recommendations, the `docx-to-content`
+>   references, the original `sharepoint-knowledge` plugin proposal — is preserved as historical
+>   proposal context, not rewritten. See the naming-reconciliation note further below for the
+>   full old-name → current-name mapping.
+
 **Current repository:** [richfrem/manual-conversion-poc](https://github.com/richfrem/manual-conversion-poc)  
 **Recommended initiative name:** **AI-Assisted Structured Knowledge Workbench**  
 **Recommended repository name:** `structured-knowledge-workbench`  

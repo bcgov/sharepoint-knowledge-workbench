@@ -42,18 +42,42 @@ Every artifact from `complete-artifact-classification.md`, mapped to its final d
 
 | Artifact | Extracted capability | Target skill (if any) |
 |---|---|---|
-| `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/{SKILL.md,README.md}` | The real, deployed native skill — moves as-is via `git mv`, no parameterization needed (it's already a `SKILL.md`, not a script) | `skills/review-manual-topics/` |
+| `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/{SKILL.md,README.md}` | **Blocked on an ownership decision (corrected — was "moves as-is").** Verified: this skill is explicitly CEIS-specific (CEIS topic pages, `CEISPilotKnowledgePages`, "Phase 3 CEIS publication standards," a fixed editorial boundary of one topic + two related topics). Whether `sharepoint-agents-and-skills` permits solution-specific configured skills alongside reusable platform capabilities, or only generic platform capabilities, is an unrecorded domain decision — see "Ownership decision required" below. Do not move until that decision is recorded. | `skills/review-manual-topics/` **only if** `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS` is chosen |
 | `inventory-skills.ps1` | Native-skill inventory query | `skills/deploy-sharepoint-native-skill/` (shared script) or its own `scripts/native-skills/` capability, exposed via `deploy-sharepoint-native-skill`'s supporting logic |
 | `deploy-and-verify-skill.ps1` | Native-skill deployment + SHA-256 readback verification | `skills/deploy-sharepoint-native-skill/` |
-| `task-8a-reconcile-deployed-skill.ps1` | Deployed-skill drift detection (hash vs. repo) | `skills/verify-sharepoint-native-skill/` |
+| `task-8a-reconcile-deployed-skill.ps1` | **Corrected — do not move as-is (was listed as a direct move).** Verified by reading the file: it hard-codes a repository SHA-256 (`9586379f...`) as a default parameter, Phase 4 task language ("TASK 8A" banners), `review-manual-topics`-specific special-casing (`$isReviewManualTopics`), a Phase-3-config-fallback block, and direct frontmatter regex parsing. Extract a generic reconciliation capability instead — see the script parameter matrix's new entry. | `skills/verify-sharepoint-native-skill/` (backed by the extracted generic script, not this file) |
 | `rollback-skill-deployment.ps1` | The real rollback implementation (has the `-Execute`/`-ConfirmExactTarget` safety gate) | `skills/rollback-sharepoint-native-skill/` |
 | `verify-agentassets-artifact.ps1` | Verifies one artifact's presence/hash in `AgentAssets` | `skills/verify-sharepoint-native-skill/` |
 | `verify-agentassets-ready.ps1` | Verifies `AgentAssets` library exists/ready before deployment | `scripts/agentassets/` (shared precondition check, used by multiple skills) |
 | `provision-agentassets.ps1` (**both** the phase-3 and phase-4 copies — see "Requires human decision" below before this can actually move) | `AgentAssets` library provisioning | `scripts/agentassets/` |
-| `backup-existing-agents.ps1` | Agent backup (once parameterized — see script parameter matrix) | `skills/backup-sharepoint-agents/` |
-| `backup-skills-and-templates.ps1` | Native-skill/template backup (once parameterized) | `skills/backup-sharepoint-agents/` (shared backup skill, agent + skill artifacts both handled by one user-facing skill per the plugin tree below) |
-| `create-test-agent.ps1`, `create-corrected-agent.ps1`, `create-aspx-only-agent-test.ps1`, `create-updated-agent-sitepages.ps1` | **Not moved as-is.** A NEW parameterized `create-sharepoint-agent` script is designed from the pattern these four scripts demonstrate (see script parameter matrix) — the four originals stay in `tools/phase-4-*` as research/evidence of the pattern, per "treat custom agent experiments carefully" below | `skills/create-sharepoint-agent/`, `skills/configure-agent-knowledge/` |
+| `backup-existing-agents.ps1` | Agent backup (once parameterized — see script parameter matrix) | `skills/backup-sharepoint-agents/` **or** `skills/backup-sharepoint-agent-assets/` — naming corrected below, not finalized |
+| `backup-skills-and-templates.ps1` | Native-skill/template backup (once parameterized) | **Corrected — naming was wrong (was bundled under `backup-sharepoint-agents`, which does not describe backing up native skills/templates).** Either one renamed shared skill `backup-sharepoint-agent-assets/`, or two distinct skills `backup-sharepoint-agents/` + `backup-sharepoint-native-skills/` — see "Backup skill naming" below, not decided here. |
+| `create-test-agent.ps1`, `create-corrected-agent.ps1`, `create-aspx-only-agent-test.ps1`, `create-updated-agent-sitepages.ps1` | **Not moved as-is.** A NEW parameterized `create-sharepoint-agent` script is designed from the pattern these four scripts demonstrate (see script parameter matrix) — the four originals stay in `tools/phase-4-*` as research/evidence of the pattern, per "treat custom agent experiments carefully" below | `skills/create-sharepoint-agent/`; `configure-agent-knowledge` is **provisional**, not a confirmed skill — see below |
 | `task-9-retrieve-topic-metadata.ps1` | Agent-grounding-adjacent metadata query | Folds into `configure-agent-knowledge` support logic, or stays research-only — **requires human decision**, not resolved by this design (its capability is closer to a grounding-source diagnostic than agent lifecycle management proper) |
+
+### Ownership decision required — does this plugin permit solution-specific skills?
+
+Not resolved by this document. Choose and record one of:
+
+- `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS`
+- `PLUGIN_CONTAINS_ONLY_GENERIC_PLATFORM_CAPABILITIES`
+
+`review-manual-topics` is **not** generic — do not describe it as such, and do not move it "as-is"
+until this decision is recorded. If the plugin is generic-only, `review-manual-topics` needs a
+different home (a CEIS-specific solution package, not this platform plugin) or a generalization
+pass (parameterize the topic/related-topic-count boundary and the CEIS-specific standards
+reference) before it could move here at all.
+
+### Backup skill naming — not finalized
+
+`backup-sharepoint-agents` does not describe backing up native skills/templates. Choose one,
+not decided here:
+
+- One skill, renamed: `backup-sharepoint-agent-assets`
+- Two skills, split by user intent: `backup-sharepoint-agents` + `backup-sharepoint-native-skills`
+
+Either way, both stay inside the single `sharepoint-agents-and-skills` plugin — this is a skill-
+naming/grouping decision, not a plugin-boundary decision.
 
 ### → `sharepoint-content-publication` (existing plugin, scope-expansion candidate — NOT approved by this design)
 
@@ -73,7 +97,35 @@ Every artifact from `complete-artifact-classification.md`, mapped to its final d
 
 ### `RETAIN_THIN_PHASE_WRAPPER`
 
-`rollback-skill.ps1` (confirmed via diff: a literal one-line alias calling `rollback-skill-deployment.ps1`), `task-8-deploy-review-manual-topics.ps1`, `task-9-*` (pending the human decision above), `task-12-rollback.ps1`.
+`rollback-skill.ps1` only — confirmed via diff to be a literal one-line alias calling
+`rollback-skill-deployment.ps1`, with no independent logic. `task-9-*` pending the human decision
+above (not yet classified either way).
+
+### `HISTORICAL_PHASE_IMPLEMENTATION_REQUIRING_REPLACEMENT`
+
+**Corrected (was incorrectly listed as `RETAIN_THIN_PHASE_WRAPPER` above) — verified by reading
+both files directly:**
+
+- **`task-12-rollback.ps1`** — NOT a wrapper. It independently calls `Connect-PnPOnline`, searches
+  `AgentAssets` for the target item, and calls `Remove-PnPListItem -Force` directly — no
+  `-Execute` gate, no `-ConfirmExactTarget`, no recycle-bin behavior (unlike the real
+  `rollback-skill-deployment.ps1`, which has all three). This is a separate, less-safe
+  implementation, not a call into the guarded rollback capability. During migration, preserve the
+  historical file path (Phase 4 evidence may require it) but replace its executable behavior with
+  a genuine thin call to `rollback-skill-deployment.ps1`.
+
+### `PHASE_SPECIFIC_DUPLICATED_IMPLEMENTATION_TO_REPLACE_WITH_THIN_WRAPPER`
+
+- **`task-8-deploy-review-manual-topics.ps1`** — NOT currently a wrapper (corrected from the row
+  above). Verified: it independently authenticates (including its own Phase-3-fallback logic,
+  duplicated from `provision-agentassets.ps1`'s pattern), creates the target folder, uploads via
+  `Add-PnPFile`, and reports success — it never calls `deploy-and-verify-skill.ps1`. Its
+  "verification" is the **pre-upload source hash plus the `Add-PnPFile` return value**
+  (`$hashMatch = $true` is hard-set after upload, not computed from a readback) — it does not
+  download the deployed file and compare its hash post-upload, unlike the real
+  `deploy-and-verify-skill.ps1`. The eventual thin wrapper must call that real deploy-and-readback
+  script with Phase-4-specific arguments (skill name, source path) instead of duplicating the
+  upload logic.
 
 ### `RETAIN_PHASE_HARNESS`
 
@@ -88,10 +140,17 @@ Every artifact from `complete-artifact-classification.md`, mapped to its final d
 1. **`provision-agentassets.ps1` (phase-3 vs. phase-4 divergence)** — confirmed different SHA-256, real diverged logic (phase-4's version adds placeholder-value detection + phase-3-config fallback). Which behavior becomes the plugin's canonical version, and whether the other's extra logic (the fallback) is a real requirement or phase-4-specific scaffolding, is not decided here.
 2. **`task-9-retrieve-topic-metadata.ps1`'s domain** — agent-grounding-adjacent vs. a distinct diagnostic capability, not resolved.
 3. **`upload-rendered-markdown.ps1`'s home** — blocked on the `sharepoint-content-publication` scope-amendment decision (design work only, not approval, per this document's own scope).
+4. **`review-manual-topics`'s ownership** — whether `sharepoint-agents-and-skills` permits
+   solution-specific configured skills (this one is explicitly CEIS-specific) or only generic
+   platform capabilities. See "Ownership decision required" in Section 1 above. Blocks this
+   skill's migration entirely until recorded.
 
 ## 2. Proposed plugin tree
 
-Adopting the structure already specified, unchanged:
+**Corrected — Wave 0 no longer scaffolds empty taxonomy folders (see Section 7).** The tree below
+shows the plugin's eventual full shape once all waves complete; it is not what Wave 0 creates.
+Each `scripts/` subfolder below is created only in the wave that adds its first real script —
+never as an empty placeholder ahead of implementation.
 
 ```text
 plugins/sharepoint-agents-and-skills/
@@ -128,13 +187,13 @@ plugins/sharepoint-agents-and-skills/
 
 | Skill | Backed by (real artifact/pattern) | Ready to implement now, or blocked? |
 |---|---|---|
-| `review-manual-topics` | `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md` — moves as-is | **Ready** — first migration wave, per instruction |
+| `review-manual-topics` | `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md` | **Blocked (corrected — was "Ready")** on the ownership decision in Section 1 — this skill is confirmed CEIS-specific, not generic; cannot move "as-is" until the plugin's solution-specific-skill policy is recorded |
 | `deploy-sharepoint-native-skill` | `deploy-and-verify-skill.ps1`, `inventory-skills.ps1`, `verify-agentassets-ready.ps1` | Ready once parameterized (Section 4) |
-| `verify-sharepoint-native-skill` | `task-8a-reconcile-deployed-skill.ps1`, `verify-agentassets-artifact.ps1` | Ready once parameterized |
+| `verify-sharepoint-native-skill` | `verify-agentassets-artifact.ps1`, plus a **new generic reconciliation script extracted from** `task-8a-reconcile-deployed-skill.ps1` (corrected — that file itself does not move, per Section 1) | Ready once the extraction (Section 4's new parameter set) and `verify-agentassets-artifact.ps1`'s parameterization are both done |
 | `rollback-sharepoint-native-skill` | `rollback-skill-deployment.ps1` (already has the safety-gate pattern) | Ready — least parameterization needed, already has `-ConfigFile`/`-ManifestFile`/`-Execute`/`-ConfirmExactTarget` |
 | `create-sharepoint-agent` | Pattern demonstrated by the 4 `create-*-agent.ps1` research scripts, but **no single one of them is reusable as-is** — needs the new parameterized script designed in Section 4 before this skill has real backing | **Blocked** on new-script design, not just extraction |
-| `configure-agent-knowledge` | Same 4 scripts' source-binding logic (the `capabilities`/`items_by_url` block) | **Blocked**, same reason |
-| `backup-sharepoint-agents` | `backup-existing-agents.ps1` + `backup-skills-and-templates.ps1` (merged into one user-facing skill per the plugin tree, since both are "backup" intent even though they back up different artifact types) | Ready once parameterized |
+| `configure-agent-knowledge` | Same 4 scripts' source-binding logic (the `capabilities`/`items_by_url` block) | **`PROVISIONAL_SKILL_PENDING_DISTINCT_USER_INTENT` (corrected — was "Blocked" implying eventual certainty).** Current evidence only shows source-binding logic embedded inside agent-creation experiments — it does not yet prove a separate update/reconfigure-after-creation user journey exists. Do not create this skill until that journey is independently demonstrated; agent creation may fully cover this need on its own. |
+| `backup-sharepoint-agents` (or `backup-sharepoint-agent-assets` / split into two — see "Backup skill naming" in Section 1, not finalized) | `backup-existing-agents.ps1` + `backup-skills-and-templates.ps1` | Ready once parameterized **and** the naming/grouping decision above is made |
 
 ## 4. Script parameter matrix
 
@@ -165,42 +224,81 @@ to a `-Targets` array parameter with the current hard-coded lists becoming the *
 (backward compatible for the existing Phase 5 callers), per the same fail-closed-not-silent-default
 principle as the destination-configuration design.
 
+**New — generic reconciliation script (replaces moving `task-8a-reconcile-deployed-skill.ps1` as-is):**
+
+| Parameter | Notes |
+|---|---|
+| `-ConfigPath` | Root config, not hard-coded `tools/phase-4-.../config.psd1` |
+| `-SiteUrl`, `-ClientId`, `-TenantId` | Root config `Connection.*` — replaces the file's embedded Phase-3-fallback authentication block |
+| `-SkillName` | Explicit, mandatory — replaces the hard-coded `$isReviewManualTopics` special-case |
+| `-RepositorySkillPath` | Explicit — the script computes the hash itself rather than taking a hard-coded `-RepositorySHA` default (the current file's `9586379f...` default is the exact hard-coding this corrects) |
+| `-ExpectedSHA256` | Optional override if the caller already computed it; otherwise derived from `-RepositorySkillPath` |
+| `-AgentAssetsLibrary`, `-SkillsFolder` | Explicit, replace the hard-coded `AgentAssets`/`Skills` literals |
+| `-JsonOutputPath` | Optional structured output, same pattern as `rollback-skill-deployment.ps1`'s existing `-JsonOutputPath` |
+
 ## 5. Phase-wrapper strategy
 
-Per instruction: preserve `task-8-deploy-review-manual-topics.ps1`, `task-9-*`, `task-12-rollback.ps1`
-as thin wrappers supplying Phase 4's specific skill name/parameters once the underlying reusable
-scripts move into the plugin — each wrapper's own logic becomes "call the plugin's real script
-with these Phase-4-specific arguments," not duplicated implementation. `rollback-skill.ps1` is
-already exactly this shape (a literal one-line call) and needs no rewrite, only its target's
-eventual new location updated once `rollback-skill-deployment.ps1` moves.
+**Corrected — `task-8-deploy-review-manual-topics.ps1` and `task-12-rollback.ps1` are NOT
+currently thin wrappers** (verified by reading both files; see Section 1's
+`PHASE_SPECIFIC_DUPLICATED_IMPLEMENTATION_TO_REPLACE_WITH_THIN_WRAPPER` and
+`HISTORICAL_PHASE_IMPLEMENTATION_REQUIRING_REPLACEMENT` entries). The migration must **replace**
+their executable bodies with genuine thin calls into the promoted reusable scripts
+(`deploy-and-verify-skill.ps1` and `rollback-skill-deployment.ps1` respectively), supplying only
+Phase 4's specific skill name/parameters — this is new work, not a `git mv`. `task-9-*` stays
+pending the human decision on its domain. Only `rollback-skill.ps1` is already the correct shape
+(a literal one-line call) and needs no rewrite, only its target's eventual new location updated
+once `rollback-skill-deployment.ps1` moves.
 
 ## 6. Evidence-preservation strategy
 
 Nothing in `RETAIN_PHASE_EVIDENCE`/`RETAIN_PHASE_HARNESS`/`HISTORICAL_ONLY` above moves. The 4
 `create-*-agent.ps1` research scripts stay in `tools/phase-4-*` permanently (not a staging area to
 later empty out) — per instruction, they are "Phase 4 research," and the new `create-sharepoint-agent`
-script is a fresh design informed by their pattern, not a promotion of any one of them. This
-avoids the failure mode the earlier map-debt entry (Wave 8, `sharepoint_*.py`) already documented:
-never assume a "temporary" holding area's contents are fully accounted for by a migration plan's
-own inventory without a fresh full-directory diff at execution time.
+script is a fresh design informed by their pattern, not a promotion of any one of them. Likewise,
+`task-8-deploy-review-manual-topics.ps1` and `task-12-rollback.ps1`'s **historical file paths** are
+preserved if Phase 4 evidence requires reproducing them exactly — only their executable bodies
+change, per Section 5. This avoids the failure mode the earlier map-debt entry (Wave 8,
+`sharepoint_*.py`) already documented: never assume a "temporary" holding area's contents are
+fully accounted for by a migration plan's own inventory without a fresh full-directory diff at
+execution time.
 
 ## 7. Migration waves (design only — none authorized to execute)
 
-1. **Wave 0 — plugin scaffold.** Create `plugins/sharepoint-agents-and-skills/` structure (manifests,
-   empty `scripts/`/`references/`/`assets/`/`tests/` subfolders per the tree above) — no skills yet.
-2. **Wave 1 — `review-manual-topics` migration.** `git mv` the real skill, update
-   `symlinks.json`/installer references, verify standalone install. The one artifact needing zero
-   new design work.
-3. **Wave 2 — native-skill lifecycle scripts.** Promote `deploy-and-verify-skill.ps1`,
-   `rollback-skill-deployment.ps1`, `verify-agentassets-artifact.ps1`, `verify-agentassets-ready.ps1`,
-   `inventory-skills.ps1`, `task-8a-reconcile-deployed-skill.ps1` into `scripts/native-skills/` +
-   `scripts/agentassets/`, wire up `deploy-sharepoint-native-skill`/`verify-sharepoint-native-skill`/
-   `rollback-sharepoint-native-skill` skills, leave `task-8-*`/`task-12-*` as updated thin wrappers.
-4. **Wave 3 — backup skill.** Parameterize and promote `backup-existing-agents.ps1` +
-   `backup-skills-and-templates.ps1` into `backup-sharepoint-agents`.
+**Corrected per external review:** Wave 0 no longer scaffolds empty taxonomy folders; Wave 1 is
+gated on the `review-manual-topics` ownership decision rather than treated as a zero-design-work
+first step; Wave 2 now explicitly replaces (not merely relocates) `task-8-*`/`task-12-*`'s
+executable bodies.
+
+1. **Wave 0 — plugin scaffold, no empty folders.** Create `plugins/sharepoint-agents-and-skills/`
+   with only manifests (`plugin.json`, `plugin.yaml`), `README.md`, and whatever `tests/` Wave 1
+   actually needs — **no** empty `scripts/{connection,agentassets,agents,native-skills,backup,
+   validation,rollback}/` subfolders ahead of real implementation, per this repo's own
+   "no empty taxonomy plugins/folders" principle. Each `scripts/` subfolder is created in the wave
+   that adds its first real script.
+2. **Wave 1 — resolve `review-manual-topics` ownership, then migrate only if approved.** First
+   record `PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS` or
+   `PLUGIN_CONTAINS_ONLY_GENERIC_PLATFORM_CAPABILITIES` (Section 1). Only if the former is chosen:
+   `git mv` the real skill, update `symlinks.json`/installer references, verify standalone
+   install. If the latter is chosen, this skill needs a different plan entirely (not covered by
+   this design) — do not proceed with Wave 1 as originally scoped.
+3. **Wave 2 — native-skill lifecycle scripts, genuine thin wrappers.** Promote
+   `deploy-and-verify-skill.ps1`, `rollback-skill-deployment.ps1`, `verify-agentassets-artifact.ps1`,
+   `verify-agentassets-ready.ps1`, `inventory-skills.ps1` as-is (`git mv` + parameter update).
+   Extract the new generic reconciliation script (Section 4) from `task-8a-reconcile-deployed-skill.ps1`
+   rather than moving that file. Wire up `deploy-sharepoint-native-skill`/
+   `verify-sharepoint-native-skill`/`rollback-sharepoint-native-skill` skills. **Rewrite** (not
+   relocate) `task-8-deploy-review-manual-topics.ps1` and `task-12-rollback.ps1` so their bodies
+   become genuine thin calls into the promoted scripts, per Section 5 — do not move their current
+   implementations unchanged.
+4. **Wave 3 — backup skill(s), corrected naming.** First resolve the naming/grouping decision
+   (Section 1: one `backup-sharepoint-agent-assets` skill, or two split by user intent). Then
+   parameterize and promote `backup-existing-agents.ps1` + `backup-skills-and-templates.ps1`
+   accordingly.
 5. **Wave 4 — new agent-creation capability.** Design and build the new parameterized
-   `create-sharepoint-agent` script (Section 4) plus `configure-agent-knowledge`, informed by but
-   not copied from the 4 research scripts, which remain in place.
+   `create-sharepoint-agent` script (Section 4), informed by but not copied from the 4 research
+   scripts, which remain in place. Do **not** build `configure-agent-knowledge` in this wave —
+   it stays `PROVISIONAL_SKILL_PENDING_DISTINCT_USER_INTENT` until a separate update/reconfigure
+   journey is demonstrated (Section 3).
 6. **Deferred, separate approval required:** `provision-agentassets.ps1`'s canonical-version
    decision (blocks nothing above — `verify-agentassets-ready.ps1` doesn't depend on it); the
    `sharepoint-content-publication` scope amendment for `upload-rendered-markdown.ps1`;
