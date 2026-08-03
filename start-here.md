@@ -1,4 +1,4 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Task 0 Implementation Complete (30/30), Exit-Gate Review Pending
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Tasks 0–12 Implementation Complete, Final Review Pending
 
 ## Current status (2026-08-03, verified against git)
 
@@ -162,25 +162,41 @@ follow-up, and explicit open items). **Not yet done for the exit gate — the ac
 exit-gate-met; do not treat Task 0 as closed, do not merge this branch, until that review happens
 and is accepted.
 
-**Phase 6 Tasks 1–12 (shared-capability derivation): `NOT_STARTED`, and deliberately NOT begun
-this session despite broad overnight permission to "complete all of phase 6"** — Task 0's exit
-gate (external-review-bundle acceptance) is a human checkpoint this repo's own Mandatory Phase
-Transition Protocol requires before Tasks 1–12 may start; skipping it would repeat exactly the
-kind of unreviewed-assumption error this session already had to correct twice (see the
-correction record above and `.agent/map-debt.md`). Next session: get the migration ledger/review
-bundle reviewed and accepted, then start Tasks 1–12 in a fresh session per the protocol.
+**Phase 6 Tasks 1–12 (shared-capability derivation): `IMPLEMENTATION_COMPLETE`, per explicit
+authorization from the human partner to proceed through all of Phase 6 without waiting for a live
+session.** Full evidence trail at `docs/superpowers/plans/phase-6-tasks-1-12-evidence/`
+(`task-1-brainstorming-and-task-2-inventory.md` through `task-12-runtime-placement-content-
+lifecycle-actions.md`), plus `plugins/sharepoint-agents-and-skills/evaluations/common/` (Task 5's
+12-case common evaluation set) and `plugins/sharepoint-agents-and-skills/scripts/
+drift_detection.py` (Task 8, 9 passing tests including a deliberate-drift proof). Full plugin
+suite 40/40. This was a solo, evidence-based pass — every claim traces to a cited file, judgment
+calls a human needs to make are marked as open items, not guessed. **Task 11's exit-evidence
+document (`task-11-exit-evidence-and-review.md`) is the consolidated index — read that first.**
+
+**Genuine open items, honestly disclosed, not resolved by this session (see Task 6/11's own
+findings for full detail):**
+1. `AMB-01`'s evaluation case references a topic slug (`file-standards`) that does not exist in
+   the real rendered CEIS corpus — needs a human decision (rewrite vs. mark native-only).
+2. `native-sharepoint` runtime execution of the Task 5 common set — blocked in this session by
+   lack of live tenant/PnP/Copilot access; needs a session with that access.
+3. Full semantic-review execution/grading (beyond the deterministic-resolver-layer proof this
+   session ran for real) — a real, bounded follow-up.
+4. `BOUND-01`'s fixture (a topic with >2 cross-references) does not exist yet, real or synthetic.
 
 **Resume instructions for the next session:**
-1. Read this file in full.
+1. Read this file in full, then `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
+   task-11-exit-evidence-and-review.md`.
 2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
    model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
    itself isn't present), confirm `HEAD` matches the latest commit on this branch.
-3. Tasks 0.1–0.17 (all 30 skill names) are implementation-complete — do not redo any of them.
-4. Get `docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md` reviewed and
-   accepted by the human partner before touching Tasks 1–12.
-5. Do not start Phase 6 Tasks 1–12.
-6. Do not create another review gate before all 30 skill names are complete — the approved
-   external-review gate is after Task 0 in full, not after each plugin.
+3. All of Phase 6 (Tasks 0 through 12) is implementation-complete — do not redo any of it.
+4. Get `docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md` **and**
+   `docs/superpowers/plans/phase-6-tasks-1-12-evidence/task-11-exit-evidence-and-review.md`
+   reviewed and accepted by the human partner — Task 11's own "explicit approval before merge"
+   requirement is the one remaining gate before this branch merges.
+5. Resolve the four open items above (or explicitly defer/dispose each), per the human's
+   direction.
+6. Do not create another review gate before this final one — this is the stopping point.
 
 **Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
 
