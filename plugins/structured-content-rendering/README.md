@@ -1,8 +1,9 @@
 # structured-content-rendering
 
 Renders a validated `canonical-package` (and its `publication-map`, for
-grouped packages) to a multipage-markdown publication output, for the
-SharePoint Knowledge Workbench.
+grouped packages) to a multipage-Markdown publication output, or to
+SharePoint modern-page (ASPX) artifacts staged for `Add-PnPPage`/
+`Add-PnPPageTextPart`, for the SharePoint Knowledge Workbench.
 
 For a visual walkthrough of this stage, see `references/diagrams/04-generate-and-render.mmd` (bundled with this plugin).
 
@@ -38,12 +39,25 @@ plugins/structured-content-rendering/
 │   ├── atomic_output.py          # [symlink -> structured-content-assembly is the authoritative owner]
 │   ├── path_safety.py            # [symlink -> source-document-extraction is the authoritative owner]
 │   ├── canonical_schema/         # [symlinks -> structured-content-assembly's canonical_schema/*]
+│   ├── templates.py               # rendering-template create/load (Phase 6 Task 0.16)
+│   ├── template_validation.py     # rendering-template validation (Phase 6 Task 0.16)
+│   ├── compare_rendered_output.py # golden-master comparison primitive (Phase 6 Task 0.16)
+│   ├── assets/templates/          # canonical starter templates + package-boundary copies (see templates.py docstring)
 │   └── renderers/                 # real files (this plugin's own domain logic)
 │       ├── protocol.py            # Renderer structural protocol + registry
-│       ├── multipage_markdown.py  # the concrete multipage-markdown Renderer
-│       └── validate_rendered.py   # render validator + render_and_promote
+│       ├── multipage_markdown.py  # the concrete multipage-Markdown Renderer
+│       ├── sharepoint_aspx.py     # the concrete SharePoint-ASPX Renderer (Phase 6 Task 0.16)
+│       └── validate_rendered.py   # render validators + render_and_promote (both renderers)
+├── assets/templates/              # canonical starter rendering templates (generic + solutions/ceis, markdown + aspx)
 ├── references/contracts/
-├── skills/render-multipage-markdown/
+├── skills/
+│   ├── render-multipage-markdown/
+│   ├── render-sharepoint-aspx/
+│   ├── create-markdown-rendering-template/
+│   ├── create-aspx-rendering-template/
+│   ├── validate-rendering-template/
+│   ├── validate-rendered-output/
+│   └── compare-rendered-output/
 └── tests/
 ```
 
