@@ -31,7 +31,8 @@
 
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "tools/phase-4-native-sharepoint-skills/config.psd1",
+    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$FallbackConfigFile = "tools/phase-3-sharepoint-discovery/config.psd1",
     [string]$LibraryName,
     [switch]$Detailed
 )
@@ -58,7 +59,7 @@ try {
     if ($hasValidAppReg) {
         Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ErrorAction Stop
     } else {
-        $phase3ConfigPath = "../../tools/phase-3-sharepoint-discovery/config.psd1"
+        $phase3ConfigPath = $FallbackConfigFile
         if (Test-Path $phase3ConfigPath) {
             Write-Host "Using Phase 3 credentials..." -ForegroundColor Yellow
             $phase3Config = Import-PowerShellDataFile $phase3ConfigPath
