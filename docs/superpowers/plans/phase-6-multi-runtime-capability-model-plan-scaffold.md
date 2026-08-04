@@ -347,12 +347,16 @@ without modifying it; `validate-rendering-template` correctly rejects each plant
 (design-complete, `workbench-setup` not yet created) but absent from Phase 6 Task 0 until now.
 
 **Owner:** `plugins/workbench-setup/` (new plugin — an authorized exception to the Global Gating
-Rule limiting new plugins, per that design's own Section 8 scoping). **Authoring constraint:**
-per `CLAUDE.md`'s Skill Development Protocol, this plugin's skills are Category 1
-(marketplace-style) — authored in the sibling `agent-plugins-skills` monorepo, PR'd, and merged by
-the human partner, **not written directly in this repo**, unlike `sharepoint-agents-and-skills`
-and `sharepoint-content-publication` (Category 2, this repo's own `plugins/` convention). This
-constrains implementation method, not scope.
+Rule limiting new plugins, per that design's own Section 8 scoping). **Authoring constraint
+(corrected 2026-08-03):** an earlier version of this section wrongly classified this plugin's
+skills as Category 1 (marketplace-style, authored in the sibling `agent-plugins-skills` monorepo).
+That was a mistake — it conflated using the `marketplace-manager` skill (installed *from*
+`agent-plugins-skills` into this repo) as a *procedure* for `marketplace.json` updates with
+authoring the plugin's actual code *in* that repo. `workbench-setup` is a workbench-specific
+plugin, same as `sharepoint-agents-and-skills` and `sharepoint-content-publication` (this repo's
+own `plugins/` convention, per CLAUDE.md's "Plugin-Local Resource Sharing") — written directly in
+this repo. The `marketplace-manager` skill is consulted only for the applicable
+`marketplace.json` registration step, not as an indicator of code ownership.
 
 Implement and package:
 

@@ -379,10 +379,16 @@ unless the profile explicitly approves it.
 
 ## 8. Setup plugin
 
-New plugin: `workbench-setup`. Per this repo's own Skill Development Protocol (`CLAUDE.md`), any
-new *skill* is authored in the sibling `agent-plugins-skills` monorepo, PR'd, and merged by the
-human partner — not written directly in this repo. This section specifies what the skill(s) must
-do; it does not authorize writing skill code here.
+New plugin: `workbench-setup`, owned and authored directly in this repo at
+`plugins/workbench-setup/` (same as `sharepoint-agents-and-skills`/`sharepoint-content-
+publication` — this repo's own `plugins/` convention, per CLAUDE.md's "Plugin-Local Resource
+Sharing"). **Correction (2026-08-03):** an earlier version of this paragraph wrongly stated these
+skills belong in the sibling `agent-plugins-skills` monorepo per the Skill Development Protocol's
+Category 1 (marketplace-style) rule — that was a mistake, conflating "use the `marketplace-
+manager` skill installed *from* `agent-plugins-skills` as the procedure for `marketplace.json`
+updates" with "author this plugin's code *in* `agent-plugins-skills`." This section specifies
+what the skill(s) must do; it did not, and does not, authorize implementation ahead of Phase 6
+Task 0.17's own approval.
 
 **Canonical template ownership (corrected 2026-08-02 external review):** there must be exactly one
 hand-maintained source of truth for `config.psd1.example`'s content, not two. The

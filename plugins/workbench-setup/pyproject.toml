@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "workbench-setup"
+version = "0.1.0-alpha.1"
+description = "Foundational connection/config/workflow setup for the whole workbench: connection config generation, document-workflow intake, and configuration validation. Zero tenant I/O by default."
+requires-python = ">=3.10"
+# No dependency on any other workbench distribution -- this plugin must install and run
+# standalone, matching the four Phase 4.5 domain plugins' own convention (see
+# docs/superpowers/plans/phase-4-5-evidence/wave-2-contract-materialization-correction.md).
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "config_setup",
+    "document_workflow",
+    "workflow_validation",
+    "psd1_writer",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"

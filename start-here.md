@@ -1,4 +1,4 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Not Yet Started
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 ACCEPTED_WITH_LIMITATIONS, PR Pending Merge
 
 ## Current status (2026-08-03, verified against git)
 
@@ -26,7 +26,10 @@ Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
   20 recorded runs retained in the provenance ledger, no technical retries.
 - Task 8: consolidated findings accepted.
 - Citation status: **`CITATION_SUPPORT_NOT_VERIFIED`**.
-- **Phase 6: `NOT_STARTED`.**
+- **Phase 6: `PHASE_6_ACCEPTED_WITH_LIMITATIONS` — 30/30 skill names complete, Tasks 1–12 complete,
+  live native-runtime execution complete, human-reviewed and accepted 2026-08-04. See "Phase 6 —
+  Task 0 handoff (2026-08-03)" below and the "Phase 6 Tasks 0–12" section further down for the
+  full resume state.**
 
 **Phase 5's bounded conclusion:**
 
@@ -41,6 +44,185 @@ Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
 **Deferred out of Phase 5, not yet done:** citation-support verification, multi-identity
 permission/oversharing testing, production governance, native-skill comparison, legal-accuracy
 validation.
+
+## Phase 6 — Task 0 handoff (2026-08-03)
+
+**Superseded by final acceptance — see the "Phase 6 Tasks 0–12" section further down this file for
+the current, authoritative status (`PHASE_6_ACCEPTED_WITH_LIMITATIONS`, human-reviewed
+2026-08-04).** This section is left in place as the historical record of Task 0's own completion
+and exit-gate reasoning — accurate for its own moment, superseded in overall disposition below.
+
+**Branch:** `phase-6-multi-runtime-capability-model`, worktree at
+`.worktrees/phase-6-multi-runtime-capability-model`.
+**Latest pushed commit:** `8064805` ("feat(phase6-task0.17): register workbench-setup in
+marketplace.json"), pushed to `origin/phase-6-multi-runtime-capability-model`.
+**Not merged to `main`.** Task 0's own exit gate requires all 30 skill names implemented/
+packaged/tested (now true) **plus** a migration ledger and **one focused external-review bundle
+accepted by the human partner** (not yet done — nobody has reviewed this work yet). Do not merge,
+and do not treat any of the 30 skills as separately, finally accepted ahead of that review.
+
+**Task 0 progress: 30/30 skill names complete. Implementation-complete, NOT yet reviewer-accepted.
+READ THIS BEFORE DOING ANYTHING ELSE if resuming after 2026-08-03's overnight session — it ran
+unattended past Task 0.17 completion per explicit user permission ("feel free to complete all of
+phase 6 ... ill review tomorrow morning"), but deliberately stopped at the Task 0 exit gate rather
+than starting Phase 6 Tasks 1–12, since those require a human-accepted review bundle first (see
+"Phase 6 Tasks 1–12" below). Nothing beyond this point has been reviewed by anyone yet.**
+
+- `sharepoint-agents-and-skills`: **15/15 complete**, plugin manifests in place, **31/31 tests
+  passing**. Includes the repository/Claude second runtime for `review-manual-topics` that closes
+  Phase 6's actual entry gate (two real runtimes of the same capability now exist). Two real bugs
+  found and fixed via testing during this work: a `Write-Error`-terminates-before-JSON-write
+  ordering bug (fixed in `rollback-skill-deployment.ps1` and the new restore scripts), and a
+  `ConvertTo-Json` single-element-array-collapse bug (fixed in `create-sharepoint-agent.ps1` with
+  an explicit `[System.Object[]]` cast).
+- `sharepoint-content-publication`: **5/5 complete**, **6/6 new tests passing**. Real
+  architectural finding, correctly respected rather than bypassed: this plugin's Phase 3 design is
+  explicitly package-only/zero-tenant-I/O, and real automated tenant writes remain gated behind
+  Stage 3.4.3's unapproved write-identity decision — **this package-only behavior is correct as-
+  is; the current design still excludes unauthorized tenant writes.** The 3 new-build publication
+  skills (`publish-markdown-to-sharepoint`, `publish-aspx-to-sharepoint`,
+  `rollback-sharepoint-publication`) produce human-actionable plans, not tenant writes.
+
+**Task 0.16 — `structured-content-rendering` (7 skills): COMPLETE.**
+
+- `render-multipage-markdown` — renamed from `render-structured-content` (naming/boundary
+  verification only; the underlying renderer already worked). 49/49 pre-existing tests still pass
+  after the rename.
+- `render-sharepoint-aspx` — genuine new `Renderer`-protocol-conformant renderer
+  (`scripts/renderers/sharepoint_aspx.py`): one HTML fragment per chunk + `page-manifest.json`,
+  staged for `Add-PnPPage`/`Add-PnPPageTextPart` (raw `.aspx` upload confirmed `Access denied`,
+  Phase 3.0 §15). Zero SharePoint tenant I/O. **Golden-master fidelity proof complete**: the real
+  CEIS manual canonical package (25 chunks, 319 media files, grouped strategy) renders end-to-end
+  with validation PASS, and a fresh render is byte-identical to a recorded baseline committed at
+  `runs/ceis-manual-v2/render-aspx/rendered-output/` (see
+  `plugins/structured-content-rendering/tests/integration/test_golden_master_aspx.py`).
+- `create-markdown-rendering-template` / `create-aspx-rendering-template` — shared
+  `scripts/templates.py` module; canonical starter templates for both profiles (`generic`, `ceis`)
+  and both formats under `assets/templates/`.
+- `validate-rendering-template` — `scripts/template_validation.py`, one negative-control test per
+  detection class (unknown profile/format, missing/unknown placeholder, title not in a real
+  heading construct, forbidden ASPX full-page wrapper).
+- `validate-rendered-output` — extended `renderers/validate_rendered.py` with an ASPX counterpart
+  to every Markdown detection, plus `render_and_promote_aspx`; packaged as its own named skill
+  (previously only reachable indirectly through `render-multipage-markdown`'s bundled scripts).
+- `compare-rendered-output` — new `scripts/compare_rendered_output.py`, packaging the Phase 2
+  Subphase 2.5.4 golden-master comparison pattern as a standalone, reusable primitive (used by the
+  ASPX golden-master proof above).
+- **Real packaging defect found and fixed while verifying installability:** `templates.py`'s
+  canonical starter templates lived at the plugin root, outside `pyproject.toml`'s
+  `package-dir=scripts/` boundary — invisible under `pip install -e` (editable installs point back
+  at the live source tree) but broke a real isolated wheel install
+  (`tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py`) with
+  `FileNotFoundError`. Fixed via `scripts/assets/templates/...` as real packages (empty
+  `__init__.py` markers + file-level symlinks back to the plugin-root canonical source, per the
+  hub-and-spoke convention) plus `package-data`/`py-modules` declarations. Isolated wheel install
+  now passes.
+- **Final verification:** full plugin suite **96/96 passing** (unit + contract + integration), a
+  fresh isolated wheel install also passes 96/96, no broken symlinks anywhere in the plugin.
+- Latest Task 0.16 commits (chronological): `20849b8`, `2d06426`, `506e193`, `ef80836`, `e98b17f`,
+  `5c6aee2`, `617514e`, `30bd605`.
+
+**Task 0.17 — `workbench-setup` (3 skills): COMPLETE.**
+
+- **Correction record (2026-08-03):** an earlier pass of this plan/handoff wrongly concluded
+  `workbench-setup` was a Category 1 (marketplace-style) skill set that had to be authored in the
+  sibling `agent-plugins-skills` repo, and a worktree/branch was briefly created there under that
+  premise (3 untracked `.psd1.example` files, never committed/pushed — deleted; that repo is
+  unaffected, verified via `git status`/`git log`). The real mistake: conflating "use the
+  `marketplace-manager` skill *installed from* `agent-plugins-skills` as a tool/procedure for
+  `marketplace.json` updates" with "author this new plugin *inside* `agent-plugins-skills`." Full
+  incident: `.agent/map-debt.md`'s 2026-08-03 entry; new Hard Gate #15 in
+  `.agent/rules/self-evolution-policy.md`; new CLAUDE.md Section 0a.
+- Implemented at `plugins/workbench-setup/` in **this** repo (standalone plugin, same category as
+  `sharepoint-agents-and-skills`/`sharepoint-content-publication` — none of the six other Task 0
+  plugins own these cross-cutting, upstream-of-everything setup questions).
+- `setup-sharepoint-connection` — generates the root, git-ignored `config.psd1`. Default action
+  never connects to anything; `test_connection()` requires an explicitly injected connector
+  (raises `NotImplementedError` without one — this module ships no live PnP/SharePoint SDK
+  connector itself).
+- `initialize-document-workflow` — builds/validates/writes both `document-workflows/
+  <DocumentId>.workflow.psd1` and `publication-profiles/<DocumentId>.publication.psd1`. Only
+  implemented renderer profiles (`multipage-markdown`, `sharepoint-aspx`) may appear as requested/
+  executable; anything else lands in `UnsupportedRequests`. Execution boundary (ask → propose →
+  validate → display → write → stop) enforced structurally — no extraction/rendering/tenant-I/O
+  imports exist in this module.
+- `validate-workbench-environment` — validates already-built connection/workflow/publication
+  dicts. Deliberately scoped to already-parsed dicts, not raw `.psd1` file text (see
+  `workflow_validation.py`'s docstring for why a custom `.psd1` parser was not attempted).
+- New shared `psd1_writer.py` (Python dict → PowerShell hashtable text), used by both
+  `config_setup.py` and `document_workflow.py`.
+- **Final verification:** full plugin suite **36/36 passing**, a fresh isolated wheel install also
+  passes 36/36 (checked this time — Task 0.16 taught the lesson that editable installs can hide a
+  real packaging gap).
+- `workbench-setup` and the previously-unregistered `sharepoint-agents-and-skills` both added to
+  `.claude-plugin/marketplace.json` (validated clean via `claude plugin validate .`).
+- Task 0.17 commits (chronological): `c17f4c1`, `8064805`.
+
+**Task 0 exit gate — cross-plugin verification run this session (2026-08-03):** every Task 0
+plugin's own test suite passes: `structured-content-rendering` 96/96, `sharepoint-agents-and-
+skills` 31/31, `sharepoint-content-publication` 26/26, `workbench-setup` 36/36. No broken symlinks
+found in any of them. The migration ledger is written:
+`docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md` (skill-by-skill
+completion table, test evidence, defects found/fixed this session, known doc drift flagged for
+follow-up, and explicit open items). **Not yet done for the exit gate — the actual gating item:**
+**nobody has reviewed and accepted that bundle yet.** Implementation-complete is not the same as
+exit-gate-met; do not treat Task 0 as closed, do not merge this branch, until that review happens
+and is accepted.
+
+**Phase 6 Tasks 0–12: `PHASE_6_ACCEPTED_WITH_LIMITATIONS` — human-reviewed and accepted,
+2026-08-04, after two remediation rounds plus live native-runtime execution.** No additional Phase
+6 manual testing is required. See `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
+phase-6-remediation-bundle.md` (consolidated index, **read this first**, its "Final disposition"
+section carries the acceptance), then `task-11-exit-evidence-and-review.md`. No plugin redesign or
+new governance layer was added at any point, per every review's instructions.
+
+**Round 2 (2026-08-03): both previously-open items resolved** — `sharepoint-content-publication`'s
+isolated-install dependency fixed for real (managed symlink, same pattern
+`structured-content-rendering` already uses; PASS 26/26), `BOUND-01` resolved from the approved
+`SKILL.md` contract (case definition was wrong, not the code; no implementation change made).
+
+**Live native-runtime execution (2026-08-04):** the human partner obtained live tenant access
+(PnP PowerShell, Entra app registration) and personally drove the live Copilot chat
+(`CEIS-Pilot-Knowledge-Agent`, `AG-CSB-INTRANET-DEV`). Precondition check first found the deployed
+`review-manual-topics` skill was stale — redeployed, byte-for-byte hash match confirmed. Found and
+fixed 4 more real cmdlet-parameter bugs along the way (both deployment/reconciliation scripts had
+apparently never been run against a real live tenant before — see `.agent/map-debt.md`'s
+2026-08-03 entries, commits `5e05893`, `0345b5f`). **3 of 7 applicable cases executed live, all
+PASS** (`AMB-01`, `PERM-01`, `PERM-02`); **4 explicitly skipped by the human partner's own
+decision** (`PERM-03`–`PERM-06`, not a technical blocker). Full results:
+`plugins/sharepoint-agents-and-skills/evaluations/common/native-sharepoint-results/`.
+
+**Limitation accepted and carried forward, recorded exactly (do not soften, generalize, or treat
+as runtime-equivalence in any future session):**
+- Shared contract: at most 2 related topics per invocation.
+- `repository-claude` enforces this **deterministically** (`TooManyRelatedTopicsError`).
+- `native-sharepoint` enforcement is **instruction-governed only**.
+- Live observation: `AMB-01` run 1 consulted **3** related topics; run 2 consulted **7** — both
+  exceed the limit of 2.
+- `drift_detection.py` correctly flagged both runs (`related_topic_cap_exceeded`) — the
+  multi-runtime model and drift detector working exactly as designed.
+- Human review's own assessment: "the live finding does not invalidate Phase 6... it proves the
+  multi-runtime model and drift detector found exactly the type of behavioral divergence Phase 6
+  was designed to expose." **Not fixed this phase** — a future native-skill remediation/evaluation
+  item.
+
+`PERM-03` through `PERM-06` are `SKIPPED_BY_HUMAN_DECISION` — never described as passed, failed,
+or executed.
+
+**Resume instructions for the next session:**
+1. Read this file, then `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
+   phase-6-remediation-bundle.md`, then `task-11-exit-evidence-and-review.md`.
+2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
+   model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
+   itself isn't present), confirm `HEAD` matches the latest commit on this branch.
+3. All of Phase 6 (Tasks 0 through 12) is complete and **`PHASE_6_ACCEPTED_WITH_LIMITATIONS`** —
+   do not redo any of it, do not re-run additional manual testing.
+4. The Phase 6 PR (branch `phase-6-multi-runtime-capability-model`) is prepared and pushed; the
+   human partner opens and merges it themselves. This session does not merge.
+5. After merge: sync local `main` with `origin/main`, verify `HEAD` equals `origin/main`, verify
+   `main` tracks `origin/main`, verify a clean working tree, update `start-here.md` only if the
+   final merge commit must be recorded, then close the Phase 6 session.
+6. Do not start Phase 7 in this session.
 
 **Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
 

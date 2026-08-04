@@ -20,8 +20,7 @@ each block):
 
 | Category | Count | Detail |
 |---|---|---|
-| Unique installed skill names currently implemented | **5** | `extract-docx`, `analyze-document-structure`, `assemble-structured-content`, `render-structured-content` (4 core-pipeline skills) + `review-manual-topics` (native SharePoint runtime only; its repository/Claude runtime is not yet built) |
-| Unique additional Phase 6 skill names approved (Task 0, not yet built or partially built) | **29** | Phase 6 Task 0's full skill-name list is **30** names total; `review-manual-topics` is one of those 30 and is already counted above as implemented (native runtime) — so 29 is the count of Phase 6 names with no implementation yet, plus `review-manual-topics`'s own outstanding repository-runtime work is tracked under its existing single entry, not as a 30th separate "additional" name. |
+| Unique installed skill names currently implemented | **30 / 30** | Phase 6 Task 0's full skill-name list is now implemented as of Task 0.17 (2026-08-03): 15 `sharepoint-agents-and-skills` + 5 `sharepoint-content-publication` + 7 `structured-content-rendering` + 3 `workbench-setup`. `review-manual-topics`'s repository/Claude runtime is one of the 15. **Implementation-complete, not yet reviewer-accepted** — Task 0's own exit gate additionally requires a focused external-review bundle to be accepted before it is formally closed and before Phase 6 Tasks 1–12 may begin. See `start-here.md` for current disposition. |
 
 **CMAT (Phase 9 source, spec §8d — 34 skills directly audited, mutually exclusive, sums to 34):**
 
@@ -75,20 +74,18 @@ a single unified skill count that does not exist; none is published here.
 - **Installation:** standalone.
 
 ### `structured-content-rendering`
-- **Status:** existing (core skill) + Phase 6 Task 0.16 additions (planned)
+- **Status:** Phase 6 Task 0.16 complete — all 7 skill names implemented, packaged, tested (96/96, including a real isolated wheel install and a real CEIS-manual ASPX golden-master proof).
 - **Purpose:** render a canonical package to output formats.
-- **Responsibilities (existing):** multipage-Markdown rendering, render validation.
-- **Responsibilities (Phase 6 Task 0.16, not yet built):** `render-sharepoint-aspx`, rendering-template creation/validation, rendered-output comparison.
+- **Responsibilities:** multipage-Markdown rendering, ASPX (SharePoint modern-page) rendering, render validation (both formats), rendering-template creation/validation (both formats), rendered-output comparison.
 - **Non-responsibilities:** SharePoint tenant I/O (owned by `sharepoint-content-publication`); legacy-page *analysis/conversion* (Phase 9 candidate `sharepoint-page-modernization`, distinct domain per master-roadmap boundary).
 - **Skills:**
-  - `render-structured-content` — implemented (existing).
-  - `render-multipage-markdown` — Phase 6 Task 0.16, substantially exists under a different skill name; packaging verification pending.
-  - `render-sharepoint-aspx` — Phase 6 Task 0.16, not yet built.
-  - `create-markdown-rendering-template` — Phase 6 Task 0.16, not yet built.
-  - `create-aspx-rendering-template` — Phase 6 Task 0.16, not yet built.
-  - `validate-rendering-template` — Phase 6 Task 0.16, not yet built.
-  - `validate-rendered-output` — Phase 6 Task 0.16, partial (Markdown side exists).
-  - `compare-rendered-output` — Phase 6 Task 0.16, not yet built.
+  - `render-multipage-markdown` — implemented (renamed from `render-structured-content` at Task 0.16).
+  - `render-sharepoint-aspx` — implemented; golden-master fidelity proof against the real CEIS manual complete (`runs/ceis-manual-v2/render-aspx/`).
+  - `create-markdown-rendering-template` — implemented.
+  - `create-aspx-rendering-template` — implemented.
+  - `validate-rendering-template` — implemented.
+  - `validate-rendered-output` — implemented (both Markdown and ASPX).
+  - `compare-rendered-output` — implemented.
 - **Phase 9 overlap:** `sp-converting-aspx-pages` (CMAT, richest implementation in the audit) — Phase 6 stays minimal-interface, full page-analysis/conversion sophistication is a Phase 9 candidate targeting *this* plugin (`PHASE_9_EXTRACT_TO_EXISTING_PLUGIN`), per spec §8c.
 - **Installation:** standalone.
 
@@ -97,21 +94,27 @@ a single unified skill count that does not exist; none is published here.
 ## Phase 6 Operational Plugins (Task 0, `AUTHORIZED_AND_IN_PROGRESS`)
 
 ### `sharepoint-content-publication`
-- **Status:** Phase 6 planned (existing `TRANSITIONAL_HOLDING_LOCATION`, completed under Task 0.15)
+- **Status:** Phase 6 Task 0.15 complete — all 5 skill names implemented, packaged, tested (26/26).
 - **Purpose:** consume rendered artifacts and deploy/reconcile/validate/rollback in SharePoint.
 - **Responsibilities:** upload, page create/update, reconciliation, validation, rollback.
 - **Non-responsibilities:** rendering, rendering templates, agent/native-skill lifecycle.
 - **Skills:**
-  - `publish-markdown-to-sharepoint` — Phase 6 Task 0.15, not yet built.
-  - `publish-aspx-to-sharepoint` — Phase 6 Task 0.15, not yet built.
-  - `reconcile-sharepoint-publication` — Phase 6 Task 0.15, existing Python basis (`sharepoint_reconcile.py`), packaging pending.
-  - `validate-sharepoint-publication` — Phase 6 Task 0.15, existing partial Python basis, extension pending.
-  - `rollback-sharepoint-publication` — Phase 6 Task 0.15, not yet built (no CMAT counterpart either).
+  - `publish-markdown-to-sharepoint` — implemented.
+  - `publish-aspx-to-sharepoint` — implemented.
+  - `reconcile-sharepoint-publication` — implemented.
+  - `validate-sharepoint-publication` — implemented.
+  - `rollback-sharepoint-publication` — implemented.
 - **Phase 9 overlap:** `sp-uploading-content` (CMAT, active, dual PnP+REST mechanism) → `PHASE_9_EXTRACT_TO_EXISTING_PLUGIN` here; `sp-migrating-content`'s single-item upload primitive (extracted from the 10-wave engine) is a further candidate once genericized.
-- **Installation:** existing Python package structure; skills/manifests not yet complete.
+- **Installation (corrected 2026-08-03, Phase 6 remediation round 2):** manifests/skills complete;
+  isolated wheel install **PASSES, 26/26**. Round 1 found a real defect — `sharepoint_package.py`
+  had an undeclared runtime dependency on `canonical_package` — fixed in round 2 by sharing that
+  module and its transitive `canonical_schema`/`dispositions`/`hashing`/`publication_map`
+  dependencies via managed file-level symlinks back to `structured-content-assembly` (their real,
+  authoritative source), matching `structured-content-rendering`'s own already-proven pattern for
+  the same module. Genuinely isolated now, no sibling plugin needs co-installing.
 
 ### `sharepoint-agents-and-skills`
-- **Status:** Phase 6 planned (new plugin, Task 0.1–0.14, partially scaffolded)
+- **Status:** Phase 6 Task 0.1–0.14 complete — all 15 skill names implemented, packaged, tested (46/46 as of Phase 6 remediation, up from 31 at initial Task 0 completion — 9 new common-evaluation-case tests plus a new `drift_detection.py` module with 9 tests added during remediation).
 - **Purpose:** own agents, agent templates, `AgentAssets`, and native-skill lifecycle.
 - **Responsibilities:** agent create/update/knowledge-configuration/backup/restore/template; native-skill create/deploy/verify/rollback/backup/restore; `AgentAssets` inventory/validation.
 - **Non-responsibilities:** content rendering, publication, workbench setup/config-file generation.
@@ -119,38 +122,43 @@ a single unified skill count that does not exist; none is published here.
   not two skill names:**
   - `review-manual-topics`
     - runtimes:
-      - `native-sharepoint` — **implemented** (moved from Phase 4, real deployed skill).
-      - `repository-claude` — Task 0.3, not yet built.
-  - `create-sharepoint-native-skill` — Task 0.4, not yet built.
-  - `deploy-sharepoint-native-skill` — Task 0.4, scripts moved, packaging pending.
-  - `verify-sharepoint-native-skill` — Task 0.4, scripts extracted, packaging pending.
-  - `rollback-sharepoint-native-skill` — Task 0.4, script moved, packaging pending.
-  - `inventory-and-validate-agentassets` — Task 0.4, script moved, `provision-agentassets` canonical-version decision resolved (Phase-4 copy), packaging pending.
-  - `backup-sharepoint-native-skills` — Task 0.5, script generalized, packaging pending.
-  - `restore-sharepoint-native-skills` — Task 0.5, not yet built.
-  - `create-sharepoint-agent` — Task 0.6, not yet built.
-  - `update-sharepoint-agent` — Task 0.6, not yet built (previously missing entirely).
-  - `configure-sharepoint-agent-knowledge` — Task 0.6, not yet built.
-  - `backup-sharepoint-agents` — Task 0.6, script generalized, packaging pending.
-  - `restore-sharepoint-agents` — Task 0.6, not yet built (includes `get-agent-resource-identifiers`).
-  - `create-sharepoint-agent-template` — Task 0.7, not yet built.
-  - `apply-sharepoint-agent-template` — Task 0.7, not yet built.
+      - `native-sharepoint` — implemented (moved from Phase 4, real deployed skill).
+      - `repository-claude` — implemented (`review_manual_topics.py`, deterministic resolution + real semantic-review execution proven at Phase 6 remediation — see `docs/superpowers/plans/phase-6-tasks-1-12-evidence/task-6-baseline-evaluation-findings.md`).
+  - `create-sharepoint-native-skill` — implemented.
+  - `deploy-sharepoint-native-skill` — implemented.
+  - `verify-sharepoint-native-skill` — implemented.
+  - `rollback-sharepoint-native-skill` — implemented.
+  - `inventory-and-validate-agentassets` — implemented.
+  - `backup-sharepoint-native-skills` — implemented.
+  - `restore-sharepoint-native-skills` — implemented.
+  - `create-sharepoint-agent` — implemented.
+  - `update-sharepoint-agent` — implemented.
+  - `configure-sharepoint-agent-knowledge` — implemented.
+  - `backup-sharepoint-agents` — implemented.
+  - `restore-sharepoint-agents` — implemented (includes `get-agent-resource-identifiers`).
+  - `create-sharepoint-agent-template` — implemented.
+  - `apply-sharepoint-agent-template` — implemented.
 - **Excluded from Task 0:** `review-manual-topics-metadata` (write-capable, UI-generated, distinct capability) — `RETAIN_AS_PHASE_EVIDENCE`, not implemented, not counted in the 15.
 - **Phase 9 overlap:** `sp-validating-app-registration` (CMAT, active) → `PHASE_9_MERGE_WITH_EXISTING_SKILL` target is actually `workbench-setup`, not this plugin (per spec §8c/§8e) — noted here to prevent future misassignment.
-- **Installation:** scaffold only; no `plugin.json`/`plugin.yaml`/`README.md` yet.
+- **Installation (corrected 2026-08-03, Phase 6 remediation):** manifests/skills complete
+  (15/15). Python layer (`review_manual_topics.py`, `drift_detection.py`) is standalone —
+  `pyproject.toml` added this remediation pass, real isolated wheel install **PASSES**, 46/46
+  (re-verified through the isolated harness at this exact count). PowerShell scripts (`scripts/*.ps1`) have no wheel-based
+  install story and are consumed directly from the repository checkout — a structural property of
+  mixed-language plugins, not a gap.
 
 ### `workbench-setup`
-- **Status:** Phase 6 planned (new plugin, Task 0.17, not yet created)
+- **Status:** Phase 6 Task 0.17 complete — all 3 skill names implemented, packaged, tested (36/36, including a real isolated wheel install).
 - **Purpose:** foundational connection/config/workflow setup for the whole workbench.
 - **Responsibilities:** `config.psd1` generation, document-workflow/publication-profile intake wizard, config/profile validation.
 - **Non-responsibilities:** document extraction, rendering, tenant writes beyond opt-in connection testing, agent/skill creation.
 - **Skills (3, Task 0.17):**
-  - `setup-sharepoint-connection` — not yet built.
-  - `initialize-document-workflow` — not yet built (absorbs `initialize-publication-profile`, not a 4th skill).
-  - `validate-workbench-environment` — not yet built.
-- **Authoring constraint:** Category 1 (marketplace-style) — authored in the sibling `agent-plugins-skills` monorepo per `CLAUDE.md`, not directly in this repo.
-- **Phase 9 overlap:** `sp-validating-app-registration` (CMAT, active) is the richer connection/auth-validation implementation — `PHASE_9_MERGE_WITH_EXISTING_SKILL` target once `setup-sharepoint-connection`'s optional `-TestConnection` path is built.
-- **Installation:** not yet created.
+  - `setup-sharepoint-connection` — implemented.
+  - `initialize-document-workflow` — implemented (absorbs `initialize-publication-profile`, not a 4th skill).
+  - `validate-workbench-environment` — implemented.
+- **Authoring constraint (corrected 2026-08-03):** authored directly in this repo at `plugins/workbench-setup/`, same as `sharepoint-agents-and-skills`/`sharepoint-content-publication` — an earlier version of this line wrongly claimed Category 1 (marketplace-style, sibling `agent-plugins-skills` monorepo); that conflated using the `marketplace-manager` skill (installed from `agent-plugins-skills`) as the *procedure* for `marketplace.json` updates with authoring the plugin's code there. See `start-here.md`'s Task 0.17 correction record.
+- **Phase 9 overlap:** `sp-validating-app-registration` (CMAT, active) is the richer connection/auth-validation implementation — `PHASE_9_MERGE_WITH_EXISTING_SKILL` target once `setup-sharepoint-connection`'s optional connection-test path is built out with a real connector.
+- **Installation:** standalone, `pip install -e plugins/workbench-setup`.
 
 ---
 

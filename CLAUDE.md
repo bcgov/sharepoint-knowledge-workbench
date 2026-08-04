@@ -18,6 +18,18 @@ is for phase-specific evidence, probes, and evaluation harnesses only — never 
 implementation (agent creation, skill deployment, content upload, backup/restore). See
 `.agent/map-debt.md`'s 2026-08-02 entry for the full incident.
 
+## 0a. External Skill Usage Does Not Determine Artifact Ownership
+
+**Using a skill installed from another repository (e.g. the `marketplace-manager` skill from
+`agent-plugins-skills`) to perform or validate a step never means the artifact being worked on
+belongs in that skill's source repository.** A 2026-08-03 session misread "use the
+marketplace-manager skill for the `marketplace.json` update" as "author the new `workbench-setup`
+plugin in `agent-plugins-skills`," created a worktree there, and started writing plugin files
+before being corrected — full incident and fix in `.agent/rules/self-evolution-policy.md` Hard
+Gate #15 and `.agent/map-debt.md`'s 2026-08-03 entry. Determine ownership of a new plugin/skill/
+file from its own responsibility, consumers, and lifecycle within this repo's architecture — not
+from which repo happens to own a tool consulted along the way.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
