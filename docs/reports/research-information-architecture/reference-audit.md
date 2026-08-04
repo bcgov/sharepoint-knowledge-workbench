@@ -28,7 +28,7 @@ Files that navigate to research documents and need updating:
 | `docs/reports/phase-4-native-sharepoint-skills/README.md` | Links to phase evidence | Update cross-links to moved research (keep phase evidence) |
 | `docs/reports/phase-5-sharepoint-knowledge-agent-pilot/README.md` | Links to evaluation results | Update cross-links to `research-experimentation/` domain |
 | `docs/superpowers/FUTURE-PHASE-PLANNING-INDEX.md` | Navigation across phases | Update cross-links to research evidence |
-| New: `docs/research/INDEX.md` | (Create new) | Master index for all eternal research domains |
+| New: `docs/research/INDEX.md` | (Create new) | Master index for all enduring research domains |
 
 ### Category 2: Vision Documents (MEDIUM PRIORITY)
 

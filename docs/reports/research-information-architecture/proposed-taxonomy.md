@@ -1,373 +1,433 @@
-# Proposed Research Information Architecture — Domain Taxonomy
+# Proposed Research Information Architecture — Refined Taxonomy
+
+**Status:** Refinement session — taxonomy redesigned to separate organizing dimensions  
+**Previous version:** Commit c3957b9 (replaced with this content-validated version)  
+**Changes from Session 1:** Separated subject domains, artifact types, lifecycle status, and phase evidence as distinct organizing dimensions
+
+---
 
 ## Executive Summary
 
-This repository's research and knowledge artifacts currently span **218 files** organized by phase number and document type rather than by durable domain. This taxonomy proposes a **subject-oriented, phase-agnostic** reorganization that:
+This repository's research corpus (218 files) is currently organized by **phase number** and **document filename**, making it difficult to discover durable knowledge across phases. This taxonomy proposes a **subject-oriented, multidimensional reorganization** that:
 
-- Preserves provenance through metadata and cross-references
-- Groups related knowledge by capability domain, not execution phase
-- Supports discovery without requiring readers to know which phase produced what
-- Enables durable links to canonical knowledge (superseding phase-based paths)
-- Maintains phase evidence as a discoverable byproduct, not the organizing frame
-
----
-
-## Proposed Domain Structure
-
-### Level 1: Primary Domains
-
-#### 1. **SharePoint Platforms & Capabilities**
-Knowledge about the Microsoft 365 ecosystem, SharePoint Online capabilities, licensing, and permissions.
-
-**Subdomains:**
-- `sharepoint-agents/` — Custom agents in SharePoint, discovery, configuration, lifecycle
-- `copilot-in-sharepoint/` — Native Copilot in SharePoint skills, storage, execution, limitations
-- `copilot-cowork/` — Microsoft 365 Copilot extensions and plugins
-- `copilot-studio/` — Copilot Studio agent design and orchestration
-- `content-permissions-governance/` — Permission boundaries, sensitivity, disclosure, audit
-
-**Key Properties:**
-- Not durable by phase; Microsoft product evolution may supersede research
-- Requires dated retrieval records and source verification
-- Field notes from tenant observation are primary evidence
+- Separates **subject-based research domains** (SharePoint, content engineering, publishing, etc.) from artifact types and lifecycle status
+- Treats **phase as metadata** (provenance tracking), not the primary organizing frame
+- Keeps **phase execution evidence** as a distinct historical area (remains under `docs/reports/phase-N-*/`)
+- Preserves **durable, cross-cutting knowledge** in enduring research domains
+- Enables discovery by subject without requiring readers to know which phase produced what
 
 ---
 
-#### 2. **Structured Content Engineering**
-Knowledge about converting unstructured documents into versioned, maintainable, canonically-modeled content.
+## Organizing Dimensions (Independent Classification Axes)
 
-**Subdomains:**
-- `document-extraction-analysis/` — DOCX/PDF parsing, structure detection, defect identification
-- `content-models-contracts/` — Canonical representation, publication maps, metadata schemas
-- `content-cleanup-chunking/` — Normalization, media handling, structural anchoring
-- `multi-format-rendering/` — Human-facing and agent-optimized publication targets
+Research artifacts are classified along **four independent dimensions**, not forced into a single hierarchy:
 
-**Key Properties:**
-- Durable across pilot documents and phases
-- Strongly tied to tooling (pandoc, LibreOffice, Python plugins)
-- Implementation details live in `plugins/`; architecture and contracts live here
+### Dimension 1: Subject Domain (Content-Based)
 
----
+What is the research *about*? Which problem space?
 
-#### 3. **Publication & Delivery**
-Knowledge about rendering structured content to multiple targets and managing versions in destination systems.
+**Primary subject domains (mutually exclusive; every research document belongs to exactly one):**
 
-**Subdomains:**
-- `sharepoint-publishing/` — Upload workflows, ASPX, modern pages, lifecycle
-- `markdown-publishing/` — GitHub/repository publication, sourcing, versioning
-- `publication-lifecycle/` — Approval, promotion, rollback, archival
-- `multi-target-strategy/` — Rendering the same source for different audiences
+1. **SharePoint Platforms & Capabilities** — Microsoft 365, Copilot in SharePoint, agents, licensing, permissions
+2. **Structured Content Engineering** — Document extraction, normalization, models, chunking, validation
+3. **Publication & Delivery** — Rendering targets (Markdown, ASPX, multi-format), approval workflows, SharePoint publishing
+4. **Knowledge Discovery & Retrieval** — Agent grounding, search, indexing, discoverability, curation
+5. **Architecture & Design Patterns** — Plugin structure, skill authoring standards, data models, deployment approaches
+6. **Strategic Planning & Vision** — Long-term direction, roadmap structure, governance model, risk analysis
 
-**Key Properties:**
-- Bridges content engineering and platform selection
-- Includes both architecture and proof-of-concept evidence
-- Durable target-neutral patterns
+**Key principle:** Subject domains are NOT hierarchy levels. A document belongs to one domain and may relate to others via cross-references.
 
----
+### Dimension 2: Artifact Type (Purpose & Genre)
 
-#### 4. **Knowledge Discovery & Retrieval**
-Knowledge about how agents and users find, reason about, and act on knowledge.
+What kind of artifact is this? What is it used for?
 
-**Subdomains:**
-- `agent-grounding/` — Source formats, citation, retrieval constraints
-- `search-retrieval/` — Indexing, querying, discoverability patterns
-- `knowledge-curation/` — Continuous maintenance, obsolescence, quality signals
-- `human-ai-collaboration/` — Workflows combining human review with AI-assisted discovery
+| Type | Purpose | Example |
+|---|---|---|
+| **Research Summary** | Curated findings from external sources or exploratory work | `research-summary-copilot-in-sharepoint-get-started.md` |
+| **Synthesis** | Cross-phase knowledge integration; durable conclusions | `capability-layering-sharepoint-skills-cowork-copilot-studio-github.md` |
+| **Field Note** | Empirical observation from tenant work; dated | `field-note-aspx-vs-markdown-grounding-comparison.md` (2026-07) |
+| **Specification** | Formal definition of behavior, contract, design, or capability | `native-sharepoint-skills-spec.md` |
+| **Decision Record** | Named decision, rationale, alternatives, owner, date, disposition | Part of vision/specs |
+| **Implementation Learning** | Lessons, bugs, workarounds, defects from execution | `phase-4-agent-format-learning-journal.md` |
+| **Experiment Protocol** | Method, controls, findings from a controlled probe | Phase-specific evaluation cases |
+| **Capability Index** | Navigation and reference material | Domain README files |
 
-**Key Properties:**
-- Emerging domain; many findings are experimental
-- Highly sensitive to platform capabilities and agent model
-- Requires iteration as capabilities evolve
+### Dimension 3: Lifecycle Status (Temporal Classification)
 
----
+What is the current state and validity of this content?
 
-#### 5. **Capability Specifications & Contracts**
-Knowledge defining what a skill, agent, or workflow should do and how it should behave.
+| Status | Definition | Treatment |
+|---|---|---|
+| **Active** | Current; actively maintained; used for decisions | Primary navigation focus |
+| **Superseded** | Replaced by newer version; older version retained for history | Cross-link to replacement; archive original with banner |
+| **Archived** | Concluded (experiment finished, phase closed) or historically useful only | Retain in archive location; link from active; no updates |
+| **Provisional** | Candidate; not yet confirmed; decision pending | Marked as such; linked from decision point; archived once resolved |
+| **Research** | Exploratory; findings not yet synthesized; confidence TBD | Labeled with method, limitations, confidence; may lead to durable docs |
 
-**Subdomains:**
-- `native-sharepoint-skills/` — Capability specs, evaluation cases, runtime contracts
-- `sharepoint-agents/` — Agent behavior specs, grounding, output formats
-- `hybrid-workflows/` — Specs combining repository and platform execution
-- `governance-policies/` — Rules, approval patterns, lifecycle controls
+### Dimension 4: Phase Provenance (Historical Context)
 
-**Key Properties:**
-- Durable across runtimes and implementations
-- Separates intent (spec) from execution (phase evidence)
-- Foundational for multi-runtime validation
+Which phase(s) generated or last updated this research?
+
+**Recorded as metadata**, not used for primary navigation:
+- **Source phase:** Which phase did this research originate in? (Phase 3, Phase 4, Phase 5, etc.)
+- **Last updated:** Which phase most recently substantively changed this? (May differ from source phase)
+- **Finding date:** When was the research conducted?
+- **Evidence status:** Is this observation, finding, or conclusion? How confident?
+
+**Key principle:** Provenance is tracked but *does not determine folder location*. Cross-phase findings go to subject domains, not phase folders.
 
 ---
 
-#### 6. **Architecture & Design Patterns**
-Knowledge about system structure, component boundaries, and engineering decisions.
+## Proposed Directory Structure
 
-**Subdomains:**
-- `plugin-architecture/` — Plugin decomposition, dependency management, packaging
-- `skill-design-patterns/` — Skill definition standards, authoring guides, templates
-- `data-models/` — Schemas, ontologies, information structures
-- `deployment-patterns/` — Provisioning, configuration, lifecycle automation
+### Level 1: Organizational Top Level
 
-**Key Properties:**
-- Durable across phases (with evolution notes)
-- Bridges implementation details and strategic vision
-- Includes both approved and candidate patterns
+```
+docs/research/
+├── README.md                          (Master index and navigation guide)
+├── INDEX.md                           (Detailed cross-domain navigation)
+│
+├── sharepoint-platforms-capabilities/         (Subject Domain #1)
+├── structured-content-engineering/            (Subject Domain #2)
+├── publication-delivery/                      (Subject Domain #3)
+├── knowledge-discovery-retrieval/             (Subject Domain #4)
+├── architecture-design-patterns/              (Subject Domain #5)
+├── strategic-planning-vision/                 (Subject Domain #6)
+│
+└── _meta/                             (Metadata, indexes, navigation)
+    ├── .provenance.json               (Phase provenance manifest)
+    ├── .metadata-schema.md            (Format spec for research metadata)
+    ├── domain-glossary.md             (Cross-domain terminology)
+    └── research-methods.md            (Audit trail of how research was conducted)
+```
+
+### Level 2: Subdomains by Subject (Examples; full list below)
+
+**SharePoint Platforms & Capabilities:**
+```
+sharepoint-platforms-capabilities/
+├── README.md
+├── sharepoint-agents/                 (Custom agent research)
+├── copilot-in-sharepoint/             (Native Copilot skill research)
+├── copilot-cowork/                    (Microsoft 365 Copilot plugins)
+├── copilot-studio/                    (Copilot Studio research)
+├── content-permissions-governance/    (Permission boundaries, disclosure, audit)
+└── platform-features-and-limits/      (Capabilities, licensing, roadmap)
+```
+
+**Structured Content Engineering:**
+```
+structured-content-engineering/
+├── README.md
+├── document-extraction-analysis/      (DOCX/PDF parsing, structure detection)
+├── content-models-contracts/          (Canonical representation, schemas)
+├── content-cleanup-chunking/          (Normalization, media, anchoring)
+├── multi-format-rendering/            (Output profiles, validation)
+└── legacy/                            (Pre-Phase-1 references, archived)
+```
+
+**Publication & Delivery:**
+```
+publication-delivery/
+├── README.md
+├── sharepoint-publishing/             (ASPX, modern pages, lifecycle)
+├── markdown-publishing/               (GitHub, repository-based)
+├── publication-lifecycle/             (Approval, promotion, rollback, archival)
+├── multi-target-strategy/             (Rendering same source to different audiences)
+└── rendering-architecture/            (Template system, renderer contracts)
+```
+
+**Knowledge Discovery & Retrieval:**
+```
+knowledge-discovery-retrieval/
+├── README.md
+├── agent-grounding/                   (Source formats, citation, retrieval constraints)
+├── search-retrieval/                  (Indexing, querying, discoverability)
+├── knowledge-curation/                (Continuous maintenance, quality signals)
+├── human-ai-collaboration/            (Workflows combining human + AI)
+└── citation-verification/             (Citation accuracy, source tracking)
+```
+
+**Architecture & Design Patterns:**
+```
+architecture-design-patterns/
+├── README.md
+├── plugin-architecture/               (Plugin decomposition, dependency management)
+├── skill-design-patterns/             (Skill definition standards, authoring guides)
+├── data-models/                       (Schemas, ontologies, information structures)
+└── deployment-patterns/               (Provisioning, configuration, lifecycle)
+```
+
+**Strategic Planning & Vision:**
+```
+strategic-planning-vision/
+├── README.md
+├── master-roadmap/                    (Phase structure, dependencies, gates)
+├── capability-vision/                 (Multi-runtime, multi-target architecture)
+├── initiative-governance/             (Human decisions, authorization boundaries)
+└── risk-analysis/                     (Known constraints, blockers, dependencies)
+```
+
+### Level 3: Document Organization Within Subdomains
+
+Files are organized chronologically or by confidence level (not phase):
+
+```
+sharepoint-platforms-capabilities/copilot-in-sharepoint/
+├── README.md                                           (Subdomain index)
+├── research-copilot-in-sharepoint-preview-features.md (Research summary from official docs)
+├── field-note-copilot-skill-storage-constraints.md    (Tenant observation, 2026-07)
+├── field-note-agentassets-skill-library-setup.md      (Tenant observation, 2026-07)
+├── spec-native-sharepoint-skills-capability.md        (Formal specification)
+└── experiments-closed/
+    ├── README.md                                        (Explanation of archival)
+    └── experiment-skill-discovery-and-launch.md        (Closed experiment record)
+```
 
 ---
 
-#### 7. **Research & Experimentation**
-Knowledge from exploratory work, tenant probes, and learning before full commitment.
+## File-Type Conventions
 
-**Subdomains:**
-- `tenant-discovery/` — Capabilities verified against real environments
-- `format-comparison/` — ASPX vs. Markdown, renderers, performance
-- `platform-evaluation/` — Feasibility, limitations, roadmap-dependent features
-- `implementation-learnings/` — Lessons from field work, bugs found, workarounds
+### Naming Pattern for Each Artifact Type
 
-**Key Properties:**
-- Temporary to urgent; provides evidence gates for next phases
-- Explicitly distinguishes empirical findings from speculation
-- Cross-references to authoritative sources (Microsoft docs, version checks)
+**Research Summary:**
+```
+research-<topic>-<source-type>.md
+Example: research-copilot-in-sharepoint-official-docs.md
+```
 
----
+**Field Note:**
+```
+field-note-<finding>[-<date>].md
+Example: field-note-aspx-vs-markdown-grounding-2026-07.md
+```
 
-#### 8. **Strategic Planning & Vision**
-Knowledge about long-term direction, phase structure, and executive decisions.
+**Synthesis/Overview:**
+```
+<topic>-synthesis.md  OR  <topic>-overview.md
+Example: agent-format-evolution-synthesis.md
+```
 
-**Subdomains:**
-- `master-roadmap/` — Phase structure, dependencies, entry/exit gates
-- `capability-vision/` — Multi-runtime, multi-target, long-term architecture
-- `initiative-governance/` — Human decisions, authorization boundaries, deferred items
-- `risk-analysis/` — Known constraints, blockers, platform dependencies
+**Specification:**
+```
+<domain>-<subject>-spec.md
+Example: native-sharepoint-skills-spec.md
+```
 
-**Key Properties:**
-- Authoritative; not overwritten by research findings
-- Explicitly records decisions with rationale and alternatives
-- Includes forward-looking phases at structural level only until evidence exists
-
----
-
-#### 9. **Phase Execution & Evidence**
-Knowledge about what happened during a specific phase and its completion criteria.
-
-**Subdomains:**
-- `phase-plans/` — Phase-specific task breakdown, gates, dependencies
-- `phase-evidence/` — Task results, verification, exit-gate proof
-- `phase-dispositions/` — Human review outcomes, accepted limitations, next-phase implications
-- `cross-phase-synthesis/` — Learnings that ripple across phases
-
-**Key Properties:**
-- Temporary; archived after phase closure
-- Organized by phase number at discovery level only
-- Evidence is linked to eternal domains when conclusions are durable
+**Implementation Learning:**
+```
+implementation-notes-<phase-or-project>-<topic>.md
+Example: implementation-notes-phase4-agent-format-learning.md
+```
 
 ---
 
-### Level 2: Document Types
+## Phase Evidence (Separate from Research Domains)
 
-Within each subdomain, documents are classified by type and purpose:
+**Phase execution evidence REMAINS in `docs/reports/phase-N-*/`** — NOT moved to research domains.
 
-| Type | Purpose | Retention | Example |
-|------|---------|-----------|---------|
-| **Synthesis** | Durable, cross-referenced knowledge | Permanent | `capability-layering-sharepoint-skills-cowork-copilot-studio-github.md` |
-| **Specification** | Formal definition of behavior, contract, or design | Permanent | `phase-3-tenant-capability-report.md` |
-| **Field Note** | Empirical observation from tenant work, with date and method | Permanent | `field-note-aspx-vs-markdown-grounding-comparison.md` |
-| **Research Summary** | Curated findings from external sources or exploratory work | Permanent | `research-summary-copilot-in-sharepoint-get-started.md` |
-| **Capability Spec** | Formal definition of what a skill/agent should do | Permanent | `shared-capability-specification.md` (proposed) |
-| **Decision Record** | Named decision, rationale, alternatives, disposition | Permanent | Part of planning docs and vision |
-| **Plan** | Phase-specific execution plan with task breakdown | Archived after phase | `phase-7-cowork-copilot-studio-desk-research-plan.md` |
-| **Evidence Report** | Task results, verification, exit-gate proof | Archived after phase | `phase-6-remediation-bundle.md` |
-| **Implementation Note** | Lessons, bugs, workarounds from execution | Archive or promote | `wave-3-analysis-plan-split-decision.md` |
-| **Legacy Reference** | Superseded but historically useful | Archive | `docx-to-content-legacy-references/` |
-| **Experiment Protocol** | Method for a controlled probe or test | Archive if concluded | `phase-5-evaluation-cases/` |
+Why: Phase evidence is inherently temporal and tied to specific tasks/gates. It answers "What happened in Phase N?" not "What do we know about SharePoint?"
+
+Phase reports are discoverable, durable, and remain authoritative for their phase. Research domains *link* to phase evidence when durable conclusions are grounded in it.
+
+Example cross-link:
+```markdown
+**Evidence:** This finding is based on Phase 4 Task 8 deployment results.
+See [Phase 4 Native SharePoint Skills Evaluation](../../reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK8-EXIT-GATE.md).
+```
 
 ---
 
-## Proposed Reorganization Rules
+## Consolidation Strategy (Content-Validated)
 
-### File Naming
-- **Synthesized knowledge:** `<domain>-<subject>[-<version>].md`
-  - Example: `sharepoint-agents-capability-spec.md`
-- **Field notes:** `field-note-<finding>-<date>.md` (date YYYY-MM-DD optional if obvious from context)
-  - Example: `field-note-aspx-vs-markdown-grounding-2026-07-28.md`
-- **Research summaries:** `research-<topic>-<source-type>.md`
-  - Example: `research-copilot-in-sharepoint-official-docs.md`
-- **Specifications:** `<domain>-<subject>-spec.md`
-  - Example: `native-sharepoint-skills-spec.md`
-- **Phase evidence:** Remains in `docs/reports/phase-N-*/` with clear task scoping
-  - Example: `docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md`
+**Consolidation is NOT automatic.** Files are consolidated only when:
 
-### Provenance & Cross-Reference
-Every document retains or gains:
-- **Source phase(s)** (metadata comment or section)
-- **Authored/verified date** (ISO 8601)
-- **External sources** (links + retrieval date + version/commit + method)
-- **Cross-references** to related domains
+1. They address the same subject (same domain)
+2. The newer document truly supersedes the older (or merging adds clear value without losing provenance)
+3. Merging does not erase distinct findings or chronological context
+4. Phase attribution is preserved (if research spans multiple phases)
 
-### Superseding & Archival
-- **Superseded documents** are marked with a banner pointing to the new location
-- **Legacy references** live in `./legacy/` subdirectories with explanatory READMEs
-- **Archived evidence** remains searchable; phase reports are durable even after closure
-- **Experiment protocols** are archived to `./experiments/closed/` once concluded
+**Default: Retain separately** unless consolidation provides clear benefit.
 
-### Phase Provenance in Metadata
-Each domain directory includes a `.provenance.json` mapping:
+**Three consolidation outcomes:**
+
+| Outcome | Use When | How |
+|---|---|---|
+| **Retain Separately** | Files have distinct focus, distinct phase origin, or distinct evidence basis | Keep both; cross-link; add provenance metadata |
+| **Consolidate** | Newer doc completely supersedes older; same subject; no lost context | Merge findings with phase provenance; link to archived original |
+| **Create Synthesis + Retain** | Multiple files have value; synthesis adds organizing value | New `*-synthesis.md` cross-references originals; keep originals linked |
+
+**Consolidation candidates to be reviewed in detail in this refinement session:**
+1. Agent format learning (Phase 4, Phase 5, Phase 6, Phase 7 findings)
+2. SharePoint write capability (Phase 3, Phase 4, Phase 5 findings)
+3. Markdown vs. ASPX grounding (Phase 5 detailed + Phase 7 platform research)
+
+---
+
+## Metadata and Provenance Model (Proposed Approach)
+
+Every enduring research document will have:
+
+### **Option A: Document Frontmatter (Recommended)**
+
+At the top of each `.md` file:
+
+```yaml
+---
+metadata:
+  domain: sharepoint-platforms-capabilities
+  subdomain: copilot-in-sharepoint
+  artifact_type: field-note
+  lifecycle_status: active
+  research_date: 2026-07-15
+  source_phases: [4]
+  last_updated_phase: 4
+  last_updated_date: 2026-07-20
+  confidence_level: high
+  external_sources:
+    - url: https://learn.microsoft.com/en-us/copilot/...
+      title: Copilot in SharePoint Preview
+      accessed: 2026-07-15
+      version: 2026-07 docs
+  supersedes: null
+  superseded_by: null
+  related_experiments:
+    - phase-4-task-8-deployment-evaluation
+  related_phase_evidence:
+    - ../../reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK8-EXIT-GATE.md
+---
+```
+
+**Pros:** Discoverable via YAML parsing; lives with the document; tools can extract it  
+**Cons:** Makes files slightly harder to read
+
+### **Option B: Separate Manifest**
+
+Single `docs/research/_meta/.provenance.json`:
+
 ```json
 {
   "documents": [
     {
-      "file": "field-note-aspx-vs-markdown-grounding.md",
-      "authored_phase": "phase-5",
-      "task": "5.7-8",
-      "durable": true,
-      "supersedes": null,
-      "deprecated": false
+      "path": "sharepoint-platforms-capabilities/copilot-in-sharepoint/field-note-agentassets-skill.md",
+      "domain": "sharepoint-platforms-capabilities",
+      "artifact_type": "field-note",
+      "lifecycle_status": "active",
+      "research_date": "2026-07-15",
+      "source_phases": ["4"],
+      ...
     }
   ]
 }
 ```
 
+**Pros:** Centralized; easy to parse and analyze  
+**Cons:** Requires separate tool to navigate; single point of failure
+
+### **Recommended: Hybrid Approach**
+
+- **Frontmatter in each file:** Core metadata (domain, type, date, confidence, external sources)
+- **Central manifest:** Rollup for automated indexing and cross-linking
+- **README files:** Human-readable provenance summary for each subdomain
+
 ---
 
-## Navigation & Discovery Patterns
+## How Phase is Preserved
 
-### For Users Asking "Where Is…?"
+Every moved research document will retain phase provenance via:
 
-| User Question | Navigate To |
+1. **Frontmatter metadata:** `source_phases: [3, 4]` if research spans phases
+2. **Cross-links to phase evidence:** Links from research to authoritative phase reports
+3. **Provenance manifest:** Central JSON record of all source phases
+4. **File dating:** `research_date` and `last_updated_date` fields track when work was done
+
+Example:
+
+```markdown
+# Agent Format Evolution
+
+**Source:** Phase 4, Phase 5, Phase 6 research  
+**Last Updated:** 2026-07-28
+
+This document synthesizes agent format learning from multiple phases...
+
+## Phase 4 Findings
+[Learning Journal](../../reports/phase-4-native-sharepoint-skills/...)
+
+## Phase 5 Findings
+[EXIT-REPORT](../../reports/phase-5-sharepoint-knowledge-agent-pilot/EXIT-REPORT.md)
+
+## Phase 6 Findings
+[Remediation Bundle](../../reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md)
+```
+
+---
+
+## Navigation Patterns
+
+### For Readers Asking "Where Is…?"
+
+| Question | Navigation Path |
 |---|---|
-| "How do I create a native SharePoint skill?" | `docs/research/sharepoint-platforms/copilot-in-sharepoint/skill-design-patterns/` |
-| "What are the permission limits for agents?" | `docs/research/sharepoint-platforms/content-permissions-governance/` |
+| "How do I create a native SharePoint skill?" | `docs/research/sharepoint-platforms-capabilities/copilot-in-sharepoint/` → spec + field notes |
+| "What are the permission limits for agents?" | `docs/research/sharepoint-platforms-capabilities/content-permissions-governance/` |
 | "How does document conversion work?" | `docs/research/structured-content-engineering/document-extraction-analysis/` |
 | "What happened in Phase 4?" | `docs/reports/phase-4-native-sharepoint-skills/` |
-| "Has Markdown grounding been tested?" | `docs/research/knowledge-discovery-retrieval/agent-grounding/field-notes/` |
-| "What's the long-term vision?" | `docs/vision/master-roadmap/` |
+| "Has Markdown grounding been tested?" | `docs/research/knowledge-discovery-retrieval/agent-grounding/` → field notes + synthesis |
+| "What's the long-term vision?" | `docs/vision/master-roadmap/` + links to `strategic-planning-vision/` research |
 
 ### For Readers Asking "What Changed?"
 
 - Phase closure documents are retained in `docs/reports/phase-N-*/`
-- Each domain's `.provenance.json` shows which phase last updated key documents
-- A `docs/research/CHANGELOG.md` records major reorganizations and file moves
+- Each domain's `_meta/.provenance.json` shows phase provenance and last-update
+- Each subdomain README lists files by artifact type and date
+- A `docs/research/CHANGELOG.md` records major reorganizations (this is Session 2 artifact)
 
 ---
 
-## Migration Implications
+## What Changes; What Stays
 
-### Immediate Actions (Session 1 — Planning Only)
-1. ✅ Propose this taxonomy
-2. ✅ Inventory all 218 research-like files
-3. ✅ Map current path → proposed path
-4. ✅ Identify collision candidates and consolidations
-5. ✅ Approve before any moves
+### MOVED to Enduring Research Domains (68 files)
+- Research summaries, field notes, synthesized findings from `docs/research/`
+- Generalizable conclusions extracted from phase evidence
+- Architectural patterns and design decisions
+- Learning synthesized across phases
 
-### Deferred to Session 2 (Execution)
-- Move files using approved JSON manifest
-- Update all inbound references
-- Verify internal link consistency
-- Produce audit report
+### REMAIN in Current Locations (95 files)
+- Vision documents (`docs/vision/`) — no move
+- Specifications and implementation plans (`docs/superpowers/specs/` and `plans/`) — no move
+- Phase evidence (`docs/reports/phase-N-*/`) — no move
+- Tool artifacts (`tools/phase-*/`) — no move
+- Plugin documentation (`plugins/*/docs/`) — no move
 
-### What Will NOT Change This Session
-- Phase reports remain under `docs/reports/phase-N-*/`
-- Plugin documentation remains in `plugins/*/docs/`
-- Specifications and plans under `docs/superpowers/` stay put (may cross-link to new research locations)
-- Vision documents under `docs/vision/` stay put (may link to organized research)
-
----
-
-## Domain-Specific Guidance
-
-### SharePoint Platforms & Capabilities
-**Scope:** Everything about Microsoft 365, Copilot, SharePoint Online, governance, and permissions.
-**Retention:** Permanent (but dated; external sources require version checks).
-**Key Files:** capability-layering-*.md, research-summary-copilot-*.md, field-note-*.md
-**Next Action:** Organize by subdomain; add retrieval-date metadata to external-source references.
-
-### Structured Content Engineering
-**Scope:** Document conversion, content models, chunking, anchoring, validation.
-**Retention:** Permanent (durable across documents and pilots).
-**Key Files:** Canonical/publication contracts, schema docs, media-handling notes.
-**Next Action:** Move legacy phase-specific notes to a `./learnings/` folder; keep architectural decisions at the top level.
-
-### Publication & Delivery
-**Scope:** Rendering, approval workflows, publishing to SharePoint/Markdown/other targets.
-**Retention:** Permanent with evolution notes as platforms change.
-**Key Files:** Rendering architecture, publication-map contracts, multi-target strategy.
-**Next Action:** Separate "how to render this source" (durable) from "Phase 5 tested X" (evidence).
-
-### Knowledge Discovery & Retrieval
-**Scope:** Agent grounding, search, indexing, citation, curation.
-**Retention:** Permanent for patterns; field notes archived by date.
-**Key Files:** Grounding format comparisons, agent behavior findings.
-**Next Action:** Clearly label "empirical" vs. "speculative"; add platform/model version metadata.
-
-### Capability Specifications
-**Scope:** Formal specs for skills, agents, and workflows.
-**Retention:** Permanent (but version-tracked; supersession is explicit).
-**Key Files:** Phase-specific capability specs → Move to top-level domains with phase links.
-**Next Action:** Consolidate overlapping specs from different phases; link phase evidence.
-
-### Architecture & Design
-**Scope:** Plugin structure, skill patterns, data models, deployment.
-**Retention:** Permanent; superseded versions archived.
-**Key Files:** Plugin architecture, skill design guidance, schema docs.
-**Next Action:** Separate "how we built it" (phase evidence) from "how you should build it" (pattern).
-
-### Research & Experimentation
-**Scope:** Exploratory work, tenant probes, format comparisons, platform evaluation.
-**Retention:** Permanent; labeled with date and method; clear confidence levels.
-**Key Files:** Field notes, experiment protocols, tenant-discovered constraints.
-**Next Action:** Add `.metadata.json` to each experiment with date, method, findings, confidence level.
-
-### Strategic Planning & Vision
-**Scope:** Long-term direction, phase roadmap, executive decisions.
-**Retention:** Permanent; forward-looking phases at structural level only.
-**Key Files:** master-initiative-plan, vision documents, decision records.
-**Next Action:** Remains in `docs/vision/` (no move proposed); cross-link to research evidence.
-
-### Phase Execution & Evidence
-**Scope:** What happened, when, and why; task results and gate proofs.
-**Retention:** Permanent archive; accessible by phase number.
-**Key Files:** Phase reports, task evidence, exit-gate proofs, dispositions.
-**Next Action:** Remains in `docs/reports/phase-N-*/` (no move proposed); cross-link generalizable findings to eternal domains.
-
----
-
-## Durable Link Strategy
-
-Every moved document will have:
-1. **Old path (permanent redirect):** A stub with a pointer to the new location
-2. **New path (canonical):** The authoritative location with metadata
-3. **Cross-reference:** Links from related eternal domains
-
-Example:
-```markdown
-# MOVED
-
-This document moved to: `docs/research/sharepoint-platforms/copilot-in-sharepoint/research-copilot-in-sharepoint-preview-and-controls.md`
-
-Original phase: Phase 7
-Provenance: `docs/reports/phase-7-cowork-copilot-studio-evaluation/`
-```
+### ARCHIVED to Legacy Subfolder (15 files)
+- Pre-Phase-1 docx-to-content references → `docs/research/structured-content-engineering/legacy/`
+- Marked with README explaining status and archival rationale
 
 ---
 
 ## Success Criteria
 
-By the end of this taxonomy work:
-- ✅ Every research file has an explicit domain assignment
-- ✅ No file is classified by phase number as its primary home
-- ✅ Phase provenance is metadata, not the folder structure
-- ✅ Readers can navigate by question/topic, not phase
-- ✅ All 218 files are accounted for (moved, retained, or archived)
-- ✅ Internal links still work (via redirects or updated references)
-- ✅ New research naturally finds a domain home, not a phase folder
+By end of Session 2 execution:
+
+- ✅ 68 files moved to enduring research domains (organized by subject)
+- ✅ 15 legacy files archived with explanatory README
+- ✅ Phase provenance preserved in metadata (frontmatter + manifest)
+- ✅ All inbound references updated and validated
+- ✅ Domain README files created and indexed
+- ✅ Master research index updated
+- ✅ No files lost or content corrupted
+- ✅ Navigation works for both subject-based and phase-based discovery
 
 ---
 
-## Next Session (Execution)
+## Next Steps (Session 2)
 
-Once this taxonomy is approved:
-1. Create exact `old_path → new_path` mapping in JSON
-2. Generate migration script (validation + reference updates + verification)
-3. Execute moves via git-aware operations
-4. Validate all internal links
-5. Produce audit report
+1. ✅ Approve revised taxonomy and directory structure
+2. Validate content-based classification (actual file reading)
+3. Expand reference audit (CLAUDE.md, plugins, scripts, configs, tests)
+4. Finalize metadata model choice (frontmatter, manifest, hybrid)
+5. Execute migration using Git-aware operations
+6. Validate all links and dependencies
+7. Produce execution report
 
-See `research-path-migration.proposed.json` and `current-to-target-content-map.md` for detailed mappings.

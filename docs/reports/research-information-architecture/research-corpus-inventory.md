@@ -32,7 +32,7 @@
 | `PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` | Phase 4 Learnings | Synthesis | `research-experimentation/implementation-learnings` | Move (archive phase ref) |
 | `EVID-PHASE4-TASK8-EXIT-GATE.md` | Phase 4 Task 8 Evidence | Evidence | `phase-execution-evidence/phase-evidence` | Archive to phase folder |
 
-**Summary:** 16 canonical research documents; 12 should move to eternal domains; 4 are phase-scoped and should be archived under phase folders.
+**Summary:** 16 canonical research documents; 12 should move to enduring research domains; 4 are phase-scoped and should be archived under phase folders.
 
 ---
 
@@ -156,7 +156,7 @@ Other:                        72 files (phase-org, temp, docs)
 
 ```
 Retain in place:              40 files (vision, architecture, superpowers)
-Move to eternal domain:       68 files (canonical research + learnings)
+Move to enduring research domain:  68 files (canonical research + learnings)
 Archive to phase folder:      42 files (phase evidence + temporal artifacts)
 Consolidate/Review:           68 files (cross-domain, multi-reference)
 ```
@@ -171,7 +171,7 @@ Several topics are addressed in multiple phases:
 - **SharePoint capabilities:** phase-3 discovery + phase-4 probes + phase-5 evaluation
 - **Canonical contract:** phase-1 specs + phase-2 hardening + phase-4.5 refactor
 
-**Recommendation:** Move durable conclusions to eternal domains; keep phase evidence in place.
+**Recommendation:** Move durable conclusions to enduring research domains; keep phase evidence in place.
 
 ### 2. Research vs. Phase Evidence Not Clearly Separated
 Some files like `research-summary-phase3-sharepoint-write-capability-discovery.md` conflate exploratory research with phase-scoped discovery.
