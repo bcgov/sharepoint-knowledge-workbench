@@ -67,17 +67,33 @@
   - Copilot Cowork as available but untested (it is not enabled at all);
   - either platform as live-validated;
   - the access limitation itself as evidence that either platform lacks capability.
-- Every substantive conclusion in the evidence memo is tagged exactly one of five evidence
-  labels (replaces the earlier two-label scheme, which conflated "a Microsoft document is in the
-  bundle" with "verified current"):
+- **Amended (this correction round):** every substantive conclusion in the evidence memo is
+  tagged with exactly one **evidence type/confidence** label from the seven below, kept as a
+  field **separate from freshness status** (Section 4a's ledger schema) — the two dimensions must
+  never be conflated in the same field:
   - `CURRENT_PRIMARY_SOURCE_VERIFIED` — checked against a live, current Microsoft source during
-    this phase.
-  - `BUNDLED_PRIMARY_SOURCE` — Microsoft documentation already captured in the Phase 7 prior-
-    research bundle (`temp/bundles/phase-7-prior-copilot-research/payload.md`) but not yet
-    freshness-checked against a live source this phase.
-  - `EMPIRICALLY_OBSERVED` — a direct, dated, scoped experiment (e.g. the bundle's
-    `agent-build-walkthrough.md`/`learnings.md` hands-on Copilot Studio build, or this repo's own
-    live `native-sharepoint` evaluation results).
+    this phase (cite the URL and fetch date).
+  - `BUNDLED_PRIMARY_SOURCE` — **actual Microsoft documentation** (real product-doc content, e.g.
+    Microsoft Learn pages with frontmatter) captured verbatim in the Phase 7 prior-research
+    bundle, not yet re-checked live this phase. Does **not** apply to internally authored
+    analysis, blueprints, or research notes merely because they discuss Microsoft products.
+  - `BUNDLED_RESEARCH_SYNTHESIS` — internally authored analysis, blueprint, or research-note
+    content in the bundle (e.g. `viable-skills-summary.md`, `research/limitations.md`,
+    `research/criticisms.md`, `research/elicitation.md`, `generative-orchestration.md`,
+    `research/schema-notes.md`, `research/overview.md`, `research/cowork-limitations.md`,
+    `research/mcp-apps.md`, `research/how-to-build-custom-skills.md`'s own framing, and the
+    `research/reviews/*` adversarial-review chain) — carries lower confidence than
+    `BUNDLED_PRIMARY_SOURCE` unless a specific direct citation to real Microsoft doc content is
+    identified within it.
+  - `EMPIRICALLY_OBSERVED` — a direct, dated, scoped experiment or test-execution result (e.g. the
+    bundle's `agent-build-walkthrough.md`/`learnings.md` hands-on Copilot Studio build; this
+    repo's own live `native-sharepoint` evaluation results; a passing repository test that
+    actually executes the behavior being claimed, e.g.
+    `test_more_than_two_related_topics_is_rejected`).
+  - `REPOSITORY_VERIFIED` — a claim confirmed by direct inspection of this repository's own code
+    (e.g. `TooManyRelatedTopicsError`'s existence in `review_manual_topics.py`) where no test
+    execution evidence was separately checked — use `EMPIRICALLY_OBSERVED` instead once a passing
+    test demonstrating the behavior is identified and cited.
   - `SECONDARY_SOURCE_CLAIM` — practitioner, vendor, community, or consultant-sourced (e.g. the
     bundle's PromptArmor/TD SYNNEX citations, or `learnings.md` L25's community-sourced billing
     figures).
@@ -174,13 +190,24 @@ research.
 
 ## 4. Deliverable
 
-One evidence memo, no additional reports:
+**Amended (this correction round):** the formal decision record is one evidence memo, but it is
+now explicitly authorized to rest on two supporting artifacts rather than being a single
+undifferentiated document — the two-document split (source ledger, capability-gap analysis)
+produced during drafting proved genuinely useful for provenance tracking and is retained. The
+memo itself remains the single required decision-record deliverable:
 
 ```
-docs/reports/phase-7-cowork-copilot-studio-evaluation/desk-research-evidence-memo.md
+docs/reports/phase-7-cowork-copilot-studio-evaluation/desk-research-evidence-memo.md   (required, formal decision record)
+docs/reports/phase-7-cowork-copilot-studio-evaluation/prior-research-source-ledger.md  (supporting — per-source provenance)
+docs/reports/phase-7-cowork-copilot-studio-evaluation/capability-gap-analysis.md       (supporting — full capability-gap working analysis)
+docs/reports/phase-7-cowork-copilot-studio-evaluation/current-source-verification-record.md (supporting — Section 7's focused freshness-check results)
 ```
 
-Contents:
+The memo consolidates and cites the supporting artifacts; it does not repeat their full content.
+Exit criteria (Section 8) apply to the memo as the decision record, checked for consistency
+against the supporting artifacts.
+
+Memo contents:
 
 1. Primary use case restated, owner, success criteria for "meaningful advantage."
 2. Baseline: what Phases 1–6 already deliver for this workflow, **and** the native SharePoint
@@ -209,6 +236,14 @@ Contents:
    `HYPOTHESIS_PENDING_HANDS_ON_VALIDATION`, listed together as the concrete backlog to test once
    platform access exists.
 
+## 4a. Ledger schema correction
+
+The prior-research source ledger must carry **two separate fields** per entry — `Evidence type/
+confidence` (one of the seven labels in Section 2) and `Freshness status` (one of: `STILL_CURRENT`,
+`UPDATED_BY_CURRENT_DOCUMENTATION`, `SUPERSEDED`, `REQUIRES_FRESHNESS_CHECK`,
+`HYPOTHESIS_PENDING_HANDS_ON_VALIDATION`, `NOT_RELEVANT_TO_PHASE_7`). An evidence-type label must
+never appear in the freshness-status field or vice versa.
+
 ## 5. Dispositions
 
 For Cowork and Copilot Studio **separately**, one of:
@@ -223,7 +258,10 @@ For Cowork and Copilot Studio **separately**, one of:
 - `BLOCKED_PENDING_PLATFORM_ACCESS` — used when the access blocker itself prevents forming even a
   documentation-only conclusion (e.g., a claim can only be verified by observing the authoring
   UX). This is an access-status disposition, not a capability disposition, and must not be used as
-  a substitute for `NO_ADDITIONAL_VALUE_DEMONSTRATED`.
+  a substitute for `NO_ADDITIONAL_VALUE_DEMONSTRATED`. **Correction (this round):** this
+  definition stays strict and unchanged — it does not cover cases where documentation-only
+  conclusions were in fact reachable but practical suitability remains unvalidated. That latter
+  case is `REMAIN_RESEARCH`.
 
 These replace the base spec's generic `BUILD` / `NO_BUILD` / `DEFERRED_UNTIL_EVIDENCE` /
 `REJECTED_FOR_NOW` set (Section 8 of the base spec) for this round, since no build path is in
