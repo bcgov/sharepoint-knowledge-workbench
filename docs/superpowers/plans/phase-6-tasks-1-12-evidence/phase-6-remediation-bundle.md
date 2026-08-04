@@ -205,9 +205,15 @@ only behavioral on `native-sharepoint`, and here that behavioral enforcement did
 fixed this session** — a real, separate follow-up (tuning the deployed `SKILL.md` or the live
 agent's own configuration and re-testing live), not a bounded correction to make unilaterally.
 
-### Final disposition
+### Final disposition — human-reviewed and accepted
 
-`PHASE_6_COMPLETE_WITH_ONE_CONFIRMED_LIVE_DRIFT_FINDING`. All prior blocking items are resolved.
-This one item is a recorded, known limitation for the accepting reviewer to weigh — it does not
-block phase closure. Not starting Phase 7. Not merging this branch — final merge approval is the
-human partner's decision, informed by everything in this bundle.
+**`PHASE_6_ACCEPTED_WITH_LIMITATIONS`** (human review disposition, 2026-08-04). The confirmed live
+drift finding is accepted as a documented Phase 6 outcome, not a merge blocker — per the human
+partner's own words: "the live finding does not invalidate Phase 6. It proves the multi-runtime
+model and drift detector found exactly the type of behavioral divergence Phase 6 was designed to
+expose." All prior blocking items are resolved. No additional Phase 6 manual testing is required.
+The `native-sharepoint` related-topic-cap limitation is carried forward as a confirmed runtime
+limitation and future native-skill remediation/evaluation item — not to be silently fixed,
+generalized, or treated as runtime-equivalence by a later session. Not starting Phase 7. Merge
+approved from the Phase 6 review perspective — the human partner opens and merges the PR
+themselves; this session does not merge.

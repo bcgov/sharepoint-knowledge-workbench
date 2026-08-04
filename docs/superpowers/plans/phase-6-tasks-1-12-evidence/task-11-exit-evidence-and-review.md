@@ -1,26 +1,40 @@
-# Phase 6 Task 11 — Exit Evidence and Review (FINAL)
+# Phase 6 Task 11 — Exit Evidence and Review (FINAL — ACCEPTED)
 
-**Final update, 2026-08-04.** Round 1 fixed the evaluation-gap framing. Round 2 fixed
-`sharepoint-content-publication`'s isolated-install dependency and resolved `BOUND-01` from the
-approved contract. This final update closes the last item: the human partner obtained live tenant
-access and personally drove the `native-sharepoint` runtime's live Copilot chat, executing 3 of
-the 7 applicable cases (4 explicitly skipped by their own decision). See
-`phase-6-remediation-bundle.md`'s final addendum for the full index.
+**Human review disposition, 2026-08-04: `PHASE_6_ACCEPTED_WITH_LIMITATIONS`.** Round 1 fixed the
+evaluation-gap framing. Round 2 fixed `sharepoint-content-publication`'s isolated-install
+dependency and resolved `BOUND-01` from the approved contract. The human partner then obtained
+live tenant access and personally drove the `native-sharepoint` runtime's live Copilot chat,
+executing 3 of the 7 applicable cases (4 explicitly skipped by their own decision). The confirmed
+live drift finding below was reviewed and **accepted as a documented Phase 6 outcome, not a merge
+blocker** — the human partner's own assessment: "the live finding does not invalidate Phase 6. It
+proves the multi-runtime model and drift detector found exactly the type of behavioral divergence
+Phase 6 was designed to expose." See `phase-6-remediation-bundle.md`'s final addendum for the full
+index.
 
 ## Disposition
 
-**`PHASE_6_COMPLETE_WITH_ONE_CONFIRMED_LIVE_DRIFT_FINDING`.** Task 0's exit gate (30/30 skills,
-all genuinely isolated-installable) is met. Tasks 1–12's shared-capability-model artifacts are
-complete and tested. `BOUND-01` is resolved from the approved contract. The `native-sharepoint`
-runtime has now been executed live against the real tenant — 3 of 7 applicable cases run and
-graded (all PASS), 4 explicitly skipped by the human partner's informed decision (not a technical
-blocker). **One real, confirmed finding survives this final pass and is not resolved**: `AMB-01`'s
-live execution exceeded the related-topic cap on both runs (3 and 7 consulted vs. an allowance of
-2) — empirical proof of the behavioral-enforcement gap Task 4's adversarial review flagged as
-theoretical earlier this session. This is a live-agent-behavior finding, not a code defect in this
-repository, and fixing it (prompt/instruction tuning on the deployed `SKILL.md`, or reducing what
-the agent treats as "evidence") is future work, not blocking this phase's closure — it is recorded
-as a known, real limitation for the accepting reviewer to weigh.
+**`PHASE_6_ACCEPTED_WITH_LIMITATIONS`.** Task 0's exit gate (30/30 skills, all genuinely
+isolated-installable) is met. Tasks 1–12's shared-capability-model artifacts are complete and
+tested. `BOUND-01` is resolved from the approved contract. The `native-sharepoint` runtime has
+been executed live against the real tenant — 3 of 7 applicable cases run and graded (all PASS), 4
+explicitly recorded as `SKIPPED_BY_HUMAN_DECISION` (`PERM-03` through `PERM-06` — never described
+as passed, failed, or executed).
+
+### Limitation carried forward (recorded exactly, not softened or generalized)
+
+- The shared capability contract allows at most 2 related topics per invocation.
+- The `repository-claude` runtime enforces this limit **deterministically**
+  (`TooManyRelatedTopicsError`, proven at Task 6/`BOUND-01`).
+- The `native-sharepoint` runtime's enforcement is **instruction-governed only**, not code-enforced.
+- Live observation: `AMB-01` run 1 consulted **3** related topics; run 2 consulted **7** related
+  topics — both exceed the shared limit of 2.
+- `drift_detection.py`'s `detect_drift()` correctly flagged both runs
+  (`related_topic_cap_exceeded`) — this is the multi-runtime model and drift detector working
+  exactly as designed, not a tooling failure.
+- **Do not silently change the shared contract or claim runtime equivalence.** This is a confirmed
+  runtime limitation of `native-sharepoint`'s current instruction-following reliability, and a
+  future native-skill remediation/evaluation item — not resolved by this phase, not to be
+  papered over by a later session.
 
 ## Derivation trace (updated)
 
