@@ -85,6 +85,19 @@ can be disabled at the topic level. Full list: `capability-gap-analysis.md` Sect
 
 Full rationale for both: `capability-gap-analysis.md` Sections 13–14.
 
+## 9a. Relationship to the master-plan Stage 7.2.2 exit gate
+
+`docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Phase 7 section (lines 826–853,
+plus its traceability-table rows at lines 1047–1048) states Phase 7's exit gate is **Stage
+7.2.2's build/no-build decision per target**, not a `RESEARCH`-level disposition. Both
+dispositions in Section 9 above are `REMAIN_RESEARCH` — that master-plan table's own generic
+`RESEARCH` disposition, not yet Stage 7.2.2's final build/no-build outcome. **This desk-research
+round is complete; Stage 7.2.2's final build/no-build decision remains deferred** until the
+identified access prerequisites (a Copilot Studio Dedicated Environment; Cowork tenant enablement)
+permit the hands-on validation both dispositions' rationale requires. The master plan itself is
+not being amended by this memo — no change to Stage 7.2.2's own exit-gate definition is proposed
+or authorized here.
+
 ## 10. Exit criteria check
 
 - [x] Evidence memo written and committed at this path.
