@@ -1,4 +1,4 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Complete, Merge Approval Pending
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 ACCEPTED_WITH_LIMITATIONS, PR Pending Merge
 
 ## Current status (2026-08-03, verified against git)
 
@@ -26,8 +26,10 @@ Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
   20 recorded runs retained in the provenance ledger, no technical retries.
 - Task 8: consolidated findings accepted.
 - Citation status: **`CITATION_SUPPORT_NOT_VERIFIED`**.
-- **Phase 6: Task 0 `IMPLEMENTATION_COMPLETE_EXIT_GATE_REVIEW_PENDING` — 30/30 skill names complete. See "Phase 6 —
-  Task 0 handoff (2026-08-03)" below for the full resume state.**
+- **Phase 6: `PHASE_6_ACCEPTED_WITH_LIMITATIONS` — 30/30 skill names complete, Tasks 1–12 complete,
+  live native-runtime execution complete, human-reviewed and accepted 2026-08-04. See "Phase 6 —
+  Task 0 handoff (2026-08-03)" below and the "Phase 6 Tasks 0–12" section further down for the
+  full resume state.**
 
 **Phase 5's bounded conclusion:**
 
@@ -44,6 +46,11 @@ permission/oversharing testing, production governance, native-skill comparison, 
 validation.
 
 ## Phase 6 — Task 0 handoff (2026-08-03)
+
+**Superseded by final acceptance — see the "Phase 6 Tasks 0–12" section further down this file for
+the current, authoritative status (`PHASE_6_ACCEPTED_WITH_LIMITATIONS`, human-reviewed
+2026-08-04).** This section is left in place as the historical record of Task 0's own completion
+and exit-gate reasoning — accurate for its own moment, superseded in overall disposition below.
 
 **Branch:** `phase-6-multi-runtime-capability-model`, worktree at
 `.worktrees/phase-6-multi-runtime-capability-model`.
@@ -162,12 +169,12 @@ follow-up, and explicit open items). **Not yet done for the exit gate — the ac
 exit-gate-met; do not treat Task 0 as closed, do not merge this branch, until that review happens
 and is accepted.
 
-**Phase 6 Tasks 0–12: `PHASE_6_COMPLETE_WITH_ONE_CONFIRMED_LIVE_DRIFT_FINDING`, after two human
-review/remediation rounds plus live native-runtime execution (2026-08-03 – 2026-08-04).** See
-`docs/superpowers/plans/phase-6-tasks-1-12-evidence/phase-6-remediation-bundle.md` (consolidated
-index, **read this first**, its "Final addendum" section covers the live execution), then
-`task-11-exit-evidence-and-review.md` for the final disposition. No plugin redesign or new
-governance layer was added at any point, per every review's instructions.
+**Phase 6 Tasks 0–12: `PHASE_6_ACCEPTED_WITH_LIMITATIONS` — human-reviewed and accepted,
+2026-08-04, after two remediation rounds plus live native-runtime execution.** No additional Phase
+6 manual testing is required. See `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
+phase-6-remediation-bundle.md` (consolidated index, **read this first**, its "Final disposition"
+section carries the acceptance), then `task-11-exit-evidence-and-review.md`. No plugin redesign or
+new governance layer was added at any point, per every review's instructions.
 
 **Round 2 (2026-08-03): both previously-open items resolved** — `sharepoint-content-publication`'s
 isolated-install dependency fixed for real (managed symlink, same pattern
@@ -185,12 +192,22 @@ PASS** (`AMB-01`, `PERM-01`, `PERM-02`); **4 explicitly skipped by the human par
 decision** (`PERM-03`–`PERM-06`, not a technical blocker). Full results:
 `plugins/sharepoint-agents-and-skills/evaluations/common/native-sharepoint-results/`.
 
-**One real, confirmed, unresolved finding**: `AMB-01`'s live responses named 3 and 7 related
-topics consulted across its two runs — both exceed the `≤2` allowance. `drift_detection.py`
-confirms `related_topic_cap_exceeded` for both, empirically proving the behavioral-vs-code-enforced
-asymmetry Task 4's adversarial review flagged as theoretical earlier this session. **Not fixed** —
-real follow-up work (tuning the deployed skill/agent and re-testing live), recorded as a known
-limitation, not a blocker to phase closure.
+**Limitation accepted and carried forward, recorded exactly (do not soften, generalize, or treat
+as runtime-equivalence in any future session):**
+- Shared contract: at most 2 related topics per invocation.
+- `repository-claude` enforces this **deterministically** (`TooManyRelatedTopicsError`).
+- `native-sharepoint` enforcement is **instruction-governed only**.
+- Live observation: `AMB-01` run 1 consulted **3** related topics; run 2 consulted **7** — both
+  exceed the limit of 2.
+- `drift_detection.py` correctly flagged both runs (`related_topic_cap_exceeded`) — the
+  multi-runtime model and drift detector working exactly as designed.
+- Human review's own assessment: "the live finding does not invalidate Phase 6... it proves the
+  multi-runtime model and drift detector found exactly the type of behavioral divergence Phase 6
+  was designed to expose." **Not fixed this phase** — a future native-skill remediation/evaluation
+  item.
+
+`PERM-03` through `PERM-06` are `SKIPPED_BY_HUMAN_DECISION` — never described as passed, failed,
+or executed.
 
 **Resume instructions for the next session:**
 1. Read this file, then `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
@@ -198,11 +215,14 @@ limitation, not a blocker to phase closure.
 2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
    model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
    itself isn't present), confirm `HEAD` matches the latest commit on this branch.
-3. All of Phase 6 (Tasks 0 through 12) is complete — implementation, remediation (twice), and live
-   evaluation. Do not redo any of it.
-4. The only remaining action is the human partner's merge decision — this session does not merge
-   and does not start Phase 7.
-5. Do not start Phase 7. Do not merge this branch until that decision is made.
+3. All of Phase 6 (Tasks 0 through 12) is complete and **`PHASE_6_ACCEPTED_WITH_LIMITATIONS`** —
+   do not redo any of it, do not re-run additional manual testing.
+4. The Phase 6 PR (branch `phase-6-multi-runtime-capability-model`) is prepared and pushed; the
+   human partner opens and merges it themselves. This session does not merge.
+5. After merge: sync local `main` with `origin/main`, verify `HEAD` equals `origin/main`, verify
+   `main` tracks `origin/main`, verify a clean working tree, update `start-here.md` only if the
+   final merge commit must be recorded, then close the Phase 6 session.
+6. Do not start Phase 7 in this session.
 
 **Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
 
