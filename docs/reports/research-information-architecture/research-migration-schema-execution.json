@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "research-migration-schema-execution.json",
+  "title": "Review Point 2 — Execution-Ready Manifest Schema",
+  "description": "Stricter than research-migration-schema.json. This schema governs which entries the migration tool is ALLOWED to act on. Any entry with destination_status other than 'approved' MUST be excluded from the execution set by the migration tool, even if it validates against this schema — the tool enforces this at runtime (see migrate.py's --require-approved filter), not only at the schema level, because JSON Schema alone cannot express 'this field's presence gates whether OTHER entries are touched.'",
+  "type": "object",
+  "required": ["entries"],
+  "properties": {
+    "entries": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/execution_entry"}
+    }
+  },
+  "definitions": {
+    "execution_entry": {
+      "type": "object",
+      "required": ["id", "source_path", "source_hash", "proposed_operation", "destination_status"],
+      "properties": {
+        "id": {"type": "string"},
+        "source_path": {"type": "string"},
+        "source_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "proposed_operation": {"type": "string", "enum": ["move", "rename", "archive", "retain", "synthesize", "exclude"]},
+        "destination_status": {"type": "string"},
+        "proposed_destination": {},
+        "proposed_filename": {}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"destination_status": {"const": "approved"}}
+          },
+          "then": {
+            "if": {
+              "properties": {"proposed_operation": {"enum": ["move", "rename", "archive"]}}
+            },
+            "then": {
+              "required": ["proposed_destination", "proposed_filename"],
+              "properties": {
+                "proposed_destination": {"type": "string", "minLength": 1},
+                "proposed_filename": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
