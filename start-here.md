@@ -1,11 +1,148 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 ACCEPTED_WITH_LIMITATIONS, PR Pending Merge
+# Resume — Phases 1–6 Complete and Merged to main; Phase 7 NOT_STARTED
 
-## Current status (2026-08-03, verified against git)
+## Phase 6 — authoritative fresh-session handoff (2026-08-04, verified against git post-merge)
+
+**`PHASE_TRANSITION_READY`.** This section is the current, authoritative status — read it before
+anything else in this file. Everything below it (including the "Current status (2026-08-03)"
+section that follows) is historical detail from Phase 6's execution, preserved as the evidence
+trail, not the current summary.
+
+### Phase 6
+
+- **Status:** `PHASE_6_ACCEPTED_WITH_LIMITATIONS` (human review disposition, 2026-08-04).
+- **Branch:** `phase-6-multi-runtime-capability-model`.
+- **Final implementation/evidence commit:** `fa210ba` (live native-runtime execution + final
+  disposition); disposition-recording commit `bb95241` followed it.
+- **Merge status:** **MERGED** — PR #32, merge commit `af29173`, verified: `git rev-parse HEAD`
+  and `git rev-parse origin/main` both resolve to `af29173`; `main` tracks `origin/main`; working
+  tree clean at merge-verification time.
+- **Post-merge cleanup: DONE.** `.worktrees/phase-6-multi-runtime-capability-model` verified clean
+  and removed; `git worktree prune` run; local branch `phase-6-multi-runtime-capability-model`
+  verified merged into `main` (`git branch --merged main`) and deleted with `git branch -d` (not
+  force-deleted); remote branch left untouched (not requested). Final `git worktree list` shows
+  only the main repository checkout; final `git branch -vv` shows no Phase 6 local branch. See the
+  new "Post-merge worktree and branch cleanup" subsection of the Mandatory Phase Transition
+  Protocol below — this is now a permanent, required step at every phase boundary, not a one-off.
+- **Tasks 0–12:** complete.
+- **Task 0:** 30/30 skills complete across 4 plugins, all independently isolated-installable
+  (verified via `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py` for real, not
+  assumed — `sharepoint-content-publication`'s isolated-install failure found and fixed during
+  remediation round 2, a genuine cross-plugin dependency, not worked around).
+- **Final test counts:** `structured-content-rendering` 96/96, `sharepoint-agents-and-skills`
+  46/46, `sharepoint-content-publication` 26/26, `workbench-setup` 36/36 — all independently
+  verified, zero broken symlinks repo-wide.
+- **Live native-skill deployment:** `review-manual-topics` deployment hash verified/reconciled
+  against a real tenant (`AG-CSB-INTRANET-DEV`) — found stale, redeployed, byte-for-byte
+  readback match confirmed, reconciliation re-confirmed clean before any evaluation case ran.
+- **Live evaluation cases actually executed:** 3 of 7 `native-sharepoint`-applicable cases
+  (`AMB-01` 2/2 runs, `PERM-01`, `PERM-02` — all PASS) against the real tenant, live agent
+  `CEIS-Pilot-Knowledge-Agent`.
+- **Skipped cases:** `PERM-03`, `PERM-04`, `PERM-05`, `PERM-06` — **`SKIPPED_BY_HUMAN_DECISION`
+  only. Never represented as executed, passed, or failed.**
+- **Confirmed drift finding:** see "Confirmed limitation" below — not hidden, not softened.
+- **Live-script bugs found and fixed:** 4 real cmdlet-parameter bugs in
+  `reconcile-deployed-skill.ps1` (3) and `deploy-and-verify-skill.ps1` (1), all verified fixed
+  against the real tenant, all logged in `.agent/map-debt.md` (2026-08-03 entries), commits
+  `5e05893`, `0345b5f`.
+- **Final review-bundle path:** `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
+  phase-6-remediation-bundle.md` (consolidated index) and `task-11-exit-evidence-and-review.md`
+  (final disposition record). Task 0's own migration ledger:
+  `docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md`.
+- **Final branch commit (pre-merge):** `bb95241` on `phase-6-multi-runtime-capability-model`,
+  merged into `main` as `af29173`.
+
+### Implemented plugin state (final)
+
+| Plugin | Skills | Notes |
+|---|---|---|
+| `sharepoint-agents-and-skills` | 15 | Includes `review-manual-topics`'s two runtimes (native + repository/Claude) as one skill name |
+| `sharepoint-content-publication` | 5 | Isolated-install dependency fixed round 2 (real symlink fix, not a workaround) |
+| `structured-content-rendering` | 7 (Phase 6 additions) | Plus pre-existing Phase 1 core-pipeline skills |
+| `workbench-setup` | 3 | **Project-owned, at `plugins/workbench-setup/`** — corrected 2026-08-03 from an earlier wrong cross-repository assignment; see `.agent/map-debt.md` and `CLAUDE.md` Section 0a |
+
+**`agent-plugins-skills` (the sibling marketplace repo) was consulted only through the
+`marketplace-manager` skill, only for the `marketplace.json` registration procedure.** It does not
+own, and never owned, any Phase 6 plugin code — see `CLAUDE.md` Section 0a ("External Skill Usage
+Does Not Determine Artifact Ownership") for the standing rule this incident produced.
+
+### Confirmed limitation — carried forward exactly, not softened or generalized
+
+- **Contract maximum:** at most 2 related topics per `review-manual-topics` invocation.
+- **`repository-claude` runtime:** enforces this **deterministically**
+  (`TooManyRelatedTopicsError`).
+- **`native-sharepoint` runtime:** enforcement is **behavioral (instruction-governed) only**, not
+  code-enforced.
+- **Observed live run 1 (`AMB-01`):** consulted **3** related topics — exceeds the limit.
+- **Observed live run 2 (`AMB-01`):** consulted **7** related topics — exceeds the limit.
+- **Drift detection:** `drift_detection.py`'s `detect_drift()` correctly flagged both runs
+  (`related_topic_cap_exceeded`) — the multi-runtime model and drift detector working exactly as
+  designed, not a tooling failure.
+- **Status:** accepted known limitation and future native-skill remediation/evaluation candidate.
+  **Do not silently fix, generalize, or treat the two runtimes as equivalent in any future
+  session** — this is a confirmed, live-observed gap, not a hypothetical one.
+
+### Deferred items
+
+- `PERM-03` through `PERM-06` — skipped by explicit human decision (not a technical or access
+  blocker); available to run in a future session against the live tenant if ever wanted.
+- Native `related-topic-cap` enforcement remediation (tuning the deployed `SKILL.md` or the live
+  agent's own configuration, then re-testing live) — real, separate future work.
+- Any live-connection or tenant-write capability explicitly deferred earlier in Phase 6
+  (`setup-sharepoint-connection`'s real connection-test path still requires an explicitly injected
+  connector; `sharepoint-content-publication`'s actual tenant write remains human-authorized only,
+  per Task 12's 5a/5b split) — unchanged, not part of this closure.
+- **Phase 9 remains planning-only and has not started** — no Phase 9 implementation exists in this
+  repository; do not treat any Phase 9 candidate document as authorization.
+
+### Phase 7 entry
+
+- **Phase 7 has not started.** No Phase 7 files, branch, or worktree exist in this repository as
+  of this closure.
+- **Phase 7 must begin in a fresh session** — not a continuation of this one.
+- Read this file (`start-here.md`) in full first.
+- Verify `main` is clean and synchronized: `HEAD` equals `origin/main`, `main` tracks
+  `origin/main`, working tree clean (see "Post-merge worktree and branch cleanup" in the Mandatory
+  Phase Transition Protocol below for the exact commands).
+- Confirm no Phase 6 worktree or local Phase 6 branch remains
+  (`.worktrees/phase-6-multi-runtime-capability-model` removed, `phase-6-multi-runtime-capability-
+  model` local branch deleted — both already done as of this closure; re-verify with
+  `git worktree list` / `git branch -vv` if picking this up much later).
+- Read the committed Phase 7 spec (`docs/superpowers/specs/phase-7-cowork-copilot-studio-
+  evaluation-spec.md`), plan scaffold
+  (`docs/superpowers/plans/phase-7-cowork-copilot-studio-evaluation-plan-scaffold.md` — both
+  architectural head starts only, not approved implementation plans or authorization), and the
+  relevant section of `docs/vision/master-initiative-plan-workstreams-and-phases.md` (the master
+  roadmap).
+- Create a new, dedicated Phase 7 branch/worktree — **do not reuse the Phase 6 worktree or
+  session** (it no longer exists; do not recreate it for Phase 7 work).
+- Run `superpowers:brainstorming` before any implementation, per this repo's own Mandatory
+  Planning Protocol (see below).
+- **Do not reopen completed Phase 6 work** unless new evidence reveals a real defect in it — Phase
+  6 is closed, not paused.
+- Carry the confirmed Phase 6 drift finding (above) forward only where actually relevant to Phase
+  7's own scope — do not let it silently expand Phase 7's boundaries.
+
+---
+
+## ⚠️ HISTORICAL FROM HERE DOWN — superseded by the "Phase 6 — authoritative fresh-session
+## handoff" section above
+
+**Everything from this point through the end of the file is historical detail, written at various
+points during Phase 5's closure and Phase 6's execution.** It is preserved as the evidence trail,
+not as current state — do not treat any "not started," "not yet," "PHASE_TRANSITION_READY —
+Phase 5 → Phase 6," "no Phase 6 branch/worktree exists," or similar statement below this line as
+describing the present. **Phase 6 is done: `PHASE_6_ACCEPTED_WITH_LIMITATIONS`, merged (`af29173`),
+worktree removed, branch deleted. Phase 7 is `NOT_STARTED`.** That is stated once, authoritatively,
+above — this historical material exists so a reader can trace *how* that state was reached, not to
+be re-interpreted as a second, competing "current status."
+
+## Current status (2026-08-03, verified against git) — HISTORICAL, see banner above
 
 **`PHASE_TRANSITION_READY`** — Phase 5 → Phase 6. All Mandatory Phase Transition Protocol checks
 below are satisfied: Phase 5 tasks have explicit dispositions, evidence/exit report exist, the
 feature branch is merged with a recorded merge commit, `main` sync is verified (see "Verified
 repository state" below), handoff documentation is current, and no Phase 6 files/branch exist yet.
+**(True as of 2026-08-03, before Phase 6 began — not true now.)**
 
 **Phase 4.5 is fully complete and merged to `main`** (PR #25, merge commit `8719f49`), including
 Wave 9 (duplication remediation) and the follow-on plugin/skill naming refactor.
@@ -224,14 +361,25 @@ or executed.
    final merge commit must be recorded, then close the Phase 6 session.
 6. Do not start Phase 7 in this session.
 
-**Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
+**Separate architecture-design stream — status as of Phase 6's completion:**
 
-- `sharepoint-agents-and-skills` plugin design: **`DESIGN_COMPLETE`**, **`IMPLEMENTATION_NOT_AUTHORIZED`**, **`MIGRATION_NOT_STARTED`**.
-- Multi-document destination configuration design: **`PLANNING_ONLY`**, **`IMPLEMENTATION_NOT_AUTHORIZED`**.
+- `sharepoint-agents-and-skills` plugin design: **`DESIGN_COMPLETE`**, and — **corrected, no longer
+  accurate to call not-implemented** — **`IMPLEMENTED`** as of Phase 6 Task 0.1–0.14 (15 skills,
+  merged `af29173`). The `IMPLEMENTATION_NOT_AUTHORIZED`/`MIGRATION_NOT_STARTED` labels below
+  described this design's status *before* Phase 6 authorized and executed it — stale now, kept
+  visible with this correction rather than silently rewritten, per this repo's own convention of
+  not erasing history.
+- Multi-document destination configuration design: **`PLANNING_ONLY`**,
+  **`IMPLEMENTATION_NOT_AUTHORIZED`** — still accurate; Phase 6 implemented `workbench-setup`'s
+  three foundational skills per this design's Section 8, but did not implement the broader
+  multi-document destination-resolution machinery this design also specifies. That larger scope
+  remains unauthorized.
 - Design-stream documents (the multi-document-destination-configuration design,
   sharepoint-agents-and-skills plugin design, broader-plan vision update, and CLAUDE.md
   correction) are committed on `main` through `7735b6d` ("docs: land remaining design-stream
-  corrections onto main"). Do not treat these designs as authorization to implement.
+  corrections onto main"). Do not treat these designs as authorization to implement anything
+  beyond what Phase 6 has already actually built (see the authoritative section at the top of this
+  file for exactly what that is).
 
 **Verified repository state (as of this entry):**
 
@@ -301,13 +449,15 @@ status, deferred work).
   `docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md` — that remains open for
   a future, more rigorous pilot if one is ever authorized.
 
-## Separate architecture-design stream — design-complete, committed, not implemented
+## Separate architecture-design stream — design-complete, committed — HISTORICAL, corrected below
 
-Real architecture drift was found during Phase 5 (reusable SharePoint scripts/skills were being
-written into `tools/phase-N-*/` instead of an installable plugin — see `.agent/map-debt.md`'s
-2026-08-02 entry). The corrective design work is **design-complete, implementation/migration NOT
-authorized**, and was landed on `main` through commit `7735b6d` ("docs: land remaining
-design-stream corrections onto main"):
+**As written at the time (2026-08-02), this section said "not implemented" — that is no longer
+true.** Real architecture drift was found during Phase 5 (reusable SharePoint scripts/skills were
+being written into `tools/phase-N-*/` instead of an installable plugin — see
+`.agent/map-debt.md`'s 2026-08-02 entry). The corrective design work below was design-complete and
+committed on `main` through commit `7735b6d` ("docs: land remaining design-stream corrections onto
+main"), and **Phase 6 subsequently implemented the `sharepoint-agents-and-skills` portion of it in
+full** (15 skills, Task 0.1–0.14, merged `af29173`):
 
 ```
 CLAUDE.md
@@ -316,10 +466,16 @@ docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md
 docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md
 ```
 
-- `sharepoint-agents-and-skills` plugin design: `DESIGN_COMPLETE`, `IMPLEMENTATION_NOT_AUTHORIZED`, `MIGRATION_NOT_STARTED`.
-- Multi-document destination configuration design: `PLANNING_ONLY`, `IMPLEMENTATION_NOT_AUTHORIZED`.
+- `sharepoint-agents-and-skills` plugin design: `DESIGN_COMPLETE` → **`IMPLEMENTED`** (Phase 6,
+  15/15 skills). `IMPLEMENTATION_NOT_AUTHORIZED`/`MIGRATION_NOT_STARTED` no longer apply.
+- Multi-document destination configuration design: `PLANNING_ONLY`, `IMPLEMENTATION_NOT_AUTHORIZED`
+  — still accurate for the design's broader destination-resolution scope; `workbench-setup`'s
+  three foundational skills (Phase 6 Task 0.17) implement only this design's Section 8, not the
+  full design.
 
-Do not implement either of these as part of Phase 6 unless separately authorized.
+The "do not implement... unless separately authorized" instruction that originally followed this
+section applied to Phase 6 before it started; Phase 6 has since separately authorized and executed
+the `sharepoint-agents-and-skills` portion, per the authoritative section at the top of this file.
 
 ## MANDATORY PHASE TRANSITION PROTOCOL
 
@@ -368,6 +524,58 @@ Required result:
 Do not infer synchronization from a successful pull alone. Do not interpret ahead/behind counts
 until the tracked upstream branch has been verified.
 
+### Post-merge worktree and branch cleanup
+
+**A phase does not close merely because its PR merged and `main` was pulled.** The completed
+phase's worktree must also be verified clean and removed, `git worktree prune` run, and its merged
+local branch deleted — before the phase is declared closed and before the next phase begins. This
+subsection is permanent — apply it at every future phase boundary, not just this one.
+
+After Richard merges the phase PR on GitHub:
+
+- Fetch and prune `origin`.
+- Checkout `main`.
+- Ensure `main` tracks `origin/main`.
+- Pull `origin/main` with `--ff-only`.
+- Verify `HEAD` equals `origin/main`.
+- Verify the completed phase's worktree is clean (`git -C <phase-worktree> status --short` —
+  empty output required).
+- Verify the phase branch is fully merged into `main` (`git branch --merged main` must list it).
+- Remove the completed phase worktree.
+- Run `git worktree prune`.
+- Delete the merged local phase branch with `git branch -d` — **never force-delete
+  (`-D`) during routine closure.**
+- Do not delete the remote branch unless Richard explicitly requests it separately.
+- Verify final state: worktree list, local branches with upstream tracking, and clean status.
+
+Required commands:
+
+```bash
+git fetch origin --prune
+git checkout main
+git branch --set-upstream-to=origin/main main
+git pull --ff-only origin main
+git rev-parse HEAD
+git rev-parse origin/main
+git -C <phase-worktree> status --short
+git branch --merged main
+git worktree remove <phase-worktree>
+git worktree prune
+git branch -d <phase-branch>
+git worktree list
+git branch -vv
+git status --short --branch
+```
+
+**If the phase worktree is dirty, the branch is not merged, or `HEAD` differs from
+`origin/main`:**
+
+```
+PHASE_TRANSITION_BLOCKED
+```
+
+Do not remove the worktree or branch, and do not claim closure. State exactly which check failed.
+
 ### Handoff documentation
 
 Before ending the phase:
@@ -415,14 +623,16 @@ Do not use phrases such as "essentially complete," "ready except for documentati
 blocker," or "can be fixed later" when a mandatory transition check remains unresolved. A stale
 `start-here.md` is a transition blocker, not a cosmetic gap.
 
-## Phase 6 (not started)
+## Phase 6 — HISTORICAL (pre-execution planning notes; Phase 6 is now complete)
 
-Per `docs/vision/master-initiative-plan-workstreams-and-phases.md`, Phase 6 requires its own fresh
-branch/worktree and session, following the Mandatory Planning Protocol below (brainstorming before
-plan mode). Treat this file and committed evidence as authority — not any prior conversation
-transcript. No Phase 6 branch/worktree or files exist yet; no Phase 6 implementation has started.
+**This entire section describes Phase 6 before it started (written when Phase 6 was
+`NOT_STARTED`).** Phase 6 has since executed in full and is `PHASE_6_ACCEPTED_WITH_LIMITATIONS` —
+see the authoritative section at the top of this file. Kept here as the historical record of the
+planning instructions that were actually followed (worktree/brainstorming/scaffold-is-not-approval
+guidance), not as a current instruction to open a new Phase 6 session — do not act on the
+"Next-session procedure" below as if Phase 6 were still ahead of you.
 
-### Next-session procedure
+### Next-session procedure (historical — this described starting Phase 6, not Phase 7)
 
 1. Open a fresh session.
 2. Read this file (`start-here.md`) in full.
@@ -436,6 +646,9 @@ transcript. No Phase 6 branch/worktree or files exist yet; no Phase 6 implementa
 7. Do not repeat Phase 5's full manual test matrix.
 8. Do not implement `sharepoint-agents-and-skills` or the multi-document destination
    configuration design as part of Phase 6 unless separately authorized.
+
+**For Phase 7's actual next-session procedure, see the "Phase 7 entry" subsection in the
+authoritative section at the top of this file — not this historical block.**
 
 ## Mandatory Planning Protocol for Phase 3 and Every Future Phase
 
@@ -992,12 +1205,12 @@ followed — do not treat any status claim below as current.
    refactor and evidence trail).
 5. **Phase 5 is done** (exploratory prototype, `PHASE_5_ACCEPTED_WITH_LIMITATIONS`) — see the
    Phase 5 section above. Merged to `main` via PR #29 (`e104d1a`).
-6. **Phase 6 is next** — not started. Requires a fresh branch/worktree/session and the Mandatory
-   Planning Protocol below (brainstorming before plan mode). Do not begin Phase 6 work from a
-   continuation of the Phase 5 session/branch.
+6. **Phase 6 is done** — `PHASE_6_ACCEPTED_WITH_LIMITATIONS`, merged `af29173`. (This bullet
+   originally said "Phase 6 is next — not started"; corrected, since that is no longer true.)
 
-**Resume instructions for a fresh session:** superseded by the "Next-session procedure" in the
-"Phase 6 (not started)" section above — use that, not this historical block.
+**Resume instructions for a fresh session:** superseded entirely — use the authoritative "Phase 6
+— authoritative fresh-session handoff" section at the top of this file, specifically its "Phase 7
+entry" subsection, not this historical block or the "Phase 6 — HISTORICAL" section above it.
 
 ## Efficiency notes for continuing this session or a fresh one
 
