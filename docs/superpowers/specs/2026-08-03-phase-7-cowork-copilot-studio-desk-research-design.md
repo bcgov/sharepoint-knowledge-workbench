@@ -191,9 +191,10 @@ research.
 ## 4. Deliverable
 
 **Amended (this correction round):** the formal decision record is one evidence memo, but it is
-now explicitly authorized to rest on two supporting artifacts rather than being a single
-undifferentiated document — the two-document split (source ledger, capability-gap analysis)
-produced during drafting proved genuinely useful for provenance tracking and is retained. The
+now explicitly authorized to rest on three supporting artifacts rather than being a single
+undifferentiated document — the source ledger and capability-gap analysis produced during
+drafting proved genuinely useful for provenance tracking and are retained, and a third supporting
+artifact (the current-source verification record) was added during this correction round. The
 memo itself remains the single required decision-record deliverable:
 
 ```
@@ -229,7 +230,7 @@ Memo contents:
    matrix (Section 3c); explicit `ACCESS_CONFIRMED` / `DEDICATED_ENVIRONMENT_NOT_AVAILABLE` /
    `LIVE_BUILD_AND_VALIDATION_BLOCKED` status stated separately from capability findings;
    disposition.
-6. Per-finding tagging: every conclusion labeled with one of the five Section 2 evidence labels.
+6. Per-finding tagging: every conclusion labeled with one of the seven Section 2 evidence-type labels.
 7. Final section: what would need to be true (specific documented capability advantage, plus
    platform access) to justify a future pilot for each target.
 8. **Future hands-on-validation backlog:** every finding tagged
@@ -309,7 +310,7 @@ findings the way this round requires.
 - Evidence memo written, committed, at the path in Section 4.
 - Both targets have a disposition from the Section 5 set, each traceable to specific documented
   findings and to the three-way baseline (Section 2).
-- Every substantive finding tagged with one of the five Section 2 evidence labels.
+- Every substantive finding tagged with one of the seven Section 2 evidence-type labels.
 - Platform-access status and capability conclusions are never conflated anywhere in the memo.
 - No implementation, environment, or tenant action taken.
 - No instruction-level contract (native SharePoint, Cowork, or Studio) described as deterministic

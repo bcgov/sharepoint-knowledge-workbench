@@ -171,16 +171,21 @@ Section 4/6's verification findings:
 
 | Identity role | Native SharePoint agent | Cowork | Copilot Studio |
 |---|---|---|---|
-| User-interaction identity | Delegated end-user (`EMPIRICALLY_OBSERVED`) | Delegated end-user Entra identity (`BUNDLED_RESEARCH_SYNTHESIS`, unresolved by this pass) | On-Behalf-Of delegated, for most connectors (`CURRENT_PRIMARY_SOURCE_VERIFIED`) |
-| Deployment identity | `UNKNOWN` | `UNKNOWN` | Dedicated Entra Agent ID, automatic since July 2026 rollout (`CURRENT_PRIMARY_SOURCE_VERIFIED`) |
-| Retrieval identity | `UNKNOWN` | `UNKNOWN` | On-Behalf-Of by default; Client Credentials Flow available for autonomous agents with their own identity (`CURRENT_PRIMARY_SOURCE_VERIFIED`) |
+| Agent/service identity | not evidenced as a distinct concept in the sources reviewed | Delegated end-user Entra identity per `viable-skills-summary.md` Claim 7 (`BUNDLED_RESEARCH_SYNTHESIS`, unresolved by this pass) | Dedicated Entra Agent ID, automatic for new agents since the July 2026 rollout (`CURRENT_PRIMARY_SOURCE_VERIFIED`) — this is the agent's own service-principal identity, distinct from who deploys it |
+| Deployment/publisher identity | `UNKNOWN` | `UNKNOWN` | `UNKNOWN` — current sources establish the agent *has* a dedicated identity, not *who/what* performs the publish/deploy action; not conflated with the agent/service identity row above |
+| Connector/action identity | `UNKNOWN` | `UNKNOWN` | On-Behalf-Of (delegated to the invoking user) by default for most connectors; Client Credentials Flow available for the documented autonomous-agent pattern, using the agent's own identity (`CURRENT_PRIMARY_SOURCE_VERIFIED`) |
+| Retrieval identity | `UNKNOWN` | `UNKNOWN` | `UNKNOWN` for this workflow's specific knowledge-source mechanism — the maker-credential OAuth consent observed in `agent-build-walkthrough.md` Step 5 is one connector-authentication instance, not generalized to a platform-wide retrieval-identity rule |
+| User-interaction identity | Delegated end-user (`EMPIRICALLY_OBSERVED` — `RESULT-PERM-01.md`) | Delegated end-user, per `viable-skills-summary.md` Claim 7 (`BUNDLED_RESEARCH_SYNTHESIS`) | Delegated end-user, consistent with the On-Behalf-Of connector-identity finding above (`CURRENT_PRIMARY_SOURCE_VERIFIED`) |
 | Approval identity | `UNKNOWN` | `UNKNOWN` | `UNKNOWN` — not addressed by the sources reviewed |
 | Publication identity | `UNKNOWN` (plan-only path) | `UNKNOWN` | `UNKNOWN` — not addressed by the sources reviewed |
 
-This is the most consequential correction in this pass: Copilot Studio's identity model is **not**
-uniformly delegated-only as the original bundle framed it — it now has a genuine dedicated-
-identity primitive wired in by default, closing part of the "Primitive Gap" the bundle described.
-This has not been confirmed for Cowork specifically.
+The most consequential correction in this pass is scoped precisely: Copilot Studio now has a
+genuine dedicated **agent/service identity** primitive wired in by default (closing part of the
+"Primitive Gap" the bundle described), confirmed by current sources. This does **not** by itself
+establish who deploys the agent, which identity performs a given connector's retrieval action
+beyond the one On-Behalf-Of/Client-Credentials distinction actually documented, or who approves or
+publishes — those remain independently `UNKNOWN` rather than inferred from the agent-identity
+finding. This has not been confirmed for Cowork specifically.
 
 ## 9. Potential integration patterns
 
