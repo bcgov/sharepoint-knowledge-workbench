@@ -828,6 +828,15 @@ not be broadened into an agent editing-and-publication workflow.
 **Disposition:** RESEARCH (owner-and-use-case gate). **Detail level:** Decision framework, candidate pilots
 only.
 
+**Status (2026-08-03, desk-research round):** entry gate met (concrete use case + owner, see
+`docs/superpowers/specs/2026-08-03-phase-7-cowork-copilot-studio-desk-research-design.md`). Both
+Subphase 7.1 deliverables (gap-analysis memo, candidate list) are complete — see
+`docs/reports/phase-7-cowork-copilot-studio-evaluation/desk-research-evidence-memo.md`. Cowork and
+Copilot Studio both `REMAIN_RESEARCH`. **This exit gate — Stage 7.2.2's build/no-build decision —
+remains `DEFERRED`, not yet satisfied**; the desk-research round does not by itself close Phase 7.
+Re-entry triggers: a Copilot Studio Dedicated Environment becomes available, or Copilot Cowork
+becomes enabled in the tenancy.
+
 **Goal:** Decide, per target, whether to build — only for a target that has a concrete use case and an
 accountable owner.
 

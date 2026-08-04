@@ -55,12 +55,18 @@ agents, publication, and evaluation — is planned in
 `docs/vision/master-initiative-plan-workstreams-and-phases.md` (the authoritative, phase/subphase/
 stage-level master plan, reviewed across multiple rounds of external adversarial review) and
 originally proposed in `docs/vision/README.md` and
-`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. Only Phase 1 (complete)
-and Phase 2 (spec + implementation plan approved, execution not yet started — see
-`docs/superpowers/specs/2026-07-28-phase2-canonical-publication-contract-hardening-design.md` and
-its companion plan) are currently authorized to be built; later phases are deliberately planned at
-a structural level only, gated on evidence (tenant facts, pilot outcomes) that doesn't exist yet —
-see the master plan's own detail-level discipline before assuming any phase beyond 2 is ready to
+`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. **Updated 2026-08-03:**
+Phases 1–6 are complete and merged to `main`. **Phase 7 (Cowork & Copilot Studio Evaluation)
+desk-research round is `COMPLETE`** — Copilot Cowork and Copilot Studio both `REMAIN_RESEARCH`;
+the master roadmap's Stage 7.2.2 build/no-build decision is `DEFERRED`, not satisfied by this
+round. No implementation, environment, tenant, or proof-of-concept work is authorized for either
+platform. Re-entry triggers: a Copilot Studio Dedicated Environment becomes available, or Copilot
+Cowork becomes enabled in the tenancy. See `start-here.md` for current status and
+`docs/reports/phase-7-cowork-copilot-studio-evaluation/desk-research-evidence-memo.md` (plus its
+supporting `prior-research-source-ledger.md`, `capability-gap-analysis.md`, and
+`current-source-verification-record.md`) for the full evidence record. Later phases beyond 7 are
+deliberately planned at a structural level only, gated on evidence that doesn't exist yet — see
+the master plan's own detail-level discipline before assuming any later phase is ready to
 implement.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
