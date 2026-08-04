@@ -14,18 +14,36 @@
       "current_filename": "README.md",
       "title": "AI-Assisted SharePoint Knowledge Workbench Research (index)",
       "content_summary": "Directory index and vision statement for docs/research/. Describes the layered capability model (SharePoint agents, native Copilot skills, Cowork, Copilot Studio, GitHub Copilot workbench), lists all research documents with reading paths, records key findings and near-term priorities, and states repository conventions recommended by the research.",
-      "primary_subjects": ["sharepoint-platforms-capabilities", "strategic-planning-vision"],
-      "secondary_subjects": ["architecture-design-patterns"],
+      "primary_subjects": [
+        "sharepoint-platforms-capabilities",
+        "strategic-planning-vision"
+      ],
+      "secondary_subjects": [
+        "architecture-design-patterns"
+      ],
       "artifact_type": "index",
       "lifecycle_status": "active",
-      "phase_provenance": ["3", "4", "5", "6"],
+      "phase_provenance": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
       "evidence_status": "n/a-navigational",
-      "source_relationships": ["links to all 15 other docs/research/*.md files"],
-      "related_documents": ["all docs/research/*.md"],
+      "source_relationships": [
+        "links to all 15 other docs/research/*.md files"
+      ],
+      "related_documents": [
+        "all docs/research/*.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["docs/vision/README.md (line: 'docs/research/    product research and field notes')"],
-      "outbound_references": ["all 15 sibling files in docs/research/"],
+      "inbound_references": [
+        "docs/vision/README.md (line: 'docs/research/    product research and field notes')"
+      ],
+      "outbound_references": [
+        "all 15 sibling files in docs/research/"
+      ],
       "dependencies": [],
       "classification_rationale": "Navigational index; content is the directory's own table of contents plus a synthesized 'key findings' section that itself has independent value and may need to survive any reorganization in some form.",
       "confidence": "high",
@@ -43,20 +61,35 @@
       "source_path": "docs/research/research-summary-copilot-in-sharepoint-get-started.md",
       "source_hash": "b0a1aca938060a7f95e5c9c1d0084215421a5350356ec6db18b4ab95d78cf4b7",
       "current_filename": "research-summary-copilot-in-sharepoint-get-started.md",
-      "title": "Research Summary — Get Started with Copilot in SharePoint (Preview)",
+      "title": "Research Summary \u2014 Get Started with Copilot in SharePoint (Preview)",
       "content_summary": "Summarizes Microsoft Learn's documented Copilot in SharePoint preview (as of June 25, 2026): natural-language interface for SharePoint content/structures, skills as an extension mechanism (Markdown SKILL.md in Agent Assets library), government-cloud limitation, licensing prerequisites, administrative controls, usage limits, and permission boundaries. Explicitly positions itself as research/architecture input, not implementation authorization.",
-      "primary_subjects": ["sharepoint-platforms-capabilities"],
-      "secondary_subjects": ["architecture-design-patterns"],
+      "primary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
+      "secondary_subjects": [
+        "architecture-design-patterns"
+      ],
       "artifact_type": "research-summary",
       "lifecycle_status": "active",
       "phase_provenance": [],
       "evidence_status": "external-source-cited-dated",
-      "source_relationships": ["cited by sharepoint-agents-and-native-skills-as-workbench-outputs.md"],
-      "related_documents": ["sharepoint-agents-and-native-skills-as-workbench-outputs.md", "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"],
-      "overlaps_with": ["sharepoint-agents-and-native-skills-as-workbench-outputs.md (shares Microsoft-source citations on Copilot in SharePoint skills)"],
+      "source_relationships": [
+        "cited by sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+      ],
+      "related_documents": [
+        "sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+        "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+      ],
+      "overlaps_with": [
+        "sharepoint-agents-and-native-skills-as-workbench-outputs.md (shares Microsoft-source citations on Copilot in SharePoint skills)"
+      ],
       "possible_consolidation_group": null,
-      "inbound_references": ["not yet grepped with line numbers; docs/research/README.md links to it"],
-      "outbound_references": ["https://learn.microsoft.com/en-us/SharePoint/copilot-in-sharepoint-get-started"],
+      "inbound_references": [
+        "not yet grepped with line numbers; docs/research/README.md links to it"
+      ],
+      "outbound_references": [
+        "https://learn.microsoft.com/en-us/SharePoint/copilot-in-sharepoint-get-started"
+      ],
       "dependencies": [],
       "classification_rationale": "Pure external-source research summary with explicit publisher, URL, and source-updated date (June 25, 2026); no tenant testing; foundational for understanding platform licensing/preview constraints.",
       "confidence": "high",
@@ -74,20 +107,30 @@
       "source_path": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md",
       "source_hash": "3d15fae79fe7246048c5e6c8f43f45ce96ee7da6e32ccfea096e60075e7cb795",
       "current_filename": "research-summary-native-markdown-sharepoint-onedrive.md",
-      "title": "Research Summary — Native Markdown Support in SharePoint and OneDrive",
+      "title": "Research Summary \u2014 Native Markdown Support in SharePoint and OneDrive",
       "content_summary": "Summarizes Microsoft's April 21, 2026 announcement of native Markdown support in SharePoint/OneDrive: browser viewing, editing, versioning, governance implications, and explicit framing of Markdown as relevant to AI/agent shared team memory and reusable skills. Notes this strengthens but does not resolve source-of-truth/synchronization/approval architecture questions.",
-      "primary_subjects": ["publication-delivery"],
-      "secondary_subjects": ["sharepoint-platforms-capabilities"],
+      "primary_subjects": [
+        "publication-delivery"
+      ],
+      "secondary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
       "artifact_type": "research-summary",
       "lifecycle_status": "active",
       "phase_provenance": [],
       "evidence_status": "external-source-cited-dated",
       "source_relationships": [],
-      "related_documents": ["concept-dual-target-rendering-agent-vs-human.md"],
+      "related_documents": [
+        "concept-dual-target-rendering-agent-vs-human.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["not yet grepped with line numbers"],
-      "outbound_references": ["https://techcommunity.microsoft.com/blog/onedriveblog/introducing-markdown-support-in-sharepoint-and-onedrive/4512174"],
+      "inbound_references": [
+        "not yet grepped with line numbers"
+      ],
+      "outbound_references": [
+        "https://techcommunity.microsoft.com/blog/onedriveblog/introducing-markdown-support-in-sharepoint-and-onedrive/4512174"
+      ],
       "dependencies": [],
       "classification_rationale": "External product-announcement research directly relevant to Markdown-as-publication-target strategy.",
       "confidence": "high",
@@ -105,22 +148,32 @@
       "source_path": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md",
       "source_hash": "2fd3e9fed5c86a3c6ba8d654e0cd791d854e90f55a49df4b4d349e01807538be",
       "current_filename": "research-summary-ai-in-sharepoint-content-chaos-to-clarity.md",
-      "title": "Research Summary — AI in SharePoint: From Content Chaos to Clarity and Impact",
+      "title": "Research Summary \u2014 AI in SharePoint: From Content Chaos to Clarity and Impact",
       "content_summary": "Summarizes a Microsoft 365 Community Conference 2026 presentation (Setup/Automate/Insight model for AI in SharePoint). Connects the three-part model to the workbench vision and lists government-specific controls the workbench vision adds beyond the product demo (ownership, approval, least-privilege, records/retention, accessibility, audit, rollback, oversharing protection).",
-      "primary_subjects": ["strategic-planning-vision"],
-      "secondary_subjects": ["sharepoint-platforms-capabilities"],
+      "primary_subjects": [
+        "strategic-planning-vision"
+      ],
+      "secondary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
       "artifact_type": "research-summary",
       "lifecycle_status": "active",
       "phase_provenance": [],
       "evidence_status": "external-source-cited-dated",
       "source_relationships": [],
-      "related_documents": ["docs/vision/ai-assisted-sharepoint-knowledge-workbench-government-vision.md"],
+      "related_documents": [
+        "docs/vision/ai-assisted-sharepoint-knowledge-workbench-government-vision.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["not yet grepped"],
-      "outbound_references": ["adoption.microsoft.com conference PDF"],
+      "inbound_references": [
+        "not yet grepped"
+      ],
+      "outbound_references": [
+        "adoption.microsoft.com conference PDF"
+      ],
       "dependencies": [],
-      "classification_rationale": "High-level vision-supporting research; the government-controls list duplicates similar lists elsewhere in docs/research/README.md and docs/vision/ — a candidate for de-duplication review, not decided here.",
+      "classification_rationale": "High-level vision-supporting research; the government-controls list duplicates similar lists elsewhere in docs/research/README.md and docs/vision/ \u2014 a candidate for de-duplication review, not decided here.",
       "confidence": "medium",
       "ambiguity": "This document's government-controls list closely echoes docs/research/README.md's 'Government-Specific Controls' section. Whether that is intentional restatement or should be a single canonical list is an open question for architecture review.",
       "scope_classification": "migration-candidate",
@@ -136,10 +189,14 @@
       "source_path": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md",
       "source_hash": "0261395d1f8649b36ab54a8c8a1b03e3b18228d0dc3f7b77e3e4f4561723030b",
       "current_filename": "research-summary-sharepoint-ai-forward-content-creation-curation.md",
-      "title": "Research Summary — SharePoint Showcase: AI-Forward Content Creation and Curation",
+      "title": "Research Summary \u2014 SharePoint Showcase: AI-Forward Content Creation and Curation",
       "content_summary": "Summarizes a Microsoft SharePoint Blog / M365 Community Conference 2026 post on AI-assisted page creation/editing and continuous curation. Frames CREATION and CURATION as one lifecycle; connects content quality/freshness directly to Copilot/agent grounding quality.",
-      "primary_subjects": ["knowledge-discovery-retrieval"],
-      "secondary_subjects": ["sharepoint-platforms-capabilities"],
+      "primary_subjects": [
+        "knowledge-discovery-retrieval"
+      ],
+      "secondary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
       "artifact_type": "research-summary",
       "lifecycle_status": "active",
       "phase_provenance": [],
@@ -148,8 +205,12 @@
       "related_documents": [],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["not yet grepped"],
-      "outbound_references": ["techcommunity.microsoft.com blog post"],
+      "inbound_references": [
+        "not yet grepped"
+      ],
+      "outbound_references": [
+        "techcommunity.microsoft.com blog post"
+      ],
       "dependencies": [],
       "classification_rationale": "Curation/creation lifecycle research; maps most directly to knowledge-curation concerns rather than pure platform capability.",
       "confidence": "medium",
@@ -169,22 +230,37 @@
       "current_filename": "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md",
       "title": "Capability Layering Across Native SharePoint Skills, Copilot Cowork, Copilot Studio, and GitHub Copilot",
       "content_summary": "Foundational architecture/research synthesis defining the capability gap native SharePoint skills fill between simple SharePoint agents and full Copilot Studio, and the resulting five-layer model (SharePoint agent / native skill / Cowork / Copilot Studio / GitHub Copilot workbench). Internally authored synthesis, not a single external-source summary.",
-      "primary_subjects": ["sharepoint-platforms-capabilities"],
-      "secondary_subjects": ["architecture-design-patterns"],
+      "primary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
+      "secondary_subjects": [
+        "architecture-design-patterns"
+      ],
       "artifact_type": "synthesis",
       "lifecycle_status": "active",
-      "phase_provenance": ["3", "4"],
+      "phase_provenance": [
+        "3",
+        "4"
+      ],
       "evidence_status": "internally-authored-synthesis",
-      "source_relationships": ["synthesizes research-summary-copilot-in-sharepoint-get-started.md and sharepoint-agents-and-native-skills-as-workbench-outputs.md"],
-      "related_documents": ["skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"],
-      "overlaps_with": ["sharepoint-agents-and-native-skills-as-workbench-outputs.md (both describe the five-layer capability model from different angles)"],
+      "source_relationships": [
+        "synthesizes research-summary-copilot-in-sharepoint-get-started.md and sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+      ],
+      "related_documents": [
+        "skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+      ],
+      "overlaps_with": [
+        "sharepoint-agents-and-native-skills-as-workbench-outputs.md (both describe the five-layer capability model from different angles)"
+      ],
       "possible_consolidation_group": "platform-capability-model",
-      "inbound_references": ["docs/vision/master-initiative-plan-workstreams-and-phases.md (multiple, not yet line-numbered)"],
+      "inbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md (multiple, not yet line-numbered)"
+      ],
       "outbound_references": [],
       "dependencies": [],
       "classification_rationale": "Foundational, durable cross-phase synthesis; referenced by vision documents as an architecture input.",
       "confidence": "high",
-      "ambiguity": "Overlaps substantially with sharepoint-agents-and-native-skills-as-workbench-outputs.md — both cover the same five-layer model. Requires side-by-side comparison before deciding consolidate vs. retain-separately (not done in this pass).",
+      "ambiguity": "Overlaps substantially with sharepoint-agents-and-native-skills-as-workbench-outputs.md \u2014 both cover the same five-layer model. Requires side-by-side comparison before deciding consolidate vs. retain-separately (not done in this pass).",
       "scope_classification": "migration-candidate",
       "proposed_operation": null,
       "proposed_destination": null,
@@ -200,18 +276,35 @@
       "current_filename": "sharepoint-agents-and-native-skills-as-workbench-outputs.md",
       "title": "SharePoint Agents and Native SharePoint Skills as Outputs of the AI-Assisted Knowledge Workbench",
       "content_summary": "Defines how SharePoint agents and native Copilot skills differ from repository-based GitHub Copilot agents/skills: creation/storage location, licensing/permissions, accessibility, and how the workbench can generate them as governed deployment outputs. Cites the same two Microsoft sources as res-002.",
-      "primary_subjects": ["sharepoint-platforms-capabilities"],
-      "secondary_subjects": ["architecture-design-patterns"],
+      "primary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
+      "secondary_subjects": [
+        "architecture-design-patterns"
+      ],
       "artifact_type": "synthesis",
       "lifecycle_status": "active",
-      "phase_provenance": ["4", "5"],
+      "phase_provenance": [
+        "4",
+        "5"
+      ],
       "evidence_status": "internally-authored-synthesis-with-external-citations",
-      "source_relationships": ["cites research-summary-copilot-in-sharepoint-get-started.md sources directly"],
-      "related_documents": ["capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"],
-      "overlaps_with": ["capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"],
+      "source_relationships": [
+        "cites research-summary-copilot-in-sharepoint-get-started.md sources directly"
+      ],
+      "related_documents": [
+        "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+      ],
+      "overlaps_with": [
+        "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+      ],
       "possible_consolidation_group": "platform-capability-model",
-      "inbound_references": ["not yet grepped"],
-      "outbound_references": ["learn.microsoft.com (2 URLs)"],
+      "inbound_references": [
+        "not yet grepped"
+      ],
+      "outbound_references": [
+        "learn.microsoft.com (2 URLs)"
+      ],
       "dependencies": [],
       "classification_rationale": "Cross-platform synthesis on agent/skill deployment-as-output framing; overlaps res-006, flagged as same consolidation group pending side-by-side read.",
       "confidence": "high",
@@ -229,19 +322,32 @@
       "source_path": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
       "source_hash": "7fb11fc86a73d16a87668cbd2d947318d59e381330fcaab2f0e8edd1f8f18b88",
       "current_filename": "skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
-      "title": "Skill Runtime Decision Guide — Native SharePoint Skills vs. GitHub Copilot Repository Skills",
+      "title": "Skill Runtime Decision Guide \u2014 Native SharePoint Skills vs. GitHub Copilot Repository Skills",
       "content_summary": "Practical decision tree/guidance for where a skill should be created, stored, executed, tested, and governed, across native SharePoint skills, repository GitHub Copilot skills, and hybrid workflows.",
-      "primary_subjects": ["architecture-design-patterns"],
-      "secondary_subjects": ["sharepoint-platforms-capabilities"],
+      "primary_subjects": [
+        "architecture-design-patterns"
+      ],
+      "secondary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
       "artifact_type": "synthesis",
       "lifecycle_status": "active",
-      "phase_provenance": ["3", "4"],
+      "phase_provenance": [
+        "3",
+        "4"
+      ],
       "evidence_status": "internally-authored-guidance",
-      "source_relationships": ["builds on capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"],
-      "related_documents": ["capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"],
+      "source_relationships": [
+        "builds on capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+      ],
+      "related_documents": [
+        "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["not yet grepped"],
+      "inbound_references": [
+        "not yet grepped"
+      ],
       "outbound_references": [],
       "dependencies": [],
       "classification_rationale": "Actionable decision framework, durable across phases, not tenant-evidence-bound.",
@@ -260,19 +366,31 @@
       "source_path": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md",
       "source_hash": "79dd414ad4985f3290e4be76f8199381eeffce3eaf86ccf60fb35aa0a49e6d69",
       "current_filename": "field-note-sharepoint-agentassets-review-manual-topics-skill.md",
-      "title": "Field Note — Creating a Native SharePoint Skill in the AgentAssets Library",
+      "title": "Field Note \u2014 Creating a Native SharePoint Skill in the AgentAssets Library",
       "content_summary": "Empirical tenant-tested field note: required document library name (AgentAssets), generated SKILL.md structure, and practical implications of a successful SharePoint skill-creation experiment. Explicitly flags that preview behavior may differ across tenants/time.",
-      "primary_subjects": ["sharepoint-platforms-capabilities"],
-      "secondary_subjects": ["research-experimentation"],
+      "primary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
+      "secondary_subjects": [
+        "research-experimentation"
+      ],
       "artifact_type": "field-note",
       "lifecycle_status": "active",
-      "phase_provenance": ["3", "4"],
+      "phase_provenance": [
+        "3",
+        "4"
+      ],
       "evidence_status": "tenant-tested",
       "source_relationships": [],
-      "related_documents": ["research-summary-phase3-sharepoint-write-capability-discovery.md"],
+      "related_documents": [
+        "research-summary-phase3-sharepoint-write-capability-discovery.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1 (script comment)", "research-summary-phase3-sharepoint-write-capability-discovery.md (cites this file)"],
+      "inbound_references": [
+        "tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1 (script comment)",
+        "research-summary-phase3-sharepoint-write-capability-discovery.md (cites this file)"
+      ],
       "outbound_references": [],
       "dependencies": [],
       "classification_rationale": "Direct empirical evidence of AgentAssets library creation and skill-authoring; foundational field observation.",
@@ -291,19 +409,29 @@
       "source_path": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md",
       "source_hash": "a1bf28c3158d75e350c5225ba07259863741a75fcccafe6e4d287a95bf746901",
       "current_filename": "field-note-ready-made-copilot-agent-launch-by-name.md",
-      "title": "Field Note — Ready-Made Copilot 'Launching' a Named Custom Agent (Confirmed Not a Real Hand-Off)",
+      "title": "Field Note \u2014 Ready-Made Copilot 'Launching' a Named Custom Agent (Confirmed Not a Real Hand-Off)",
       "content_summary": "Records a CONFIRMED (not merely observed) finding from Phase 5 Task 4 manual verification: the 'launch by name' behavior is a UI/phrasing artifact, not a genuine agent hand-off. Supersedes/updates the original unverified observation referenced in prior discovery passes.",
-      "primary_subjects": ["sharepoint-platforms-capabilities"],
-      "secondary_subjects": ["research-experimentation"],
+      "primary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
+      "secondary_subjects": [
+        "research-experimentation"
+      ],
       "artifact_type": "field-note",
       "lifecycle_status": "active",
-      "phase_provenance": ["5"],
+      "phase_provenance": [
+        "5"
+      ],
       "evidence_status": "tenant-tested-confirmed",
       "source_relationships": [],
-      "related_documents": ["research-summary-phase3-sharepoint-write-capability-discovery.md"],
+      "related_documents": [
+        "research-summary-phase3-sharepoint-write-capability-discovery.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["not yet grepped"],
+      "inbound_references": [
+        "not yet grepped"
+      ],
       "outbound_references": [],
       "dependencies": [],
       "classification_rationale": "CORRECTION FROM PRIOR PASS: earlier discovery session (commit d618687) classified this as 'Research/Unverified' status with confidence=medium, citing an 'unverified observation requiring verification.' Actual document content shows the verification was already performed and the finding CONFIRMED on 2026-08-02. Prior classification was based on an out-of-date secondhand description (docs/research/README.md's summary of this file used cautious language), not the file's own current status line. This is exactly the failure mode the corpus-first process is meant to prevent.",
@@ -322,16 +450,27 @@
       "source_path": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md",
       "source_hash": "16899f7712e1963a6cedc568e5384536d5bba5361bd5d0e93b215e9ef3a136c6",
       "current_filename": "field-note-aspx-vs-markdown-grounding-comparison.md",
-      "title": "Field Note — .aspx vs. Rendered-Markdown Grounding: Live Comparison Findings",
-      "content_summary": "Tenant-tested evidence (7 cases, 1-2 runs each, 20 total live runs) comparing two live SharePoint Copilot agents grounded on identical content in ASPX vs. Markdown representations. Three findings: (1) both agents use upload-timestamp as a currency proxy — a general trust-boundary risk; (2) repeated runs of relationship questions can produce mutually contradictory confident answers; (3) one single-case ambiguity-handling difference favoring Markdown, not yet confirmed at scale. Explicitly extracted from the fuller Phase 5 evidence record for cross-phase relevance.",
-      "primary_subjects": ["knowledge-discovery-retrieval"],
-      "secondary_subjects": ["research-experimentation"],
+      "title": "Field Note \u2014 .aspx vs. Rendered-Markdown Grounding: Live Comparison Findings",
+      "content_summary": "Tenant-tested evidence (7 cases, 1-2 runs each, 20 total live runs) comparing two live SharePoint Copilot agents grounded on identical content in ASPX vs. Markdown representations. Three findings: (1) both agents use upload-timestamp as a currency proxy \u2014 a general trust-boundary risk; (2) repeated runs of relationship questions can produce mutually contradictory confident answers; (3) one single-case ambiguity-handling difference favoring Markdown, not yet confirmed at scale. Explicitly extracted from the fuller Phase 5 evidence record for cross-phase relevance.",
+      "primary_subjects": [
+        "knowledge-discovery-retrieval"
+      ],
+      "secondary_subjects": [
+        "research-experimentation"
+      ],
       "artifact_type": "field-note",
       "lifecycle_status": "active",
-      "phase_provenance": ["5"],
+      "phase_provenance": [
+        "5"
+      ],
       "evidence_status": "tenant-tested-small-sample",
-      "source_relationships": ["extracted from tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md"],
-      "related_documents": ["concept-dual-target-rendering-agent-vs-human.md", "docs/vision/key-unanswered-questions.md"],
+      "source_relationships": [
+        "extracted from tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md"
+      ],
+      "related_documents": [
+        "concept-dual-target-rendering-agent-vs-human.md",
+        "docs/vision/key-unanswered-questions.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": "markdown-vs-aspx-grounding",
       "inbound_references": [
@@ -340,11 +479,15 @@
         "docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md",
         "docs/research/concept-dual-target-rendering-agent-vs-human.md (cites finding 4 as tenant-tested support)"
       ],
-      "outbound_references": ["tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md"],
-      "dependencies": ["full evidence record lives in tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md — this file is explicitly a generalizable extract, not the complete record"],
+      "outbound_references": [
+        "tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md"
+      ],
+      "dependencies": [
+        "full evidence record lives in tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md \u2014 this file is explicitly a generalizable extract, not the complete record"
+      ],
       "classification_rationale": "High-value, well-evidenced field note with explicit confidence framing and multiple citing documents; the extraction relationship to the full Phase 5 evidence record must be preserved (link, not duplicate).",
       "confidence": "high",
-      "ambiguity": "This file already IS a synthesis/extraction of a fuller phase evidence record. A 'markdown-vs-aspx' consolidation group was hypothesized in the prior (incomplete) discovery pass, expecting a matching Phase 7 source — that Phase 7 source has not yet been located or confirmed to exist. Do not assume it exists; verify in next pass.",
+      "ambiguity": "This file already IS a synthesis/extraction of a fuller phase evidence record. A 'markdown-vs-aspx' consolidation group was hypothesized in the prior (incomplete) discovery pass, expecting a matching Phase 7 source \u2014 that Phase 7 source has not yet been located or confirmed to exist. Do not assume it exists; verify in next pass.",
       "scope_classification": "migration-candidate",
       "proposed_operation": null,
       "proposed_destination": null,
@@ -358,17 +501,30 @@
       "source_path": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md",
       "source_hash": "4090333bd5e7647ba79cdafa14ad322cb0ff8a846a772413f21268747c427e8b",
       "current_filename": "research-summary-phase3-sharepoint-write-capability-discovery.md",
-      "title": "Phase 3.0 Write-Exploration Findings — Agent/Skill/Template Capability Discovery",
+      "title": "Phase 3.0 Write-Exploration Findings \u2014 Agent/Skill/Template Capability Discovery",
       "content_summary": "Large, continuously-updated raw findings log from hands-on, staged/authorized write-based capability probes on the real BC Gov dev tenant. Despite the 'research-summary' filename prefix, this is primarily a field-evidence log (per start-here.md's own characterization: 'evidence, not the synthesized report'), not a summary of external research. Contains a 9-priority follow-up test backlog and an external-review-incorporated correction record.",
-      "primary_subjects": ["research-experimentation"],
-      "secondary_subjects": ["sharepoint-platforms-capabilities"],
+      "primary_subjects": [
+        "research-experimentation"
+      ],
+      "secondary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
       "artifact_type": "field-note",
       "lifecycle_status": "active",
-      "phase_provenance": ["3"],
+      "phase_provenance": [
+        "3"
+      ],
       "evidence_status": "tenant-tested-primary-evidence-log",
-      "source_relationships": ["cites field-note-sharepoint-agentassets-review-manual-topics-skill.md", "raw data in gitignored tools/phase-3-sharepoint-discovery/"],
-      "related_documents": ["docs/superpowers/specs/phase-3-tenant-capability-report.md (the SYNTHESIZED version of this evidence)"],
-      "overlaps_with": ["docs/superpowers/specs/phase-3-tenant-capability-report.md — that document synthesizes this one; this is the raw log, that is the condensed deliverable"],
+      "source_relationships": [
+        "cites field-note-sharepoint-agentassets-review-manual-topics-skill.md",
+        "raw data in gitignored tools/phase-3-sharepoint-discovery/"
+      ],
+      "related_documents": [
+        "docs/superpowers/specs/phase-3-tenant-capability-report.md (the SYNTHESIZED version of this evidence)"
+      ],
+      "overlaps_with": [
+        "docs/superpowers/specs/phase-3-tenant-capability-report.md \u2014 that document synthesizes this one; this is the raw log, that is the condensed deliverable"
+      ],
       "possible_consolidation_group": null,
       "inbound_references": [
         "docs/vision/master-initiative-plan-workstreams-and-phases.md (2 locations)",
@@ -381,8 +537,10 @@
         "tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1 (script comment + EvidenceSource string, 3 occurrences)"
       ],
       "outbound_references": [],
-      "dependencies": ["tools/phase-3-sharepoint-discovery/ (gitignored raw JSON/script output)"],
-      "classification_rationale": "MISNAMED per own content: filename says 'research-summary' but start-here.md itself calls this 'a large, continuously updated raw findings log' distinct from the synthesized phase-3-tenant-capability-report.md. This is field evidence, not a research summary of external sources. Also has the highest reference fan-out of any file reviewed so far (12+ distinct inbound reference sites across specs, plans, and 2 live plugin SKILL.md files) — moving this file has real runtime-documentation impact, not just navigational impact.",
+      "dependencies": [
+        "tools/phase-3-sharepoint-discovery/ (gitignored raw JSON/script output)"
+      ],
+      "classification_rationale": "MISNAMED per own content: filename says 'research-summary' but start-here.md itself calls this 'a large, continuously updated raw findings log' distinct from the synthesized phase-3-tenant-capability-report.md. This is field evidence, not a research summary of external sources. Also has the highest reference fan-out of any file reviewed so far (12+ distinct inbound reference sites across specs, plans, and 2 live plugin SKILL.md files) \u2014 moving this file has real runtime-documentation impact, not just navigational impact.",
       "confidence": "high",
       "ambiguity": "This file is actively cited by name from two shipped plugin SKILL.md files (plugins/sharepoint-content-publication and plugins/structured-content-rendering). If moved, those SKILL.md references must be updated as a runtime-dependency-class reference, not merely a navigational one. Also unresolved: should this live under research-experimentation (evidence) or should it be split, with the 9-priority backlog and correction record treated as governing/planning content separate from the raw log?",
       "scope_classification": "migration-candidate",
@@ -400,15 +558,27 @@
       "current_filename": "phase-4-agent-format-learning-journal.md",
       "title": "Phase 4 Agent Format Learning Journal",
       "content_summary": "Chronological journal (Task 7.5) recording analysis of 3 downloaded reference .agent JSON files to reverse-engineer the correct agent-format structure, resulting in an updated automation script. Documents knowledge-source structure rules (Folder vs. List type_id conventions) and JSON schema patterns.",
-      "primary_subjects": ["research-experimentation"],
-      "secondary_subjects": ["sharepoint-platforms-capabilities"],
+      "primary_subjects": [
+        "research-experimentation"
+      ],
+      "secondary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
       "artifact_type": "implementation-learning",
       "lifecycle_status": "active",
-      "phase_provenance": ["4"],
+      "phase_provenance": [
+        "4"
+      ],
       "evidence_status": "tenant-tested-chronological-record",
-      "source_relationships": ["same task/date as PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md (both dated 2026-07-31)"],
-      "related_documents": ["PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"],
-      "overlaps_with": ["PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md — this is the chronological journal form of related findings; critical-learnings doc is the structured/resolved form"],
+      "source_relationships": [
+        "same task/date as PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md (both dated 2026-07-31)"
+      ],
+      "related_documents": [
+        "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+      ],
+      "overlaps_with": [
+        "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md \u2014 this is the chronological journal form of related findings; critical-learnings doc is the structured/resolved form"
+      ],
       "possible_consolidation_group": "agent-format-learning",
       "inbound_references": [
         "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
@@ -418,7 +588,7 @@
       "dependencies": [],
       "classification_rationale": "Distinct genre from the critical-learnings doc: this is a working journal (what was tried, in order), the other is a structured finding/resolution record. Both needed for full provenance.",
       "confidence": "high",
-      "ambiguity": "Consolidation group 'agent-format-learning' also expected Phase 5/6/7 sources per the prior (incomplete) pass — those have not yet been located/confirmed. Also cited directly from a live plugin SKILL.md, so this has a runtime-dependency-class reference, not just navigational.",
+      "ambiguity": "Consolidation group 'agent-format-learning' also expected Phase 5/6/7 sources per the prior (incomplete) pass \u2014 those have not yet been located/confirmed. Also cited directly from a live plugin SKILL.md, so this has a runtime-dependency-class reference, not just navigational.",
       "scope_classification": "migration-candidate",
       "proposed_operation": null,
       "proposed_destination": null,
@@ -434,15 +604,28 @@
       "current_filename": "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
       "title": "Phase 4: SharePoint Copilot Agents & Native Skills - Critical Learnings & Resolutions",
       "content_summary": "Structured findings record: root-cause diagnosis of a Phase 4 agent-configuration defect (incorrect resource IDs), the platform constraint discovered (classic ASPX pages not auto-indexed), the verified solution/configuration, and an explicit statement that custom-agent research does NOT constitute completion of the approved Task 8 native-skill contract (status: IN PROGRESS at time of writing).",
-      "primary_subjects": ["sharepoint-platforms-capabilities"],
-      "secondary_subjects": ["research-experimentation"],
+      "primary_subjects": [
+        "sharepoint-platforms-capabilities"
+      ],
+      "secondary_subjects": [
+        "research-experimentation"
+      ],
       "artifact_type": "implementation-learning",
       "lifecycle_status": "active",
-      "phase_provenance": ["4"],
+      "phase_provenance": [
+        "4"
+      ],
       "evidence_status": "tenant-tested-root-cause-analysis",
-      "source_relationships": ["cites field-note-sharepoint-agentassets-review-manual-topics-skill.md, phase-4-agent-format-learning-journal.md, EVID-PHASE4-TASK8-EXIT-GATE.md"],
-      "related_documents": ["phase-4-agent-format-learning-journal.md", "EVID-PHASE4-TASK8-EXIT-GATE.md"],
-      "overlaps_with": ["phase-4-agent-format-learning-journal.md"],
+      "source_relationships": [
+        "cites field-note-sharepoint-agentassets-review-manual-topics-skill.md, phase-4-agent-format-learning-journal.md, EVID-PHASE4-TASK8-EXIT-GATE.md"
+      ],
+      "related_documents": [
+        "phase-4-agent-format-learning-journal.md",
+        "EVID-PHASE4-TASK8-EXIT-GATE.md"
+      ],
+      "overlaps_with": [
+        "phase-4-agent-format-learning-journal.md"
+      ],
       "possible_consolidation_group": "agent-format-learning",
       "inbound_references": [
         "CLAUDE.md (line 288, governing cross-reference: 'See docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md for full discovery path...')",
@@ -450,9 +633,13 @@
         "plugins/sharepoint-agents-and-skills/evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md",
         "docs/superpowers/plans/phase-6-tasks-1-12-evidence/task-1-brainstorming-and-task-2-inventory.md"
       ],
-      "outbound_references": ["field-note-sharepoint-agentassets-review-manual-topics-skill.md", "phase-4-agent-format-learning-journal.md", "EVID-PHASE4-TASK8-EXIT-GATE.md"],
+      "outbound_references": [
+        "field-note-sharepoint-agentassets-review-manual-topics-skill.md",
+        "phase-4-agent-format-learning-journal.md",
+        "EVID-PHASE4-TASK8-EXIT-GATE.md"
+      ],
       "dependencies": [],
-      "classification_rationale": "HIGH-IMPACT FILE: directly referenced from CLAUDE.md itself as a repository governing cross-reference ('Critical Learning (2026-07-31)' section, CLAUDE.md lines 278-288), plus a live plugin evaluation runbook. This is the single most repository-load-bearing file reviewed so far — moving it requires updating a repository governance instruction file, not just research navigation.",
+      "classification_rationale": "HIGH-IMPACT FILE: directly referenced from CLAUDE.md itself as a repository governing cross-reference ('Critical Learning (2026-07-31)' section, CLAUDE.md lines 278-288), plus a live plugin evaluation runbook. This is the single most repository-load-bearing file reviewed so far \u2014 moving it requires updating a repository governance instruction file, not just research navigation.",
       "confidence": "high",
       "ambiguity": "Because CLAUDE.md itself contains a numbered 'Critical Learning' section whose content is a condensed restatement of parts of this file, moving this file raises the question of whether CLAUDE.md's own embedded summary should also be revised, or left as-is with only the pointer path updated. This is an architecture/governance decision, not resolved here.",
       "scope_classification": "migration-candidate",
@@ -468,22 +655,33 @@
       "source_path": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md",
       "source_hash": "54b79ae288a1e5c1b927eae404d298e069057f68b7b46b5a9a5e6776fcdf9ce7",
       "current_filename": "EVID-PHASE4-TASK8-EXIT-GATE.md",
-      "title": "PHASE 4 — TASK 8 EXIT GATE EVIDENCE: Native SharePoint Skills Pilot: Agent Provisioning & Verification",
+      "title": "PHASE 4 \u2014 TASK 8 EXIT GATE EVIDENCE: Native SharePoint Skills Pilot: Agent Provisioning & Verification",
       "content_summary": "Formal exit-gate evidence record for Phase 4 Task 8: agent provisioning checklist, resource-identifier verification (site_id/web_id/list_id/unique_id), configuration verification against a working reference agent. Task-scoped completion evidence, not general research.",
       "primary_subjects": [],
       "secondary_subjects": [],
       "artifact_type": "evidence-report",
       "lifecycle_status": "active",
-      "phase_provenance": ["4"],
+      "phase_provenance": [
+        "4"
+      ],
       "evidence_status": "task-exit-gate-verification",
-      "source_relationships": ["cited by and cites PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"],
-      "related_documents": ["PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md", "docs/reports/phase-4-native-sharepoint-skills/ (the phase's own report directory)"],
+      "source_relationships": [
+        "cited by and cites PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+      ],
+      "related_documents": [
+        "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+        "docs/reports/phase-4-native-sharepoint-skills/ (the phase's own report directory)"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"],
-      "outbound_references": ["PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"],
+      "inbound_references": [
+        "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+      ],
+      "outbound_references": [
+        "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+      ],
       "dependencies": [],
-      "classification_rationale": "This is phase task-exit-gate evidence misfiled under docs/research/ rather than docs/reports/phase-4-native-sharepoint-skills/ where 26 sibling Phase 4 evidence files already live. By genre and content this belongs with phase evidence, not enduring research — this was correctly flagged in the prior (incomplete) discovery pass and that conclusion is CONFIRMED by direct content reading, not just filename inference.",
+      "classification_rationale": "This is phase task-exit-gate evidence misfiled under docs/research/ rather than docs/reports/phase-4-native-sharepoint-skills/ where 26 sibling Phase 4 evidence files already live. By genre and content this belongs with phase evidence, not enduring research \u2014 this was correctly flagged in the prior (incomplete) discovery pass and that conclusion is CONFIRMED by direct content reading, not just filename inference.",
       "confidence": "high",
       "ambiguity": null,
       "scope_classification": "phase-evidence",
@@ -501,20 +699,559 @@
       "current_filename": "concept-dual-target-rendering-agent-vs-human.md",
       "title": "Architectural Concept Note: Dual-Target Rendering (Human-Facing vs. Agent-Optimized Publication)",
       "content_summary": "Defines the dual-target rendering model: a single canonical-content source of truth rendered into two specialized outputs (human-facing formatted page vs. agent-optimized token-dense digest), with grounded-citation links back to the human-facing target. Cites field-note-aspx-vs-markdown-grounding-comparison.md as tenant-tested support for its premise.",
-      "primary_subjects": ["publication-delivery"],
-      "secondary_subjects": ["knowledge-discovery-retrieval"],
+      "primary_subjects": [
+        "publication-delivery"
+      ],
+      "secondary_subjects": [
+        "knowledge-discovery-retrieval"
+      ],
       "artifact_type": "synthesis",
       "lifecycle_status": "active",
-      "phase_provenance": ["5", "6"],
+      "phase_provenance": [
+        "5",
+        "6"
+      ],
       "evidence_status": "internally-authored-concept-with-tenant-tested-support",
-      "source_relationships": ["cites field-note-aspx-vs-markdown-grounding-comparison.md directly for evidentiary support"],
-      "related_documents": ["field-note-aspx-vs-markdown-grounding-comparison.md"],
+      "source_relationships": [
+        "cites field-note-aspx-vs-markdown-grounding-comparison.md directly for evidentiary support"
+      ],
+      "related_documents": [
+        "field-note-aspx-vs-markdown-grounding-comparison.md"
+      ],
       "overlaps_with": null,
       "possible_consolidation_group": null,
-      "inbound_references": ["not yet grepped with line numbers"],
-      "outbound_references": ["field-note-aspx-vs-markdown-grounding-comparison.md (2 citations)"],
+      "inbound_references": [
+        "not yet grepped with line numbers"
+      ],
+      "outbound_references": [
+        "field-note-aspx-vs-markdown-grounding-comparison.md (2 citations)"
+      ],
       "dependencies": [],
       "classification_rationale": "Foundational rendering-architecture concept, durable across phases, explicitly grounded in tenant-tested evidence rather than speculative.",
+      "confidence": "high",
+      "ambiguity": null,
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-001",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/README.md",
+      "source_hash": "d53292810cc0032c9121fb89b331264cdcbd2cf1bc7c3f2195a1cf458ae31633",
+      "current_filename": "README.md",
+      "title": "docx-to-content Legacy References (folder index)",
+      "content_summary": "Self-documenting index explaining WHY each file in this folder exists: material never re-attributed to one of the 4 Wave 2-5 domain plugins during Phase 4.5 decomposition, either because it spans multiple plugins' domains or is small setup/notes material. Explicitly states canonical-contract.md and publication-map-contract.md are PRE-WAVE-4 SUPERSEDED versions, kept for historical reference only.",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "artifact_type": "index",
+      "lifecycle_status": "active-explains-superseded-siblings",
+      "phase_provenance": [
+        "1",
+        "4.5"
+      ],
+      "evidence_status": "n/a-navigational",
+      "source_relationships": [
+        "indexes all 12 other files in this folder"
+      ],
+      "related_documents": [
+        "docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [
+        "docs/superpowers/plans/phase-4-5-evidence/phase-4-5-exit-statement.md"
+      ],
+      "dependencies": [],
+      "classification_rationale": "This README is itself the authoritative explanation of the folder's archival status \u2014 content directly confirms the 'archive with README' hypothesis from prior sessions was correct, but goes further: it distinguishes files that are superseded (2) from files that are simply un-migrated during decomposition (7).",
+      "confidence": "high",
+      "ambiguity": null,
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-002",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md",
+      "source_hash": "f10a0e5d1f882be9b7fe727a194289e744e5a5781fab736b293eee6ee9a492b8",
+      "current_filename": "canonical-contract.md",
+      "title": "Canonical Contract (pre-Wave-4, SUPERSEDED)",
+      "content_summary": "Versioned data-contract documentation (dataclasses, hashing) for the original combined docx-to-content pipeline. Per this folder's own README, EXPLICITLY SUPERSEDED by structured-content-assembly's current references/contracts/canonical-package.md \u2014 kept for historical reference only.",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "specification",
+      "lifecycle_status": "superseded",
+      "phase_provenance": [
+        "1",
+        "2"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [
+        "superseded by plugins/structured-content-assembly/references/contracts/canonical-package.md (per folder README, not independently verified in this pass)"
+      ],
+      "related_documents": [
+        "docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md"
+      ],
+      "overlaps_with": [
+        "plugins/structured-content-assembly/references/contracts/canonical-package.md (current authoritative version, not yet read in this pass)"
+      ],
+      "possible_consolidation_group": null,
+      "inbound_references": [
+        "docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md"
+      ],
+      "outbound_references": [
+        "docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md"
+      ],
+      "dependencies": [],
+      "classification_rationale": "CONFIRMED superseded by direct content + folder README cross-check, not filename inference. Still has one live inbound reference from a superpowers spec, which will need review as an intentional-historical-reference vs. update-needed decision.",
+      "confidence": "high",
+      "ambiguity": "Whether the 2026-08-02-multi-document-destination-configuration-design.md reference to this file is a deliberate historical citation or should point to the current authoritative contract instead \u2014 requires reading that spec's citation context, not done in this pass.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-003",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md",
+      "source_hash": "2b7970d969bc57fa8c0c1cf572a06eb549b9d20f05d467fad058549020d3d8aa",
+      "current_filename": "content-authoring-guide.md",
+      "title": "Content Authoring Guide",
+      "content_summary": "Guide for humans authoring canonical Markdown content: distinguishes author-owned content (prose, procedures, images) from code-generated elements (TOC, navigation). References templates/content/manual-topic.md and references/supported-markdown-profile.md as companion documents.",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "specification",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [
+        "companion to templates/content/manual-topic.md and supported-markdown-profile.md, both in same folder"
+      ],
+      "related_documents": [
+        "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md",
+        "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [
+        "templates/content/manual-topic.md",
+        "references/supported-markdown-profile.md (relative path, folder-internal)"
+      ],
+      "dependencies": [],
+      "classification_rationale": "Per folder README, this file is NOT one of the 2 superseded contract files \u2014 it's un-migrated cross-domain material (spans authoring + rendering domains) still describing a currently-relevant author/system split. No external inbound references found, so it is not runtime-load-bearing outside this folder, but it is internally load-bearing (cites 2 sibling files by relative path).",
+      "confidence": "high",
+      "ambiguity": "Whether this genuinely-still-useful authoring guidance should move to structured-content-engineering as an ACTIVE document (not archived) rather than being grouped with the 2 truly superseded contract files \u2014 this folder is not homogeneous and a single 'archive the whole folder' operation may be wrong for this file specifically.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-004",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md",
+      "source_hash": "2f5b4fba13d3a5cd68e6d22f1fc2aa310e33b6f8a65f4261a3ccbbf482ad5ce7",
+      "current_filename": "extraction-triggers.md",
+      "title": "Plugin Extraction Triggers",
+      "content_summary": "Authorization-neutral list of conditions under which a docx-to-content workstream would become a candidate for extraction into its own plugin (per docs/vision/master-initiative-plan-workstreams-and-phases.md's proposed plugin names). Explicitly states meeting a trigger does not itself authorize extraction.",
+      "primary_subjects": [
+        "architecture-design-patterns"
+      ],
+      "secondary_subjects": [
+        "strategic-planning-vision"
+      ],
+      "artifact_type": "specification",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [
+        "cites docs/vision/master-initiative-plan-workstreams-and-phases.md for plugin naming"
+      ],
+      "related_documents": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md"
+      ],
+      "dependencies": [],
+      "classification_rationale": "Decision-framework document (governance-adjacent), not phase evidence and not superseded per the folder's own README. Relevant to plugin-architecture decisions still being made (Phase 9 extraction candidates).",
+      "confidence": "high",
+      "ambiguity": "Given Phase 4.5's actual plugin decomposition already happened, some trigger conditions here may now be historical (describing decisions already made) rather than forward-looking. Requires cross-check against docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md, not done in this pass.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-005",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md",
+      "source_hash": "0f30cb439f65d8756f67c4fdc0b3364f8666d8c9a0408d5df3f5198a372a6073",
+      "current_filename": "future-output-profiles.md",
+      "title": "Future Output Profiles",
+      "content_summary": "310-line survey of output profiles docx-to-content could render to beyond Phase 1 (non-Markdown formats). Explicitly documentation-only, does not authorize building any profile. Longest file in the legacy folder by a wide margin (next-longest is 95 lines).",
+      "primary_subjects": [
+        "publication-delivery"
+      ],
+      "secondary_subjects": [
+        "architecture-design-patterns"
+      ],
+      "artifact_type": "specification",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [],
+      "related_documents": [
+        "docs/research/concept-dual-target-rendering-agent-vs-human.md (both concern future/multi-target rendering, not cross-referenced to each other in text sampled)"
+      ],
+      "overlaps_with": [
+        "docs/research/concept-dual-target-rendering-agent-vs-human.md (topical overlap: both survey future rendering targets; not confirmed as duplicative without full read of both)"
+      ],
+      "possible_consolidation_group": "future-rendering-targets",
+      "inbound_references": [
+        "architecture.md (repository-root file)"
+      ],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "Substantial (310-line) survey document, referenced from the repository-root architecture.md file \u2014 a governance/architecture-index-class reference, not merely research navigation. Largest single legacy file and possibly most valuable for publication-delivery domain.",
+      "confidence": "medium",
+      "ambiguity": "Only the first 12 lines were read in this pass; the full 310 lines have not been reviewed, so the topical-overlap flag against concept-dual-target-rendering-agent-vs-human.md is a hypothesis based on title/scope proximity, not confirmed duplicate content. Also: architecture.md (root file) references it \u2014 that reference's exact nature (link vs. citation vs. list entry) was not inspected.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-006",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/generated-elements.md",
+      "source_hash": "b64433850bc44ee175c10b6bbf6c3e140a0baa2dd5606cf67f6efd4a1a191fdc",
+      "current_filename": "generated-elements.md",
+      "title": "Generated Elements",
+      "content_summary": "Short (18-line) table distinguishing renderer-generated elements (TOC, navigation) from author-written content, with implementation status per element. Companion to content-authoring-guide.md.",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "specification",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [
+        "companion to content-authoring-guide.md (cited by it)"
+      ],
+      "related_documents": [
+        "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "Small reference table, still accurate per README (not one of the 2 superseded files), tightly coupled to content-authoring-guide.md \u2014 likely should move together if either moves.",
+      "confidence": "high",
+      "ambiguity": null,
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-007",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md",
+      "source_hash": "84c6a9800600106875b61bdee686ad24261daadac5421121837124661b628e1d",
+      "current_filename": "known-pandoc-gaps.md",
+      "title": "Known Pandoc Gaps",
+      "content_summary": "3-line UNFILLED PLACEHOLDER STUB: 'Placeholder for known-pandoc-gaps documentation. Details to follow in later tasks.' No actual content was ever written.",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "artifact_type": "stub-placeholder",
+      "lifecycle_status": "never-completed",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-empty-stub",
+      "source_relationships": [],
+      "related_documents": [],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "FACTUAL CORRECTION FROM CONTENT READING: this file is not a completed reference document at all \u2014 it is a 3-line placeholder that was never filled in, likely superseded in practice by known-pandoc-gaps content that may now live inside plugins/source-document-extraction/ documentation (not verified in this pass). Prior sessions never flagged this because they never opened the file.",
+      "confidence": "high",
+      "ambiguity": "Whether real 'known pandoc gaps' documentation now exists elsewhere (e.g. in the source-document-extraction plugin) and this stub is simply dead weight, or whether this genuinely-unaddressed gap should be flagged back to the user as an open documentation debt unrelated to the IA migration. Recommend excluding from migration entirely (not archive-worthy, not move-worthy) pending user decision.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-008",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md",
+      "source_hash": "fe2e265b70c4ef413fab48312ee2f8d6b04dc9656af987200ddb91816b68e8fa",
+      "current_filename": "pandoc-docx-setup.md",
+      "title": "Pandoc DOCX Setup Reference",
+      "content_summary": "3-line UNFILLED PLACEHOLDER STUB: 'Placeholder for pandoc-docx-setup documentation. Details to follow in later tasks.' No actual content was ever written. Real pandoc setup instructions now live in DEPENDENCIES.md per repository convention (not verified in this pass, but CLAUDE.md's Dependencies section points there).",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "artifact_type": "stub-placeholder",
+      "lifecycle_status": "never-completed-likely-superseded-by-DEPENDENCIES.md",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-empty-stub",
+      "source_relationships": [
+        "likely superseded by repository-root DEPENDENCIES.md per CLAUDE.md's Dependencies section (not independently verified)"
+      ],
+      "related_documents": [
+        "DEPENDENCIES.md"
+      ],
+      "overlaps_with": [
+        "DEPENDENCIES.md (hypothesized, not confirmed)"
+      ],
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "SAME FACTUAL CORRECTION AS arch-007: never-completed placeholder stub, not real documentation. Likely fully superseded by DEPENDENCIES.md, which CLAUDE.md identifies as the authoritative running log of external tool dependencies.",
+      "confidence": "high",
+      "ambiguity": "Same as arch-007 \u2014 recommend excluding from migration (this is empty content, not knowledge to preserve), but flagging to user rather than silently deciding.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-009",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md",
+      "source_hash": "be3de3f6546e425b964e32e9bd9208bdefb854bc457161be5bc3eb74ac853f2f",
+      "current_filename": "publication-map-contract.md",
+      "title": "publication-map.json Contract (pre-Wave-4, SUPERSEDED)",
+      "content_summary": "Documents the publication-map.json contract for grouped-strategy canonical packages. Per folder README, EXPLICITLY SUPERSEDED by structured-content-assembly's current publication-map.md contract reference \u2014 kept for historical reference only.",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "specification",
+      "lifecycle_status": "superseded",
+      "phase_provenance": [
+        "1",
+        "2"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [
+        "superseded by plugins/structured-content-assembly/references/contracts/publication-map.md (per folder README, not independently verified)"
+      ],
+      "related_documents": [],
+      "overlaps_with": [
+        "plugins/structured-content-assembly/references/contracts/publication-map.md"
+      ],
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "CONFIRMED superseded per folder README, same class as arch-002 (canonical-contract.md). No external inbound references found.",
+      "confidence": "high",
+      "ambiguity": null,
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-010",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md",
+      "source_hash": "ffcc6daedef0f8aad618847f9bdf3c099175389e38f8a796eb145b4f3204cdf8",
+      "current_filename": "supported-markdown-profile.md",
+      "title": "Supported Markdown Profile",
+      "content_summary": "Defines the Markdown subset authored canonical content must use to remain renderable across output formats (relative-path rules for images/links, etc.). Companion to content-authoring-guide.md.",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "specification",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [
+        "cited by content-authoring-guide.md"
+      ],
+      "related_documents": [
+        "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "Active authoring-rules specification per folder README, not superseded. Tightly coupled to content-authoring-guide.md.",
+      "confidence": "high",
+      "ambiguity": "Whether this profile is still accurate given Phase 4.5's decomposition (originally written for the combined docx-to-content plugin) has not been cross-checked against current plugin behavior.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-011",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md",
+      "source_hash": "da91ab8b5816499a8166548db20cef5513cf88ba0772c677b6dae03ae772518a",
+      "current_filename": "README.md",
+      "title": "Semantic Components (authoring reference)",
+      "content_summary": "Documents GitHub-style alert-callout syntax ([!WARNING] etc.) as the semantic-signaling convention for authored content, instead of ad-hoc bold/emoji.",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "specification",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-specification",
+      "source_relationships": [
+        "part of templates/ family with manual-topic.md and manual-topic-example.md"
+      ],
+      "related_documents": [
+        "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md",
+        "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "Authoring-convention reference, no external inbound references, part of a 3-file templates/ family that should likely move/stay together.",
+      "confidence": "high",
+      "ambiguity": null,
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-012",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md",
+      "source_hash": "15b2988ec9e011ce1561fb905aaa2bb6294ff261a4075a2bec4f93ccb1151501",
+      "current_filename": "manual-topic.md",
+      "title": "Manual Topic Template",
+      "content_summary": "Blank authoring template with YAML frontmatter (content_type, title, owner, status, review_date, audience) and section skeleton for a manual topic. Referenced by content-authoring-guide.md.",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "template",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-template",
+      "source_relationships": [
+        "referenced by content-authoring-guide.md; has a filled example at templates/examples/manual-topic-example.md"
+      ],
+      "related_documents": [
+        "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md",
+        "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "Reusable authoring template with a real frontmatter schema (content_type/title/owner/status/review_date/audience) \u2014 this is the first file in the corpus so far with a candidate metadata schema of its own, potentially relevant to the metadata-model design question for the wider migration.",
+      "confidence": "high",
+      "ambiguity": "This template's frontmatter fields (owner, status, review_date, audience) are a plausible starting point for the research-document metadata schema being designed for the wider migration \u2014 worth comparing against that design rather than treating as unrelated.",
+      "scope_classification": "migration-candidate",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "id": "arch-013",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md",
+      "source_hash": "2a4fd28eb1fba9e13243c5e2d8edb1f61f45895806cc26003508ebf2092768bf",
+      "current_filename": "manual-topic-example.md",
+      "title": "Manual Topic Template \u2014 Filled Example (Password Reset)",
+      "content_summary": "Worked example of the manual-topic.md template filled in with realistic content ('Resetting Your Workstation Password', IT Support Team owner, reviewed 2026-01-15).",
+      "primary_subjects": [
+        "structured-content-engineering"
+      ],
+      "secondary_subjects": [],
+      "artifact_type": "template-example",
+      "lifecycle_status": "active-per-readme-not-superseded",
+      "phase_provenance": [
+        "1"
+      ],
+      "evidence_status": "n/a-example",
+      "source_relationships": [
+        "filled instance of templates/content/manual-topic.md"
+      ],
+      "related_documents": [
+        "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "classification_rationale": "Companion example to arch-012; should move/stay together as a pair.",
       "confidence": "high",
       "ambiguity": null,
       "scope_classification": "migration-candidate",
@@ -531,26 +1268,58 @@
     "docs_reports": {
       "path": "docs/reports/",
       "subdirectories": {
-        "phase-4-native-sharepoint-skills": {"md_file_count": 26, "read_status": "not-read", "expected_scope_classification": "phase-evidence"},
-        "phase-5-sharepoint-knowledge-agent-pilot": {"md_file_count": 1, "read_status": "not-read", "expected_scope_classification": "phase-evidence", "note": "count seems low vs. prior pass's claim of 15 files in this directory; needs re-verification, prior counts may have been wrong"},
-        "phase-6-task-0": {"md_file_count": 1, "read_status": "not-read", "expected_scope_classification": "phase-evidence"},
-        "phase-7-cowork-copilot-studio-evaluation": {"md_file_count": 4, "read_status": "not-read", "expected_scope_classification": "phase-evidence"},
-        "phase-4-5-core-plugin-refactoring": {"md_file_count": 1, "read_status": "not-read", "expected_scope_classification": "governing-specification-or-phase-evidence"},
-        "multi-document-destination-config": {"md_file_count": 2, "read_status": "not-read", "expected_scope_classification": "ambiguous — could be architecture or phase evidence"},
-        "sdd-task-reports": {"md_file_count": 2, "read_status": "not-read", "expected_scope_classification": "phase-evidence"},
-        "research-information-architecture": {"md_file_count": 7, "read_status": "self-referential — this discovery session's own output, excluded from corpus"}
+        "phase-4-native-sharepoint-skills": {
+          "md_file_count": 26,
+          "read_status": "not-read",
+          "expected_scope_classification": "phase-evidence"
+        },
+        "phase-5-sharepoint-knowledge-agent-pilot": {
+          "md_file_count": 1,
+          "read_status": "not-read",
+          "expected_scope_classification": "phase-evidence",
+          "note": "count seems low vs. prior pass's claim of 15 files in this directory; needs re-verification, prior counts may have been wrong"
+        },
+        "phase-6-task-0": {
+          "md_file_count": 1,
+          "read_status": "not-read",
+          "expected_scope_classification": "phase-evidence"
+        },
+        "phase-7-cowork-copilot-studio-evaluation": {
+          "md_file_count": 4,
+          "read_status": "not-read",
+          "expected_scope_classification": "phase-evidence"
+        },
+        "phase-4-5-core-plugin-refactoring": {
+          "md_file_count": 1,
+          "read_status": "not-read",
+          "expected_scope_classification": "governing-specification-or-phase-evidence"
+        },
+        "multi-document-destination-config": {
+          "md_file_count": 2,
+          "read_status": "not-read",
+          "expected_scope_classification": "ambiguous \u2014 could be architecture or phase evidence"
+        },
+        "sdd-task-reports": {
+          "md_file_count": 2,
+          "read_status": "not-read",
+          "expected_scope_classification": "phase-evidence"
+        },
+        "research-information-architecture": {
+          "md_file_count": 7,
+          "read_status": "self-referential \u2014 this discovery session's own output, excluded from corpus"
+        }
       },
       "correction_note": "Prior (incomplete) discovery pass claimed 52 total docs/reports files; a direct recount here shows 37 non-self-referential .md files (26+1+1+4+1+2+2). Prior counts were not independently verified against the filesystem and should not be trusted without re-verification."
     },
     "docs_architecture": {
       "path": "docs/architecture/",
       "read_status": "1 of ~18 files sampled (phase-4-5-target-architecture.md, first 60 lines only)",
-      "note": "docx-to-content-legacy-references/ subfolder (13 files) not yet read at all. Sampled file confirms 'enduring architecture reference, historical record of transition' framing in its own text — supports but does not prove the res-015-style hypothesis that it belongs in architecture-design-patterns."
+      "note": "docx-to-content-legacy-references/ subfolder (13 files) not yet read at all. Sampled file confirms 'enduring architecture reference, historical record of transition' framing in its own text \u2014 supports but does not prove the res-015-style hypothesis that it belongs in architecture-design-patterns."
     },
     "docs_superpowers_specs_and_plans": {
       "path": "docs/superpowers/specs/ and docs/superpowers/plans/",
       "read_status": "2 files sampled (2026-07-28-phase2-canonical-publication-contract-hardening-design.md first 60 lines; phase-4-5-target-architecture.md)",
-      "note": "Phase 2 design spec sampled text explicitly self-describes as design/architecture ('make the ... boundary explicit, independently testable') distinct from phase execution evidence — supports treating specs as a distinct scope_classification ('governing-specification') from phase-evidence, but this is only directly confirmed for 1 of ~12 spec files and ~30 plan files."
+      "note": "Phase 2 design spec sampled text explicitly self-describes as design/architecture ('make the ... boundary explicit, independently testable') distinct from phase execution evidence \u2014 supports treating specs as a distinct scope_classification ('governing-specification') from phase-evidence, but this is only directly confirmed for 1 of ~12 spec files and ~30 plan files."
     },
     "tools_phase_star": {
       "path": "tools/phase-3-sharepoint-discovery/, tools/phase-4-native-sharepoint-skills/, tools/phase-5-sharepoint-knowledge-agent-pilot/",
@@ -560,7 +1329,7 @@
     "plugins_docs_and_skills": {
       "path": "plugins/*/skills/*/SKILL.md, plugins/*/docs/, plugins/*/evaluations/",
       "read_status": "not read directly; identified only via grep hits as inbound-reference sources to res-012, res-013, res-014",
-      "note": "CONFIRMED: at least 4 distinct live plugin/skill files reference docs/research/ paths by name (plugins/sharepoint-content-publication/skills/publish-aspx-to-sharepoint/SKILL.md; plugins/structured-content-rendering/skills/render-sharepoint-aspx/SKILL.md; plugins/sharepoint-agents-and-skills/skills/configure-sharepoint-agent-knowledge/SKILL.md; plugins/sharepoint-agents-and-skills/evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md). These are runtime dependencies, not merely navigational references — any move of the cited files requires updating these plugin-owned files as well."
+      "note": "CONFIRMED: at least 4 distinct live plugin/skill files reference docs/research/ paths by name (plugins/sharepoint-content-publication/skills/publish-aspx-to-sharepoint/SKILL.md; plugins/structured-content-rendering/skills/render-sharepoint-aspx/SKILL.md; plugins/sharepoint-agents-and-skills/skills/configure-sharepoint-agent-knowledge/SKILL.md; plugins/sharepoint-agents-and-skills/evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md). These are runtime dependencies, not merely navigational references \u2014 any move of the cited files requires updating these plugin-owned files as well."
     },
     "claude_md_and_governance": {
       "path": "CLAUDE.md, start-here.md, .agents/",
@@ -575,7 +1344,7 @@
     "confirmed_navigational_or_cross_document_references": 12,
     "total_confirmed_so_far": 17,
     "previously_claimed_total": 354,
-    "reconciliation_status": "NOT RECONCILED — the 354 figure from the prior incomplete pass was a raw grep line count across broad patterns, not a deduplicated, categorized, or line-numbered inventory. It should not be treated as reliable until a systematic pass is done."
+    "reconciliation_status": "NOT RECONCILED \u2014 the 354 figure from the prior incomplete pass was a raw grep line count across broad patterns, not a deduplicated, categorized, or line-numbered inventory. It should not be treated as reliable until a systematic pass is done."
   },
   "architecture_alternatives_status": {
     "note": "Per current instruction, the 6-domain tree from the prior session must be treated as ONE HYPOTHESIS to test, not a decided structure. No architecture alternatives have yet been formally compared against the corpus. This requires the corpus inventory to be substantially more complete first (at minimum, all docs/research/ + docs/reports/ + docs/architecture/ read) before a meaningful comparison of research-vs-reports-merge options is possible.",
