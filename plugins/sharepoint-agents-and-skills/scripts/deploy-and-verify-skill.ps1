@@ -122,8 +122,11 @@ try {
         $folder = Add-PnPFolder -Name (Split-Path $targetRelativeFolder -Leaf) -Folder "$targetLibraryTitle/$(Split-Path $targetRelativeFolder -Parent)"
     }
 
-    # 6. Upload source file to exact target path
-    $uploadedFile = Add-PnPFile -Path $sourcePath -Folder $targetFolderUrl -FileName $targetFilename -Values @{ Title = $manifest.skill_name }
+    # 6. Upload source file to exact target path. -NewFileName (not -FileName) is the correct
+    # parameter for the "Upload file" parameter set that -Path selects -- -FileName belongs to a
+    # different, stream-based parameter set and mixing it with -Path caused "Parameter set cannot
+    # be resolved" (found 2026-08-03 on a real live-tenant execution attempt).
+    $uploadedFile = Add-PnPFile -Path $sourcePath -Folder $targetFolderUrl -NewFileName $targetFilename -Values @{ Title = $manifest.skill_name }
     $serverRelativeUrl = $uploadedFile.ServerRelativeUrl
 
     Write-Host "Uploaded artifact to server-relative URL: $serverRelativeUrl" -ForegroundColor Green
