@@ -1,4 +1,110 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 ACCEPTED_WITH_LIMITATIONS, PR Pending Merge
+# Resume — Phases 1–6 Complete and Merged to main; Phase 7 NOT_STARTED
+
+## Phase 6 — authoritative fresh-session handoff (2026-08-04, verified against git post-merge)
+
+**`PHASE_TRANSITION_READY`.** This section is the current, authoritative status — read it before
+anything else in this file. Everything below it (including the "Current status (2026-08-03)"
+section that follows) is historical detail from Phase 6's execution, preserved as the evidence
+trail, not the current summary.
+
+### Phase 6
+
+- **Status:** `PHASE_6_ACCEPTED_WITH_LIMITATIONS` (human review disposition, 2026-08-04).
+- **Branch:** `phase-6-multi-runtime-capability-model`.
+- **Final implementation/evidence commit:** `fa210ba` (live native-runtime execution + final
+  disposition); disposition-recording commit `bb95241` followed it.
+- **Merge status:** **MERGED** — PR #32, merge commit `af29173`, verified: `git rev-parse HEAD`
+  and `git rev-parse origin/main` both resolve to `af29173`; `main` tracks `origin/main`; working
+  tree clean at merge-verification time.
+- **Tasks 0–12:** complete.
+- **Task 0:** 30/30 skills complete across 4 plugins, all independently isolated-installable
+  (verified via `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py` for real, not
+  assumed — `sharepoint-content-publication`'s isolated-install failure found and fixed during
+  remediation round 2, a genuine cross-plugin dependency, not worked around).
+- **Final test counts:** `structured-content-rendering` 96/96, `sharepoint-agents-and-skills`
+  46/46, `sharepoint-content-publication` 26/26, `workbench-setup` 36/36 — all independently
+  verified, zero broken symlinks repo-wide.
+- **Live native-skill deployment:** `review-manual-topics` deployment hash verified/reconciled
+  against a real tenant (`AG-CSB-INTRANET-DEV`) — found stale, redeployed, byte-for-byte
+  readback match confirmed, reconciliation re-confirmed clean before any evaluation case ran.
+- **Live evaluation cases actually executed:** 3 of 7 `native-sharepoint`-applicable cases
+  (`AMB-01` 2/2 runs, `PERM-01`, `PERM-02` — all PASS) against the real tenant, live agent
+  `CEIS-Pilot-Knowledge-Agent`.
+- **Skipped cases:** `PERM-03`, `PERM-04`, `PERM-05`, `PERM-06` — **`SKIPPED_BY_HUMAN_DECISION`
+  only. Never represented as executed, passed, or failed.**
+- **Confirmed drift finding:** see "Confirmed limitation" below — not hidden, not softened.
+- **Live-script bugs found and fixed:** 4 real cmdlet-parameter bugs in
+  `reconcile-deployed-skill.ps1` (3) and `deploy-and-verify-skill.ps1` (1), all verified fixed
+  against the real tenant, all logged in `.agent/map-debt.md` (2026-08-03 entries), commits
+  `5e05893`, `0345b5f`.
+- **Final review-bundle path:** `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
+  phase-6-remediation-bundle.md` (consolidated index) and `task-11-exit-evidence-and-review.md`
+  (final disposition record). Task 0's own migration ledger:
+  `docs/reports/phase-6-task-0/task-0-migration-ledger-and-review-bundle.md`.
+- **Final branch commit (pre-merge):** `bb95241` on `phase-6-multi-runtime-capability-model`,
+  merged into `main` as `af29173`.
+
+### Implemented plugin state (final)
+
+| Plugin | Skills | Notes |
+|---|---|---|
+| `sharepoint-agents-and-skills` | 15 | Includes `review-manual-topics`'s two runtimes (native + repository/Claude) as one skill name |
+| `sharepoint-content-publication` | 5 | Isolated-install dependency fixed round 2 (real symlink fix, not a workaround) |
+| `structured-content-rendering` | 7 (Phase 6 additions) | Plus pre-existing Phase 1 core-pipeline skills |
+| `workbench-setup` | 3 | **Project-owned, at `plugins/workbench-setup/`** — corrected 2026-08-03 from an earlier wrong cross-repository assignment; see `.agent/map-debt.md` and `CLAUDE.md` Section 0a |
+
+**`agent-plugins-skills` (the sibling marketplace repo) was consulted only through the
+`marketplace-manager` skill, only for the `marketplace.json` registration procedure.** It does not
+own, and never owned, any Phase 6 plugin code — see `CLAUDE.md` Section 0a ("External Skill Usage
+Does Not Determine Artifact Ownership") for the standing rule this incident produced.
+
+### Confirmed limitation — carried forward exactly, not softened or generalized
+
+- **Contract maximum:** at most 2 related topics per `review-manual-topics` invocation.
+- **`repository-claude` runtime:** enforces this **deterministically**
+  (`TooManyRelatedTopicsError`).
+- **`native-sharepoint` runtime:** enforcement is **behavioral (instruction-governed) only**, not
+  code-enforced.
+- **Observed live run 1 (`AMB-01`):** consulted **3** related topics — exceeds the limit.
+- **Observed live run 2 (`AMB-01`):** consulted **7** related topics — exceeds the limit.
+- **Drift detection:** `drift_detection.py`'s `detect_drift()` correctly flagged both runs
+  (`related_topic_cap_exceeded`) — the multi-runtime model and drift detector working exactly as
+  designed, not a tooling failure.
+- **Status:** accepted known limitation and future native-skill remediation/evaluation candidate.
+  **Do not silently fix, generalize, or treat the two runtimes as equivalent in any future
+  session** — this is a confirmed, live-observed gap, not a hypothetical one.
+
+### Deferred items
+
+- `PERM-03` through `PERM-06` — skipped by explicit human decision (not a technical or access
+  blocker); available to run in a future session against the live tenant if ever wanted.
+- Native `related-topic-cap` enforcement remediation (tuning the deployed `SKILL.md` or the live
+  agent's own configuration, then re-testing live) — real, separate future work.
+- Any live-connection or tenant-write capability explicitly deferred earlier in Phase 6
+  (`setup-sharepoint-connection`'s real connection-test path still requires an explicitly injected
+  connector; `sharepoint-content-publication`'s actual tenant write remains human-authorized only,
+  per Task 12's 5a/5b split) — unchanged, not part of this closure.
+- **Phase 9 remains planning-only and has not started** — no Phase 9 implementation exists in this
+  repository; do not treat any Phase 9 candidate document as authorization.
+
+### Phase 7 entry
+
+- **Phase 7 has not started.** No Phase 7 files, branch, or worktree exist in this repository as
+  of this closure.
+- **Phase 7 must begin in a fresh session** — not a continuation of this one.
+- Before starting: read the committed Phase 7 spec/plan (if any exist under
+  `docs/superpowers/specs/`/`docs/superpowers/plans/`), `docs/vision/master-initiative-plan-
+  workstreams-and-phases.md` (the master roadmap), and this file in full.
+- Create a dedicated Phase 7 branch/worktree — do not reuse `phase-6-multi-runtime-capability-
+  model`.
+- Run `superpowers:brainstorming` before any implementation, per this repo's own Mandatory
+  Planning Protocol (see below).
+- **Do not reopen completed Phase 6 work** unless new evidence reveals a real defect in it — Phase
+  6 is closed, not paused.
+- Carry the confirmed Phase 6 drift finding (above) forward only where actually relevant to Phase
+  7's own scope — do not let it silently expand Phase 7's boundaries.
+
+---
 
 ## Current status (2026-08-03, verified against git)
 
