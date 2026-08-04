@@ -1,0 +1,188 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "research-ia-2026-08-04",
+  "repository_root": ".",
+  "created_date": "2026-08-04",
+  "status": "draft-under-review",
+  "proposed_information_architecture": {
+    "root": "docs/research",
+    "description": "Enduring research organized by subject domain, not phase",
+    "domains": [
+      {
+        "id": "sharepoint-platforms-capabilities",
+        "name": "SharePoint Platforms & Capabilities",
+        "description": "Microsoft 365, Copilot, licensing, permissions, agents",
+        "subdomains": [
+          "sharepoint-agents",
+          "copilot-in-sharepoint",
+          "copilot-cowork",
+          "copilot-studio",
+          "content-permissions-governance",
+          "platform-features-and-limits"
+        ]
+      },
+      {
+        "id": "structured-content-engineering",
+        "name": "Structured Content Engineering",
+        "description": "DOCX/PDF extraction, content models, chunking, validation, rendering",
+        "subdomains": [
+          "document-extraction-analysis",
+          "content-models-contracts",
+          "content-cleanup-chunking",
+          "multi-format-rendering",
+          "legacy"
+        ]
+      },
+      {
+        "id": "publication-delivery",
+        "name": "Publication & Delivery",
+        "description": "Rendering, approval workflows, SharePoint/Markdown publishing",
+        "subdomains": [
+          "sharepoint-publishing",
+          "markdown-publishing",
+          "publication-lifecycle",
+          "multi-target-strategy",
+          "rendering-architecture"
+        ]
+      },
+      {
+        "id": "knowledge-discovery-retrieval",
+        "name": "Knowledge Discovery & Retrieval",
+        "description": "Agent grounding, search, curation, citation",
+        "subdomains": [
+          "agent-grounding",
+          "search-retrieval",
+          "knowledge-curation",
+          "human-ai-collaboration",
+          "citation-verification"
+        ]
+      },
+      {
+        "id": "architecture-design-patterns",
+        "name": "Architecture & Design Patterns",
+        "description": "Plugin architecture, skill design, data models, deployment",
+        "subdomains": [
+          "plugin-architecture",
+          "skill-design-patterns",
+          "data-models",
+          "deployment-patterns"
+        ]
+      },
+      {
+        "id": "strategic-planning-vision",
+        "name": "Strategic Planning & Vision",
+        "description": "Roadmap, capability vision, governance, risk analysis",
+        "subdomains": [
+          "master-roadmap",
+          "capability-vision",
+          "initiative-governance",
+          "risk-analysis"
+        ]
+      },
+      {
+        "id": "research-experimentation",
+        "name": "Research & Experimentation",
+        "description": "Tenant discoveries, experiments, learnings, field notes",
+        "subdomains": [
+          "tenant-discovery",
+          "format-comparison",
+          "platform-evaluation",
+          "implementation-learnings",
+          "experiments-closed"
+        ]
+      }
+    ],
+    "metadata_directory": "_meta"
+  },
+  "entries": [
+    {
+      "id": "research-001",
+      "source_path": "docs/research/research-summary-copilot-in-sharepoint-get-started.md",
+      "source_hash": "TBD",
+      "current_filename": "research-summary-copilot-in-sharepoint-get-started.md",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities/copilot-in-sharepoint",
+      "proposed_filename": "research-copilot-in-sharepoint-preview.md",
+      "operation": "move",
+      "domain": "sharepoint-platforms-capabilities",
+      "subdomain": "copilot-in-sharepoint",
+      "artifact_type": "research-summary",
+      "lifecycle_status": "active",
+      "phase_provenance": ["7"],
+      "content_basis": "External source (Microsoft Learn, June 2026 Copilot in SharePoint preview docs)",
+      "confidence": "high",
+      "approval_status": "pending-review",
+      "ambiguity": null,
+      "consolidation_relationship": null,
+      "inbound_references": [
+        "docs/vision/key-unanswered-questions.md (line TBD)",
+        "docs/superpowers/specs/phase-3-tenant-capability-report.md (reference TBD)"
+      ],
+      "reference_treatment": "update-to-new-path",
+      "validation_requirements": ["link-resolution", "hash-verify-move-only"],
+      "notes": "Foundational research on Copilot in SharePoint capabilities, limitations, licensing"
+    },
+    {
+      "id": "research-002",
+      "source_path": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md",
+      "source_hash": "TBD",
+      "current_filename": "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities",
+      "proposed_filename": "capability-layering-across-platforms.md",
+      "operation": "move",
+      "domain": "sharepoint-platforms-capabilities",
+      "subdomain": null,
+      "artifact_type": "synthesis",
+      "lifecycle_status": "active",
+      "phase_provenance": ["3", "4"],
+      "content_basis": "Cross-phase synthesis of platform capability model (agents, skills, Cowork, Studio, GitHub)",
+      "confidence": "high",
+      "approval_status": "pending-review",
+      "ambiguity": null,
+      "consolidation_relationship": null,
+      "inbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md (multiple)",
+        "plugin docs"
+      ],
+      "reference_treatment": "update-to-new-path",
+      "validation_requirements": ["link-resolution", "vision-cross-reference"],
+      "notes": "Foundational platform layering model; should remain accessible to vision documents"
+    },
+    {
+      "id": "research-003",
+      "source_path": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md",
+      "source_hash": "TBD",
+      "current_filename": "field-note-aspx-vs-markdown-grounding-comparison.md",
+      "proposed_destination": "docs/research/knowledge-discovery-retrieval/agent-grounding",
+      "proposed_filename": "field-note-format-comparison-2026-07.md",
+      "operation": "move",
+      "domain": "knowledge-discovery-retrieval",
+      "subdomain": "agent-grounding",
+      "artifact_type": "field-note",
+      "lifecycle_status": "active",
+      "phase_provenance": ["5"],
+      "content_basis": "Tenant-tested comparison (Phase 5); 7 cases, reproducible findings on format-specific agent behavior",
+      "confidence": "high",
+      "approval_status": "pending-review",
+      "ambiguity": null,
+      "consolidation_relationship": null,
+      "inbound_references": [
+        "docs/research/concept-dual-target-rendering-agent-vs-human.md",
+        "docs/vision/key-unanswered-questions.md",
+        "docs/superpowers/plans (multiple)"
+      ],
+      "reference_treatment": "update-to-new-path",
+      "validation_requirements": ["link-resolution", "cross-reference-consistency"],
+      "notes": "Currency inference bug + repeated-run consistency finding are generalizable beyond Phase 5"
+    }
+  ],
+  "summary": {
+    "total_entries": 3,
+    "completed_entries": 3,
+    "pending_entries": 65,
+    "unresolved_destinations": 65,
+    "consolidated_groups": 0,
+    "archived_entries": 0,
+    "ambiguities": 0
+  },
+  "status_notes": "DRAFT: Sample of 3 entries shown; full 68 entries to be populated following complete content review. This manifest is authoritative; Markdown documents will summarize/reference it."
+}
