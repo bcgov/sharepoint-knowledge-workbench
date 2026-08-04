@@ -104,9 +104,18 @@ try {
         exit 0
     }
 
-    # Enumerate all skill subfolders
+    # Enumerate all skill subfolders. Uses -Identity with the already-resolved $skillsFolder
+    # object rather than -FolderSiteRelativeUrl with $skillsFolderPath: that path is
+    # SERVER-relative (e.g. "/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills", built from
+    # $agentAssetsLib.RootFolder.ServerRelativeUrl above), but -FolderSiteRelativeUrl expects a
+    # SITE-relative path (e.g. "AgentAssets/Skills") -- passing the wrong kind silently resolved
+    # to zero folders instead of erroring, which previously caused this script to falsely report
+    # DISPOSITION: TASK_8_NO_SKILLS_DEPLOYED against a tenant that actually had 2 skills deployed
+    # (found 2026-08-03 during Phase 6 native-runtime evaluation prep -- confirmed via direct
+    # SharePoint UI screenshot showing ceis-test-skill/ and review-manual-topics/ both present).
+    # -Identity sidesteps the site-relative-vs-server-relative ambiguity entirely.
     Write-Host "Enumerating skill subfolders..." -ForegroundColor Cyan
-    $skillFolders = Get-PnPFolderInFolder -FolderSiteRelativeUrl $skillsFolderPath -ErrorAction Stop
+    $skillFolders = Get-PnPFolderInFolder -Identity $skillsFolder -ErrorAction Stop
 
     if ($skillFolders.Count -eq 0) {
         Write-Host "No skill folders found in Skills/." -ForegroundColor Yellow
@@ -128,15 +137,28 @@ try {
         $skillMdPath = "$($folder.ServerRelativeUrl)/SKILL.md"
 
         try {
-            $file = Get-PnPFile -Url $skillMdPath -AsFile -ErrorAction Stop
+            # -AsFileObject (not -AsFile) returns a file object without writing to disk --
+            # -AsFile belongs to a different parameter set ("Save to local path") that requires
+            # -Path, which caused PowerShell to interactively prompt for a Path value here
+            # (found 2026-08-03 alongside the -FolderSiteRelativeUrl bug above, same debugging
+            # pass). The second Get-PnPFile call below genuinely needs -AsFile (it supplies
+            # -Path $tempPath) and is correct as-is.
+            $file = Get-PnPFile -Url $skillMdPath -AsFileObject -ErrorAction Stop
 
             Write-Host "  ✓ SKILL.md found" -ForegroundColor Green
             Write-Host "    Size: $($file.Length) bytes" -ForegroundColor Gray
             Write-Host "    Modified: $($file.TimeLastModified)" -ForegroundColor Gray
 
-            # Read file content for SHA-256 and frontmatter extraction
-            $tempPath = [System.IO.Path]::GetTempFileName()
-            Get-PnPFile -Url $skillMdPath -Path $tempPath -AsFile -Force -ErrorAction Stop | Out-Null
+            # Read file content for SHA-256 and frontmatter extraction. -Path takes a
+            # DIRECTORY and -Filename the file name separately (not one combined file path) --
+            # [System.IO.Path]::GetTempFileName() returns a full file path, which left
+            # -Filename unresolved and triggered an interactive prompt (found 2026-08-03,
+            # same debugging pass as the two fixes above). Split explicitly instead.
+            $tempFile = [System.IO.Path]::GetTempFileName()
+            $tempDir = Split-Path -Path $tempFile -Parent
+            $tempName = [System.IO.Path]::GetFileName($tempFile)
+            Get-PnPFile -Url $skillMdPath -Path $tempDir -Filename $tempName -AsFile -Force -ErrorAction Stop | Out-Null
+            $tempPath = Join-Path $tempDir $tempName
 
             $fileContent = Get-Content -Path $tempPath -Raw
             $fileHash = (Get-FileHash -Path $tempPath -Algorithm SHA256).Hash.ToLower()
