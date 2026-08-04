@@ -67,13 +67,15 @@
       "contentUpdateRationale": "Index/vision section predates Phase 7 close; reading paths and 'near-term priorities' list have not been re-checked against Phase 5-7 actual outcomes.",
       "contentUpdateApproval": "pending",
       "proposedLogicalTitle": "Research Directory Index",
-      "proposedFilename": null,
+      "proposedFilename": "README.md",
       "readCompleteness": {
         "linesShown": 100,
         "totalLines": 305,
         "percent": 33,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Index files conventionally keep README.md; content becomes cross-domain navigation, not a single flat list.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-002",
@@ -130,14 +132,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Dated external-source summary; historically accurate as a record of what Microsoft published on that date. Should carry an explicit 'verify current status before relying on licensing/limit claims' note rather than be silently treated as still-current.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Copilot in SharePoint \u2014 Preview Capabilities and Constraints",
+      "proposedFilename": "research-copilot-in-sharepoint-preview.md",
       "readCompleteness": {
         "linesShown": 50,
         "totalLines": 564,
         "percent": 9,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Drops 'get-started' tutorial framing; names the enduring subject (capabilities/constraints) an external reader would search for.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-003",
@@ -189,14 +193,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Same class as res-002 \u2014 dated external announcement summary.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Native Markdown Support in SharePoint and OneDrive",
+      "proposedFilename": "research-markdown-support-sharepoint-onedrive.md",
       "readCompleteness": {
         "linesShown": 40,
         "totalLines": 649,
         "percent": 6,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Minor rename for consistency with sibling research-* files; subject unchanged.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-004",
@@ -246,14 +252,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Dated conference-presentation summary; the government-controls list within it overlaps res-001's own list \u2014 worth a cross-link note rather than independent maintenance of two copies.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "AI in SharePoint \u2014 Setup, Automate, Insight Model",
+      "proposedFilename": "research-ai-in-sharepoint-setup-automate-insight.md",
       "readCompleteness": {
         "linesShown": 40,
         "totalLines": 667,
         "percent": 6,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Original title emphasized a marketing phrase ('content chaos to clarity'); renamed to the durable content (the 3-pillar model), matching vis-003's own naming of the same model.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-005",
@@ -301,14 +309,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Dated blog-post summary, same class as res-002/003/004.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "AI-Forward SharePoint Content Creation and Curation",
+      "proposedFilename": "research-sharepoint-content-creation-and-curation.md",
       "readCompleteness": {
         "linesShown": 40,
         "totalLines": 584,
         "percent": 7,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Drops 'Showcase' marketing framing; keeps the enduring subject.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-006",
@@ -366,14 +376,16 @@
       "recommendedContentAction": "update",
       "contentUpdateRationale": "Foundational synthesis, but the Phase 6 multi-runtime finding is a real extension/refinement of its core claims, not just an application of them \u2014 the abstract model this document describes was tested and found to have a real behavioral gap between runtimes.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Capability Layering Across SharePoint Platforms and GitHub Copilot",
+      "proposedFilename": "capability-layering-across-platforms.md",
       "readCompleteness": {
         "linesShown": 80,
         "totalLines": 701,
         "percent": 11,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Shortened; the full platform list (Cowork/Copilot Studio/GitHub) is implicit in 'across platforms' and stated in the doc body.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-007",
@@ -432,14 +444,16 @@
       "recommendedContentAction": "cross-link",
       "contentUpdateRationale": "Overlaps res-006 (same consolidation group) \u2014 recommend resolving both together via a shared update or synthesis rather than editing independently.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "SharePoint Agents and Native Skills as Workbench Outputs",
+      "proposedFilename": "sharepoint-agents-and-native-skills-as-workbench-outputs.md",
       "readCompleteness": {
         "linesShown": 60,
         "totalLines": 794,
         "percent": 8,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Title/filename already accurately describe content; no change needed.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-008",
@@ -492,14 +506,16 @@
       "recommendedContentAction": "cross-link",
       "contentUpdateRationale": "Decision-tree guidance is process-level, not fact-level \u2014 remains applicable; would benefit from a cross-link to Phase 6's actual runtime-selection outcomes as a worked example, not a rewrite.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Skill Runtime Decision Guide \u2014 SharePoint vs. GitHub Copilot",
+      "proposedFilename": "skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
       "readCompleteness": {
         "linesShown": 50,
         "totalLines": 612,
         "percent": 8,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate; no change needed.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-009",
@@ -551,14 +567,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Empirical tenant field note; correctly scoped as a record of what was observed at the time. The file's own text already flags that preview behavior may differ across tenants/time \u2014 no rewrite needed.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Field Note \u2014 Creating a Native Skill in the AgentAssets Library",
+      "proposedFilename": "field-note-agentassets-skill-creation.md",
       "readCompleteness": {
         "linesShown": 60,
         "totalLines": 510,
         "percent": 12,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Drops the specific skill name (review-manual-topics) from the filename since the finding generalizes to skill creation broadly, per the note's own framing; phase identity (dated field note) implicit in artifact_type.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-010",
@@ -608,14 +626,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Confirmed finding, dated, self-contained \u2014 no later phase is known to have revisited this specific behavior.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Field Note \u2014 Ready-Made Copilot Agent Launch-by-Name (Confirmed Not a Hand-Off)",
+      "proposedFilename": "field-note-agent-launch-by-name-not-a-handoff.md",
       "readCompleteness": {
         "linesShown": 60,
         "totalLines": 119,
         "percent": 50,
         "depth": "substantial-partial"
-      }
+      },
+      "filenameRationale": "Filename foregrounds the CONFIRMED finding, not the open question the original title framed it as.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-011",
@@ -677,14 +697,16 @@
       "recommendedContentAction": "cross-link",
       "contentUpdateRationale": "High-value, well-evidenced Phase 5 field note; recommend adding forward cross-links to later related findings rather than editing the original evidence.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Field Note \u2014 ASPX vs. Markdown Grounding Comparison",
+      "proposedFilename": "field-note-aspx-vs-markdown-grounding.md",
       "readCompleteness": {
         "linesShown": 60,
         "totalLines": 91,
         "percent": 66,
         "depth": "substantial-partial"
-      }
+      },
+      "filenameRationale": "Phase identity (Phase 5) is essential here \u2014 this is dated tenant evidence, not a durable synthesis \u2014 so 'field-note' prefix and no phase number in filename is correct per the naming rule; date belongs in frontmatter, not filename.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-012",
@@ -750,14 +772,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Raw evidence log, explicitly distinct from its own synthesized companion (phase-3-tenant-capability-report.md, excluded from this corpus). Marked uncertain rather than guessing its currency without checking the file's own revision history.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Field Note \u2014 SharePoint Write-Capability Discovery (Phase 3 Raw Log)",
+      "proposedFilename": "field-note-sharepoint-write-capability-discovery.md",
       "readCompleteness": {
         "linesShown": 40,
         "totalLines": 1055,
         "percent": 4,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "RENAMED FROM 'research-summary-*': confirmed by content this is a raw evidence log, not a research summary \u2014 the artifact-type correction from earlier in this session is now reflected in the filename. Phase 3 identity kept in content_summary/frontmatter, not filename, since it is explicitly 'continuously updated' and may extend past Phase 3.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-013",
@@ -814,14 +838,26 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Working journal, correctly historical in form; a forward note pointing to the Phase 6 formalization would help readers without rewriting the journal itself.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Field Note \u2014 Phase 4 Agent Format Learning Journal",
+      "proposedFilename": "phase-4-agent-format-learning-journal.md",
       "readCompleteness": {
         "linesShown": 50,
         "totalLines": 177,
         "percent": 28,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Phase identity IS essential here \u2014 this is explicitly a chronological journal of one phase's discovery process, distinct in genre from a synthesis. Keep as-is.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "res-013",
+            "res-014"
+          ],
+          "reason": "Both titled around 'Phase 4 Agent Format' / 'Phase 4 SharePoint Agents' learnings \u2014 distinct genres (chronological journal vs. structured root-cause record) but similar enough titles that a reader skimming a folder listing could conflate them or read only one assuming it's a duplicate.",
+          "mitigation": "Keep both; ensure content_summary/frontmatter clearly states the genre distinction (journal vs. resolution record) since titles alone don't disambiguate."
+        }
+      ]
     },
     {
       "id": "res-014",
@@ -885,14 +921,26 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Real tension: this file functions as BOTH historical evidence AND (via CLAUDE.md's direct citation) current governing guidance. Recommend adding an explicit status update to the file's own header noting Task 8 was subsequently completed (see EVID-PHASE4-TASK8-EXIT-GATE.md) rather than leaving it reading as still in-progress.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Phase 4 SharePoint Agents \u2014 Critical Learnings and Resolutions",
+      "proposedFilename": "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
       "readCompleteness": {
         "linesShown": 50,
         "totalLines": 402,
         "percent": 12,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Same reasoning as res-013: phase identity is load-bearing (this documents a specific incident's root-cause/resolution), and the title is already accurate. No rename.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "res-013",
+            "res-014"
+          ],
+          "reason": "Both titled around 'Phase 4 Agent Format' / 'Phase 4 SharePoint Agents' learnings \u2014 distinct genres (chronological journal vs. structured root-cause record) but similar enough titles that a reader skimming a folder listing could conflate them or read only one assuming it's a duplicate.",
+          "mitigation": "Keep both; ensure content_summary/frontmatter clearly states the genre distinction (journal vs. resolution record) since titles alone don't disambiguate."
+        }
+      ]
     },
     {
       "id": "res-015",
@@ -943,14 +991,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Phase evidence, correctly frozen at its own completion point.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Phase 4 Task 8 Exit Gate Evidence",
+      "proposedFilename": "EVID-PHASE4-TASK8-EXIT-GATE.md",
       "readCompleteness": {
         "linesShown": 30,
         "totalLines": 110,
         "percent": 27,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "PHASE-EVIDENCE, NOT RESEARCH \u2014 recommend archiving to docs/reports/phase-4-native-sharepoint-skills/ rather than renaming within docs/research/; title stays as-is regardless of destination.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "res-016",
@@ -1007,14 +1057,16 @@
       "recommendedContentAction": "update",
       "contentUpdateRationale": "Foundational architecture concept later actually implemented (not just theorized) in Phase 6 \u2014 the concept document should point forward to its own realization as evidence the model works, rather than remain purely speculative in tone.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Dual-Target Rendering \u2014 Human-Facing vs. Agent-Optimized Publication",
+      "proposedFilename": "dual-target-rendering-concept.md",
       "readCompleteness": {
         "linesShown": 50,
         "totalLines": 67,
         "percent": 75,
         "depth": "substantial-partial"
-      }
+      },
+      "filenameRationale": "Drops 'Architectural Concept Note:' prefix (redundant with artifact_type metadata); keeps the durable concept name.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-001",
@@ -1063,14 +1115,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "The folder's own index; accurately describes its own contents as of Phase 4.5.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "docx-to-content Legacy References \u2014 Folder Index",
+      "proposedFilename": "README.md",
       "readCompleteness": {
         "linesShown": 17,
         "totalLines": 17,
         "percent": 100,
         "depth": "full"
-      }
+      },
+      "filenameRationale": "Index stays README.md by convention.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-002",
@@ -1127,14 +1181,26 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "Confirmed superseded by its own folder's README; no content update needed, only relocation/archival treatment.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Canonical Contract (Pre-Wave-4, Superseded)",
+      "proposedFilename": "canonical-contract.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 95,
         "percent": 16,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Superseded status is essential to the title per the naming rule \u2014 this is historical evidence of a since-replaced contract. Keep as-is.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "arch-002",
+            "arch-009"
+          ],
+          "reason": "Both are '[X] Contract (Pre-Wave-4, Superseded)' \u2014 same supersession status, same era, different subject (canonical vs. publication-map). Low risk since subjects are named distinctly, but flagged since both share the parenthetical.",
+          "mitigation": "No action needed \u2014 the subject nouns (Canonical vs. Publication Map) are sufficiently distinct."
+        }
+      ]
     },
     {
       "id": "arch-003",
@@ -1188,14 +1254,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Per folder README this is NOT one of the 2 superseded files, but written for the pre-decomposition combined plugin \u2014 marked uncertain rather than assumed still-accurate.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Content Authoring Guide",
+      "proposedFilename": "content-authoring-guide.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 59,
         "percent": 25,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Durable subject, no phase label needed. Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-004",
@@ -1249,14 +1317,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Decision framework partially overtaken by events (the Phase 4.5 extraction it hypothesizes about already happened for some workstreams).",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Plugin Extraction Triggers",
+      "proposedFilename": "extraction-triggers.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 34,
         "percent": 44,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Durable decision-framework subject. Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-005",
@@ -1310,14 +1380,16 @@
       "recommendedContentAction": "update",
       "contentUpdateRationale": "Largest legacy file; explicitly forward-looking survey of rendering targets \u2014 Phase 6 partially realized one of the targets it likely surveys. Needs a full read before an update can be scoped precisely.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Future Output Profiles Survey",
+      "proposedFilename": "future-output-profiles.md",
       "readCompleteness": {
         "linesShown": 12,
         "totalLines": 310,
         "percent": 4,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Minor: keep as-is, already names the enduring subject.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-006",
@@ -1365,14 +1437,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Small, stable reference table; companion to arch-003.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Generated Elements Reference",
+      "proposedFilename": "generated-elements.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 18,
         "percent": 83,
         "depth": "substantial-partial"
-      }
+      },
+      "filenameRationale": "Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-007",
@@ -1416,14 +1490,16 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "Empty 3-line placeholder stub; recommend explicit delete-or-complete decision rather than migrating empty content forward.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Known Pandoc Gaps (Unfilled Placeholder)",
+      "proposedFilename": "known-pandoc-gaps.md",
       "readCompleteness": {
         "linesShown": 3,
         "totalLines": 3,
         "percent": 100,
         "depth": "full"
-      }
+      },
+      "filenameRationale": "Filename accurately named already; recommend ARCHIVE/DELETE disposition over rename \u2014 an empty stub doesn't need a better name, it needs a decision.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-008",
@@ -1475,14 +1551,16 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "Same as arch-007 \u2014 empty stub, likely fully superseded by DEPENDENCIES.md.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Pandoc DOCX Setup Reference (Unfilled Placeholder)",
+      "proposedFilename": "pandoc-docx-setup.md",
       "readCompleteness": {
         "linesShown": 3,
         "totalLines": 3,
         "percent": 100,
         "depth": "full"
-      }
+      },
+      "filenameRationale": "Same as arch-007 \u2014 empty stub, disposition matters more than naming.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-009",
@@ -1533,14 +1611,26 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "Confirmed superseded per folder README, same class as arch-002.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Publication Map Contract (Pre-Wave-4, Superseded)",
+      "proposedFilename": "publication-map-contract.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 76,
         "percent": 20,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Same reasoning as arch-002.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "arch-002",
+            "arch-009"
+          ],
+          "reason": "Both are '[X] Contract (Pre-Wave-4, Superseded)' \u2014 same supersession status, same era, different subject (canonical vs. publication-map). Low risk since subjects are named distinctly, but flagged since both share the parenthetical.",
+          "mitigation": "No action needed \u2014 the subject nouns (Canonical vs. Publication Map) are sufficiently distinct."
+        }
+      ]
     },
     {
       "id": "arch-010",
@@ -1590,14 +1680,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Same uncertainty class as arch-003/004 \u2014 plausibly still accurate, not independently verified.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Supported Markdown Profile",
+      "proposedFilename": "supported-markdown-profile.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 49,
         "percent": 31,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Durable subject, already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-011",
@@ -1646,14 +1738,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Small, self-contained authoring-syntax convention; unlikely to have changed.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Semantic Components \u2014 Authoring Reference",
+      "proposedFilename": "README.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 40,
         "percent": 38,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-012",
@@ -1702,14 +1796,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Reusable template; frontmatter schema is a candidate input to the wider metadata-model design question but the template itself is not stale.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Manual Topic Template",
+      "proposedFilename": "manual-topic.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 46,
         "percent": 33,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "id": "arch-013",
@@ -1757,14 +1853,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Companion example to arch-012.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Manual Topic Template \u2014 Filled Example",
+      "proposedFilename": "manual-topic-example.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 59,
         "percent": 25,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "dec953c86cf4479c9fa10ff56ed2c7054f743dac1bf80b5092cdc0406543fb29",
@@ -1808,14 +1906,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Self-dated, self-described as a deliberately-preserved historical record with a pointer to current names elsewhere.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Phase 4.5 Target Architecture (As-Built, Historical)",
+      "proposedFilename": "phase-4-5-target-architecture.md",
       "readCompleteness": {
         "linesShown": 60,
         "totalLines": 117,
         "percent": 51,
         "depth": "substantial-partial"
-      }
+      },
+      "filenameRationale": "Phase identity essential \u2014 this is explicitly a historical record of one phase's transition state. Keep as-is.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "21533f5da5e2e82ea7529a0a32e5be09b44e59bbf4d9d2e0ca43273b6cabb1af",
@@ -1868,14 +1968,16 @@
       "recommendedContentAction": "cross-link",
       "contentUpdateRationale": "Live tracking artifact, actively regenerated as Phase 6/9 progress \u2014 not something to freeze as historical, but its exact currency relative to the latest Phase 6 state was not independently re-verified this session.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Complete Plugin/Skill Catalog \u2014 Post-Phase-9 Projection",
+      "proposedFilename": "complete-plugin-skill-catalog-after-phase-9.md",
       "readCompleteness": {
         "linesShown": 30,
         "totalLines": 225,
         "percent": 13,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Phase identity essential (it's literally a Phase-9-gated projection); already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "78ce98251f5bc30f94ddc059294efe6d43716e999262f551da4858099703e7b2",
@@ -1923,14 +2025,16 @@
       "recommendedContentAction": "cross-link",
       "contentUpdateRationale": "Same as arch-015 \u2014 machine-readable half of the same artifact.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Complete Plugin/Skill Catalog (machine-readable companion)",
+      "proposedFilename": "complete-plugin-skill-catalog-after-phase-9.json",
       "readCompleteness": {
         "linesShown": 12,
         "totalLines": 725,
         "percent": 2,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Machine-readable sibling of arch-015; filename must match arch-015's basename by convention (validator script hardcodes the pairing) \u2014 no independent rename possible without breaking the validator.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "dd5fe9e5b10912f59b873ad106fbbe19a1416d5d1ee0ecf30749b49f8cefe94c",
@@ -1978,14 +2082,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Executable validator, correctness is defined by whether it still passes against its siblings, not by 'currency' in the documentation sense.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Plugin/Skill Catalog Validator (executable script)",
+      "proposedFilename": "validate_plugin_skill_catalog.py",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 215,
         "percent": 7,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Executable validator script; filename is a code identifier referenced by its own docstring/usage instructions \u2014 should not be renamed independent of a deliberate script-refactor decision, out of scope for this IA effort.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "TBD-not-hashed-separately",
@@ -2040,14 +2146,16 @@
       "recommendedContentAction": "update",
       "contentUpdateRationale": "Accurately describes the 10 files that exist, but the broken external reference and the 06-09 vision-document pairings this session found are not reflected in the README's own text.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Structured Content Pipeline Diagram Set \u2014 Index",
+      "proposedFilename": "README.md",
       "readCompleteness": {
         "linesShown": 52,
         "totalLines": 52,
         "percent": 100,
         "depth": "full"
-      }
+      },
+      "filenameRationale": "Index stays README.md by convention.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "e7faa729696b4e2857296b3a292599d4d99574f16946c631d6760dd6ba8aea0f",
@@ -2092,14 +2200,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Accurately depicts completed, accepted Phase 1 flow.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Phase 1 Overview Diagram",
+      "proposedFilename": "01-phase1-overview.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 20,
         "percent": 30,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Phase identity essential \u2014 one of 5 explicitly Phase-1-scoped authorized diagrams. Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "1ebcbb9dade1271d28833a78a539fcdba840e3626f10354672d440be76a4451d",
@@ -2143,14 +2253,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Same as diag-001.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Analyze and Confirm Stage Diagram",
+      "proposedFilename": "02-analyze-and-confirm.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 19,
         "percent": 32,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate; part of the same Phase-1 authorized set.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "b1ea6d51aa436f86b2636322f06de9f1896cda4fccebd6e2520d29507c10eb30",
@@ -2194,14 +2306,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Same as diag-001.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Create Canonical Content Stage Diagram",
+      "proposedFilename": "03-create-canonical-content.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 30,
         "percent": 20,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "ec8491254acab490c5ae30775d86adeebaaadb1f87f0377152c84d8c15332980",
@@ -2245,14 +2359,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Same as diag-001.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Generate and Render Stage Diagram",
+      "proposedFilename": "04-generate-and-render.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 25,
         "percent": 24,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "51ab6afbca02554bbded96c8469288e4c8bc5a21cc52c17502525e59731fd208",
@@ -2296,14 +2412,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Same as diag-001.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Validation and Evidence Stage Diagram",
+      "proposedFilename": "05-validation-and-evidence.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 54,
         "percent": 11,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "755e404da637def9a2d494439611b921bdf350d1e095f1018e3f5a2c09b8670c",
@@ -2353,14 +2471,28 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Speculative and explicitly not-selected; a forward note confirming what Phase 3 actually did (for contrast) would help readers, without rewriting the candidate diagram itself.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Editing Workflow Hybrid Option Diagram (Not Selected, Phase 3 Candidate)",
+      "proposedFilename": "06-editing-workflow-hybrid-option.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 112,
         "percent": 5,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Phase identity + not-selected status both essential to avoid this being mistaken for an adopted workflow. Already accurate.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "diag-006",
+            "diag-007",
+            "diag-008",
+            "diag-009"
+          ],
+          "reason": "All four are '[X] Diagram (Speculative, Phase N)' \u2014 same qualifier pattern across 4 files. Low individual-file risk since each names a distinct workflow, but as a set they could read as more interchangeable than they are (diag-007/008 are an explicit pair; diag-006 and diag-009 are unrelated to each other and to different phases).",
+          "mitigation": "No rename needed \u2014 recommend the architecture proposal's directory placement (not filename) do the disambiguating work, e.g. grouping diag-007/008 together and separating diag-006/009 by their respective source vision documents."
+        }
+      ]
     },
     {
       "source_hash": "6f27c2d3201eb5f6cc239e0490f4f36c1029dc1db28771f24f252b3dc6e3ec04",
@@ -2406,14 +2538,28 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Same as diag-006 \u2014 paired diagram.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Publisher-Triggered Render Workflow Diagram (Speculative, Phase 3)",
+      "proposedFilename": "07-publisher-triggered-render-workflow.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 20,
         "percent": 30,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Same reasoning as diag-006. Already accurate.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "diag-006",
+            "diag-007",
+            "diag-008",
+            "diag-009"
+          ],
+          "reason": "All four are '[X] Diagram (Speculative, Phase N)' \u2014 same qualifier pattern across 4 files. Low individual-file risk since each names a distinct workflow, but as a set they could read as more interchangeable than they are (diag-007/008 are an explicit pair; diag-006 and diag-009 are unrelated to each other and to different phases).",
+          "mitigation": "No rename needed \u2014 recommend the architecture proposal's directory placement (not filename) do the disambiguating work, e.g. grouping diag-007/008 together and separating diag-006/009 by their respective source vision documents."
+        }
+      ]
     },
     {
       "source_hash": "f49761aafc3086099e5a549033bb6afc74d3bde5c8a2d6205440bec19a16f232",
@@ -2459,14 +2605,28 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Same as diag-006/007.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Editor Submission and Approval Workflow Diagram (Speculative, Phase 3)",
+      "proposedFilename": "08-editor-submission-and-approval-workflow.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 19,
         "percent": 32,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Same reasoning. Already accurate.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "diag-006",
+            "diag-007",
+            "diag-008",
+            "diag-009"
+          ],
+          "reason": "All four are '[X] Diagram (Speculative, Phase N)' \u2014 same qualifier pattern across 4 files. Low individual-file risk since each names a distinct workflow, but as a set they could read as more interchangeable than they are (diag-007/008 are an explicit pair; diag-006 and diag-009 are unrelated to each other and to different phases).",
+          "mitigation": "No rename needed \u2014 recommend the architecture proposal's directory placement (not filename) do the disambiguating work, e.g. grouping diag-007/008 together and separating diag-006/009 by their respective source vision documents."
+        }
+      ]
     },
     {
       "source_hash": "19dae7945489317f3e71d3ddde46e0c3e5f248dd52d26f8f4f1b1a69083c7dee",
@@ -2515,14 +2675,28 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Explicitly 'NOT TRIGGERED, NOT AUTHORIZED' \u2014 this status is still accurate as of Phase 7 close per start-here.md (Phase 6.5 has not been triggered).",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Phase 6.5 Ongoing Authoring and Republishing Loop Diagram (Speculative)",
+      "proposedFilename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 70,
         "percent": 9,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Phase identity essential \u2014 the diagram IS the Phase 6.5 placeholder's visual definition. Already accurate.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "diag-006",
+            "diag-007",
+            "diag-008",
+            "diag-009"
+          ],
+          "reason": "All four are '[X] Diagram (Speculative, Phase N)' \u2014 same qualifier pattern across 4 files. Low individual-file risk since each names a distinct workflow, but as a set they could read as more interchangeable than they are (diag-007/008 are an explicit pair; diag-006 and diag-009 are unrelated to each other and to different phases).",
+          "mitigation": "No rename needed \u2014 recommend the architecture proposal's directory placement (not filename) do the disambiguating work, e.g. grouping diag-007/008 together and separating diag-006/009 by their respective source vision documents."
+        }
+      ]
     },
     {
       "source_hash": "16b74edb8716cc78eabbf236daf055fe09658ad4284c4e4d8676f9ba83809d38",
@@ -2568,14 +2742,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "Parent/overview companion to diag-001, same currency.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "High-Level Pipeline Diagram",
+      "proposedFilename": "high-level.mmd",
       "readCompleteness": {
         "linesShown": 6,
         "totalLines": 48,
         "percent": 12,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate; parent/overview companion to diag-001.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "TBD",
@@ -2617,14 +2793,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Task 0 reconnaissance record using pre-rename path names (sourcedocuments/, output/) \u2014 a brief note pointing to the current intake/runs/ names would help readers without rewriting the historical record itself.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Phase 1 Task 0 Implementation Baseline",
+      "proposedFilename": "implementation-baseline.md",
       "readCompleteness": {
         "linesShown": 30,
         "totalLines": 75,
         "percent": 40,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Phase identity essential \u2014 dated reconnaissance record using pre-rename paths. Already accurate; recommend add-status-note (per currency plan), not rename.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "514f15b18370d5447d824c127bb1e33110fa73a5fdd0ef7e43da1d294138ee95",
@@ -2669,14 +2847,16 @@
       "recommendedContentAction": "update",
       "contentUpdateRationale": "Confirmed incompleteness: the authority table is missing 2 real files. Should be corrected as part of or alongside this IA effort.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Vision and Implementation Planning \u2014 Directory Index",
+      "proposedFilename": "README.md",
       "readCompleteness": {
         "linesShown": 145,
         "totalLines": 413,
         "percent": 35,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Index stays README.md; content needs the authority-table completeness fix (vis-009/vis-010 missing) noted separately in the currency plan, not a rename.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "62d67399fd3563a799119eea70ce884cbb76dc55820b103c3f21585fa47641de",
@@ -2724,14 +2904,16 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "REVISED FROM PRIOR 'update' RECOMMENDATION AFTER FULL READ. The existing 2026-08-02 banner already does real corrective work \u2014 recommend strengthening it (e.g., an explicit 'Sections 4-7 describe proposals that were not adopted as written; see the reconciliation table above before reading further' warning at each superseded section head) rather than rewriting the historical body, which would destroy the provenance value of seeing what was originally proposed vs. what happened. This is a 'historically accurate, needs a clearer currency signal at point of use' case, not a 'needs its facts updated' case.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Broader Initiative Plan (Historical, 2026-08-02 Corrective Banner)",
+      "proposedFilename": "ai-assisted-structured-knowledge-workbench-broader-plan.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 1147,
         "percent": 1,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "MAJOR FINDING FROM FULL READ: title should signal its now-confirmed historical-with-banner status. Recommend NOT renaming the file itself (it's a well-known reference point, cited by CLAUDE.md and others) but strongly recommend the add-status-note action from the currency plan take priority over any rename.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "9c7bf920a0f32a8537555f1914844f262f3d6ac58f5aecd8e1e5192bc21c2600",
@@ -2779,14 +2961,16 @@
       "recommendedContentAction": "cross-link",
       "contentUpdateRationale": "REVISED FROM PRIOR 'update' RECOMMENDATION AFTER FULL READ. Unlike vis-002, this document's content is not wrong or superseded \u2014 it is a still-valid capability vision that later phases have begun realizing narrower pieces of. The appropriate action is forward cross-links to Phase 4/6 evidence where the vision's ideas were tested, not a rewrite of the vision itself.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "AI-Assisted SharePoint Knowledge Workbench \u2014 Government Vision",
+      "proposedFilename": "ai-assisted-sharepoint-knowledge-workbench-government-vision.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 1384,
         "percent": 1,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Confirmed durable after full read; already accurate, no change needed.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "80c1039f543d961855431e67df52fa45d94172b6f42306958ef1913940b15855",
@@ -2832,14 +3016,16 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "Confirmed superseded by both self-declaration and folder README; the repo's own recommended action (extract unique content, then archive) was never executed.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Government Structured Knowledge and SharePoint Governance Vision v2 (Superseded)",
+      "proposedFilename": "government-structured-knowledge-sharepoint-governance-vision-v2.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 981,
         "percent": 2,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Superseded status essential to the title. Already accurate \u2014 and the repo's own README already recommends archiving this exact file with a supersession note, per vis-001's embedded plan.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "1aeb07b8f06ec4ea6211ddfcba56b251739010085ec0827063af55c06385fdbf",
@@ -2885,14 +3071,16 @@
       "recommendedContentAction": "update",
       "contentUpdateRationale": "This is exactly the kind of 'open decision register' whose currency depends on marking items resolved as findings land \u2014 worth a dedicated resolution-sweep, not a full rewrite.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Key Unanswered Questions \u2014 Open Decision Register",
+      "proposedFilename": "key-unanswered-questions.md",
       "readCompleteness": {
         "linesShown": 15,
         "totalLines": 475,
         "percent": 3,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Already accurate; living document, needs periodic resolution-sweeps not a rename.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "bd56a7e0d7b3cc7332b20bbdbc9823f8ff3ce3bbcbd3b699ebb8b2a2d413790d",
@@ -2937,14 +3125,16 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "README's own tier-5 disposition; historical origin document, correctly frozen.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Original Vision \u2014 From Documents to Content-Centric Knowledge",
+      "proposedFilename": "vision-original.md",
       "readCompleteness": {
         "linesShown": 12,
         "totalLines": 88,
         "percent": 14,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Historical-origin status essential; already accurate.",
+      "filenameStatus": "proposed"
     },
     {
       "source_hash": "404e915f6b484f6f84783b496721e165c3da3e14f001283d5c4ce79e96fb8888",
@@ -2987,14 +3177,26 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "Same tier-5 disposition as vis-006.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Original Proposal \u2014 GitHub Copilot for Knowledge Content Management",
+      "proposedFilename": "plan-content-management-proposal.md",
       "readCompleteness": {
         "linesShown": 12,
         "totalLines": 406,
         "percent": 3,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Kept effectively as-is (matches current filename); historical-origin status via artifact_type, not filename change.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "vis-007",
+            "vis-008"
+          ],
+          "reason": "Both titled 'Original Proposal \u2014 ...' as part of the same historical-origin tier-5 group (with vis-006). Low risk since each names its distinct subject matter (content management vs. knowledge access), and they are explicitly a matched pair per vis-001's README (Part 1 / Part 2).",
+          "mitigation": "No action needed \u2014 intentional pairing, not accidental confusion."
+        }
+      ]
     },
     {
       "source_hash": "7f44ef6789724cfe63098098ef5c03f1a953a12229d939a21bf5b3bd17d0b2bc",
@@ -3037,14 +3239,26 @@
       "recommendedContentAction": "archive",
       "contentUpdateRationale": "Same tier-5 disposition as vis-006/007.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Original Proposal \u2014 SharePoint and Copilot Agents for Knowledge Access",
+      "proposedFilename": "plan-copilot-knowledge-access-proposal.md",
       "readCompleteness": {
         "linesShown": 12,
         "totalLines": 276,
         "percent": 4,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Kept as-is; historical-origin status via artifact_type.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "vis-007",
+            "vis-008"
+          ],
+          "reason": "Both titled 'Original Proposal \u2014 ...' as part of the same historical-origin tier-5 group (with vis-006). Low risk since each names its distinct subject matter (content management vs. knowledge access), and they are explicitly a matched pair per vis-001's README (Part 1 / Part 2).",
+          "mitigation": "No action needed \u2014 intentional pairing, not accidental confusion."
+        }
+      ]
     },
     {
       "source_hash": "e9b11d962c24c20e9f2bbba895528464b0a7805fb73ab0dfea98318b000eaffa",
@@ -3098,14 +3312,26 @@
       "recommendedContentAction": "add-status-note",
       "contentUpdateRationale": "Genuinely uncertain whether this remains an open question or was quietly resolved elsewhere; also confirmed missing from README's authority table.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Content-Author Editing Workflow Options (Open, Draft \u2014 Not Yet Decided)",
+      "proposedFilename": "editing-workflow-options-for-external-review.md",
       "readCompleteness": {
         "linesShown": 12,
         "totalLines": 363,
         "percent": 3,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "Draft/undecided status essential to the title to avoid confusion with vis-010's RESOLVED status despite similar naming. Already accurate; needs README authority-table addition, not rename.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "vis-009",
+            "vis-010"
+          ],
+          "reason": "CONFIRMED HIGH-RISK: both original filenames start with 'open-question-' but have OPPOSITE resolution status (vis-009 still draft/undecided, vis-010 RESOLVED). This is the most dangerous confusable pair in the corpus \u2014 a reader could reasonably assume both are equally open.",
+          "mitigation": "Recommend vis-010's proposed title lead with 'RESOLVED' as done above; consider whether a future rename should also change vis-010's filename prefix from 'open-question-' to something like 'resolved-question-' or 'decision-' to prevent this specific confusion \u2014 not executed in this session, flagged for architecture-approval decision."
+        }
+      ]
     },
     {
       "source_hash": "f01fee2455ba7f799c45ece21898b7380a51a466e0871877c2a8fa4a1bd09ca5",
@@ -3158,14 +3384,26 @@
       "recommendedContentAction": "cross-link",
       "contentUpdateRationale": "Resolution itself remains valid (Phase 6.5 still not triggered) \u2014 needs indexing/cross-linking, not content changes.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Ongoing SharePoint Editing to Re-Render Flow \u2014 Phase Placement (RESOLVED)",
+      "proposedFilename": "open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
       "readCompleteness": {
         "linesShown": 12,
         "totalLines": 149,
         "percent": 8,
         "depth": "minimal-sample"
-      }
+      },
+      "filenameRationale": "RESOLVED status essential \u2014 must be visually distinct from vis-009's still-draft status despite both starting with 'open-question-'. Recommend the RESOLVED status become more prominent in the filename itself if renamed in a future session, but no rename executed here.",
+      "filenameStatus": "proposed",
+      "filenameConfusabilityFlags": [
+        {
+          "group": [
+            "vis-009",
+            "vis-010"
+          ],
+          "reason": "CONFIRMED HIGH-RISK: both original filenames start with 'open-question-' but have OPPOSITE resolution status (vis-009 still draft/undecided, vis-010 RESOLVED). This is the most dangerous confusable pair in the corpus \u2014 a reader could reasonably assume both are equally open.",
+          "mitigation": "Recommend vis-010's proposed title lead with 'RESOLVED' as done above; consider whether a future rename should also change vis-010's filename prefix from 'open-question-' to something like 'resolved-question-' or 'decision-' to prevent this specific confusion \u2014 not executed in this session, flagged for architecture-approval decision."
+        }
+      ]
     },
     {
       "source_hash": "23bda196a1d981703fc4f5a33b9a5bac38e6d2ed69aed91f8eb047e85b63316d",
@@ -3241,14 +3479,16 @@
       "recommendedContentAction": "none",
       "contentUpdateRationale": "REASSESSED AFTER FULL READ (was 'uncertain' based on a 15-line sample). The document's Phase 7 section (lines 826-838) already states: entry gate met, desk-research round complete, Cowork and Copilot Studio both REMAIN_RESEARCH, Stage 7.2.2's build/no-build decision remains DEFERRED \u2014 dated 2026-08-03. This is materially identical to CLAUDE.md's and start-here.md's own current characterization of Phase 7 status. The document is actively, accurately maintained through Phase 7's actual (still-open) state, not stale. No update needed; this was the single highest-priority item flagged for full reading, and the full read resolves the uncertainty in the document's favor \u2014 it is current, not lagging.",
       "contentUpdateApproval": "pending",
-      "proposedLogicalTitle": null,
-      "proposedFilename": null,
+      "proposedLogicalTitle": "Master Initiative Implementation Plan \u2014 Workstreams and Phases",
+      "proposedFilename": "master-initiative-plan-workstreams-and-phases.md",
       "readCompleteness": {
         "linesShown": 1110,
         "totalLines": 1110,
         "percent": 100,
         "depth": "full"
-      }
+      },
+      "filenameRationale": "Confirmed durable, highest-authority document after full read; already accurate, no change.",
+      "filenameStatus": "proposed"
     }
   ],
   "corpus_scope_survey": {
@@ -3435,7 +3675,185 @@
         "Disposition of arch-015/016/017 (Phase 9 catalog trio) and vis-011 (master initiative plan) \u2014 recommend explicit 'retain in place, cross-link only' for vis-011 given its reference fan-out, but this is a recommendation requiring user sign-off, not a default",
         "Disposition of the 2 unfilled placeholder stubs (arch-007, arch-008) \u2014 recommend flagging for deletion-or-completion decision separately from the IA migration, not silently excluding or silently moving empty content",
         "Whether to execute vis-004's already-recorded 'extract unique content, then archive' action as part of this migration, or treat it as a separate, narrower task"
-      ]
+      ],
+      "encoded_proposal": {
+        "status": "PROPOSED, NOT APPROVED",
+        "structural_choice": "Alternative D-via-A: 4 separate top-level trees (research/, architecture/, diagrams/, vision/), each internally reorganized by content, rather than merged into one corpus (B/C were rejected \u2014 see alternatives_to_evaluate above for why).",
+        "proposed_directory_tree": {
+          "docs/research/": {
+            "description": "Reorganized by subject domain internally. Legacy folder archived with README (already exists as arch-001 through arch-013).",
+            "subdomains_tentative": [
+              "sharepoint-platforms-capabilities/",
+              "structured-content-engineering/ (includes legacy/ for arch-002 through arch-013)",
+              "publication-delivery/",
+              "knowledge-discovery-retrieval/",
+              "architecture-design-patterns/",
+              "research-experimentation/"
+            ]
+          },
+          "docs/architecture/": {
+            "description": "Top-level files (arch-014, arch-015/016/017 group) likely RETAIN IN PLACE \u2014 arch-015/016/017 have confirmed scope tension with excluded docs/superpowers/ and a hard executable coupling; arch-014 is a stable historical record with no strong reason to move.",
+            "subdomains_tentative": [
+              "no subfolder reorganization proposed \u2014 too few files (4) to warrant it"
+            ]
+          },
+          "docs/diagrams/": {
+            "description": "NOT homogeneous per diag-000's own finding: 01-05 (authorized-historical) vs 06-08 (speculative, paired with vis-009) vs 09 (speculative, paired with vis-010). Two structural options, NEITHER decided here:",
+            "option_1": "Keep all 11 files together as one folder (status quo location), rely on frontmatter/README to signal the 01-05 vs 06-09 split.",
+            "option_2": "Split: 01-05 + high-level.mmd stay in docs/diagrams/ (renamed docs/diagrams/phase-1-pipeline/ or similar); 06-08 move near vis-009 (their source document); 09 moves near vis-010 (its source document). This directly resolves the diagram<->vision-document coupling found during corpus reading but fragments the diagram folder."
+          },
+          "docs/vision/": {
+            "description": "STRONG RECOMMENDATION: adopt vis-001's OWN already-authored, never-executed reorganization plan almost verbatim, since it is repo-authored and was only blocked on 'the repository rename and restructuring decision' \u2014 which this IA effort may now constitute.",
+            "proposed_structure": {
+              "docs/vision/": [
+                "README.md (updated to add vis-009/vis-010 to its authority table \u2014 a confirmed gap)",
+                "ai-assisted-structured-knowledge-workbench-broader-plan.md (vis-002, RETAIN with strengthened corrective banner per content-currency plan)",
+                "ai-assisted-sharepoint-knowledge-workbench-government-vision.md (vis-003, RETAIN)",
+                "key-unanswered-questions.md (vis-005, RETAIN)",
+                "editing-workflow-options-for-external-review.md (vis-009, RETAIN \u2014 still draft)",
+                "open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md (vis-010, RETAIN \u2014 resolved, needs authority-table listing)",
+                "master-initiative-plan-workstreams-and-phases.md (vis-011, RETAIN \u2014 highest reference fan-out in corpus, strong 'do not move' recommendation)"
+              ],
+              "docs/vision/archive/": [
+                "government-structured-knowledge-sharepoint-governance-vision-v2.md (vis-004 \u2014 repo's own README already recommends this exact disposition)",
+                "vision-original.md (vis-006)",
+                "plan-content-management-proposal.md (vis-007)",
+                "plan-copilot-knowledge-access-proposal.md (vis-008)"
+              ]
+            }
+          }
+        },
+        "tentative_path_mapping_sample": [
+          {
+            "id": "vis-004",
+            "current": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md",
+            "tentative_destination": "docs/vision/archive/government-structured-knowledge-sharepoint-governance-vision-v2.md",
+            "destination_status": "tentative",
+            "basis": "Repo's own README.md (vis-001) already names this exact disposition."
+          },
+          {
+            "id": "arch-002",
+            "current": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md",
+            "tentative_destination": "docs/research/structured-content-engineering/legacy/canonical-contract.md",
+            "destination_status": "tentative",
+            "basis": "Confirmed superseded content, subject-domain match is structured-content-engineering."
+          },
+          {
+            "id": "res-012",
+            "current": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md",
+            "tentative_destination": "docs/research/research-experimentation/field-note-sharepoint-write-capability-discovery.md",
+            "destination_status": "tentative",
+            "basis": "Confirmed field-evidence genre (not research-summary); high reference fan-out (2 live plugin SKILL.md files) means this move requires those 2 references updated as runtime dependencies, not just navigation."
+          }
+        ],
+        "note": "Full path mapping for all 56 entries is NOT populated \u2014 per explicit instruction, destinations remain unassigned/tentative pending architecture approval. The 3 samples above illustrate the mapping mechanics for review, not a complete migration plan."
+      }
     }
+  },
+  "filename_collision_and_confusability_analysis": {
+    "exact_filename_collisions": {
+      "README.md": {
+        "entries": [
+          "res-001",
+          "arch-001",
+          "arch-011",
+          "diag-000",
+          "vis-001"
+        ],
+        "assessment": "NOT A REAL COLLISION \u2014 these are index files in 5 different directories; README.md is the correct, conventional name for a directory index regardless of how many directories have one. No action needed."
+      }
+    },
+    "confusable_but_not_colliding": [
+      {
+        "ids": [
+          "res-013",
+          "res-014"
+        ],
+        "reason": "Both titled around 'Phase 4 Agent Format' / 'Phase 4 SharePoint Agents' learnings \u2014 distinct genres (chronological journal vs. structured root-cause record) but similar enough titles that a reader skimming a folder listing could conflate them or read only one assuming it's a duplicate.",
+        "mitigation": "Keep both; ensure content_summary/frontmatter clearly states the genre distinction (journal vs. resolution record) since titles alone don't disambiguate."
+      },
+      {
+        "ids": [
+          "vis-009",
+          "vis-010"
+        ],
+        "reason": "CONFIRMED HIGH-RISK: both original filenames start with 'open-question-' but have OPPOSITE resolution status (vis-009 still draft/undecided, vis-010 RESOLVED). This is the most dangerous confusable pair in the corpus \u2014 a reader could reasonably assume both are equally open.",
+        "mitigation": "Recommend vis-010's proposed title lead with 'RESOLVED' as done above; consider whether a future rename should also change vis-010's filename prefix from 'open-question-' to something like 'resolved-question-' or 'decision-' to prevent this specific confusion \u2014 not executed in this session, flagged for architecture-approval decision."
+      },
+      {
+        "ids": [
+          "arch-002",
+          "arch-009"
+        ],
+        "reason": "Both are '[X] Contract (Pre-Wave-4, Superseded)' \u2014 same supersession status, same era, different subject (canonical vs. publication-map). Low risk since subjects are named distinctly, but flagged since both share the parenthetical.",
+        "mitigation": "No action needed \u2014 the subject nouns (Canonical vs. Publication Map) are sufficiently distinct."
+      },
+      {
+        "ids": [
+          "vis-007",
+          "vis-008"
+        ],
+        "reason": "Both titled 'Original Proposal \u2014 ...' as part of the same historical-origin tier-5 group (with vis-006). Low risk since each names its distinct subject matter (content management vs. knowledge access), and they are explicitly a matched pair per vis-001's README (Part 1 / Part 2).",
+        "mitigation": "No action needed \u2014 intentional pairing, not accidental confusion."
+      },
+      {
+        "ids": [
+          "diag-006",
+          "diag-007",
+          "diag-008",
+          "diag-009"
+        ],
+        "reason": "All four are '[X] Diagram (Speculative, Phase N)' \u2014 same qualifier pattern across 4 files. Low individual-file risk since each names a distinct workflow, but as a set they could read as more interchangeable than they are (diag-007/008 are an explicit pair; diag-006 and diag-009 are unrelated to each other and to different phases).",
+        "mitigation": "No rename needed \u2014 recommend the architecture proposal's directory placement (not filename) do the disambiguating work, e.g. grouping diag-007/008 together and separating diag-006/009 by their respective source vision documents."
+      }
+    ],
+    "summary": "1 exact-name collision found (README.md x5), assessed as non-issue (directory-index convention). 5 confusable-title groups found (10 entries total), most assessed as low-risk given distinct subject nouns; ONE high-risk pair identified: vis-009/vis-010, whose original 'open-question-' filename prefix is misleading for vis-010 specifically since it is RESOLVED, not open. Flagged for architecture-approval decision, not resolved unilaterally in this session."
+  },
+  "candidate_count_reconciliation": {
+    "figures_used_across_this_effort": [
+      {
+        "figure": 218,
+        "session": "Session 1 (initial discovery)",
+        "method": "find command across docs/research, docs/vision, docs/architecture, docs/reports, docs/superpowers, tools/phase-* \u2014 broad, unfiltered directory scan.",
+        "status": "SUPERSEDED \u2014 too broad, included phase evidence and planning artifacts never intended as migration candidates."
+      },
+      {
+        "figure": 68,
+        "session": "Session 1 refinement",
+        "method": "Never independently verified against the filesystem. Cross-checking every path named as a 'candidate' in prior Markdown tables against real files (this session) found only 29 of the ~68 named paths exist on disk.",
+        "status": "INVALID \u2014 confirmed fabricated/miscounted. ~39 of the ~68 named paths were PROPOSED DESTINATION paths from an earlier premature taxonomy, never real source files."
+      },
+      {
+        "figure": 29,
+        "session": "This session, early pass",
+        "method": "docs/research/ (16 real files) + docs/architecture/docx-to-content-legacy-references/ (13 real files), verified to exist via `find` + individual reads.",
+        "status": "SUPERSEDED \u2014 correct as far as it went, but scope was too narrow; excluded docs/architecture/ top-level, docs/diagrams/, docs/vision/, and docs/ root, which the user subsequently confirmed in-scope."
+      },
+      {
+        "figure": 56,
+        "session": "This session, current",
+        "method": "29 (above) + docs/architecture/ top-level (4: phase-4-5-target-architecture.md, complete-plugin-skill-catalog-after-phase-9.{md,json}, validate_plugin_skill_catalog.py) + docs/diagrams/ (11: README + 10 .mmd files) + docs/vision/ (11 files) + docs/ root (1: implementation-baseline.md). All 56 verified to exist via `find`+`wc -l`, all opened and classified with real content (though at varying read depth \u2014 see readCompleteness field per entry).",
+        "status": "CURRENT AND AUTHORITATIVE \u2014 this is the reproducible, filesystem-verified corpus for this IA effort."
+      }
+    ],
+    "reproduction_command": "find docs/research -maxdepth 1 -name '*.md' -type f; find docs/architecture -maxdepth 1 -type f; find docs/architecture/docx-to-content-legacy-references -type f; find docs/diagrams -type f; find docs/vision -maxdepth 1 -name '*.md' -type f; find docs -maxdepth 1 -name '*.md' -type f | grep -v README | wc -l   # -> 56",
+    "explicitly_excluded_trees": [
+      {
+        "path": "docs/superpowers/",
+        "reason": "Phase-execution specs/plans/SDD evidence \u2014 separate lifecycle, per user direction. ~68 files not entered as migration candidates, though 3 entries (arch-015, arch-016, vis-011) are noted as content-sourced-from or functionally-continuous-with this tree \u2014 a real scope tension, not silently ignored."
+      },
+      {
+        "path": "docs/reports/",
+        "reason": "Phase-execution evidence \u2014 separate historical archive area, per user direction. ~37 files not entered as migration candidates (this discovery session's own output directory, docs/reports/research-information-architecture/, is self-excluded for the same reason plus obvious self-reference)."
+      },
+      {
+        "path": "tools/phase-*/",
+        "reason": "Temporary implementation artifacts (raw discovery output, evaluation cases, results) \u2014 referenced AS DEPENDENCIES by several corpus entries (e.g. res-011, res-012 both extract-from tools/phase-*/ evidence) but not themselves migration candidates."
+      },
+      {
+        "path": "plugins/*/skills/*/SKILL.md, plugins/*/docs/, plugins/*/evaluations/",
+        "reason": "Operational plugin documentation with its own hub-and-spoke/symlink governance (CLAUDE.md's Plugin-Local Resource Sharing section) \u2014 out of scope for a research/vision/architecture IA effort. 4 confirmed as runtime-dependency referrers INTO the corpus (see reference_and_dependency_findings), not migration candidates themselves."
+      }
+    ]
   }
 }
