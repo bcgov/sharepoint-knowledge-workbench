@@ -82,12 +82,17 @@ agents, publication, and evaluation — is planned in
 stage-level master plan, reviewed across multiple rounds of external adversarial review) and
 originally proposed in `docs/vision/README.md` and
 `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`. **Updated 2026-08-03:**
-Phases 1–5 are complete; Phase 6 Task 0 (`docs/superpowers/plans/phase-6-multi-runtime-
-capability-model-plan-scaffold.md`) is `AUTHORIZED_AND_IN_PROGRESS` — see `start-here.md` for
-current status. Phase 6 Tasks 1–12 (shared-capability derivation) remain
-`NOT_AUTHORIZED_UNTIL_TASK_0_EXIT_GATE`; later phases beyond 6 are deliberately planned at
-a structural level only, gated on evidence (tenant facts, pilot outcomes) that doesn't exist yet —
-see the master plan's own detail-level discipline before assuming any phase beyond 6 is ready to
+Phases 1–6 are complete and merged to `main`. **Phase 7 (Cowork & Copilot Studio Evaluation)
+desk-research round is `COMPLETE`** — Copilot Cowork and Copilot Studio both `REMAIN_RESEARCH`;
+the master roadmap's Stage 7.2.2 build/no-build decision is `DEFERRED`, not satisfied by this
+round. No implementation, environment, tenant, or proof-of-concept work is authorized for either
+platform. Re-entry triggers: a Copilot Studio Dedicated Environment becomes available, or Copilot
+Cowork becomes enabled in the tenancy. See `start-here.md` for current status and
+`docs/reports/phase-7-cowork-copilot-studio-evaluation/desk-research-evidence-memo.md` (plus its
+supporting `prior-research-source-ledger.md`, `capability-gap-analysis.md`, and
+`current-source-verification-record.md`) for the full evidence record. Later phases beyond 7 are
+deliberately planned at a structural level only, gated on evidence that doesn't exist yet — see
+the master plan's own detail-level discipline before assuming any later phase is ready to
 implement.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
