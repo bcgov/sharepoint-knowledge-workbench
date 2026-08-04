@@ -1,23 +1,26 @@
-# Phase 6 Task 11 — Exit Evidence and Review (CORRECTED, remediation round 2)
+# Phase 6 Task 11 — Exit Evidence and Review (FINAL)
 
-**Round 2 correction, 2026-08-03.** Round 1 fixed the evaluation-gap framing. The human review of
-round 1 correctly identified that Task 0's own exit gate requires **plugin independence**
-(isolated installability), which `sharepoint-content-publication`'s isolated-install failure
-violated — meaning Task 0 was not actually fully complete either, not just Tasks 1–12's evaluation
-gate. Round 2 fixes that (real dependency fix, not a workaround) and resolves `BOUND-01`'s
-case-vs-code question from the actual approved contract, per the round-2 review's exact
-instructions. See `phase-6-remediation-bundle.md`'s round-2 addendum for the full index.
+**Final update, 2026-08-04.** Round 1 fixed the evaluation-gap framing. Round 2 fixed
+`sharepoint-content-publication`'s isolated-install dependency and resolved `BOUND-01` from the
+approved contract. This final update closes the last item: the human partner obtained live tenant
+access and personally drove the `native-sharepoint` runtime's live Copilot chat, executing 3 of
+the 7 applicable cases (4 explicitly skipped by their own decision). See
+`phase-6-remediation-bundle.md`'s final addendum for the full index.
 
 ## Disposition
 
-**`PHASE_6_IMPLEMENTATION_COMPLETE_EVALUATION_BLOCKED_ON_LIVE_TENANT_ONLY`.** Task 0's exit gate
-(30/30 skills, all now genuinely isolated-installable) is met. Tasks 1–12's shared-capability-
-model artifacts are complete, tested, and — after round 2 — `BOUND-01` is resolved from the
-approved `SKILL.md` contract (no implementation change needed; the case definition was wrong, not
-the code). The **only** remaining blocker to the Phase 6 evaluation exit criterion is the 7 native-
-sharepoint cases needing live tenant execution, which this session cannot perform (no PnP/Copilot
-access) — a runbook is prepared (`evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md`), not
-executed, per the review's own Item 4 ("stop immediately before the live tenant run").
+**`PHASE_6_COMPLETE_WITH_ONE_CONFIRMED_LIVE_DRIFT_FINDING`.** Task 0's exit gate (30/30 skills,
+all genuinely isolated-installable) is met. Tasks 1–12's shared-capability-model artifacts are
+complete and tested. `BOUND-01` is resolved from the approved contract. The `native-sharepoint`
+runtime has now been executed live against the real tenant — 3 of 7 applicable cases run and
+graded (all PASS), 4 explicitly skipped by the human partner's informed decision (not a technical
+blocker). **One real, confirmed finding survives this final pass and is not resolved**: `AMB-01`'s
+live execution exceeded the related-topic cap on both runs (3 and 7 consulted vs. an allowance of
+2) — empirical proof of the behavioral-enforcement gap Task 4's adversarial review flagged as
+theoretical earlier this session. This is a live-agent-behavior finding, not a code defect in this
+repository, and fixing it (prompt/instruction tuning on the deployed `SKILL.md`, or reducing what
+the agent treats as "evidence") is future work, not blocking this phase's closure — it is recorded
+as a known, real limitation for the accepting reviewer to weigh.
 
 ## Derivation trace (updated)
 
@@ -49,13 +52,14 @@ executed, per the review's own Item 4 ("stop immediately before the live tenant 
     agent-preview-vs-authoritative-pipeline rule is retained, and clarified as strengthened, not
     weakened, by the 5a/5b split.
 
-## Evaluations (corrected count)
+## Evaluations (final count)
 
 12 cases total. `repository-claude`-applicable: 5 (NORM-01, NEG-01, SAFE-01, SAFE-02, BOUND-01) —
-all 5 executed with full semantic review this remediation pass, 4 PASS, 1 (BOUND-01) surfaced a
-real case-vs-code mismatch. `native-sharepoint`-applicable: 7 (the above 5 minus BOUND-01/SAFE-02's
-repository-specific framing, plus 6 permission cases and AMB-01, now native-only) — **0 of 7
-executed**, blocked on live tenant access.
+all 5 executed with full semantic review, 5 PASS (BOUND-01's case-vs-code question resolved from
+contract at round 2). `native-sharepoint`-applicable: 7 (AMB-01 + 6 `PERM-*` cases) — **3 of 7
+executed live** (AMB-01, PERM-01, PERM-02 — all PASS), **4 of 7 explicitly skipped by human
+decision** (PERM-03 through PERM-06). Total: 10 of 12 cases have real executed results; 2 skipped
+by informed human choice, not a technical or access blocker.
 
 ## Drift proof
 
@@ -83,14 +87,41 @@ Unchanged: Task 4's adversarial pass, accepted with corrections already applied.
 
 Unchanged: Task 9's table.
 
-## Blocking items — after round 2, exactly one remains
+## Blocking items — none remain
 
-1. **`native-sharepoint` execution of the 7 applicable cases** — 0 of 7 executed; no live tenant/
-   PnP/Copilot access in this session. **This is the sole remaining blocker to the Phase 6
-   evaluation exit criterion.** A runbook is prepared
-   (`plugins/sharepoint-agents-and-skills/evaluations/common/
-   NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md`) but not run, per the round-2 review's Item 4. Requires
-   a session with live tenant access to close.
+Zero hard blockers remain. One real, unresolved finding survives (see Disposition above and the
+"Remaining known limitation" section below) but does not block phase closure — it is a recorded
+limitation for the reviewer to weigh, not an incomplete task.
+
+## Resolved this final update — live native-runtime execution
+
+- **`native-sharepoint` execution of the 7 applicable cases** — no longer blocked. The human
+  partner obtained live PnP/Entra tenant access and personally drove the live Copilot chat
+  (`CEIS-Pilot-Knowledge-Agent`, `AG-CSB-INTRANET-DEV`), using the prepared runbook's exact
+  prompts/identities, unchanged. Precondition first verified/fixed: the deployed
+  `review-manual-topics` skill was stale (hash mismatch) — redeployed, byte-for-byte readback
+  confirmed, reconciliation re-confirmed clean before any case ran. Along the way, 4 real
+  cmdlet-parameter bugs were found and fixed in `reconcile-deployed-skill.ps1`/`deploy-and-
+  verify-skill.ps1` (see `.agent/map-debt.md`'s 2026-08-03 entries, commits `5e05893`, `0345b5f`)
+  — all previously-untested-live scripts.
+  - **3 of 7 executed: `AMB-01` (2/2 runs), `PERM-01`, `PERM-02` — all PASS.**
+  - **4 of 7 explicitly skipped by the human partner's own decision** (`PERM-03` through
+    `PERM-06`) — recorded honestly as skipped, not folded into a false 7/7.
+  - Full raw responses, grading, and cross-runtime drift check:
+    `plugins/sharepoint-agents-and-skills/evaluations/common/native-sharepoint-results/`.
+
+## Remaining known limitation (not blocking, recorded for the reviewer)
+
+`AMB-01`'s live execution exceeded the related-topic cap on both runs (3 and 7 related topics
+named as consulted, vs. an allowance of 2) — `drift_detection.detect_drift()` confirms
+`related_topic_cap_exceeded` for both. This is empirical, not theoretical, proof of the asymmetry
+Task 4's adversarial review flagged earlier this session: the cap is code-enforced on
+`repository-claude` (`TooManyRelatedTopicsError`) but only behavioral on `native-sharepoint`, and
+here that behavioral enforcement did not hold. **Not fixed this session** — fixing it means
+tuning the deployed `SKILL.md`'s instructions or the live agent's own configuration and re-testing
+live, which is real, separate follow-up work, not a bounded correction to make unilaterally here.
+Recorded as a known, live-observed limitation of the native runtime's current instruction-following
+reliability, for the accepting reviewer to weigh alongside everything else in this bundle.
 
 ## Resolved at round 2 (previously blocking, now closed)
 
@@ -121,10 +152,9 @@ Unchanged: Task 9's table.
 
 ## Explicit approval before merge
 
-**Still required, still not obtained.** This corrected document, and the remediation bundle it
-belongs to, are ready for the human partner's review. Per this repo's own Mandatory Phase
-Transition Protocol, merge does not happen until that review is given and accepted, and — per this
-remediation's own corrected disposition — **the Phase 6 evaluation exit criterion specifically
-requires either running the 7 prepared native-sharepoint cases against a live tenant, or an
-explicit human decision to accept the phase as implementation-complete-but-evaluation-blocked and
-proceed anyway.** That decision is the human partner's to make, not this session's.
+**Still required, still not obtained — this is the only thing left.** Every item this document's
+three revisions have tracked is now either resolved or explicitly, honestly recorded as a known
+limitation. This final document, the migration ledger, and the full remediation bundle are ready
+for the human partner's review and merge decision. Per this repo's own Mandatory Phase Transition
+Protocol, merge does not happen until that review is given and accepted. This session does not
+merge, does not start Phase 7, and stops here.

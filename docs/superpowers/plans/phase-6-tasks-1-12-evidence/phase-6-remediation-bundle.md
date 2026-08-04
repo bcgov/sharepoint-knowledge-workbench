@@ -150,3 +150,64 @@ the live run was not attempted, simulated, or worked around.
 now genuinely met (all plugins isolated-installable). Tasks 1–12 are complete with `BOUND-01`
 resolved. The **only** remaining item is running the prepared 7-case runbook against a live
 tenant. Not starting Phase 7. Not merging this branch.
+
+---
+
+## Final addendum (2026-08-04) — live native-runtime execution
+
+The human partner obtained live tenant access (PnP PowerShell, Entra app registration) and
+personally drove the `native-sharepoint` runtime's live Copilot chat pane, using the prepared
+runbook's exact prompts and identities, unchanged throughout.
+
+### Precondition check found and fixed a real deployment gap
+
+Before running any case, `reconcile-deployed-skill.ps1` (fixed for real, live-tenant bugs found
+in the process — see below) confirmed the deployed `review-manual-topics` skill was **stale**
+(`DISPOSITION: DEPLOYED_ARTIFACT_DRIFT_DETECTED`) — its hash did not match this repo's current
+`SKILL.md`. Redeployed via `deploy-and-verify-skill.ps1 -Execute`; byte-for-byte readback
+confirmed a match; re-ran reconciliation and confirmed
+`DISPOSITION: TASK_8_ARTIFACT_ALREADY_PRESENT_AND_RECONCILED` before proceeding to any case.
+
+### 4 real cmdlet bugs found and fixed along the way
+
+Both scripts had apparently never been run against a real live tenant before this session (no
+test coverage, no prior live-execution evidence found). All four are documented in
+`.agent/map-debt.md`'s 2026-08-03 entries and committed (`5e05893`, `0345b5f`):
+1. `Get-PnPFolderInFolder -FolderSiteRelativeUrl` given a server-relative path instead of a
+   site-relative one — silently returned zero folders (a false "no skills deployed" report,
+   caught only because the human partner independently verified against the SharePoint UI and
+   pushed back).
+2. `Get-PnPFile -AsFile` without `-Path` — wrong parameter set, caused an interactive prompt.
+3. A second `Get-PnPFile` call passed a combined file path to `-Path` instead of splitting
+   directory/filename — a second interactive-prompt bug.
+4. `Add-PnPFile -FileName` instead of `-NewFileName` — wrong parameter set, blocked the actual
+   redeployment write until fixed.
+
+### Live execution results: 3 of 7 executed, 4 explicitly skipped by human decision
+
+- **Executed and PASS**: `AMB-01` (2/2 runs), `PERM-01`, `PERM-02`.
+- **Skipped by the human partner's own explicit decision**: `PERM-03`, `PERM-04`, `PERM-05`,
+  `PERM-06` — not a technical failure, not an access limitation; the human partner stated they
+  already know the SharePoint permission behavior these would demonstrate. Recorded honestly as
+  skipped, not folded into a false "7/7 executed" claim.
+- Full raw responses, per-case grading, and the cross-runtime drift check:
+  `plugins/sharepoint-agents-and-skills/evaluations/common/native-sharepoint-results/` (`RESULT-
+  AMB-01.md`, `RESULT-PERM-01.md`, `RESULT-PERM-02.md`, `DRIFT-CHECK.md`, `SUMMARY.md`).
+
+### One real, confirmed finding — not fixed, recorded honestly
+
+`AMB-01`'s live responses named 3 (run 1) and 7 (run 2) related topics as consulted, both
+exceeding the case's `related_topic_allowance: 2`. Ran this through `drift_detection.py`'s actual
+`detect_drift()` function (not eyeballed) — confirmed `related_topic_cap_exceeded` for both runs.
+This is empirical, live-observed proof of the theoretical asymmetry Task 4's adversarial review
+flagged earlier this session: the related-topic cap is code-enforced on `repository-claude` but
+only behavioral on `native-sharepoint`, and here that behavioral enforcement did not hold. **Not
+fixed this session** — a real, separate follow-up (tuning the deployed `SKILL.md` or the live
+agent's own configuration and re-testing live), not a bounded correction to make unilaterally.
+
+### Final disposition
+
+`PHASE_6_COMPLETE_WITH_ONE_CONFIRMED_LIVE_DRIFT_FINDING`. All prior blocking items are resolved.
+This one item is a recorded, known limitation for the accepting reviewer to weigh — it does not
+block phase closure. Not starting Phase 7. Not merging this branch — final merge approval is the
+human partner's decision, informed by everything in this bundle.

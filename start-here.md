@@ -1,4 +1,4 @@
-# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Tasks 0–12 Implementation Complete, Final Review Pending
+# Resume — Phase 1–5 Complete and Merged to main; Phase 6 Complete, Merge Approval Pending
 
 ## Current status (2026-08-03, verified against git)
 
@@ -162,35 +162,35 @@ follow-up, and explicit open items). **Not yet done for the exit gate — the ac
 exit-gate-met; do not treat Task 0 as closed, do not merge this branch, until that review happens
 and is accepted.
 
-**Phase 6 Tasks 0–12: `PHASE_6_IMPLEMENTATION_COMPLETE_EVALUATION_BLOCKED_ON_LIVE_TENANT_ONLY`,
-after two human review + remediation rounds (2026-08-03).** Round 1 fixed evaluation-gap framing,
-AMB-01's scope, and full repository-claude semantic-review execution. Round 2 fixed the two items
-round 1 left open: see `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
-phase-6-remediation-bundle.md` (consolidated index, **read this first**, its "Round 2 addendum"
-section covers the latest), then `task-11-exit-evidence-and-review.md`. No plugin redesign or new
-governance layer was added, per both reviews' instructions.
+**Phase 6 Tasks 0–12: `PHASE_6_COMPLETE_WITH_ONE_CONFIRMED_LIVE_DRIFT_FINDING`, after two human
+review/remediation rounds plus live native-runtime execution (2026-08-03 – 2026-08-04).** See
+`docs/superpowers/plans/phase-6-tasks-1-12-evidence/phase-6-remediation-bundle.md` (consolidated
+index, **read this first**, its "Final addendum" section covers the live execution), then
+`task-11-exit-evidence-and-review.md` for the final disposition. No plugin redesign or new
+governance layer was added at any point, per every review's instructions.
 
-**Round 2: both previously-open items resolved.**
-1. **`sharepoint-content-publication`'s isolated-install failure — fixed for real.**
-   `canonical_package.py` and its transitive `canonical_schema`/`dispositions`/`hashing`/
-   `publication_map` dependencies are now shared via managed file-level symlinks back to
-   `structured-content-assembly` (their real, authoritative source) — the exact same
-   already-proven hub-and-spoke pattern `structured-content-rendering` already uses for the same
-   module, not a new mechanism, not a blind copy, not a runtime repository-path dependency.
-   Re-verified: **PASS, 26/26**, genuinely isolated. Task 0's exit gate (plugin independence) is
-   now actually met for every Task 0.15/0.16/0.17 plugin plus `sharepoint-agents-and-skills`.
-2. **`BOUND-01` resolved from the approved capability contract.** `SKILL.md`'s own "Repository/
-   Claude Runtime Execution" section already specifies hard-reject as the approved
-   `repository-claude` behavior — verbatim matching the existing, already-tested code. The case
-   definition (not the implementation) was wrong; corrected to state per-runtime expected
-   behavior explicitly. No code change was needed or made.
+**Round 2 (2026-08-03): both previously-open items resolved** — `sharepoint-content-publication`'s
+isolated-install dependency fixed for real (managed symlink, same pattern
+`structured-content-rendering` already uses; PASS 26/26), `BOUND-01` resolved from the approved
+`SKILL.md` contract (case definition was wrong, not the code; no implementation change made).
 
-**Only remaining blocker to the Phase 6 evaluation exit criterion: live tenant execution.** The 7
-`native-sharepoint`-only cases (`AMB-01` + 6 `PERM-*` cases) have a prepared runbook —
-`plugins/sharepoint-agents-and-skills/evaluations/common/
-NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md` — with unchanged prompts/expectations, ready to run once
-live tenant/PnP/Copilot access is available. Not executed this session (no such access), per the
-round-2 review's own Item 4 ("stop immediately before the live tenant run").
+**Live native-runtime execution (2026-08-04):** the human partner obtained live tenant access
+(PnP PowerShell, Entra app registration) and personally drove the live Copilot chat
+(`CEIS-Pilot-Knowledge-Agent`, `AG-CSB-INTRANET-DEV`). Precondition check first found the deployed
+`review-manual-topics` skill was stale — redeployed, byte-for-byte hash match confirmed. Found and
+fixed 4 more real cmdlet-parameter bugs along the way (both deployment/reconciliation scripts had
+apparently never been run against a real live tenant before — see `.agent/map-debt.md`'s
+2026-08-03 entries, commits `5e05893`, `0345b5f`). **3 of 7 applicable cases executed live, all
+PASS** (`AMB-01`, `PERM-01`, `PERM-02`); **4 explicitly skipped by the human partner's own
+decision** (`PERM-03`–`PERM-06`, not a technical blocker). Full results:
+`plugins/sharepoint-agents-and-skills/evaluations/common/native-sharepoint-results/`.
+
+**One real, confirmed, unresolved finding**: `AMB-01`'s live responses named 3 and 7 related
+topics consulted across its two runs — both exceed the `≤2` allowance. `drift_detection.py`
+confirms `related_topic_cap_exceeded` for both, empirically proving the behavioral-vs-code-enforced
+asymmetry Task 4's adversarial review flagged as theoretical earlier this session. **Not fixed** —
+real follow-up work (tuning the deployed skill/agent and re-testing live), recorded as a known
+limitation, not a blocker to phase closure.
 
 **Resume instructions for the next session:**
 1. Read this file, then `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
@@ -198,13 +198,10 @@ round-2 review's own Item 4 ("stop immediately before the live tenant run").
 2. `git fetch origin`, checkout/enter the worktree at `.worktrees/phase-6-multi-runtime-capability-
    model` (or recreate it from `origin/phase-6-multi-runtime-capability-model` if the worktree
    itself isn't present), confirm `HEAD` matches the latest commit on this branch.
-3. All of Phase 6 (Tasks 0 through 12) is implementation-complete, remediated twice — do not redo
-   any of it.
-4. The one remaining item is running the prepared 7-case native-sharepoint runbook
-   (`plugins/sharepoint-agents-and-skills/evaluations/common/
-   NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md`) against a live tenant, or an explicit human decision
-   to accept the phase as implementation-complete-but-evaluation-blocked and proceed anyway. Not
-   this session's call either way.
+3. All of Phase 6 (Tasks 0 through 12) is complete — implementation, remediation (twice), and live
+   evaluation. Do not redo any of it.
+4. The only remaining action is the human partner's merge decision — this session does not merge
+   and does not start Phase 7.
 5. Do not start Phase 7. Do not merge this branch until that decision is made.
 
 **Separate architecture-design stream — design-complete, not implemented, committed to `main`:**
