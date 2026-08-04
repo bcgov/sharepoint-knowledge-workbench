@@ -29,10 +29,15 @@
   evidence at `docs/superpowers/plans/phase-6-tasks-1-12-evidence/`), specifically its
   `review-manual-topics` skill deployed and live-evaluated against tenant `AG-CSB-INTRANET-DEV`
   (agent `CEIS-Pilot-Knowledge-Agent`; results at
-  `plugins/sharepoint-agents-and-skills/evaluations/common/native-sharepoint-results/`). This
-  tenant is a BC Government (`gov.bc.ca`) tenant, which makes the bundled Copilot Studio
-  hands-on findings from a BC Government shared environment (see Section 3b) directly relevant
-  tenant-category evidence, not merely analogous. The question Section 4's memo must answer is
+  `plugins/sharepoint-agents-and-skills/evaluations/common/native-sharepoint-results/`).
+  **BC Government user/account context confirmed** — `RESULT-PERM-01.md` shows the evaluation was
+  performed under a `gov.bc.ca` account identity. This establishes the account/domain context
+  only; it does not by itself establish the tenant's cloud classification, compliance boundary,
+  hosting model, Protected B authorization, regional category, or equivalence to GCC/GCC High.
+  Those broader tenant characteristics are `TENANT_UNKNOWN` until supported by authoritative
+  tenant evidence, and the bundled BC-Government Copilot Studio findings (Section 3b) should be
+  treated as same-account-context evidence, not assumed equivalence of compliance boundary. The
+  question Section 4's memo must answer is
   not "can Cowork/Studio run the pipeline" but "what does Cowork/Studio add beyond what the
   native SharePoint agent already proves, across knowledge-source configuration, grounding
   behavior, instruction/config artifact model, deployment/reconciliation, and permission-trimmed
@@ -142,19 +147,28 @@ workflow:
 
 ## 3c. Identity and governance comparison
 
-Do not generalize any single observed pattern into a universal identity model for a platform. For
-each of: (a) the native SharePoint agent baseline (delegated end-user identity, confirmed —
-`RESULT-PERM-01.md` shows real user identities such as `OWNER_EDITOR`/
-`Richard.Fremmerlid@gov.bc.ca`), (b) Cowork (delegated end-user Entra identity per
-`viable-skills-summary.md` Claim 7 — a "Primitive Gap" the source itself says is a roadmap gap,
-not a design ceiling, since Entra Agent ID/Agent 365 primitives exist at the platform level even
-though Cowork the product doesn't wire them in), and (c) Copilot Studio — build an **identity
-decision matrix**, not a single verdict, covering: user-authenticated knowledge access,
-user-delegated connector actions, connection-owner/configured-connection execution, external
-service/backend identity, and any future custom-engine or Entra Agent ID architecture. The
-bundle's `generative-orchestration.md` §8 OAuth/on-behalf-of finding documents one Studio
-connected-agent pattern; it must not be read as Studio's only identity mode. State explicitly,
-under each candidate architecture, whose identity reads, transforms, approves, and publishes —
+Do not generalize any single observed pattern into a universal identity model for a platform, and
+do not treat one evidence file as proof of a complete identity model. `RESULT-PERM-01.md` shows
+the **caller/test identity** used in one permission-boundary evaluation (e.g. `OWNER_EDITOR`/
+`Richard.Fremmerlid@gov.bc.ca`) — it is not, by itself, evidence of the agent's execution
+principal, deployment identity, retrieval identity, or publication identity. The identity decision
+matrix must carry these as **separate, independently evidenced fields per architecture** —
+deployment identity, retrieval identity, user-interaction identity, approval identity, and
+publication identity — each marked `UNKNOWN` unless a specific repository or bundle citation
+establishes it, rather than inferring the remaining fields from the one confirmed
+user-interaction-identity data point.
+
+For each of: (a) the native SharePoint agent baseline, (b) Cowork (delegated end-user Entra
+identity per `viable-skills-summary.md` Claim 7 — a "Primitive Gap" the source itself says is a
+roadmap gap, not a design ceiling, since Entra Agent ID/Agent 365 primitives exist at the platform
+level even though Cowork the product doesn't wire them in), and (c) Copilot Studio — build the
+matrix covering: user-authenticated knowledge access, user-delegated connector actions,
+connection-owner/configured-connection execution, external service/backend identity, and any
+future custom-engine or Entra Agent ID architecture. The bundle's `generative-orchestration.md`
+§8 OAuth/on-behalf-of finding documents one Studio connected-agent pattern; it must not be read as
+Studio's only identity mode, and must not be extrapolated to fields (deployment/retrieval/
+publication identity) it does not itself describe. State explicitly, per architecture, whose
+identity reads, transforms, approves, and publishes, leaving each unsupported cell `UNKNOWN` —
 directly relevant because this workflow can alter SharePoint content, not deferred governance
 research.
 
