@@ -54,7 +54,20 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 6,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Phase 7 Cowork/Studio desk-research disposition (REMAIN_RESEARCH) not reflected",
+        "vis-009/vis-010 style open-question docs not indexed"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Index/vision section predates Phase 7 close; reading paths and 'near-term priorities' list have not been re-checked against Phase 5-7 actual outcomes.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": "Research Directory Index",
+      "proposedFilename": null
     },
     {
       "id": "res-002",
@@ -100,7 +113,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Not verified whether Copilot in SharePoint preview terms/limits changed after June 25 2026 source date"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Dated external-source summary; historically accurate as a record of what Microsoft published on that date. Should carry an explicit 'verify current status before relying on licensing/limit claims' note rather than be silently treated as still-current.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-003",
@@ -141,7 +166,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Not verified against any Markdown-support GA changes after April 21 2026"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Same class as res-002 \u2014 dated external announcement summary.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-004",
@@ -182,7 +219,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Dated conference-presentation summary; the government-controls list within it overlaps res-001's own list \u2014 worth a cross-link note rather than independent maintenance of two copies.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-005",
@@ -221,7 +268,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Dated blog-post summary, same class as res-002/003/004.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-006",
@@ -267,7 +324,20 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 4,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Phase 6's multi-runtime capability model and its confirmed native-skill enforcement gap (related-topic-cap not code-enforced in native-sharepoint runtime) directly extends this document's capability-layering model but is not reflected in it",
+        "Phase 6's 30-skill implementation across 4 plugins is a concrete instance of the layering model this document describes abstractly"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Foundational synthesis, but the Phase 6 multi-runtime finding is a real extension/refinement of its core claims, not just an application of them \u2014 the abstract model this document describes was tested and found to have a real behavioral gap between runtimes.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-007",
@@ -315,7 +385,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Same Phase 6 multi-runtime findings as res-006"
+      ],
+      "recommendedContentAction": "cross-link",
+      "contentUpdateRationale": "Overlaps res-006 (same consolidation group) \u2014 recommend resolving both together via a shared update or synthesis rather than editing independently.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-008",
@@ -359,7 +441,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 4,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "cross-link",
+      "contentUpdateRationale": "Decision-tree guidance is process-level, not fact-level \u2014 remains applicable; would benefit from a cross-link to Phase 6's actual runtime-selection outcomes as a worked example, not a rewrite.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-009",
@@ -402,7 +494,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 4,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Empirical tenant field note; correctly scoped as a record of what was observed at the time. The file's own text already flags that preview behavior may differ across tenants/time \u2014 no rewrite needed.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-010",
@@ -443,7 +545,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Confirmed finding, dated, self-contained \u2014 no later phase is known to have revisited this specific behavior.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-011",
@@ -494,7 +606,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Phase 6's multi-runtime/native-skill drift findings and Phase 7's Cowork/Studio desk research both touch grounding-format-adjacent territory but were not verified to cross-reference this document"
+      ],
+      "recommendedContentAction": "cross-link",
+      "contentUpdateRationale": "High-value, well-evidenced Phase 5 field note; recommend adding forward cross-links to later related findings rather than editing the original evidence.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-012",
@@ -549,7 +673,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "File is self-described as 'continuously updated' but this session did not verify its last-touched date/phase against Phase 4-7 progress"
+      ],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Raw evidence log, explicitly distinct from its own synthesized companion (phase-3-tenant-capability-report.md, excluded from this corpus). Marked uncertain rather than guessing its currency without checking the file's own revision history.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-013",
@@ -595,7 +731,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 4,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Phase 6 multi-runtime model formalized agent-config/skill-runtime distinctions this journal discovered ad hoc"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Working journal, correctly historical in form; a forward note pointing to the Phase 6 formalization would help readers without rewriting the journal itself.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-014",
@@ -648,7 +796,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 4,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "This file's findings are cited from CLAUDE.md as CURRENT governing guidance, yet the file itself is Phase 4 field evidence with status 'IN PROGRESS' at time of writing \u2014 later phases (5,6) built substantially on this, and CLAUDE.md's own citation should probably point to a version reflecting those completions, not the original in-progress record"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Real tension: this file functions as BOTH historical evidence AND (via CLAUDE.md's direct citation) current governing guidance. Recommend adding an explicit status update to the file's own header noting Task 8 was subsequently completed (see EVID-PHASE4-TASK8-EXIT-GATE.md) rather than leaving it reading as still in-progress.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-015",
@@ -690,7 +850,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": "Content confirms this is Phase 4 task-exit-gate evidence; it structurally belongs alongside the other 26 files in docs/reports/phase-4-native-sharepoint-skills/, not in an enduring-research domain. This is a strong hypothesis, not yet an approved destination.",
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 4,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Phase evidence, correctly frozen at its own completion point.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "res-016",
@@ -736,7 +906,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Phase 6's actual implementation of render-sharepoint-aspx (a real Renderer-protocol-conformant ASPX renderer, golden-master-proofed) is a concrete, working proof of this concept document's model \u2014 not referenced from it"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Foundational architecture concept later actually implemented (not just theorized) in Phase 6 \u2014 the concept document should point forward to its own realization as evidence the model works, rather than remain purely speculative in tone.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-001",
@@ -776,7 +958,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 4,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "The folder's own index; accurately describes its own contents as of Phase 4.5.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-002",
@@ -822,7 +1014,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "superseded",
+      "validatedThroughPhase": 2,
+      "supersededBy": [
+        "plugins/structured-content-assembly/references/contracts/canonical-package.md (external to this corpus)"
+      ],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "Confirmed superseded by its own folder's README; no content update needed, only relocation/archival treatment.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-003",
@@ -865,7 +1069,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Not verified whether author/system split described here still matches actual plugin behavior after Phase 4.5 decomposition"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Per folder README this is NOT one of the 2 superseded files, but written for the pre-decomposition combined plugin \u2014 marked uncertain rather than assumed still-accurate.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-004",
@@ -908,7 +1124,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Phase 4.5's actual extraction/decomposition already happened \u2014 some trigger conditions here may now describe decisions already made rather than still-forward-looking triggers; not cross-checked against phase-9-reusable-sharepoint-plugin-extraction-spec.md"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Decision framework partially overtaken by events (the Phase 4.5 extraction it hypothesizes about already happened for some workstreams).",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-005",
@@ -951,7 +1179,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Phase 6 implemented a real ASPX renderer (render-sharepoint-aspx) \u2014 only the first 12 lines of this 310-line survey were read, so whether it already anticipated/matches that implementation is unverified"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Largest legacy file; explicitly forward-looking survey of rendering targets \u2014 Phase 6 partially realized one of the targets it likely surveys. Needs a full read before an update can be scoped precisely.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-006",
@@ -990,7 +1230,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Small, stable reference table; companion to arch-003.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-007",
@@ -1023,7 +1273,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Never written at all \u2014 cannot assess currency of content that doesn't exist"
+      ],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "Empty 3-line placeholder stub; recommend explicit delete-or-complete decision rather than migrating empty content forward.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-008",
@@ -1062,7 +1324,21 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": null,
+      "supersededBy": [
+        "DEPENDENCIES.md (hypothesized)"
+      ],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Never written; DEPENDENCIES.md likely already covers this but not confirmed"
+      ],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "Same as arch-007 \u2014 empty stub, likely fully superseded by DEPENDENCIES.md.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-009",
@@ -1102,7 +1378,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "superseded",
+      "validatedThroughPhase": 2,
+      "supersededBy": [
+        "plugins/structured-content-assembly/references/contracts/publication-map.md (external to this corpus)"
+      ],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "Confirmed superseded per folder README, same class as arch-002.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-010",
@@ -1141,7 +1429,19 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Not cross-checked against current plugin rendering behavior post-Phase-4.5"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Same uncertainty class as arch-003/004 \u2014 plausibly still accurate, not independently verified.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-011",
@@ -1181,7 +1481,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Small, self-contained authoring-syntax convention; unlikely to have changed.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-012",
@@ -1221,7 +1531,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Reusable template; frontmatter schema is a candidate input to the wider metadata-model design question but the template itself is not stale.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "id": "arch-013",
@@ -1260,7 +1580,17 @@
       "proposed_filename": null,
       "destination_status": "unassigned",
       "destination_rationale": null,
-      "approval_status": "not-applicable-pending-architecture-decision"
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Companion example to arch-012.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "dec953c86cf4479c9fa10ff56ed2c7054f743dac1bf80b5092cdc0406543fb29",
@@ -1295,7 +1625,17 @@
       "evidence_status": "n/a-architecture-diagram",
       "classification_rationale": "Confirmed by content: self-describes as historical/as-built record, not a living document requiring updates. Current architecture facts also documented in CLAUDE.md and plugin READMEs.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 4.5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Self-dated, self-described as a deliberately-preserved historical record with a pointer to current names elsewhere.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "21533f5da5e2e82ea7529a0a32e5be09b44e59bbf4d9d2e0ca43273b6cabb1af",
@@ -1337,7 +1677,19 @@
       "evidence_status": "n/a-planning",
       "classification_rationale": "SCOPE TENSION: this file's own content is sourced from docs/superpowers/ (excluded from this IA effort per user direction) yet lives under docs/architecture/ (included). It also has a hard executable coupling to a sibling .json and .py validator script \u2014 the three files (md/json/py) must move together or not at all; moving only the .md would silently break `python3 docs/architecture/validate_plugin_skill_catalog.py`, which hardcodes the sibling paths.",
       "confidence": "high",
-      "scope_classification": "migration-candidate-with-scope-tension"
+      "scope_classification": "migration-candidate-with-scope-tension",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 6,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Not verified whether Phase 7's outcome (Cowork/Studio REMAIN_RESEARCH) has any bearing on the Phase 9 CMAT extraction candidate counts this file tracks \u2014 likely none, but unconfirmed"
+      ],
+      "recommendedContentAction": "cross-link",
+      "contentUpdateRationale": "Live tracking artifact, actively regenerated as Phase 6/9 progress \u2014 not something to freeze as historical, but its exact currency relative to the latest Phase 6 state was not independently re-verified this session.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "78ce98251f5bc30f94ddc059294efe6d43716e999262f551da4858099703e7b2",
@@ -1376,7 +1728,17 @@
       "evidence_status": "n/a-planning-data",
       "classification_rationale": "Same scope-tension and hard-coupling as arch-015; this is the machine-readable half of that same artifact group.",
       "confidence": "high",
-      "scope_classification": "migration-candidate-with-scope-tension"
+      "scope_classification": "migration-candidate-with-scope-tension",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 6,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "cross-link",
+      "contentUpdateRationale": "Same as arch-015 \u2014 machine-readable half of the same artifact.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "dd5fe9e5b10912f59b873ad106fbbe19a1416d5d1ee0ecf30749b49f8cefe94c",
@@ -1415,7 +1777,17 @@
       "evidence_status": "n/a-code",
       "classification_rationale": "This is executable code, not documentation/research at all. Its presence in docs/architecture/ is itself slightly unusual (a validator script living beside the docs it validates) but functionally sound (single-folder cohesion). Moving this file changes what `python3 docs/architecture/validate_plugin_skill_catalog.py` means for anyone with that command memorized/scripted elsewhere.",
       "confidence": "high",
-      "scope_classification": "executable-dependency-not-pure-documentation"
+      "scope_classification": "executable-dependency-not-pure-documentation",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 6,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Executable validator, correctness is defined by whether it still passes against its siblings, not by 'currency' in the documentation sense.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "TBD-not-hashed-separately",
@@ -1459,7 +1831,19 @@
       "evidence_status": "n/a-navigational",
       "classification_rationale": "CONFIRMS the hypothesis from prior turn: this folder is Phase-1-era material (originally 'docx-to-content Diagram Set') that outlived the plugin decomposition, exactly parallel to docs/architecture/docx-to-content-legacy-references/. But unlike that folder, this one also contains 4 later speculative additions (06-09) explicitly tied to specific docs/vision/ documents \u2014 so the folder is NOT homogeneous: it mixes authorized-historical (01-05), not-selected-candidate (06-08), and not-yet-authorized-future (09) diagrams. A single 'archive together' or 'move together' operation would misrepresent this mix.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 6.5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "References a docs/diagrams/workflows/discovery.mmd path (via .agent/rules/plugin-architecture-policy.md) that does not exist \u2014 README itself doesn't mention this, so the inconsistency is external to the README but relevant to its completeness"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Accurately describes the 10 files that exist, but the broken external reference and the 06-09 vision-document pairings this session found are not reflected in the README's own text.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "e7faa729696b4e2857296b3a292599d4d99574f16946c631d6760dd6ba8aea0f",
@@ -1495,7 +1879,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Authorized Phase 1 diagram per README's own explicit classification (01-05 = authorized).",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Accurately depicts completed, accepted Phase 1 flow.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "1ebcbb9dade1271d28833a78a539fcdba840e3626f10354672d440be76a4451d",
@@ -1530,7 +1924,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Authorized Phase 1 diagram per README.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Same as diag-001.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "b1ea6d51aa436f86b2636322f06de9f1896cda4fccebd6e2520d29507c10eb30",
@@ -1565,7 +1969,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Authorized Phase 1 diagram per README.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Same as diag-001.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "ec8491254acab490c5ae30775d86adeebaaadb1f87f0377152c84d8c15332980",
@@ -1600,7 +2014,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Authorized Phase 1 diagram per README.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Same as diag-001.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "51ab6afbca02554bbded96c8469288e4c8bc5a21cc52c17502525e59731fd208",
@@ -1635,7 +2059,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Authorized Phase 1 diagram per README; largest of the 01-05 set.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Same as diag-001.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "755e404da637def9a2d494439611b921bdf350d1e095f1018e3f5a2c09b8670c",
@@ -1674,7 +2108,19 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Per README, this is Phase 3 territory, not authorized, and depicts a NOT-SELECTED candidate. Tightly coupled to a specific docs/vision/ document \u2014 should very likely move together with it, not with the 01-05 authorized-historical set.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 3,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Not verified whether the actual Phase 3 governed pilot that was later run resembled this NOT-SELECTED candidate at all, or diverged entirely"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Speculative and explicitly not-selected; a forward note confirming what Phase 3 actually did (for contrast) would help readers, without rewriting the candidate diagram itself.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "6f27c2d3201eb5f6cc239e0490f4f36c1029dc1db28771f24f252b3dc6e3ec04",
@@ -1711,7 +2157,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Per README, paired with diagram 08 as two halves of one flow. Phase 3 speculative, not authorized.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 3,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Same as diag-006 \u2014 paired diagram.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "f49761aafc3086099e5a549033bb6afc74d3bde5c8a2d6205440bec19a16f232",
@@ -1748,7 +2204,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Pair with diagram 07 per README. Phase 3 speculative, not authorized.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 3,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Same as diag-006/007.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "19dae7945489317f3e71d3ddde46e0c3e5f248dd52d26f8f4f1b1a69083c7dee",
@@ -1788,7 +2254,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Tightly coupled to a specific docs/vision/ open-question document, distinct in kind from 06-08 (a different future phase, a runtime-split concern rather than a business-authoring-model concern).",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 6.5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Explicitly 'NOT TRIGGERED, NOT AUTHORIZED' \u2014 this status is still accurate as of Phase 7 close per start-here.md (Phase 6.5 has not been triggered).",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "16b74edb8716cc78eabbf236daf055fe09658ad4284c4e4d8676f9ba83809d38",
@@ -1825,7 +2301,17 @@
       "evidence_status": "n/a-diagram",
       "classification_rationale": "Companion/parent diagram to 01-phase1-overview.mmd, not filename-numbered because it predates or sits above the numbered set per README's own phrasing.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "none",
+      "contentUpdateRationale": "Parent/overview companion to diag-001, same currency.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "TBD",
@@ -1858,7 +2344,17 @@
       "evidence_status": "dated-reconnaissance-record",
       "classification_rationale": "This is the only loose file at docs/ root. Content is Task 0 Phase 1 reconnaissance evidence (tool versions, source paths) \u2014 genre-wise this is phase evidence (like docs/reports/*), not enduring research/architecture/vision, despite sitting at docs/ root rather than under docs/reports/. Uses pre-rename directory names (sourcedocuments/, output/) that CLAUDE.md itself flags elsewhere as 'historically accurate, not a live reference' \u2014 same caution applies here.",
       "confidence": "high",
-      "scope_classification": "phase-evidence"
+      "scope_classification": "phase-evidence",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": 1,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Task 0 reconnaissance record using pre-rename path names (sourcedocuments/, output/) \u2014 a brief note pointing to the current intake/runs/ names would help readers without rewriting the historical record itself.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "514f15b18370d5447d824c127bb1e33110fa73a5fdd0ef7e43da1d294138ee95",
@@ -1891,7 +2387,20 @@
       "evidence_status": "n/a-navigational-plus-authority-map",
       "classification_rationale": "MOST IMPORTANT FIND IN docs/vision/: this file already contains a fully-specified, self-authored reorganization proposal for its own folder (5-tier authority ranking + target tree with archive/ subfolder), explicitly deferred pending a broader repository-restructuring decision that this very IA effort may now BE. Should be treated as strong prior input to the architecture proposal, not superseded or ignored.",
       "confidence": "high",
-      "scope_classification": "migration-candidate-with-embedded-authority-map"
+      "scope_classification": "migration-candidate-with-embedded-authority-map",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 6,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Document-authority table omits vis-009 and vis-010 entirely (confirmed this session)",
+        "Reading-order guidance not re-checked against Phase 5-7 outcomes"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Confirmed incompleteness: the authority table is missing 2 real files. Should be corrected as part of or alongside this IA effort.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "62d67399fd3563a799119eea70ce884cbb76dc55820b103c3f21585fa47641de",
@@ -1927,7 +2436,19 @@
       "evidence_status": "n/a-strategic",
       "classification_rationale": "Highest-authority document in docs/vision/ per the folder's own README. CLAUDE.md Section 0 directly instructs reading this file's 'proposed-plugin-set section' before naming any new plugin/skill \u2014 a repository-rule-class reference, same severity class as the CLAUDE.md reference found for PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md earlier.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 6,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Its 'CURRENT STATE' banner is dated 2026-08-02, before Phase 7's close \u2014 Phase 7's Cowork/Studio REMAIN_RESEARCH disposition and the master exit-gate-deferred status are not reflected"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Highest-authority vision document; its currency banner should be refreshed to Phase 7's actual closing state rather than left at its Phase 6-era wording.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "9c7bf920a0f32a8537555f1914844f262f3d6ac58f5aecd8e1e5192bc21c2600",
@@ -1963,7 +2484,19 @@
       "evidence_status": "n/a-strategic",
       "classification_rationale": "Tier 2 authority per README; explicitly the successor document that superseded government-structured-knowledge-sharepoint-governance-vision-v2.md (vis-004).",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 6,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Same Phase 7 gap as vis-002"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "Tier-2 authority document with the same staleness class as vis-002.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "80c1039f543d961855431e67df52fa45d94172b6f42306958ef1913940b15855",
@@ -1998,7 +2531,19 @@
       "evidence_status": "n/a-strategic-superseded",
       "classification_rationale": "STRONGEST CONFIRMED-SUPERSEDED FINDING IN THE ENTIRE CORPUS SO FAR: both the file's own header AND the folder's README agree this is superseded, AND the README already specifies the exact disposition (extract unique content, archive with supersession note) that was simply never executed. This is not a hypothesis needing architecture review \u2014 it is a pre-approved-in-principle action the repo already recorded but didn't act on.",
       "confidence": "high",
-      "scope_classification": "migration-candidate-pre-approved-disposition"
+      "scope_classification": "migration-candidate-pre-approved-disposition",
+      "contentCurrency": "superseded",
+      "validatedThroughPhase": null,
+      "supersededBy": [
+        "vis-003"
+      ],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "Confirmed superseded by both self-declaration and folder README; the repo's own recommended action (extract unique content, then archive) was never executed.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "1aeb07b8f06ec4ea6211ddfcba56b251739010085ec0827063af55c06385fdbf",
@@ -2033,7 +2578,19 @@
       "evidence_status": "n/a-decision-register",
       "classification_rationale": "This is a LIVING cross-reference target: docs/research/ field notes are meant to resolve items in this register over time (confirmed via direct citation of res-011). This file is a genuine two-way coupling point between docs/vision/ and docs/research/ \u2014 an argument for the architecture proposal to consider how these two trees should reference each other regardless of whether they physically merge.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "partially-current",
+      "validatedThroughPhase": 5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Living decision register \u2014 not re-checked this session against which of its open questions Phase 6/7 findings may have already resolved"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "This is exactly the kind of 'open decision register' whose currency depends on marking items resolved as findings land \u2014 worth a dedicated resolution-sweep, not a full rewrite.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "bd56a7e0d7b3cc7332b20bbdbc9823f8ff3ce3bbcbd3b699ebb8b2a2d413790d",
@@ -2069,7 +2626,17 @@
       "evidence_status": "n/a-historical",
       "classification_rationale": "README's own recommended target tree places this directly under docs/vision/archive/ \u2014 same pre-decided disposition class as vis-004, just tier 5 (historical origin) rather than tier 4 (superseded successor).",
       "confidence": "high",
-      "scope_classification": "migration-candidate-pre-approved-disposition"
+      "scope_classification": "migration-candidate-pre-approved-disposition",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "README's own tier-5 disposition; historical origin document, correctly frozen.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "404e915f6b484f6f84783b496721e165c3da3e14f001283d5c4ce79e96fb8888",
@@ -2103,7 +2670,17 @@
       "evidence_status": "n/a-historical",
       "classification_rationale": "Same pre-decided archive/ disposition per README's target tree as vis-004/vis-006.",
       "confidence": "high",
-      "scope_classification": "migration-candidate-pre-approved-disposition"
+      "scope_classification": "migration-candidate-pre-approved-disposition",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "Same tier-5 disposition as vis-006.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "7f44ef6789724cfe63098098ef5c03f1a953a12229d939a21bf5b3bd17d0b2bc",
@@ -2137,7 +2714,17 @@
       "evidence_status": "n/a-historical",
       "classification_rationale": "Same pre-decided archive/ disposition per README's target tree as vis-004/vis-006/vis-007.",
       "confidence": "high",
-      "scope_classification": "migration-candidate-pre-approved-disposition"
+      "scope_classification": "migration-candidate-pre-approved-disposition",
+      "contentCurrency": "historical",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [],
+      "recommendedContentAction": "archive",
+      "contentUpdateRationale": "Same tier-5 disposition as vis-006/007.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "e9b11d962c24c20e9f2bbba895528464b0a7805fb73ab0dfea98318b000eaffa",
@@ -2180,7 +2767,19 @@
       "evidence_status": "n/a-open-question",
       "classification_rationale": "CONFIRMS the diag-006 grouping hypothesis from the earlier diagrams batch: this document is the source of the Model C/E hybrid that diagram 06 illustrates, and (by strong implication, not yet directly verified in this document's body) likely also relates to diagrams 07/08's editor-approval-publisher flow. NOT in README's authority table \u2014 the table itself may be stale/incomplete relative to the folder's actual current file set, a finding in its own right.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": 3,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Status is 'Draft, not yet decided' as written \u2014 not verified whether any later phase (3, 5, 6) actually made this decision without updating this document"
+      ],
+      "recommendedContentAction": "add-status-note",
+      "contentUpdateRationale": "Genuinely uncertain whether this remains an open question or was quietly resolved elsewhere; also confirmed missing from README's authority table.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "f01fee2455ba7f799c45ece21898b7380a51a466e0871877c2a8fa4a1bd09ca5",
@@ -2222,7 +2821,19 @@
       "evidence_status": "n/a-resolved-decision",
       "classification_rationale": "CONFIRMS the diag-009 grouping hypothesis: this is the source document diagram 09 was drawn from. Unlike vis-009 (still draft/undecided), this one is RESOLVED \u2014 a different lifecycle_status entirely, meaning the two 'open question' documents in this folder are NOT the same genre despite similar naming.",
       "confidence": "high",
-      "scope_classification": "migration-candidate"
+      "scope_classification": "migration-candidate",
+      "contentCurrency": "current",
+      "validatedThroughPhase": 5,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Confirmed missing from README's authority table despite being RESOLVED and directly sourcing diag-009"
+      ],
+      "recommendedContentAction": "cross-link",
+      "contentUpdateRationale": "Resolution itself remains valid (Phase 6.5 still not triggered) \u2014 needs indexing/cross-linking, not content changes.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     },
     {
       "source_hash": "23bda196a1d981703fc4f5a33b9a5bac38e6d2ed69aed91f8eb047e85b63316d",
@@ -2273,7 +2884,19 @@
       "evidence_status": "n/a-master-plan",
       "classification_rationale": "SCOPE TENSION, SAME CLASS AS arch-015/016/017: this document is genre-wise the 'superordinate' sibling of the phase-specific plans that live entirely under the EXCLUDED docs/superpowers/plans/ tree, yet it itself lives under docs/vision/ (included). It has the highest reference fan-out of ANY file reviewed in this entire session \u2014 cited from CLAUDE.md, multiple docs/research/ files, multiple docs/superpowers/ files, and docs/diagrams/README.md. This is the single most repository-load-bearing file found so far.",
       "confidence": "high",
-      "scope_classification": "migration-candidate-with-scope-tension-and-highest-reference-fanout"
+      "scope_classification": "migration-candidate-with-scope-tension-and-highest-reference-fanout",
+      "contentCurrency": "uncertain",
+      "validatedThroughPhase": null,
+      "supersededBy": [],
+      "contradictedBy": [],
+      "missingLaterFindings": [
+        "Only the first ~15 lines of this 1110-line master plan were read this session \u2014 cannot respons\u00adibly assess whether its phase-by-phase detail reflects Phase 7's actual outcome without a full read, which was not performed"
+      ],
+      "recommendedContentAction": "update",
+      "contentUpdateRationale": "HIGHEST-PRIORITY UNCERTAIN ITEM: this is the single most-cited, highest-authority planning document in the whole corpus (10+ confirmed inbound references including CLAUDE.md), yet this session's read of it was the shallowest relative to its length and importance. A full read specifically checking Phase 7 alignment should happen before any currency claim is trusted for this file.",
+      "contentUpdateApproval": "pending",
+      "proposedLogicalTitle": null,
+      "proposedFilename": null
     }
   ],
   "corpus_scope_survey": {
@@ -2360,14 +2983,107 @@
     "reconciliation_status": "NOT RECONCILED \u2014 the 354 figure from the prior incomplete pass was a raw grep line count across broad patterns, not a deduplicated, categorized, or line-numbered inventory. It should not be treated as reliable until a systematic pass is done."
   },
   "architecture_alternatives_status": {
-    "note": "Per current instruction, the 6-domain tree from the prior session must be treated as ONE HYPOTHESIS to test, not a decided structure. No architecture alternatives have yet been formally compared against the corpus. This requires the corpus inventory to be substantially more complete first (at minimum, all docs/research/ + docs/reports/ + docs/architecture/ read) before a meaningful comparison of research-vs-reports-merge options is possible.",
+    "note": "Comparison performed against the completed 56-entry corpus (docs/research/, docs/architecture/, docs/diagrams/, docs/vision/, docs/ root). docs/superpowers/ and docs/reports/ excluded from the corpus per user direction, but their pull on 3 entries (arch-015, arch-016, vis-011) is treated as real evidence in this comparison, not ignored.",
+    "corpus_derived_signal": {
+      "artifact_type_diversity": "27 distinct artifact_type values across 56 entries \u2014 no single type dominates. 8 specifications, 6 diagrams (+4 speculative), 4 each of research-summary/synthesis/field-note. This diversity argues against any architecture that organizes primarily by artifact type, since most 'types' have too few members to justify their own top-level folder.",
+      "subject_domain_concentration": "structured-content-engineering (8) and sharepoint-platforms-capabilities (7) are the two largest primary-subject groups; the other 5 subjects have 2-3 entries each. This is compatible with subject-domain folders, but 3 of 6 domains would be thin (2-3 files) if built out immediately.",
+      "cross-tree coupling": "3 entries (arch-015, arch-016, vis-011) are genuinely double-homed: physically located in the included corpus but content-sourced from or functionally continuous with the excluded docs/superpowers/ tree. vis-011 in particular has the single highest reference fan-out found in the whole session (10+ confirmed citations including CLAUDE.md). Any alternative that tries to cleanly separate 'vision/architecture' from 'phase planning' will have to make an explicit exception for these 3.",
+      "pre-decided dispositions": "4 entries (vis-004, vis-006, vis-007, vis-008) already have a repo-authored, never-executed disposition (docs/vision/README.md's own archive/ plan). Any chosen architecture should incorporate this existing decision rather than override it without reason.",
+      "consolidation candidates": "6 grouping relationships found (2 explicit pairs: diag-007/008, res-013/014; 1 three-way: res-006/007 + implied Phase 5-7 sources not yet located; 1 four-way pre-decided archive group). None of these groupings map cleanly onto subject-domain boundaries alone \u2014 diag-007/008 (SharePoint workflow diagrams) and their source vis-009 span diagrams/ and vision/ physically."
+    },
     "alternatives_to_evaluate": [
-      "A. Separate research/ and reports/ trees (status quo split, reorganized within each)",
-      "B. One unified subject-organized corpus with artifactType as metadata (no research/reports split)",
-      "C. Subject-domain folders with artifact-type subfolders (hybrid)",
-      "D. Reusable research organized by subject; phase reports remain separate historical archive",
-      "E. Minimal physical movement; indexes/metadata provide discovery instead of moving files"
+      {
+        "id": "A",
+        "name": "Separate research/ and reports/ trees (status quo split, reorganized within each)",
+        "description": "Keep docs/research/, docs/architecture/, docs/diagrams/, docs/vision/ as separate top-level trees, each internally reorganized by subject or authority tier.",
+        "pros": [
+          "Lowest disruption \u2014 matches existing mental model contributors already have",
+          "docs/vision/README.md's own archive/ plan slots in directly with zero redesign",
+          "Diagrams stay physically near the pipeline docs a reader is already looking at"
+        ],
+        "cons": [
+          "Does not resolve the 3 cross-tree-coupling entries (arch-015/016, vis-011) \u2014 they'd remain awkwardly split from their content source regardless",
+          "The diag-006/009 <-> vis-009/010 pairing (diagram illustrates a specific vision document) would still cross a tree boundary",
+          "Four separate top-level trees for what is conceptually one 'why and how we're building this' knowledge base"
+        ]
+      },
+      {
+        "id": "B",
+        "name": "One unified subject-organized corpus with artifactType as metadata (no research/reports/vision/architecture split)",
+        "description": "Merge all 56 entries into one docs/knowledge/ (or similar) tree organized purely by the 6 subject domains, with artifact_type, lifecycle_status, and phase_provenance carried entirely as frontmatter/manifest metadata, not folder position.",
+        "pros": [
+          "Cleanly resolves the diagram<->vision-document pairing (both land in the same subject folder)",
+          "Matches the subject-domain concentration signal (2 domains already have meaningful mass)",
+          "Single navigation model for a new contributor"
+        ],
+        "cons": [
+          "27 distinct artifact_type values would all collapse into flat subject folders \u2014 risks a wall of dissimilar file types (diagrams next to 1000-line strategic plans next to 3-line stub placeholders) with no visual/structural distinction",
+          "Does not resolve the 3 cross-tree-coupling entries either \u2014 they still can't cleanly belong to one subject domain when their content literally comes from an excluded tree",
+          "Highest-disruption option: touches every single file, including docs/vision/'s own already-planned (if never executed) reorganization, effectively discarding that prior work rather than building on it",
+          "3 of 6 subject domains are thin (2-3 files) \u2014 would produce several near-empty folders at launch"
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Subject-domain folders with artifact-type subfolders (hybrid)",
+        "description": "Merge into subject domains (as in B), but within each domain, group by artifact_type (specifications/, field-notes/, diagrams/, etc.).",
+        "pros": [
+          "Addresses B's 'wall of dissimilar types' concern",
+          "Still resolves diagram<->vision pairing within a domain"
+        ],
+        "cons": [
+          "With 27 artifact_type values and only 56 total entries, most artifact-type subfolders would contain 1-2 files \u2014 subfolder overhead without real grouping benefit",
+          "Same full-disruption cost as B",
+          "Same discard-prior-work cost regarding docs/vision/README.md's plan"
+        ]
+      },
+      {
+        "id": "D",
+        "name": "Reusable research organized by subject; phase reports remain separate historical archive",
+        "description": "This is the corpus scope actually agreed with the user for this session (docs/research/architecture/diagrams/vision reorganized; docs/superpowers/ and docs/reports/ excluded/untouched) \u2014 evaluated here as a candidate in its own right, not merely 'the scope we happened to pick.'",
+        "pros": [
+          "Directly matches the corpus actually inventoried this session \u2014 no further scoping decision needed to proceed",
+          "Cleanly separates 'why and how we're building this' (durable) from 'what happened in phase N' (historical execution record) \u2014 matches the existing docs/reports/phase-N-*/ convention already well-established and unquestioned elsewhere in the repo",
+          "docs/vision/README.md's own archive/ plan is directly compatible \u2014 it already assumes phase-plan material stays separate"
+        ],
+        "cons": [
+          "Still doesn't resolve the 3 cross-tree-coupling entries by itself \u2014 vis-011 and the arch-015/016 pair still point into the excluded docs/superpowers/ tree regardless of how the included trees are organized",
+          "Requires a within-scope decision about whether research/architecture/diagrams/vision become ONE merged tree or stay as 4 (this is really alternative A vs. B vs. C, one level down, applied only inside the already-agreed scope)"
+        ]
+      },
+      {
+        "id": "E",
+        "name": "Minimal physical movement; indexes/metadata provide discovery instead of moving files",
+        "description": "Leave every file where it is; build a cross-cutting docs/INDEX.md or docs/_meta/ manifest (this very research-migration-manifest.json, effectively) as the primary navigation and subject-discovery mechanism, updated as new content is added.",
+        "pros": [
+          "Zero reference-update risk \u2014 no links break, no git mv operations, no PR-sized diff",
+          "docs/vision/README.md's own already-written authority table proves this pattern already works informally in this repo",
+          "Fastest to implement; lowest risk of the exact kind of scope-creep and process failure this session has already had to correct twice"
+        ],
+        "cons": [
+          "Does not fix the actual complaint that motivated this whole effort (phase-based, hard-to-navigate organization) \u2014 new contributors still land in docs/research/ and see files sorted by neither phase nor subject, just alphabetically",
+          "The 6 pre-decided/confirmed-superseded files (vis-004 and its group) would remain unarchived indefinitely, contradicting the repo's own recorded intent",
+          "Placeholder stubs (arch-007/008 in the legacy folder) and broken references (2 found this session) would persist unaddressed"
+        ]
+      }
     ],
-    "evaluation_status": "not started"
+    "recommendation": {
+      "status": "PROPOSED, NOT APPROVED",
+      "choice": "D, refined one level further as: keep 4 top-level trees (research/, architecture/, diagrams/, vision/) rather than collapsing to B/C's single unified corpus \u2014 i.e., D implemented via A's internal structure, not B's or C's.",
+      "rationale": [
+        "The corpus signal does not support full unification (B/C): artifact_type diversity is too high relative to corpus size (27 types / 56 files) for type-based subfolders to add value, and 2 of 6 subject domains would launch nearly empty.",
+        "D's core boundary (durable knowledge vs. phase-execution history) is already a proven, unquestioned pattern elsewhere in this repo (docs/reports/phase-N-*/) \u2014 extending it rather than inventing a new one is lower-risk and more consistent.",
+        "docs/vision/README.md already contains a compatible, repo-authored plan for its own tree, never executed \u2014 the recommended approach builds on that existing decision rather than discarding it.",
+        "The diagram<->vision-document pairing (diag-006/009 <-> vis-009/010) is real but narrow (4 files) \u2014 better solved with an explicit cross-reference/co-location note for just those 4, not by merging two entire trees for one relationship.",
+        "The 3 cross-tree-coupling entries (arch-015/016, vis-011) are NOT resolved by any alternative on their own merits \u2014 they require an explicit, individually-reasoned decision regardless of which structural alternative is chosen. This should be called out to the user as an unresolved item, not silently absorbed into whichever alternative is picked."
+      ],
+      "explicitly_not_decided": [
+        "Whether docs/vision/'s internal reorganization uses exactly the archive/ + 3-active-files structure the README already proposes, or something informed by the wider corpus's tier language",
+        "Whether docs/diagrams/ 01-05 (authorized-historical) stay together while 06-09 (speculative, vision-document-paired) move near their source vision documents, or whether the whole folder stays intact",
+        "Disposition of arch-015/016/017 (Phase 9 catalog trio) and vis-011 (master initiative plan) \u2014 recommend explicit 'retain in place, cross-link only' for vis-011 given its reference fan-out, but this is a recommendation requiring user sign-off, not a default",
+        "Disposition of the 2 unfilled placeholder stubs (arch-007, arch-008) \u2014 recommend flagging for deletion-or-completion decision separately from the IA migration, not silently excluding or silently moving empty content",
+        "Whether to execute vis-004's already-recorded 'extract unique content, then archive' action as part of this migration, or treat it as a separate, narrower task"
+      ]
+    }
   }
 }
