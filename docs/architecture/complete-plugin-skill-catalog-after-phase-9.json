@@ -11,10 +11,9 @@
   "totals": {
     "note": "Two independent groupings. Do not sum across them - they describe different things (workbench skills vs. a separate repository's unextracted skills).",
     "workbench": {
-      "unique_installed_skill_names_currently_implemented": 5,
-      "detail": "4 core-pipeline skills + review-manual-topics (native-sharepoint runtime only; repository-claude runtime not yet built)",
-      "unique_additional_phase_6_skill_names_approved": 29,
-      "detail_2": "Phase 6 Task 0 approves 30 skill names total; review-manual-topics is one of the 30 and is already counted in currently_implemented above, so 29 is the remaining count with no implementation yet"
+      "unique_installed_skill_names_currently_implemented": 30,
+      "detail": "Phase 6 Task 0's full 30-skill-name list is now implemented as of Task 0.17 (2026-08-03): 15 sharepoint-agents-and-skills + 5 sharepoint-content-publication + 7 structured-content-rendering + 3 workbench-setup. review-manual-topics's repository/Claude runtime is one of the 15. Task 0's own exit gate (manifests/symlinks/installer/tests pass, focused external-review bundle accepted) is implementation-complete but NOT yet reviewer-accepted -- see start-here.md for current disposition before treating Task 0 as formally closed.",
+      "unique_additional_phase_6_skill_names_approved": 0
     },
     "cmat_phase_9_source": {
       "phase_9_source_skills_audited": 34,
@@ -110,7 +109,7 @@
     },
     {
       "name": "structured-content-rendering",
-      "status": "existing_plus_phase_6_additions",
+      "status": "phase_6_task_0.16_complete",
       "purpose": "Render a canonical package to output formats.",
       "responsibilities": [
         "multipage-Markdown rendering",
@@ -124,59 +123,52 @@
       ],
       "skills": [
         {
-          "name": "render-structured-content",
+          "name": "render-multipage-markdown",
           "status": "implemented",
-          "phase_task": "Phase 1",
+          "phase_task": "Phase 1, renamed from render-structured-content at Phase 6 Task 0.16",
           "source_provenance": "built-in-repo",
           "overlap_notes": null
         },
         {
-          "name": "render-multipage-markdown",
-          "status": "phase_6_approved_partial",
-          "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "existing render-structured-content, packaging verification pending",
-          "overlap_notes": null
-        },
-        {
           "name": "render-sharepoint-aspx",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build",
+          "source_provenance": "new build, renderer + unit tests + validate-rendered-output/ASPX extension + golden-master fidelity proof (real CEIS manual, runs/ceis-manual-v2/render-aspx/) all complete",
           "overlap_notes": "CMAT sp-converting-aspx-pages richer; Phase 6 stays minimal-interface, full extraction is Phase 9 candidate sharepoint-page-modernization"
         },
         {
           "name": "create-markdown-rendering-template",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build",
+          "source_provenance": "new build, backed by runs/ceis-manual-v2/ rendered-output evidence",
           "overlap_notes": null
         },
         {
           "name": "create-aspx-rendering-template",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build",
+          "source_provenance": "new build, backed by Phase 3.0 Sec.15's confirmed modern-page fragment structure",
           "overlap_notes": null
         },
         {
           "name": "validate-rendering-template",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build",
+          "source_provenance": "new build, negative control per detection class",
           "overlap_notes": null
         },
         {
           "name": "validate-rendered-output",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "existing renderers/validate_rendered.py, Markdown side only",
+          "source_provenance": "existing renderers/validate_rendered.py (Markdown), extended with validate_aspx_rendered_output/render_and_promote_aspx (ASPX), packaged as its own skill",
           "overlap_notes": null
         },
         {
           "name": "compare-rendered-output",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "existing golden-master pattern, not packaged",
+          "source_provenance": "golden-master pattern from Phase 2 Subphase 2.5.4, packaged as a standalone primitive; used by the real ASPX golden-master proof (tests/integration/test_golden_master_aspx.py)",
           "overlap_notes": null
         }
       ],
@@ -184,7 +176,7 @@
     },
     {
       "name": "sharepoint-content-publication",
-      "status": "phase_6_planned",
+      "status": "phase_6_task_0_complete",
       "purpose": "Consume rendered artifacts and deploy/reconcile/validate/rollback in SharePoint.",
       "responsibilities": [
         "upload",
@@ -201,45 +193,45 @@
       "skills": [
         {
           "name": "publish-markdown-to-sharepoint",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "sharepoint_package.py basis + upload-rendered-markdown.ps1",
           "overlap_notes": "CMAT sp-migrating-content upload primitive, once genericized"
         },
         {
           "name": "publish-aspx-to-sharepoint",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "new build, Phase 3.0 confirmed page-creation API",
           "overlap_notes": "CMAT sp-uploading-content richer, PHASE_9_EXTRACT_TO_EXISTING_PLUGIN target"
         },
         {
           "name": "reconcile-sharepoint-publication",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "sharepoint_reconcile.py exists, zero tenant I/O",
           "overlap_notes": null
         },
         {
           "name": "validate-sharepoint-publication",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "sharepoint_dry_run.py partial basis",
           "overlap_notes": "CMAT sp-validating-link-integrity candidate technique"
         },
         {
           "name": "rollback-sharepoint-publication",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "new build, no CMAT counterpart",
           "overlap_notes": "genuinely new work, both repos"
         }
       ],
-      "installation_status": "existing Python package, manifests/skills incomplete"
+      "installation_status": "manifests/skills complete (5/5). ISOLATED INSTALL PASSES, 26/26 (fixed at Phase 6 remediation round 2, 2026-08-03): canonical_package.py and its transitive canonical_schema/dispositions/hashing/publication_map modules are now shared via managed file-level symlinks back to structured-content-assembly (their real, authoritative source), matching structured-content-rendering's own already-proven pattern for the same module -- not a pip dependency on that plugin. Genuinely isolated, no sibling plugin needs to be co-installed."
     },
     {
       "name": "sharepoint-agents-and-skills",
-      "status": "phase_6_planned",
+      "status": "phase_6_task_0_complete",
       "purpose": "Own agents, agent templates, AgentAssets, and native-skill lifecycle.",
       "responsibilities": [
         "agent lifecycle",
@@ -254,7 +246,7 @@
       "skills": [
         {
           "name": "review-manual-topics",
-          "status": "implemented_partial",
+          "status": "implemented",
           "phase_task": "Phase 4 (moved), Phase 6 Task 0.2-0.3",
           "runtimes": [
             {
@@ -272,98 +264,98 @@
         },
         {
           "name": "create-sharepoint-native-skill",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.4",
           "source_provenance": "create-test-skill.ps1 experimental evidence only",
           "overlap_notes": null
         },
         {
           "name": "deploy-sharepoint-native-skill",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.4",
           "source_provenance": "deploy-and-verify-skill.ps1, inventory-skills.ps1, moved",
           "overlap_notes": null
         },
         {
           "name": "verify-sharepoint-native-skill",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.4",
           "source_provenance": "verify-agentassets-artifact.ps1, reconcile-deployed-skill.ps1, extracted",
           "overlap_notes": null
         },
         {
           "name": "rollback-sharepoint-native-skill",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.4",
           "source_provenance": "rollback-skill-deployment.ps1, moved",
           "overlap_notes": null
         },
         {
           "name": "inventory-and-validate-agentassets",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.4",
           "source_provenance": "verify-agentassets-ready.ps1 + diagnose-sharepoint-library.ps1 + provision-agentassets.ps1 (Phase-4 copy canonical)",
           "overlap_notes": null
         },
         {
           "name": "backup-sharepoint-native-skills",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.5",
           "source_provenance": "backup-skills-and-templates.ps1, generalized",
           "overlap_notes": null
         },
         {
           "name": "restore-sharepoint-native-skills",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.5",
           "source_provenance": "new build",
           "overlap_notes": null
         },
         {
           "name": "create-sharepoint-agent",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.6",
           "source_provenance": "5 experimental create-*-agent.ps1 scripts, evidence only",
           "overlap_notes": null
         },
         {
           "name": "update-sharepoint-agent",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.6",
           "source_provenance": "new build, previously missing entirely",
           "overlap_notes": null
         },
         {
           "name": "configure-sharepoint-agent-knowledge",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.6",
           "source_provenance": "new build",
           "overlap_notes": null
         },
         {
           "name": "backup-sharepoint-agents",
-          "status": "phase_6_approved_partial",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.6",
           "source_provenance": "backup-existing-agents.ps1, generalized",
           "overlap_notes": null
         },
         {
           "name": "restore-sharepoint-agents",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.6",
           "source_provenance": "new build, includes get-agent-resource-identifiers",
           "overlap_notes": null
         },
         {
           "name": "create-sharepoint-agent-template",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.7",
           "source_provenance": "new build",
           "overlap_notes": null
         },
         {
           "name": "apply-sharepoint-agent-template",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.7",
           "source_provenance": "new build",
           "overlap_notes": null
@@ -376,11 +368,11 @@
           "reason": "distinct write-capable capability, not counted in Task 0's 15"
         }
       ],
-      "installation_status": "scaffold only, no plugin.json/plugin.yaml/README yet"
+      "installation_status": "manifests/skills complete (15/15). Python layer (review_manual_topics.py, drift_detection.py) is standalone, pip install -e plugins/sharepoint-agents-and-skills -- isolated wheel install PASSES, 46/46 tests (verified at Phase 6 remediation, 2026-08-03; pyproject.toml added then). PowerShell scripts (scripts/*.ps1) have no wheel-based install story and are consumed directly from the repository checkout, matching this plugin's existing PnP.PowerShell deployment model -- not a gap, a structural property of mixed-language plugins."
     },
     {
       "name": "workbench-setup",
-      "status": "phase_6_planned_new_plugin",
+      "status": "phase_6_task_0.17_complete",
       "purpose": "Foundational connection/config/workflow setup for the whole workbench.",
       "responsibilities": [
         "config.psd1 generation",
@@ -396,28 +388,28 @@
       "skills": [
         {
           "name": "setup-sharepoint-connection",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.17",
           "source_provenance": "design spec Section 8",
           "overlap_notes": "CMAT sp-validating-app-registration richer, PHASE_9_MERGE_WITH_EXISTING_SKILL target"
         },
         {
           "name": "initialize-document-workflow",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.17",
           "source_provenance": "design spec Section 8, absorbs initialize-publication-profile",
           "overlap_notes": null
         },
         {
           "name": "validate-workbench-environment",
-          "status": "phase_6_approved_not_built",
+          "status": "implemented",
           "phase_task": "Phase 6 Task 0.17",
           "source_provenance": "design spec Section 8, validate_workflow_configuration.py",
           "overlap_notes": null
         }
       ],
-      "authoring_constraint": "Category 1 (marketplace-style) - authored in sibling agent-plugins-skills monorepo",
-      "installation_status": "not yet created"
+      "authoring_constraint": "Authored directly in this repo at plugins/workbench-setup/, same as sharepoint-agents-and-skills/sharepoint-content-publication. Corrected 2026-08-03: an earlier version wrongly claimed Category 1 (marketplace-style, sibling agent-plugins-skills monorepo) -- that conflated using the marketplace-manager skill (installed from agent-plugins-skills) as the procedure for marketplace.json updates with authoring the plugin's code there. See start-here.md's Task 0.17 correction record.",
+      "installation_status": "standalone, pip install -e plugins/workbench-setup"
     },
     {
       "name": "sharepoint-discovery",

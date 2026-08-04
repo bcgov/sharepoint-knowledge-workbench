@@ -1,0 +1,1 @@
+../../../scripts/render_result.py

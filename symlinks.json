@@ -321,103 +321,103 @@
     },
     {
       "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/dispositions.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/dispositions.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/dispositions.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/hashing.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/hashing.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/hashing.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/structured_content_rendering.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/structured_content_rendering.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/path_safety.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/path_safety.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/path_safety.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/render_result.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/render_result.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/render_result.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/multipage_markdown.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/protocol.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/protocol.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/validate_rendered.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": ""
     },
@@ -615,9 +615,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy of the visual pipeline diagram"
+      "description": "render-multipage-markdown skill's bundled copy of the visual pipeline diagram"
     },
     {
       "src": "docs/diagrams/high-level.mmd",
@@ -663,9 +663,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/high-level.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/high-level.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/high-level.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy of the overall system diagram"
+      "description": "render-multipage-markdown skill's bundled copy of the overall system diagram"
     },
     {
       "src": "docs/diagrams/01-phase1-overview.mmd",
@@ -927,9 +927,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/02-analyze-and-confirm.mmd",
@@ -939,9 +939,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/03-create-canonical-content.mmd",
@@ -951,9 +951,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/05-validation-and-evidence.mmd",
@@ -963,9 +963,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
@@ -975,9 +975,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/06-editing-workflow-hybrid-option.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
@@ -987,9 +987,9 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/07-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
@@ -999,9 +999,465 @@
     },
     {
       "src": "plugins/structured-content-rendering/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-structured-content/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
-      "description": "render-structured-content skill's bundled copy"
+      "description": "render-multipage-markdown skill's bundled copy"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/atomic_output.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of atomic_output.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/dispositions.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of dispositions.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/hashing.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of hashing.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/path_safety.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/path_safety.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of path_safety.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/render_result.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/render_result.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of render_result.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/structured_content_rendering.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of structured_content_rendering.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/__init__.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of renderers/__init__.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/multipage_markdown.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of renderers/multipage_markdown.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/sharepoint_aspx.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/sharepoint_aspx.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of renderers/sharepoint_aspx.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/protocol.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of renderers/protocol.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/validate_rendered.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of renderers/validate_rendered.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/__init__.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/shared.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/references/contracts/rendered-output-profile.md",
+      "strategy": "symlink",
+      "description": "render-sharepoint-aspx skill's bundled copy of the rendered-output-profile contract doc"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/templates.py",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/templates.py",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of templates.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/templates.py",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/templates.py",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of templates.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/templates.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/templates.py",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of templates.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/template_validation.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/template_validation.py",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of template_validation.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/atomic_output.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of atomic_output.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/dispositions.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of dispositions.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/hashing.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of hashing.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/path_safety.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/path_safety.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of path_safety.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/render_result.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/render_result.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of render_result.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/structured_content_rendering.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of structured_content_rendering.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/__init__.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/__init__.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/multipage_markdown.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/multipage_markdown.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/sharepoint_aspx.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/sharepoint_aspx.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/sharepoint_aspx.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/protocol.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/protocol.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/validate_rendered.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of renderers/validate_rendered.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/__init__.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/canonical_package.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/publication_map.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of canonical_schema/shared.py"
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/references/contracts/rendered-output-profile.md",
+      "strategy": "symlink",
+      "description": "validate-rendered-output skill's bundled copy of the rendered-output-profile contract doc"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/generic/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/generic/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
+    },
+    {
+      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "strategy": "symlink",
+      "description": "validate-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
+    },
+    {
+      "src": "plugins/structured-content-rendering/scripts/compare_rendered_output.py",
+      "dst": "plugins/structured-content-rendering/skills/compare-rendered-output/scripts/compare_rendered_output.py",
+      "strategy": "symlink",
+      "description": "compare-rendered-output skill's bundled copy of compare_rendered_output.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/config_setup.py",
+      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/scripts/config_setup.py",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-connection skill's bundled copy of config_setup.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/psd1_writer.py",
+      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/scripts/psd1_writer.py",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-connection skill's bundled copy of psd1_writer.py"
+    },
+    {
+      "src": "plugins/workbench-setup/assets/config.psd1.example",
+      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/assets/config.psd1.example",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-connection skill's bundled copy of config.psd1.example"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/document_workflow.py",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/scripts/document_workflow.py",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of document_workflow.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/psd1_writer.py",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/scripts/psd1_writer.py",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of psd1_writer.py"
+    },
+    {
+      "src": "plugins/workbench-setup/assets/document-workflow.psd1.example",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/assets/document-workflow.psd1.example",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of document-workflow.psd1.example"
+    },
+    {
+      "src": "plugins/workbench-setup/assets/publication-profile.psd1.example",
+      "dst": "plugins/workbench-setup/skills/initialize-document-workflow/assets/publication-profile.psd1.example",
+      "strategy": "symlink",
+      "description": "initialize-document-workflow skill's bundled copy of publication-profile.psd1.example"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/workflow_validation.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/workflow_validation.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of workflow_validation.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/config_setup.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/config_setup.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of config_setup.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/document_workflow.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/document_workflow.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of document_workflow.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/psd1_writer.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/psd1_writer.py",
+      "strategy": "symlink",
+      "description": "validate-workbench-environment skill's bundled copy of psd1_writer.py"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_package.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_package.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_package.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/dispositions.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/dispositions.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of dispositions.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/hashing.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/hashing.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of hashing.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/publication_map.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/publication_map.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of publication_map.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/__init__.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/__init__.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/canonical_package.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/canonical_package.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/publication_map.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/publication_map.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/structured-content-assembly/scripts/canonical_schema/shared.py",
+      "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/shared.py",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's copy of canonical_schema/shared.py (Phase 6 remediation, 2026-08-03)"
     }
   ]
 }

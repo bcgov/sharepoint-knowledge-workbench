@@ -1,0 +1,13 @@
+name: workbench-setup
+version: 0.1.0-alpha.1
+description: "Foundational connection/config/workflow setup for the whole workbench: generates the root SharePoint connection config, runs the document-workflow intake wizard (producing a workflow profile and a publication profile), and validates written configuration/profile files before other plugins consume them. Zero tenant I/O and zero document extraction/rendering in this version."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - setup-sharepoint-connection
+  - initialize-document-workflow
+  - validate-workbench-environment

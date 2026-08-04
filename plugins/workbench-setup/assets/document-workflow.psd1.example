@@ -1,0 +1,28 @@
+@{
+    SchemaVersion = "1.0"
+
+    Document = @{
+        DocumentId   = "ceis-manual"
+        SourcePath   = "intake/CEIS MANUAL - working version.docx"
+        SourceFormat = "docx"
+        IsRevision   = $false   # vs. new conversion
+    }
+
+    RequestedStages = @("extract", "analyze", "assemble", "render")
+
+    RequestedRendererProfiles = @("multipage-markdown")   # only implemented profiles may appear
+    UnsupportedRequests = @()   # e.g. "PDF" if requested but no renderer exists yet -- recorded,
+                                 # never silently treated as executable
+
+    HumanConfirmationGates = @{
+        TopicBoundaries     = $true
+        PublicationTargets  = $true
+    }
+
+    PublicationProfilePath = "publication-profiles/ceis-manual.publication.psd1"
+
+    AgentActionsRequested = @()   # e.g. "create-agent", "update-existing-agent" -- requests only,
+                                   # never auto-executed by this profile's existence
+
+    OutstandingDecisions = @()   # explicit list of unresolved human decisions surfaced during intake
+}

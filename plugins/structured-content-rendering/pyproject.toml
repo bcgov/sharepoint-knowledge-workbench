@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "structured-content-rendering"
 version = "0.1.0-alpha.1"
-description = "Renders a validated structured content package (and publication-map, for grouped packages) to a multipage-markdown publication output, validated and atomically promoted. (Renamed from knowledge-publication in the post-Wave-9 naming refactor.)"
+description = "Renders a validated structured content package (and, for grouped strategy, its publication-map) to multipage-Markdown and SharePoint modern-page (ASPX) publication output, validated and atomically promoted. (Renamed from knowledge-publication in the post-Wave-9 naming refactor.)"
 requires-python = ">=3.10"
 # No dependency on source-document-extraction, document-structure-analysis,
 # structured-content-assembly, or any other workbench distribution -- this
@@ -24,11 +24,27 @@ py-modules = [
     "publication_map",
     "path_safety",
     "atomic_output",
+    "templates",
+    "template_validation",
+    "compare_rendered_output",
 ]
 
 [tool.setuptools.packages.find]
 where = ["scripts"]
-include = ["canonical_schema", "canonical_schema.*", "renderers", "renderers.*"]
+include = ["canonical_schema", "canonical_schema.*", "renderers", "renderers.*", "assets", "assets.*"]
 
 [tool.setuptools.package-dir]
 "" = "scripts"
+
+[tool.setuptools.package-data]
+# Canonical rendering-template starters (templates.py's only content
+# source -- see that module's docstring) are non-.py files inside the
+# assets.* packages (each given an empty __init__.py specifically so
+# setuptools recognizes them as packages and includes their data files
+# in a real wheel build -- a plain non-package directory's contents are
+# silently dropped, which `pip install -e`'s editable-install behavior
+# would never surface, only an isolated wheel-install check would).
+"assets.templates.generic.markdown" = ["*.md"]
+"assets.templates.generic.aspx" = ["*.html"]
+"assets.templates.solutions.ceis.markdown" = ["*.md"]
+"assets.templates.solutions.ceis.aspx" = ["*.html"]

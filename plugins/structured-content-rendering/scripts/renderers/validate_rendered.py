@@ -80,6 +80,7 @@ import render_result as contracts  # noqa: E402
 from canonical_schema.canonical_package import ValidationIssue, ValidationReport  # noqa: E402
 import path_safety  # noqa: E402
 from renderers import multipage_markdown as mpm  # noqa: E402
+from renderers import sharepoint_aspx as spx  # noqa: E402
 
 # See scripts/package.py's _IMAGE_REF docstring for why link/alt text uses
 # `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- a markdown-escaped `]`
@@ -407,6 +408,202 @@ def validate_rendered_output(rendered_dir: Path, package) -> "ValidationReport":
 # ---------------------------------------------------------------------------
 # render_and_promote: full stage -> validate -> promote pipeline
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# ASPX extension (Phase 6 Task 0.16 -- `validate-rendered-output`, extended
+# for `render-sharepoint-aspx` output). Mirrors the Markdown checks above
+# section-for-section, adapted to page-manifest.json/pages/*.html instead of
+# index.md/pages/*.md -- see that renderer's module docstring for the output
+# shape.
+# ---------------------------------------------------------------------------
+
+_ASPX_IMG_SRC = re.compile(r'src="([^"]+)"')
+
+
+def _aspx_check_manifest_and_pages_exist(rendered_dir: Path) -> list:
+    issues = []
+    if not (rendered_dir / "page-manifest.json").exists():
+        issues.append(_error(
+            "missing_page_manifest", "page-manifest.json does not exist", "page-manifest.json"
+        ))
+    if not (rendered_dir / "pages").is_dir():
+        issues.append(_error("missing_pages_dir", "pages/ directory does not exist", "pages"))
+    return issues
+
+
+def _aspx_load_page_manifest(rendered_dir: Path):
+    manifest_path = rendered_dir / "page-manifest.json"
+    if not manifest_path.exists():
+        return None
+    try:
+        return json.loads(manifest_path.read_text())
+    except json.JSONDecodeError:
+        return None
+
+
+def _aspx_check_page_completeness(rendered_dir: Path, package) -> list:
+    pages_dir = rendered_dir / "pages"
+    if not pages_dir.is_dir():
+        return []
+
+    issues = []
+    known_ids = {chunk.metadata.chunk_id for chunk in package.chunks}
+    page_files = {p.stem: p for p in pages_dir.glob("*.html")}
+
+    for chunk_id in known_ids:
+        if chunk_id not in page_files:
+            issues.append(_error(
+                "missing_page",
+                f"expected rendered page for chunk {chunk_id!r} does not exist",
+                f"pages/{chunk_id}.html",
+            ))
+
+    for stem in sorted(page_files):
+        if stem not in known_ids:
+            issues.append(_error(
+                "orphan_page",
+                f"rendered page {stem!r} does not correspond to any chunk "
+                "in the source canonical package",
+                f"pages/{stem}.html",
+            ))
+
+    if len(page_files) != package.manifest.chunk_count:
+        issues.append(_error(
+            "page_count_mismatch",
+            f"pages/ contains {len(page_files)} file(s) but the manifest "
+            f"chunk_count is {package.manifest.chunk_count}",
+            "pages",
+        ))
+
+    return issues
+
+
+def _aspx_check_page_references(rendered_dir: Path) -> list:
+    pages_dir = rendered_dir / "pages"
+    if not pages_dir.is_dir():
+        return []
+
+    issues = []
+    for page_path in sorted(pages_dir.glob("*.html")):
+        content = page_path.read_text()
+        rel_path = f"pages/{page_path.name}"
+
+        for raw_ref in _ASPX_IMG_SRC.findall(content):
+            kind, detail = path_safety.classify_reference(raw_ref, pages_dir, rendered_dir)
+            if kind == "external":
+                continue
+            if kind == "violation":
+                issues.append(_error(
+                    "path_traversal_or_absolute_reference",
+                    f"media reference {raw_ref!r} in {rel_path} is "
+                    f"{'an absolute path' if detail == path_safety.VIOLATION_ABSOLUTE else 'a path-traversal outside the rendered output'}",
+                    rel_path,
+                ))
+                continue
+            resolved = detail
+            media_dir = (rendered_dir / "media").resolve()
+            if media_dir not in resolved.parents or not resolved.exists():
+                issues.append(_error(
+                    "broken_media_reference",
+                    f"media reference {raw_ref!r} in {rel_path} does not "
+                    "resolve to an existing file under this render's media/",
+                    rel_path,
+                ))
+    return issues
+
+
+def _aspx_check_source_content_staleness(rendered_dir: Path, package) -> list:
+    # Identical policy to the Markdown check -- factored separately (not
+    # shared) because each caller's error `path` context stays scoped to
+    # its own renderer's output, matching this module's existing
+    # per-format-section convention.
+    return _check_source_content_staleness(rendered_dir, package)
+
+
+def _aspx_check_page_traceability(rendered_dir: Path, package) -> list:
+    pages_dir = rendered_dir / "pages"
+    if not pages_dir.is_dir():
+        return []
+
+    issues = []
+    known_ids = {chunk.metadata.chunk_id for chunk in package.chunks}
+
+    for chunk in package.chunks:
+        page_path = pages_dir / f"{chunk.metadata.chunk_id}.html"
+        if not page_path.exists():
+            continue  # already reported by _aspx_check_page_completeness
+        rewritten_md = spx._rewrite_local_links(chunk.content, known_ids)
+        try:
+            expected = spx._markdown_to_html_fragment(rewritten_md)
+        except spx.PandocConversionError:
+            continue  # cannot recompute expected output; not this check's job
+        actual = page_path.read_text()
+        if actual != expected:
+            issues.append(_error(
+                "page_content_not_traceable",
+                f"pages/{chunk.metadata.chunk_id}.html content does not "
+                "match the source chunk's content (post local-link "
+                "rewrite + pandoc conversion) -- not traceable back to "
+                "its chunk ID",
+                f"pages/{chunk.metadata.chunk_id}.html",
+            ))
+
+    return issues
+
+
+def validate_aspx_rendered_output(rendered_dir: Path, package) -> "ValidationReport":
+    """ASPX counterpart to `validate_rendered_output` -- validates a
+    staged `render-sharepoint-aspx` output directory (`page-manifest.json`
+    + `pages/*.html` + `media/`) against `package`. Always PASS or FAIL,
+    same WARN-does-not-apply reasoning as the Markdown validator."""
+    rendered_dir = Path(rendered_dir)
+    issues = []
+
+    issues.extend(_aspx_check_manifest_and_pages_exist(rendered_dir))
+    issues.extend(_aspx_check_page_completeness(rendered_dir, package))
+    issues.extend(_aspx_check_page_references(rendered_dir))
+    issues.extend(_aspx_check_source_content_staleness(rendered_dir, package))
+    issues.extend(_aspx_check_page_traceability(rendered_dir, package))
+
+    status = "FAIL" if issues else "PASS"
+
+    return ValidationReport(
+        status=status,
+        issues=issues,
+        source_sha256=package.manifest.source.sha256,
+        plan_id=package.manifest.plan_id,
+    )
+
+
+def render_and_promote_aspx(
+    package,
+    output_root: Path,
+    renderer=None,
+    final_dir: "Path | None" = None,
+    plugin_version: str = atomic_output.DEFAULT_PLUGIN_VERSION,
+):
+    """ASPX counterpart to `render_and_promote` -- stage
+    `render-sharepoint-aspx` output, validate it, and promote only on
+    PASS. Same `(RenderResult, ValidationReport, promoted: bool, Path)`
+    shape."""
+    output_root = Path(output_root)
+    final_dir = Path(final_dir) if final_dir is not None else output_root / "rendered-output"
+
+    result, staging_dir = spx.render_to_staging(package, output_root, renderer=renderer)
+    atomic_output.write_generator_info(
+        staging_dir, plugin_name="structured-content-rendering", plugin_version=plugin_version
+    )
+    write_render_result(result, staging_dir)
+
+    report = validate_aspx_rendered_output(staging_dir, package)
+    write_rendered_validation_report(report, staging_dir)
+
+    if report.status == "PASS":
+        atomic_output.promote(staging_dir, final_dir)
+        return result, report, True, final_dir
+
+    return result, report, False, staging_dir
+
 
 def render_and_promote(
     package,

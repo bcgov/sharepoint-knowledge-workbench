@@ -11,6 +11,19 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **CORRECTION (2026-08-03), read before executing any task below:** this plan's "sibling
+> `agent-plugins-skills` monorepo" / "skill-authoring PR for the sibling monorepo" statements
+> (Global Constraints and elsewhere) are **wrong** — a real mistake, not a design decision. They
+> conflated "use the `marketplace-manager` skill installed *from* `agent-plugins-skills` as the
+> procedure for `marketplace.json` updates" with "author `workbench-setup`'s code *in*
+> `agent-plugins-skills`." `workbench-setup` is owned and authored directly in this repo at
+> `plugins/workbench-setup/`, the same as every other Phase 4.5/Phase 6 domain plugin — see
+> `start-here.md`'s Task 0.17 correction record and
+> `docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md`'s
+> Section 8 correction. This plan's task breakdown/tech-stack assumptions below were written under
+> the wrong premise and have not been re-scoped for in-repo authoring — do not execute this plan
+> as written; it needs a fresh pass once Task 0.17 is actually authorized to proceed.
+
 **Goal:** Produce the script inventory, root-config schema, publication-profile schema, and a
 tested target-resolution module the design specifies — the prerequisite infrastructure for
 supporting a second real document without duplicating or colliding with the first.
