@@ -85,8 +85,8 @@ git mv <old_path> <new_path>
 
 **Grouped commits** (one per domain):
 ```
-git commit -m "docs(research-ia): move sharepoint-platforms docs to eternal domain"
-git commit -m "docs(research-ia): move structured-content-engineering docs to eternal domain"
+git commit -m "docs(research-ia): move sharepoint-platforms docs to enduring research domain"
+git commit -m "docs(research-ia): move structured-content-engineering docs to enduring research domain"
 # ... etc
 ```
 
@@ -195,7 +195,7 @@ done
 cat > docs/research/INDEX.md << 'EOF'
 # Research Knowledge Index
 
-Navigate eternal research domains (organized by subject, not phase).
+Navigate enduring research domains (organized by subject, not phase).
 
 [Auto-generated navigation tree]
 
@@ -387,7 +387,7 @@ git status --short  # Should show only Session 1 discovery artifacts
 
 By end of Session 2:
 
-- ✅ All 68 files moved to eternal domains
+- ✅ All 68 files moved to enduring research domains
 - ✅ 15 legacy files archived with README
 - ✅ All inbound references updated and validated
 - ✅ New domain README files created and populated

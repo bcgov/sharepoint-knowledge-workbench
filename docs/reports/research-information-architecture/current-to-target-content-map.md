@@ -10,7 +10,7 @@
 
 | Move Type | Count | Notes |
 |---|---|---|
-| **Move to eternal domain** | 68 | Research, field notes, synthesized findings moving from phase-folders or research/ to domain-org |
+| **Move to enduring research domain** | 68 | Research, field notes, synthesized findings moving from phase-folders or research/ to domain-org |
 | **Retain in place** | 95 | Vision, superpowers specs/plans, architecture, reports, tools — no change |
 | **Archive to legacy folder** | 15 | Historical docx-to-content references; stay accessible with README |
 | **Consolidate** | 5 | Overlapping findings from different phases → single canonical document |
