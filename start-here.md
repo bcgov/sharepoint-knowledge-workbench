@@ -1,16 +1,22 @@
-# Resume — Phases 1–6 Complete and Merged to main; Phase 7 Desk-Research Round Complete, Master Exit Gate Deferred
+# Resume — Phases 1–6 Complete and Merged to main; Phase 7 Desk-Research Round Complete and Merged, Master Exit Gate Deferred
 
-## Phase 7 — authoritative fresh-session handoff (desk-research round, pending merge)
+## Phase 7 — authoritative fresh-session handoff (desk-research round, merged)
 
 **This section is the current, authoritative status — read it before anything else in this file.**
 Everything below it (including the Phase 6 handoff section that follows) is historical detail
 preserved as the evidence trail, not the current summary.
 
-**Status:** Phase 7 (Cowork & Copilot Studio Evaluation) desk-research round is `COMPLETE`.
-**Phase 7's master exit gate is `NOT YET SATISFIED`** — do not describe Phase 7 as fully closed.
+**Status:** Phase 7 (Cowork & Copilot Studio Evaluation) desk-research round is `COMPLETE` and
+**MERGED to `main`**. **Phase 7's master exit gate is `NOT YET SATISFIED`** — do not describe
+Phase 7 as fully closed.
 
-- **Branch:** `phase-7-cowork-copilot-studio-evaluation`.
-- **Merge status:** not yet merged — PR pending, awaiting Richard's review.
+- **Branch:** `phase-7-cowork-copilot-studio-evaluation` (merged, local branch deleted, worktree
+  removed and pruned post-merge).
+- **Merge status:** **MERGED** — PR #34, merge commit `58232c1`, verified: `git rev-parse HEAD`
+  and `git rev-parse origin/main` both resolve to `58232c1`; `main` tracks `origin/main`; working
+  tree clean at merge-verification time; `.worktrees/phase-7-cowork-copilot-studio-evaluation`
+  verified clean and removed, `git worktree prune` run, local branch verified merged
+  (`git branch --merged main`) and deleted with `git branch -d` (not force-deleted).
 - **Copilot Cowork disposition:** `REMAIN_RESEARCH`.
 - **Copilot Studio disposition:** `REMAIN_RESEARCH`.
 - **Master roadmap Stage 7.2.2 (build/no-build decision per target):** `DEFERRED` — both
