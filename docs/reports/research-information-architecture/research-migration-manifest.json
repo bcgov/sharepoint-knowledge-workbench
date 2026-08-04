@@ -1261,6 +1261,604 @@
       "destination_status": "unassigned",
       "destination_rationale": null,
       "approval_status": "not-applicable-pending-architecture-decision"
+    },
+    {
+      "source_hash": "dec953c86cf4479c9fa10ff56ed2c7054f743dac1bf80b5092cdc0406543fb29",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "4.5"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "arch-014",
+      "source_path": "docs/architecture/phase-4-5-target-architecture.md",
+      "current_filename": "phase-4-5-target-architecture.md",
+      "title": "Phase 4.5 Target Architecture (as-built)",
+      "content_summary": "As-built distribution graph for the 4 domain plugins after Phase 4.5 decomposition, explicitly self-dated 2026-08-01/updated end of Wave 8. Kept as historical record using pre-rename plugin names (knowledge-analysis etc.) with a pointer to the current names via plugin-skill-name-migration.md.",
+      "artifact_type": "architecture-reference",
+      "lifecycle_status": "active-historical-record-of-transition",
+      "evidence_status": "n/a-architecture-diagram",
+      "classification_rationale": "Confirmed by content: self-describes as historical/as-built record, not a living document requiring updates. Current architecture facts also documented in CLAUDE.md and plugin READMEs.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "21533f5da5e2e82ea7529a0a32e5be09b44e59bbf4d9d2e0ca43273b6cabb1af",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "6",
+        "9"
+      ],
+      "source_relationships": [
+        "sourced from docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md and docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md (both EXCLUDED from this IA scope per user direction)"
+      ],
+      "related_documents": [
+        "docs/architecture/complete-plugin-skill-catalog-after-phase-9.json",
+        "docs/architecture/validate_plugin_skill_catalog.py"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [
+        "docs/architecture/complete-plugin-skill-catalog-after-phase-9.json (sibling data file, cross-validated)",
+        "docs/architecture/validate_plugin_skill_catalog.py (executable validator, checks .md/.json totals match)"
+      ],
+      "ambiguity": "Whether this belongs in the IA reorganization at all is a real open question: it is content-sourced from the excluded docs/superpowers/ tree, is a live tracking artifact (re-generated as Phase 6/9 progress), and has a hard script dependency. Recommend treating this three-file group as either (a) excluded from this IA pass entirely, same as docs/superpowers/, or (b) moved together as an atomic unit with the script's hardcoded paths updated. Not resolved here.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "arch-015",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.md",
+      "current_filename": "complete-plugin-skill-catalog-after-phase-9.md",
+      "title": "Complete Plugin/Skill Catalog \u2014 Expected Ecosystem After Phase 9",
+      "content_summary": "Live planning/tracking artifact (not yet-authorized Phase 9), computing skill totals from docs/superpowers/ sources and a separate CMAT-repository audit. Explicitly 'Status: Planning artifact... does not authorize implementation.'",
+      "artifact_type": "planning-tracking-artifact",
+      "lifecycle_status": "active-planning-not-implementation",
+      "evidence_status": "n/a-planning",
+      "classification_rationale": "SCOPE TENSION: this file's own content is sourced from docs/superpowers/ (excluded from this IA effort per user direction) yet lives under docs/architecture/ (included). It also has a hard executable coupling to a sibling .json and .py validator script \u2014 the three files (md/json/py) must move together or not at all; moving only the .md would silently break `python3 docs/architecture/validate_plugin_skill_catalog.py`, which hardcodes the sibling paths.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate-with-scope-tension"
+    },
+    {
+      "source_hash": "78ce98251f5bc30f94ddc059294efe6d43716e999262f551da4858099703e7b2",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "6",
+        "9"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/architecture/complete-plugin-skill-catalog-after-phase-9.md",
+        "docs/architecture/validate_plugin_skill_catalog.py"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [
+        "must move with its .md and .py siblings \u2014 see arch-015"
+      ],
+      "ambiguity": "Same as arch-015 \u2014 resolve as a group, not individually.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "arch-016",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.json",
+      "current_filename": "complete-plugin-skill-catalog-after-phase-9.json",
+      "title": "Complete Plugin/Skill Catalog (machine-readable companion)",
+      "content_summary": "JSON data file: generated 2026-08-03, status 'planning_artifact_not_implementation_authorization', two independent skill-total groupings (workbench vs. CMAT), explicit note not to sum across them, explicit no_cmat_code_migrated/cmat_repository_unmodified flags.",
+      "artifact_type": "planning-data-artifact",
+      "lifecycle_status": "active-planning-not-implementation",
+      "evidence_status": "n/a-planning-data",
+      "classification_rationale": "Same scope-tension and hard-coupling as arch-015; this is the machine-readable half of that same artifact group.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate-with-scope-tension"
+    },
+    {
+      "source_hash": "dd5fe9e5b10912f59b873ad106fbbe19a1416d5d1ee0ecf30749b49f8cefe94c",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "6",
+        "9"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/architecture/complete-plugin-skill-catalog-after-phase-9.md",
+        "docs/architecture/complete-plugin-skill-catalog-after-phase-9.json"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [
+        "hardcodes relative/named paths to its two sibling data files"
+      ],
+      "ambiguity": "Should a runnable validator script be classified as a migration candidate at all, or is it implicitly excluded as 'code, not documentation' the same way plugins/ code is out of scope? Not resolved here \u2014 flagged for architecture decision.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "arch-017",
+      "source_path": "docs/architecture/validate_plugin_skill_catalog.py",
+      "current_filename": "validate_plugin_skill_catalog.py",
+      "title": "Plugin/Skill Catalog Validator (executable script)",
+      "content_summary": "Python script validating that computed totals from the .json/.md catalog pair match their own stated claims \u2014 proves reported counts rather than trusting hand-written numbers. Docstring hardcodes both sibling filenames by path.",
+      "artifact_type": "validator-script",
+      "lifecycle_status": "active-executable",
+      "evidence_status": "n/a-code",
+      "classification_rationale": "This is executable code, not documentation/research at all. Its presence in docs/architecture/ is itself slightly unusual (a validator script living beside the docs it validates) but functionally sound (single-folder cohesion). Moving this file changes what `python3 docs/architecture/validate_plugin_skill_catalog.py` means for anyone with that command memorized/scripted elsewhere.",
+      "confidence": "high",
+      "scope_classification": "executable-dependency-not-pure-documentation"
+    },
+    {
+      "source_hash": "TBD-not-hashed-separately",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1",
+        "3",
+        "6.5"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/vision/editing-workflow-options-for-external-review.md",
+        "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+        "docs/reports/phase-4-5-core-plugin-refactoring/plugin-skill-name-migration.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md",
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+        ".agent/rules/plugin-architecture-policy.md (references docs/diagrams/workflows/discovery.mmd \u2014 THIS PATH DOES NOT EXIST in this repo's docs/diagrams/, no workflows/ subfolder present; either a stale reference or describes an unimplemented expected structure)"
+      ],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": "A repository rule (.agent/rules/plugin-architecture-policy.md) references a docs/diagrams/workflows/discovery.mmd path that does not exist in this repo. Needs investigation: stale reference from a copied rule template, or evidence of an intended-but-never-built structure. Also: should diagrams 06-09 move WITH their tightly-coupled vision documents rather than as a batch with 01-05? Not resolved here.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-000",
+      "source_path": "docs/diagrams/README.md",
+      "current_filename": "README.md",
+      "title": "Structured Content Pipeline Diagram Set (index)",
+      "content_summary": "Index for 9 numbered .mmd diagrams + high-level.mmd. Explicitly separates diagrams 01-05 (authorized Phase 1 pipeline, originally 'docx-to-content Diagram Set') from 06-08 (speculative, NOT-SELECTED Phase 3 candidates tied to docs/vision/editing-workflow-options-for-external-review.md) and 09 (speculative Phase 6.5, NOT TRIGGERED/NOT AUTHORIZED, tied to docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md).",
+      "artifact_type": "index",
+      "lifecycle_status": "active-mixed-authorized-and-speculative",
+      "evidence_status": "n/a-navigational",
+      "classification_rationale": "CONFIRMS the hypothesis from prior turn: this folder is Phase-1-era material (originally 'docx-to-content Diagram Set') that outlived the plugin decomposition, exactly parallel to docs/architecture/docx-to-content-legacy-references/. But unlike that folder, this one also contains 4 later speculative additions (06-09) explicitly tied to specific docs/vision/ documents \u2014 so the folder is NOT homogeneous: it mixes authorized-historical (01-05), not-selected-candidate (06-08), and not-yet-authorized-future (09) diagrams. A single 'archive together' or 'move together' operation would misrepresent this mix.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "e7faa729696b4e2857296b3a292599d4d99574f16946c631d6760dd6ba8aea0f",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/high-level.mmd",
+        "docs/diagrams/README.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-001",
+      "source_path": "docs/diagrams/01-phase1-overview.mmd",
+      "current_filename": "01-phase1-overview.mmd",
+      "title": "Phase 1 Overview Diagram",
+      "content_summary": "20-line Mermaid flowchart: simplified Phase 1 flow (source doc -> analyze/plan -> user confirm -> create structured content -> validated structured content), beneath the separate high-level.mmd vision diagram, per README.",
+      "artifact_type": "diagram",
+      "lifecycle_status": "active-authorized-historical",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Authorized Phase 1 diagram per README's own explicit classification (01-05 = authorized).",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "1ebcbb9dade1271d28833a78a539fcdba840e3626f10354672d440be76a4451d",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/README.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-002",
+      "source_path": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "current_filename": "02-analyze-and-confirm.mmd",
+      "title": "Analyze and Confirm Diagram",
+      "content_summary": "19-line Mermaid flowchart: temporary extraction, analysis, recommendations, formats/templates, confirmation stage detail.",
+      "artifact_type": "diagram",
+      "lifecycle_status": "active-authorized-historical",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Authorized Phase 1 diagram per README.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "b1ea6d51aa436f86b2636322f06de9f1896cda4fccebd6e2520d29507c10eb30",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/README.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-003",
+      "source_path": "docs/diagrams/03-create-canonical-content.mmd",
+      "current_filename": "03-create-canonical-content.mmd",
+      "title": "Create Canonical Content Diagram",
+      "content_summary": "30-line Mermaid flowchart: preconditions verification, staging, pandoc extraction, cleanup pipeline stages (attributes -> image placement -> TOC -> tables -> footnotes -> legacy media).",
+      "artifact_type": "diagram",
+      "lifecycle_status": "active-authorized-historical",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Authorized Phase 1 diagram per README.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "ec8491254acab490c5ae30775d86adeebaaadb1f87f0377152c84d8c15332980",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/README.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-004",
+      "source_path": "docs/diagrams/04-generate-and-render.mmd",
+      "current_filename": "04-generate-and-render.mmd",
+      "title": "Generate and Render Diagram",
+      "content_summary": "25-line Mermaid flowchart: package load/validate, code-generated derived elements (TOC/nav/indexes), output-choice selection, renderer protocol.",
+      "artifact_type": "diagram",
+      "lifecycle_status": "active-authorized-historical",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Authorized Phase 1 diagram per README.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "51ab6afbca02554bbded96c8469288e4c8bc5a21cc52c17502525e59731fd208",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/README.md"
+      ],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-005",
+      "source_path": "docs/diagrams/05-validation-and-evidence.mmd",
+      "current_filename": "05-validation-and-evidence.mmd",
+      "title": "Validation and Evidence Diagram",
+      "content_summary": "54-line Mermaid flowchart (longest of the authorized set): automated validation, schema/contract checks, hashes/counts/identity/lineage, heading/structural-anchor reconciliation, human spot checks, evidence report, hypothesis decision.",
+      "artifact_type": "diagram",
+      "lifecycle_status": "active-authorized-historical",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Authorized Phase 1 diagram per README; largest of the 01-05 set.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "755e404da637def9a2d494439611b921bdf350d1e095f1018e3f5a2c09b8670c",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "3"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/vision/editing-workflow-options-for-external-review.md"
+      ],
+      "overlaps_with": [
+        "docs/vision/editing-workflow-options-for-external-review.md (this diagram directly illustrates a specific model discussed there)"
+      ],
+      "possible_consolidation_group": null,
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md"
+      ],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": "Should move together with docs/vision/editing-workflow-options-for-external-review.md rather than staying grouped with diagrams 01-05 \u2014 this is a real classification/grouping decision for the architecture proposal, not resolved here.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-006",
+      "source_path": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "current_filename": "06-editing-workflow-hybrid-option.mmd",
+      "title": "Editing Workflow Hybrid Option Diagram (NOT SELECTED)",
+      "content_summary": "112-line Mermaid flowchart illustrating one NOT-SELECTED candidate content-author editing workflow (hybrid of Model C SharePoint-hosted Markdown authoring + Model E SharePoint change-proposal intake): business authoring, SharePoint-to-Git boundary, Git validation/promotion, governed publication pipeline, published knowledge environment.",
+      "artifact_type": "diagram-speculative",
+      "lifecycle_status": "speculative-not-selected",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Per README, this is Phase 3 territory, not authorized, and depicts a NOT-SELECTED candidate. Tightly coupled to a specific docs/vision/ document \u2014 should very likely move together with it, not with the 01-05 authorized-historical set.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "6f27c2d3201eb5f6cc239e0490f4f36c1029dc1db28771f24f252b3dc6e3ec04",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "3"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/08-editor-submission-and-approval-workflow.mmd (upstream half of the same flow, per README)"
+      ],
+      "overlaps_with": [
+        "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
+      ],
+      "possible_consolidation_group": "editor-publisher-workflow-pair",
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": "Diagrams 07 and 08 are explicitly two halves of one workflow per README \u2014 likely should be treated as a pair for any move/rename decision.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-007",
+      "source_path": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "current_filename": "07-publisher-triggered-render-workflow.mmd",
+      "title": "Publisher-Triggered Render Workflow Diagram (speculative)",
+      "content_summary": "20-line Mermaid flowchart: narrower human-in-the-loop variant \u2014 approved SharePoint chunk triggers Power Automate notification, publisher pulls via PnP PowerShell, runs repo render skills, reviews, pushes back via PnP PowerShell.",
+      "artifact_type": "diagram-speculative",
+      "lifecycle_status": "speculative-not-authorized",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Per README, paired with diagram 08 as two halves of one flow. Phase 3 speculative, not authorized.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "f49761aafc3086099e5a549033bb6afc74d3bde5c8a2d6205440bec19a16f232",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "3"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+      ],
+      "overlaps_with": [
+        "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+      ],
+      "possible_consolidation_group": "editor-publisher-workflow-pair",
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-008",
+      "source_path": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "current_filename": "08-editor-submission-and-approval-workflow.mmd",
+      "title": "Editor Submission and Approval Workflow Diagram (speculative)",
+      "content_summary": "19-line Mermaid flowchart: business-editor-facing half upstream of diagram 07 \u2014 author edits chunk in SharePoint, submits for approval, Draft -> In review -> Changes requested (loop) or Approved (fires diagram 07's entry point). Deliberately excludes Git/publisher machinery.",
+      "artifact_type": "diagram-speculative",
+      "lifecycle_status": "speculative-not-authorized",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Pair with diagram 07 per README. Phase 3 speculative, not authorized.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "19dae7945489317f3e71d3ddde46e0c3e5f248dd52d26f8f4f1b1a69083c7dee",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "6.5"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+        "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+      ],
+      "overlaps_with": [
+        "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md (this diagram is drawn directly from that document's architecture note and external-review resolution)"
+      ],
+      "possible_consolidation_group": null,
+      "inbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md"
+      ],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": "Same grouping question as diag-006: should move with its source vision document rather than the 01-05 set.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-009",
+      "source_path": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "current_filename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "title": "Phase 6.5 Ongoing Authoring and Republishing Loop Diagram (speculative)",
+      "content_summary": "70-line Mermaid flowchart: future Phase 6.5 runtime-division loop \u2014 SharePoint agent/native skill may only propose/review/gather intent; GitHub Copilot/Claude workbench applies approved changes; deterministic tooling remains sole validation/rendering/hashing/lineage authority. Distinct from 06-08 (business-authoring candidates): this shows the runtime split. Explicitly 'NOT TRIGGERED, NOT AUTHORIZED, structure only.'",
+      "artifact_type": "diagram-speculative",
+      "lifecycle_status": "speculative-not-authorized-future-phase",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Tightly coupled to a specific docs/vision/ open-question document, distinct in kind from 06-08 (a different future phase, a runtime-split concern rather than a business-authoring-model concern).",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "16b74edb8716cc78eabbf236daf055fe09658ad4284c4e4d8676f9ba83809d38",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1"
+      ],
+      "source_relationships": [],
+      "related_documents": [
+        "docs/diagrams/01-phase1-overview.mmd"
+      ],
+      "overlaps_with": [
+        "docs/diagrams/01-phase1-overview.mmd (same pipeline, different detail level \u2014 README describes 01 as 'beneath' this one, i.e. this is the parent vision diagram)"
+      ],
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": null,
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "diag-010",
+      "source_path": "docs/diagrams/high-level.mmd",
+      "current_filename": "high-level.mmd",
+      "title": "High-Level Pipeline Diagram",
+      "content_summary": "48-line Mermaid flowchart, richer/more narrative version of diag-001 (source doc characteristics spelled out in bullet lists per stage: business content, structure, formatting, images, TOC, etc.), explicitly 'beneath' by 01-phase1-overview.mmd per README wording (high-level.mmd is the parent/overview, 01 is the simplified version beneath it).",
+      "artifact_type": "diagram",
+      "lifecycle_status": "active-authorized-historical",
+      "evidence_status": "n/a-diagram",
+      "classification_rationale": "Companion/parent diagram to 01-phase1-overview.mmd, not filename-numbered because it predates or sits above the numbered set per README's own phrasing.",
+      "confidence": "high",
+      "scope_classification": "migration-candidate"
+    },
+    {
+      "source_hash": "TBD",
+      "primary_subjects": [],
+      "secondary_subjects": [],
+      "phase_provenance": [
+        "1"
+      ],
+      "source_relationships": [],
+      "related_documents": [],
+      "overlaps_with": null,
+      "possible_consolidation_group": null,
+      "inbound_references": [],
+      "outbound_references": [],
+      "dependencies": [],
+      "ambiguity": "Should this move to docs/reports/ (matching its phase-evidence genre) even though it's not literally being reorganized as 'research'? Or stay at docs/ root as a Task-0-baseline curiosity? A genuinely open architecture question, not resolved here.",
+      "proposed_operation": null,
+      "proposed_destination": null,
+      "proposed_filename": null,
+      "destination_status": "unassigned",
+      "destination_rationale": null,
+      "approval_status": "not-applicable-pending-architecture-decision",
+      "id": "root-001",
+      "source_path": "docs/implementation-baseline.md",
+      "current_filename": "implementation-baseline.md",
+      "title": "docx-to-content Phase 1 \u2014 Implementation Baseline (Task 0)",
+      "content_summary": "Dated 2026-07-25 Task 0 reconnaissance record: verified tool versions (pandoc 3.8.3, LibreOffice 26.2.5.2, Python 3.13.4), verified source paths using PRE-RENAME directory names (sourcedocuments/, output/ \u2014 repo has since renamed to intake/, runs/), plugin scaffold convention findings (no local plugin scaffold existed at Phase 1 start; sibling monorepo agent-plugins-skills used as structural reference only).",
+      "artifact_type": "phase-evidence",
+      "lifecycle_status": "active-historical-uses-superseded-path-names",
+      "evidence_status": "dated-reconnaissance-record",
+      "classification_rationale": "This is the only loose file at docs/ root. Content is Task 0 Phase 1 reconnaissance evidence (tool versions, source paths) \u2014 genre-wise this is phase evidence (like docs/reports/*), not enduring research/architecture/vision, despite sitting at docs/ root rather than under docs/reports/. Uses pre-rename directory names (sourcedocuments/, output/) that CLAUDE.md itself flags elsewhere as 'historically accurate, not a live reference' \u2014 same caution applies here.",
+      "confidence": "high",
+      "scope_classification": "phase-evidence"
     }
   ],
   "corpus_scope_survey": {
