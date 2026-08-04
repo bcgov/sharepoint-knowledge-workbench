@@ -205,7 +205,9 @@
 - **External sources:** none
 - **Relevant sections:** Split-Runtime trade-offs; quota figures (later flagged for re-verification)
 - **Phase 7 relevance:** medium — early version of claims later refined in `opus-v2.md`/`opus-v3.md`/v6
-- **Freshness status:** `REQUIRES_FRESHNESS_CHECK`; largely `UPDATED_BY_CURRENT_DOCUMENTATION`-pending superseded by later review rounds in the same chain
+- **Freshness status:** `SUPERSEDED` for the quota figures specifically (refined by `opus-v2.md`/
+  `viable-skills-summary.md` v6); `REQUIRES_FRESHNESS_CHECK` for the Split-Runtime trade-off
+  content not yet re-verified against a live source
 - **Conclusions reused:** Split-Runtime trade-off catalogue origin (refined later, cite the v6 version instead)
 - **Conclusions updated/rejected:** quota figures (50 OneDrive files/25 SharePoint sites) flagged for re-verification by later rounds
 
