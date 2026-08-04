@@ -1,8 +1,17 @@
 # Proposed Research Information Architecture — Refined Taxonomy
 
-**Status:** Refinement session — taxonomy redesigned to separate organizing dimensions  
-**Previous version:** Commit c3957b9 (replaced with this content-validated version)  
-**Changes from Session 1:** Separated subject domains, artifact types, lifecycle status, and phase evidence as distinct organizing dimensions
+**Status:** ⚠️ UNTESTED HYPOTHESIS, NOT A DECISION. Per corrected process direction (2026-08-04), the six-domain
+tree below is one candidate architecture to be evaluated against the completed corpus manifest
+(`research-migration-manifest.json`), alongside at least four other structural alternatives (see that
+file's `architecture_alternatives_status` block). It must not be treated as approved or as a constraint
+on how remaining corpus files are classified. The corpus-first process is: (1) inventory and
+content-classify every file into the manifest with `proposed_destination: null`, (2) compare structural
+alternatives against the completed inventory, (3) only then finalize a directory tree.  
+**Previous version:** Commit c3957b9 (initial sketch); this document is retained as one input to the
+architecture comparison, not as the answer.  
+**Open question this taxonomy does NOT yet resolve:** whether `docs/research/` and `docs/reports/`
+should remain separate trees, merge into one subject-organized corpus with artifact-type metadata, or
+follow a hybrid model. See `research-migration-manifest.json`'s `architecture_alternatives_status.alternatives_to_evaluate` for the five options under consideration.
 
 ---
 
