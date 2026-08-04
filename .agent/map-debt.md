@@ -111,3 +111,17 @@
 - **Severity**: M (no tenant/data impact — read-only script — but a false negative that, if trusted without the user's own independent verification, would have led to an incorrect "skill not deployed, redeploy from scratch" action against a tenant that already had the correct artifact, and more broadly would have blocked Phase 6's native-runtime evaluation on a fabricated premise)
 - **Repeat**: NO (fixed at the source; no other script in this repo shares this exact `reconcile-deployed-skill.ps1` code path). Generalizable lesson, not yet codified as a new Hard Gate: **a live-tenant script's first-ever real run should be treated as unverified until independently cross-checked (e.g. against the actual SharePoint UI), especially when it reports a negative/empty result** — a script silently returning "nothing found" due to a parameter-set bug looks identical to a script correctly reporting "nothing found," and only external verification (the user's screenshot here) distinguished them. Considered for a future Hard Gate if this pattern recurs.
 - **Status**: RESOLVED
+
+### [2026-08-03] Phase 6 native-runtime redeploy — `deploy-and-verify-skill.ps1` `Add-PnPFile` Parameter-Set Bug
+
+- **Logged Date**: 2026-08-03
+- **Cycle/Session**: Same session as the `reconcile-deployed-skill.ps1` fixes above — continuation, redeploying `review-manual-topics/SKILL.md` to resolve the `DEPLOYED_ARTIFACT_DRIFT_DETECTED` finding those fixes surfaced.
+- **Artifact Affected**: `plugins/sharepoint-agents-and-skills/scripts/deploy-and-verify-skill.ps1`
+- **Friction Observed**: real `-Execute` run against the live tenant failed with `Parameter set cannot be resolved using the specified named parameters` immediately upon attempting the upload.
+- **Root cause**: `Add-PnPFile -Path $sourcePath -Folder $targetFolderUrl -FileName $targetFilename -Values @{...}` — `-Path` selects the "Upload file" parameter set, which provides `-NewFileName` for renaming on upload; `-FileName` belongs to a different, stream-based parameter set ("Upload file from stream"/"from text") that has no `-Path`. Mixing the two is invalid and PowerShell correctly rejected it (unlike the three `reconcile-deployed-skill.ps1` bugs, this one errored loudly rather than silently returning a wrong empty result — a better failure mode, caught immediately on the real execution attempt rather than needing external cross-checking).
+- **Why not caught earlier**: same as the sibling script — no test coverage, and `-Execute` (the only code path that exercises this line) had apparently never been run against a real tenant before this session; the script's own preflight (`-Execute` omitted) never reaches this line at all.
+- **Fix**: `-FileName` → `-NewFileName`. Verified fixed with a real `-Execute` run: upload succeeded, pre/post-deployment SHA-256 readback matched 100% (`bb327348...`), and the sibling reconciliation script (already fixed) confirmed `DISPOSITION: TASK_8_ARTIFACT_ALREADY_PRESENT_AND_RECONCILED` afterward — the drift this session found earlier is now resolved on the real tenant, not just in this repo's expectations.
+- **Evidence**: commit `0345b5f`; live-tenant command output in this session's transcript (upload URL, matching SHA-256 readback, reconciliation re-run).
+- **Severity**: L (errored loudly and immediately rather than silently misbehaving; no partial/corrupt write occurred — PnP rejects an invalid parameter combination before any tenant call is made)
+- **Repeat**: NO (fixed at the source)
+- **Status**: RESOLVED
