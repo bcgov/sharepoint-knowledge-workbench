@@ -1,11 +1,50 @@
-# Resume — Phases 1–6 Complete and Merged to main; Phase 7 NOT_STARTED
+# Resume — Phases 1–6 Complete and Merged to main; Phase 7 Desk-Research Round Complete, Master Exit Gate Deferred
+
+## Phase 7 — authoritative fresh-session handoff (desk-research round, pending merge)
+
+**This section is the current, authoritative status — read it before anything else in this file.**
+Everything below it (including the Phase 6 handoff section that follows) is historical detail
+preserved as the evidence trail, not the current summary.
+
+**Status:** Phase 7 (Cowork & Copilot Studio Evaluation) desk-research round is `COMPLETE`.
+**Phase 7's master exit gate is `NOT YET SATISFIED`** — do not describe Phase 7 as fully closed.
+
+- **Branch:** `phase-7-cowork-copilot-studio-evaluation`.
+- **Merge status:** not yet merged — PR pending, awaiting Richard's review.
+- **Copilot Cowork disposition:** `REMAIN_RESEARCH`.
+- **Copilot Studio disposition:** `REMAIN_RESEARCH`.
+- **Master roadmap Stage 7.2.2 (build/no-build decision per target):** `DEFERRED` — both
+  dispositions above sit at the master plan's generic `RESEARCH` level
+  (`docs/vision/master-initiative-plan-workstreams-and-phases.md` lines 826–853, 1047–1048), not
+  yet Stage 7.2.2's final outcome. The master plan itself has not been amended.
+- **Authorization boundary:** no implementation, environment, tenant, or proof-of-concept work is
+  authorized for either platform by this round's evidence.
+- **Re-entry triggers (either resumes Phase 7):**
+  1. A Copilot Studio Dedicated Environment becomes available (tests whether it resolves the
+     observed Default-Environment DLP blocking).
+  2. Copilot Cowork becomes enabled in the tenancy (tests the intake-conversation front-end
+     hypothesis).
+- **Evidence record — read these, do not re-derive their content:**
+  - `docs/reports/phase-7-cowork-copilot-studio-evaluation/desk-research-evidence-memo.md` (the
+    formal decision record)
+  - `docs/reports/phase-7-cowork-copilot-studio-evaluation/prior-research-source-ledger.md`
+  - `docs/reports/phase-7-cowork-copilot-studio-evaluation/capability-gap-analysis.md`
+  - `docs/reports/phase-7-cowork-copilot-studio-evaluation/current-source-verification-record.md`
+- **Design:** `docs/superpowers/specs/2026-08-03-phase-7-cowork-copilot-studio-desk-research-design.md`.
+- **Resume instructions once merged:** sync local `main`, verify `HEAD` equals `origin/main`,
+  verify the Phase 7 worktree is clean and the branch is merged, remove/prune the worktree, delete
+  the merged local branch with `git branch -d` (never `-D`), then update this section's merge
+  status if the merge commit still needs recording. Do not start Phase 8 until Phase 7's own
+  status here is current.
 
 ## Phase 6 — authoritative fresh-session handoff (2026-08-04, verified against git post-merge)
 
-**`PHASE_TRANSITION_READY`.** This section is the current, authoritative status — read it before
-anything else in this file. Everything below it (including the "Current status (2026-08-03)"
-section that follows) is historical detail from Phase 6's execution, preserved as the evidence
-trail, not the current summary.
+**Superseded by the Phase 7 section above for current status** — this section remains accurate as
+the historical record of Phase 6's own closure, not the current summary.
+
+**`PHASE_TRANSITION_READY`** (as of Phase 6's own closure). Everything below it (including the
+"Current status (2026-08-03)" section that follows) is historical detail from Phase 6's execution,
+preserved as the evidence trail.
 
 ### Phase 6
 
