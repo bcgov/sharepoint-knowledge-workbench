@@ -15,17 +15,24 @@ own requirement for a retirement exercised under this plan.
 
 ## 2. Notification
 
-Not applicable — single-user pilot (Richard is both the accountable owner and the only user of
-this deployment). No other party requires notification.
+Per current repository evidence, no additional pilot user is documented beyond Richard (accountable
+owner and the only currently documented operator of this deployment). No other party requires
+notification on that evidence. This is a repository-evidence statement, not a tenant-wide guarantee
+— it has not been independently verified against live tenant usage logs.
 
 ## 3. Dependency check
 
-No other artifact in this repository or tenant depends on this skill's presence:
+No repository dependency was found in the verified search performed for this document:
 - `CEIS-Pilot-Knowledge-Agent`'s grounding configuration references the `CEISPilotKnowledgePages`
   library directly, not the skill; removing the skill does not remove the agent's grounding.
-- No other skill or plugin references `review-manual-topics`'s native deployment.
-(To be re-confirmed at execution time if the tenant state has changed since this document was
-written.)
+- No other skill or plugin references `review-manual-topics`'s native deployment, per a repository
+  grep for the skill name.
+
+**This is a repository-only search and does not rule out an undocumented tenant-side dependency.**
+Before running Section 6's removal step, Richard should independently confirm (e.g., by checking
+the live `CEIS-Pilot-Knowledge-Agent` configuration and any other tenant artifacts he is aware of)
+that nothing tenant-side depends on this skill that this repository search could not see — do not
+treat this section's repository-search result alone as sufficient clearance to remove.
 
 ## 4. Rollback window
 
@@ -39,10 +46,12 @@ PnP/Entra session used for every other deployment action.
 
 ## 6. Exact commands (Richard runs interactively; not executable by this agent)
 
-**Prerequisite:** a real, filled-in `plugins/sharepoint-agents-and-skills/config.psd1` (and, if
-the reconciliation script's fallback path is used, `tools/phase-3-sharepoint-discovery/
-config.psd1`) must exist locally — both are git-ignored; only their `.example` templates are
-tracked in this repository.
+**Prerequisite:** a real, filled-in `plugins/sharepoint-agents-and-skills/config.psd1`, copied from
+the canonical `plugins/sharepoint-agents-and-skills/config.psd1.example` template (created this
+round — see `stage-8.1.1-promotion-path.md` Section 6) and filled in with the real `SiteUrl` (and
+`ClientId`/`TenantId` if using app-only auth). The reconciliation script's optional
+`-FallbackConfigFile tools/phase-3-sharepoint-discovery/config.psd1` fallback is not required if
+the primary config file above is present.
 
 ```powershell
 # Step 1 — confirm current state before touching anything
@@ -92,4 +101,14 @@ capability activation record, Section 10; Subphase 8.4 is out of scope for this 
 ## Open acceptance item
 
 **Stage 8.3.2 remains open** until Section 7's evidence table is actually filled in from a real
-session — this document prepares the exercise; it does not perform it.
+session — this document prepares the exercise; it does not perform it. If removal or restoration
+fails at any step in Section 6, stop and resolve/recover before proceeding to the next step; do not
+record the exercise as complete past a failed step.
+
+**Relationship to Task 2's promotion gate:** if Task 2's initial reconciliation (before this
+exercise) found the live hash already matching the repository hash, this exercise's restoration
+step (Section 6, step 4) is itself a real deployment of the artifact through the promotion path —
+its successful post-restoration reconciliation (Section 6, step 5) satisfies spec Section 6.1's
+real-artifact-promoted requirement in that case. It does **not** satisfy Section 6.2's separate
+real-version-change requirement, since the restored bytes are unchanged from what was already
+live — see `stage-8.1.1-promotion-path.md`'s "Open acceptance items" for that distinction.

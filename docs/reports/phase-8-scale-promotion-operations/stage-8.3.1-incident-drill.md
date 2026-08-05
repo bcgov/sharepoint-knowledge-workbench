@@ -39,7 +39,7 @@ disposition without new evidence justifying escalation.
 **Step 3 — decide.** Accept-and-monitor, with the decision recorded (this document) rather than
 made silently. If a *third* occurrence showed a materially worse pattern (e.g., consulting 15+
 topics, or exposing content outside the pilot's approved scope), the charter's escalation section
-applies: "None defined... single-person pilot" — meaning **the decision-maker and the person who
+applies: "None defined... no second operator is documented" — meaning **the decision-maker and the person who
 would need to be escalated to are the same person.** This drill surfaces that as a real structural
 gap, not a process failure: there is currently no independent second reviewer for a decision to
 override an already-accepted disposition.

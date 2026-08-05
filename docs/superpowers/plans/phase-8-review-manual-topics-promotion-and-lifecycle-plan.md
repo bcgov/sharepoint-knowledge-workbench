@@ -15,17 +15,26 @@ promotion/lifecycle question applies to it), Subphases 8.2/8.4, and any Phase 3/
 | Task | Agent-executable part | Status | Human-dependent part | Status |
 |---|---|---|---|---|
 | 1 — promotion path | full document | `DONE` — `docs/reports/phase-8-scale-promotion-operations/stage-8.1.1-promotion-path.md` | — | — |
-| 2 — real promotion exercise | commands/templates prepared | `DONE` (prep only) | live reconciliation + promote-if-differing + verify | `PENDING_RICHARD` |
-| 3 — version-compatibility policy | policy written (in Task 1's file, §10) | `DONE` (drafted) | real version/promotion check to cite | `PENDING_TASK_2` |
+| 2 — real promotion exercise | commands/templates prepared | `DONE` (prep only) | live reconciliation; redeploy-and-verify (if hashes differ) OR reconcile-only evidence (if they match, promotion gate stays open pending Task 6) | `PENDING_RICHARD` |
+| 3 — version-compatibility policy | policy written (in Task 1's file, §10) | `DONE` (drafted) | one real version *change* checked against it | `PENDING_APPROVED_CHANGE` (open regardless of Task 2/6 outcome — a redeploy of unchanged bytes does not satisfy this) |
 | 4 — ownership/support charter | full document | `DONE` — `stage-8.3.1-ownership-support-charter.md` | — | — |
 | 5 — incident drill | tabletop performed | `DONE` — `stage-8.3.1-incident-drill.md` | (none — drill is tabletop by design) | n/a |
-| 6 — retirement exercise | procedure + evidence template + commands | `DONE` — `stage-8.3.2-retirement-exercise.md` | live remove/confirm/restore + raw evidence | `PENDING_RICHARD` |
-| 7 — onboarding guide | guide + unfamiliar-operator checklist | `DONE` — `stage-8.3.3-onboarding-guide.md` | actual unfamiliar-person attempt | `PENDING_ATTEMPT` |
+| 6 — retirement exercise | procedure + evidence template + commands | `DONE` — `stage-8.3.2-retirement-exercise.md` | live remove/confirm/restore + raw evidence; its restoration step satisfies Task 2's promotion gate if Task 2's initial hashes matched | `PENDING_RICHARD` |
+| 7 — onboarding guide | followable guide + separate unfamiliar-operator checklist | `DONE` — `stage-8.3.3-onboarding-guide.md` | actual unfamiliar-person attempt | `PENDING_ATTEMPT` |
+
+**Corrected this round:** an earlier version of this table said a hash-matched, unchanged
+redeployment "still counts" as satisfying Section 6.1's real-promotion requirement. That
+contradicted `stage-8.1.1-promotion-path.md`'s own "Open acceptance items" section and has been
+removed — a matching hash is reconciliation evidence only. The real-promotion gate is satisfied by
+Task 2's redeploy (if hashes differ) or, if they already matched, by Task 6's restoration step
+(a real deployment of the artifact through the same path) — not by the initial no-op check alone.
 
 **Subphase 8.1 exit criteria (spec Section 12, "Promotion and release"): not yet met.** A named
-owner exists and the path is defined, but no real artifact has yet been promoted through it and no
-real version bump has been checked against the compatibility policy — both wait on Task 2's live
-session.
+owner exists and the path is defined, but no real artifact has yet been promoted through it (Task
+2 or Task 6's restoration will satisfy this) and no real version *change* has been checked against
+the compatibility policy (Task 3 — this stays open even after Task 2/6, since neither redeploys
+changed bytes; it requires an actual approved `SKILL.md` content change deployed through the
+path, not manufactured for this purpose).
 
 **Subphase 8.3 exit criteria (spec Section 12, "Ownership and lifecycle"): partially met.**
 Ownership/support charter is written and a drill was run through the documented process (this
@@ -45,11 +54,21 @@ promotion check and Task 6's real retirement exercise) is at
   provisioned test or production SharePoint site for this capability. **This changes what "dev/test/
   production promotion path" (spec Section 6.1) must mean today** — see Task 1.
 - **All tenant-write scripts require interactive human auth.** `deploy-and-verify-skill.ps1`,
-  `reconcile-deployed-skill.ps1`, `rollback-skill.ps1` (and every other Phase 4/6 script) call
-  `Connect-PnPOnline ... -Interactive`. This agent's execution environment has PnP.PowerShell 3.3.0
-  installed but no browser/Entra session — **it cannot itself perform any live tenant action.**
-  Every real tenant step below must be run by Richard interactively, exactly as in every prior
-  phase; this plan's role is to specify the exact command and capture the resulting evidence.
+  `reconcile-deployed-skill.ps1`, `rollback-skill-deployment.ps1` (and every other Phase 4/6
+  script) call `Connect-PnPOnline ... -Interactive`. This agent's execution environment has
+  PnP.PowerShell 3.3.0 installed but no browser/Entra session — **it cannot itself perform any
+  live tenant action.** Every real tenant step below must be run by Richard interactively, exactly
+  as in every prior phase; this plan's role is to specify the exact command and capture the
+  resulting evidence.
+- **No plugin-owned configuration template existed until this round.** All three scripts default
+  to `plugins/sharepoint-agents-and-skills/config.psd1` and, on a missing file, print "Copy
+  config.psd1.example to config.psd1" — but no such `.example` file existed anywhere under
+  `plugins/sharepoint-agents-and-skills/`. Created this round:
+  `plugins/sharepoint-agents-and-skills/config.psd1.example`, containing only the fields the
+  scripts actually read (`SiteUrl` required; `ClientId`/`TenantId` optional — verified against
+  each script's `$config.` usage). Also added `plugins/sharepoint-agents-and-skills/config.psd1`
+  to `.gitignore` (the real, filled-in file was not previously excluded), matching the existing
+  pattern for every other `tools/phase-*/config.psd1`.
 - **The deployed skill has been redeployed at least twice already** (Phase 4 Task 8, then Phase 6's
   live session after finding it stale). The activation record already flags this as `PROVISIONAL` —
   re-verify the current live hash before treating any specific version as the promotion baseline.
@@ -83,7 +102,8 @@ reality above:
 - **Deployment step:** `deploy-and-verify-skill.ps1 -Execute` (Richard runs interactively).
 - **Post-promotion verification:** `reconcile-deployed-skill.ps1` (Richard runs interactively) —
   confirms deployed hash matches the just-promoted repository hash.
-- **Rollback:** `rollback-skill.ps1` / `task-12-rollback.ps1` (already evidenced in Phase 4 Task 12).
+- **Rollback:** `rollback-skill-deployment.ps1` (via the historical wrapper `task-12-rollback.ps1`;
+  already evidenced in Phase 4 Task 12).
 - **Evidence capture:** a new file under `docs/reports/phase-8-scale-promotion-operations/`
   recording date/time, before/after hash, command output, and Richard's approval note.
 - **Emergency disablement:** identical to rollback (delete the skill folder) — already documented
@@ -98,18 +118,28 @@ tooling), and defines the approval/validation/rollback points above without gaps
 **Real tenant action, cannot be executed by this agent.**
 
 1. Richard confirms the currently *live* deployed hash by running
-   `pwsh tools/phase-4-native-sharepoint-skills/deployment/scripts/task-8-deploy-review-manual-topics.ps1`
-   in dry-run (no `-Execute`) or the underlying `reconcile-deployed-skill.ps1` interactively, and
-   reports the result back.
-2. If the live hash matches the current repository `SKILL.md` hash, promotion is a no-op this
-   round — record that finding as the "real artifact promoted through the path" evidence (a
-   verified-current-and-unchanged promotion still counts as exercising the path, per spec Section
-   6.1's requirement, since the path's validation/verification steps still ran for real).
-3. If the live hash differs (stale, as it has been twice before), Richard re-runs
-   `task-8-deploy-review-manual-topics.ps1 -Execute`, then `reconcile-deployed-skill.ps1` to confirm.
-4. Either way, Richard reports the exact command output back to this session so it can be recorded
-   verbatim in the Task 1 evidence file (per this repo's own "raw output, not summarized prose"
-   dispute-resolution convention).
+   `reconcile-deployed-skill.ps1` interactively and reports the result back.
+2. **If the live hash differs** from the current repository `SKILL.md` hash (stale, as it has been
+   twice before): Richard runs `deploy-and-verify-skill.ps1 -Execute`, then `reconcile-deployed-
+   skill.ps1` to confirm the match. **This redeployment satisfies spec Section 6.1's "real
+   artifact... promoted through the resulting path" requirement** — a real artifact was actually
+   uploaded and its post-deployment hash verified.
+3. **If the live hash already matches** the repository hash: this is valid reconciliation
+   evidence only, per `stage-8.1.1-promotion-path.md`'s own "Open acceptance items" section — **it
+   does not by itself satisfy Section 6.1.** Do not manufacture a meaningless `SKILL.md` content
+   change to force a promotion event. Instead, Task 6's retirement exercise (remove → confirm
+   unavailable → redeploy → reconcile) itself performs a real deployment of the artifact through
+   this same path — its restoration step, once successfully reconciled, satisfies Section 6.1 in
+   this case. See Task 6 and the combined runbook for the exact sequence.
+4. **Either outcome leaves Stage 8.1.2's separate "one real version change... checked against
+   compatibility policy" (spec Section 6.2) requirement open**, because neither a hash-matched
+   no-op nor a byte-identical restoration is a version *change* — the bytes redeployed are
+   unchanged from what was already live. That criterion stays open until an actual approved
+   `SKILL.md` content change is deployed through this path; do not manufacture one merely to close
+   the criterion.
+5. In every case, Richard reports the exact command output back to this session so it can be
+   recorded verbatim in the Task 1 evidence file (per this repo's own "raw output, not summarized
+   prose" dispute-resolution convention).
 
 **Prerequisite / blocker:** Richard's own interactive PnP session against `AG-CSB-INTRANET-DEV`.
 **Deliverable:** the evidence file from Task 1, filled in with real command output.
@@ -152,13 +182,14 @@ its own named Phase 8 artifact (not a duplicate — a promotion to a first-class
   platform-change review) — flag as `PROVISIONAL` since no monthly review has actually happened yet
   (the skill has existed since 2026-08-01; state whether one is now overdue as a real finding, not
   silently reset the clock).
-- Escalation: none defined beyond Richard himself (single-person pilot) — state this plainly rather
-  than inventing an escalation chain that doesn't exist.
-- Service boundary: dev-tenant pilot only, no SLA, no production users.
+- Escalation: none defined — per current repository documentation, no second operator exists to
+  escalate to. State this plainly rather than inventing an escalation chain that doesn't exist.
+- Service boundary: dev-tenant pilot only, no SLA, no production users documented.
 - Dependency ownership: the deployment/reconciliation/rollback scripts are owned by this repository
-  (`sharepoint-agents-and-skills` plugin); no external team dependency exists.
-- Handoff/succession: not yet defined — `DEFERRED_UNTIL_EVIDENCE`, no second person has ever
-  operated this capability.
+  (`sharepoint-agents-and-skills` plugin); no external team dependency was found in the verified
+  repository search performed for the charter.
+- Handoff/succession: not yet defined — `DEFERRED_UNTIL_EVIDENCE`, no second operator is documented
+  as having ever operated this capability.
 
 **Deliverable:** `docs/reports/phase-8-scale-promotion-operations/stage-8.3.1-ownership-support-charter.md`.
 **Acceptance:** every field above is stated from real evidence or explicitly marked
@@ -192,16 +223,27 @@ any real gap found is stated as a gap, not smoothed over.
    (`EVID-PHASE4-TASK12-ROLLBACK-COMPLETION.md`) as **precedent evidence**, cited explicitly — do
    not re-describe it as fresh Phase 8 evidence.
 2. Define a fresh, minimal staged retirement scoped to *this* plan's own promotion exercise (Task
-   2): after Task 2's real promotion (or verified-current no-op) is recorded, Richard removes the
-   skill folder once more, confirms via Copilot that it's unavailable, then re-deploys it (so the
-   pilot capability is not left permanently retired by a documentation exercise). This is the same
-   mechanical action as Task 1's rollback step, exercised here specifically as the Stage 8.3.2
-   deliverable rather than an emergency-disable deliverable.
-3. Record: retirement trigger used ("Phase 8 exercise, not a real incident"), notification (none
-   needed — single-user pilot), dependency check (none — no other artifact depends on this skill),
-   rollback window (immediate re-deploy, same session), removal of access/credentials (not
-   applicable — no separate credential exists for this skill), evidence preservation (this record
-   itself).
+   2): after Task 2's result is known, Richard removes the skill folder once more, confirms via
+   Copilot that it's unavailable, then re-deploys it (so the pilot capability is not left
+   permanently retired by a documentation exercise). This is the same mechanical action as Task
+   1's rollback step, exercised here specifically as the Stage 8.3.2 deliverable rather than an
+   emergency-disable deliverable.
+3. **This restoration step doubles as Task 2's real-promotion evidence when Task 2's initial
+   hashes matched.** If Task 2 already redeployed a differing artifact, this task's own
+   remove/restore is simply a second, independent real deployment through the path (also valid
+   evidence, not required to additionally satisfy anything). Either way, state explicitly in the
+   evidence file which of the two paths actually satisfied Section 6.1, and that Section 6.2's
+   real-version-change criterion remains open unless the redeployed bytes actually differed from
+   what was previously live.
+4. Record: retirement trigger used ("Phase 8 exercise, not a real incident"), notification (none
+   needed — per current repository/tenant evidence, no additional pilot user is documented),
+   dependency check (no repository dependency found in the verified search described in the
+   retirement document — re-confirmed live immediately before removal, since a repository search
+   cannot rule out an undocumented tenant-side dependency), rollback window (immediate re-deploy,
+   same session), removal of access/credentials (not applicable — no separate credential exists
+   for this skill), evidence preservation (this record itself). **If removal or restoration fails
+   at any step, stop the exercise, do not proceed to the next step, and resolve/recover before any
+   further action** — do not report completion past a failed step.
 
 **Prerequisite / blocker:** Richard's own interactive PnP session (same blocker as Task 2 — can be
 combined into the same live session).

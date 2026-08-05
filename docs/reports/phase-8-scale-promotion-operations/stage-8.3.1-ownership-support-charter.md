@@ -11,8 +11,9 @@ AND-EXIT-GATE.md`, Section B.2) — it is a promotion of that record, not a dupl
 
 ## Accountable owner
 
-**Richard Fremmerlid** — unchanged since Phase 4 exit (`TASK-12-ROLLBACK-EXERCISE-AND-EXIT-
-GATE.md`, Section B.2: "Owner: Richard Fremmerlid (pilot lead)").
+**Richard Fremmerlid — pilot accountable owner**, unchanged since Phase 4 exit
+(`TASK-12-ROLLBACK-EXERCISE-AND-EXIT-GATE.md`, Section B.2: "Owner: Richard Fremmerlid (pilot
+lead)").
 
 ## Technical maintainer
 
@@ -26,12 +27,14 @@ maintainer role has ever been exercised separately from the accountable-owner ro
 
 **Richard Fremmerlid**, in his role as CEIS manual pilot lead — the `SKILL.md` content's editorial
 standards reference "Phase 3 CEIS publication standards" (per the skill's own description field),
-which Richard also owns as pilot lead. No separate content-authority person exists.
+which Richard also owns as pilot lead. **No additional content-authority person is documented** in
+this repository's evidence trail.
 
 ## Deployment authority
 
-**Richard Fremmerlid** — the only person with the interactive PnP/Entra credentials this
-capability's deployment scripts require (`Connect-PnPOnline ... -Interactive`). This agent
+**Richard Fremmerlid** — **the only currently documented holder** of the interactive PnP/Entra
+credentials this capability's deployment scripts require (`Connect-PnPOnline ... -Interactive`);
+no second credential-holder is documented anywhere in this repository's evidence trail. This agent
 (and any future automated session) has no deployment authority — it can prepare commands and
 evidence templates but cannot execute a tenant write.
 
@@ -61,13 +64,13 @@ review has been recorded as having actually happened** in this repository's evid
 between then and now (only ad hoc reconciliation during Phase 6's live session on 2026-08-04,
 which found the deployment stale — that is exactly the kind of drift a monthly review is meant to
 catch, and it was caught only incidentally, not by the stated cadence). `PROVISIONAL`: whether to
-formalize an actual monthly review process (and who runs it, since only one person exists) is an
-open item for whoever executes Stage 8.3.1 beyond this charter, not decided here.
+formalize an actual monthly review process (and who runs it, since no second documented operator
+exists) is an open item for whoever executes Stage 8.3.1 beyond this charter, not decided here.
 
 ## Escalation
 
-**None defined.** This is a single-person pilot; there is no second person to escalate to. Stated
-plainly rather than inventing an escalation chain that does not exist.
+**None defined.** Per current repository documentation, no second operator exists to escalate to.
+Stated plainly rather than inventing an escalation chain that does not exist.
 
 ## Service boundary
 
@@ -83,7 +86,9 @@ would be invented — none exists and none is claimed here.
   skills/skills/review-manual-topics/` directory.
 - The `AgentAssets` document library and `CEIS-Pilot-Knowledge-Agent` Copilot agent: tenant-side
   artifacts, not owned by this repository, but administered by Richard within the dev tenant.
-- No external team or third-party dependency exists for this capability.
+- **No external team or third-party dependency was found in the verified repository search
+  performed for this document** — this does not rule out an undocumented tenant-side dependency
+  outside this repository's visibility.
 
 ## Handoff and succession
 

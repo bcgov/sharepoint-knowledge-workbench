@@ -23,10 +23,10 @@ has two runtimes; this guide covers only the **native-sharepoint** runtime.
   `plugins/sharepoint-agents-and-skills/scripts/{deploy-and-verify-skill.ps1,
   reconcile-deployed-skill.ps1, rollback-skill-deployment.ps1}`.
 - **Configuration (not tracked in git — must exist locally):**
-  `plugins/sharepoint-agents-and-skills/config.psd1`, created from the committed
-  `.example` template (search this repository's `tools/phase-*/config.psd1.example` files for the
-  expected shape; the canonical fields this skill's scripts read are `SiteUrl`, `ClientId`,
-  `TenantId`).
+  `plugins/sharepoint-agents-and-skills/config.psd1`, created by copying the committed canonical
+  template `plugins/sharepoint-agents-and-skills/config.psd1.example` and filling in the real
+  `SiteUrl` (required) and `ClientId`/`TenantId` (optional, for app-only auth) — these are the
+  only fields this plugin's three scripts actually read.
 
 ## How to verify it's currently correct
 
@@ -53,7 +53,7 @@ full remove/confirm/restore sequence. In short:
 ## Who owns it
 
 See `stage-8.3.1-ownership-support-charter.md` — Richard Fremmerlid is the accountable owner,
-technical maintainer, content owner, and deployment authority; there is no second person.
+technical maintainer, content owner, and deployment authority; no second operator is documented.
 
 ## Known limitations to be aware of before operating this capability
 
@@ -65,17 +65,27 @@ technical maintainer, content owner, and deployment authority; there is no secon
 
 ## Unfamiliar-operator checklist (to be run by someone who has not operated this capability before)
 
-This checklist is the actual test instrument for this stage's acceptance requirement. It has **not
-yet been attempted by anyone**. When it is, record the attempt's outcome (succeeded/where they got
-stuck) as a new file, `stage-8.3.3-onboarding-attempt-record.md`, rather than editing this
-checklist in place.
+**Corrected design (this round):** an earlier version of this checklist asked the operator to find
+answers "without being told" the path/facts this same guide states above it — a self-contradiction
+(it cannot both hand the operator the answer and test unaided discovery of that answer). This
+checklist instead **tests whether an unfamiliar person can successfully follow this guide to
+operate the capability**, not whether they can discover the same facts unaided. It is the actual
+test instrument for this stage's acceptance requirement and has **not yet been attempted by
+anyone**. When it is, record the attempt's outcome (succeeded/where they got stuck, and whether the
+guide itself was accurate and sufficient) as a new file, `stage-8.3.3-onboarding-attempt-
+record.md`, rather than editing this checklist in place.
 
-- [ ] Locate the repository source file for the skill without being told the exact path above.
-- [ ] Determine, from the repository alone, which SharePoint tenant/site it is deployed to.
-- [ ] Run the reconciliation command and correctly interpret a match vs. mismatch result.
-- [ ] Identify, from the repository alone, who the accountable owner is.
-- [ ] Identify, from the repository alone, what to do if the skill needs to be rolled back.
-- [ ] Identify at least one known limitation of this capability without being told one in advance.
+- [ ] Using only this guide, locate the repository source file for the skill and confirm it opens.
+- [ ] Using only this guide, identify which SharePoint tenant/site the skill is deployed to.
+- [ ] Using only this guide, run the reconciliation command and correctly interpret a match vs.
+  mismatch result.
+- [ ] Using only this guide, identify who the accountable owner is and where the full ownership
+  charter lives.
+- [ ] Using only this guide, describe (without executing, unless authorized) what to do if the
+  skill needs to be rolled back.
+- [ ] Using only this guide, name at least one known limitation of this capability.
+- [ ] Record any point where the guide itself was inaccurate, missing, or insufficient to complete
+  a step — this is itself a required finding, not an incidental note.
 
 ## Open acceptance item
 
