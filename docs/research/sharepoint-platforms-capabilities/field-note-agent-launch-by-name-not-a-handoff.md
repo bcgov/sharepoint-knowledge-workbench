@@ -31,7 +31,7 @@ itself) as the only trustworthy test method — see Phase 5 Task 4's revised Ste
 
 1. At the parent `Site Pages` library level (not inside the `CEISPilotKnowledgePages` folder),
    opening the generic Copilot toolbar button shows the same **ready-made/default site Copilot**
-   documented in `docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`
+   documented in `docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`
    — greets by name, offers generic suggested prompts ("How can you help me?", "Which files are
    relevant to me?", "Find files about a topic"), no custom-agent identity.
 2. Typing **"please launch the ceis agent"** into that generic chat produced: "Reasoning completed

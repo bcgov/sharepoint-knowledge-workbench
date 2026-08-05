@@ -285,7 +285,7 @@ carries only the key non-negotiables:
 4. **Verify IDs before scripting** — site_id and web_id must be non-empty (from Get-PnPSite / Get-PnPWeb)
 5. **Test ASPX-only agents** — to isolate retrieval issues from ranking issues, create agent with single ASPX source and no image fallback
 
-See `docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` for full discovery path, verification checklist, and Phase 5+ recommendations.
+See `docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` for full discovery path, verification checklist, and Phase 5+ recommendations.
 
 ## SUB-agent usage
 Use the cheapest models possible where possible.  If the job doesn't require spawning sub-agents don't do so.

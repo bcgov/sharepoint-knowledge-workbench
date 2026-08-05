@@ -62,7 +62,7 @@ research-summary-phase3-sharepoint-write-capability-discovery.md`):
    uploaded to a new, comparable location on the same site. This is the real peer to `.aspx` for a
    grounding/citation-quality comparison; it is **not** the canonical-content chunks (`runs/
    ceis-manual-v2/canonical-content/`), which are an editing-oriented format out of scope here —
-   see `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`
+   see `docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`
    for that distinct, deferred future capability (Phase 6.5).
 
 ## 4. Evaluation design

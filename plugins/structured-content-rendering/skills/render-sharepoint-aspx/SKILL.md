@@ -23,7 +23,7 @@ raw `.aspx` file for direct upload — Phase 3.0's tenant experiment
 confirmed raw `.aspx` upload to Site Pages is `Access denied` (a platform
 boundary, not a permissions gap), while `Add-PnPPage` +
 `Add-PnPPageTextPart` with generated HTML pushed and rendered correctly.
-See `docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`
+See `docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`
 §15 and `tools/phase-3-sharepoint-discovery/push-aspx-experiment.ps1` for
 the confirming evidence.
 
