@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "research-migration-schema.json",
+  "title": "Research Migration Manifest Schema",
+  "description": "Validates research-migration-manifest.json. This schema governs the corpus-inventory/architecture-proposal stage (Review Point 1). It intentionally allows destination-related fields to be null — a stricter 'approved-for-execution' profile will be layered on top of this schema in Review Point 2, rejecting any entry whose destination_status is not 'approved'.",
+  "type": "object",
+  "required": ["schema_version", "manifest_id", "repository_root", "created_date", "status", "process_model", "entries"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "manifest_id": {"type": "string"},
+    "repository_root": {"type": "string"},
+    "created_date": {"type": "string", "format": "date"},
+    "status": {"type": "string"},
+    "process_model": {"type": "string"},
+    "notes": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/entry"}
+    },
+    "corpus_scope_survey": {"type": "object"},
+    "reference_inventory_status": {"type": "object"},
+    "architecture_alternatives_status": {"type": "object"},
+    "candidate_count_reconciliation": {"type": "object"},
+    "filename_collision_and_confusability_analysis": {"type": "object"}
+  },
+  "definitions": {
+    "entry": {
+      "type": "object",
+      "required": [
+        "id", "source_path", "current_filename", "title", "content_summary",
+        "artifact_type", "lifecycle_status", "scope_classification",
+        "confidence", "destination_status", "approval_status"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z]+-[0-9]{3}$", "description": "Stable ID, e.g. res-001, arch-002, diag-006, vis-011, root-001"},
+        "source_path": {"type": "string", "description": "Repository-relative POSIX path. Must not begin with / or contain a drive letter."},
+        "source_hash": {"type": ["string", "null"], "description": "SHA-256 of the file at time of cataloging."},
+        "current_filename": {"type": "string"},
+        "title": {"type": "string"},
+        "content_summary": {"type": "string"},
+        "primary_subjects": {"type": "array", "items": {"type": "string"}},
+        "secondary_subjects": {"type": "array", "items": {"type": "string"}},
+        "artifact_type": {"type": "string"},
+        "lifecycle_status": {"type": "string"},
+        "phase_provenance": {"type": "array", "items": {"type": "string"}},
+        "evidence_status": {"type": "string"},
+        "source_relationships": {"type": "array", "items": {"type": "string"}},
+        "related_documents": {"type": "array", "items": {"type": "string"}},
+        "overlaps_with": {"type": ["array", "null"], "items": {"type": "string"}},
+        "possible_consolidation_group": {"type": ["string", "null"]},
+        "inbound_references": {"type": "array", "items": {"type": "string"}},
+        "outbound_references": {"type": "array", "items": {"type": "string"}},
+        "dependencies": {"type": "array", "items": {"type": "string"}},
+        "classification_rationale": {"type": "string"},
+        "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+        "ambiguity": {"type": ["string", "null"]},
+        "scope_classification": {"type": "string"},
+
+        "proposed_operation": {"type": ["string", "null"], "enum": [null, "move", "rename", "archive", "retain", "synthesize", "exclude"]},
+        "proposed_destination": {"type": ["string", "null"]},
+        "proposed_filename": {"type": ["string", "null"]},
+        "destination_status": {"type": "string", "enum": ["unassigned", "tentative", "recommended", "approved"]},
+        "destination_rationale": {"type": ["string", "null"]},
+        "approval_status": {"type": "string"},
+
+        "readCompleteness": {
+          "type": "object",
+          "required": ["linesShown", "depth"],
+          "properties": {
+            "linesShown": {"type": "integer"},
+            "totalLines": {"type": ["integer", "null"]},
+            "percent": {"type": ["integer", "null"]},
+            "depth": {"type": "string", "enum": ["full", "substantial-partial", "minimal-sample", "unknown-total-partial-sample"]}
+          }
+        },
+
+        "contentCurrency": {"type": "string", "enum": ["current", "partially-current", "superseded", "historical", "uncertain"]},
+        "validatedThroughPhase": {"type": ["number", "string", "null"]},
+        "supersededBy": {"type": "array", "items": {"type": "string"}},
+        "contradictedBy": {"type": "array", "items": {"type": "string"}},
+        "missingLaterFindings": {"type": "array", "items": {"type": "string"}},
+        "recommendedContentAction": {
+          "type": "string",
+          "enum": ["none", "update", "add-status-note", "cross-link", "create-synthesis", "retain-as-historical", "archive"]
+        },
+        "contentUpdateRationale": {"type": ["string", "null"]},
+        "contentUpdateApproval": {"type": "string", "enum": ["pending", "approved", "rejected"]},
+
+        "proposedLogicalTitle": {"type": ["string", "null"]},
+        "proposedFilename": {"type": ["string", "null"]},
+        "filenameRationale": {"type": ["string", "null"]},
+        "filenameStatus": {"type": ["string", "null"], "enum": [null, "proposed", "approved", "confirmed-no-change"]},
+        "filenameConfusabilityFlags": {"type": "array"}
+      }
+    }
+  }
+}

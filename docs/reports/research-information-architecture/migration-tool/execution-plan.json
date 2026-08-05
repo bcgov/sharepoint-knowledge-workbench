@@ -1,0 +1,701 @@
+{
+  "generated_from": "research-ia-2026-08-04",
+  "entries": [
+    {
+      "id": "res-001",
+      "source_path": "docs/research/README.md",
+      "source_hash": "8065597a63b36170c105b8724363e8018654e46b1ccf809ed777ce1e0f30d2be",
+      "current_filename": "README.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/research",
+      "proposed_filename": "README.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/README.md (line: 'docs/research/    product research and field notes')"
+      ]
+    },
+    {
+      "id": "res-002",
+      "source_path": "docs/research/research-summary-copilot-in-sharepoint-get-started.md",
+      "source_hash": "b0a1aca938060a7f95e5c9c1d0084215421a5350356ec6db18b4ab95d78cf4b7",
+      "current_filename": "research-summary-copilot-in-sharepoint-get-started.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities",
+      "proposed_filename": "research-copilot-in-sharepoint-preview.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped with line numbers; docs/research/README.md links to it"
+      ]
+    },
+    {
+      "id": "res-003",
+      "source_path": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md",
+      "source_hash": "3d15fae79fe7246048c5e6c8f43f45ce96ee7da6e32ccfea096e60075e7cb795",
+      "current_filename": "research-summary-native-markdown-sharepoint-onedrive.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/publication-delivery",
+      "proposed_filename": "research-markdown-support-sharepoint-onedrive.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped with line numbers"
+      ]
+    },
+    {
+      "id": "res-004",
+      "source_path": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md",
+      "source_hash": "2fd3e9fed5c86a3c6ba8d654e0cd791d854e90f55a49df4b4d349e01807538be",
+      "current_filename": "research-summary-ai-in-sharepoint-content-chaos-to-clarity.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities",
+      "proposed_filename": "research-ai-in-sharepoint-setup-automate-insight.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped"
+      ]
+    },
+    {
+      "id": "res-005",
+      "source_path": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md",
+      "source_hash": "0261395d1f8649b36ab54a8c8a1b03e3b18228d0dc3f7b77e3e4f4561723030b",
+      "current_filename": "research-summary-sharepoint-ai-forward-content-creation-curation.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/knowledge-discovery-retrieval",
+      "proposed_filename": "research-sharepoint-content-creation-and-curation.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped"
+      ]
+    },
+    {
+      "id": "res-006",
+      "source_path": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md",
+      "source_hash": "28de87d1943c81cd96aac60d77630275bde7c76096a45fdfc7a528fecdbe7cf2",
+      "current_filename": "capability-layering-sharepoint-skills-cowork-copilot-studio-github.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities",
+      "proposed_filename": "capability-layering-across-platforms.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md (multiple, not yet line-numbered)"
+      ]
+    },
+    {
+      "id": "res-007",
+      "source_path": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+      "source_hash": "922ac0837ce2484bed46355a29f21fbd2a7ed2005808178cc16b1e65e92e411d",
+      "current_filename": "sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities",
+      "proposed_filename": "sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped"
+      ]
+    },
+    {
+      "id": "res-008",
+      "source_path": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
+      "source_hash": "7fb11fc86a73d16a87668cbd2d947318d59e381330fcaab2f0e8edd1f8f18b88",
+      "current_filename": "skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/architecture-design-patterns",
+      "proposed_filename": "skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped"
+      ]
+    },
+    {
+      "id": "res-009",
+      "source_path": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md",
+      "source_hash": "79dd414ad4985f3290e4be76f8199381eeffce3eaf86ccf60fb35aa0a49e6d69",
+      "current_filename": "field-note-sharepoint-agentassets-review-manual-topics-skill.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities",
+      "proposed_filename": "field-note-agentassets-skill-creation.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1 (script comment)",
+        "research-summary-phase3-sharepoint-write-capability-discovery.md (cites this file)"
+      ]
+    },
+    {
+      "id": "res-010",
+      "source_path": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md",
+      "source_hash": "a1bf28c3158d75e350c5225ba07259863741a75fcccafe6e4d287a95bf746901",
+      "current_filename": "field-note-ready-made-copilot-agent-launch-by-name.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/sharepoint-platforms-capabilities",
+      "proposed_filename": "field-note-agent-launch-by-name-not-a-handoff.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped"
+      ]
+    },
+    {
+      "id": "res-011",
+      "source_path": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md",
+      "source_hash": "16899f7712e1963a6cedc568e5384536d5bba5361bd5d0e93b215e9ef3a136c6",
+      "current_filename": "field-note-aspx-vs-markdown-grounding-comparison.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/knowledge-discovery-retrieval",
+      "proposed_filename": "field-note-aspx-vs-markdown-grounding.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/key-unanswered-questions.md",
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md (2 locations)",
+        "docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md",
+        "docs/research/concept-dual-target-rendering-agent-vs-human.md (cites finding 4 as tenant-tested support)"
+      ]
+    },
+    {
+      "id": "res-012",
+      "source_path": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md",
+      "source_hash": "4090333bd5e7647ba79cdafa14ad322cb0ff8a846a772413f21268747c427e8b",
+      "current_filename": "research-summary-phase3-sharepoint-write-capability-discovery.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/research-experimentation/tenant-discovery",
+      "proposed_filename": "field-note-sharepoint-write-capability-discovery.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md (2 locations)",
+        "docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md (2 locations)",
+        "docs/superpowers/plans/2026-07-29-aspx-modern-page-experiment.md (4 locations, including a git add instruction)",
+        "docs/superpowers/specs/2026-08-02-phase-5-ceis-grounding-prototype-design.md",
+        "docs/superpowers/specs/phase-3-tenant-capability-report.md (2 locations)",
+        "plugins/sharepoint-content-publication/skills/publish-aspx-to-sharepoint/SKILL.md",
+        "plugins/structured-content-rendering/skills/render-sharepoint-aspx/SKILL.md",
+        "tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1 (script comment + EvidenceSource string, 3 occurrences)"
+      ]
+    },
+    {
+      "id": "res-013",
+      "source_path": "docs/research/phase-4-agent-format-learning-journal.md",
+      "source_hash": "477c1cb080e8f9f7d27fb9ba7abba7132bc3604257f18c392411e3e8ef1773ed",
+      "current_filename": "phase-4-agent-format-learning-journal.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/research-experimentation",
+      "proposed_filename": "phase-4-agent-format-learning-journal.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+        "plugins/sharepoint-agents-and-skills/skills/configure-sharepoint-agent-knowledge/SKILL.md"
+      ]
+    },
+    {
+      "id": "res-014",
+      "source_path": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "source_hash": "6dbfd2de6fecc6b1f04274fa2ef06a12f0264feef2ebde07afef1abc25e76d7b",
+      "current_filename": "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/research-experimentation",
+      "proposed_filename": "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "CLAUDE.md (line 288, governing cross-reference: 'See docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md for full discovery path...')",
+        "EVID-PHASE4-TASK8-EXIT-GATE.md",
+        "plugins/sharepoint-agents-and-skills/evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md",
+        "docs/superpowers/plans/phase-6-tasks-1-12-evidence/task-1-brainstorming-and-task-2-inventory.md"
+      ]
+    },
+    {
+      "id": "res-015",
+      "source_path": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "source_hash": "54b79ae288a1e5c1b927eae404d298e069057f68b7b46b5a9a5e6776fcdf9ce7",
+      "current_filename": "EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "proposed_operation": "archive",
+      "proposed_destination": "docs/reports/phase-4-native-sharepoint-skills",
+      "proposed_filename": "EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "destination_status": "approved",
+      "destination_exception_approved": true,
+      "inbound_references": [
+        "PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+      ]
+    },
+    {
+      "id": "res-016",
+      "source_path": "docs/research/concept-dual-target-rendering-agent-vs-human.md",
+      "source_hash": "a65b1051bd18688f9fa41e4e5b53e9732061335d576c0893e3ba73ee6701f2a5",
+      "current_filename": "concept-dual-target-rendering-agent-vs-human.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/publication-delivery",
+      "proposed_filename": "dual-target-rendering-concept.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "not yet grepped with line numbers"
+      ]
+    },
+    {
+      "id": "arch-001",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/README.md",
+      "source_hash": "d53292810cc0032c9121fb89b331264cdcbd2cf1bc7c3f2195a1cf458ae31633",
+      "current_filename": "README.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "README.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-002",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md",
+      "source_hash": "f10a0e5d1f882be9b7fe727a194289e744e5a5781fab736b293eee6ee9a492b8",
+      "current_filename": "canonical-contract.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "canonical-contract.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/superpowers/specs/2026-08-02-multi-document-destination-configuration-design.md"
+      ]
+    },
+    {
+      "id": "arch-003",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md",
+      "source_hash": "2b7970d969bc57fa8c0c1cf572a06eb549b9d20f05d467fad058549020d3d8aa",
+      "current_filename": "content-authoring-guide.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "content-authoring-guide.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-004",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md",
+      "source_hash": "2f5b4fba13d3a5cd68e6d22f1fc2aa310e33b6f8a65f4261a3ccbbf482ad5ce7",
+      "current_filename": "extraction-triggers.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "extraction-triggers.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-005",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md",
+      "source_hash": "0f30cb439f65d8756f67c4fdc0b3364f8666d8c9a0408d5df3f5198a372a6073",
+      "current_filename": "future-output-profiles.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "future-output-profiles.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "architecture.md (repository-root file)"
+      ]
+    },
+    {
+      "id": "arch-006",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/generated-elements.md",
+      "source_hash": "b64433850bc44ee175c10b6bbf6c3e140a0baa2dd5606cf67f6efd4a1a191fdc",
+      "current_filename": "generated-elements.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "generated-elements.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-007",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md",
+      "source_hash": "84c6a9800600106875b61bdee686ad24261daadac5421121837124661b628e1d",
+      "current_filename": "known-pandoc-gaps.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "known-pandoc-gaps.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-008",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md",
+      "source_hash": "fe2e265b70c4ef413fab48312ee2f8d6b04dc9656af987200ddb91816b68e8fa",
+      "current_filename": "pandoc-docx-setup.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "pandoc-docx-setup.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-009",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md",
+      "source_hash": "be3de3f6546e425b964e32e9bd9208bdefb854bc457161be5bc3eb74ac853f2f",
+      "current_filename": "publication-map-contract.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "publication-map-contract.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-010",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md",
+      "source_hash": "ffcc6daedef0f8aad618847f9bdf3c099175389e38f8a796eb145b4f3204cdf8",
+      "current_filename": "supported-markdown-profile.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy",
+      "proposed_filename": "supported-markdown-profile.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-011",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md",
+      "source_hash": "da91ab8b5816499a8166548db20cef5513cf88ba0772c677b6dae03ae772518a",
+      "current_filename": "README.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy/templates/components",
+      "proposed_filename": "README.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-012",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md",
+      "source_hash": "15b2988ec9e011ce1561fb905aaa2bb6294ff261a4075a2bec4f93ccb1151501",
+      "current_filename": "manual-topic.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy/templates/content",
+      "proposed_filename": "manual-topic.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-013",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md",
+      "source_hash": "2a4fd28eb1fba9e13243c5e2d8edb1f61f45895806cc26003508ebf2092768bf",
+      "current_filename": "manual-topic-example.md",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/research/structured-content-engineering/legacy/templates/examples",
+      "proposed_filename": "manual-topic-example.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-014",
+      "source_path": "docs/architecture/phase-4-5-target-architecture.md",
+      "source_hash": "dec953c86cf4479c9fa10ff56ed2c7054f743dac1bf80b5092cdc0406543fb29",
+      "current_filename": "phase-4-5-target-architecture.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/architecture",
+      "proposed_filename": "phase-4-5-target-architecture.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-015",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.md",
+      "source_hash": "21533f5da5e2e82ea7529a0a32e5be09b44e59bbf4d9d2e0ca43273b6cabb1af",
+      "current_filename": "complete-plugin-skill-catalog-after-phase-9.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/architecture",
+      "proposed_filename": "complete-plugin-skill-catalog-after-phase-9.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-016",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.json",
+      "source_hash": "78ce98251f5bc30f94ddc059294efe6d43716e999262f551da4858099703e7b2",
+      "current_filename": "complete-plugin-skill-catalog-after-phase-9.json",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/architecture",
+      "proposed_filename": "complete-plugin-skill-catalog-after-phase-9.json",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-017",
+      "source_path": "docs/architecture/validate_plugin_skill_catalog.py",
+      "source_hash": "dd5fe9e5b10912f59b873ad106fbbe19a1416d5d1ee0ecf30749b49f8cefe94c",
+      "current_filename": "validate_plugin_skill_catalog.py",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/architecture",
+      "proposed_filename": "validate_plugin_skill_catalog.py",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-000",
+      "source_path": "docs/diagrams/README.md",
+      "source_hash": "9ecd3a9fdc04bf0a43c728f4ae6f0cce5d795db8d1b736ce86a6e808d9eb3c9e",
+      "current_filename": "README.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "README.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md",
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+        ".agent/rules/plugin-architecture-policy.md (references docs/diagrams/workflows/discovery.mmd \u2014 THIS PATH DOES NOT EXIST in this repo's docs/diagrams/, no workflows/ subfolder present; either a stale reference or describes an unimplemented expected structure)"
+      ]
+    },
+    {
+      "id": "diag-001",
+      "source_path": "docs/diagrams/01-phase1-overview.mmd",
+      "source_hash": "e7faa729696b4e2857296b3a292599d4d99574f16946c631d6760dd6ba8aea0f",
+      "current_filename": "01-phase1-overview.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "01-phase1-overview.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-002",
+      "source_path": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "source_hash": "1ebcbb9dade1271d28833a78a539fcdba840e3626f10354672d440be76a4451d",
+      "current_filename": "02-analyze-and-confirm.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "02-analyze-and-confirm.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-003",
+      "source_path": "docs/diagrams/03-create-canonical-content.mmd",
+      "source_hash": "b1ea6d51aa436f86b2636322f06de9f1896cda4fccebd6e2520d29507c10eb30",
+      "current_filename": "03-create-canonical-content.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "03-create-canonical-content.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-004",
+      "source_path": "docs/diagrams/04-generate-and-render.mmd",
+      "source_hash": "ec8491254acab490c5ae30775d86adeebaaadb1f87f0377152c84d8c15332980",
+      "current_filename": "04-generate-and-render.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "04-generate-and-render.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-005",
+      "source_path": "docs/diagrams/05-validation-and-evidence.mmd",
+      "source_hash": "51ab6afbca02554bbded96c8469288e4c8bc5a21cc52c17502525e59731fd208",
+      "current_filename": "05-validation-and-evidence.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "05-validation-and-evidence.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-006",
+      "source_path": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "source_hash": "755e404da637def9a2d494439611b921bdf350d1e095f1018e3f5a2c09b8670c",
+      "current_filename": "06-editing-workflow-hybrid-option.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "06-editing-workflow-hybrid-option.mmd",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md",
+        "docs/diagrams/README.md"
+      ]
+    },
+    {
+      "id": "diag-007",
+      "source_path": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "source_hash": "6f27c2d3201eb5f6cc239e0490f4f36c1029dc1db28771f24f252b3dc6e3ec04",
+      "current_filename": "07-publisher-triggered-render-workflow.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "07-publisher-triggered-render-workflow.mmd",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md"
+      ]
+    },
+    {
+      "id": "diag-008",
+      "source_path": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "source_hash": "f49761aafc3086099e5a549033bb6afc74d3bde5c8a2d6205440bec19a16f232",
+      "current_filename": "08-editor-submission-and-approval-workflow.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "08-editor-submission-and-approval-workflow.mmd",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md"
+      ]
+    },
+    {
+      "id": "diag-009",
+      "source_path": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "source_hash": "19dae7945489317f3e71d3ddde46e0c3e5f248dd52d26f8f4f1b1a69083c7dee",
+      "current_filename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+        "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+        "docs/diagrams/README.md"
+      ]
+    },
+    {
+      "id": "diag-010",
+      "source_path": "docs/diagrams/high-level.mmd",
+      "source_hash": "16b74edb8716cc78eabbf236daf055fe09658ad4284c4e4d8676f9ba83809d38",
+      "current_filename": "high-level.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "high-level.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "root-001",
+      "source_path": "docs/implementation-baseline.md",
+      "source_hash": "170ab5fd4b1b4a35e7d8aaed73e49f798fce700767c8fd646314970d39f08ec0",
+      "current_filename": "implementation-baseline.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs",
+      "proposed_filename": "implementation-baseline.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-001",
+      "source_path": "docs/vision/README.md",
+      "source_hash": "514f15b18370d5447d824c127bb1e33110fa73a5fdd0ef7e43da1d294138ee95",
+      "current_filename": "README.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "README.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-002",
+      "source_path": "docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md",
+      "source_hash": "62d67399fd3563a799119eea70ce884cbb76dc55820b103c3f21585fa47641de",
+      "current_filename": "ai-assisted-structured-knowledge-workbench-broader-plan.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "ai-assisted-structured-knowledge-workbench-broader-plan.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "CLAUDE.md Section 0 (governs plugin-naming checks before new capability work)"
+      ]
+    },
+    {
+      "id": "vis-003",
+      "source_path": "docs/vision/ai-assisted-sharepoint-knowledge-workbench-government-vision.md",
+      "source_hash": "9c7bf920a0f32a8537555f1914844f262f3d6ac58f5aecd8e1e5192bc21c2600",
+      "current_filename": "ai-assisted-sharepoint-knowledge-workbench-government-vision.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "ai-assisted-sharepoint-knowledge-workbench-government-vision.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-004",
+      "source_path": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md",
+      "source_hash": "80c1039f543d961855431e67df52fa45d94172b6f42306958ef1913940b15855",
+      "current_filename": "government-structured-knowledge-sharepoint-governance-vision-v2.md",
+      "proposed_operation": "archive",
+      "proposed_destination": "docs/vision/archive",
+      "proposed_filename": "government-structured-knowledge-sharepoint-governance-vision-v2.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-005",
+      "source_path": "docs/vision/key-unanswered-questions.md",
+      "source_hash": "1aeb07b8f06ec4ea6211ddfcba56b251739010085ec0827063af55c06385fdbf",
+      "current_filename": "key-unanswered-questions.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "key-unanswered-questions.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-006",
+      "source_path": "docs/vision/vision-original.md",
+      "source_hash": "bd56a7e0d7b3cc7332b20bbdbc9823f8ff3ce3bbcbd3b699ebb8b2a2d413790d",
+      "current_filename": "vision-original.md",
+      "proposed_operation": "archive",
+      "proposed_destination": "docs/vision/archive",
+      "proposed_filename": "vision-original.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-007",
+      "source_path": "docs/vision/plan-content-management-proposal.md",
+      "source_hash": "404e915f6b484f6f84783b496721e165c3da3e14f001283d5c4ce79e96fb8888",
+      "current_filename": "plan-content-management-proposal.md",
+      "proposed_operation": "archive",
+      "proposed_destination": "docs/vision/archive",
+      "proposed_filename": "plan-content-management-proposal.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-008",
+      "source_path": "docs/vision/plan-copilot-knowledge-access-proposal.md",
+      "source_hash": "7f44ef6789724cfe63098098ef5c03f1a953a12229d939a21bf5b3bd17d0b2bc",
+      "current_filename": "plan-copilot-knowledge-access-proposal.md",
+      "proposed_operation": "archive",
+      "proposed_destination": "docs/vision/archive",
+      "proposed_filename": "plan-copilot-knowledge-access-proposal.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-009",
+      "source_path": "docs/vision/editing-workflow-options-for-external-review.md",
+      "source_hash": "e9b11d962c24c20e9f2bbba895528464b0a7805fb73ab0dfea98318b000eaffa",
+      "current_filename": "editing-workflow-options-for-external-review.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "editing-workflow-options-for-external-review.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/diagrams/README.md"
+      ]
+    },
+    {
+      "id": "vis-010",
+      "source_path": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+      "source_hash": "f01fee2455ba7f799c45ece21898b7380a51a466e0871877c2a8fa4a1bd09ca5",
+      "current_filename": "open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+      "proposed_operation": "rename",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+        "docs/diagrams/README.md"
+      ]
+    },
+    {
+      "id": "vis-011",
+      "source_path": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "source_hash": "23bda196a1d981703fc4f5a33b9a5bac38e6d2ed69aed91f8eb047e85b63316d",
+      "current_filename": "master-initiative-plan-workstreams-and-phases.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "master-initiative-plan-workstreams-and-phases.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "CLAUDE.md (extensively, as 'the authoritative...master plan')",
+        "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md (2 locations, confirmed earlier this session)",
+        "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md (2 locations, confirmed earlier this session)",
+        "docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md (2 locations)",
+        "docs/diagrams/README.md"
+      ]
+    }
+  ]
+}

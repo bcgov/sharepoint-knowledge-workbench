@@ -104,7 +104,7 @@ intent.
         ContentOwner      = ""
         SourcePackagePath = "runs/ceis-manual-v2"
         # PackageIdentity is the canonical package's own identity (Phase 2's package_identity —
-        # see docs/architecture/docx-to-content-legacy-references/canonical-contract.md), not a
+        # see docs/research/structured-content-engineering/legacy/canonical-contract.md), not a
         # value invented here. Combined with DocumentId and each section's own
         # PublicationProfile/TargetType, it forms the stable composite publication identity —
         # DocumentId + PublicationProfile + PackageIdentity — used wherever a single DocumentId is

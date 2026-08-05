@@ -8,7 +8,7 @@ that acceptance gate, not the acceptance itself.
 **Evidence sources this report synthesizes (read these for full detail; not duplicated here):**
 - `tools/phase-3-sharepoint-discovery/reports/phase-3-0-discovery-report.json` — read-only PnP inventory
   (gitignored raw tenant data; summarized below).
-- `docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` — staged, reversible
+- `docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md` — staged, reversible
   write-exploration findings (agent/skill/template capability discovery), already externally reviewed once
   (2026-07-29 correction round).
 - `tools/phase-3-sharepoint-discovery/agents/*.agent.json`, `tools/phase-3-sharepoint-discovery/skills/*`,
@@ -45,7 +45,7 @@ check still needs to be re-run once a candidate pilot library is named (`PilotLi
 ## 2. Write-exploration findings (Stage 3.0.2.x, staged reversible writes)
 
 Full findings, evidence, and the 2026-07-29 external-review correction round live in
-`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`. Condensed for Phase 3
+`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`. Condensed for Phase 3
 consumption, with the tempered (post-correction) classification carried forward as-is:
 
 | Finding | Classification | Phase 3 relevance |

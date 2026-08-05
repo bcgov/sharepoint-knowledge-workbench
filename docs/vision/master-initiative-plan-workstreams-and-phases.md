@@ -347,14 +347,14 @@ tenant-scripting tool's destination logic.
   cross-references, and publication maps are recalculated after an edit. This stage does **not**
   decide which runtime (deterministic pipeline vs. native skill vs. conversational agent) performs
   any of the above steps — that is Phase 6's responsibility (see its Subphase 6.3 below). See
-  `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for
+  `docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for
   the full architecture note and resolution this scope clarification is drawn from.
 
 ### Subphase 3.2 — Package-only deployment mode
 
 **Forward-looking evidence pointer (not in scope for this subphase):** this subphase targets a
 document library (files + metadata), which Phase 3.0 already confirmed viable (native Markdown
-rendering, `docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` §13). A separate
+rendering, `docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md` §13). A separate
 Phase 3.0 probe (§15, same file) also confirmed that SharePoint **native pages** are a viable
 *alternative* Renderer target via `Add-PnPPage`/`Add-PnPPageTextPart` (raw `.aspx` file upload is
 blocked — `Access denied` — but the page-creation API works and renders correctly), relevant to
@@ -611,8 +611,8 @@ one does not close the other. **Detail level:** Structure only.
 **Entry gate:** A concrete required output format (Word, PDF, HTML, PowerPoint, SharePoint `.aspx`) is
 identified with a real need behind it — not invented to exercise this phase. **SharePoint `.aspx`'s entry
 gate is met:** Phase 3.0's ASPX/modern-page conversion experiment
-(`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` §15) and Phase 5's
-ASPX-vs-Markdown grounding comparison (`docs/research/field-note-aspx-vs-markdown-grounding-comparison.md`)
+(`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md` §15) and Phase 5's
+ASPX-vs-Markdown grounding comparison (`docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md`)
 are both real, evidenced needs for a deterministic ASPX renderer, not invented ones.
 
 **Scope guardrail (external review finding, 2026-08-02, GPT 5.6):** this phase stays limited to
@@ -621,7 +621,7 @@ validated output format`. Do not broaden it into an agent editing-and-publicatio
 agent-performed rendering of edited content. That concern belongs to Phase 6 Subphase 6.3 (runtime
 placement) and the future placeholder Phase 6.5 (Ongoing Structured Content Maintenance and
 Assisted Republishing) — see
-`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.
+`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.
 
 ### Subphase 5.5B.1 — Renderer Expansion
 - Stage 5.5B.1.1 — identify a real required output format (not speculative). **Deliverable:** format
@@ -710,7 +710,7 @@ evidence review.
 ### Subphase 6.3 — Runtime placement for content-lifecycle actions
 
 **(Added from external review, 2026-08-02, GPT 5.6 — Phase 5 brainstorming placement question. See
-`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
+`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
 
 Phase 3 Stage 3.1.4 decides *what* the ongoing structured-content maintenance workflow must do
 (review, approval, versioning, lineage/hash/manifest recalculation). This subphase decides *which
@@ -752,7 +752,7 @@ is met.
 
 **(Added from external review, 2026-08-02, GPT 5.6 — Phase 5 brainstorming placement question;
 elaborated in a follow-up review the same day. See
-`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for the
+`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for the
 full architecture note this phase is drawn from. Named "Ongoing Structured Content Authoring and
 Republishing" per the follow-up review's clearer naming — supersedes the initial working title
 "Ongoing Structured Content Maintenance and Assisted Republishing.")**
@@ -767,7 +767,7 @@ published content — not pulled forward ahead of that evidence.
 Stage 3.1.4 (what the workflow must do) and Phase 6 Subphase 6.3 (which runtime does each step)
 have both answered their respective design questions.
 
-**Diagram:** `docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` renders the
+**Diagram:** `docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` renders the
 loop and runtime division below.
 
 **The loop this phase closes** (three flows total, correcting the original two-flow framing in
