@@ -1,6 +1,6 @@
-# File-by-File Disposition Report — Review Point 2
+# File-by-File Disposition Report — Review Point 2 (regenerated)
 
-Generated from `research-migration-manifest.json`. Status: PROPOSED/RECOMMENDED for most entries; only 10 reach APPROVED (all retain-in-place, zero moves).
+Generated from `research-migration-manifest.json`. Uses `proposed_filename` (operational field), never `proposedFilename` (advisory duplicate).
 
 | ID | Source | Operation | Destination | Filename | Status | Confidence basis |
 |---|---|---|---|---|---|---|
@@ -35,7 +35,7 @@ Generated from `research-migration-manifest.json`. Status: PROPOSED/RECOMMENDED 
 | res-001 | `docs/research/README.md` | retain | docs/research | README.md | **recommended** | 33% read (minimal-sample) |
 | res-002 | `docs/research/research-summary-copilot-in-sharepoint-get-started.md` | move | docs/research/sharepoint-platforms-capabilities | research-copilot-in-sharepoint-preview.md | **tentative** | 9% read (minimal-sample) |
 | res-003 | `docs/research/research-summary-native-markdown-sharepoint-onedrive.md` | move | docs/research/publication-delivery | research-markdown-support-sharepoint-onedrive.md | **tentative** | 6% read (minimal-sample) |
-| res-004 | `docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md` | move | docs/research/strategic-planning-vision | research-ai-in-sharepoint-setup-automate-insight.md | **tentative** | 6% read (minimal-sample) |
+| res-004 | `docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md` | move | — | research-ai-in-sharepoint-setup-automate-insight.md | **tentative** | 6% read (minimal-sample) |
 | res-005 | `docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md` | move | docs/research/knowledge-discovery-retrieval | research-sharepoint-content-creation-and-curation.md | **tentative** | 7% read (minimal-sample) |
 | res-006 | `docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md` | move | docs/research/sharepoint-platforms-capabilities | capability-layering-across-platforms.md | **tentative** | 11% read (minimal-sample) |
 | res-007 | `docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md` | move | docs/research/sharepoint-platforms-capabilities | sharepoint-agents-and-native-skills-as-workbench-outputs.md | **tentative** | 8% read (minimal-sample) |
@@ -58,5 +58,5 @@ Generated from `research-migration-manifest.json`. Status: PROPOSED/RECOMMENDED 
 | vis-007 | `docs/vision/plan-content-management-proposal.md` | archive | docs/vision/archive | plan-content-management-proposal.md | **recommended** | 3% read (minimal-sample) |
 | vis-008 | `docs/vision/plan-copilot-knowledge-access-proposal.md` | archive | docs/vision/archive | plan-copilot-knowledge-access-proposal.md | **recommended** | 4% read (minimal-sample) |
 | vis-009 | `docs/vision/editing-workflow-options-for-external-review.md` | retain | docs/vision | editing-workflow-options-for-external-review.md | **recommended** | 3% read (minimal-sample) |
-| vis-010 | `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` | retain | docs/vision | open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md | **recommended** | 8% read (minimal-sample) |
+| vis-010 | `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` | rename | docs/vision | resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md | **recommended** | 8% read (minimal-sample) |
 | vis-011 | `docs/vision/master-initiative-plan-workstreams-and-phases.md` | retain | docs/vision | master-initiative-plan-workstreams-and-phases.md | **approved** | 100% read (full) |
