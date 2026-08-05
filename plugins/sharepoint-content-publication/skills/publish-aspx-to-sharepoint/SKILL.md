@@ -13,7 +13,7 @@ or create any page itself.**
 ## Real platform constraint recorded
 
 Per Phase 3.0's confirmed finding
-(`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` §15): raw
+(`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md` §15): raw
 `.aspx` file upload is blocked (`Access denied`) on this tenant. The only confirmed-working
 mechanism is the `Add-PnPPage`/`Add-PnPPageTextPart` modern-page-creation API, not a file upload.
 This skill's plan records source content and target page names; it does not itself call either

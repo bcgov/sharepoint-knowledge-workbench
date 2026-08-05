@@ -9,7 +9,7 @@ unapproved write-identity decision (Stage 3.4.3), per `start-here.md`'s own Task
 5 is corrected below to reflect that split explicitly, rather than implying an authorization this
 repo has not made.
 
-Per `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`'s
+Per `docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`'s
 resolution and `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Stage 3.1.4 note:
 Stage 3.1.4 owns *what* the ongoing structured-content maintenance workflow's actions are; Phase 6
 Subphase 6.3 (this task) owns *which runtime* performs each one. **Output feeds a future Phase 6.5

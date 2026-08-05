@@ -62,9 +62,9 @@ Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx
 
 ### 🔬 Research & Empirical Evidence
 * [docs/research/README.md](docs/research/README.md) — Comprehensive Research Index & Decision Guides.
-* [docs/research/concept-dual-target-rendering-agent-vs-human.md](docs/research/concept-dual-target-rendering-agent-vs-human.md) — **Dual-Target Rendering Model** (Human-Facing vs. Agent-Optimized Output).
-* [docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md](docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md) — Empirical Phase 3.0 SharePoint `AgentAssets` discovery findings.
-* [docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md](docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md) — Decision framework for SharePoint-native vs. GitHub-repository skills.
+* [docs/research/publication-delivery/dual-target-rendering-concept.md](docs/research/publication-delivery/dual-target-rendering-concept.md) — **Dual-Target Rendering Model** (Human-Facing vs. Agent-Optimized Output).
+* [docs/research/sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md](docs/research/sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md) — Empirical Phase 3.0 SharePoint `AgentAssets` discovery findings.
+* [docs/research/architecture-design-patterns/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md](docs/research/architecture-design-patterns/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md) — Decision framework for SharePoint-native vs. GitHub-repository skills.
 
 ---
 

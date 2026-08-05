@@ -314,9 +314,9 @@ Implement and package:
   confirmed `Add-PnPPage`/`Add-PnPPageTextPart`-compatible HTML generation approach from Phase 3.0
   §15 (raw `.aspx` upload is `Access denied` — output must be structured for the page-creation
   API, not a raw file). Real, evidenced need: Phase 3.0's ASPX/modern-page conversion experiment
-  (`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` §15) and
+  (`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md` §15) and
   Phase 5's ASPX-vs-Markdown grounding comparison
-  (`docs/research/field-note-aspx-vs-markdown-grounding-comparison.md`).
+  (`docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md`).
 - `create-markdown-rendering-template` — new build, backed by real Phase 1–2 CEIS rendering
   evidence (`runs/ceis-manual-v2/`).
 - `create-aspx-rendering-template` — new build, backed by Phase 3.0 §15's confirmed modern-page
@@ -512,7 +512,7 @@ Produce derivation trace, evaluations, drift proof, intent review, and decision 
 ## Task 12 — Runtime placement for content-lifecycle actions (Subphase 6.3)
 
 **(Added from external review, 2026-08-02, GPT 5.6 — see
-`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
+`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
 For each action in Phase 3 Stage 3.1.4's ongoing structured-content maintenance workflow, decide
 whether an agent may only recommend it, a native skill may invoke approved deterministic tooling,
 or a deterministic pipeline/workstation process must perform it. Write the preview-vs-authoritative

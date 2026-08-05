@@ -66,7 +66,7 @@ the explanatory variable.
 For directly-answerable procedural questions and out-of-scope/nonexistent-topic decline cases, both
 representations performed comparably well — detailed, well-cited, correctly declining when
 appropriate, with no material quality gap. This is consistent with (and adds tenant-tested evidence
-for) `docs/research/concept-dual-target-rendering-agent-vs-human.md`'s premise that multiple
+for) `docs/research/publication-delivery/dual-target-rendering-concept.md`'s premise that multiple
 renderer targets can serve an agent-grounding use case without a forced format trade-off.
 
 ## Explicit limitation
@@ -85,7 +85,7 @@ finding 3 is the weakest (single case, unconfirmed against a larger sample).
 - `docs/superpowers/specs/phase-5-sharepoint-knowledge-agent-pilot-spec.md` Section 7 (currency
   behavior states) — needs an explicit "no real currency metadata exists → agent must report
   `UNKNOWN`, not infer from file timestamps" test case.
-- `docs/research/concept-dual-target-rendering-agent-vs-human.md` — finding 4 is tenant-tested
+- `docs/research/publication-delivery/dual-target-rendering-concept.md` — finding 4 is tenant-tested
   support for that document's premise; finding 3 is a data point (not yet conclusive) for a
   possible format-specific difference worth a dedicated follow-up test if the dual-target model is
   pursued further.

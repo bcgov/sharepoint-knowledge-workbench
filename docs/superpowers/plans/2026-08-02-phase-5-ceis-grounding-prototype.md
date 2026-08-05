@@ -578,7 +578,7 @@ site even for real, working agents). The browser is authoritative here.
   Task 6 (which agent to run every case against).
 
 **Update (2026-08-02, mid-execution finding, now confirmed):** two distinct access paths exist —
-see `docs/research/field-note-ready-made-copilot-agent-launch-by-name.md` for the full record:
+see `docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md` for the full record:
 1. Opening a `.agent` file directly (e.g. via its SharePoint URL, or clicking it in the library
    listing) opens that specific custom agent's own chat pane. **This is the only confirmed-
    reliable test method — use it exclusively for Steps 1-3 below.**
@@ -610,7 +610,7 @@ on the `.aspx` content and cites a source page, not a hallucinated answer.
 
 **Baseline already confirmed (2026-08-02):** `CEIS-ASPX-Only-Test` is the `.aspx` baseline for
 Task 6/7, after its instructions were tightened to explicit folder/extension scoping (see
-`docs/research/field-note-ready-made-copilot-agent-launch-by-name.md`'s "Follow-up confirmation"
+`docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md`'s "Follow-up confirmation"
 section for the exact instructions text and verification evidence — correct refusal on an
 out-of-scope legal question, citing only real CEIS `.aspx` content, via direct `.agent`-file
 access). Use that exact instructions text as-is; do not re-derive it.
@@ -827,7 +827,7 @@ git push
   binding, per the design doc's Section 5.
 
 **Baseline instructions text (confirmed working, from `CEIS-ASPX-Only-Test` after tightening —
-see `docs/research/field-note-ready-made-copilot-agent-launch-by-name.md`'s "Follow-up
+see `docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md`'s "Follow-up
 confirmation" section):**
 
 > "You are the CEIS Procedures Agent. You must answer ONLY using content from `.aspx` files
@@ -897,7 +897,7 @@ $webRelativeLibraryUrl = $library.RootFolder.ServerRelativeUrl.Substring($web.Se
 $pagesFolderWebRelativeUrl = "$webRelativeLibraryUrl/pages"
 
 # Confirmed baseline text (CEIS-ASPX-Only-Test, tightened and verified — see
-# docs/research/field-note-ready-made-copilot-agent-launch-by-name.md), with the two
+# docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md), with the two
 # explicit substitutions applied: .aspx -> .md, /SitePages/CEISPilotKnowledgePages -> /CEISPilotKnowledge/pages.
 $baselineInstructions = "You are the CEIS Procedures Agent. You must answer ONLY using content from .md files located in the SharePoint folder /CEISPilotKnowledge/pages. Do not use any other folder, site, image, or general knowledge as a source. If the requested information is not found in a .md file in that exact folder, respond only with: 'This procedure is not documented in the CEIS Manual.' Do not answer any question unrelated to CEIS procedures, even if you know the answer from general knowledge. Never cite or reference content outside /CEISPilotKnowledge/pages."
 
@@ -1048,7 +1048,7 @@ explicit human review/approval before merge. Stop here and present the branch fo
   Task 8's findings doc.
 - **No placeholders:** Task 6's `$baselineInstructions` now holds the actual confirmed instructions
   text (verified live during Task 4 execution, recorded in
-  `docs/research/field-note-ready-made-copilot-agent-launch-by-name.md`), not a fill-in-later
+  `docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md`), not a fill-in-later
   placeholder — updated after Task 4 completed and confirmed the working baseline.
 - **Type/signature consistency:** `validate_case_definition`/`validate_all_cases_in_directory`
   signatures in Task 2 match Phase 4's existing module exactly (deliberate parity, not divergence).

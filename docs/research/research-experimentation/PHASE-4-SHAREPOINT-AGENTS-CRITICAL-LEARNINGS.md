@@ -3,7 +3,7 @@
 **Date:** 2026-07-31  
 **Phase:** Phase 4 - Native SharePoint Skills Pilot  
 **Sandbox:** https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV (SOLE AUTHORIZED)  
-**Status:** IN PROGRESS — Task 8 reconciliation pending; custom-agent research preserved
+**Status:** Superseded by this document's own Part 12 (below) — Task 8 is COMPLETE, Tasks 0-11 are COMPLETE, and Phase 4 has since closed entirely (Phases 5, 6, and 7 have since executed per `start-here.md`). This header was left unrevised after Part 11-12 were added 2026-08-01; corrected 2026-08 during the information-architecture reorganization. Custom-agent research remains preserved as historical record.
 
 ---
 
@@ -248,9 +248,9 @@ Purpose-specific conversational experience
 
 ### Research Documents
 
-- Field note: `docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md` (UI-generated skill)
-- Agent format learning: `docs/research/phase-4-agent-format-learning-journal.md`
-- Exit gate evidence reference: `docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md`
+- Field note: `docs/research/sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md` (UI-generated skill)
+- Agent format learning: `docs/research/research-experimentation/phase-4-agent-format-learning-journal.md`
+- Exit gate evidence reference: `docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK8-EXIT-GATE.md`
 
 ### Unfinalized Items (Not Yet Committed)
 

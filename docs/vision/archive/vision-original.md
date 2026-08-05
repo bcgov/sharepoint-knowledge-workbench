@@ -2,9 +2,12 @@
 
 This merges `plan.md` (content-centric knowledge management) and `plan-part2.md` (Copilot Studio /
 M365 agent knowledge access) into one vision, and maps both onto the actual workflow this repo is
-building — see `docs/superpowers/specs/diagrams/docx-to-content-workflow.png`
-(`.mmd` source alongside it). The two plans are not separate initiatives; Part 2 is the concrete
-payoff case that only becomes possible once Part 1's separation is real.
+building. (Broken reference removed 2026-08: this section originally pointed to
+`docs/superpowers/specs/diagrams/docx-to-content-workflow.png`, which does not exist anywhere in
+the repository — confirmed during the 2026-08 information-architecture reorganization. See
+`docs/diagrams/` for the current, real pipeline diagrams.) The two plans are not separate
+initiatives; Part 2 is the concrete payoff case that only becomes possible once Part 1's separation
+is real.
 
 ## The Problem (from `plan.md`)
 

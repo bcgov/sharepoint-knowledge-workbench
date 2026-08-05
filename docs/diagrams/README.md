@@ -16,32 +16,36 @@ Files:
 
 The temporary Markdown extraction is explicitly not structured content. User-maintained content is separated from code-generated elements such as tables of contents, navigation, keyword summaries, and indexes.
 
-Files 01-05 above depict the authorized Phase 1 pipeline. The diagram below is different in kind:
-it is a speculative Phase 3 illustration, not an authorized workflow.
+Files 01-05 above depict the authorized Phase 1 pipeline. Diagrams 06-09, previously listed here,
+moved to `docs/vision/` (2026-08 information-architecture reorganization) since each depicts and is
+directly cited by a specific `docs/vision/` source document — they are speculative/future-phase
+illustrations paired with their source, not part of the authorized Phase 1 pipeline set above.
 
-6. `06-editing-workflow-hybrid-option.mmd` — illustrates one candidate (not selected) content-author
-   editing workflow discussed in `docs/vision/editing-workflow-options-for-external-review.md`: a
-   hybrid of that document's Model C (SharePoint-hosted Markdown authoring) and Model E
-   (SharePoint change-proposal intake), showing SharePoint business authoring, the authorized
-   SharePoint-to-Git boundary, Git validation and structured promotion, the governed publication
-   pipeline, and the published SharePoint knowledge environment. This depicts Phase 3 territory,
-   which is not yet authorized or built — see that document for full context and open questions.
-7. `07-publisher-triggered-render-workflow.mmd` — a narrower, human-in-the-loop variant: an
-   approved SharePoint chunk triggers a Power Automate notification to a human publisher, who
-   pulls the approved chunks (via PnP PowerShell) into a local repository checkout, runs the
-   repository's render skills through GitHub Copilot, reviews validation/preview output, and — once
-   accepted — pushes generated outputs back to SharePoint via PnP PowerShell. Also speculative
-   Phase 3 territory, not an authorized workflow.
-8. `08-editor-submission-and-approval-workflow.mmd` — the business-editor-facing half of the same
-   flow, upstream of diagram 07: an author edits a chunk in SharePoint, submits it for approval,
-   and the chunk moves through Draft → In review → Changes requested (looping back to editing) or
-   Approved, at which point the Power Automate publisher notification (the entry point of diagram
-   07) fires. Deliberately excludes Git/publisher machinery — see the editing-workflow document's
-   "Third round of review" section for why. Also speculative Phase 3 territory, not authorized.
-9. `09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` — the runtime-division loop for the
-   future **Phase 6.5 — Ongoing Structured Content Authoring and Republishing** (see
+6. `docs/vision/06-editing-workflow-hybrid-option.mmd` — illustrates one candidate (not selected)
+   content-author editing workflow discussed in
+   `docs/vision/editing-workflow-options-for-external-review.md`: a hybrid of that document's
+   Model C (SharePoint-hosted Markdown authoring) and Model E (SharePoint change-proposal intake),
+   showing SharePoint business authoring, the authorized SharePoint-to-Git boundary, Git validation
+   and structured promotion, the governed publication pipeline, and the published SharePoint
+   knowledge environment. This depicts Phase 3 territory, which is not yet authorized or built —
+   see that document for full context and open questions.
+7. `docs/vision/07-publisher-triggered-render-workflow.mmd` — a narrower, human-in-the-loop
+   variant: an approved SharePoint chunk triggers a Power Automate notification to a human
+   publisher, who pulls the approved chunks (via PnP PowerShell) into a local repository checkout,
+   runs the repository's render skills through GitHub Copilot, reviews validation/preview output,
+   and — once accepted — pushes generated outputs back to SharePoint via PnP PowerShell. Also
+   speculative Phase 3 territory, not an authorized workflow.
+8. `docs/vision/08-editor-submission-and-approval-workflow.mmd` — the business-editor-facing half
+   of the same flow, upstream of diagram 07: an author edits a chunk in SharePoint, submits it for
+   approval, and the chunk moves through Draft → In review → Changes requested (looping back to
+   editing) or Approved, at which point the Power Automate publisher notification (the entry point
+   of diagram 07) fires. Deliberately excludes Git/publisher machinery — see the editing-workflow
+   document's "Third round of review" section for why. Also speculative Phase 3 territory, not
+   authorized.
+9. `docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` — the runtime-division
+   loop for the future **Phase 6.5 — Ongoing Structured Content Authoring and Republishing** (see
    `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s Phase 6.5 section and
-   `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for
+   `docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for
    the full architecture note and external-review resolution this diagram is drawn from). Distinct
    from diagrams 06-08 (Phase 3's business-authoring/approval candidates): this one shows the
    *runtime* split — a SharePoint agent/native skill may only propose/review/gather intent; the

@@ -1035,7 +1035,7 @@ sensitive; only `config.psd1` (live credentials) stays gitignored.
 2. **Can a `SKILL.md` be authored the same way** (plain file, correct Markdown/frontmatter format,
    dropped into `AgentAssets/Skills/<name>/SKILL.md`)? We already have one real example
    (`review-manual-topics/SKILL.md`, documented in
-   `docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md`) to
+   `docs/research/sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md`) to
    reverse-engineer from, same approach as §3–4 above.
 3. **Can an output template be authored/uploaded the same way**, and what file format/extension
    does Copilot in SharePoint use for templates?

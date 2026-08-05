@@ -155,7 +155,7 @@ scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles 
   publication-map-driven multi-target rendering, and knowledge-access agents are later-phase
   concerns described in `docs/vision/`, not built or authorized here.
 - No renderers beyond `multipage_markdown.py` — see
-  `docs/architecture/docx-to-content-legacy-references/future-output-profiles.md` for candidate
+  `docs/research/structured-content-engineering/legacy/future-output-profiles.md` for candidate
   profiles (including dual-target rendering for human visual consumption vs. agent-optimized RAG
   digests).
 
