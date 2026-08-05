@@ -1,6 +1,13 @@
 # Phase 8 Specification — Scale, Promotion, and Operations
 
-> **Planning status:** This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Phase 8 activates incrementally per proven capability, and its details must be derived from real operational evidence rather than invented in advance.
+> **Planning status:** This is a forward-phase planning artifact derived from the accepted master initiative plan. Phase 8 activates incrementally per proven capability, and its details must be derived from real operational evidence rather than invented in advance.
+>
+> **Authorization update (2026-08-04):** Richard authorized starting Phase 8 work, scoped only to
+> the capability whose own originating phase has independently reached its exit gate — currently,
+> only the Phase 4 native-skill capability qualifies (see `start-here.md`'s "Phase 8 — authorized"
+> section for the full basis). This spec's Section 3 incremental-activation model and Section 12
+> exit criteria still govern; nothing here is authorized beyond that one capability's Subphase 8.1
+> and 8.3 scope until another capability's own exit gate is independently met.
 
 ## Planning discipline
 

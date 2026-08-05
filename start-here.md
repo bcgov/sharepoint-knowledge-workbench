@@ -1,4 +1,55 @@
-# Resume — Phases 1–6 Complete and Merged to main; Phase 7 Desk-Research Round Complete and Merged, Master Exit Gate Deferred
+# Resume — Phase 8 Authorized (Phase 4 Capability Only); Phase 7 Remains Paused at Its Own Research Checkpoint
+
+## Phase 8 — authorized to begin, scoped to the Phase 4 capability only (2026-08-04)
+
+**This section is the current, authoritative status — read it before the Phase 7 section that
+follows.** Richard explicitly authorized starting Phase 8 on 2026-08-04, as an independent
+architectural decision, not a Phase 7 closure or an accidental gate violation:
+
+- **Basis for authorization:** per `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s
+  Phase 8 entry gate ("Phase 8 activates **per capability**, not as one block"), a capability may
+  enter Subphase 8.1/8.3 work as soon as *that capability's own originating phase* reaches its exit
+  gate — it does not wait for every other phase. **Phase 4's own exit gate is independently met and
+  accepted** — see `docs/reports/phase-4-native-sharepoint-skills/phase-4-exit-gate-evidence.md`:
+  every row `COMPLETE` or `WAIVED`, every disposition "Accepted per `start-here.md`," including
+  "Lifecycle & Rollback Documented — COMPLETE (rollback executed, restoration verified)." This is
+  independent of, and does not require, Phase 3's exit gate (not yet met), Phase 5's full governed
+  exit gate (not met — accepted only as a bounded prototype), Phase 6's live-runtime findings, or
+  Phase 7's deferred live-validation work.
+- **What this authorizes:** Phase 8 Subphase 8.1 (promotion/release) and Subphase 8.3
+  (ownership/lifecycle) work **scoped only to the Phase 4-piloted native skill capability**
+  (`review-manual-topics` / the `sharepoint-agents-and-skills` plugin's native-runtime deployment).
+- **What this does not authorize:** Subphase 8.2 (cross-capability monitoring/drift — requires ≥2
+  operational capabilities, not yet true), Subphase 8.4 (records/retention/audit — gated on a
+  concrete requirement from the Phase 3 retrospective, which has not happened, since Phase 3's own
+  exit gate is not met), or any Phase 8 work scoped to Phase 3's library, Phase 5's agent, or
+  Phase 6's multi-runtime model — none of those capabilities have independently reached their own
+  exit gate.
+- **Phase 7 is explicitly NOT closed by this decision** — see the Phase 7 section immediately below,
+  unchanged in substance. Phase 8 proceeding does not mean Phase 7's deferred live-validation work
+  is complete, passed, or no longer owed. Do not represent it as such in any future session.
+- **Branch/worktree:** `phase-8-scale-promotion-operations`, created per this repo's per-phase git
+  workflow — see the "Phase 8 entry" resume instructions below for the exact first task.
+- **First executable Phase 8 task:** write the **capability activation record** (Phase 8 spec
+  Section 5) for the Phase 4 native-skill capability — this is the explicit, named prerequisite in
+  `docs/superpowers/specs/phase-8-scale-promotion-operations-spec.md` before any Stage 8.1.1/8.3
+  work may begin, and requires no live tenant access to produce. Its content (capability
+  name/type, originating phase + exit evidence, accountable owner, current environment/users, scope
+  proposed for promotion, known risks/limitations, operational dependencies, rollback/disable path,
+  support owner, records/legal trigger status, cross-capability dependencies) must be authored
+  against this repo's real Phase 4 evidence, not invented — do not skip straight to Stage 8.1.1's
+  promotion-path document without it.
+- **Per the Mandatory Planning Protocol** (below in this file): run `superpowers:brainstorming`
+  before drafting the activation record or any subsequent Phase 8 design work, even though
+  authorization itself is already given — brainstorming still surfaces the record's open decisions
+  (accountable owner, support owner, rollback path specifics) rather than having them invented
+  silently.
+
+## Phase 7 — remains paused at its own research checkpoint (unchanged by the Phase 8 decision above)
+
+**Superseded only in overall session-entry ordering by the Phase 8 section above — Phase 7's own
+status, re-entry triggers, and evidence record are unchanged.** Everything in this section remains
+accurate exactly as before Phase 8 was authorized.
 
 ## Research Information Architecture Reorganization — complete and merged (not a numbered phase)
 
@@ -43,9 +94,10 @@ Phase 7 status recorded below, which remains the current, authoritative phase co
 
 ## Phase 7 — authoritative fresh-session handoff (desk-research round, merged)
 
-**This section is the current, authoritative status — read it before anything else in this file.**
-Everything below it (including the Phase 6 handoff section that follows) is historical detail
-preserved as the evidence trail, not the current summary.
+**Superseded in read-order only by the "Phase 8 — authorized" section at the very top of this
+file — Phase 7's own status below remains current and unchanged.** Everything below it (including
+the Phase 6 handoff section that follows) is historical detail preserved as the evidence trail,
+not the current summary.
 
 **Status: Phase 7 paused at a research checkpoint.** Its desk-research round is `COMPLETE` and
 **MERGED to `main`**, but **Phase 7's master exit gate is `NOT YET SATISFIED`** — do not describe
