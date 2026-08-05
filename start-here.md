@@ -1,5 +1,46 @@
 # Resume — Phases 1–6 Complete and Merged to main; Phase 7 Desk-Research Round Complete and Merged, Master Exit Gate Deferred
 
+## Research Information Architecture Reorganization — complete and merged (not a numbered phase)
+
+**Status: MERGED to `main`.** This was a repository-wide, cross-cutting reorganization of
+`docs/research/`, `docs/architecture/docx-to-content-legacy-references/`, `docs/diagrams/`, and
+`docs/vision/` into a subject-domain-oriented structure — independent of and does not change the
+Phase 7 status recorded below, which remains the current, authoritative phase context.
+
+- **Branch:** `docs/research-information-architecture` (merged, local branch deleted, worktree
+  removed and pruned post-merge).
+- **Merge status:** **MERGED** — PR #37, merge commit `efc7baf8dff74d4e101e5657111b3649688bb95c`,
+  verified: `git rev-parse HEAD` and `git rev-parse origin/main` both resolve to `efc7baf8...`;
+  `main` tracks `origin/main`; working tree clean at merge-verification time;
+  `.worktrees/research-information-architecture` verified clean and removed, `git worktree prune`
+  run, local branch verified merged (`git branch --merged main`) and deleted with `git branch -d`
+  (not force-deleted).
+- **What changed:** 37 filesystem operations (31 moves, 5 archives, 1 rename, 19 retains, 0
+  deletes), 32 reference updates across 24 files (including `CLAUDE.md`, this file, `README.md`,
+  `architecture.md`, and 2 live plugin `SKILL.md` files). Full evidence trail:
+  `docs/reports/research-information-architecture/` (manifest, migration tool, validation/dry-run/
+  execution reports, 40 passing tests).
+- **Key path changes to be aware of when citing older research:**
+  - `docs/research/*.md` files are now organized under subject-domain subfolders (e.g.
+    `docs/research/sharepoint-platforms-capabilities/`, `docs/research/research-experimentation/`)
+    — see `docs/reports/research-information-architecture/final-proposed-directory-tree.md` for
+    the full old→new mapping.
+  - `docs/architecture/docx-to-content-legacy-references/` moved to
+    `docs/research/structured-content-engineering/legacy/`.
+  - Diagrams 06–09 (`docs/diagrams/`) moved to `docs/vision/` (each is paired with a specific
+    vision source document); diagrams 01–05 and `high-level.mmd` remain in `docs/diagrams/`.
+  - 4 superseded/historical `docs/vision/*.md` documents moved to `docs/vision/archive/`.
+  - `docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`
+    renamed to `docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`
+    (it was RESOLVED, not open — the old name was misleading).
+  - `docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md` moved to
+    `docs/reports/phase-4-native-sharepoint-skills/` (phase evidence, not enduring research).
+- **Not done as part of this reorganization** (explicitly out of scope, left for a future pass if
+  ever prioritized): no broad content rewrites (only one small factual correction was made, to a
+  stale status header in `PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`); references inside
+  `docs/reports/`, `tools/`, and other historical-evidence locations were deliberately left
+  unchanged as historical citations, not updated to new paths.
+
 ## Phase 7 — authoritative fresh-session handoff (desk-research round, merged)
 
 **This section is the current, authoritative status — read it before anything else in this file.**
