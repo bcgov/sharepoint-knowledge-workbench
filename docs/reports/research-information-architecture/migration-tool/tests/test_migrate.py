@@ -388,6 +388,46 @@ class TestReferenceRewriting(unittest.TestCase):
 # Execution-plan generation and its strict schema
 # --------------------------------------------------------------------------
 
+class TestOperationalFilenameIsSourceOfTruth(unittest.TestCase):
+    """Regression test for a real bug found in review: an entry can carry an
+    advisory-only 'proposedFilename' (camelCase, human-readable title-proposal
+    field) that disagrees with the operational 'proposed_filename' (snake_case,
+    consumed by build_plan/execute). Every generated artifact -- the plan, the
+    dry-run/execute paths, disposition reporting -- must use proposed_filename
+    ONLY. This proves it structurally, not just by convention."""
+
+    def test_build_plan_uses_operational_filename_not_advisory_duplicate(self):
+        with FixtureRepo() as repo:
+            entry = base_entry(repo, fname="operational-name.md")
+            entry["proposedFilename"] = "ADVISORY-NAME-SHOULD-BE-IGNORED.md"
+            m = {"manifest_id": "test", "entries": [entry]}
+            plan = migrate.build_plan(m, repo.tmp, require_approved=True)
+            self.assertIn("operational-name.md", plan[0]["dest_path"])
+            self.assertNotIn("ADVISORY-NAME-SHOULD-BE-IGNORED", plan[0]["dest_path"])
+
+    def test_gen_exec_plan_uses_operational_filename_not_advisory_duplicate(self):
+        with FixtureRepo() as repo:
+            entry = base_entry(repo, fname="operational-name.md")
+            entry["proposedFilename"] = "ADVISORY-NAME-SHOULD-BE-IGNORED.md"
+            m = {"manifest_id": "test", "entries": [entry]}
+            plan = migrate.generate_execution_plan(m)
+            self.assertEqual(plan["entries"][0]["proposed_filename"], "operational-name.md")
+
+    def test_execute_writes_to_operational_filename_not_advisory(self):
+        with FixtureRepo() as repo:
+            entry = base_entry(repo, fname="operational-name.md")
+            entry["proposedFilename"] = "ADVISORY-NAME-SHOULD-BE-IGNORED.md"
+            m = {"manifest_id": "test", "entries": [entry]}
+            manifest_path = repo.tmp.parent / "manifest.json"
+            manifest_path.write_text(json.dumps(m))
+            args = argparse.Namespace(manifest=str(manifest_path), repo_root=str(repo.tmp), report=None)
+            migrate.cmd_execute(args)
+            dest = repo.tmp / "docs" / "research" / "subject" / "operational-name.md"
+            self.assertTrue(dest.exists())
+            advisory_dest = repo.tmp / "docs" / "research" / "subject" / "ADVISORY-NAME-SHOULD-BE-IGNORED.md"
+            self.assertFalse(advisory_dest.exists())
+
+
 class TestExecutionPlan(unittest.TestCase):
     def test_gen_exec_plan_excludes_non_approved(self):
         with FixtureRepo() as repo:

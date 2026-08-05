@@ -1,9 +1,8 @@
-# Final Proposed Directory Tree — GENERATED FROM MANIFEST
+# Final Proposed Directory Tree — GENERATED FROM MANIFEST (regenerated)
 
 Generated programmatically from `research-migration-manifest.json`'s `proposed_destination`/
-`proposed_filename`/`destination_status` fields. Not hand-written. Status markers per entry:
-`approved` (execution-ready), `recommended` (proposed, not execution-ready), `tentative`
-(lower confidence, not execution-ready).
+`proposed_filename` (operational field, never the advisory `proposedFilename` duplicate)/
+`destination_status` fields.
 
 ## `UNRESOLVED / EXCLUDED (no destination)/`
 
@@ -103,7 +102,7 @@ Generated programmatically from `research-migration-manifest.json`'s `proposed_d
 - editing-workflow-options-for-external-review.md  (vis-009, recommended, from docs/vision/editing-workflow-options-for-external-review.md)
 - key-unanswered-questions.md  (vis-005, recommended, from docs/vision/key-unanswered-questions.md)
 - master-initiative-plan-workstreams-and-phases.md  (vis-011, approved, from docs/vision/master-initiative-plan-workstreams-and-phases.md)
-- open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md  (vis-010, recommended, from docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md)
+- resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md  (vis-010, recommended, from docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md)
 
 ## `docs/vision/archive/`
 
