@@ -201,7 +201,7 @@ reuse-versus-specific decision record
 ## 13. Runtime placement for content-lifecycle actions
 
 **(Added from external review, 2026-08-02, GPT 5.6 — see
-`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
+`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
 Master plan Subphase 6.3. Phase 3 Stage 3.1.4 owns *what* the ongoing structured-content
 maintenance workflow must do (propose/review/approve/version an edit; recalculate lineage, hashes,
 manifests, cross-references, publication maps). This section owns *which runtime* performs each

@@ -464,7 +464,7 @@ generated derived element
 
 **Tenant-tested evidence added 2026-08-03 (Phase 5 Task 7/8):** on the "model output is
 inconsistent" question specifically —
-`docs/research/field-note-aspx-vs-markdown-grounding-comparison.md` documents a real, reproducible
+`docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md` documents a real, reproducible
 case: two live SharePoint Copilot agents, unmodified, asked the identical cross-topic-relationship
 question twice each, gave a hedged/declined answer on the first run and a confident-but-mutually-
 contradictory answer on the second (across both agents independently). The same evidence also shows

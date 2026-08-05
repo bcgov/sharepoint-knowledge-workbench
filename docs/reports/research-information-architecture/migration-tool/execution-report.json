@@ -1,0 +1,1561 @@
+{
+  "mode": "execute",
+  "executed": [
+    {
+      "id": "res-002",
+      "operation": "move",
+      "source_path": "docs/research/research-summary-copilot-in-sharepoint-get-started.md",
+      "dest_path": "docs/research/sharepoint-platforms-capabilities/research-copilot-in-sharepoint-preview.md",
+      "note": "git mv docs/research/research-summary-copilot-in-sharepoint-get-started.md -> docs/research/sharepoint-platforms-capabilities/research-copilot-in-sharepoint-preview.md",
+      "pre_hash": "b0a1aca938060a7f95e5c9c1d0084215421a5350356ec6db18b4ab95d78cf4b7",
+      "post_hash": "b0a1aca938060a7f95e5c9c1d0084215421a5350356ec6db18b4ab95d78cf4b7"
+    },
+    {
+      "id": "res-003",
+      "operation": "move",
+      "source_path": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md",
+      "dest_path": "docs/research/publication-delivery/research-markdown-support-sharepoint-onedrive.md",
+      "note": "git mv docs/research/research-summary-native-markdown-sharepoint-onedrive.md -> docs/research/publication-delivery/research-markdown-support-sharepoint-onedrive.md",
+      "pre_hash": "3d15fae79fe7246048c5e6c8f43f45ce96ee7da6e32ccfea096e60075e7cb795",
+      "post_hash": "3d15fae79fe7246048c5e6c8f43f45ce96ee7da6e32ccfea096e60075e7cb795"
+    },
+    {
+      "id": "res-004",
+      "operation": "move",
+      "source_path": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md",
+      "dest_path": "docs/research/sharepoint-platforms-capabilities/research-ai-in-sharepoint-setup-automate-insight.md",
+      "note": "git mv docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md -> docs/research/sharepoint-platforms-capabilities/research-ai-in-sharepoint-setup-automate-insight.md",
+      "pre_hash": "2fd3e9fed5c86a3c6ba8d654e0cd791d854e90f55a49df4b4d349e01807538be",
+      "post_hash": "2fd3e9fed5c86a3c6ba8d654e0cd791d854e90f55a49df4b4d349e01807538be"
+    },
+    {
+      "id": "res-005",
+      "operation": "move",
+      "source_path": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md",
+      "dest_path": "docs/research/knowledge-discovery-retrieval/research-sharepoint-content-creation-and-curation.md",
+      "note": "git mv docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md -> docs/research/knowledge-discovery-retrieval/research-sharepoint-content-creation-and-curation.md",
+      "pre_hash": "0261395d1f8649b36ab54a8c8a1b03e3b18228d0dc3f7b77e3e4f4561723030b",
+      "post_hash": "0261395d1f8649b36ab54a8c8a1b03e3b18228d0dc3f7b77e3e4f4561723030b"
+    },
+    {
+      "id": "res-006",
+      "operation": "move",
+      "source_path": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md",
+      "dest_path": "docs/research/sharepoint-platforms-capabilities/capability-layering-across-platforms.md",
+      "note": "git mv docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md -> docs/research/sharepoint-platforms-capabilities/capability-layering-across-platforms.md",
+      "pre_hash": "28de87d1943c81cd96aac60d77630275bde7c76096a45fdfc7a528fecdbe7cf2",
+      "post_hash": "28de87d1943c81cd96aac60d77630275bde7c76096a45fdfc7a528fecdbe7cf2"
+    },
+    {
+      "id": "res-007",
+      "operation": "move",
+      "source_path": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+      "dest_path": "docs/research/sharepoint-platforms-capabilities/sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+      "note": "git mv docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md -> docs/research/sharepoint-platforms-capabilities/sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+      "pre_hash": "922ac0837ce2484bed46355a29f21fbd2a7ed2005808178cc16b1e65e92e411d",
+      "post_hash": "922ac0837ce2484bed46355a29f21fbd2a7ed2005808178cc16b1e65e92e411d"
+    },
+    {
+      "id": "res-008",
+      "operation": "move",
+      "source_path": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
+      "dest_path": "docs/research/architecture-design-patterns/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
+      "note": "git mv docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md -> docs/research/architecture-design-patterns/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
+      "pre_hash": "7fb11fc86a73d16a87668cbd2d947318d59e381330fcaab2f0e8edd1f8f18b88",
+      "post_hash": "7fb11fc86a73d16a87668cbd2d947318d59e381330fcaab2f0e8edd1f8f18b88"
+    },
+    {
+      "id": "res-009",
+      "operation": "move",
+      "source_path": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md",
+      "dest_path": "docs/research/sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md",
+      "note": "git mv docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md -> docs/research/sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md",
+      "pre_hash": "79dd414ad4985f3290e4be76f8199381eeffce3eaf86ccf60fb35aa0a49e6d69",
+      "post_hash": "79dd414ad4985f3290e4be76f8199381eeffce3eaf86ccf60fb35aa0a49e6d69"
+    },
+    {
+      "id": "res-010",
+      "operation": "move",
+      "source_path": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md",
+      "dest_path": "docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md",
+      "note": "git mv docs/research/field-note-ready-made-copilot-agent-launch-by-name.md -> docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md",
+      "pre_hash": "a1bf28c3158d75e350c5225ba07259863741a75fcccafe6e4d287a95bf746901",
+      "post_hash": "a1bf28c3158d75e350c5225ba07259863741a75fcccafe6e4d287a95bf746901"
+    },
+    {
+      "id": "res-011",
+      "operation": "move",
+      "source_path": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md",
+      "dest_path": "docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md",
+      "note": "git mv docs/research/field-note-aspx-vs-markdown-grounding-comparison.md -> docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md",
+      "pre_hash": "16899f7712e1963a6cedc568e5384536d5bba5361bd5d0e93b215e9ef3a136c6",
+      "post_hash": "16899f7712e1963a6cedc568e5384536d5bba5361bd5d0e93b215e9ef3a136c6"
+    },
+    {
+      "id": "res-012",
+      "operation": "move",
+      "source_path": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md",
+      "dest_path": "docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md",
+      "note": "git mv docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md -> docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md",
+      "pre_hash": "4090333bd5e7647ba79cdafa14ad322cb0ff8a846a772413f21268747c427e8b",
+      "post_hash": "4090333bd5e7647ba79cdafa14ad322cb0ff8a846a772413f21268747c427e8b"
+    },
+    {
+      "id": "res-013",
+      "operation": "move",
+      "source_path": "docs/research/phase-4-agent-format-learning-journal.md",
+      "dest_path": "docs/research/research-experimentation/phase-4-agent-format-learning-journal.md",
+      "note": "git mv docs/research/phase-4-agent-format-learning-journal.md -> docs/research/research-experimentation/phase-4-agent-format-learning-journal.md",
+      "pre_hash": "477c1cb080e8f9f7d27fb9ba7abba7132bc3604257f18c392411e3e8ef1773ed",
+      "post_hash": "477c1cb080e8f9f7d27fb9ba7abba7132bc3604257f18c392411e3e8ef1773ed"
+    },
+    {
+      "id": "res-014",
+      "operation": "move",
+      "source_path": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "dest_path": "docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "note": "git mv docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md -> docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "pre_hash": "6dbfd2de6fecc6b1f04274fa2ef06a12f0264feef2ebde07afef1abc25e76d7b",
+      "post_hash": "6dbfd2de6fecc6b1f04274fa2ef06a12f0264feef2ebde07afef1abc25e76d7b"
+    },
+    {
+      "id": "res-015",
+      "operation": "archive",
+      "source_path": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "dest_path": "docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "note": "git mv docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md -> docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "pre_hash": "54b79ae288a1e5c1b927eae404d298e069057f68b7b46b5a9a5e6776fcdf9ce7",
+      "post_hash": "54b79ae288a1e5c1b927eae404d298e069057f68b7b46b5a9a5e6776fcdf9ce7"
+    },
+    {
+      "id": "res-016",
+      "operation": "move",
+      "source_path": "docs/research/concept-dual-target-rendering-agent-vs-human.md",
+      "dest_path": "docs/research/publication-delivery/dual-target-rendering-concept.md",
+      "note": "git mv docs/research/concept-dual-target-rendering-agent-vs-human.md -> docs/research/publication-delivery/dual-target-rendering-concept.md",
+      "pre_hash": "a65b1051bd18688f9fa41e4e5b53e9732061335d576c0893e3ba73ee6701f2a5",
+      "post_hash": "a65b1051bd18688f9fa41e4e5b53e9732061335d576c0893e3ba73ee6701f2a5"
+    },
+    {
+      "id": "arch-001",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/README.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/README.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/README.md -> docs/research/structured-content-engineering/legacy/README.md",
+      "pre_hash": "d53292810cc0032c9121fb89b331264cdcbd2cf1bc7c3f2195a1cf458ae31633",
+      "post_hash": "d53292810cc0032c9121fb89b331264cdcbd2cf1bc7c3f2195a1cf458ae31633"
+    },
+    {
+      "id": "arch-002",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/canonical-contract.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/canonical-contract.md -> docs/research/structured-content-engineering/legacy/canonical-contract.md",
+      "pre_hash": "f10a0e5d1f882be9b7fe727a194289e744e5a5781fab736b293eee6ee9a492b8",
+      "post_hash": "f10a0e5d1f882be9b7fe727a194289e744e5a5781fab736b293eee6ee9a492b8"
+    },
+    {
+      "id": "arch-003",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/content-authoring-guide.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md -> docs/research/structured-content-engineering/legacy/content-authoring-guide.md",
+      "pre_hash": "2b7970d969bc57fa8c0c1cf572a06eb549b9d20f05d467fad058549020d3d8aa",
+      "post_hash": "2b7970d969bc57fa8c0c1cf572a06eb549b9d20f05d467fad058549020d3d8aa"
+    },
+    {
+      "id": "arch-004",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/extraction-triggers.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/extraction-triggers.md -> docs/research/structured-content-engineering/legacy/extraction-triggers.md",
+      "pre_hash": "2f5b4fba13d3a5cd68e6d22f1fc2aa310e33b6f8a65f4261a3ccbbf482ad5ce7",
+      "post_hash": "2f5b4fba13d3a5cd68e6d22f1fc2aa310e33b6f8a65f4261a3ccbbf482ad5ce7"
+    },
+    {
+      "id": "arch-005",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/future-output-profiles.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/future-output-profiles.md -> docs/research/structured-content-engineering/legacy/future-output-profiles.md",
+      "pre_hash": "0f30cb439f65d8756f67c4fdc0b3364f8666d8c9a0408d5df3f5198a372a6073",
+      "post_hash": "0f30cb439f65d8756f67c4fdc0b3364f8666d8c9a0408d5df3f5198a372a6073"
+    },
+    {
+      "id": "arch-006",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/generated-elements.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/generated-elements.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/generated-elements.md -> docs/research/structured-content-engineering/legacy/generated-elements.md",
+      "pre_hash": "b64433850bc44ee175c10b6bbf6c3e140a0baa2dd5606cf67f6efd4a1a191fdc",
+      "post_hash": "b64433850bc44ee175c10b6bbf6c3e140a0baa2dd5606cf67f6efd4a1a191fdc"
+    },
+    {
+      "id": "arch-007",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/known-pandoc-gaps.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md -> docs/research/structured-content-engineering/legacy/known-pandoc-gaps.md",
+      "pre_hash": "84c6a9800600106875b61bdee686ad24261daadac5421121837124661b628e1d",
+      "post_hash": "84c6a9800600106875b61bdee686ad24261daadac5421121837124661b628e1d"
+    },
+    {
+      "id": "arch-008",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/pandoc-docx-setup.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md -> docs/research/structured-content-engineering/legacy/pandoc-docx-setup.md",
+      "pre_hash": "fe2e265b70c4ef413fab48312ee2f8d6b04dc9656af987200ddb91816b68e8fa",
+      "post_hash": "fe2e265b70c4ef413fab48312ee2f8d6b04dc9656af987200ddb91816b68e8fa"
+    },
+    {
+      "id": "arch-009",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/publication-map-contract.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/publication-map-contract.md -> docs/research/structured-content-engineering/legacy/publication-map-contract.md",
+      "pre_hash": "be3de3f6546e425b964e32e9bd9208bdefb854bc457161be5bc3eb74ac853f2f",
+      "post_hash": "be3de3f6546e425b964e32e9bd9208bdefb854bc457161be5bc3eb74ac853f2f"
+    },
+    {
+      "id": "arch-010",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/supported-markdown-profile.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md -> docs/research/structured-content-engineering/legacy/supported-markdown-profile.md",
+      "pre_hash": "ffcc6daedef0f8aad618847f9bdf3c099175389e38f8a796eb145b4f3204cdf8",
+      "post_hash": "ffcc6daedef0f8aad618847f9bdf3c099175389e38f8a796eb145b4f3204cdf8"
+    },
+    {
+      "id": "arch-011",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/templates/components/README.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/templates/components/README.md -> docs/research/structured-content-engineering/legacy/templates/components/README.md",
+      "pre_hash": "da91ab8b5816499a8166548db20cef5513cf88ba0772c677b6dae03ae772518a",
+      "post_hash": "da91ab8b5816499a8166548db20cef5513cf88ba0772c677b6dae03ae772518a"
+    },
+    {
+      "id": "arch-012",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/templates/content/manual-topic.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md -> docs/research/structured-content-engineering/legacy/templates/content/manual-topic.md",
+      "pre_hash": "15b2988ec9e011ce1561fb905aaa2bb6294ff261a4075a2bec4f93ccb1151501",
+      "post_hash": "15b2988ec9e011ce1561fb905aaa2bb6294ff261a4075a2bec4f93ccb1151501"
+    },
+    {
+      "id": "arch-013",
+      "operation": "move",
+      "source_path": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md",
+      "dest_path": "docs/research/structured-content-engineering/legacy/templates/examples/manual-topic-example.md",
+      "note": "git mv docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md -> docs/research/structured-content-engineering/legacy/templates/examples/manual-topic-example.md",
+      "pre_hash": "2a4fd28eb1fba9e13243c5e2d8edb1f61f45895806cc26003508ebf2092768bf",
+      "post_hash": "2a4fd28eb1fba9e13243c5e2d8edb1f61f45895806cc26003508ebf2092768bf"
+    },
+    {
+      "id": "diag-006",
+      "operation": "move",
+      "source_path": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dest_path": "docs/vision/06-editing-workflow-hybrid-option.mmd",
+      "note": "git mv docs/diagrams/06-editing-workflow-hybrid-option.mmd -> docs/vision/06-editing-workflow-hybrid-option.mmd",
+      "pre_hash": "755e404da637def9a2d494439611b921bdf350d1e095f1018e3f5a2c09b8670c",
+      "post_hash": "755e404da637def9a2d494439611b921bdf350d1e095f1018e3f5a2c09b8670c"
+    },
+    {
+      "id": "diag-007",
+      "operation": "move",
+      "source_path": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dest_path": "docs/vision/07-publisher-triggered-render-workflow.mmd",
+      "note": "git mv docs/diagrams/07-publisher-triggered-render-workflow.mmd -> docs/vision/07-publisher-triggered-render-workflow.mmd",
+      "pre_hash": "6f27c2d3201eb5f6cc239e0490f4f36c1029dc1db28771f24f252b3dc6e3ec04",
+      "post_hash": "6f27c2d3201eb5f6cc239e0490f4f36c1029dc1db28771f24f252b3dc6e3ec04"
+    },
+    {
+      "id": "diag-008",
+      "operation": "move",
+      "source_path": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dest_path": "docs/vision/08-editor-submission-and-approval-workflow.mmd",
+      "note": "git mv docs/diagrams/08-editor-submission-and-approval-workflow.mmd -> docs/vision/08-editor-submission-and-approval-workflow.mmd",
+      "pre_hash": "f49761aafc3086099e5a549033bb6afc74d3bde5c8a2d6205440bec19a16f232",
+      "post_hash": "f49761aafc3086099e5a549033bb6afc74d3bde5c8a2d6205440bec19a16f232"
+    },
+    {
+      "id": "diag-009",
+      "operation": "move",
+      "source_path": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "dest_path": "docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "note": "git mv docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd -> docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "pre_hash": "19dae7945489317f3e71d3ddde46e0c3e5f248dd52d26f8f4f1b1a69083c7dee",
+      "post_hash": "19dae7945489317f3e71d3ddde46e0c3e5f248dd52d26f8f4f1b1a69083c7dee"
+    },
+    {
+      "id": "vis-004",
+      "operation": "archive",
+      "source_path": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md",
+      "dest_path": "docs/vision/archive/government-structured-knowledge-sharepoint-governance-vision-v2.md",
+      "note": "git mv docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md -> docs/vision/archive/government-structured-knowledge-sharepoint-governance-vision-v2.md",
+      "pre_hash": "80c1039f543d961855431e67df52fa45d94172b6f42306958ef1913940b15855",
+      "post_hash": "80c1039f543d961855431e67df52fa45d94172b6f42306958ef1913940b15855"
+    },
+    {
+      "id": "vis-006",
+      "operation": "archive",
+      "source_path": "docs/vision/vision-original.md",
+      "dest_path": "docs/vision/archive/vision-original.md",
+      "note": "git mv docs/vision/vision-original.md -> docs/vision/archive/vision-original.md",
+      "pre_hash": "bd56a7e0d7b3cc7332b20bbdbc9823f8ff3ce3bbcbd3b699ebb8b2a2d413790d",
+      "post_hash": "bd56a7e0d7b3cc7332b20bbdbc9823f8ff3ce3bbcbd3b699ebb8b2a2d413790d"
+    },
+    {
+      "id": "vis-007",
+      "operation": "archive",
+      "source_path": "docs/vision/plan-content-management-proposal.md",
+      "dest_path": "docs/vision/archive/plan-content-management-proposal.md",
+      "note": "git mv docs/vision/plan-content-management-proposal.md -> docs/vision/archive/plan-content-management-proposal.md",
+      "pre_hash": "404e915f6b484f6f84783b496721e165c3da3e14f001283d5c4ce79e96fb8888",
+      "post_hash": "404e915f6b484f6f84783b496721e165c3da3e14f001283d5c4ce79e96fb8888"
+    },
+    {
+      "id": "vis-008",
+      "operation": "archive",
+      "source_path": "docs/vision/plan-copilot-knowledge-access-proposal.md",
+      "dest_path": "docs/vision/archive/plan-copilot-knowledge-access-proposal.md",
+      "note": "git mv docs/vision/plan-copilot-knowledge-access-proposal.md -> docs/vision/archive/plan-copilot-knowledge-access-proposal.md",
+      "pre_hash": "7f44ef6789724cfe63098098ef5c03f1a953a12229d939a21bf5b3bd17d0b2bc",
+      "post_hash": "7f44ef6789724cfe63098098ef5c03f1a953a12229d939a21bf5b3bd17d0b2bc"
+    },
+    {
+      "id": "vis-010",
+      "operation": "rename",
+      "source_path": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+      "dest_path": "docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+      "note": "git mv docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md -> docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+      "pre_hash": "f01fee2455ba7f799c45ece21898b7380a51a466e0871877c2a8fa4a1bd09ca5",
+      "post_hash": "f01fee2455ba7f799c45ece21898b7380a51a466e0871877c2a8fa4a1bd09ca5"
+    }
+  ],
+  "skipped_already_applied": [],
+  "reference_changes": [
+    {
+      "entry": "res-011",
+      "file": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "edits": [
+        {
+          "old": "`docs/research/field-note-aspx-vs-markdown-grounding-comparison.md`",
+          "new": "`docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-011",
+      "file": "docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md",
+      "edits": [
+        {
+          "old": "`docs/research/field-note-aspx-vs-markdown-grounding-comparison.md`",
+          "new": "`docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-012",
+      "file": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "edits": [
+        {
+          "old": "`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`",
+          "new": "`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`"
+        },
+        {
+          "old": "`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`",
+          "new": "`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-012",
+      "file": "docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md",
+      "edits": [
+        {
+          "old": "`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`",
+          "new": "`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-012",
+      "file": "docs/superpowers/specs/phase-3-tenant-capability-report.md",
+      "edits": [
+        {
+          "old": "`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`",
+          "new": "`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`"
+        },
+        {
+          "old": "`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`",
+          "new": "`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-012",
+      "file": "plugins/sharepoint-content-publication/skills/publish-aspx-to-sharepoint/SKILL.md",
+      "edits": [
+        {
+          "old": "`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`",
+          "new": "`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-012",
+      "file": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/SKILL.md",
+      "edits": [
+        {
+          "old": "`docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md`",
+          "new": "`docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-014",
+      "file": "plugins/sharepoint-agents-and-skills/evaluations/common/NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md",
+      "edits": [
+        {
+          "old": "`docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`",
+          "new": "`docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`"
+        }
+      ]
+    },
+    {
+      "entry": "res-014",
+      "file": "docs/superpowers/plans/phase-6-tasks-1-12-evidence/task-1-brainstorming-and-task-2-inventory.md",
+      "edits": [
+        {
+          "old": "`docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`",
+          "new": "`docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`"
+        }
+      ]
+    },
+    {
+      "entry": "diag-006",
+      "file": "docs/vision/editing-workflow-options-for-external-review.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/06-editing-workflow-hybrid-option.mmd`",
+          "new": "`docs/vision/06-editing-workflow-hybrid-option.mmd`"
+        }
+      ]
+    },
+    {
+      "entry": "diag-007",
+      "file": "docs/vision/editing-workflow-options-for-external-review.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/07-publisher-triggered-render-workflow.mmd`",
+          "new": "`docs/vision/07-publisher-triggered-render-workflow.mmd`"
+        },
+        {
+          "old": "`docs/diagrams/07-publisher-triggered-render-workflow.mmd`",
+          "new": "`docs/vision/07-publisher-triggered-render-workflow.mmd`"
+        }
+      ]
+    },
+    {
+      "entry": "diag-008",
+      "file": "docs/vision/editing-workflow-options-for-external-review.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/08-editor-submission-and-approval-workflow.mmd`",
+          "new": "`docs/vision/08-editor-submission-and-approval-workflow.mmd`"
+        }
+      ]
+    },
+    {
+      "entry": "diag-009",
+      "file": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd`",
+          "new": "`docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd`"
+        }
+      ]
+    },
+    {
+      "entry": "vis-010",
+      "file": "docs/diagrams/README.md",
+      "edits": [
+        {
+          "old": "`docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`",
+          "new": "`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`"
+        }
+      ]
+    }
+  ],
+  "stale_references_remaining": [
+    {
+      "file": "architecture.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md"
+    },
+    {
+      "file": "start-here.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "start-here.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "README.md",
+      "stale_reference": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "file": "README.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "README.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "file": "CLAUDE.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/vision/key-unanswered-questions.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "stale_reference": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    },
+    {
+      "file": "docs/reports/phase-5-sharepoint-knowledge-agent-pilot/EXIT-REPORT.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/phase-4-native-sharepoint-skills/native-skill-store-provisioning-report.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/phase-4-native-sharepoint-skills/task-8-scope-drift-audit.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK12-ROLLBACK-COMPLETION.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK12-ROLLBACK-COMPLETION.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/generated-elements.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/README.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/vision/plan-copilot-knowledge-access-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/vision/plan-content-management-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/diagrams/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/vision/vision-original.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/file-by-file-disposition-report.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/migration-and-validation-plan.md",
+      "stale_reference": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/research-corpus-inventory.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/generated-elements.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/README.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/vision/plan-copilot-knowledge-access-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/vision/plan-content-management-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/diagrams/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/vision/vision-original.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/phase-7-content-currency-and-remediation-plan.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/vision/plan-copilot-knowledge-access-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/vision/plan-content-management-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/current-to-target-content-map.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/diagrams/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/vision/vision-original.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-impact-report.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/reference-audit.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/DISCOVERY-SESSION-2-COMPLETE.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/DISCOVERY-SESSION-2-COMPLETE.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/DISCOVERY-SESSION-2-COMPLETE.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/DISCOVERY-SESSION-2-COMPLETE.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/DISCOVERY-SESSION-2-COMPLETE.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/REVIEW-POINT-1-SUMMARY.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/REVIEW-POINT-1-SUMMARY.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/README.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/REVIEW-POINT-1-SUMMARY.md",
+      "stale_reference": "docs/vision/vision-original.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/REVIEW-POINT-1-SUMMARY.md",
+      "stale_reference": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/generated-elements.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/README.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/vision/plan-copilot-knowledge-access-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/vision/plan-content-management-proposal.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/diagrams/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/vision/vision-original.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/final-proposed-directory-tree.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "file": "docs/reports/multi-document-destination-config/complete-artifact-classification.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/migration-tool/planned-link-path-updates.md",
+      "stale_reference": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/migration-tool/planned-link-path-updates.md",
+      "stale_reference": "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/migration-tool/planned-link-path-updates.md",
+      "stale_reference": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
+    },
+    {
+      "file": "docs/reports/research-information-architecture/migration-tool/planned-link-path-updates.md",
+      "stale_reference": "docs/diagrams/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "file": "docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "file": "docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "tools/phase-3-sharepoint-discovery/skills/v6-log-finding.SKILL.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "tools/phase-3-sharepoint-discovery/aspx-experiment/README.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "tools/phase-5-sharepoint-knowledge-agent-pilot/results/task4-aspx-agent-selection.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "tools/phase-5-sharepoint-knowledge-agent-pilot/results/task6-baseline-verification.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/generated-elements.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/README.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/vision/plan-copilot-knowledge-access-proposal.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/vision/plan-content-management-proposal.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/diagrams/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/vision/vision-original.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md"
+    },
+    {
+      "file": "temp/context-bundle-implementation-validation/payload.md",
+      "stale_reference": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    }
+  ],
+  "rollback_map": [
+    {
+      "from": "docs/research/sharepoint-platforms-capabilities/research-copilot-in-sharepoint-preview.md",
+      "to": "docs/research/research-summary-copilot-in-sharepoint-get-started.md"
+    },
+    {
+      "from": "docs/research/publication-delivery/research-markdown-support-sharepoint-onedrive.md",
+      "to": "docs/research/research-summary-native-markdown-sharepoint-onedrive.md"
+    },
+    {
+      "from": "docs/research/sharepoint-platforms-capabilities/research-ai-in-sharepoint-setup-automate-insight.md",
+      "to": "docs/research/research-summary-ai-in-sharepoint-content-chaos-to-clarity.md"
+    },
+    {
+      "from": "docs/research/knowledge-discovery-retrieval/research-sharepoint-content-creation-and-curation.md",
+      "to": "docs/research/research-summary-sharepoint-ai-forward-content-creation-curation.md"
+    },
+    {
+      "from": "docs/research/sharepoint-platforms-capabilities/capability-layering-across-platforms.md",
+      "to": "docs/research/capability-layering-sharepoint-skills-cowork-copilot-studio-github.md"
+    },
+    {
+      "from": "docs/research/sharepoint-platforms-capabilities/sharepoint-agents-and-native-skills-as-workbench-outputs.md",
+      "to": "docs/research/sharepoint-agents-and-native-skills-as-workbench-outputs.md"
+    },
+    {
+      "from": "docs/research/architecture-design-patterns/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md",
+      "to": "docs/research/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md"
+    },
+    {
+      "from": "docs/research/sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md",
+      "to": "docs/research/field-note-sharepoint-agentassets-review-manual-topics-skill.md"
+    },
+    {
+      "from": "docs/research/sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md",
+      "to": "docs/research/field-note-ready-made-copilot-agent-launch-by-name.md"
+    },
+    {
+      "from": "docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md",
+      "to": "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md"
+    },
+    {
+      "from": "docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md",
+      "to": "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md"
+    },
+    {
+      "from": "docs/research/research-experimentation/phase-4-agent-format-learning-journal.md",
+      "to": "docs/research/phase-4-agent-format-learning-journal.md"
+    },
+    {
+      "from": "docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md",
+      "to": "docs/research/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md"
+    },
+    {
+      "from": "docs/reports/phase-4-native-sharepoint-skills/EVID-PHASE4-TASK8-EXIT-GATE.md",
+      "to": "docs/research/EVID-PHASE4-TASK8-EXIT-GATE.md"
+    },
+    {
+      "from": "docs/research/publication-delivery/dual-target-rendering-concept.md",
+      "to": "docs/research/concept-dual-target-rendering-agent-vs-human.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/README.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/README.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/canonical-contract.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/canonical-contract.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/content-authoring-guide.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/content-authoring-guide.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/extraction-triggers.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/extraction-triggers.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/future-output-profiles.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/future-output-profiles.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/generated-elements.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/generated-elements.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/known-pandoc-gaps.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/known-pandoc-gaps.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/pandoc-docx-setup.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/pandoc-docx-setup.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/publication-map-contract.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/publication-map-contract.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/supported-markdown-profile.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/supported-markdown-profile.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/templates/components/README.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/templates/components/README.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/templates/content/manual-topic.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/templates/content/manual-topic.md"
+    },
+    {
+      "from": "docs/research/structured-content-engineering/legacy/templates/examples/manual-topic-example.md",
+      "to": "docs/architecture/docx-to-content-legacy-references/templates/examples/manual-topic-example.md"
+    },
+    {
+      "from": "docs/vision/06-editing-workflow-hybrid-option.mmd",
+      "to": "docs/diagrams/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "from": "docs/vision/07-publisher-triggered-render-workflow.mmd",
+      "to": "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
+    },
+    {
+      "from": "docs/vision/08-editor-submission-and-approval-workflow.mmd",
+      "to": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
+    },
+    {
+      "from": "docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "to": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
+      "from": "docs/vision/archive/government-structured-knowledge-sharepoint-governance-vision-v2.md",
+      "to": "docs/vision/government-structured-knowledge-sharepoint-governance-vision-v2.md"
+    },
+    {
+      "from": "docs/vision/archive/vision-original.md",
+      "to": "docs/vision/vision-original.md"
+    },
+    {
+      "from": "docs/vision/archive/plan-content-management-proposal.md",
+      "to": "docs/vision/plan-content-management-proposal.md"
+    },
+    {
+      "from": "docs/vision/archive/plan-copilot-knowledge-access-proposal.md",
+      "to": "docs/vision/plan-copilot-knowledge-access-proposal.md"
+    },
+    {
+      "from": "docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+      "to": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md"
+    }
+  ]
+}

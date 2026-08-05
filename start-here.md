@@ -481,7 +481,7 @@ status, deferred work).
 - Design/spec: `docs/superpowers/specs/2026-08-02-phase-5-ceis-grounding-prototype-design.md`.
 - Plan: `docs/superpowers/plans/2026-08-02-phase-5-ceis-grounding-prototype.md`.
 - Consolidated findings: `tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md`.
-- Generalizable findings extracted into `docs/research/field-note-aspx-vs-markdown-grounding-comparison.md`
+- Generalizable findings extracted into `docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md`
   (two reproducible failure modes found on **both** tested agents — a currency-from-upload-timestamp
   inference bug, and cross-run relationship-answer instability — likely model-level, not
   format-specific).
@@ -1146,7 +1146,7 @@ questions (Stages 3.0.2.1–3.0.2.5) with cited evidence, plus a dependency-stat
 - `tools/phase-3-sharepoint-discovery/phase-3-0-tenant-discovery.ps1` +
   `tools/phase-3-sharepoint-discovery/reports/phase-3-0-discovery-report.json` — the original
   **read-only** tenant inventory (Stage 3.0.1.1/3.0.1.2: access record, surface/list inventory).
-- `docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md` — a large, continuously
+- `docs/research/research-experimentation/tenant-discovery/field-note-sharepoint-write-capability-discovery.md` — a large, continuously
   updated **raw findings log** from hands-on, staged/authorized write-based capability probes
   (agent creation, `.agent`/`SKILL.md` authoring, format compliance, write-action refusal, native
   Markdown rendering, multi-document synthesis, etc.) run directly against the real BC Gov dev
