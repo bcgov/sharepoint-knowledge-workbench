@@ -90,6 +90,54 @@
       "inbound_references": []
     },
     {
+      "id": "diag-006",
+      "source_path": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "source_hash": "755e404da637def9a2d494439611b921bdf350d1e095f1018e3f5a2c09b8670c",
+      "current_filename": "06-editing-workflow-hybrid-option.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "06-editing-workflow-hybrid-option.mmd",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md"
+      ]
+    },
+    {
+      "id": "diag-007",
+      "source_path": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "source_hash": "6f27c2d3201eb5f6cc239e0490f4f36c1029dc1db28771f24f252b3dc6e3ec04",
+      "current_filename": "07-publisher-triggered-render-workflow.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "07-publisher-triggered-render-workflow.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-008",
+      "source_path": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "source_hash": "f49761aafc3086099e5a549033bb6afc74d3bde5c8a2d6205440bec19a16f232",
+      "current_filename": "08-editor-submission-and-approval-workflow.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "08-editor-submission-and-approval-workflow.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-009",
+      "source_path": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "source_hash": "19dae7945489317f3e71d3ddde46e0c3e5f248dd52d26f8f4f1b1a69083c7dee",
+      "current_filename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "proposed_operation": "move",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "destination_status": "approved",
+      "inbound_references": [
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md"
+      ]
+    },
+    {
       "id": "diag-010",
       "source_path": "docs/diagrams/high-level.mmd",
       "source_hash": "16b74edb8716cc78eabbf236daf055fe09658ad4284c4e4d8676f9ba83809d38",
