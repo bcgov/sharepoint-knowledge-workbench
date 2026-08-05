@@ -89,7 +89,7 @@
         "proposedLogicalTitle": {"type": ["string", "null"]},
         "proposedFilename": {"type": ["string", "null"]},
         "filenameRationale": {"type": ["string", "null"]},
-        "filenameStatus": {"type": ["string", "null"], "enum": [null, "proposed", "approved"]},
+        "filenameStatus": {"type": ["string", "null"], "enum": [null, "proposed", "approved", "confirmed-no-change"]},
         "filenameConfusabilityFlags": {"type": "array"}
       }
     }

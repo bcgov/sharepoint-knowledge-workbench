@@ -1,0 +1,84 @@
+{
+  "mode": "dry-run",
+  "manifest_id": "research-ia-2026-08-04",
+  "total_entries": 56,
+  "execution_set_size": 10,
+  "execution_set": [
+    {
+      "id": "arch-015",
+      "operation": "retain",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.md",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "arch-016",
+      "operation": "retain",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.json",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "arch-017",
+      "operation": "retain",
+      "source_path": "docs/architecture/validate_plugin_skill_catalog.py",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "diag-001",
+      "operation": "retain",
+      "source_path": "docs/diagrams/01-phase1-overview.mmd",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "diag-002",
+      "operation": "retain",
+      "source_path": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "diag-003",
+      "operation": "retain",
+      "source_path": "docs/diagrams/03-create-canonical-content.mmd",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "diag-004",
+      "operation": "retain",
+      "source_path": "docs/diagrams/04-generate-and-render.mmd",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "diag-005",
+      "operation": "retain",
+      "source_path": "docs/diagrams/05-validation-and-evidence.mmd",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "diag-010",
+      "operation": "retain",
+      "source_path": "docs/diagrams/high-level.mmd",
+      "dest_path": null,
+      "note": "no filesystem action"
+    },
+    {
+      "id": "vis-011",
+      "operation": "retain",
+      "source_path": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "dest_path": null,
+      "note": "no filesystem action"
+    }
+  ],
+  "reference_changes": [],
+  "destination_status_breakdown": {
+    "recommended": 30,
+    "tentative": 16,
+    "approved": 10
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "generated_from": "research-ia-2026-08-04",
+  "entries": [
+    {
+      "id": "arch-015",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.md",
+      "source_hash": "21533f5da5e2e82ea7529a0a32e5be09b44e59bbf4d9d2e0ca43273b6cabb1af",
+      "current_filename": "complete-plugin-skill-catalog-after-phase-9.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/architecture",
+      "proposed_filename": "complete-plugin-skill-catalog-after-phase-9.md",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-016",
+      "source_path": "docs/architecture/complete-plugin-skill-catalog-after-phase-9.json",
+      "source_hash": "78ce98251f5bc30f94ddc059294efe6d43716e999262f551da4858099703e7b2",
+      "current_filename": "complete-plugin-skill-catalog-after-phase-9.json",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/architecture",
+      "proposed_filename": "complete-plugin-skill-catalog-after-phase-9.json",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "arch-017",
+      "source_path": "docs/architecture/validate_plugin_skill_catalog.py",
+      "source_hash": "dd5fe9e5b10912f59b873ad106fbbe19a1416d5d1ee0ecf30749b49f8cefe94c",
+      "current_filename": "validate_plugin_skill_catalog.py",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/architecture",
+      "proposed_filename": "validate_plugin_skill_catalog.py",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-001",
+      "source_path": "docs/diagrams/01-phase1-overview.mmd",
+      "source_hash": "e7faa729696b4e2857296b3a292599d4d99574f16946c631d6760dd6ba8aea0f",
+      "current_filename": "01-phase1-overview.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "01-phase1-overview.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-002",
+      "source_path": "docs/diagrams/02-analyze-and-confirm.mmd",
+      "source_hash": "1ebcbb9dade1271d28833a78a539fcdba840e3626f10354672d440be76a4451d",
+      "current_filename": "02-analyze-and-confirm.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "02-analyze-and-confirm.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-003",
+      "source_path": "docs/diagrams/03-create-canonical-content.mmd",
+      "source_hash": "b1ea6d51aa436f86b2636322f06de9f1896cda4fccebd6e2520d29507c10eb30",
+      "current_filename": "03-create-canonical-content.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "03-create-canonical-content.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-004",
+      "source_path": "docs/diagrams/04-generate-and-render.mmd",
+      "source_hash": "ec8491254acab490c5ae30775d86adeebaaadb1f87f0377152c84d8c15332980",
+      "current_filename": "04-generate-and-render.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "04-generate-and-render.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-005",
+      "source_path": "docs/diagrams/05-validation-and-evidence.mmd",
+      "source_hash": "51ab6afbca02554bbded96c8469288e4c8bc5a21cc52c17502525e59731fd208",
+      "current_filename": "05-validation-and-evidence.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "05-validation-and-evidence.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "diag-010",
+      "source_path": "docs/diagrams/high-level.mmd",
+      "source_hash": "16b74edb8716cc78eabbf236daf055fe09658ad4284c4e4d8676f9ba83809d38",
+      "current_filename": "high-level.mmd",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/diagrams",
+      "proposed_filename": "high-level.mmd",
+      "destination_status": "approved",
+      "inbound_references": []
+    },
+    {
+      "id": "vis-011",
+      "source_path": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "source_hash": "23bda196a1d981703fc4f5a33b9a5bac38e6d2ed69aed91f8eb047e85b63316d",
+      "current_filename": "master-initiative-plan-workstreams-and-phases.md",
+      "proposed_operation": "retain",
+      "proposed_destination": "docs/vision",
+      "proposed_filename": "master-initiative-plan-workstreams-and-phases.md",
+      "destination_status": "approved",
+      "inbound_references": [
+        "CLAUDE.md (extensively, as 'the authoritative...master plan')",
+        "docs/research/research-summary-phase3-sharepoint-write-capability-discovery.md (2 locations, confirmed earlier this session)",
+        "docs/research/field-note-aspx-vs-markdown-grounding-comparison.md (2 locations, confirmed earlier this session)",
+        "docs/superpowers/plans/phase-6-multi-runtime-capability-model-plan-scaffold.md (2 locations)",
+        "docs/diagrams/README.md"
+      ]
+    }
+  ]
+}
