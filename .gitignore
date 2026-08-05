@@ -28,6 +28,15 @@ tools/phase-4-native-sharepoint-skills/config.psd1
 # config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
 tools/phase-5-sharepoint-knowledge-agent-pilot/config.psd1
 
+# Real tenant credentials — root Layer 1 connection config (workbench-setup's
+# setup-sharepoint-connection skill) and the sharepoint-agents-and-skills plugin-local config —
+# never commit. Only the .example templates are committed.
+/config.psd1
+plugins/sharepoint-agents-and-skills/config.psd1
+
+# Local scratch analysis output for downloaded tenant AgentAssets content — not authored content.
+temp/agentassets-analysis/
+
 # Real tenant credentials for the Phase 6 native-sharepoint evaluation runbook execution —
 # never commit. config.psd1.example (the template) IS committed; only the real, filled-in
 # file is ignored.
