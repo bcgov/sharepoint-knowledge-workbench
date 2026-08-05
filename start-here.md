@@ -6,9 +6,10 @@
 Everything below it (including the Phase 6 handoff section that follows) is historical detail
 preserved as the evidence trail, not the current summary.
 
-**Status:** Phase 7 (Cowork & Copilot Studio Evaluation) desk-research round is `COMPLETE` and
-**MERGED to `main`**. **Phase 7's master exit gate is `NOT YET SATISFIED`** — do not describe
-Phase 7 as fully closed.
+**Status: Phase 7 paused at a research checkpoint.** Its desk-research round is `COMPLETE` and
+**MERGED to `main`**, but **Phase 7's master exit gate is `NOT YET SATISFIED`** — do not describe
+Phase 7 as fully closed, and do not describe this as a transition to Phase 8. Resume Phase 7
+itself (not Phase 8) once a re-entry trigger below is met.
 
 - **Branch:** `phase-7-cowork-copilot-studio-evaluation` (merged, local branch deleted, worktree
   removed and pruned post-merge).
@@ -621,6 +622,59 @@ PHASE_TRANSITION_BLOCKED
 
 Do not remove the worktree or branch, and do not claim closure. State exactly which check failed.
 
+### Final Evidence Gate — mandatory after every closeout action, including follow-up PRs
+
+**A Phase 7 closeout session found the root cause of a false `PHASE_TRANSITION_READY` claim: the
+protocol let an agent report remembered actions ("I removed the worktree earlier in this
+session") instead of proving the current repository state after the *most recent* action taken.**
+Opening a follow-up documentation PR checks out a new branch — if the agent then reports closeout
+status from memory instead of re-running verification, the report can be false even though every
+individual step taken was correct. This subsection closes that gap and is permanent — apply it at
+every future phase boundary, not just this one.
+
+**Rules:**
+
+- **The primary checkout must finish on `main`.** If any closeout action (including creating a
+  follow-up documentation PR) leaves the primary checkout on a different branch, the agent must
+  switch back to `main` before reporting any closeout status.
+- **`HEAD`, `main`, and `origin/main` must literally match** (`git rev-parse` all three, compare
+  the hashes) — unless an explicitly identified closeout PR remains open, in which case say so
+  instead of claiming synchronization.
+- **Opening a follow-up documentation PR changes the checkout state.** Creating that PR is not
+  itself a completed closeout step — the agent must return to `main` afterward and re-verify.
+- **An open closeout PR means closeout is pending, not `PHASE_TRANSITION_READY`.** Check every
+  closeout PR's merge state directly (e.g. `gh pr view <number> --json state,mergeCommit,mergedAt`)
+  — do not infer it from having created the PR.
+- **`PHASE_TRANSITION_READY` may be emitted only after:** all closeout PRs are merged, local
+  `main` is pulled again (`--ff-only`), any now-merged temporary/follow-up branches are deleted
+  the same way phase branches are (verified merged, `git branch -d`, never `-D`), and the final
+  evidence commands below pass — run fresh, not recalled from earlier in the session.
+- **A phase whose master exit gate is unsatisfied must not be described as complete or ready for
+  the next phase**, even once its desk-research/documentation round is fully merged. State it as
+  "Phase N paused at a research checkpoint" (or the equivalent accurate label), never as
+  transitioned to the next phase.
+
+**Required final-evidence commands — run these literally, every time, after the last closeout
+action of the session (including after any follow-up PR), and report their literal output, not a
+summary:**
+
+```bash
+pwd
+git status --short --branch
+git rev-parse HEAD
+git rev-parse main
+git rev-parse origin/main
+git worktree list --porcelain
+git branch -vv
+git branch --merged main
+gh pr view <number> --json state,mergeCommit,mergedAt   # for every closeout PR opened this session
+```
+
+If `HEAD`/`main`/`origin/main` do not all match, or any closeout PR's `state` is not `MERGED`, or
+`pwd`/`git status --short --branch` show anything other than a clean `main` checkout tracking
+`origin/main`: report exactly which line of output contradicts closure, and do not emit
+`PHASE_TRANSITION_READY`.
+
 ### Handoff documentation
 
 Before ending the phase:
@@ -667,6 +721,10 @@ If blocked, list the exact failed checks.
 Do not use phrases such as "essentially complete," "ready except for documentation," "not a
 blocker," or "can be fixed later" when a mandatory transition check remains unresolved. A stale
 `start-here.md` is a transition blocker, not a cosmetic gap.
+
+`PHASE_TRANSITION_READY` is a claim about the literal current repository state, not about actions
+taken earlier in the session — it may only follow a freshly re-run "Final Evidence Gate" check
+(above), never a summary of remembered steps.
 
 ## Phase 6 — HISTORICAL (pre-execution planning notes; Phase 6 is now complete)
 
