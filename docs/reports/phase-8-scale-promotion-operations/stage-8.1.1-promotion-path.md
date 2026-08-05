@@ -77,15 +77,23 @@ Read-only (per the script's own header: "No upload, overwrite, delete, or tenant
 Compares the live deployed `SKILL.md`'s hash against the repository artifact's hash and reports
 match/mismatch.
 
-**Real prerequisite gap found during verification:** neither
-`plugins/sharepoint-agents-and-skills/config.psd1` nor `tools/phase-3-sharepoint-discovery/
-config.psd1` exists in this repository — only their `.example` templates are tracked
-(`config.psd1` is git-ignored per `.gitignore`'s explicit comment: "only the real, filled-in file
-is ignored"). Richard must have (or create, from the committed `.example` template) a real,
-filled-in `config.psd1` locally before either command above can run. This is not a blocker this
-document invents — it is the same gitignored-local-config pattern already established for every
-other tenant-scripting tool in this repository (`CLAUDE.md`'s "Tenant-scripting destination
-configuration" section).
+**Real prerequisite gap found and fixed this round:** no `plugins/sharepoint-agents-and-skills/
+config.psd1.example` template existed anywhere in this repository, even though all three scripts
+(`deploy-and-verify-skill.ps1`, `reconcile-deployed-skill.ps1`, `rollback-skill-deployment.ps1`)
+default to `plugins/sharepoint-agents-and-skills/config.psd1` and instruct "Copy config.psd1.example
+to config.psd1" on a missing file. **Canonical template, created this round:**
+`plugins/sharepoint-agents-and-skills/config.psd1.example`, containing only the fields the scripts
+actually read (`SiteUrl` required; `ClientId`/`TenantId` optional — verified against each script's
+`$config.` usage; there is no `TargetLibrary`/other field these three scripts consume from this
+config, unlike the older `tools/phase-4-native-sharepoint-skills/config.psd1.example` template,
+which serves different, wrapper-level scripts). `plugins/sharepoint-agents-and-skills/config.psd1`
+(the real, filled-in file) has also been added to `.gitignore` this round — it was not previously
+excluded. Richard must copy the new `.example` to `config.psd1` and fill in `SiteUrl` (and
+`ClientId`/`TenantId` if using app-only auth) before either command above can run.
+`reconcile-deployed-skill.ps1`'s `-FallbackConfigFile tools/phase-3-sharepoint-discovery/
+config.psd1` is an optional fallback path only — its own `.example` template already exists at
+`tools/phase-3-sharepoint-discovery/config.psd1.example`; using it is not required if the primary
+config file above is present.
 
 ## 7. Rollback
 
@@ -137,14 +145,22 @@ capability for a `SKILL.md`-based native skill.
 ## Open acceptance items — explicitly not closed by this document
 
 - **Stage 8.1.1 is not yet accepted.** Spec Section 6.1 requires "at least one real artifact...
-  actually promoted through it." This document defines the path only. The real exercise (reconcile
-  the live tenant artifact against the repository artifact; if hashes differ, redeploy and verify;
-  if they match, record the successful reconciliation but leave the real-promotion requirement
-  open) is a separate task, blocked on Richard's interactive PnP session — see the implementation
-  plan's Task 2.
-- **Stage 8.1.2 is not yet accepted.** Its policy is defined above, but spec Section 6.2 requires
-  "at least one real version bump exercised against it." No real version check has occurred yet —
-  pending the same Task 2 exercise. **A meaningless content change must not be created merely to
-  manufacture a promotion/version event** — if Task 2's reconciliation finds the live hash already
-  matches the repository hash, this policy's real-check requirement stays explicitly open until an
-  actual approved `SKILL.md` change is deployed through this path.
+  actually promoted through it." This document defines the path only. The real exercise starts
+  with reconciling the live tenant artifact against the repository artifact (Section 6 above):
+  - **If hashes differ:** redeploying and verifying (Section 5/6) is itself the real promotion —
+    Section 6.1 is satisfied by that redeploy.
+  - **If hashes already match:** that is valid reconciliation evidence only, **not** by itself a
+    real promotion. The requirement stays open until an actual artifact is deployed through this
+    path — which the retirement exercise's restoration step (`stage-8.3.2-retirement-exercise.md`,
+    its remove → confirm-unavailable → redeploy → reconcile sequence) provides: redeploying the
+    repository artifact back into place after removal is a real deployment through this same
+    path, and its successful post-restoration reconciliation satisfies Section 6.1 in this case.
+  - Either way, this is blocked on Richard's interactive PnP session — see the implementation
+    plan's Task 2 and Task 6, and the combined runbook.
+- **Stage 8.1.2 is not yet accepted, and is not satisfied merely by Section 6.1 being satisfied.**
+  Spec Section 6.2 requires "at least one real version **bump**... exercised against it" — a
+  distinct criterion from Section 6.1's "an artifact was promoted." Neither an unchanged-hash
+  redeploy nor the retirement exercise's byte-identical restoration is a version *change*; both
+  redeploy the same bytes that were already live. **This criterion stays open until an actual
+  approved `SKILL.md` content change is deployed through this path** — do not manufacture a
+  meaningless content change merely to close it.
