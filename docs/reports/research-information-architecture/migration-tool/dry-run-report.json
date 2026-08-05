@@ -2,7 +2,7 @@
   "mode": "dry-run",
   "manifest_id": "research-ia-2026-08-04",
   "total_entries": 56,
-  "execution_set_size": 10,
+  "execution_set_size": 14,
   "execution_set": [
     {
       "id": "arch-015",
@@ -61,6 +61,34 @@
       "note": "no filesystem action"
     },
     {
+      "id": "diag-006",
+      "operation": "move",
+      "source_path": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
+      "dest_path": "docs/vision/06-editing-workflow-hybrid-option.mmd",
+      "note": "git mv docs/diagrams/06-editing-workflow-hybrid-option.mmd -> docs/vision/06-editing-workflow-hybrid-option.mmd"
+    },
+    {
+      "id": "diag-007",
+      "operation": "move",
+      "source_path": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
+      "dest_path": "docs/vision/07-publisher-triggered-render-workflow.mmd",
+      "note": "git mv docs/diagrams/07-publisher-triggered-render-workflow.mmd -> docs/vision/07-publisher-triggered-render-workflow.mmd"
+    },
+    {
+      "id": "diag-008",
+      "operation": "move",
+      "source_path": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
+      "dest_path": "docs/vision/08-editor-submission-and-approval-workflow.mmd",
+      "note": "git mv docs/diagrams/08-editor-submission-and-approval-workflow.mmd -> docs/vision/08-editor-submission-and-approval-workflow.mmd"
+    },
+    {
+      "id": "diag-009",
+      "operation": "move",
+      "source_path": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "dest_path": "docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
+      "note": "git mv docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd -> docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd"
+    },
+    {
       "id": "diag-010",
       "operation": "retain",
       "source_path": "docs/diagrams/high-level.mmd",
@@ -75,10 +103,55 @@
       "note": "no filesystem action"
     }
   ],
-  "reference_changes": [],
+  "reference_changes": [
+    {
+      "entry": "diag-006",
+      "file": "docs/vision/editing-workflow-options-for-external-review.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/06-editing-workflow-hybrid-option.mmd`",
+          "new": "`docs/vision/06-editing-workflow-hybrid-option.mmd`"
+        }
+      ]
+    },
+    {
+      "entry": "diag-007",
+      "file": "docs/vision/editing-workflow-options-for-external-review.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/07-publisher-triggered-render-workflow.mmd`",
+          "new": "`docs/vision/07-publisher-triggered-render-workflow.mmd`"
+        },
+        {
+          "old": "`docs/diagrams/07-publisher-triggered-render-workflow.mmd`",
+          "new": "`docs/vision/07-publisher-triggered-render-workflow.mmd`"
+        }
+      ]
+    },
+    {
+      "entry": "diag-008",
+      "file": "docs/vision/editing-workflow-options-for-external-review.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/08-editor-submission-and-approval-workflow.mmd`",
+          "new": "`docs/vision/08-editor-submission-and-approval-workflow.mmd`"
+        }
+      ]
+    },
+    {
+      "entry": "diag-009",
+      "file": "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+      "edits": [
+        {
+          "old": "`docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd`",
+          "new": "`docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd`"
+        }
+      ]
+    }
+  ],
   "destination_status_breakdown": {
-    "recommended": 30,
+    "recommended": 26,
     "tentative": 16,
-    "approved": 10
+    "approved": 14
   }
 }

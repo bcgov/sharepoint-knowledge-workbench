@@ -2440,16 +2440,17 @@
       ],
       "possible_consolidation_group": null,
       "inbound_references": [
-        "docs/vision/editing-workflow-options-for-external-review.md"
+        "docs/vision/editing-workflow-options-for-external-review.md",
+        "docs/diagrams/README.md"
       ],
       "outbound_references": [],
       "dependencies": [],
-      "ambiguity": "Should move together with docs/vision/editing-workflow-options-for-external-review.md rather than staying grouped with diagrams 01-05 \u2014 this is a real classification/grouping decision for the architecture proposal, not resolved here.",
+      "ambiguity": null,
       "proposed_operation": "move",
       "proposed_destination": "docs/vision",
       "proposed_filename": "06-editing-workflow-hybrid-option.mmd",
-      "destination_status": "recommended",
-      "destination_rationale": "Moves adjacent to its source document vis-009 per architecture_decisions_resolved diagrams-split decision.",
+      "destination_status": "approved",
+      "destination_rationale": "PROMOTED TO APPROVED (Group 2 approval-read pass, full reads of this diagram AND its source document vis-009 completed). Direct textual citation confirms the pairing, not inference: vis-009 lines 187-190: 'An illustrative (not authoritative) diagram of this candidate hybrid ... is at `docs/diagrams/06-editing-workflow-hybrid-option.mmd`'",
       "approval_status": "not-applicable-pending-architecture-decision",
       "id": "diag-006",
       "source_path": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
@@ -2475,10 +2476,10 @@
       "proposedLogicalTitle": "Editing Workflow Hybrid Option Diagram (Not Selected, Phase 3 Candidate)",
       "proposedFilename": "06-editing-workflow-hybrid-option.mmd",
       "readCompleteness": {
-        "linesShown": 6,
+        "linesShown": 112,
         "totalLines": 112,
-        "percent": 5,
-        "depth": "minimal-sample"
+        "percent": 100,
+        "depth": "full"
       },
       "filenameRationale": "Phase identity + not-selected status both essential to avoid this being mistaken for an adopted workflow. Already accurate.",
       "filenameStatus": "proposed",
@@ -2510,15 +2511,17 @@
         "docs/diagrams/08-editor-submission-and-approval-workflow.mmd"
       ],
       "possible_consolidation_group": "editor-publisher-workflow-pair",
-      "inbound_references": [],
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md"
+      ],
       "outbound_references": [],
       "dependencies": [],
-      "ambiguity": "Diagrams 07 and 08 are explicitly two halves of one workflow per README \u2014 likely should be treated as a pair for any move/rename decision.",
+      "ambiguity": null,
       "proposed_operation": "move",
       "proposed_destination": "docs/vision",
       "proposed_filename": "07-publisher-triggered-render-workflow.mmd",
-      "destination_status": "recommended",
-      "destination_rationale": "Explicit pair with diag-008; both move adjacent to vis-009 per split decision.",
+      "destination_status": "approved",
+      "destination_rationale": "PROMOTED TO APPROVED (Group 2 approval-read pass, full reads of this diagram AND its source document vis-009 completed). Direct textual citation confirms the pairing, not inference: vis-009 lines 309-310: 'An illustrative diagram of this flow is at `docs/diagrams/07-publisher-triggered-render-workflow.mmd`'",
       "approval_status": "not-applicable-pending-architecture-decision",
       "id": "diag-007",
       "source_path": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
@@ -2542,10 +2545,10 @@
       "proposedLogicalTitle": "Publisher-Triggered Render Workflow Diagram (Speculative, Phase 3)",
       "proposedFilename": "07-publisher-triggered-render-workflow.mmd",
       "readCompleteness": {
-        "linesShown": 6,
+        "linesShown": 20,
         "totalLines": 20,
-        "percent": 30,
-        "depth": "minimal-sample"
+        "percent": 100,
+        "depth": "full"
       },
       "filenameRationale": "Same reasoning as diag-006. Already accurate.",
       "filenameStatus": "proposed",
@@ -2577,15 +2580,17 @@
         "docs/diagrams/07-publisher-triggered-render-workflow.mmd"
       ],
       "possible_consolidation_group": "editor-publisher-workflow-pair",
-      "inbound_references": [],
+      "inbound_references": [
+        "docs/vision/editing-workflow-options-for-external-review.md"
+      ],
       "outbound_references": [],
       "dependencies": [],
       "ambiguity": null,
       "proposed_operation": "move",
       "proposed_destination": "docs/vision",
       "proposed_filename": "08-editor-submission-and-approval-workflow.mmd",
-      "destination_status": "recommended",
-      "destination_rationale": "Explicit pair with diag-007; moves adjacent to vis-009.",
+      "destination_status": "approved",
+      "destination_rationale": "PROMOTED TO APPROVED (Group 2 approval-read pass, full reads of this diagram AND its source document vis-009 completed). Direct textual citation confirms the pairing, not inference: vis-009 lines 242-244: 'An illustrative diagram of the editor-facing half of this flow ... is at `docs/diagrams/08-editor-submission-and-approval-workflow.mmd`'",
       "approval_status": "not-applicable-pending-architecture-decision",
       "id": "diag-008",
       "source_path": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
@@ -2609,10 +2614,10 @@
       "proposedLogicalTitle": "Editor Submission and Approval Workflow Diagram (Speculative, Phase 3)",
       "proposedFilename": "08-editor-submission-and-approval-workflow.mmd",
       "readCompleteness": {
-        "linesShown": 6,
+        "linesShown": 19,
         "totalLines": 19,
-        "percent": 32,
-        "depth": "minimal-sample"
+        "percent": 100,
+        "depth": "full"
       },
       "filenameRationale": "Same reasoning. Already accurate.",
       "filenameStatus": "proposed",
@@ -2646,16 +2651,18 @@
       ],
       "possible_consolidation_group": null,
       "inbound_references": [
-        "docs/vision/master-initiative-plan-workstreams-and-phases.md"
+        "docs/vision/master-initiative-plan-workstreams-and-phases.md",
+        "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
+        "docs/diagrams/README.md"
       ],
       "outbound_references": [],
       "dependencies": [],
-      "ambiguity": "Same grouping question as diag-006: should move with its source vision document rather than the 01-05 set.",
+      "ambiguity": null,
       "proposed_operation": "move",
       "proposed_destination": "docs/vision",
       "proposed_filename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
-      "destination_status": "recommended",
-      "destination_rationale": "Moves adjacent to its confirmed source document vis-010 per split decision.",
+      "destination_status": "approved",
+      "destination_rationale": "PROMOTED TO APPROVED (Group 2 approval-read pass). Both diag-009 and its source document vis-010 read in full. vis-010's 'Follow-up elaboration' section (lines 38-64) directly describes the exact runtime-division loop diag-009 depicts (SharePoint agent proposes/reviews only -> GitHub Copilot/Claude workbench applies the change -> deterministic tooling validates/renders/republishes -> SharePoint agents consume the result -> loop repeats). This is the same content, not inference.",
       "approval_status": "not-applicable-pending-architecture-decision",
       "id": "diag-009",
       "source_path": "docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
@@ -2679,10 +2686,10 @@
       "proposedLogicalTitle": "Phase 6.5 Ongoing Authoring and Republishing Loop Diagram (Speculative)",
       "proposedFilename": "09-phase6-5-ongoing-authoring-and-republishing-loop.mmd",
       "readCompleteness": {
-        "linesShown": 6,
+        "linesShown": 70,
         "totalLines": 70,
-        "percent": 9,
-        "depth": "minimal-sample"
+        "percent": 100,
+        "depth": "full"
       },
       "filenameRationale": "Phase identity essential \u2014 the diagram IS the Phase 6.5 placeholder's visual definition. Already accurate.",
       "filenameStatus": "proposed",
@@ -3296,30 +3303,30 @@
       "source_path": "docs/vision/editing-workflow-options-for-external-review.md",
       "current_filename": "editing-workflow-options-for-external-review.md",
       "title": "Content-Author Editing Workflow Options \u2014 Open Question for External Review",
-      "content_summary": "363 lines. NOT covered by README's 7-item authority table (an 8th/9th document the table predates or omits). Status: 'Draft open question, not yet decided or approved.' Companion to key-unanswered-questions.md and Phase 3 section of master-initiative-plan. Revised twice after external review; documents its own revision history including a corrected self-contradiction and 3 wording issues from round 2, plus a deeper 'system's perspective not user's' flaw from round 3.",
+      "content_summary": "363 lines, full read (was: first 12 lines only). Confirmed: this is the direct source document for diag-006 (Model C+E hybrid, cited by exact filename), diag-007 (publisher-triggered render workflow, cited by exact filename), and diag-008 (editor submission/approval workflow, cited by exact filename). Contains a 5-round external-review history culminating in a 'non-negotiable design rule' (editors must never see Git/publication machinery) and a concrete near-term bridge using a human technical-publisher role with 3 named repository skills (get-approved-chunks / render / publish). Status confirmed still genuinely 'Draft, not yet decided' -- no model is selected; this remains deferred to Phase 3.0 evidence.",
       "artifact_type": "open-question-draft",
       "lifecycle_status": "active-draft-not-decided",
       "evidence_status": "n/a-open-question",
       "classification_rationale": "CONFIRMS the diag-006 grouping hypothesis from the earlier diagrams batch: this document is the source of the Model C/E hybrid that diagram 06 illustrates, and (by strong implication, not yet directly verified in this document's body) likely also relates to diagrams 07/08's editor-approval-publisher flow. NOT in README's authority table \u2014 the table itself may be stale/incomplete relative to the folder's actual current file set, a finding in its own right.",
       "confidence": "high",
       "scope_classification": "migration-candidate",
-      "contentCurrency": "uncertain",
+      "contentCurrency": "current",
       "validatedThroughPhase": 3,
       "supersededBy": [],
       "contradictedBy": [],
       "missingLaterFindings": [
         "Status is 'Draft, not yet decided' as written \u2014 not verified whether any later phase (3, 5, 6) actually made this decision without updating this document"
       ],
-      "recommendedContentAction": "add-status-note",
-      "contentUpdateRationale": "Genuinely uncertain whether this remains an open question or was quietly resolved elsewhere; also confirmed missing from README's authority table.",
+      "recommendedContentAction": "cross-link",
+      "contentUpdateRationale": "Confirmed still-accurate open question after full read; needs README authority-table addition, not content changes.",
       "contentUpdateApproval": "pending",
       "proposedLogicalTitle": "Content-Author Editing Workflow Options (Open, Draft \u2014 Not Yet Decided)",
       "proposedFilename": "editing-workflow-options-for-external-review.md",
       "readCompleteness": {
-        "linesShown": 12,
+        "linesShown": 363,
         "totalLines": 363,
-        "percent": 3,
-        "depth": "minimal-sample"
+        "percent": 100,
+        "depth": "full"
       },
       "filenameRationale": "Draft/undecided status essential to the title to avoid confusion with vis-010's RESOLVED status despite similar naming. Already accurate; needs README authority-table addition, not rename.",
       "filenameStatus": "confirmed-no-change",
@@ -3368,7 +3375,7 @@
       "source_path": "docs/vision/open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
       "current_filename": "open-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
       "title": "Open Question for External Review \u2014 Where Does an Ongoing SharePoint Editing \u2192 Re-render Flow Belong?",
-      "content_summary": "149 lines. Also NOT in README's authority table (same gap as vis-009). Status: 'RESOLVED (placement decision only \u2014 no implementation authorized).' Raised during Phase 5 brainstorming 2026-08-02, resolved same day via external review (GPT 5.6): split across two existing phases, record but don't authorize a future implementation phase (Phase 6.5).",
+      "content_summary": "149 lines, full read (was: first 12 lines only). Confirmed RESOLVED status is accurate: Phase 3 Stage 3.1.4 owns the maintenance-workflow design, Phase 6 Subphase 6.3 owns runtime placement, Phase 6.5 is the recorded-but-not-triggered placeholder phase. Contains the exact runtime-division loop diag-009 depicts, confirmed via direct text comparison this session.",
       "artifact_type": "resolved-open-question",
       "lifecycle_status": "resolved-decision-recorded",
       "evidence_status": "n/a-resolved-decision",
@@ -3388,10 +3395,10 @@
       "proposedLogicalTitle": "Ongoing SharePoint Editing to Re-Render Flow \u2014 Phase Placement (RESOLVED)",
       "proposedFilename": "resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md",
       "readCompleteness": {
-        "linesShown": 12,
+        "linesShown": 149,
         "totalLines": 149,
-        "percent": 8,
-        "depth": "minimal-sample"
+        "percent": 100,
+        "depth": "full"
       },
       "filenameRationale": "CONFIRMED RENAME (was flagged, not executed, in Review Point 1): the original 'open-question-*' prefix is misleading since this document's status is RESOLVED, not open -- the highest-risk confusable pair identified against vis-009 (which IS still open). Proposed filename changes the prefix from 'open-question-' to 'resolved-question-' to make the two documents visually distinguishable at the filename level, not just in prose.",
       "filenameStatus": "proposed",

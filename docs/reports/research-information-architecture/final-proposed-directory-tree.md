@@ -1,8 +1,4 @@
-# Final Proposed Directory Tree — GENERATED FROM MANIFEST (regenerated)
-
-Generated programmatically from `research-migration-manifest.json`'s `proposed_destination`/
-`proposed_filename` (operational field, never the advisory `proposedFilename` duplicate)/
-`destination_status` fields.
+# Final Proposed Directory Tree — GENERATED FROM MANIFEST (regenerated, post-Group-2)
 
 ## `UNRESOLVED / EXCLUDED (no destination)/`
 
@@ -92,10 +88,10 @@ Generated programmatically from `research-migration-manifest.json`'s `proposed_d
 
 ## `docs/vision/`
 
-- 06-editing-workflow-hybrid-option.mmd  (diag-006, recommended, from docs/diagrams/06-editing-workflow-hybrid-option.mmd)
-- 07-publisher-triggered-render-workflow.mmd  (diag-007, recommended, from docs/diagrams/07-publisher-triggered-render-workflow.mmd)
-- 08-editor-submission-and-approval-workflow.mmd  (diag-008, recommended, from docs/diagrams/08-editor-submission-and-approval-workflow.mmd)
-- 09-phase6-5-ongoing-authoring-and-republishing-loop.mmd  (diag-009, recommended, from docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd)
+- 06-editing-workflow-hybrid-option.mmd  (diag-006, approved, from docs/diagrams/06-editing-workflow-hybrid-option.mmd)
+- 07-publisher-triggered-render-workflow.mmd  (diag-007, approved, from docs/diagrams/07-publisher-triggered-render-workflow.mmd)
+- 08-editor-submission-and-approval-workflow.mmd  (diag-008, approved, from docs/diagrams/08-editor-submission-and-approval-workflow.mmd)
+- 09-phase6-5-ongoing-authoring-and-republishing-loop.mmd  (diag-009, approved, from docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd)
 - README.md  (vis-001, recommended, from docs/vision/README.md)
 - ai-assisted-sharepoint-knowledge-workbench-government-vision.md  (vis-003, recommended, from docs/vision/ai-assisted-sharepoint-knowledge-workbench-government-vision.md)
 - ai-assisted-structured-knowledge-workbench-broader-plan.md  (vis-002, recommended, from docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md)
