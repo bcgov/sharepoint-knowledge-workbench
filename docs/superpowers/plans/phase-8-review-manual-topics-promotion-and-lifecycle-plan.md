@@ -10,6 +10,34 @@ Subphases 8.1 and 8.3 only.
 `AG-CSB-INTRANET-DEV` tenant. **Out of scope:** the `repository-claude` runtime (no SharePoint
 promotion/lifecycle question applies to it), Subphases 8.2/8.4, and any Phase 3/5/6/7 capability.
 
+## Task status (updated after this round — no false completion of Subphase 8.1 or 8.3)
+
+| Task | Agent-executable part | Status | Human-dependent part | Status |
+|---|---|---|---|---|
+| 1 — promotion path | full document | `DONE` — `docs/reports/phase-8-scale-promotion-operations/stage-8.1.1-promotion-path.md` | — | — |
+| 2 — real promotion exercise | commands/templates prepared | `DONE` (prep only) | live reconciliation + promote-if-differing + verify | `PENDING_RICHARD` |
+| 3 — version-compatibility policy | policy written (in Task 1's file, §10) | `DONE` (drafted) | real version/promotion check to cite | `PENDING_TASK_2` |
+| 4 — ownership/support charter | full document | `DONE` — `stage-8.3.1-ownership-support-charter.md` | — | — |
+| 5 — incident drill | tabletop performed | `DONE` — `stage-8.3.1-incident-drill.md` | (none — drill is tabletop by design) | n/a |
+| 6 — retirement exercise | procedure + evidence template + commands | `DONE` — `stage-8.3.2-retirement-exercise.md` | live remove/confirm/restore + raw evidence | `PENDING_RICHARD` |
+| 7 — onboarding guide | guide + unfamiliar-operator checklist | `DONE` — `stage-8.3.3-onboarding-guide.md` | actual unfamiliar-person attempt | `PENDING_ATTEMPT` |
+
+**Subphase 8.1 exit criteria (spec Section 12, "Promotion and release"): not yet met.** A named
+owner exists and the path is defined, but no real artifact has yet been promoted through it and no
+real version bump has been checked against the compatibility policy — both wait on Task 2's live
+session.
+
+**Subphase 8.3 exit criteria (spec Section 12, "Ownership and lifecycle"): partially met.**
+Ownership/support charter is written and a drill was run through the documented process (this
+satisfies Stage 8.3.1's own verification clause, which accepts "a real incident **or** drill").
+Retirement (8.3.2) is prepared but not exercised — `PENDING_RICHARD`. Onboarding (8.3.3) has a
+guide but no completed attempt — `PENDING_ATTEMPT`. **Subphase 8.3 as a whole is not yet fully
+closed** because 8.3.2 and 8.3.3 remain open, even though 8.3.1 alone is arguably satisfied.
+
+A combined runbook for Richard's one interactive tenant session (covering both Task 2's real
+promotion check and Task 6's real retirement exercise) is at
+`docs/reports/phase-8-scale-promotion-operations/combined-interactive-session-runbook.md`.
+
 ## Reconnaissance (performed before this plan, facts not assumed)
 
 - **Single tenant, no separate test/production environment exists.** `tools/phase-4-native-
