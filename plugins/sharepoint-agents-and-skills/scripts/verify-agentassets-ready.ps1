@@ -104,6 +104,9 @@ try {
         }
     }
     Write-Host "  ✓ Found $($verificationResult.ExistingSkills.Count) existing SKILL.md file(s)" -ForegroundColor Green
+    foreach ($existingSkill in $verificationResult.ExistingSkills) {
+        Write-Host "      - $($existingSkill.FilePath)" -ForegroundColor DarkGray
+    }
 } catch {
     Write-Host "  ⚠ Could not inventory SKILL.md files: $($_.Exception.Message)" -ForegroundColor Yellow
 }

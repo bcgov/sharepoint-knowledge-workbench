@@ -42,6 +42,11 @@ temp/agentassets-analysis/
 # file is ignored.
 tools/phase-6-native-execution/config.psd1
 
+# Real tenant credentials for the sharepoint-agents-and-skills plugin's deployment/
+# reconciliation/rollback scripts — never commit. config.psd1.example (the template) IS
+# committed; only the real, filled-in file is ignored.
+plugins/sharepoint-agents-and-skills/config.psd1
+
 # Raw tenant backup snapshots (agent/skill JSON+Markdown pulled from AG-CSB-INTRANET-DEV) —
 # local-only reference copies, not authored content; regenerate via backup-existing-agents.ps1 /
 # backup-skills-and-templates.ps1 rather than committing.
