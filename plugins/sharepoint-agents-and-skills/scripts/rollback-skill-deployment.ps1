@@ -4,7 +4,7 @@
 .DESCRIPTION
     By default runs in dry-run preflight mode. Requires explicit -Execute switch to attempt action.
     Displays exact target URL / path. Requires explicit -ConfirmExactTarget "CONFIRM-REMOVE" parameter for write path.
-    Recycles target file to SharePoint Recycle Bin (Move-PnPFileToRecycleBin) rather than permanent deletion (Remove-PnPFile),
+    Recycles target file to SharePoint Recycle Bin (Remove-PnPFile -Recycle) rather than permanent deletion,
     and performs post-action verification that item no longer exists in active site assets.
 .PARAMETER ConfigFile
     Path to PSD1 configuration file.
@@ -107,22 +107,30 @@ if ($config.ClientId -and $config.TenantId) {
 }
 
 try {
-    Write-Host "Recycling file '$targetServerRelativeUrl' to SharePoint Recycle Bin..." -ForegroundColor Yellow
-    Move-PnPFileToRecycleBin -ServerRelativeUrl $targetServerRelativeUrl -Force
+    # $targetServerRelativeUrl built earlier is a library-title-relative path (e.g.
+    # "AgentAssets/Skills/review-manual-topics/SKILL.md"), not a real server-relative path —
+    # Remove-PnPFile/Get-PnPFile require the full site-relative path (e.g.
+    # "/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills/review-manual-topics/SKILL.md"). Derive it
+    # from the library's own RootFolder, same pattern reconcile-deployed-skill.ps1 uses.
+    $targetLibrary = Get-PnPList -Identity $targetLibraryTitle -Includes RootFolder -ErrorAction Stop
+    $realServerRelativeUrl = "$($targetLibrary.RootFolder.ServerRelativeUrl)/$targetRelativeFolder/$targetFilename"
+
+    Write-Host "Recycling file '$realServerRelativeUrl' to SharePoint Recycle Bin..." -ForegroundColor Yellow
+    Remove-PnPFile -ServerRelativeUrl $realServerRelativeUrl -Recycle -Force
 
     Write-Host "Performing post-action verification..." -ForegroundColor Cyan
-    $remainingFile = Get-PnPFile -Url $targetServerRelativeUrl -ErrorAction SilentlyContinue
+    $remainingFile = Get-PnPFile -Url $realServerRelativeUrl -ErrorAction SilentlyContinue
     if ($remainingFile) {
-        Write-Error "FAILURE: Target item '$targetServerRelativeUrl' still exists in active site assets!"
+        Write-Error "FAILURE: Target item '$realServerRelativeUrl' still exists in active site assets!"
         exit 1
     } else {
-        Write-Host "SUCCESS: Verified target item '$targetServerRelativeUrl' no longer exists in active site assets." -ForegroundColor Green
+        Write-Host "SUCCESS: Verified target item '$realServerRelativeUrl' no longer exists in active site assets." -ForegroundColor Green
         if ($JsonOutputPath) {
             $resultObj = [PSCustomObject]@{
                 status = "SUCCESS"
                 mode = "EXECUTE"
                 execute = $true
-                target_server_relative_url = $targetServerRelativeUrl
+                target_server_relative_url = $realServerRelativeUrl
                 recycled = $true
                 verification_result = "PASS"
             }

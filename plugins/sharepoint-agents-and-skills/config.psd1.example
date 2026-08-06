@@ -1,0 +1,10 @@
+@{
+    # Required by deploy-and-verify-skill.ps1, reconcile-deployed-skill.ps1, and
+    # rollback-skill-deployment.ps1 (all three call Import-PowerShellDataFile on this file).
+    SiteUrl  = "https://<tenant-subdomain>.sharepoint.com/sites/<pilot-site>"
+
+    # Optional. If both are present and non-placeholder, the scripts connect with
+    # -ClientId/-Tenant; otherwise they fall back to a plain -Interactive login against SiteUrl.
+    ClientId = "<delegated-app-client-id>"
+    TenantId = "<tenant-id-or-domain>"
+}
