@@ -1,10 +1,90 @@
-# Resume — Phase 8 Authorized (Phase 4 Capability Only); Phase 7 Remains Paused at Its Own Research Checkpoint
+# Resume — Phase 8 Merged (Section 6.1/Stage 8.3.2 Scope); Phase 7 Remains Paused at Its Own Research Checkpoint
 
-## Phase 8 — authorized to begin, scoped to the Phase 4 capability only (2026-08-04)
+## Phase 8 — Section 6.1 promotion gate and Stage 8.3.2 retirement exercise MERGED (2026-08-06)
 
 **This section is the current, authoritative status — read it before the Phase 7 section that
-follows.** Richard explicitly authorized starting Phase 8 on 2026-08-04, as an independent
-architectural decision, not a Phase 7 closure or an accidental gate violation:
+follows.** Phase 8, scoped to the Phase 4-piloted `review-manual-topics` native-sharepoint
+capability only (per the authorization basis recorded below), had its Tasks 1–2 and 4–6 merged to
+`main` via PR #38, merge commit `2693d97`. **Not all of Phase 8 is closed** — Section 6.2
+(real version-change compatibility) and Task 7 (unfamiliar-operator onboarding attempt) remain
+open; see "What remains open" below before starting any further Phase 8 work.
+
+**Merge verification (2026-08-06):** `git rev-parse HEAD` and `git rev-parse origin/main` both
+resolve to `2693d97`; `main` tracks `origin/main`; working tree clean at merge-verification time
+(aside from two pre-existing, unrelated untracked/modified items — a stray `config.psd1.example`
+at repo root and an uncommitted `README.md` edit — both flagged in an earlier session as
+unresolved and left untouched, not part of Phase 8). `.worktrees/phase-8-scale-promotion-
+operations` verified clean and removed, `git worktree prune` run, local branch
+`phase-8-scale-promotion-operations` verified merged (`git branch --merged main`) and deleted with
+`git branch -d` (not force-deleted). Final `git worktree list` shows only the main repository
+checkout; final `git branch -vv` shows no Phase 8 local branch.
+
+### What was actually done and merged
+
+- **Task 1 (promotion path document) and Task 2 (real promotion exercise):** `DONE`. Live
+  reconciliation against `AG-CSB-INTRANET-DEV` (2026-08-06) found the deployed
+  `review-manual-topics/SKILL.md` hash already matching the repository hash
+  (`bb327348b55e9f55cbf8f83d12d5d3c49f26c5502bf60bfa6bd74037f5e43b3d`) — a baseline match alone,
+  not itself a promotion event. **Section 6.1's real-artifact-promoted requirement was satisfied
+  instead by Task 6's restoration step** (see below), per the outcome rule in
+  `combined-interactive-session-runbook.md`.
+- **Task 4 (ownership/support charter) and Task 5 (incident drill):** `DONE`, unchanged from the
+  prior mid-execution status — a tabletop drill was performed for real.
+- **Task 6 (Stage 8.3.2 retirement exercise): `DONE`, executed for real 2026-08-06.** Live
+  remove → confirm-unavailable → restore → final-reconcile sequence run against the real tenant:
+  - Removal executed and independently verified via the `AgentAssets` inventory (6 → 5 SKILL.md
+    files, `review-manual-topics` absent).
+  - Unavailability confirmed via that same inventory (the more reliable, unambiguous signal — a
+    live Copilot-chat probe using the `AMB-01` prompt gave an ambiguous secondary result, recorded
+    as an open follow-up, not treated as blocking).
+  - Restoration executed, pre/post SHA-256 hash match confirmed
+    (`bb327348b55e9f55cbf8f83d12d5d3c49f26c5502bf60bfa6bd74037f5e43b3d` both sides).
+  - Final reconciliation: `HASH MATCH`, disposition `TASK_8_ARTIFACT_ALREADY_PRESENT_AND_RECONCILED`.
+  - Full raw command output for every step is filed in
+    `docs/reports/phase-8-scale-promotion-operations/stage-8.3.2-retirement-exercise.md` Section 7
+    and `stage-8.1.1-promotion-path.md` Section 8 — read those directly rather than re-deriving
+    this summary in a future session.
+- **Two real script defects found and fixed during the live session**, both in
+  `plugins/sharepoint-agents-and-skills/scripts/rollback-skill-deployment.ps1`, now merged:
+  1. `Move-PnPFileToRecycleBin` is not a real PnP.PowerShell cmdlet (a legacy
+     `SharePointPnPPowerShellOnline` name) — the first `-Execute` attempt failed on this before any
+     tenant modification occurred (verified via the read-only inventory check before retrying).
+     Fixed to `Remove-PnPFile -ServerRelativeUrl ... -Recycle -Force`.
+  2. The script's `$targetServerRelativeUrl` was library-title-relative
+     (`AgentAssets/Skills/review-manual-topics/SKILL.md`), missing the required
+     `/sites/AG-CSB-INTRANET-DEV` site-path prefix that `Remove-PnPFile`/`Get-PnPFile` need — the
+     second `-Execute` attempt failed on this too, again verified as a no-op before retrying. Fixed
+     by deriving the real path from the target library's own `RootFolder.ServerRelativeUrl`, the
+     same pattern `reconcile-deployed-skill.ps1` already used.
+  - `plugins/sharepoint-agents-and-skills/scripts/verify-agentassets-ready.ps1` was also extended
+    this round to print each inventoried `SKILL.md`'s file path — this is what made tenant-state
+    verification between fix attempts unambiguous rather than inferred.
+
+### What remains open (do not represent as done)
+
+- **Section 6.2 (real version-change compatibility, Stage 8.1.2):** still open. Neither the
+  baseline reconciliation nor the retirement exercise's restoration deployed *changed* bytes — both
+  redeployed the artifact unchanged. This criterion requires an actual approved `SKILL.md` content
+  change deployed through the promotion path. **Do not manufacture a meaningless content change
+  merely to close this** — wait for a real one.
+- **Task 7 (Stage 8.3.3 onboarding guide — unfamiliar-operator attempt):** guide exists
+  (`stage-8.3.3-onboarding-guide.md`), but no unfamiliar person has actually attempted to follow it
+  yet. `PENDING_ATTEMPT`.
+- **Subphase 8.3 as a whole is not fully closed** — 8.3.1 and 8.3.2 are satisfied, 8.3.3 is not.
+- **The chat-probe observation from the retirement exercise is unresolved**, not investigated
+  further: immediately after the file was confirmed removed from `AgentAssets`, a live Copilot-chat
+  probe using the `AMB-01` prompt still returned a full structured response matching
+  `review-manual-topics`'s expected behavior. Possible explanations (skill-definition caching,
+  agent-embedded instructions independent of the live file, or general grounded synthesis not
+  actually invoking the named skill) were not distinguished. Flagged as a follow-up item in
+  `stage-8.3.2-retirement-exercise.md` Section 7 — pick this up if a future session has reason to.
+- **This merge does not authorize starting Subphase 8.2 or 8.4**, or any Phase 8 work scoped to
+  Phase 3/5/6's own capabilities — unchanged from the original authorization boundary below.
+
+### Original Phase 8 authorization basis (2026-08-04) — unchanged, still the basis for what was authorized
+
+Richard explicitly authorized starting Phase 8 on 2026-08-04, as an independent architectural
+decision, not a Phase 7 closure or an accidental gate violation:
 
 - **Basis for authorization:** per `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s
   Phase 8 entry gate ("Phase 8 activates **per capability**, not as one block"), a capability may
@@ -45,85 +125,22 @@ architectural decision, not a Phase 7 closure or an accidental gate violation:
   (accountable owner, support owner, rollback path specifics) rather than having them invented
   silently.
 
-### Phase 8 progress as of 2026-08-05 (mid-execution, live tenant session in progress)
+### Phase 8 progress history — HISTORICAL, superseded by the merged-status summary above
 
-**Branch:** `phase-8-scale-promotion-operations`. **Pushed to `origin`** (was not pushed until this
-session — fixed; `git ls-remote --heads origin` now shows it). Worktree at
-`.worktrees/phase-8-scale-promotion-operations`, rebased onto current `main` (`a8eca1d`) at commit
-`43c434b`. **Not merged. Do not merge yet** — real tenant exercises (below) are mid-flight, not
-complete.
+**Everything in this subsection describes the pre-merge, mid-execution state as it stood on
+2026-08-05, before the 2026-08-06 live session completed Tasks 2 and 6 and PR #38 merged
+(`2693d97`).** Preserved as the evidence trail of how that state was reached — do not read any
+"not yet run," "not yet filed," or "do not merge yet" statement below as describing the present.
+The real script defect noted below (no genuine plain-`-Interactive`-only config fallback in
+`reconcile-deployed-skill.ps1`) was **not** fixed as part of the 2026-08-06 session (only the two
+`rollback-skill-deployment.ps1` defects described in the merged-status summary above were) — it
+remains a real, open, separately-trackable defect if picked up again.
 
-**Documents complete and committed** (all under `docs/reports/phase-8-scale-promotion-operations/`
-unless noted):
-- `capability-activation-record-review-manual-topics.md` — Phase 8 spec Section 5 prerequisite.
-- `docs/superpowers/plans/phase-8-review-manual-topics-promotion-and-lifecycle-plan.md` — the
-  7-task implementation plan, with an explicit per-task status table (keep this table current;
-  it is the single source of truth for what's done vs. open).
-- `stage-8.1.1-promotion-path.md` — promotion path + Stage 8.1.2 version-compatibility policy.
-- `stage-8.3.1-ownership-support-charter.md`, `stage-8.3.1-incident-drill.md` (tabletop, performed
-  for real).
-- `stage-8.3.2-retirement-exercise.md` — procedure/template, live exercise not yet run.
-- `stage-8.3.3-onboarding-guide.md` — guide + unfamiliar-operator checklist (checklist redesigned
-  this round to test guide-following, not unaided discovery); real attempt not yet made.
-- `combined-interactive-session-runbook.md` — the exact command sequence for the live session.
-- A cross-document consistency-fix pass (commit `43c434b`, formerly `08aaf6a` pre-rebase) resolved
-  several real contradictions found on review — see that commit message for the full list (stale
-  script name, missing config template, unsupported absolute ownership claims, a rejected
-  no-op-counts-as-promotion rule, an incoherent onboarding test design). **Do not reintroduce any
-  of those — read the commit message before editing these files again.**
-- `plugins/sharepoint-agents-and-skills/config.psd1.example` — created this round; no plugin-owned
-  template existed before, despite all three deployment/reconciliation/rollback scripts defaulting
-  to and requiring it.
-
-**Live tenant session — in progress, real results so far:**
-- **Prerequisite setup:** a real `config.psd1` was created (git-ignored, not committed) using the
-  existing Phase 3 app-registration values (`ClientId`/`TenantId`/`SiteUrl` — same tenant,
-  `AG-CSB-intranet-dev`) already present in `tools/phase-3-sharepoint-discovery/config.psd1`.
-  **Real script defect found along the way:** `reconcile-deployed-skill.ps1` (and presumably its
-  siblings) has **no genuine plain-`-Interactive`-only fallback**, despite the `.example`
-  template's own comment claiming one — if `ClientId`/`TenantId` aren't both real values, the
-  script falls back only to `tools/phase-3-sharepoint-discovery/config.psd1`'s credentials, and
-  fails ("No valid authentication available") if that file doesn't exist either. **Not yet fixed
-  in code** — worked around this session by supplying real credentials directly; flag this as a
-  real, open Phase 8 (or Phase 6-adjacent) defect if picked up again.
-- **Step 1 (live hash reconciliation) — done, real result:** ran successfully against the real
-  tenant. **HASH MATCH** — deployed and repository SHA-256 both
-  `bb327348b55e9f55cbf8f83d12d5d3c49f26c5502bf60bfa6bd74037f5e43b3d`. Disposition reported by the
-  script: `TASK_8_ARTIFACT_ALREADY_PRESENT_AND_RECONCILED`. **Per the corrected Task 2/6
-  reconciliation:** this is valid reconciliation evidence only — it does **not** by itself satisfy
-  spec Section 6.1's real-artifact-promoted requirement. That gate stays open until Task 6's
-  retirement exercise's restoration step succeeds and is reconciled.
-- **This raw result has not yet been filed into `stage-8.1.1-promotion-path.md`'s evidence-capture
-  section (Section 8)** — do that before treating Step 1 as fully recorded.
-- **Not yet run:** Task 6's live remove → confirm-unavailable → restore → final-reconcile sequence
-  (`combined-interactive-session-runbook.md`, Steps 4–7). This is the step that will actually
-  satisfy Section 6.1's real-promotion requirement, since Step 1 found a hash match.
-- **Section 6.2 (real version-change compatibility) remains open regardless** — no approved
-  `SKILL.md` content change has been deployed this round; do not manufacture one to close it.
-- **Unrelated but real housekeeping fixed this session, on `main` directly (already pushed):**
-  `.gitignore` now uses a blanket `**/config.psd1` rule (root `config.psd1` was briefly untracked
-  and at risk of being committed — fixed). A stray `config.psd1.example` duplicate landed at the
-  repo root during this session and is still untracked — unresolved, ask Richard whether to keep,
-  move, or delete it before it becomes stale.
-
-**Exact resume steps if restarting on another computer:**
-1. `git fetch origin --prune`, checkout/recreate the worktree at
-   `.worktrees/phase-8-scale-promotion-operations` from `origin/phase-8-scale-promotion-operations`
-   if the worktree itself isn't present locally, verify `HEAD` matches `43c434b` (or later).
-2. Copy `plugins/sharepoint-agents-and-skills/config.psd1.example` to `config.psd1` (git-ignored,
-   won't exist on a fresh clone) and fill in real `SiteUrl`/`ClientId`/`TenantId` — the same real
-   values already used this session live in `tools/phase-3-sharepoint-discovery/config.psd1` on
-   this machine (also git-ignored, not portable via git — recreate manually on the other machine
-   if not already present there).
-3. Run `combined-interactive-session-runbook.md`'s Steps 4–7 (retirement exercise), recording raw
-   output into `stage-8.3.2-retirement-exercise.md`'s Section 7 table.
-4. File Step 1's already-obtained raw reconciliation output (above) into
-   `stage-8.1.1-promotion-path.md`'s Section 8 evidence-capture area — don't skip this because it
-   feels already "done" in conversation; it isn't recorded as a repository artifact yet.
-5. Update the implementation plan's per-task status table once 4 and 6 have real evidence filed.
-6. Do not merge this branch until the plan's status table shows no `PENDING_RICHARD` items left
-   for Tasks 2/6, and Task 7's unfamiliar-operator attempt has at least been scheduled or explicitly
-   deferred with Richard's sign-off.
+Full original text of this subsection (documents produced, live-session narrative, resume
+checklist) is preserved in git history — see the commit that introduced this correction, or
+`docs/reports/phase-8-scale-promotion-operations/` and
+`docs/superpowers/plans/phase-8-review-manual-topics-promotion-and-lifecycle-plan.md` directly for
+the current, authoritative content of every document named there.
 
 ## Phase 7 — remains paused at its own research checkpoint (unchanged by the Phase 8 decision above)
 
