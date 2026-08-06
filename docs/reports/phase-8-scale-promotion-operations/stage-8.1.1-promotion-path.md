@@ -118,6 +118,32 @@ its raw output (not a paraphrase — per this repository's own "reviewer/impleme
 disputes" convention in `start-here.md`), before/after hash values, and Richard's explicit
 approval note for the underlying `SKILL.md` change (if any).
 
+### 2026-08-06 — live reconciliation, retirement exercise, restoration
+
+Run against `AG-CSB-INTRANET-DEV`, interactively by Richard. Full raw command output for the
+removal/restoration sequence (Steps 4–7 of `combined-interactive-session-runbook.md`) is recorded
+in `stage-8.3.2-retirement-exercise.md` Section 7 — not duplicated here. Summary relevant to this
+document's own gate:
+
+- **Baseline/final reconciliation (`reconcile-deployed-skill.ps1`):** repository SHA-256
+  `bb327348b55e9f55cbf8f83d12d5d3c49f26c5502bf60bfa6bd74037f5e43b3d` matched the deployed artifact's
+  hash both before and after the retirement exercise. Disposition:
+  `TASK_8_ARTIFACT_ALREADY_PRESENT_AND_RECONCILED`.
+- **This is the "hashes already match" branch** described below — the baseline match alone is not
+  a real promotion event. **Section 6.1 is satisfied instead by the retirement exercise's
+  restoration step**: `deploy-and-verify-skill.ps1 -Execute` redeployed the artifact for real after
+  removal, with its own pre/post SHA-256 readback match (`bb327348...` both sides), independently
+  confirmed via `verify-agentassets-ready.ps1`'s inventory (file present again, count back to 6).
+  Full raw output in `stage-8.3.2-retirement-exercise.md` Section 7.
+- **Section 6.2 remains open** — the restored bytes are identical to what was already live; no
+  approved `SKILL.md` content change was deployed this session.
+- **Two real script defects found and fixed** in `rollback-skill-deployment.ps1` during this
+  session (wrong recycle cmdlet name; wrong server-relative-path construction) — see
+  `stage-8.3.2-retirement-exercise.md` Section 7 for full detail. Fixes are in this branch's
+  worktree only as of this writing, not yet committed.
+- Richard's explicit approval: this was a planned Stage 8.3.2 exercise, not a `SKILL.md` content
+  change — no separate content-change approval applies.
+
 ## 9. Emergency disablement
 
 Identical to Section 7's rollback — deleting/recycling the deployed skill folder is both the
@@ -144,19 +170,18 @@ capability for a `SKILL.md`-based native skill.
 
 ## Open acceptance items — explicitly not closed by this document
 
-- **Stage 8.1.1 is not yet accepted.** Spec Section 6.1 requires "at least one real artifact...
-  actually promoted through it." This document defines the path only. The real exercise starts
-  with reconciling the live tenant artifact against the repository artifact (Section 6 above):
-  - **If hashes differ:** redeploying and verifying (Section 5/6) is itself the real promotion —
-    Section 6.1 is satisfied by that redeploy.
-  - **If hashes already match:** that is valid reconciliation evidence only, **not** by itself a
-    real promotion. The requirement stays open until an actual artifact is deployed through this
-    path — which the retirement exercise's restoration step (`stage-8.3.2-retirement-exercise.md`,
-    its remove → confirm-unavailable → redeploy → reconcile sequence) provides: redeploying the
-    repository artifact back into place after removal is a real deployment through this same
-    path, and its successful post-restoration reconciliation satisfies Section 6.1 in this case.
-  - Either way, this is blocked on Richard's interactive PnP session — see the implementation
-    plan's Task 2 and Task 6, and the combined runbook.
+- **Stage 8.1.1 — Section 6.1 satisfied 2026-08-06.** Spec Section 6.1 requires "at least one real
+  artifact... actually promoted through it." The live reconciliation found hashes already matching
+  (the "hashes already match" branch below), so the baseline match alone was not itself a
+  promotion — but the retirement exercise's restoration step (`stage-8.3.2-retirement-exercise.md`
+  Section 6/7) redeployed the repository artifact through this same path after a real removal, with
+  a successful post-restoration reconciliation. **That satisfies Section 6.1.** See Section 8's
+  2026-08-06 evidence entry above for the full record.
+  - **If hashes differ (not what happened this round):** redeploying and verifying (Section 5/6)
+    would itself be the real promotion — Section 6.1 satisfied directly by that redeploy.
+  - **If hashes already match (what actually happened):** the baseline match alone is valid
+    reconciliation evidence only, not itself a real promotion — satisfied instead via the
+    retirement exercise's restoration, as recorded above.
 - **Stage 8.1.2 is not yet accepted, and is not satisfied merely by Section 6.1 being satisfied.**
   Spec Section 6.2 requires "at least one real version **bump**... exercised against it" — a
   distinct criterion from Section 6.1's "an artifact was promoted." Neither an unchanged-hash

@@ -15,11 +15,11 @@ promotion/lifecycle question applies to it), Subphases 8.2/8.4, and any Phase 3/
 | Task | Agent-executable part | Status | Human-dependent part | Status |
 |---|---|---|---|---|
 | 1 — promotion path | full document | `DONE` — `docs/reports/phase-8-scale-promotion-operations/stage-8.1.1-promotion-path.md` | — | — |
-| 2 — real promotion exercise | commands/templates prepared | `DONE` (prep only) | live reconciliation; redeploy-and-verify (if hashes differ) OR reconcile-only evidence (if they match, promotion gate stays open pending Task 6) | `PENDING_RICHARD` |
+| 2 — real promotion exercise | commands/templates prepared | `DONE` (prep only) | live reconciliation run 2026-08-06: hashes already matched; Section 6.1 satisfied instead via Task 6's restoration (see below) | `DONE` — evidence in `stage-8.1.1-promotion-path.md` §8 |
 | 3 — version-compatibility policy | policy written (in Task 1's file, §10) | `DONE` (drafted) | one real version *change* checked against it | `PENDING_APPROVED_CHANGE` (open regardless of Task 2/6 outcome — a redeploy of unchanged bytes does not satisfy this) |
 | 4 — ownership/support charter | full document | `DONE` — `stage-8.3.1-ownership-support-charter.md` | — | — |
 | 5 — incident drill | tabletop performed | `DONE` — `stage-8.3.1-incident-drill.md` | (none — drill is tabletop by design) | n/a |
-| 6 — retirement exercise | procedure + evidence template + commands | `DONE` — `stage-8.3.2-retirement-exercise.md` | live remove/confirm/restore + raw evidence; its restoration step satisfies Task 2's promotion gate if Task 2's initial hashes matched | `PENDING_RICHARD` |
+| 6 — retirement exercise | procedure + evidence template + commands | `DONE` — `stage-8.3.2-retirement-exercise.md` | live remove/confirm/restore executed 2026-08-06, all steps succeeded, restoration satisfied Task 2's promotion gate | `DONE` — evidence in `stage-8.3.2-retirement-exercise.md` §7 |
 | 7 — onboarding guide | followable guide + separate unfamiliar-operator checklist | `DONE` — `stage-8.3.3-onboarding-guide.md` | actual unfamiliar-person attempt | `PENDING_ATTEMPT` |
 
 **Corrected this round:** an earlier version of this table said a hash-matched, unchanged
@@ -28,20 +28,28 @@ contradicted `stage-8.1.1-promotion-path.md`'s own "Open acceptance items" secti
 removed — a matching hash is reconciliation evidence only. The real-promotion gate is satisfied by
 Task 2's redeploy (if hashes differ) or, if they already matched, by Task 6's restoration step
 (a real deployment of the artifact through the same path) — not by the initial no-op check alone.
+**Update 2026-08-06:** this is exactly what happened — hashes matched, so Task 6's restoration
+step satisfied the gate. Both Task 2 and Task 6 are now `DONE` with real evidence filed.
 
-**Subphase 8.1 exit criteria (spec Section 12, "Promotion and release"): not yet met.** A named
-owner exists and the path is defined, but no real artifact has yet been promoted through it (Task
-2 or Task 6's restoration will satisfy this) and no real version *change* has been checked against
-the compatibility policy (Task 3 — this stays open even after Task 2/6, since neither redeploys
-changed bytes; it requires an actual approved `SKILL.md` content change deployed through the
-path, not manufactured for this purpose).
+**Two real script defects found and fixed during the 2026-08-06 live session** (both in
+`rollback-skill-deployment.ps1`, currently only in this branch's worktree, not yet committed):
+wrong recycle cmdlet name (`Move-PnPFileToRecycleBin` doesn't exist; fixed to
+`Remove-PnPFile -Recycle`), and a wrong server-relative-path construction (missing the site path
+prefix; fixed by deriving it from the target library's own `RootFolder.ServerRelativeUrl`). Full
+detail in `stage-8.3.2-retirement-exercise.md` §7. Tenant state was independently verified
+unaffected before each fix was retried.
 
-**Subphase 8.3 exit criteria (spec Section 12, "Ownership and lifecycle"): partially met.**
-Ownership/support charter is written and a drill was run through the documented process (this
-satisfies Stage 8.3.1's own verification clause, which accepts "a real incident **or** drill").
-Retirement (8.3.2) is prepared but not exercised — `PENDING_RICHARD`. Onboarding (8.3.3) has a
-guide but no completed attempt — `PENDING_ATTEMPT`. **Subphase 8.3 as a whole is not yet fully
-closed** because 8.3.2 and 8.3.3 remain open, even though 8.3.1 alone is arguably satisfied.
+**Subphase 8.1 exit criteria (spec Section 12, "Promotion and release"): Section 6.1 now met
+(2026-08-06)** — a real artifact was promoted through the path (Task 6's restoration, reconciled).
+**Section 6.2 (version-compatibility, Task 3) remains open** — no real version *change* has been
+checked against the compatibility policy; the restored bytes were unchanged from what was already
+live, which does not satisfy this criterion.
+
+**Subphase 8.3 exit criteria (spec Section 12, "Ownership and lifecycle"): 8.3.1 and 8.3.2 now
+met.** Ownership/support charter is written and a drill was run through the documented process
+(8.3.1). Retirement (8.3.2) was exercised for real 2026-08-06 with full evidence. Onboarding
+(8.3.3) has a guide but no completed attempt — `PENDING_ATTEMPT`. **Subphase 8.3 as a whole is not
+yet fully closed** because 8.3.3 remains open.
 
 A combined runbook for Richard's one interactive tenant session (covering both Task 2's real
 promotion check and Task 6's real retirement exercise) is at
