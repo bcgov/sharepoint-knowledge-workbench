@@ -1,9 +1,58 @@
-# Resume — Phase 8 Merged (Section 6.1/Stage 8.3.2 Scope); Phase 7 Remains Paused at Its Own Research Checkpoint
+# Resume — Phase 9 Is Next (Entry-Gate Work Not Yet Started); Phase 8 Merged (Section 6.1/Stage 8.3.2 Scope); Phase 7 Remains Paused
+
+## Phase 9 — next session starts here (2026-08-06 intent note — entry gate NOT yet met)
+
+**Read this section first.** Richard has designated Phase 9 as the next phase to work toward, but
+**this is an intent/sequencing note, not an authorization to implement anything yet** — unlike
+Phase 8, Phase 9 does not have an independently-satisfied entry gate today. Do not skip straight to
+implementation in the next session; start with the entry-gate work below.
+
+- **What Phase 9 actually is:** `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s
+  "Phase 9 — Reusable SharePoint Plugin Extraction" (disposition `LATER` as of the master plan's
+  last update). Selective extraction of reusable SharePoint engineering skills (discovery, schema,
+  page-modernization, link-remediation, content-migration) from a **separate repository**,
+  `jag-csb-cmat-sharepoint-online` (the CMAT replatform repo), into this workbench as new
+  first-party plugins following Phase 4.5's destination conventions. This is **not** a small
+  doc/skill task — it's a cross-repository extraction effort with its own spec:
+  `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md`.
+- **Entry gate — none of the following exist yet, all must happen before real Phase 9
+  implementation work starts:**
+  1. **A pinned source commit** from the CMAT repository. The only inventory figures on record
+     (observed 2026-08-01/2026-08-03, 34 skills per the corrected audit) are explicitly *not*
+     pinned — "figures... not a permanent total, since the source repository continues to evolve
+     independently."
+  2. **Phase 3's own exit gate met.** Per this file's own Phase 8 authorization section (above,
+     now merged), Phase 3's exit gate is explicitly **not yet met** — Phase 8 was authorized
+     independently of Phase 3 specifically because Phase 3's gate wasn't satisfied. The master
+     plan's Phase 9 entry gate lists Phase 3 evidence patterns as a prerequisite; verify this
+     against the current, authoritative Phase 3 status before assuming it's still unmet, rather
+     than trusting this note indefinitely.
+  3. **One pilot capability selected**, via the full three-axis classification (implementation
+     status, destination disposition, backlog priority) from the Phase 9 spec §3b — comparing at
+     least `sharepoint-discovery`, `sharepoint-schema`, and `sharepoint-page-modernization`.
+     **No candidate is pre-selected** — the master plan notes `sp-converting-aspx-pages` (page
+     modernization) has a materially richer implementation than most discovery skills, which "may"
+     make it a stronger pilot, but this is an observation, not a decision.
+- **Next session's actual first tasks, in order:**
+  1. Read the Phase 9 spec in full
+     (`docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md`).
+  2. Verify Phase 3's exit-gate status directly (don't trust this note's "not yet met" claim
+     without re-checking — Phase 3 work may have progressed independently since this was written).
+  3. Pin the CMAT source repository to an exact commit (Stage 9.0/9.1, per the spec).
+  4. Run the three-axis pilot-capability classification and get Richard's explicit approval on
+     the selected capability before writing any plugin code.
+  5. Only then create the Phase 9 branch/worktree per this repo's per-phase git workflow, and run
+     `superpowers:brainstorming` before any implementation design, per the Mandatory Planning
+     Protocol below.
+- **What this note does not authorize:** any CMAT repository modification, any new plugin
+  creation, or any implementation work. It authorizes only starting the entry-gate steps above in
+  the next session, ahead of anything else in this file.
 
 ## Phase 8 — Section 6.1 promotion gate and Stage 8.3.2 retirement exercise MERGED (2026-08-06)
 
-**This section is the current, authoritative status — read it before the Phase 7 section that
-follows.** Phase 8, scoped to the Phase 4-piloted `review-manual-topics` native-sharepoint
+**This section is the current, authoritative status for Phase 8 — read it after the Phase 9 note
+above and before the Phase 7 section that follows.** Phase 8, scoped to the Phase 4-piloted
+`review-manual-topics` native-sharepoint
 capability only (per the authorization basis recorded below), had its Tasks 1–2 and 4–6 merged to
 `main` via PR #38, merge commit `2693d97`. **Not all of Phase 8 is closed** — Section 6.2
 (real version-change compatibility) and Task 7 (unfamiliar-operator onboarding attempt) remain
