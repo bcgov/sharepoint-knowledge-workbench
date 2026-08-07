@@ -38,6 +38,22 @@ should not be extracted**:
 - 11 source skills are `PLANNED_WITH_NO_IMPLEMENTATION` — gaps, not capabilities. No empty skills
   were created for any of them.
 
+### How the new plugins fit together (read before using them)
+
+`docs/architecture/sharepoint-engineering-plugin-set.md` documents the end-to-end flow
+(setup -> collect -> analyse/convert -> publish), the three contracts the set shares (read-only
+analysis, gated writes, shared honest-outcome vocabulary), and **three known seams** that must not
+be mistaken for working integration:
+
+1. **Nothing collects the exports.** No plugin connects to a live tenant; exports are produced by
+   hand today. This is the rank-1 gap.
+2. **The four new plugins do not read `workbench-setup`'s `config.psd1` / workflow / publication
+   profiles.** Deliberate — `plugin-architecture-policy.md` §1.3 requires standalone
+   installability — but it means there is no single "configure once, run everything" entry point.
+   If one is wanted, it belongs in an orchestration layer that reads config and passes explicit
+   paths down, not in the plugins themselves.
+3. **Publication is gated on Phase 3**, whose exit gate is unmet.
+
 ### Decisions needed from Richard before Phase 9 can proceed or close
 
 1. **Review and merge the branch** — the agent does not merge (`CLAUDE.md` workflow).
