@@ -285,3 +285,88 @@ made or implied here.
 - No file in `/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online` was read via any
   write-capable tool, moved, or modified during this extraction — read-only inspection only
   (`find`, `cat`, `readlink`/`ls -la` for symlink resolution).
+
+---
+
+# Wave 5 — `sharepoint-link-remediation` (new plugin)
+
+**Source repository:** `jag-csb-cmat-sharepoint-online` (local checkout, read-only).
+**Source commit (pinned):** `78d6bb91a6c3c01208208a8c2a06f241fef9ce9f` (2026-08-05 09:19:39 -0700).
+**Source plugin:** `sharepoint-migration`.
+**Destination plugin:** `plugins/sharepoint-link-remediation` (new — §8e "provisionally justified",
+confirmed by Task 2a's live-symlink recount: 3 of 4 candidate skills have real backing).
+
+## Record 7 — `sp-extracting-links` → `extract-links`
+
+- **Source skill:** `plugins/sharepoint-migration/skills/sp-extracting-links/` (5 LIVE symlinks,
+  0 broken/deprecated/escaping — Task 2a).
+- **Source scripts:** resolved into `scripts/link-conversion/` and `scripts/lib/`.
+- **Source implementation status:** `IMPLEMENTED`.
+- **Destination:** `skills/extract-links/SKILL.md` + `scripts/link_extraction.py`,
+  `scripts/link_outcomes.py`.
+- **Removed project coupling:** all source host/tenant literals; the source's implicit
+  single-tenant assumption is gone — callers pass content or paths.
+- **Intentional behavior changes:** PowerShell → Python (Wave 1 precedent). Added the explicit
+  `Outcome` vocabulary: `EMPTY` (read fine, no links) is now distinguishable from `FAILED`
+  (nothing could be read), which the source conflated. `sources_attempted` drives an
+  all-sources-failed run to `FAILED` rather than an empty success (spec §13).
+- **New neutral fixtures:** `tests/fixtures/legacy-page.aspx` — synthetic, no live identifiers.
+- **Parity evidence:** link classification (`absolute`, `server_relative`, `protocol_relative`,
+  `mailto`, `anchor`, `malformed`) preserved semantically; verified by
+  `tests/test_link_extraction.py`. Byte identity not applicable (language change).
+
+## Record 8 — `sp-remediating-links` → `remediate-links`
+
+- **Source skill:** `plugins/sharepoint-migration/skills/sp-remediating-links/` (3 LIVE symlinks).
+- **Source implementation status:** `IMPLEMENTED` (generic regex URL-rewrite).
+- **Destination:** `skills/remediate-links/SKILL.md` + `scripts/link_remediation.py`,
+  `scripts/link_rules.py`.
+- **Removed project coupling:** **this is the most significant genericization in the wave.** The
+  source embedded its own source/target tenant hosts directly in the rewrite logic. The
+  destination has no built-in host, tenant, or project URL at all — every rewrite is supplied by a
+  caller-provided declarative ruleset (`load_ruleset`), and a malformed ruleset raises
+  `RulesetError` rather than silently matching nothing.
+- **Intentional behavior changes:** write safety hardened well beyond the source, per spec §13 —
+  dry-run is the default, a writer must be explicitly injected (`WriterRequired`), and applying
+  additionally requires a plan-derived confirmation token (`ConfirmationRequired`) that goes stale
+  if the documents change. `rollback_remediation` added. Partial/forbidden/failed outcomes are
+  reported distinctly; a partly-failed run is never reported as success.
+- **Parity evidence:** rewrite semantics verified by `tests/test_link_remediation.py` (33 tests).
+
+## Record 9 — `sp-validating-link-integrity` → `validate-link-integrity`
+
+- **Source skill:** `plugins/sharepoint-migration/skills/sp-validating-link-integrity/` (1 LIVE
+  symlink — thin; Task 2a flagged "verify real depth before claiming implemented", and the real
+  backing was confirmed thin, so the destination is a deliberate reimplementation of the
+  *technique* rather than a port of substantial source logic).
+- **Source implementation status:** `IMPLEMENTED` (thin).
+- **Destination:** `skills/validate-link-integrity/SKILL.md` + `scripts/link_integrity.py`.
+- **Removed project coupling:** no tenant transport ships at all; resolution is injected.
+- **Intentional behavior changes:** `UNRESOLVABLE` is a first-class status distinct from
+  `BROKEN` — "could not be checked" is never reported as "verified good". An empty inventory
+  reports `EMPTY`, never a pass.
+- **Parity evidence:** `tests/test_link_integrity.py`.
+
+## Not extracted, and why
+
+- `sp-remediating-document-content-links` — `PLANNED_WITH_NO_IMPLEMENTATION` in the source
+  (SKILL.md claims `planned`, zero backing scripts). Recorded as a gap; no empty skill created.
+
+## Independence verification
+
+- `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py --plugin
+  sharepoint-link-remediation --import-package link_rules` → **PASS, 113 tests** at the time of the
+  packaging commit (121 after the skills/SKILL.md addition).
+- `test_plugin_independence.py` enforces, as executable gates: no project literal in any runtime
+  file, no source-repository marker, no GUID-shaped identifier, every module imports with no
+  third-party dependency, and no module living only inside a skill directory (hub-and-spoke).
+- Two anti-vacuity guards protect those gates:
+  `test_runtime_tree_is_literal_free_scan_is_not_vacuous` (the scan set can never become empty) and
+  `test_literal_matching_flags_real_literals_and_not_ordinary_words` (the word-boundary rule stays
+  strict on real identifiers while not firing on ordinary English).
+
+## Source-repository preservation
+
+No file in the source repository was modified. Symlink resolution used `readlink`/`ls -la` only.
+The 4 `BROKEN`, 12 `DEPRECATED_TARGET`, and 6 `ESCAPES_PLUGIN` links recorded in Task 2a were
+**not** extracted and were **not** repaired in the source (§17 forbids source modification).

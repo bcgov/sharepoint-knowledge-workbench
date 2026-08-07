@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-link-remediation"
+version = "0.1.0-alpha.1"
+description = "Generic SharePoint link extraction, rewrite-rule remediation, and post-migration link-integrity validation. Extraction is read-only; remediation is dry-run by default and requires an explicitly injected writer plus a confirmation token."
+requires-python = ">=3.10"
+# No dependency on any other workbench distribution -- this plugin must install and
+# run standalone (plugin-architecture-policy.md 1.3, Phase 9 spec section 14: it must
+# pass with the originating source repository entirely absent).
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "link_outcomes",
+    "link_rules",
+    "link_extraction",
+    "link_remediation",
+    "link_integrity",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"
