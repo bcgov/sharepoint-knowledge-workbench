@@ -1,52 +1,79 @@
-# Resume — Phase 9 Is Next (Entry-Gate Work Not Yet Started); Phase 8 Merged (Section 6.1/Stage 8.3.2 Scope); Phase 7 Remains Paused
+# Resume — Phase 9 IN PROGRESS on a branch (NOT merged); Phase 8 merged; Phase 7 paused
 
-## Phase 9 — next session starts here (2026-08-06 intent note — entry gate NOT yet met)
+## Phase 9 — extraction work done on `phase-9-reusable-sharepoint-plugin-extraction` (2026-08-07)
 
-**Read this section first.** Richard has designated Phase 9 as the next phase to work toward, but
-**this is an intent/sequencing note, not an authorization to implement anything yet** — unlike
-Phase 8, Phase 9 does not have an independently-satisfied entry gate today. Do not skip straight to
-implementation in the next session; start with the entry-gate work below.
+**Read this section first. Phase 9 is NOT merged and NOT complete.** Substantial extraction work
+exists on the branch `phase-9-reusable-sharepoint-plugin-extraction` (30 commits ahead of `main`,
+worktree `.claude/worktrees/agent-a0fc47bc597acf795`). It has **not** been reviewed, has **not**
+been merged, and Phase 9's exit gate is **not** declared met.
 
-- **What Phase 9 actually is:** `docs/vision/master-initiative-plan-workstreams-and-phases.md`'s
-  "Phase 9 — Reusable SharePoint Plugin Extraction" (disposition `LATER` as of the master plan's
-  last update). Selective extraction of reusable SharePoint engineering skills (discovery, schema,
-  page-modernization, link-remediation, content-migration) from a **separate repository**,
-  `jag-csb-cmat-sharepoint-online` (the CMAT replatform repo), into this workbench as new
-  first-party plugins following Phase 4.5's destination conventions. This is **not** a small
-  doc/skill task — it's a cross-repository extraction effort with its own spec:
-  `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md`.
-- **Entry gate — none of the following exist yet, all must happen before real Phase 9
-  implementation work starts:**
-  1. **A pinned source commit** from the CMAT repository. The only inventory figures on record
-     (observed 2026-08-01/2026-08-03, 34 skills per the corrected audit) are explicitly *not*
-     pinned — "figures... not a permanent total, since the source repository continues to evolve
-     independently."
-  2. **Phase 3's own exit gate met.** Per this file's own Phase 8 authorization section (above,
-     now merged), Phase 3's exit gate is explicitly **not yet met** — Phase 8 was authorized
-     independently of Phase 3 specifically because Phase 3's gate wasn't satisfied. The master
-     plan's Phase 9 entry gate lists Phase 3 evidence patterns as a prerequisite; verify this
-     against the current, authoritative Phase 3 status before assuming it's still unmet, rather
-     than trusting this note indefinitely.
-  3. **One pilot capability selected**, via the full three-axis classification (implementation
-     status, destination disposition, backlog priority) from the Phase 9 spec §3b — comparing at
-     least `sharepoint-discovery`, `sharepoint-schema`, and `sharepoint-page-modernization`.
-     **No candidate is pre-selected** — the master plan notes `sp-converting-aspx-pages` (page
-     modernization) has a materially richer implementation than most discovery skills, which "may"
-     make it a stronger pilot, but this is an observation, not a decision.
-- **Next session's actual first tasks, in order:**
-  1. Read the Phase 9 spec in full
-     (`docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md`).
-  2. Verify Phase 3's exit-gate status directly (don't trust this note's "not yet met" claim
-     without re-checking — Phase 3 work may have progressed independently since this was written).
-  3. Pin the CMAT source repository to an exact commit (Stage 9.0/9.1, per the spec).
-  4. Run the three-axis pilot-capability classification and get Richard's explicit approval on
-     the selected capability before writing any plugin code.
-  5. Only then create the Phase 9 branch/worktree per this repo's per-phase git workflow, and run
-     `superpowers:brainstorming` before any implementation design, per the Mandatory Planning
-     Protocol below.
-- **What this note does not authorize:** any CMAT repository modification, any new plugin
-  creation, or any implementation work. It authorizes only starting the entry-gate steps above in
-  the next session, ahead of anything else in this file.
+### What exists on the branch (verified by real test runs, 2026-08-07)
+
+- **4 new plugins**, each independently wheel-installable (`isolated_install_check.py` passes):
+  `sharepoint-discovery` (5 skills, 71 tests), `sharepoint-link-remediation` (3 skills, 121),
+  `sharepoint-page-modernization` (2 skills, 54), `sharepoint-schema` (2 skills, 50).
+- **2 existing plugins extended:** 4 generic agents into `sharepoint-agents-and-skills` (68 tests);
+  `workbench-setup` gained `validate-app-registration`, replacing `setup-sharepoint-connection`'s
+  `-TestConnection` stub with real device-code auth validation (52 tests).
+- **447 tests passing** across 7 plugins; 11 plugins registered in `.claude-plugin/marketplace.json`;
+  zero broken symlinks in any Phase 9 work (24 repo-wide broken links are pre-existing
+  `docs/diagrams` gaps in the four original Phase 4.5 plugins).
+- **Evidence:** `docs/reports/phase-9-reusable-sharepoint-plugin-extraction/` — `provenance.md`
+  (15 records), `task-2a-symlink-resolution-and-task-3a-agent-classification.md`,
+  `remaining-capability-roadmap.md`, `phase-9-retrospective.md`.
+
+### Coverage — do NOT represent this as complete
+
+**Roughly half of the 21 implemented source skills are onboarded.** Spec §20's exit *statement* is
+satisfied, but full onboarding is not, and several capabilities were **rejected on evidence and
+should not be extracted**:
+
+- `sp-synthesizing-discovery` — hardcodes its headline metrics (`total_pages: 654` etc.) and
+  fabricates others from arbitrary ratios. Extracting it ships invented numbers as measurement.
+- `sp-discovering-site-structure`, `sp-converting-wiki-pages` — live-tenant collectors
+  (`Connect-PnPOnline`, `New-ClientContextSafe`). Every Phase 9 plugin is contractually
+  zero-tenant-I/O; these belong to a **new plugin that does not yet exist**.
+- `sharepoint-content-migration` — its anchor skill is 29 live symlinks, not 44 (12 resolve into
+  `scripts/_deprecated/`). Reusable mechanism unproven outside deprecated code.
+- 11 source skills are `PLANNED_WITH_NO_IMPLEMENTATION` — gaps, not capabilities. No empty skills
+  were created for any of them.
+
+### How the new plugins fit together (read before using them)
+
+`docs/architecture/sharepoint-engineering-plugin-set.md` documents the end-to-end flow
+(setup -> collect -> analyse/convert -> publish), the three contracts the set shares (read-only
+analysis, gated writes, shared honest-outcome vocabulary), and **three known seams** that must not
+be mistaken for working integration:
+
+1. **Nothing collects the exports.** No plugin connects to a live tenant; exports are produced by
+   hand today. This is the rank-1 gap.
+2. **The four new plugins do not read `workbench-setup`'s `config.psd1` / workflow / publication
+   profiles.** Deliberate — `plugin-architecture-policy.md` §1.3 requires standalone
+   installability — but it means there is no single "configure once, run everything" entry point.
+   If one is wanted, it belongs in an orchestration layer that reads config and passes explicit
+   paths down, not in the plugins themselves.
+3. **Publication is gated on Phase 3**, whose exit gate is unmet.
+
+### Decisions needed from Richard before Phase 9 can proceed or close
+
+1. **Review and merge the branch** — the agent does not merge (`CLAUDE.md` workflow).
+2. **Live-tenant collection is unowned** — rank 1 in the roadmap. Every analysis plugin built this
+   phase consumes an export a human must currently produce by hand. Needs its own plugin with an
+   explicit connection/write-safety boundary, designed against `workbench-setup`'s
+   connector-injection contract. **Design decision, not effort.**
+3. **`sp-running-sharegate-jobs`** — extractable, but depends on ShareGate, a commercial licensed
+   tool. Per spec §8d it must be recorded in `DEPENDENCIES.md` and explicitly accepted first.
+4. **Phase 3's exit gate is still unmet.** Phase 9 proceeded under a waiver scoped to
+   non-publication capabilities. `sp-uploading-content` (Wave 1) is the one extraction genuinely
+   exposed to it — its contract could be contradicted when Phase 3 decides the library schema and
+   source-of-truth lifecycle.
+
+### Known process failure recorded this phase
+
+Five extraction agents were dispatched in parallel; a session limit killed four mid-task, all
+uncommitted. Work was recovered from disk, but the lesson is recorded in the retrospective and in
+`.agent/map-debt.md`: **run extraction waves serially and commit each one before starting the
+next.** Do not parallelize this work.
 
 ## Phase 8 — Section 6.1 promotion gate and Stage 8.3.2 retirement exercise MERGED (2026-08-06)
 

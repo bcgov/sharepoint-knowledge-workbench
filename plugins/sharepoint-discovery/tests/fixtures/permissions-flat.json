@@ -1,0 +1,5 @@
+[
+  {"webUrl": "/sites/team", "principalTitle": "Site Owners", "permissionLevels": "Full Control", "objectTitle": "Site"},
+  {"webUrl": "/sites/team", "principalTitle": "HR Reviewers", "permissionLevels": "Contribute", "listName": "Policies"},
+  {"webUrl": "/sites/team", "principalTitle": "HR Reviewers", "permissionLevels": "Contribute", "listName": "Forms"}
+]

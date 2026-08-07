@@ -1,0 +1,1 @@
+../../../scripts/page_inventory_analysis.py

@@ -18,6 +18,8 @@ py-modules = [
     "document_workflow",
     "workflow_validation",
     "psd1_writer",
+    "app_registration_validation",
+    "path_resolution",
 ]
 
 [tool.setuptools.package-dir]

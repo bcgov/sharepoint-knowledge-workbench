@@ -1,0 +1,1 @@
+../../../scripts/webpart_code_analysis.py

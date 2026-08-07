@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-page-modernization"
+version = "0.1.0-alpha.1"
+description = "Analyses exported classic SharePoint page content on disk (rendered HTML, views export, override hints) and produces a modern-page mapping plan (component classification, layout selection, web part mapping, gap reporting) -- no tenant I/O."
+requires-python = ">=3.10"
+# No dependency on any other workbench distribution -- this plugin must install
+# and run standalone, matching the pip-installable domain plugins' own convention.
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "outcomes",
+    "aspx_inventory",
+    "component_classification",
+    "layout_selection",
+    "component_mapping",
+    "preview_composition",
+]
+
+[tool.setuptools.packages.find]
+where = ["scripts"]
+include = ["assets", "assets.*"]
+
+[tool.setuptools.package-dir]
+"" = "scripts"
+
+[tool.setuptools.package-data]
+# assets/ is a real Python package (its __init__.py makes setuptools include
+# its data files in a real wheel build -- a plain non-package directory's
+# contents are silently dropped, which `pip install -e`'s editable-install
+# behavior would never surface, only an isolated wheel-install check would).
+"assets" = ["*.json", "*.html"]

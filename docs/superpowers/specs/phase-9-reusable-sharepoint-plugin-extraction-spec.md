@@ -3,6 +3,8 @@
 
 > **Planning status:** `PLANNED`, `EVIDENCE_BASED`, `NOT_IMPLEMENTATION_AUTHORIZATION`, `SOURCE_BASELINE_REQUIRES_PINNING`. This is a forward-phase planning artifact derived from the accepted master initiative plan. It does not authorize implementation. Exact source and destination commits, candidate files, repository paths, commands, plugin boundaries, and test fixtures must be verified through Phase 9 reconnaissance before execution. Phase 9 has not started.
 
+> **Source-architecture correction (2026-08-07) — READ BEFORE §8d/§8e.** A direct structural inspection of the pinned source tree found that **CMAT skills are thin shells, not implementation units**: every one of the 34 skills contains the same 3 real files (`SKILL.md`, `evals/evals.json`, `evals/results.tsv`) plus symlinks into a *centralized* `plugins/sharepoint-migration/scripts/` tree (183 files across 14 subdirectories) and `scripts/lib/` (10 shared PowerShell helper modules). §8d's per-skill symlink counts therefore measure **coupling to shared scripts**, not independently extractable implementation. This does not invalidate §8d/§8e's classification *framework* — it changes the **extraction unit**. See §3c (Source Architecture Correction), §8f (agent inventory — previously omitted entirely), §8g (symlink-resolution defects), and §8h (literal-density axis) below, all of which supersede the affected portions of §8d/§8e's supporting data while leaving their three-axis model and destination-matching rule intact.
+>
 > **Evidence-baseline update (2026-08-01):** A documentation-only reconciliation pass replaced hypothetical candidate descriptions with the actual observed source inventory at `/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` — **119 directories, 272 files (144 real files + 128 symlinks)** across 33 skills (historical snapshot, dated 2026-08-01). This inventory is a **source baseline for future classification**, not an extraction authorization, and not a permanent total — the source repository continues to evolve independently. **A direct recount on 2026-08-03 found 34 skill directories — see §8d for the current, verified figure and complete per-skill mapping.** See §3a (Source Evidence Baseline) below for the 2026-08-01 historical snapshot. No code, plugin, or CMAT-repository artifact was touched by this reconciliation; see the companion completion report for the exact diff.
 
 ## Planning discipline
@@ -118,6 +120,58 @@ A rough per-skill file count was spot-checked during this reconciliation to sani
 
 **This spot-check is illustrative, not the required Stage 9.1/9.2 classification.** A complete implementation-status pass over all 34 skills (§8d) is required before any pilot selection, per §3b below. Do not treat the presence of `SKILL.md`, `evals.json`, or `results.tsv` as proof that a skill is implemented — the actual script/test/fixture count must be inspected per skill.
 
+## 3c. Source Architecture Correction (2026-08-07) — the extraction unit is `scripts/`, not `skills/`
+
+**Status:** `CONFIRMED` by direct inspection. This section supersedes any reading of §3a/§8d that treats a CMAT *skill directory* as a self-contained extractable unit.
+
+### What the source actually looks like
+
+```text
+plugins/sharepoint-migration/
+  skills/<34 skill dirs>/        ← thin shells: SKILL.md + evals/evals.json + evals/results.tsv
+                                    + file symlinks pointing OUT to ../../../scripts/...
+  scripts/                       ← THE REAL IMPLEMENTATION SURFACE (183 files, 14 subdirs)
+    lib/                (10 files)  auth, logging, field, list, content-type,
+                                    xml, guidmap, migrate, user-groups, sp-extract helpers
+    page-migration/     (21 files)  ← 28 inbound symlinks from skills
+    utilities/          (25 files)
+    _deprecated/        (25 files)  ← 12 inbound symlinks from a live skill
+    calendars/          (22 files)  ← CMAT-specific (court scheduling)
+    tests/              (21 files)  ← 12 inbound symlinks
+    app-reg-tests/      (15 files)
+    waves/              (13 files)  ← CMAT-schema-coupled
+    diagnostics/         (8 files)
+    content-migration/   (7 files)
+    upload/              (6 files)
+    link-conversion/     (5 files)
+    inventory/           (3 files)
+    schema-audit/        (2 files)
+  agents/                        ← 9 agent .md files — NOT classified anywhere in §8d (see §8f)
+  config/config.psd1.example     ← single-file tenant config (see §9a for workbench alignment)
+  assets/templates/
+  references/
+```
+
+### Why this changes the plan
+
+1. **Shared-script fan-in is high.** `scripts/page-migration` has 28 inbound symlinks, `scripts/waves` 12, `scripts/tests` 12, `scripts/lib` 9. Extracting skill-by-skill (Plan Task 12) repeatedly re-encounters the same underlying scripts.
+2. **A shared library layer is genuinely justified.** §12 forbids creating shared infrastructure "for a single consumer." `scripts/lib/` has 9+ consumers *in the source* — that is evidence, not speculation. The prohibition does not apply; a foundation-layer extraction task is required and is added as Plan Task 8a.
+3. **`SKILL.md` + `evals.json` + `results.tsv` is the universal baseline**, present in all 34 skills including every `PLANNED_WITH_NO_IMPLEMENTATION` one. §8d already warned not to treat these as proof of implementation; this section confirms empirically that they are exactly the 3-file floor.
+
+### Corrected implementation signal
+
+The reliable per-skill implementation signal is **resolved, non-broken, non-deprecated symlink targets plus any real script files beyond the 3-file baseline** — not raw file counts. Spot-corrections to §8d's figures found during this inspection:
+
+| Skill | §8d says | Direct inspection | Note |
+|---|---|---|---|
+| `sp-converting-aspx-pages` | 12 scripts + 5 symlinks | **32 real files** + 5 symlinks | §8d **undercounted**; still the richest skill |
+| `sp-validating-app-registration` | 7 symlinks | 7 real files + 7 symlinks | Richer than recorded |
+| `sp-auditing-schema` | `IMPLEMENTED` (7 symlinks) | 7 symlinks, **≥1 broken** | See §8g |
+| `sp-migrating-content` | `IMPLEMENTED` (44 symlinks) | 44 symlinks, **12 → `_deprecated/`, ≥3 broken** | See §8g |
+| `sp-discovering-web-parts` | `IMPLEMENTED` (19 symlinks) | 19 symlinks, **6 escape the plugin** | See §8g |
+
+**Instruction:** Plan Task 3's inventory must record, per skill, the resolved target of every symlink and whether that target is live/deprecated/broken/plugin-escaping — *before* Task 4 assigns any implementation status. §8d's statuses are provisional until that pass runs against the pinned commit.
+
 ## 3b. Implementation-Status and Destination-Disposition Models
 
 Phase 9 requires **two separate classifications** for every source artifact — conflating them was identified as a risk during this reconciliation (a "planned" skill and a "reject this destination" skill are different judgments).
@@ -218,7 +272,8 @@ Phase 9's eventual outcome is intended to expand this repository from a knowledg
 - No cross-repository symlinks, runtime imports, or hidden source dependency.
 - No ORDS API/auth/query/paging/retry framework extraction.
 - No JUSTIN, CEIS, court-appearance, courthouse, calendar-routing, or CMAT business-rule extraction.
-- No automatic migration of all 34 skills (§8d), seven agents, source backlog, planned stubs, or historical scripts.
+- No automatic migration of all 34 skills (§8d), **nine agents** (corrected 2026-08-07 from "seven" — direct count is 9, see §8f), the 183-file shared `scripts/` tree (§3c), source backlog, planned stubs, or historical scripts.
+- No extraction of broken, deprecated-target, or plugin-escaping symlink targets (§8g).
 - No immediate CMAT rebind to the extracted plugin.
 - No general-purpose routing agent.
 - No assumption that the source plugin taxonomy is the correct destination plugin taxonomy.
@@ -386,6 +441,8 @@ provisional Phase 9 plugin candidates not yet approved.
 
 ## 8d. Complete CMAT skill mapping (2026-08-03) — all 34 `sharepoint-migration` skills
 
+> **Amended 2026-08-07 — supporting data is provisional, framework stands.** The three-axis model, destination-plugin-matching rule, and per-skill destination assignments in this section remain the working basis for Phase 9. However, the **implementation-status column is provisional** pending the symlink-resolution pass required by §3c and §8g: symlink counts here include broken links (4 confirmed), links into `scripts/_deprecated/` (12), and links escaping the plugin into project-analysis data (6). Skills whose status materially depends on those links — `sp-auditing-schema`, `sp-migrating-content`, `sp-discovering-web-parts` — must be re-verified against the pinned commit before any extraction decision relies on them. Skill directories are also **thin shells**, not implementation units (§3c) — this table's rows describe *capabilities*, and the code implementing them lives in the shared `scripts/` tree. Agents are not covered here at all; see §8f.
+
 **Directly audited** (not inferred from filenames): `ls plugins/sharepoint-migration/skills/*/`
 returns **34 skill directories**, not 31 — the 31 figure named in the audit request undercounted;
 corrected here to the actual count. Per instruction, `SKILL.md` frontmatter's `status:` field,
@@ -495,6 +552,125 @@ evidence** (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-modern
 standalone plugins** (`sharepoint-provisioning`, `sharepoint-validation-and-reconciliation`)
 pending further evidence or reassignment to existing plugins. None of this authorizes Phase 9
 execution — these are classification findings only.
+
+## 8f. Agent inventory (2026-08-07) — previously omitted from all classification
+
+**Gap acknowledged:** §8d classifies skills only. `plugins/sharepoint-migration/agents/` contains **9 agent definition files** plus an `agents/references/` directory, none of which appear in any classification table. §5's non-goals mention "seven agents" in passing — that count is **stale and wrong** (9, not 7) and a non-goal is not a classification.
+
+```text
+sp-discovery-agent.md
+sp-schema-agent.md
+sp-modernization-agent.md
+sp-link-agent.md
+sp-migration-agent.md
+sp-validation-agent.md
+sp-deployment-planner.md
+sp-migration-orchestrator.md
+sp-wave-orchestrator.md
+```
+
+**Required:** every agent receives the same three-axis classification as skills (§3b), plus an **orchestration-coupling** judgment specific to agents:
+
+```text
+GENERIC_SHAREPOINT_AGENT          — reusable, no project coupling
+AGENT_REQUIRES_GENERICIZING       — reusable shape, project literals inside
+ORCHESTRATOR_COUPLED_TO_CMAT_WAVES — depends on CMAT's specific wave/schema model
+PROJECT_SPECIFIC_AGENT            — not extraction-eligible
+```
+
+**Known signal:** `sp-wave-orchestrator.md` contains 33 project-literal hits (§8h) and orchestrates CMAT's wave model — provisionally `ORCHESTRATOR_COUPLED_TO_CMAT_WAVES`. The per-domain agents (`sp-discovery-agent`, `sp-schema-agent`, `sp-link-agent`, `sp-modernization-agent`) are the more plausible generic candidates, but none has been inspected in detail yet.
+
+**Destination consideration:** this repository already owns `plugins/sharepoint-agents-and-skills/`. Per the §8c destination-plugin-matching rule, extracted agents must be matched against that existing plugin **before** any new agent-hosting plugin is contemplated.
+
+## 8g. Symlink-resolution defects in the source (2026-08-07)
+
+Direct inspection found three defect classes that §8d's "real, verified symlinks" methodology did not detect. **All three affect skills §8d currently marks `IMPLEMENTED`, and two of them weaken §8e's plugin justifications.**
+
+### Class 1 — Broken symlinks (4 confirmed)
+
+```text
+skills/sp-auditing-schema/scripts/compare-live-schema-test-vs-spo.ps1   → dangling
+skills/sp-migrating-content/scripts/waves/wave4-pio-cases.ps1           → dangling
+skills/sp-migrating-content/scripts/waves/wave5-icm-cases.ps1           → dangling
+skills/sp-migrating-content/scripts/waves/wave6-itau-cases.ps1          → dangling
+```
+
+`sp-auditing-schema` is the skill §8e leans on to justify the entire `sharepoint-schema` candidate plugin ("**Provisionally justified** on `sp-auditing-schema` alone"). At least one of its script links resolves to nothing. **That justification must be re-derived from what actually resolves.**
+
+### Class 2 — Deprecated code symlinked into a live skill (12 links)
+
+`skills/sp-migrating-content/` symlinks 12 files from `scripts/_deprecated/stages/`. §8d calls this skill "richest skill in repo by symlink count (44)" and §8e provisionally justifies `sharepoint-content-migration` on its wave-execution *mechanism*. A material share of that 44 is deprecated and/or broken. **The mechanism-vs-content split §8d proposes is still the right idea, but the mechanism must be identified from live, non-deprecated code — the current evidence does not establish that such a mechanism exists outside `_deprecated/`.**
+
+### Class 3 — Symlinks escaping the plugin boundary (6 links)
+
+```text
+skills/sp-discovering-web-parts/references/*  →  ../../../../../01_source_sharepoint/analysis
+```
+
+These traverse five levels up, out of `plugins/` entirely, into a repository-root project-analysis data directory. §8a's symlink-inventory requirement implicitly assumes links resolve *within* the plugin; this class was unanticipated. These are **project analysis data, not generic code** — 6 of the 19 links that make `sp-discovering-web-parts` "the richest discovery skill" and anchor `sharepoint-discovery`'s justification in §8e.
+
+### Required handling
+
+- Plan Task 3's inventory must classify every symlink as `LIVE` / `BROKEN` / `DEPRECATED_TARGET` / `ESCAPES_PLUGIN` / `PROJECT_DATA`.
+- **Broken links are never extracted** — they are recorded as source defects and reported, not copied. Do not "fix" them in CMAT (§17 forbids source modification).
+- **Deprecated targets are never extracted** without an explicit human decision recorded per link.
+- **Plugin-escaping links to project data are never extracted** — they fail the genericity contract (§9) by definition.
+- Every discarded link is recorded in the disposition matrix with a reason. Silent omission is prohibited.
+
+## 8h. Literal-density axis (2026-08-07) — extraction cost is not the same as write risk
+
+A repository-wide scan for project literals (`JUSTIN`, `CEIS`, `ORDS`, `courthouse`, `appearance`, `AG-CSB*`, `ITAU`, `PIO`, `ICM`) across `scripts/`, `agents/`, and `config/` found **57 files requiring genericity scrubbing**. Density is highly uneven and — critically — **inversely correlated with the "safe pilot" assumption in §7**.
+
+| File | Literal hits | Relevance |
+|---|---|---|
+| `scripts/inventory/export-sharepoint-inventory-custom.ps1` | 178 | Backs `sp-discovering-site-structure` |
+| `scripts/inventory/export-sharepoint-inventory.ps1` | 147 | Backs `sp-discovering-site-structure` |
+| `scripts/_deprecated/state-{before,after}.json` | 206 each | Deprecated state fixtures |
+| `scripts/content-migration/backfill-lookups.ps1` | 102 | Content migration |
+| `config/config.psd1.example` | 41 | Tenant config — see §9a |
+| `agents/sp-wave-orchestrator.md` | 33 | See §8f |
+
+**Finding that changes candidate selection:** §7 recommends read-only `sharepoint-discovery` as the first pilot "because it minimizes write risk." Write risk and *extraction cost* are different axes. The two scripts backing the flagship discovery skill are the **two most literal-saturated non-deprecated files in the entire source** (178 and 147 hits). A read-only capability can still be extremely expensive to genericize.
+
+**Required:** Plan Task 1's candidate-selection memo must score every candidate on a fourth axis — **literal density / genericization cost** — alongside expected value, source maturity, coupling, and write risk. §7's "read-only is recommended" guidance stands as a *safety* statement only and must not be read as a cost statement.
+
+## 9a. Destination rule compliance — this repository's own hard gates
+
+Extraction must satisfy this repository's rules, which are **stricter than the source repository's conventions**. The source's structure cannot be reproduced as-is.
+
+### Symlinks (`.agent/rules/symlink-cross-platform.md`)
+
+- CMAT's ~100+ skill symlinks were created directly (no manifest). This repo **prohibits `ln -s`** and requires every link to be registered in `symlinks.json` and created via `.agents/skills/symlink-manager/scripts/symlink_manager.py`.
+- Required per extraction batch: `diagnose` before → add manifest entries → `restore` → `diagnose` after, with **zero** `? regular file (not a link)` and **zero** `✗ broken symlink` before commit.
+- The source contains 4 broken symlinks (§8g). Copying link topology blindly imports that breakage into a repo whose gate rejects it.
+
+### Hub-and-spoke (`.agent/rules/plugin-architecture-policy.md`, self-evolution Hard Gate #12)
+
+- Every extracted script lands at `plugins/<plugin>/scripts/` (flat, bare module names per CLAUDE.md) **first**, then is symlinked into the consuming skill — never written directly inside a skill directory, **even when it has only one consumer**.
+- `audit_plugin_structure.py <plugin>` must run before any extracted skill is considered complete (Hard Gate #12 — it catches real-file-in-skill-dir drift that `audit.py` does not flag). **Path correction (2026-08-07, found during Wave 2):** this script does **not** exist in this repository. It ships with the installed `agent-scaffolders` marketplace plugin at `~/.claude/plugins/marketplaces/richfrem-agent-plugins-skills/plugins/agent-scaffolders/scripts/audit_plugin_structure.py` (also mirrored under `~/.claude/plugins/cache/`). Hard Gate #12 and the earlier text here both read as though it were a repo-local tool, which sent Wave 2 looking for a nonexistent path. Until it is vendored or wrapped locally, invoke it from the plugin path above, and fall back to this repo's own `audit.py --path plugins/<plugin>` (weaker — it does not flag real-file-in-skill-dir drift) only with that limitation stated explicitly. Logged `OPEN`, `Repeat: YES` in `.agent/map-debt.md`.
+- `plugin_add.py <plugin-path> -y` must run after modifying files under `plugins/` (Hard Gate #10).
+- **Directory-level symlinks are forbidden** (`npx` drops them). CMAT's `sp-migrating-content/scripts/waves/` and `sp-discovering-web-parts/references/` are directory-shaped link groups — they must be decomposed into file-level links or real files.
+
+### Self-contained skills (`plugin-architecture-policy.md` §3.2)
+
+Every file a skill references must exist inside the skill directory, and all `SKILL.md` paths must be **relative to the skill root** (`../scripts/x.py`, never repo-root-relative or absolute). CMAT's `../../../scripts/...` traversal pattern is a source-layout artifact and **must not survive extraction**.
+
+### Pluggable independence (`plugin-architecture-policy.md` §1.3)
+
+Each destination plugin must install and run in isolation. This repo already enforces this via `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py` — every plugin Phase 9 touches or creates must pass it, per the precedent set in Phase 6 Task 0.16/0.17 where a real wheel-packaging defect was caught only by this check.
+
+### TDD (`.agent/rules/test-driven-development.md`)
+
+- Failing test first, failing **for the expected reason** — Plan Task 9 is correctly ordered before Task 12 and that ordering is non-negotiable.
+- **Critical runtime paths must not be mocked**: script-execution wrappers, filesystem path resolution, file readers/parsers, and external API client boundaries. Extracted PowerShell path-resolution logic falls squarely in this category — test it with real subprocess and real filesystem resolution.
+- **Prefer replay fixtures over synthetic mocks**: capture real (sanitized) SharePoint/PnP response payloads as fixtures rather than fabricating them, per §10's neutral-fixture requirement. Sanitization must strip tenant URLs, GUIDs, and group identities (§13).
+
+### Self-evolution (`.agent/rules/self-evolution-policy.md`)
+
+- **Every friction event gets a `map-debt.md` entry**, including ones fixed inline (`Status: RESOLVED`). Extraction will generate friction — broken source links, ambiguous genericity calls, packaging defects. A silent inline fix is a policy violation.
+- **No deletions without explicit human permission** (Hard Gate #4, and the Absorption Fallacy in #5): if an extracted capability appears to supersede something already in this workbench, **flag it — never delete**. Run `git log --follow -- <file>` first (Hard Gate #11).
+- **One logical fix per pass** (#6) — reinforces the batched-wave model in Plan Task 21 over a single sweeping extraction.
+- The **Pre-Completion Gate block** must be emitted verbatim before any Phase 9 task is claimed complete.
 
 ## 9. Genericity contract
 
@@ -699,6 +875,9 @@ Define:
 - Shared rules were reconciled without importing project overlays.
 - The source CMAT repository and plugins remain unchanged and independently operable.
 - Every remaining source capability (all 34 observed skills — §8d, not only the extracted one) has an implementation-status classification (§3b) and a destination disposition (§3b) — none are copied automatically.
+- **All 9 agents (§8f) carry a three-axis classification plus an orchestration-coupling judgment** — added 2026-08-07; agent coverage was previously absent from the exit criteria entirely.
+- **Every symlink in the pilot's dependency closure is classified** `LIVE`/`BROKEN`/`DEPRECATED_TARGET`/`ESCAPES_PLUGIN`/`PROJECT_DATA` (§8g), with every discarded link recorded and reasoned — no silent omission.
+- **This repository's own hard gates pass** (§9a): `symlink_manager.py diagnose` clean, `audit_plugin_structure.py` clean, `plugin_add.py` run, `isolated_install_check.py` passing for every plugin touched or created, and every friction event logged in `map-debt.md`.
 - Ownership and lifecycle are documented.
 - No CMAT rebind, second extraction, or general orchestrator begins automatically.
 

@@ -37,6 +37,23 @@ The remaining 14 skill names (Task 0.4–0.7) are scoped in the Phase 6 plan; sc
 already moved/generalized under `scripts/` but not yet packaged as their own `SKILL.md`-wrapped
 skills. See the plan for exact per-skill status.
 
+## Agents
+
+`agents/` holds Claude Code routing agents — orchestration artifacts that decide *which*
+capability to run for a request, and that report honestly when no capability exists. Four were
+extracted in Phase 9 Wave 2 (see
+`docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`, Records 3–6):
+
+- `sharepoint-link-agent` — enforces extract → remediate → validate ordering for link work.
+- `sharepoint-modernization-agent` — separates "render modern page artifacts" from "convert an
+  existing classic page" (only the former is supported here).
+- `sharepoint-schema-agent` — read-only schema conformance before any mapping question.
+- `sharepoint-validation-agent` — routes post-stage validation by artifact under test.
+
+Every agent carries a mandatory `## Not available in this workbench` section. The contract
+(frontmatter schema, zero project literals, zero dangling capability references, manifest
+registration) is enforced by `tests/unit/test_agent_definitions.py`.
+
 ## Dependencies
 
 `config.psd1` (git-ignored, connection/authentication context only — `SiteUrl`, `ClientId`,

@@ -1,0 +1,14 @@
+{
+  "rules": [
+    {
+      "match": "http://legacy.example.internal/Pages/",
+      "replacement": "https://example.sharepoint.com/sites/Demo/SitePages/",
+      "description": "absolute legacy host + classic Pages library"
+    },
+    {
+      "match": "/Pages/",
+      "replacement": "/SitePages/",
+      "description": "server-relative classic Pages library"
+    }
+  ]
+}

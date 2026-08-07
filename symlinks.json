@@ -1458,6 +1458,216 @@
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": "sharepoint-content-publication's copy of canonical_schema/shared.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/app_registration_validation.py",
+      "dst": "plugins/workbench-setup/skills/validate-app-registration/scripts/app_registration_validation.py",
+      "strategy": "symlink",
+      "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/path_resolution.py",
+      "dst": "plugins/workbench-setup/skills/resolve-workbench-paths/scripts/path_resolution.py",
+      "strategy": "symlink",
+      "description": "resolve-workbench-paths skill's bundled copy of path_resolution.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_extraction.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/extract-links/scripts/link_extraction.py",
+      "strategy": "symlink",
+      "description": "extract-links skill's bundled copy of link_extraction.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/extract-links/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "extract-links skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_remediation.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/link_remediation.py",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of link_remediation.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/link_rules.py",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of link_rules.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_integrity.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/validate-link-integrity/scripts/link_integrity.py",
+      "strategy": "symlink",
+      "description": "validate-link-integrity skill's bundled copy of link_integrity.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_extraction.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/validate-link-integrity/scripts/link_extraction.py",
+      "strategy": "symlink",
+      "description": "validate-link-integrity skill's bundled copy of link_extraction.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/validate-link-integrity/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "validate-link-integrity skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/webpart-migration-rules.json",
+      "dst": "plugins/sharepoint-discovery/scripts/assets/webpart-migration-rules.json",
+      "strategy": "symlink",
+      "description": "sharepoint-discovery packaged copy of the neutral web part migration rules"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/page_inventory_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-page-inventory/scripts/page_inventory_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-page-inventory skill's bundled copy of page_inventory_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-page-inventory/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-page-inventory skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/webpart_code_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-webpart-code/scripts/webpart_code_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-webpart-code skill's bundled copy of webpart_code_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-webpart-code/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-webpart-code skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "audit-schema skill's bundled copy of schema_export.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_diff.py",
+      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/schema_diff.py",
+      "strategy": "symlink",
+      "description": "audit-schema skill's bundled copy of schema_diff.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/duplicate_fields.py",
+      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/duplicate_fields.py",
+      "strategy": "symlink",
+      "description": "audit-schema skill's bundled copy of duplicate_fields.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/choice_fields.py",
+      "dst": "plugins/sharepoint-schema/skills/extract-choice-fields/scripts/choice_fields.py",
+      "strategy": "symlink",
+      "description": "extract-choice-fields skill's bundled copy of choice_fields.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-schema/skills/extract-choice-fields/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "extract-choice-fields skill's bundled copy of schema_export.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/aspx_inventory.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/analyze-aspx-pages/scripts/aspx_inventory.py",
+      "strategy": "symlink",
+      "description": "analyze-aspx-pages skill's bundled copy of aspx_inventory.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/component_classification.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/analyze-aspx-pages/scripts/component_classification.py",
+      "strategy": "symlink",
+      "description": "analyze-aspx-pages skill's bundled copy of component_classification.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/analyze-aspx-pages/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "analyze-aspx-pages skill's bundled copy of outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/layout_selection.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/scripts/layout_selection.py",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of layout_selection.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/component_mapping.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/scripts/component_mapping.py",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of component_mapping.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/preview_composition.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/compose-page-preview/scripts/preview_composition.py",
+      "strategy": "symlink",
+      "description": "compose-page-preview skill's bundled copy of preview_composition.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/compose-page-preview/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "compose-page-preview skill's bundled copy of outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/form-classification-rules.json",
+      "dst": "plugins/sharepoint-discovery/scripts/assets/form-classification-rules.json",
+      "strategy": "symlink",
+      "description": "sharepoint-discovery packaged copy of the neutral form classification rules"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/navigation_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-site-navigation/scripts/navigation_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-site-navigation skill's bundled copy of navigation_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-site-navigation/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-site-navigation skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/forms_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-custom-forms/scripts/forms_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-custom-forms skill's bundled copy of forms_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-custom-forms/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-custom-forms skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/permissions_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-permissions/scripts/permissions_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-permissions skill's bundled copy of permissions_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-permissions/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-permissions skill's bundled copy of discovery_inputs.py"
     }
   ]
 }

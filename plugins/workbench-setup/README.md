@@ -30,7 +30,8 @@ plugins/workbench-setup/
 │   ├── psd1_writer.py          # shared Python-dict -> PowerShell .psd1 text renderer
 │   ├── config_setup.py         # setup-sharepoint-connection logic
 │   ├── document_workflow.py    # initialize-document-workflow logic
-│   └── workflow_validation.py  # validate-workbench-environment logic
+│   ├── workflow_validation.py  # validate-workbench-environment logic
+│   └── app_registration_validation.py  # validate-app-registration logic
 ├── assets/
 │   ├── config.psd1.example
 │   ├── document-workflow.psd1.example
@@ -38,7 +39,8 @@ plugins/workbench-setup/
 ├── skills/
 │   ├── setup-sharepoint-connection/
 │   ├── initialize-document-workflow/
-│   └── validate-workbench-environment/
+│   ├── validate-workbench-environment/
+│   └── validate-app-registration/
 └── tests/
 ```
 
