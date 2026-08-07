@@ -20,8 +20,8 @@ Key Input Dependencies:
       business-logic interpretations are caller-supplied data, never built in.
 
 Provenance:
-    Extracted from CMAT `plugins/sharepoint-migration/scripts/page-migration/
-    analyze-webpart-code.py` @ 78d6bb91a6c3c01208208a8c2a06f241fef9ce9f. The source's
+    Extracted from the originating SharePoint migration repository's web-part code
+    analysis script at the pinned source commit. The source's
     hardcoded ~30-entry helper-script table and its named business-rule heuristics were
     site-specific knowledge; they are removed here and replaced by the caller-supplied
     `KnowledgeBase`. See

@@ -167,10 +167,34 @@ def test_report_contains_no_project_literals(entries):
 
 def test_run_writes_three_artifacts(tmp_path):
     outcome = run(extract_path=FIXTURES / "webpart-content.json", output_dir=tmp_path)
-    assert outcome.status is DiscoveryStatus.OBSERVED
+    # PARTIAL, not OBSERVED: the shared fixture deliberately exercises every
+    # category including one ScriptEditorMissing entry (a web part whose content
+    # could not be retrieved). Reporting that run as OBSERVED would be exactly the
+    # silent-partial-success failure mode spec section 13 forbids, so the honest
+    # status is asserted here and the clean-input OBSERVED path is covered by
+    # test_run_with_fully_retrievable_input_is_observed below.
+    assert outcome.status is DiscoveryStatus.PARTIAL
+    assert "could not be retrieved" in outcome.detail
     assert (tmp_path / "webpart-code-groups.json").is_file()
     assert (tmp_path / "webpart-code-analysis.md").is_file()
     assert (tmp_path / "webpart-instance-review.csv").is_file()
+
+
+def test_run_with_fully_retrievable_input_is_observed(tmp_path):
+    """The OBSERVED path: every web part retrievable, nothing unresolved."""
+    clean = [
+        entry
+        for entry in json.loads((FIXTURES / "webpart-content.json").read_text(encoding="utf-8"))
+        if (entry.get("Content") or "").strip()
+    ]
+    src = tmp_path / "clean.json"
+    src.write_text(json.dumps(clean), encoding="utf-8")
+
+    outcome = run(extract_path=src, output_dir=tmp_path / "out")
+
+    assert outcome.status is DiscoveryStatus.OBSERVED
+    assert "could not be retrieved" not in outcome.detail
+    assert (tmp_path / "out" / "webpart-code-groups.json").is_file()
 
 
 def test_run_with_missing_extract_is_unavailable(tmp_path):
