@@ -84,7 +84,7 @@ class LinkFinding:
 class IntegrityReport:
     """Evidence record for one integrity run."""
 
-    findings: Sequence[LinkFinding] = field(default_factory=tuple)
+    findings: Sequence[LinkFinding] = field(default_factory=list)
     outcome: str = Outcome.EMPTY
     resolution_outcome: str = Outcome.NOT_SUPPORTED
 
@@ -216,7 +216,7 @@ def validate_link_integrity(
     unhealthy = len(findings) - healthy
 
     return IntegrityReport(
-        findings=tuple(findings),
+        findings=list(findings),
         outcome=summarise(healthy, unhealthy),
         resolution_outcome=resolution_outcome,
     )

@@ -31,12 +31,48 @@ SOURCE_REPO_MARKERS = [
 
 
 def _shipped_files():
+    """Yield the files this plugin actually ships at runtime.
+
+    Deliberately EXCLUDES ``tests/``. Phase 9 spec section 9 (genericity
+    contract) permits project literals in "negative-control fixtures" while
+    forbidding them in live defaults, and this suite depends on that
+    allowance twice over: ``PROJECT_LITERALS`` above is itself a list of the
+    forbidden strings, so a scan that included this module would always fail
+    on its own source, and ``test_link_remediation``/``test_link_extraction``
+    /``test_link_integrity`` deliberately feed real-shaped legacy URLs
+    through the rewrite path to prove those literals are *removed* rather
+    than preserved. Scanning them would make proving the requirement
+    indistinguishable from violating it.
+
+    The gate this leaves in place is the one that matters: every runtime
+    module, asset, schema, and packaging file must be literal-free. That is
+    strictly enforced below, and ``test_runtime_tree_is_literal_free``
+    asserts the runtime tree is non-empty so this exclusion can never
+    silently reduce the check to a no-op.
+    """
     for path in sorted(PLUGIN_ROOT.rglob("*")):
         if not path.is_file():
             continue
-        if "__pycache__" in path.parts or path.suffix in {".pyc"}:
+        parts = path.relative_to(PLUGIN_ROOT).parts
+        if "__pycache__" in parts or path.suffix in {".pyc"}:
+            continue
+        # Build artifacts, not shipped files. .pytest_cache records parametrized
+        # node IDs, which embed the very literal names this suite parametrizes
+        # over -- scanning it makes the gate fail on its own test-run residue.
+        if ".pytest_cache" in parts or ".egg-info" in " ".join(parts):
+            continue
+        if "tests" in parts:
             continue
         yield path
+
+
+def test_runtime_tree_is_literal_free_scan_is_not_vacuous():
+    """Guard: the exclusion above must never empty the scan set."""
+    runtime = list(_shipped_files())
+    assert runtime, "genericity scan found no runtime files -- gate is vacuous"
+    assert any(
+        path.suffix == ".py" for path in runtime
+    ), "genericity scan covers no Python modules -- gate is vacuous"
 
 
 @pytest.mark.parametrize("literal", PROJECT_LITERALS)

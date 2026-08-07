@@ -149,10 +149,10 @@ class RemediationResult:
 
     outcome: str
     dry_run: bool
-    applied: Sequence[str] = field(default_factory=tuple)
-    failed: Sequence[tuple[str, str]] = field(default_factory=tuple)
-    skipped: Sequence[str] = field(default_factory=tuple)
-    would_change: Sequence[str] = field(default_factory=tuple)
+    applied: Sequence[str] = field(default_factory=list)
+    failed: Sequence[tuple[str, str]] = field(default_factory=list)
+    skipped: Sequence[str] = field(default_factory=list)
+    would_change: Sequence[str] = field(default_factory=list)
     changes: Sequence[RemediationChange] = field(default_factory=tuple)
 
     def to_dict(self) -> dict[str, Any]:
@@ -241,9 +241,9 @@ def _write_each(
     return RemediationResult(
         outcome=outcome,
         dry_run=False,
-        applied=tuple(applied),
-        failed=tuple(failed),
-        skipped=tuple(skipped),
+        applied=list(applied),
+        failed=list(failed),
+        skipped=list(skipped),
         changes=tuple(changes),
     )
 
