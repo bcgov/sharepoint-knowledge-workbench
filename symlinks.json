@@ -1464,6 +1464,42 @@
       "dst": "plugins/workbench-setup/skills/validate-app-registration/scripts/app_registration_validation.py",
       "strategy": "symlink",
       "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/aspx_inventory.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/analyze-aspx-pages/scripts/aspx_inventory.py",
+      "strategy": "symlink",
+      "description": "analyze-aspx-pages skill's bundled copy of aspx_inventory.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/component_classification.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/analyze-aspx-pages/scripts/component_classification.py",
+      "strategy": "symlink",
+      "description": "analyze-aspx-pages skill's bundled copy of component_classification.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/analyze-aspx-pages/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "analyze-aspx-pages skill's bundled copy of outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/layout_selection.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/scripts/layout_selection.py",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of layout_selection.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/component_mapping.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/scripts/component_mapping.py",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of component_mapping.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of outcomes.py"
     }
   ]
 }

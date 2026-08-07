@@ -39,6 +39,12 @@
       "name": "workbench-setup",
       "source": "./plugins/workbench-setup",
       "strict": true
+    },
+    {
+      "name": "sharepoint-page-modernization",
+      "source": "./plugins/sharepoint-page-modernization",
+      "strict": true,
+      "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, and component mapping with explicit gap notices. Produces plans, never tenant writes."
     }
   ]
 }
