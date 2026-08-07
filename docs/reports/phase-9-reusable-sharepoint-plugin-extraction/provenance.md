@@ -867,3 +867,44 @@ source repository/commit/plugin baseline as above.
 - No project literal (`justin`, `ceis`, `ords`, `courthouse`, `ag-csb`, `ag-bcps`, `ag-pssg`,
   `itau`, `pio`, `icm`, `crownnet`, `mediainfo`, `jag.gov.bc.ca`, `bcgov.sharepoint.com`, `cmat`,
   `csb`) found in any new script, asset, skill doc, test, or fixture (grep-verified).
+
+---
+
+# Verification of the two "not extracted" judgements (2026-08-07, independent re-check)
+
+Both skip decisions in the discovery-extension round were re-verified against the pinned source
+rather than accepted on assertion. **Both hold.**
+
+## `sp-synthesizing-discovery` — correctly NOT extracted
+
+Backing script `scripts/page-migration/generate-master-discovery-meta-review.py` (129 lines):
+
+- Lines 102-106 define a **hardcoded metrics dictionary** (`total_pages: 654`, `total_wps: 193`,
+  `flagged_links: 4792`, ...). Only `total_pages` is ever replaced with real data, from a single
+  manifest's array length (line 116). Every other headline figure in the generated "meta review"
+  is a constant baked into the script.
+- Lines 40-42 **fabricate** further figures from arbitrary ratios:
+  `oob_pages = int(total_pages * 0.7)`, `custom_pages = int(total_pages * 0.25)`,
+  `spfx_candidates = int(unique_groups * 0.1)`. These are invented estimates presented as
+  discovery output.
+- Thresholds (`> 100`, `> 500`, `> 1000`) are hardcoded organisation-specific judgement.
+
+Extracting this would have shipped fabricated numbers wearing the appearance of measurement —
+precisely the "silent false confidence" failure mode this phase's honest-outcome vocabulary exists
+to prevent. A genuine synthesis capability would need to actually roll up the sibling `*-plan.json`
+outputs; that is a **new design task**, not an extraction. Recorded as a real capability gap.
+
+## `sp-discovering-site-structure` — correctly NOT extracted (scope, not cost)
+
+Its backing scripts are **live-tenant collectors**, not analysers of an already-collected export:
+`export-sharepoint-inventory.ps1` calls `Connect-PnPOnline` and queries a live tenant directly.
+
+`plugins/sharepoint-discovery` is deliberately a **read-only analysis plugin operating on exports
+you already have** — it performs no tenant I/O at all. A live collector does not belong in it
+regardless of literal density. The 147/178 literal saturation (§8h) is a real additional cost, but
+the **scope mismatch is the decisive reason**, and it would remain decisive even if the scripts
+were perfectly generic.
+
+Live-tenant collection remains unowned in this workbench. If it is ever wanted it needs its own
+plugin with an explicit connection/write-safety boundary, designed against `workbench-setup`'s
+connector-injection contract — not folded into the analysis plugin.
