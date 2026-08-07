@@ -89,7 +89,9 @@ have hosted them.
 **The fix is a design decision, not a port:** a new collection plugin with an explicit
 connection/write-safety boundary, built against `workbench-setup`'s connector-injection contract.
 See `docs/reports/phase-9-reusable-sharepoint-plugin-extraction/remaining-capability-roadmap.md`,
-rank 1.
+rank 1, and the concrete proposal in
+`docs/superpowers/specs/2026-08-07-sharepoint-collection-and-orchestration-design.md` (Part A) —
+**design only, not authorized to build**.
 
 ### ⚠ Seam 2: the new plugins do not read `workbench-setup`'s config
 
@@ -103,8 +105,10 @@ plugin to install and run standalone, and the four are verified to do so via
 
 **But it does mean there is no single "configure once, run everything" entry point yet.** If you
 want one, the right shape is an orchestration layer that *reads* the config and *passes* explicit
-paths down — not plugins reaching into a shared config themselves. That layer does not exist and
-should be designed, not improvised.
+paths down — not plugins reaching into a shared config themselves. That layer does not exist. A
+concrete proposal is now written up in
+`docs/superpowers/specs/2026-08-07-sharepoint-collection-and-orchestration-design.md` (Part B) —
+**design only, not authorized to build**.
 
 ### ⚠ Seam 3: publication is gated on Phase 3
 
