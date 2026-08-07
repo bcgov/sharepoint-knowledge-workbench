@@ -19,8 +19,8 @@ Key Input Dependencies:
     - A web part migration rules JSON file (see assets/webpart-migration-rules.json).
 
 Provenance:
-    Extracted from CMAT `plugins/sharepoint-migration/scripts/page-migration/
-    analyse_aspx_content.py` @ 78d6bb91a6c3c01208208a8c2a06f241fef9ce9f. See
+    Extracted from the originating SharePoint migration repository's classic-page
+    content analysis script at the pinned source commit. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
 """
 

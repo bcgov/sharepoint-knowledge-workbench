@@ -18,7 +18,7 @@ Key Input Dependencies:
       the schema expectations are documented per analysis module).
 
 Provenance:
-    New in this repository. The CMAT source scripts this plugin was extracted from had
+    New in this repository. The originating source scripts this plugin was extracted from had
     no shared status vocabulary -- they printed to the console and silently substituted
     fabricated defaults when an input file was absent. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
