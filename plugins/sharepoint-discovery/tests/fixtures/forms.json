@@ -1,0 +1,5 @@
+[
+  {"listName": "Requests", "isCustomized": true, "hasScript": true, "formType": "Custom"},
+  {"listName": "Feedback", "isCustomized": true, "hasScript": false, "formType": "InfoPath"},
+  {"listName": "Announcements", "isCustomized": false, "hasScript": false, "formType": "Standard"}
+]

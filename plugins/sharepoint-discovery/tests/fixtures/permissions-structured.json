@@ -1,0 +1,15 @@
+{
+  "siteUrl": "/sites/team",
+  "groups": [
+    {"name": "Site Owners", "permission": "Full Control"},
+    {"name": "Site Members", "permission": "Edit"}
+  ],
+  "objects": [
+    {"title": "Site", "hasUniqueRoleAssignments": false, "roleAssignments": []},
+    {
+      "title": "Policies",
+      "hasUniqueRoleAssignments": true,
+      "roleAssignments": [{"group": "Site Owners", "role": "Full Control"}]
+    }
+  ]
+}
