@@ -674,3 +674,196 @@ complete port of the source's SharePoint engineering capability and should not b
 **NOT merged to `main`.** Per this repository's per-phase workflow, `main` integration requires
 human review and approval; the agent does not merge. Phase 9's own exit criteria (§20) also remain
 partially unmet — notably the full remaining-capability roadmap and the phase retrospective.
+
+---
+
+## Appended 2026-08-07 — Wave 3: `sharepoint-discovery` extension (navigation, forms, permissions)
+
+Extends the existing `plugins/sharepoint-discovery/` plugin (2 skills, 3 modules, 41 tests before
+this wave) with three more read-only analysis capabilities, following the same
+`discovery_inputs.py` `DiscoveryStatus`/`DiscoveryOutcome` vocabulary and flat-`scripts/` house
+style as the plugin's existing `page_inventory_analysis.py`/`webpart_code_analysis.py`. Same
+source repository/commit/plugin baseline as above.
+
+### Record 7 — `sp-discovering-navigation` → `sharepoint-discovery/skills/analyze-site-navigation`
+
+- **Source skill:** `plugins/sharepoint-migration/skills/sp-discovering-navigation/`
+- **Source scripts (resolved through symlinks, 2 LIVE):**
+  - `plugins/sharepoint-migration/scripts/page-migration/generate-deep-nav-analysis.py` (ported)
+  - `plugins/sharepoint-migration/scripts/page-migration/extract-site-navigation.ps1` (not ported —
+    a live tenant collector, out of scope for a read-only analysis plugin that consumes exports)
+- **Source tests:** none found for either script.
+- **Source implementation status:** `IMPLEMENTED`.
+- **Destination files:**
+  - `plugins/sharepoint-discovery/scripts/navigation_analysis.py` (new module)
+  - `plugins/sharepoint-discovery/tests/test_navigation_analysis.py` (new tests, 10 cases)
+  - `plugins/sharepoint-discovery/tests/fixtures/navigation.json` (new neutral fixture)
+  - `plugins/sharepoint-discovery/skills/analyze-site-navigation/SKILL.md` (new skill; script and
+    `discovery_inputs.py` symlinked into the skill's `scripts/` folder per `symlinks.json`)
+- **Removed project coupling:** the hardcoded `total_webs: 6`, the fixed `site_url =
+  "https://csb.jag.gov.bc.ca"` default, the `--site-name` CLI default `"CSB Intranet Prod"`, the
+  `config.psd1` `ExportBase`/`StructureSourceUrl` regex-scraping path resolution, and the Markdown
+  template-file substitution (`SITE-NAVIGATION-CHROME-SUMMARY-template.md`) are all removed. The
+  destination module takes one caller-supplied export path and one caller-supplied output
+  directory; it has no default site identity and no tenant-specific path convention.
+- **Intentional behavior changes:**
+  1. The source printed a fixed `"SPO Hub Global Navigation"` mapping label per row regardless of
+     input; the destination reports structural facts only (title, url, depth, child count) and
+     leaves migration-target labeling to the caller/reviewer — no per-row judgement is fabricated.
+  2. The source's `total_webs` field was a hardcoded constant (6) never derived from any input;
+     dropped entirely rather than carried forward as a fake statistic.
+  3. Added recursive max-depth computation across arbitrarily nested `children` — the source only
+     handled a single level of children for the row's sub-node count and never computed how deep
+     the tree actually went.
+  4. Honest outcomes added: a missing export is `UNAVAILABLE` (source silently built an empty
+     `nav_data = {}` and reported "0 nodes" as if that were a successful survey); an export with no
+     nodes at all is `EMPTY`; a non-object export is `FAILED`.
+- **New neutral fixtures:** `tests/fixtures/navigation.json` — a synthetic 2-level tree (`Home`,
+  `Departments > Finance/HR > Benefits`) and a flat `quickLaunch` list. No real tenant URLs.
+- **Parity evidence:** retained behavior is the flatten-with-depth/child-count structural read of a
+  `{topNav, quickLaunch}` export — source input: `TopNav`/`QuickLaunch` JSON arrays with optional
+  `Children`; source output: a row per top-level node with a child count; destination fixture: the
+  2-level synthetic tree above; destination result: `analyse()` returns 2 top-nav top-level nodes,
+  4 nodes total, max depth 2, and per-node `depth`/`childCount` matching the tree shape — verified
+  by `test_max_depth_reflects_deepest_child_chain` and `test_flattened_nodes_carry_depth_and_child_count`.
+
+### Record 8 — `sp-discovering-forms` → `sharepoint-discovery/skills/analyze-custom-forms`
+
+- **Source skill:** `plugins/sharepoint-migration/skills/sp-discovering-forms/`
+- **Source scripts (resolved through symlinks, 2 LIVE):**
+  - `plugins/sharepoint-migration/scripts/page-migration/generate-deep-forms-analysis.py` (ported)
+  - `plugins/sharepoint-migration/scripts/page-migration/download-custom-forms.ps1` (not ported — a
+    live tenant collector, same read-only-analysis-plugin boundary as Record 7)
+- **Source tests:** none found for either script.
+- **Source implementation status:** `IMPLEMENTED`.
+- **Destination files:**
+  - `plugins/sharepoint-discovery/scripts/forms_analysis.py` (new module)
+  - `plugins/sharepoint-discovery/assets/form-classification-rules.json` (new neutral default
+    rules asset, packaged copy symlinked into `scripts/assets/` per `symlinks.json`, matching the
+    existing `webpart-migration-rules.json` hub-and-spoke pattern)
+  - `plugins/sharepoint-discovery/tests/test_forms_analysis.py` (new tests, 11 cases)
+  - `plugins/sharepoint-discovery/tests/fixtures/forms.json` (new neutral fixture)
+  - `plugins/sharepoint-discovery/skills/analyze-custom-forms/SKILL.md` (new skill; script and
+    `discovery_inputs.py` symlinked into the skill's `scripts/` folder)
+- **Removed project coupling:** the fixed `site_url`/`"CSB Intranet Prod"` defaults, the
+  `config.psd1` scraping path, and the hardcoded `"Custom Power Apps / React Form"` modernization
+  strategy string (baked into the source regardless of what kind of custom form was found) are all
+  removed. The destination reads the modernization strategy per classification from a
+  caller-supplied rules file (`load_rules`), following the same "rules are data, not code" pattern
+  already established by `page_inventory_analysis.py`'s `webpart-migration-rules.json`.
+- **Intentional behavior changes:**
+  1. Strategy text is now caller-owned data (`assets/form-classification-rules.json`), not a single
+     hardcoded string applied to every custom form regardless of kind.
+  2. Honest outcomes added: a missing forms export or rules file is `UNAVAILABLE` (the source
+     silently fell back to an empty `forms_data = []` list and reported a clean "0 custom forms"
+     summary if neither `--input` nor the default manifest path existed); an empty export is
+     `EMPTY`; a non-array export is `FAILED`.
+- **New neutral fixtures:** `tests/fixtures/forms.json` — three synthetic list forms (a scripted
+  custom form, an InfoPath/layout-only custom form, an out-of-box form). No real tenant data.
+- **Parity evidence:** retained behavior is the three-way classification (out-of-box / script /
+  InfoPath-layout-only) — source input: a `ListName`/`IsCustomized`/`HasScript` array; source
+  output: `oob_forms`/`script_count`/`infopath_count` tallies plus a custom-forms row list;
+  destination fixture: the 3-entry synthetic array above; destination result: `analyse()` reports
+  1 out-of-box, 1 script, 1 InfoPath form, with `customItems` excluding the out-of-box entry and
+  each custom item carrying the caller-supplied strategy string for its `formKind` — verified by
+  `test_classifies_script_infopath_and_out_of_box` and
+  `test_custom_items_carry_a_caller_supplied_strategy`.
+
+### Record 9 — `sp-discovering-permissions` → `sharepoint-discovery/skills/analyze-permissions`
+
+- **Source skill:** `plugins/sharepoint-migration/skills/sp-discovering-permissions/`
+- **Source script (resolved through symlink, 1 LIVE):**
+  - `plugins/sharepoint-migration/scripts/page-migration/generate-deep-permissions-analysis.py`
+    (ported)
+- **Depth correction:** the Phase 9 dispatch brief flagged this skill as "1 LIVE — thin, verify
+  real depth before claiming it's implemented." On read, the single script is 242 lines with real
+  branching logic — it accepts *two* distinct export shapes (a flat per-(principal, object) row
+  array, or a structured `{Groups, Objects}` document with an explicit
+  `HasUniqueRoleAssignments` flag), derives groups/objects from either, and generates two separate
+  reports (a group provisioning checklist and a broken-inheritance exception report). This is not
+  thin; it was extracted in full.
+- **Source tests:** none found.
+- **Source implementation status:** `IMPLEMENTED`.
+- **Destination files:**
+  - `plugins/sharepoint-discovery/scripts/permissions_analysis.py` (new module)
+  - `plugins/sharepoint-discovery/tests/test_permissions_analysis.py` (new tests, 9 cases,
+    covering both accepted input shapes)
+  - `plugins/sharepoint-discovery/tests/fixtures/permissions-flat.json`,
+    `tests/fixtures/permissions-structured.json` (new neutral fixtures)
+  - `plugins/sharepoint-discovery/skills/analyze-permissions/SKILL.md` (new skill; script and
+    `discovery_inputs.py` symlinked into the skill's `scripts/` folder)
+- **Removed project coupling:** the fixed `"https://csb.jag.gov.bc.ca"` default site URL, the
+  `--site-name "CSB Intranet Prod"` default, the `config.psd1` scraping path, the
+  `.replace('CSB_', '').replace('CMAT_', '')` group-name transformation (a project-specific prefix
+  strip applied to every group name), and — most significantly — the **fabricated fallback data**
+  the source wrote when its input file did not exist (`{"SiteUrl": "https://csb.jag.gov.bc.ca",
+  "Groups": [{"Name": "Owners", ...}, {"Name": "Members", ...}], "Objects": []}`, which let the
+  source report a clean-looking two-group checklist even when no real export was ever read) are
+  all removed.
+- **Intentional behavior changes:**
+  1. A missing permissions export is now `UNAVAILABLE` with **no output written** — the source's
+     synthetic-fallback behavior above is exactly the kind of "empty success" this plugin's honest-
+     outcomes contract (spec §13) forbids, so it was not carried over as a default; it is recorded
+     here for transparency, not silently dropped.
+  2. Group-name normalization (stripping org-specific prefixes) is removed as project-specific
+     display logic, not reusable analysis.
+  3. The two source reports (checklist + exception report) are consolidated into one
+     `permissions-plan.{json,md}` pair with two sections, matching this plugin's one-plan-per-run
+     convention (`page-inventory-plan`, `navigation-plan`, `forms-plan`) rather than the source's
+     two-separate-files convention.
+- **New neutral fixtures:** `permissions-flat.json` (3 flat rows across 3 objects) and
+  `permissions-structured.json` (2 groups, 2 objects, 1 with broken inheritance) — no real tenant
+  URLs or GUIDs.
+- **Parity evidence:** retained behavior is dual-shape group/object derivation plus broken-
+  inheritance filtering — source input (structured shape): `Groups`/`Objects` with
+  `HasUniqueRoleAssignments`; source output: `unique_objects` filtered to `HasUniqueRoleAssignments
+  == True`; destination fixture: `permissions-structured.json`'s 2 objects, 1 flagged unique;
+  destination result: `analyse()` returns `uniqueObjectsCount == 1` and names the correct object —
+  verified by `test_structured_shape_flags_unique_role_assignments_only`. Flat-shape parity:
+  source derives one row per unique `ObjectTitle`/`ListName` across repeated principal rows;
+  destination fixture: `permissions-flat.json`'s 3 rows across `Site`/`Policies`/`Forms`;
+  destination result: `analyse()` derives exactly 3 objects and groups the 2 `Forms`/`Policies`
+  rows sharing `HR Reviewers` correctly — verified by `test_flat_shape_derives_groups_and_objects`
+  and `test_flat_shape_groups_multiple_role_assignments_under_one_object`.
+
+### Not extracted, and why
+
+- **`sp-synthesizing-discovery`** (`generate-master-discovery-meta-review.py`, 1 LIVE symlink, 129
+  lines) — read in full and judged **too thin to extract as a real capability**. Its only actual
+  data-driven step is reading one manifest file's array length for `total_pages`; every other
+  metric it reports (`total_wps`, `unique_wp_groups`, `flagged_links`, `total_groups`,
+  `custom_forms`, `total_nav_nodes`) is a **hardcoded literal fallback**
+  (`{"total_pages": 654, "total_wps": 193, "unique_wp_groups": 181, "flagged_links": 4792,
+  "total_groups": 53, "custom_forms": 0, "total_nav_nodes": 109}`) that is never reconciled against
+  any of the other 12 discovery domains' real output files — despite the module's own docstring
+  describing it as reading "all discovery outputs across the 13 discovery domains." The
+  "complexity rating" and page-disposition percentages (`oob_pages = total_pages * 0.7`,
+  `custom_pages = total_pages * 0.25`) it derives are arithmetic on those same mostly-fabricated
+  numbers, not analysis of real data. A synthesis/meta-review capability worth extracting would
+  need to genuinely read the sibling `navigation-plan.json`/`forms-plan.json`/
+  `permissions-plan.json`/`page-inventory-plan.json` artifacts this wave's three modules (plus the
+  existing two) now produce and roll them up — that is a real, separate design task, not a port of
+  this script. Deferred, not built as a hollow shell.
+- **`sp-discovering-site-structure`** (3 LIVE symlinks) — not read in detail this wave, consistent
+  with the dispatch brief's budget warning: its two backing scripts,
+  `scripts/inventory/export-sharepoint-inventory.ps1` and
+  `export-sharepoint-inventory-custom.ps1`, are PowerShell **collectors** (they connect to a live
+  tenant to build the inventory export), not analysis of an already-collected export — out of
+  scope for this read-only-analysis plugin regardless of their reported 147/178 project-literal
+  saturation. The third symlink, `diagnose-page.ps1`, is also a live-tenant diagnostic script, not
+  an analysis-of-export capability. No PowerShell collector from this skill fits this plugin's
+  contract; a site-structure *analysis* module (consuming whatever JSON these collectors produce)
+  remains a legitimate future candidate but was not attempted this wave.
+
+### Verification (Wave 3)
+
+- `python3 -m pytest -q plugins/sharepoint-discovery` — **71 passed** (41 pre-existing + 30 new:
+  10 navigation + 11 forms + 9 permissions).
+- `python3 tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py --plugin
+  sharepoint-discovery --import-package discovery_inputs` — passed (exit 0), all 71 tests green
+  inside a clean, isolated venv built from the plugin's own wheel.
+- `symlink_manager.py restore` — 7 new symlinks created (1 asset, 6 script copies across the 3 new
+  skills), 0 new failures (24 pre-existing broken links elsewhere in the repo, unchanged).
+- No project literal (`justin`, `ceis`, `ords`, `courthouse`, `ag-csb`, `ag-bcps`, `ag-pssg`,
+  `itau`, `pio`, `icm`, `crownnet`, `mediainfo`, `jag.gov.bc.ca`, `bcgov.sharepoint.com`, `cmat`,
+  `csb`) found in any new script, asset, skill doc, test, or fixture (grep-verified).

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sharepoint-discovery"
 version = "0.1.0-alpha.1"
-description = "Read-only analysis of classic SharePoint discovery exports: page inventory and complexity planning, web part code classification, navigation, custom forms, permissions, and a consolidated discovery synthesis report. Zero tenant I/O -- reads already-collected export files only."
+description = "Read-only analysis of classic SharePoint discovery exports: page inventory and complexity planning, web part code classification, site navigation architecture, custom form inventory, and permissions/broken-inheritance analysis. Zero tenant I/O -- reads already-collected export files only."
 requires-python = ">=3.10"
 # No dependency on any other workbench distribution -- this plugin must install and run
 # standalone (Phase 4.5 convention, Phase 9 spec §14 independence requirement).
@@ -19,8 +19,6 @@ py-modules = [
     "navigation_analysis",
     "forms_analysis",
     "permissions_analysis",
-    "discovery_synthesis",
-    "read_only_audit",
 ]
 
 [tool.setuptools.package-dir]

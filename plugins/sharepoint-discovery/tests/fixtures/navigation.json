@@ -1,0 +1,23 @@
+{
+  "topNav": [
+    {
+      "title": "Home",
+      "url": "/",
+      "children": []
+    },
+    {
+      "title": "Departments",
+      "url": "/departments",
+      "children": [
+        {"title": "Finance", "url": "/departments/finance", "children": []},
+        {"title": "HR", "url": "/departments/hr", "children": [
+          {"title": "Benefits", "url": "/departments/hr/benefits", "children": []}
+        ]}
+      ]
+    }
+  ],
+  "quickLaunch": [
+    {"title": "Documents", "url": "/documents", "children": []},
+    {"title": "Announcements", "url": "/announcements", "children": []}
+  ]
+}

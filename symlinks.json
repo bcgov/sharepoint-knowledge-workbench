@@ -1608,6 +1608,48 @@
       "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/scripts/outcomes.py",
       "strategy": "symlink",
       "description": "convert-aspx-pages skill's bundled copy of outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/form-classification-rules.json",
+      "dst": "plugins/sharepoint-discovery/scripts/assets/form-classification-rules.json",
+      "strategy": "symlink",
+      "description": "sharepoint-discovery packaged copy of the neutral form classification rules"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/navigation_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-site-navigation/scripts/navigation_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-site-navigation skill's bundled copy of navigation_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-site-navigation/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-site-navigation skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/forms_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-custom-forms/scripts/forms_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-custom-forms skill's bundled copy of forms_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-custom-forms/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-custom-forms skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/permissions_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-permissions/scripts/permissions_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-permissions skill's bundled copy of permissions_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-permissions/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-permissions skill's bundled copy of discovery_inputs.py"
     }
   ]
 }
