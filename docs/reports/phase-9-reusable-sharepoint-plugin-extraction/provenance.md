@@ -450,3 +450,81 @@ make "not checked" impossible to confuse with "checked and fine".
 ## Source-repository preservation
 
 No file in the source repository was modified; symlink resolution was read-only.
+
+---
+
+# Wave 6 — `sharepoint-schema` (new plugin)
+
+**Source repository:** `jag-csb-cmat-sharepoint-online` (read-only). **Pinned commit:**
+`78d6bb91a6c3c01208208a8c2a06f241fef9ce9f`. **Source plugin:** `sharepoint-migration`.
+**Destination:** `plugins/sharepoint-schema` (new).
+
+## Justification verdict
+
+Spec §8e rated this the **weakest** of the five provisionally-justified candidates ("only 2 of 5
+implemented, both thin... provisionally justified on `sp-auditing-schema` alone"). Direct
+inspection at the pinned commit revised that upward: `sp-auditing-schema` resolves to **6 live
+scripts** (schema comparison, site parity, duplicate auditing, missing-field detection), not a thin
+shell. **Verdict: justified as a standalone plugin.** Distinct domain (schema variance), cohesive
+responsibility, independent installation value, no existing workbench plugin owns it.
+
+## Record 13 — `sp-auditing-schema` → `audit-schema`
+
+- **Source:** 7 symlinks, of which **6 LIVE and 1 BROKEN** (`compare-live-schema-test-vs-spo.ps1`
+  → nonexistent target). The broken link was **not** extracted and **not** repaired in the source
+  (§17). Live targets resolved into `scripts/schema-audit/` and `scripts/utilities/`.
+- **Destination:** `skills/audit-schema/SKILL.md` + `scripts/schema_export.py`,
+  `scripts/schema_diff.py`, `scripts/duplicate_fields.py`.
+- **Removed project coupling:** the source hardcoded its own environment pair and a project path
+  segment in the export layout. Both removed — environment labels and the scope segment are
+  explicit caller parameters, and a test asserts the default layout assumes no project scope
+  segment. Compared properties and the builtin-column exclusion list are likewise caller-supplied.
+- **Intentional behavior changes:** PowerShell → Python (Wave 1 precedent). Added the
+  `SectionStatus` vocabulary (`OBSERVED`/`EMPTY`/`PARTIAL`/`UNAVAILABLE`) — a missing export is
+  `UNAVAILABLE`, never a clean pass; an unreadable list yields `PARTIAL`; a list present on one
+  side only is reported, never dropped; duplicate keys surface as ambiguity rather than being
+  resolved by guessing. `render_markdown` is deterministic and emits no timestamp or host
+  identifier so successive reports diff cleanly.
+- **Deliberate capability REMOVAL:** the source's duplicate-field script carried a `-Cleanup`
+  switch that called `Remove-PnPField` — a destructive tenant write. **That capability was not
+  extracted.** `test_module_exposes_no_remediation_or_write_capability` enforces its absence. This
+  is an intentional narrowing consistent with spec §13's read-only-default posture, not an
+  oversight.
+- **Parity evidence:** `tests/test_schema_export.py` (13), `tests/test_schema_diff.py` (10),
+  `tests/test_duplicate_fields.py` (9).
+
+## Record 14 — `sp-extracting-choices` → `extract-choice-fields`
+
+- **Source:** 1 LIVE symlink → `scripts/utilities/extract-choices.ps1`. Task 2a flagged this as
+  thin and required verifying real depth; confirmed thin, so the destination reimplements the
+  technique rather than porting substantial logic.
+- **Destination:** `skills/extract-choice-fields/SKILL.md` + `scripts/choice_fields.py`.
+- **Intentional behavior changes:** "no options defined" (`EMPTY`) and "options unknown"
+  (`UNKNOWN`, no `Choices` property in the export) are distinguished and never conflated;
+  `to_overrides_mapping` omits unknown option sets rather than emitting an empty list, so a
+  consumer cannot mistake "we don't know" for "there are none". Both the plain-array and OData
+  `{"results": [...]}` envelope forms are supported. The group filter is opt-in with no default —
+  nothing is silently excluded.
+- **Parity evidence:** `tests/test_choice_fields.py` (9).
+
+## Not extracted, and why
+
+- `sp-mapping-content-types`, `sp-mapping-lists`, `sp-mapping-taxonomy` —
+  `PLANNED_WITH_NO_IMPLEMENTATION` in the source. Gaps, not skills; no empty skills created.
+- `sp-synthesizing-deployment-matrix` — spec §8d flagged this `UNVERIFIED_ACTIVE_CLAIM`
+  (`SKILL.md` claims `active`, zero scripts and zero symlinks). **Direct inspection at the pinned
+  commit confirms the claim is unfounded: it has no backing implementation.** This resolves that
+  open `REQUIRES_HUMAN_DECISION` item — reclassify as `PLANNED_WITH_NO_IMPLEMENTATION`.
+- The source's field-deletion (`-Cleanup`) capability — deliberately dropped, see Record 13.
+
+## Independence verification
+
+- `isolated_install_check.py --plugin sharepoint-schema --import-package schema_export` → PASS.
+- All 4 runtime modules: zero project literals, zero GUIDs/tenant URLs, standard library only, no
+  tenant connection or write path — each enforced by a test in
+  `tests/test_genericity_and_independence.py`, guarded against vacuity by
+  `test_runtime_scan_is_not_vacuous`.
+
+## Source-repository preservation
+
+No source file was modified. The broken symlink was recorded, not repaired.

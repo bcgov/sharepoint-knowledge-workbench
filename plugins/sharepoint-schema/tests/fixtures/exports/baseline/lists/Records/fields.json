@@ -1,0 +1,20 @@
+[
+  {
+    "InternalName": "alpha",
+    "Title": "Alpha",
+    "TypeAsString": "Text",
+    "Required": false,
+    "Hidden": false,
+    "ReadOnlyField": false,
+    "Group": "Custom Columns"
+  },
+  {
+    "InternalName": "legacy_ref",
+    "Title": "Legacy Reference",
+    "TypeAsString": "Text",
+    "Required": false,
+    "Hidden": false,
+    "ReadOnlyField": false,
+    "Group": "Custom Columns"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "InternalName": "summary",
+    "Title": "Summary",
+    "TypeAsString": "Note",
+    "Required": false,
+    "Hidden": false,
+    "Group": "Custom Columns"
+  },
+  {
+    "InternalName": "retired_code",
+    "Title": "Retired Code",
+    "TypeAsString": "Text",
+    "Required": false,
+    "Hidden": false,
+    "Group": "Custom Columns"
+  }
+]

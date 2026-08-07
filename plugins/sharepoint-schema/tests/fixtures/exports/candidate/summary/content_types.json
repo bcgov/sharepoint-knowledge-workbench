@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "Reference Item",
+    "StringId": "0x0100000000000000000000000000000001",
+    "Group": "Custom Content Types",
+    "Sealed": false,
+    "ReadOnly": false
+  }
+]
