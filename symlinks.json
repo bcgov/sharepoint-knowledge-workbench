@@ -1458,6 +1458,12 @@
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": "sharepoint-content-publication's copy of canonical_schema/shared.py (Phase 6 remediation, 2026-08-03)"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/app_registration_validation.py",
+      "dst": "plugins/workbench-setup/skills/validate-app-registration/scripts/app_registration_validation.py",
+      "strategy": "symlink",
+      "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
     }
   ]
 }
