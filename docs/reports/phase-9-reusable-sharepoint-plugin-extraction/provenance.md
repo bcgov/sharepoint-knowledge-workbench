@@ -370,3 +370,83 @@ confirmed by Task 2a's live-symlink recount: 3 of 4 candidate skills have real b
 No file in the source repository was modified. Symlink resolution used `readlink`/`ls -la` only.
 The 4 `BROKEN`, 12 `DEPRECATED_TARGET`, and 6 `ESCAPES_PLUGIN` links recorded in Task 2a were
 **not** extracted and were **not** repaired in the source (§17 forbids source modification).
+
+---
+
+# Wave 3 — `sharepoint-discovery` (new plugin, PARTIAL COVERAGE)
+
+**Source repository:** `jag-csb-cmat-sharepoint-online` (local checkout, read-only).
+**Source commit (pinned):** `78d6bb91a6c3c01208208a8c2a06f241fef9ce9f`.
+**Source plugin:** `sharepoint-migration`.
+**Destination plugin:** `plugins/sharepoint-discovery` (new).
+
+> **Coverage warning — read before treating this plugin as complete.** Task 2a identified **7**
+> implemented discovery capabilities. This wave delivers **2 skills over 3 modules**, covering the
+> page-inventory and web-part-code analysis capabilities only. The remaining implemented
+> capabilities (`sp-discovering-site-structure`, `sp-discovering-navigation`,
+> `sp-discovering-forms`, `sp-discovering-permissions`, `sp-synthesizing-discovery`) are **NOT
+> extracted**. This plugin is genuinely useful as-is but is not a complete port of the source's
+> discovery family.
+
+## Record 10 — page inventory analysis → `analyze-page-inventory`
+
+- **Source:** `sp-discovering-pages` / `sp-analysing-aspx-pages` (3 and 5 LIVE symlinks
+  respectively), resolving into `scripts/page-migration/analyse_aspx_content.py`.
+- **Source implementation status:** `IMPLEMENTED`.
+- **Destination:** `skills/analyze-page-inventory/SKILL.md` + `scripts/page_inventory_analysis.py`.
+- **Removed project coupling:** the source embedded one organisation's complexity thresholds and
+  disposition rules directly. All are now caller-supplied via `load_rules(path)`; no migration
+  judgement ships as a live default.
+- **Intentional behavior changes:** PowerShell/Python → Python (Wave 1 precedent). Added the
+  `DiscoveryStatus` vocabulary — the source printed to console and, on a missing input, silently
+  substituted fabricated defaults. A missing input is now `UNAVAILABLE` and creates no output
+  directory at all (spec §13).
+- **Parity evidence:** `tests/test_page_inventory_analysis.py`.
+
+## Record 11 — web-part code analysis → `analyze-webpart-code`
+
+- **Source:** `sp-discovering-web-parts` — 19 raw symlinks, but Task 2a recomputed this to **13
+  LIVE**: 6 pointed outside the plugin boundary at `01_source_sharepoint/analysis/` project
+  analysis documents. **Those 6 were not extracted** — they are project data, not capability, and
+  fail the genericity contract by definition.
+- **Source implementation status:** `IMPLEMENTED` (richest discovery skill).
+- **Destination:** `skills/analyze-webpart-code/SKILL.md` + `scripts/webpart_code_analysis.py`.
+- **Removed project coupling:** the source hardcoded a ~30-entry helper-script table and named
+  business-rule heuristics — site-specific institutional knowledge. All removed and replaced by the
+  caller-supplied `KnowledgeBase` / `InlineLogicRule`; `DEFAULT_KNOWLEDGE_BASE` is generic.
+- **Intentional behavior changes:** `ScriptEditorMissing` is preserved as a first-class category
+  distinct from `Empty` — an unretrievable web part is an unknown, not an empty one — and any run
+  containing one reports `PARTIAL` with a count rather than `OBSERVED`. This was enforced by
+  correcting a test that had asserted `OBSERVED` on a fixture legitimately yielding `PARTIAL`.
+- **Parity evidence:** `tests/test_webpart_code_analysis.py`, including
+  `test_run_with_fully_retrievable_input_is_observed` covering the clean-input path.
+
+## Record 12 — `discovery_inputs.py` (new, no source counterpart)
+
+Shared status vocabulary and input loading. **New in this repository** — the source scripts had no
+shared outcome vocabulary and silently fabricated defaults on missing input. This module exists to
+make "not checked" impossible to confuse with "checked and fine".
+
+## Not extracted, and why
+
+- `sp-discovering-lists`, `sp-discovering-content-types`, `sp-discovering-workflows` —
+  `PLANNED_WITH_NO_IMPLEMENTATION` in the source. Gaps, not skills.
+- `sp-discovering-site-structure`, `sp-discovering-navigation`, `sp-discovering-forms`,
+  `sp-discovering-permissions`, `sp-synthesizing-discovery` — implemented in the source but **not
+  yet extracted**; deferred, not rejected. Note `sp-discovering-site-structure` is backed by the
+  two most literal-saturated files in the entire source (178 and 147 hits — spec §8h), so its
+  extraction cost is high despite being read-only.
+- The 6 `ESCAPES_PLUGIN` symlinks under `sp-discovering-web-parts/references/` — project analysis
+  documents outside the plugin boundary.
+
+## Independence verification
+
+- `isolated_install_check.py --plugin sharepoint-discovery --import-package discovery_inputs` →
+  **PASS, 41 tests**.
+- Runtime tree contains zero project literals (verified by grep and by
+  `test_module_source_contains_no_project_literals`). Provenance docstrings that originally named
+  the source project were reworded — provenance belongs in this file, not in shipped modules.
+
+## Source-repository preservation
+
+No file in the source repository was modified; symlink resolution was read-only.
