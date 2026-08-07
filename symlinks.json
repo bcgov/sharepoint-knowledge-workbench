@@ -1466,6 +1466,12 @@
       "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
     },
     {
+      "src": "plugins/workbench-setup/scripts/path_resolution.py",
+      "dst": "plugins/workbench-setup/skills/resolve-workbench-paths/scripts/path_resolution.py",
+      "strategy": "symlink",
+      "description": "resolve-workbench-paths skill's bundled copy of path_resolution.py"
+    },
+    {
       "src": "plugins/sharepoint-link-remediation/scripts/link_extraction.py",
       "dst": "plugins/sharepoint-link-remediation/skills/extract-links/scripts/link_extraction.py",
       "strategy": "symlink",

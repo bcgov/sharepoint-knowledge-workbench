@@ -103,12 +103,20 @@ This is **deliberate, not an oversight** — `plugin-architecture-policy.md` §1
 plugin to install and run standalone, and the four are verified to do so via
 `isolated_install_check.py`. A hard dependency on `workbench-setup` would break that.
 
-**But it does mean there is no single "configure once, run everything" entry point yet.** If you
-want one, the right shape is an orchestration layer that *reads* the config and *passes* explicit
-paths down — not plugins reaching into a shared config themselves. That layer does not exist. A
-concrete proposal is now written up in
-`docs/superpowers/specs/2026-08-07-sharepoint-collection-and-orchestration-design.md` (Part B) —
-**design only, not authorized to build**.
+**Part B of that design is now implemented.** `workbench-setup` gained a `resolve-workbench-paths`
+skill (`plugins/workbench-setup/scripts/path_resolution.py`) that reads a `DocumentId` plus
+already-parsed connection/workflow-profile/publication-profile dicts, resolves them into the
+concrete export paths and arguments each downstream plugin skill's `SKILL.md` documents, checks
+each against the real filesystem, and **prints** the resolved invocations — it never executes,
+subprocesses, or imports any of the four plugins, so `workbench-setup` gained no dependency on
+them and remains independently installable (verified by `isolated_install_check.py`). See that
+skill's `SKILL.md` for the full contract, including the export-path convention it introduced
+(`<workbench_root>/sharepoint-exports/<DocumentId>/<skill-export-subdir>/<filename>`) and its
+honest `AVAILABLE`/`PARTIAL`/`UNAVAILABLE` (per invocation) and `PASS`/`PARTIAL`/`EMPTY` (overall)
+outcome vocabulary. Part A (`sharepoint-collection`, the plugin that would actually produce those
+exports from a live tenant) remains **design only, `REQUIRES_HUMAN_DECISION`, not authorized to
+build** — see
+`docs/superpowers/specs/2026-08-07-sharepoint-collection-and-orchestration-design.md` (Part A).
 
 ### ⚠ Seam 3: publication is gated on Phase 3
 

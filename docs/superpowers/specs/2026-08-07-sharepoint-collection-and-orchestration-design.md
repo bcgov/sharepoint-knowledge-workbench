@@ -88,6 +88,14 @@ committing to extraction.**
 
 ## Part B — Configuration orchestration
 
+> **Status: IMPLEMENTED.** The `resolve-workbench-paths` skill and
+> `plugins/workbench-setup/scripts/path_resolution.py` now exist, following exactly the
+> "Recommended shape" and "What this deliberately does NOT do" sections below (print-don't-execute,
+> no dependency added to `workbench-setup`, no execution). See
+> `plugins/workbench-setup/skills/resolve-workbench-paths/SKILL.md` and
+> `docs/architecture/sharepoint-engineering-plugin-set.md`'s Seam 2 entry. Part A below remains
+> unimplemented and `REQUIRES_HUMAN_DECISION`.
+
 ### The constraint that shapes the answer
 
 Plugins must **not** read a shared config themselves; that would break standalone installability
