@@ -606,3 +606,71 @@ outside the `package-dir` boundary work under editable install but break a real 
 ## Source-repository preservation
 
 No source file was modified; reference reading only.
+
+---
+
+# Consolidation record (2026-08-07)
+
+All five wave branches merged into `phase-9-reusable-sharepoint-plugin-extraction`. Three registry
+files conflicted on every wave after the first (`symlinks.json`, `.claude-plugin/marketplace.json`,
+`provenance.md`) because each wave appends to all three. **Every conflict was resolved by union —
+no wave's entries were dropped in favour of another's.**
+
+## Post-consolidation verification (whole branch, not per-wave)
+
+| Plugin | Tests |
+|---|---|
+| `sharepoint-link-remediation` | 121 passed |
+| `sharepoint-discovery` | 41 passed |
+| `sharepoint-schema` | 50 passed |
+| `sharepoint-page-modernization` | 54 passed |
+| `sharepoint-agents-and-skills` | 68 passed |
+| `sharepoint-content-publication` | 31 passed |
+| `workbench-setup` | 52 passed |
+| **Total** | **417 passed, 0 failed** |
+
+- All 11 plugins present in `.claude-plugin/marketplace.json`; `claude plugin validate .` passes
+  (one pre-existing unrelated warning on an older plugin's `capabilities` field).
+- Symlink integrity: 24 broken links repo-wide, **all pre-existing** in the four original Phase 4.5
+  plugins (`docs/diagrams` gap, 6 each). **Zero** broken links in any plugin Phase 9 created or
+  touched.
+
+## Coverage — what this phase did and did not onboard
+
+**Onboarded (17 artifacts):** 2 skills into existing plugins (Wave 1), 4 agents into
+`sharepoint-agents-and-skills` (Wave 2), and 4 new plugins — `sharepoint-discovery` (2 skills),
+`sharepoint-link-remediation` (3), `sharepoint-schema` (2), `sharepoint-page-modernization` (2).
+
+**Deliberately NOT onboarded — deferred, not rejected:**
+
+- Five implemented discovery capabilities: `sp-discovering-site-structure`, `sp-discovering-navigation`,
+  `sp-discovering-forms`, `sp-discovering-permissions`, `sp-synthesizing-discovery`. Note
+  `sp-discovering-site-structure` is backed by the two most literal-saturated files in the source
+  (178 and 147 hits, §8h) — read-only but expensive to genericize.
+- `sp-converting-wiki-pages` (2 LIVE symlinks, implemented).
+- `sp-running-sharegate-jobs` — depends on an external commercial tool; dependency must be
+  documented before extraction, per §8d.
+- `sp-uploading-content`'s broader dual-mechanism upload capability beyond Wave 1's scope.
+
+**Excluded on evidence, not deferred:**
+
+- `sharepoint-content-migration` as a plugin. Task 2a recomputed `sp-migrating-content` from 44 raw
+  symlinks to **29 LIVE** (12 resolve into `scripts/_deprecated/`, 3 dangle). Its reusable
+  wave-execution *mechanism* is unproven outside deprecated code, so §8e's provisional
+  justification does not survive the corrected evidence. Extracting it would mean building on
+  `_deprecated/`.
+- `sp-provisioning-modern-calendars` — `KEEP_CMAT_SPECIFIC`.
+- The whole `ords-integration-migration` plugin — verified read of all 4 skills confirms they are
+  entirely court-system/Oracle-specific. `ORDS_SPECIFIC_OUT_OF_SCOPE` stands.
+- The source's field-deletion (`-Cleanup`) capability — deliberately dropped (Record 13).
+- 11 `PLANNED_WITH_NO_IMPLEMENTATION` source skills — gaps, not capabilities. No empty skills were
+  created for any of them.
+
+**Roughly half of the 21 implemented source skills are now onboarded.** This branch is not a
+complete port of the source's SharePoint engineering capability and should not be described as one.
+
+## Merge status
+
+**NOT merged to `main`.** Per this repository's per-phase workflow, `main` integration requires
+human review and approval; the agent does not merge. Phase 9's own exit criteria (§20) also remain
+partially unmet — notably the full remaining-capability roadmap and the phase retrospective.
