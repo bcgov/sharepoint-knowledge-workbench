@@ -1464,6 +1464,36 @@
       "dst": "plugins/workbench-setup/skills/validate-app-registration/scripts/app_registration_validation.py",
       "strategy": "symlink",
       "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/webpart-migration-rules.json",
+      "dst": "plugins/sharepoint-discovery/scripts/assets/webpart-migration-rules.json",
+      "strategy": "symlink",
+      "description": "sharepoint-discovery packaged copy of the neutral web part migration rules"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/page_inventory_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-page-inventory/scripts/page_inventory_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-page-inventory skill's bundled copy of page_inventory_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-page-inventory/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-page-inventory skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/webpart_code_analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-webpart-code/scripts/webpart_code_analysis.py",
+      "strategy": "symlink",
+      "description": "analyze-webpart-code skill's bundled copy of webpart_code_analysis.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-webpart-code/scripts/discovery_inputs.py",
+      "strategy": "symlink",
+      "description": "analyze-webpart-code skill's bundled copy of discovery_inputs.py"
     }
   ]
 }
