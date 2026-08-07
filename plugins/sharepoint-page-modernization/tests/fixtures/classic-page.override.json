@@ -1,0 +1,16 @@
+{
+  "knownRelationships": [
+    {
+      "providerList": "Project_Requests",
+      "consumerList": "Request_Tasks",
+      "relationship": "Parent(Project_Requests).ID -> RequestId",
+      "confidence": "manual-hint"
+    },
+    {
+      "providerList": "Project_Requests",
+      "consumerList": "Request_Notes",
+      "relationship": "Parent(Project_Requests).ID -> RequestId",
+      "confidence": "manual-hint"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PageConversionManifest",
+  "type": "object",
+  "required": ["sourcePage","convertedAt","manifestHash","mapping","environmentProfile","source","target","webParts","layout","gaps","confidence","outcome"],
+  "properties": {
+    "sourcePage":   { "type": "string" },
+    "convertedAt":  { "type": "string", "format": "date-time" },
+    "manifestHash": { "type": "string" },
+    "mapping": {
+      "type": "object",
+      "required": ["mappingVersion","rulesApplied"],
+      "properties": {
+        "mappingVersion": { "type": "string" },
+        "rulesApplied":   { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "environmentProfile": {
+      "type": "object",
+      "required": ["sourceEnvironment","sourceUrl","sourceParityAssumed","targetValidationRequired"],
+      "properties": {
+        "sourceEnvironment":        { "type": "string" },
+        "sourceUrl":                { "type": "string" },
+        "sourceParityAssumed":      { "type": "boolean" },
+        "targetValidationRequired": { "type": "boolean" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["pageType","hasConnections","detectionMethod"],
+      "properties": {
+        "pageType":        { "type": "string" },
+        "hasConnections":  { "type": "boolean" },
+        "detectionMethod": { "type": "string" }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": ["layout","sections","views"],
+      "properties": {
+        "layout":   { "type": "string" },
+        "sections": { "type": "integer" },
+        "views":    { "type": "integer" }
+      }
+    },
+    "webParts": { "type": "array" },
+    "layout": {
+      "type": "object",
+      "required": ["template","mappedTo","columnCount"],
+      "properties": {
+        "template":    { "type": "string" },
+        "mappedTo":    { "type": "string" },
+        "columnCount": { "type": "integer" }
+      }
+    },
+    "gaps":       { "type": "array", "items": { "type": "string" } },
+    "confidence": { "type": "object" },
+    "detectionWarnings": { "type": "array" },
+    "outcome": {
+      "type": "object",
+      "required": ["status","detail"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["Observed","Empty","Forbidden","Unavailable","NotSupported","Partial","Failed"]
+        },
+        "detail": { "type": "string" },
+        "counts": { "type": "object" }
+      }
+    }
+  }
+}
