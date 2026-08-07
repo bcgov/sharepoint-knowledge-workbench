@@ -1464,6 +1464,54 @@
       "dst": "plugins/workbench-setup/skills/validate-app-registration/scripts/app_registration_validation.py",
       "strategy": "symlink",
       "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_extraction.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/extract-links/scripts/link_extraction.py",
+      "strategy": "symlink",
+      "description": "extract-links skill's bundled copy of link_extraction.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/extract-links/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "extract-links skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_remediation.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/link_remediation.py",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of link_remediation.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/link_rules.py",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of link_rules.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_integrity.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/validate-link-integrity/scripts/link_integrity.py",
+      "strategy": "symlink",
+      "description": "validate-link-integrity skill's bundled copy of link_integrity.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_extraction.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/validate-link-integrity/scripts/link_extraction.py",
+      "strategy": "symlink",
+      "description": "validate-link-integrity skill's bundled copy of link_extraction.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/validate-link-integrity/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "validate-link-integrity skill's bundled copy of link_outcomes.py"
     }
   ]
 }
