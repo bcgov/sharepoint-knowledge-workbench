@@ -1,0 +1,8 @@
+[
+  {
+    "ServerRelativeUrl": "/team/Pages/My_Requests.aspx",
+    "ListTitle": "Project_Requests",
+    "ViewQuery": "<OrderBy><FieldRef Name=\"Created\" Ascending=\"FALSE\"/></OrderBy><Where><Eq><FieldRef Name=\"AssignedTo\"/><Value Type=\"Integer\"><UserID Type=\"Integer\"/></Value></Eq></Where>",
+    "Hidden": true
+  }
+]
