@@ -1,0 +1,1 @@
+../../../scripts/discovery_inputs.py

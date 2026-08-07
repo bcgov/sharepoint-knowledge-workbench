@@ -39,6 +39,12 @@
       "name": "workbench-setup",
       "source": "./plugins/workbench-setup",
       "strict": true
+    },
+    {
+      "name": "sharepoint-discovery",
+      "source": "./plugins/sharepoint-discovery",
+      "strict": true,
+      "description": "Read-only analysis of exported classic SharePoint inventories: per-page migration complexity scoring and functional grouping of web-part code. All classification rules and behavioural knowledge are caller-supplied."
     }
   ]
 }
