@@ -39,6 +39,12 @@
       "name": "workbench-setup",
       "source": "./plugins/workbench-setup",
       "strict": true
+    },
+    {
+      "name": "sharepoint-link-remediation",
+      "source": "./plugins/sharepoint-link-remediation",
+      "strict": true,
+      "description": "Generic SharePoint link extraction, rewrite-rule remediation, and post-migration link-integrity validation. Extraction and validation are read-only; remediation is dry-run by default and requires an injected writer plus a confirmation token."
     }
   ]
 }
