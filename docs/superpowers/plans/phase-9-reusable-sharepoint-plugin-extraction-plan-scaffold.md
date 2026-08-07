@@ -24,6 +24,14 @@
 
 Do not finalize or execute this plan until the Phase 9 specification is approved, the source baseline is pinned, one pilot capability is selected, and current destination plugin conventions are verified.
 
+**Phase 3 entry-gate waiver — scoped, not blanket (recorded 2026-08-07).** Spec §6 lists "SharePoint expected/actual state and evidence patterns — Accepted Phase 3 outputs" as a precondition. Phase 3's exit gate is **confirmed not met** (verified 2026-08-07: the master plan lists Phase 3 as `NEXT, gated behind 3.0`; no `docs/reports/phase-3-*` evidence directory exists). Richard has explicitly authorized proceeding with Phase 9 entry-gate work regardless.
+
+That waiver is sound for capabilities whose contracts do **not** depend on Phase 3's unfinished decisions — discovery, schema, page modernization, link remediation. Phase 3 owns the destination library's metadata schema, source-of-truth lifecycle, and republish/rollback policy, none of which those capabilities touch.
+
+It is **not** sound for publication-path work. `sp-uploading-content` → `sharepoint-content-publication` writes into exactly the library whose schema and lifecycle Phase 3 has not yet decided. Extracting it now risks encoding a contract that Phase 3 later contradicts.
+
+**Recommended handling:** treat the waiver as covering non-publication capabilities only. `sp-validating-app-registration` → `workbench-setup` is unaffected (pure auth validation, upstream of any publication decision) and is the safer first merge. Any publication-path extraction should either wait for Phase 3, or be built deliberately contract-thin with the Phase 3 dependency recorded as an explicit limitation.
+
 **Phase 6 overlap finding (2026-08-03, not Phase 9 execution):** see the Phase 9 spec's §8c for
 the full comparison of Phase 6 Task 0's 30 skills against CMAT's `sharepoint-migration` plugin.
 `rollback-sharepoint-publication` has no CMAT counterpart at all (confirmed genuinely new work,
@@ -37,6 +45,18 @@ justified by real implemented evidence; 2 (`sharepoint-provisioning`, `sharepoin
 reconciliation`) are not currently justified as standalone plugins. None of this authorizes Phase
 9 execution.
 
+## Amendments (2026-08-07) — read before executing any task below
+
+A direct structural inspection of the source tree produced five changes to this plan. The task list below is otherwise unchanged; these amendments override it where they conflict.
+
+1. **The extraction unit is `scripts/`, not `skills/`** (spec §3c). CMAT skills are 3-file shells symlinking into a centralized 183-file `scripts/` tree. **New Task 8a** extracts the shared `scripts/lib/` foundation layer *before* skill extraction. Spec §12's "no shared framework for a single consumer" prohibition does not apply — `lib/` has 9+ consumers in the source, which is evidence.
+2. **Symlink resolution must precede classification.** Task 8's symlink inventory currently runs *after* Tasks 3/4 have already classified skills using symlink counts. **New Task 2a** moves resolution/verification ahead of classification. Task 8 retains the destination-side copy/refactor decisions.
+3. **Agents were never classified.** 9 agent files exist (spec §8f); the plan and spec covered skills only. **New Task 3a** classifies them.
+4. **Literal density is a selection axis.** Task 1 must score genericization cost, not just write risk — the flagship read-only discovery scripts are the two most literal-saturated files in the source (spec §8h).
+5. **Task 21 is rewritten** from "do not start a second extraction" to a batched-wave model matching the actual goal of broad reusable coverage.
+
+**Repository hard gates (spec §9a) apply to every task that touches `plugins/`:** `symlink_manager.py diagnose` before/after with zero broken links and zero real-file imposters, `audit_plugin_structure.py <plugin>`, `plugin_add.py <plugin-path> -y`, `isolated_install_check.py`, a `map-debt.md` entry for every friction event (including inline fixes), and the verbatim Pre-Completion Gate block before claiming any task complete. No deletions without explicit human permission.
+
 ## Task 0 — Confirm entry evidence
 
 **Deliverable:** Phase 9 entry-gate checklist.  
@@ -49,7 +69,11 @@ Compare at least `sharepoint-discovery`, `sharepoint-schema`, and `sharepoint-pa
 
 **Do not hard-code `sharepoint-discovery` as the winner without this comparison.** The observed source inventory (spec §3a) shows `sp-converting-aspx-pages` (the core of `sharepoint-page-modernization`) has a materially richer implementation (27 files: inventory analysis, component classification, layout selection, component mapping, manifest generation/validation, preview generation, report generation, pipeline evaluations, unit tests, acceptance criteria, layout rules, manifest schema, architecture diagram) than most discovery skills (3-10 files each, several likely `PLANNED_WITH_NO_STANDALONE_IMPLEMENTATION`). This may make page modernization a stronger pilot than originally assumed — Task 1 must weigh actual implementation maturity, not just read/write risk, when selecting.
 
-**No candidate is pre-selected.** The prior "Recommended candidate: sharepoint-discovery" language is superseded by this evidence — a full implementation-status pass (Task 4) is required before any recommendation is reaffirmed.  
+**No candidate is pre-selected.** The prior "Recommended candidate: sharepoint-discovery" language is superseded by this evidence — a full implementation-status pass (Task 4) is required before any recommendation is reaffirmed.
+
+**Fourth selection axis added 2026-08-07 — literal density / genericization cost (spec §8h).** Score every candidate on this axis alongside value, maturity, coupling, and write risk. Write risk and extraction cost are independent: the two scripts backing `sp-discovering-site-structure` — the flagship of the "safe, read-only" `sharepoint-discovery` candidate — carry **178 and 147 project-literal hits**, the highest of any non-deprecated files in the source. Spec §7's read-only recommendation is a *safety* statement and must not be read as a cost statement. 57 files repo-wide require scrubbing.
+
+**Selection must also consume Task 2a's recomputed implementation signals**, not §8d's raw symlink counts — three candidate-anchoring skills are affected by broken/deprecated/escaping links.  
 **Evidence:** candidate-selection memo.  
 **Commit:** planning artifacts only.
 
@@ -60,6 +84,26 @@ Record the CMAT repository commit or immutable bundle, hashes, source plugin ver
 **Verification:** baseline can be independently resolved.  
 **Prohibition:** do not modify the source repository.
 
+## Task 2a — Resolve and verify every symlink (NEW, 2026-08-07 — must precede Task 4)
+
+Against the commit pinned in Task 2, walk every symlink under `plugins/sharepoint-migration/skills/` and record its **resolved** target. Classify each as exactly one of:
+
+```text
+LIVE                — resolves to a real, non-deprecated file inside the plugin
+BROKEN              — dangling (4 known: sp-auditing-schema ×1, sp-migrating-content ×3)
+DEPRECATED_TARGET   — resolves into scripts/_deprecated/ (12 known, all sp-migrating-content)
+ESCAPES_PLUGIN      — resolves outside plugins/ (6 known, sp-discovering-web-parts → 01_source_sharepoint/analysis)
+PROJECT_DATA        — resolves to project analysis data rather than executable capability
+```
+
+Then recompute each skill's implementation signal as **`LIVE` links + real files beyond the 3-file baseline** (`SKILL.md`, `evals/evals.json`, `evals/results.tsv`).
+
+**Why this must run before Task 4:** spec §8d's implementation statuses were derived from raw symlink counts that include all five classes above. Three skills that anchor §8e plugin justifications are affected — `sp-auditing-schema` (sole basis for `sharepoint-schema`), `sp-migrating-content` (sole basis for `sharepoint-content-migration`), `sp-discovering-web-parts` (anchors `sharepoint-discovery`).
+
+**Deliverable:** resolved-symlink matrix, one row per link.
+**Verification:** every link in the source has exactly one class; recomputed per-skill signals are stated alongside §8d's original figures with deltas called out.
+**Prohibitions:** do not repair broken links in CMAT (§17 forbids source modification); never extract `BROKEN`, `DEPRECATED_TARGET`, or `ESCAPES_PLUGIN` targets without an explicit, recorded human decision.
+
 ## Task 3 — Inventory source artifacts and behaviours
 
 Inventory relevant plugins, skills, agents, scripts, modules, tests, fixtures, references, rules, assets, configuration, symlinks, planned stubs, and consumers.
@@ -69,6 +113,26 @@ Use the observed baseline in spec §3a/§8d (119 dirs / 272 files, **34 skills**
 Create a source-behaviour matrix linking capability claims to real tests or evidence. Do not treat the presence of `SKILL.md`, `evals.json`, or `results.tsv` alone as proof of implementation — inspect actual script/test/fixture counts per skill (spec §3a's spot-check found a range from 3 files to 27 files across skills).
 
 **Evidence:** inventory completeness check and source-behaviour matrix.
+
+## Task 3a — Classify the 9 agents (NEW, 2026-08-07)
+
+Apply the same three axes as Task 4 to every file in `plugins/sharepoint-migration/agents/` (spec §8f), plus an agent-specific orchestration-coupling judgment:
+
+```text
+GENERIC_SHAREPOINT_AGENT
+AGENT_REQUIRES_GENERICIZING
+ORCHESTRATOR_COUPLED_TO_CMAT_WAVES
+PROJECT_SPECIFIC_AGENT
+```
+
+Agents in scope: `sp-discovery-agent`, `sp-schema-agent`, `sp-modernization-agent`, `sp-link-agent`, `sp-migration-agent`, `sp-validation-agent`, `sp-deployment-planner`, `sp-migration-orchestrator`, `sp-wave-orchestrator` — plus `agents/references/`.
+
+**Destination matching:** this repository already owns `plugins/sharepoint-agents-and-skills/`. Per the §8c destination-plugin-matching rule, every extraction-eligible agent must be matched against that plugin **before** any new agent-hosting plugin is proposed.
+
+**Known signal:** `sp-wave-orchestrator.md` carries 33 project-literal hits and orchestrates CMAT's wave model — provisionally `ORCHESTRATOR_COUPLED_TO_CMAT_WAVES`. Per-domain agents are the more plausible generic candidates; none inspected in detail yet.
+
+**Deliverable:** agent-classification matrix (9 rows).
+**Verification:** every agent has all four judgments and a destination or an explicit rejection reason.
 
 ## Task 4 — Classify capabilities and backlog (three-axis model)
 
@@ -198,6 +262,31 @@ Determine whether each reusable component remains plugin-local, uses an existing
 
 **Evidence:** module-boundary decision record and symlink-resolution matrix.
 
+## Task 8a — Extract the shared foundation layer (NEW, 2026-08-07 — must precede Task 12)
+
+CMAT's real implementation lives in a centralized `scripts/` tree, not in skill folders (spec §3c). Ten shared PowerShell helper modules underpin most extraction-eligible capabilities:
+
+```text
+scripts/lib/auth-helpers.ps1          scripts/lib/logging-helpers.ps1
+scripts/lib/field-helpers.ps1         scripts/lib/list-helpers.ps1
+scripts/lib/content-type-lib.ps1      scripts/lib/user-groups-lib.ps1
+scripts/lib/xml-helpers.ps1           scripts/lib/guidmap-helpers.ps1
+scripts/lib/migrate-helpers.ps1       scripts/lib/sp-extract-lib.ps1
+```
+
+**Why this is not speculative shared infrastructure:** spec §12 forbids creating a shared framework "for a single consumer." `scripts/lib/` has 9+ consuming skills *in the source today* — that is observed evidence of multi-consumer demand, which is exactly the bar §12 sets. Extracting skills individually without this layer forces either duplication (violating the zero-duplication rule in `plugin-architecture-policy.md` §2.1) or repeated re-scrubbing of the same helpers.
+
+**Decide, per module:** does it belong in the consuming plugin's own `scripts/`, in an existing plugin (`workbench-setup` is the natural owner for auth/connection concerns — see Task 12's `-TestConnection` work), or in a justified shared location? Record the consumer count backing each decision.
+
+**Genericity:** these modules are where tenant/auth assumptions concentrate — apply spec §9 rigorously and cross-check against §8h's literal-density scan.
+
+**Placement:** plugin root `scripts/` with flat bare module names per CLAUDE.md, file-level symlinks into consuming skills via `symlink_manager.py` only (§9a).
+
+**TDD:** these are critical runtime paths (auth boundaries, path resolution, file parsing) — per `.agent/rules/test-driven-development.md`, they must be tested with **real** subprocess/filesystem execution, not mocks.
+
+**Deliverable:** foundation-layer extraction record with per-module destination, consumer count, and genericity evidence.
+**Verification:** no consuming skill duplicates a helper; `symlink_manager.py diagnose` clean.
+
 ## Task 9 — Write failing contract and safety tests
 
 Before implementation, create tests for:
@@ -319,11 +408,30 @@ Run the pinned source baseline tests where safely available or compare against t
 
 **Evidence:** source-preservation and non-rebinding report.
 
-## Task 21 — Prioritize remaining plugin families
+## Task 21 — Prioritize remaining plugin families and define the extraction waves
 
-Rank remaining discovery, schema, page-modernization, link, provisioning, content-migration, and validation candidates using evidence from the pilot.
+**Rewritten 2026-08-07.** The original instruction — "do not start a second extraction" — was written for a single-pilot Phase 9. The goal is now broad reusable coverage of all generic SharePoint capabilities. That does not license a bulk sweep; it changes the unit from *one pilot* to *reviewed waves*.
 
-Do not start a second extraction.
+Rank remaining discovery, schema, page-modernization, link, provisioning, content-migration, and validation candidates using evidence from the pilot, then group them into waves:
+
+```text
+Wave 0  Shared foundation (Task 8a) — scripts/lib/, already complete before the pilot
+Wave 1  The approved pilot family (Task 1 selection)
+Wave 2  Merges into EXISTING plugins — no new plugin boundary needed
+          (sp-uploading-content → sharepoint-content-publication;
+           sp-validating-app-registration → workbench-setup)
+Wave 3+ New-plugin candidates, one plugin per wave, in ranked order
+```
+
+**Wave gate — each wave requires, before the next begins:**
+- all tests green, `isolated_install_check.py` passing for every plugin touched;
+- `symlink_manager.py diagnose` clean; `audit_plugin_structure.py` clean;
+- provenance recorded (spec §8b) for every extracted artifact;
+- explicit human approval to proceed.
+
+**Still prohibited:** starting a subsequent wave before the current one passes its gate; bulk-copying any capability without its three-axis classification; creating a new plugin whose boundary Task 5a has not confirmed. Per `self-evolution-policy.md` #6 (one logical fix per pass), waves are sequential, not parallel.
+
+**Note on ordering:** Wave 2 merges into existing plugins are lower-risk than new-plugin creation and should generally precede Wave 3+, **except** where a capability's contract depends on an unmet upstream gate — `sp-uploading-content` writes into the library whose schema and source-of-truth lifecycle Phase 3 owns, and Phase 3's exit gate is not met (see the entry-gate note below).
 
 ## Task 22 — Consolidate evidence and retrospective
 
