@@ -57,6 +57,12 @@
       "source": "./plugins/sharepoint-schema",
       "strict": true,
       "description": "Read-only SharePoint schema auditing: compares two exported schema snapshots for list/content-type/site-column/field variance, audits duplicate display names, and inventories Choice field option sets. Environment labels and compared properties are caller-supplied."
+    },
+    {
+      "name": "sharepoint-page-modernization",
+      "source": "./plugins/sharepoint-page-modernization",
+      "strict": true,
+      "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, and component mapping with explicit gap notices. Produces plans, never tenant writes."
     }
   ]
 }

@@ -528,3 +528,81 @@ responsibility, independent installation value, no existing workbench plugin own
 ## Source-repository preservation
 
 No source file was modified. The broken symlink was recorded, not repaired.
+
+---
+
+# Wave 4 — `sharepoint-page-modernization` (new plugin)
+
+**Source repository:** `jag-csb-cmat-sharepoint-online` (read-only). **Pinned commit:**
+`78d6bb91a6c3c01208208a8c2a06f241fef9ce9f`. **Source plugin:** `sharepoint-migration`.
+**Destination:** `plugins/sharepoint-page-modernization` (new).
+
+Spec §8e: "the single richest implementation in the entire audit... the strongest single Phase 9
+pilot candidate." Confirmed — `sp-converting-aspx-pages` holds 32 real files plus 5 LIVE symlinks,
+more than any other source artifact.
+
+## Record 15 — `sp-analysing-aspx-pages` + `sp-converting-aspx-pages` → `analyze-aspx-pages`, `convert-aspx-pages`
+
+- **Source skills:** `sp-analysing-aspx-pages` (5 LIVE symlinks), `sp-converting-aspx-pages`
+  (32 real files + 5 LIVE symlinks). Shared scripts resolve into `scripts/page-migration/` — the
+  most-symlinked directory in the source (28 inbound links).
+- **Source implementation status:** `IMPLEMENTED`, richest in repo.
+- **Destination:** two skills over five modules —
+  `outcomes.py` (shared status vocabulary), `aspx_inventory.py` (stage 1),
+  `component_classification.py` (stage 2), `layout_selection.py` (stage 3),
+  `component_mapping.py` (stage 4) — plus packaged assets `layout-rules.json`,
+  `webpart-mapping.json`, `webpart-migration-rules.json`, `manifest-schema.json`,
+  `preview-template.html`, `gap-notice.template.html`.
+- **Removed project coupling:** the source's organisation-specific layout thresholds and web-part
+  mapping entries were institutional knowledge. They are now packaged, caller-overridable **data**
+  files; no migration judgement is hardcoded in Python. Zero project literals in shipped code.
+- **Intentional behavior changes:**
+  - PowerShell/Python → Python throughout (Wave 1 precedent).
+  - Added the shared honest-outcome vocabulary: missing input `UNAVAILABLE` (never a clean pass),
+    no components `EMPTY`, partially-parseable input `PARTIAL` with unreadable parts recorded.
+    Malformed markup is handled, not crashed on (`malformed-page` fixture).
+  - `Unknown` is a first-class classification variant — a component the classifier cannot place is
+    reported as unknown rather than forced into a plausible category.
+  - **Security hardening not present in the source:** layout-rule conditions are evaluated by a
+    restricted AST evaluator (`safe_eval_condition`) permitting only names, constants, comparisons,
+    boolean operators and arithmetic. **Any call expression is rejected** — `__import__(...)`,
+    `open(...)` etc. raise `UnsafeConditionError` and the rule is recorded in `skippedRules` rather
+    than executed. Rule files are data and are therefore treated as untrusted input. Verified
+    independently: both `__import__("os").system(...)` and `open("/etc/passwd").read()` are
+    blocked while `zoneCount > 2` evaluates normally.
+  - **Gaps are named, not hidden:** connected-consumer web parts cannot be reproduced on modern
+    pages. Rather than dropping them silently or substituting something plausible, a gap notice is
+    rendered from the packaged template **naming the specific lists that were not migrated**.
+    Unsupported web-part types are surfaced explicitly.
+- **No tenant writes:** the pipeline produces a conversion *manifest* conforming to
+  `assets/manifest-schema.json`. It does not create, publish, or modify anything in SharePoint.
+- **Parity evidence:** 54 tests across `test_outcomes.py`, `test_aspx_inventory.py`,
+  `test_component_classification.py`, `test_component_mapping.py`, `test_layout_selection.py`.
+  Several invoke the stage CLIs through real `subprocess`, with real file parsing and real path
+  resolution — unmocked, per `.agent/rules/test-driven-development.md`'s critical-runtime-paths
+  rule, since parsing files off disk is this plugin's entire job.
+
+## Boundary vs `structured-content-rendering` (spec §4a)
+
+`structured-content-rendering` **renders new** pages from structured content this workbench owns.
+This plugin **analyses and converts existing** legacy pages it did not create. Different inputs,
+different responsibility. Neither was modified by this extraction and no code is shared between
+them.
+
+## Not extracted, and why
+
+- `sp-converting-wiki-pages` (2 LIVE symlinks) — implemented in the source but **not extracted in
+  this wave**; deferred, not rejected.
+- `sp-remediating-page-layouts`, `sp-remediating-web-parts` —
+  `PLANNED_WITH_NO_IMPLEMENTATION` in the source. Gaps, not skills.
+
+## Independence verification
+
+`isolated_install_check.py --plugin sharepoint-page-modernization --import-package outcomes` →
+**PASS, 54 tests against the wheel-installed package.** This specifically confirms
+`scripts/assets/` is packaged correctly — the exact class of defect Phase 6 caught, where assets
+outside the `package-dir` boundary work under editable install but break a real wheel build.
+
+## Source-repository preservation
+
+No source file was modified; reference reading only.
