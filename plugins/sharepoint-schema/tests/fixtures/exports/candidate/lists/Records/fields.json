@@ -1,0 +1,39 @@
+[
+  {
+    "InternalName": "alpha",
+    "Title": "Alpha",
+    "TypeAsString": "Text",
+    "Required": false,
+    "Hidden": false,
+    "ReadOnlyField": false,
+    "Group": "Custom Columns"
+  },
+  {
+    "InternalName": "status",
+    "Title": "Status",
+    "TypeAsString": "Choice",
+    "Choices": ["Draft", "Published"],
+    "Required": false,
+    "Hidden": false,
+    "ReadOnlyField": false,
+    "Group": "Custom Columns"
+  },
+  {
+    "InternalName": "region",
+    "Title": "Region",
+    "TypeAsString": "Text",
+    "Required": false,
+    "Hidden": false,
+    "ReadOnlyField": false,
+    "Group": "Custom Columns"
+  },
+  {
+    "InternalName": "region0",
+    "Title": "Region",
+    "TypeAsString": "Text",
+    "Required": false,
+    "Hidden": false,
+    "ReadOnlyField": false,
+    "Group": "Custom Columns"
+  }
+]
