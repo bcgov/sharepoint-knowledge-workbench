@@ -11,6 +11,7 @@ Purpose:
 Layer: sharepoint-link-remediation / tests
 """
 
+import re
 from pathlib import Path
 
 import pytest
@@ -77,13 +78,50 @@ def test_runtime_tree_is_literal_free_scan_is_not_vacuous():
 
 @pytest.mark.parametrize("literal", PROJECT_LITERALS)
 def test_no_project_literal_anywhere_in_the_plugin(literal):
+    # Word-boundary match, not naive substring. A bare `in` check produces false
+    # positives on ordinary English -- "ORDS" matches inside "records"/"keywords",
+    # "PIO" inside "expiond", "ICM" inside "dicmap" -- which would either fail the
+    # gate on innocent prose or, worse, train a future maintainer to relax it.
+    # \b handles the alphanumeric literals; the dotted hostnames are matched
+    # literally since \b does not behave usefully around dots.
+    if re.fullmatch(r"[\w.-]+", literal) and "." in literal:
+        pattern = re.compile(re.escape(literal), re.IGNORECASE)
+    else:
+        pattern = re.compile(rf"\b{re.escape(literal)}\b", re.IGNORECASE)
+
     offenders = []
     for path in _shipped_files():
         text = path.read_text(encoding="utf-8", errors="ignore")
-        if literal.lower() in text.lower():
+        if pattern.search(text):
             offenders.append(str(path.relative_to(PLUGIN_ROOT)))
 
     assert offenders == [], f"project literal {literal!r} found in: {offenders}"
+
+
+@pytest.mark.parametrize(
+    "literal,text,should_flag",
+    [
+        ("ORDS", "returns LinkFinding records for each link", False),
+        ("ORDS", "queries the ORDS endpoint", True),
+        ("PIO", "the expiration policy", False),
+        ("PIO", "wave4-pio-cases", True),
+        ("ICM", "a dict mapping", False),
+        ("ICM", "ICM case migration", True),
+        ("cmat", "format the output", False),
+        ("cmat", "the cmat replatform", True),
+    ],
+)
+def test_literal_matching_flags_real_literals_and_not_ordinary_words(
+    literal, text, should_flag
+):
+    """The word-boundary rule above must stay strict where it matters.
+
+    Guards both directions: relaxing it into a substring match would fail on
+    innocent prose, and loosening it further (e.g. requiring whitespace
+    delimiters) would let real hyphenated project identifiers slip through.
+    """
+    pattern = re.compile(rf"\b{re.escape(literal)}\b", re.IGNORECASE)
+    assert bool(pattern.search(text)) is should_flag
 
 
 @pytest.mark.parametrize("marker", SOURCE_REPO_MARKERS)
