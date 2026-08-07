@@ -83,6 +83,18 @@ collects those exports** — a real capability hole at the front of every discov
 - **Re-entry trigger:** someone demonstrates a live, non-deprecated wave mechanism separable from
   the organisation-specific wave *content*. Until then, extracting it means building on
   `_deprecated/`.
+- **Audited 2026-08-07 — exclusion CONFIRMED, and the re-entry trigger is now known not to fire.**
+  All 29 LIVE symlink targets were resolved and deduplicated. They comprise: 5 `scripts/lib/`
+  helpers (generic, but already available and not wave-specific), `extract-choices.ps1` (already
+  extracted in Wave 6), a config example, a calendar-remediation script
+  (`KEEP_PROJECT_SPECIFIC`), 11 `test-wave*.ps1` files, and 9 `wave*.ps1` scripts named for
+  organisation-specific domain concepts (`wave2-persons`, `wave3-person-dependents`,
+  `wave7-city-calendars`, `wave8-cross-references`, `wave9-document-libraries`).
+  The only plausible generic runner, `wave-cases.ps1` (76 lines), hardcodes
+  `[ValidateSet('4','5','6')]` mapping to three organisation-specific case-list types. **There is
+  no separable generic wave mechanism among the live targets** — the mechanism/content split that
+  §8d proposed does not exist in extractable form. This is now a verified finding, not an
+  assumption.
 
 ---
 
@@ -93,7 +105,7 @@ collects those exports** — a real capability hole at the front of every discov
 | `sp-synthesizing-discovery` | `REJECT` (as extraction) | Hardcodes `total_pages: 654`, `total_wps: 193`, `flagged_links: 4792`; only `total_pages` is ever replaced with real data. Fabricates `oob_pages`/`custom_pages`/`spfx_candidates` from arbitrary ratios (`* 0.7`, `* 0.25`, `* 0.1`). Would ship invented numbers as measurement. |
 | `sp-provisioning-modern-calendars` | `KEEP_PROJECT_SPECIFIC` | Court-scheduling domain concept. |
 | `sp-synthesizing-deployment-matrix` | `PLANNED_WITH_NO_IMPLEMENTATION` | Was `UNVERIFIED_ACTIVE_CLAIM`. **Resolved this phase:** direct inspection confirms the `active` claim is unfounded — no backing implementation. |
-| `sp-generating-migration-reports` | `REQUIRES_HUMAN_DECISION` | Still `UNVERIFIED_ACTIVE_CLAIM` — 0 scripts, 0 symlinks. Not re-verified this phase. **Open item.** |
+| `sp-generating-migration-reports` | `PLANNED_WITH_NO_IMPLEMENTATION` | **RESOLVED 2026-08-07 by direct inspection.** The skill directory contains only the 3-file baseline (`SKILL.md`, `evals/evals.json`, `evals/results.tsv`) — zero scripts, zero symlinks. Its `status: active` claim is unfounded. No longer `REQUIRES_HUMAN_DECISION`; **both** of the spec's `UNVERIFIED_ACTIVE_CLAIM` items are now resolved, and both were unfounded. |
 | Field-deletion (`-Cleanup`) | `REJECT` | The source's duplicate-field script called `Remove-PnPField` — a destructive tenant write. Deliberately not extracted; a test enforces its absence. |
 | `ords-integration-migration` (all 4 skills) | `OUT_OF_SCOPE` | All 4 `SKILL.md` files read directly: Oracle/court-appearance ETL. No generic SharePoint helper found. |
 | 11 `PLANNED_WITH_NO_IMPLEMENTATION` skills | Gaps | `sp-discovering-lists`, `-content-types`, `-workflows`, `sp-mapping-content-types`, `-lists`, `-taxonomy`, `sp-remediating-page-layouts`, `-web-parts`, `-document-content-links`, `sp-validating-content`, `-permissions`. **No empty skills were created for any of them.** |
