@@ -217,8 +217,31 @@ them.
 
 ## Not extracted, and why
 
-- `sp-converting-wiki-pages` (2 LIVE symlinks) — implemented in the source but **not extracted in
-  this wave**; deferred, not rejected.
+- `sp-converting-wiki-pages` (2 LIVE symlinks, resolved and read in full) — **rejected, not
+  deferred.** Both symlinks (`scripts/page-migration/convert-wiki-page.ps1` and its dot-sourced
+  dependency `scripts/lib/sp-extract-lib.ps1`) resolve to a **live-tenant collector**, not an
+  analyser of already-exported content:
+  - `convert-wiki-page.ps1` takes a live `-SourceSiteUrl` and authenticates via
+    `New-ClientContextSafe` (a real CSOM `ClientContext` against that URL), falling back to
+    `Invoke-SpWebRequest` (a thin wrapper over `Invoke-WebRequest`) against the same live site
+    when CSOM/IWA auth fails.
+  - Its SKILL.md lists prerequisites of "VPN connected to on-premises SharePoint network" and
+    "IDIR credentials for IWA" — i.e. it requires a live network path and live credentials to run
+    at all. It downloads the raw `.aspx`, rendered HTML, web parts, and image assets directly
+    from the tenant over that connection; there is no exported-content input path.
+  - This is the exact same shape already rejected once in this phase for a different capability
+    (the one that called `Connect-PnPOnline`) — live tenant I/O is out of scope for
+    `sharepoint-page-modernization`, which is contractually a no-tenant-I/O plugin that only
+    analyses/converts content already sitting on disk.
+  - The companion reference doc (`references/aspx-to-spo-migration-strategy.md`, 379 lines) was
+    considered for extraction on its own — its core finding ("classic pages cannot be directly
+    converted; reconstruct, not convert") is generic and this workbench independently
+    corroborated it. It was **not extracted**: the document is pervasively coupled to the source
+    project throughout (specific page names, page-count tiers, and organisation-specific
+    interaction-model analysis run through Sections 1, 3, 6, and 8, not confined to an isolable
+    subsection), so a compliant scrub would amount to writing new generic guidance from the one
+    corroborated sentence rather than extracting existing content — out of scope for an
+    extraction pass.
 - `sp-remediating-page-layouts`, `sp-remediating-web-parts` —
   `PLANNED_WITH_NO_IMPLEMENTATION` in the source. Gaps, not skills.
 
