@@ -6,6 +6,13 @@
 and `sp-validating-app-registration`. Fields follow spec §8b. No other CMAT capability was
 extracted in this pass; the remaining 32 skills retain their existing §8d classification.
 
+**Appended 2026-08-07 — Wave 2 (agents):** Records 3–6 below cover the four zero-project-literal
+agents classified `GENERIC_SHAREPOINT_AGENT` in
+`task-2a-symlink-resolution-and-task-3a-agent-classification.md` (Task 3a). Same source baseline,
+same field set. The remaining five agents (`sp-discovery-agent`, `sp-migration-agent`,
+`sp-deployment-planner`, `sp-migration-orchestrator`, `sp-wave-orchestrator`) are **out of Wave 2
+scope** and retain their Task 3a disposition.
+
 ## Common source baseline
 
 - **Source repository:** `/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online` (CMAT)
@@ -139,11 +146,135 @@ extracted in this pass; the remaining 32 skills retain their existing §8d class
 
 ---
 
+## Records 3–6 (Wave 2, 2026-08-07) — four generic agents → `sharepoint-agents-and-skills/agents/`
+
+All four share the common source baseline above (`sharepoint-migration` @ `78d6bb9`), the same
+source directory (`plugins/sharepoint-migration/agents/`), and the same destination directory
+(`plugins/sharepoint-agents-and-skills/agents/` — an **existing** plugin, per spec §8c's
+destination-matching rule; no new plugin was created). Shared facts are stated once here and not
+repeated per record.
+
+- **Source scripts / references / tests:** none. Each source agent is a single self-contained
+  Markdown file (17–18 lines) with no symlinks, no backing script, and no `agents/` test harness in
+  the source. Nothing was omitted from the port for these four.
+- **Source implementation status:** `IMPLEMENTED` (agent definitions, complete as authored).
+- **Orchestration coupling (spec §8f vocabulary):** `GENERIC_SHAREPOINT_AGENT` for all four —
+  independently re-verified by full content read, not just the Task 3a literal scan. The scan
+  result held: zero occurrences of `JUSTIN`, `CEIS`, `ORDS`, `courthouse`, `appearance`, `AG-CSB`,
+  `ITAU`, `PIO`, `ICM`, or `wave` in any of the four.
+- **Hidden environment assumptions found on read (none blocking):** no tenant URLs, no GUIDs, no
+  app registrations, no list/field/content-type names, no assumed directory layout, no dependency
+  on the source `CLAUDE.md` or any runbook. **The one real coupling is a routing-table coupling:**
+  every one of the four is a *pure router* whose entire body names source-plugin skills
+  (`sp-extracting-links`, `sp-auditing-schema`, …). Those names are not project literals, but they
+  are dangling references in this repository. This is the substantive genericization work in Wave 2
+  and it is recorded per record below.
+- **Removed project coupling (all four):** the `plugin:` frontmatter value `sharepoint-migration`
+  replaced with `sharepoint-agents-and-skills`; the `sp-` source-repository naming prefix replaced
+  with this repo's unprefixed convention (`sp-link-agent` → `sharepoint-link-agent`, etc.); every
+  source-skill routing target replaced with either a real capability in this repository or an
+  explicit `## Not available in this workbench` declaration. No source-repository path, relative
+  traversal, or symlink survived — none existed to begin with.
+- **Intentional structural changes (all four):**
+  1. **Routing tables rewritten against this repository's actual capability inventory.** A verbatim
+     copy would have produced four agents pointing at fifteen nonexistent skills. Preserving the
+     *decision logic* while re-targeting the *routing table* is the extraction; copying the file
+     would not have been.
+  2. **A mandatory `## Not available in this workbench` section was added to every agent**, and is
+     enforced by test. The source agents already practised honest gap-reporting in prose ("planned,
+     no script yet"); this promotes that practice from prose to an asserted structural contract,
+     matching spec §13's honest-partial-results requirement.
+  3. **`agents/` established as a plugin component directory in this repo for the first time.** Real
+     files at the plugin root — no symlinks were created, and none are appropriate: agents are
+     top-level plugin components (peers of `skills/`), not files consumed from inside a skill
+     directory, so the hub-and-spoke rule is satisfied by construction. Verified end to end:
+     `plugin_add.py` reports the destination as `.agents/ (skills + agents + commands + hooks)` and
+     installs all four.
+  4. **Registered in `plugin.yaml` under a new `agents:` key** (test-asserted).
+- **New neutral fixtures:** none required — the contract test reads the real artifacts. No tenant
+  data, URLs, or GUIDs appear anywhere in the four files or the test.
+- **Parity evidence (all four):** byte identity is not applicable and not claimed — the routing
+  table is the file. The retained behavior is each agent's **decision rule**, which is preserved
+  verbatim in substance and verified per record below. Genericity is verified mechanically by
+  `plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py` (22 assertions across
+  6 contracts: frontmatter schema, name↔filename, forbidden-literal scan, source-path/GUID/tenant-URL
+  scan, dangling-capability-reference resolution against every real skill/plugin/agent name in
+  `plugins/`, mandatory unavailability section, and manifest registration). Written first, observed
+  failing on the absent `agents/` directory and the absent `agents:` manifest key, then made to pass.
+
+### Record 3 — `sp-link-agent.md` → `agents/sharepoint-link-agent.md`
+
+- **Retained decision rule:** the strict `extract → remediate → validate` ordering, with the source's
+  stated justification preserved (validation is meaningless before remediation; remediation needs
+  the extraction scan's output).
+- **Re-targeted routing:** validation now routes to `assemble-structured-content` (canonical-package
+  `broken_local_link` failure), `validate-rendered-output` (broken links/media, orphan pages, path
+  traversal; PASS or FAIL, never WARN), and `validate-sharepoint-publication` (pre-upload, offline).
+- **Declared unavailable:** link extraction and link remediation against live published pages, and
+  link rewriting inside Office/PDF binaries — the last of which corresponds to the source's own
+  `sp-remediating-document-content-links` "planned, no script" note, carried across as a gap rather
+  than as a dangling skill name.
+
+### Record 4 — `sp-modernization-agent.md` → `agents/sharepoint-modernization-agent.md`
+
+- **Retained decision rule:** distinguish a full pipeline route from a lighter/targeted route, and
+  flag unbuilt remediation paths as manual.
+- **Re-targeted routing:** `render-sharepoint-aspx` for modern-page artifact production (including
+  its confirmed constraint that raw `.aspx` upload fails with Access denied),
+  `create-aspx-rendering-template`/`validate-rendering-template` when the request is really about
+  page shape, and `publish-aspx-to-sharepoint` named explicitly as a *different* domain.
+- **Declared unavailable:** classic-page conversion, wiki-page conversion, web-part remediation,
+  page-layout remediation. **Scope note:** this repository renders modern-page artifacts *from
+  structured content it owns*; it does not read an existing classic page and rebuild it. The agent
+  states that distinction explicitly and is instructed not to silently reinterpret one as the other
+  — this is the single largest semantic gap between source and destination for these four agents.
+
+### Record 5 — `sp-schema-agent.md` → `agents/sharepoint-schema-agent.md`
+
+- **Retained decision rule:** read-only audit first, always; mapping is the expensive second
+  question; report unscripted mapping as unscripted rather than performing it silently.
+- **Re-targeted routing:** `validate-sharepoint-publication` (offline pre-upload schema conformance
+  against the target library schema) as the read-only-first route, plus the publication mapping
+  emitted by `assemble-structured-content`.
+- **Declared unavailable:** live environment-to-environment schema diff, content-type mapping, list
+  mapping, taxonomy mapping (the source's four `sp-mapping-*`/`sp-auditing-schema` targets).
+
+### Record 6 — `sp-validation-agent.md` → `agents/sharepoint-validation-agent.md`
+
+- **Retained decision rule:** validation runs *after* other domains' work, never before; produce the
+  final summary report; never claim automated coverage that does not exist.
+- **Re-targeted routing — the one agent whose coverage materially improved:** in the source, all
+  three validation skills were `planned` with no backing script, so the agent could only report a
+  gap. This repository has real, implemented validators, and the agent now routes by *artifact under
+  test*: `assemble-structured-content`, `validate-rendered-output`, `compare-rendered-output`,
+  `validate-sharepoint-publication`, `reconcile-sharepoint-publication`,
+  `verify-sharepoint-native-skill`, `inventory-and-validate-agentassets`, and
+  `validate-workbench-environment`.
+- **Declared unavailable:** post-deployment validation that files/pages/metadata/links/media are
+  actually present after upload (a limit `validate-sharepoint-publication` states about itself),
+  permission validation, and automated cross-stage report generation. The agent is explicitly
+  instructed not to infer post-upload success from a passing pre-upload validation.
+
+### Agents deliberately NOT extracted in Wave 2
+
+`sp-discovery-agent` (3 literals), `sp-migration-agent` (3), `sp-deployment-planner` (14),
+`sp-migration-orchestrator` (36), `sp-wave-orchestrator` (161) — out of scope for this wave, no
+content read performed, Task 3a dispositions unchanged. No judgment about their extractability is
+made or implied here.
+
 ## Independence verification (both records)
 
 - No import, symlink, or path reference to the CMAT repository exists in either destination
   module, test file, or SKILL.md.
 - Neither module depends on ORDS configuration, CMAT schemas, or BC Government URLs/GUIDs.
+- **Wave 2 (Records 3–6):** the four agent files contain no import, symlink, or path reference to
+  the CMAT repository, and no runtime dependency of any kind — they are Markdown routing
+  definitions. `plugins/sharepoint-agents-and-skills` tests pass standalone with the CMAT checkout
+  absent from the environment (68 passed, up from 46 passed + 5 empty-parametrization skips before
+  this change; zero pre-existing tests changed). `symlink_manager.py diagnose` reports 24 broken
+  links before and 24 after — the pre-existing `docs/diagrams/` gap, unchanged; Wave 2 added zero
+  symlinks and zero broken links. `audit.py --path plugins/sharepoint-agents-and-skills` reports
+  `AUDIT PASSED`, with only the plugin's pre-existing `references/`-directory warnings.
 - Both plugins (`sharepoint-content-publication`, `workbench-setup`) install and test standalone
   (`pip install -e plugins/<name>`, `python -m pytest tests/`) with the CMAT repository absent from
   the environment — confirmed by running both suites from this worktree, which has no dependency on
