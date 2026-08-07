@@ -1,0 +1,58 @@
+[
+  {
+    "FileName": "simple.aspx",
+    "Category": "SitePage",
+    "ListTitle": "",
+    "ConnectedWPCount": 0,
+    "HasCEWP": false,
+    "HasSEWP": false,
+    "WebParts": [
+      { "Category": "Image", "TypeName": "ImageWebPart", "Title": "Banner", "ListName": "" }
+    ]
+  },
+  {
+    "FileName": "links.aspx",
+    "Category": "SitePage",
+    "ListTitle": "",
+    "ConnectedWPCount": 0,
+    "HasCEWP": true,
+    "HasSEWP": false,
+    "WebParts": [
+      { "Category": "CEWP", "TypeName": "ContentEditorWebPart", "Title": "Notice", "ListName": "" },
+      { "Category": "SummaryLink", "TypeName": "SummaryLinkWebPart", "Title": "Links", "ListName": "" }
+    ]
+  },
+  {
+    "FileName": "scripted.aspx",
+    "Category": "SitePage",
+    "ListTitle": "Requests",
+    "ConnectedWPCount": 2,
+    "HasCEWP": true,
+    "HasSEWP": true,
+    "WebParts": [
+      { "Category": "SEWP", "TypeName": "ScriptEditorWebPart", "Title": "Helper", "ListName": "" },
+      { "Category": "ListView", "TypeName": "XsltListViewWebPart", "Title": "Requests", "ListName": "Requests" },
+      { "Category": "CEWP", "TypeName": "ContentEditorWebPart", "Title": "Instructions", "ListName": "" }
+    ]
+  },
+  {
+    "FileName": "NewForm.aspx",
+    "Category": "ListForm",
+    "ListTitle": "Requests",
+    "ConnectedWPCount": 0,
+    "HasCEWP": false,
+    "HasSEWP": false,
+    "WebParts": [
+      { "Category": "ListForm", "TypeName": "ListFormWebPart", "Title": "Requests", "ListName": "Requests" }
+    ]
+  },
+  {
+    "FileName": "blank.aspx",
+    "Category": "SitePage",
+    "ListTitle": "",
+    "ConnectedWPCount": 0,
+    "HasCEWP": false,
+    "HasSEWP": false,
+    "WebParts": []
+  }
+]
