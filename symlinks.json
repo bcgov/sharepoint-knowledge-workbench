@@ -1464,6 +1464,36 @@
       "dst": "plugins/workbench-setup/skills/validate-app-registration/scripts/app_registration_validation.py",
       "strategy": "symlink",
       "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "audit-schema skill's bundled copy of schema_export.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_diff.py",
+      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/schema_diff.py",
+      "strategy": "symlink",
+      "description": "audit-schema skill's bundled copy of schema_diff.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/duplicate_fields.py",
+      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/duplicate_fields.py",
+      "strategy": "symlink",
+      "description": "audit-schema skill's bundled copy of duplicate_fields.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/choice_fields.py",
+      "dst": "plugins/sharepoint-schema/skills/extract-choice-fields/scripts/choice_fields.py",
+      "strategy": "symlink",
+      "description": "extract-choice-fields skill's bundled copy of choice_fields.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-schema/skills/extract-choice-fields/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "extract-choice-fields skill's bundled copy of schema_export.py"
     }
   ]
 }

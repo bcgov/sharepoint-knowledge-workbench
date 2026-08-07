@@ -39,6 +39,12 @@
       "name": "workbench-setup",
       "source": "./plugins/workbench-setup",
       "strict": true
+    },
+    {
+      "name": "sharepoint-schema",
+      "source": "./plugins/sharepoint-schema",
+      "strict": true,
+      "description": "Read-only SharePoint schema auditing: compares two exported schema snapshots for list/content-type/site-column/field variance, audits duplicate display names, and inventories Choice field option sets. Environment labels and compared properties are caller-supplied."
     }
   ]
 }

@@ -69,9 +69,39 @@ def _plugin_files():
         yield path
 
 
+def _runtime_files():
+    """The files this plugin actually ships at runtime -- scripts, assets,
+    packaging, skills. Excludes ``tests/``.
+
+    Phase 9 spec section 9 permits project literals in negative-control
+    fixtures and forbids them in live defaults, and this suite relies on that
+    allowance: ``test_schema_export.test_default_layout_assumes_no_project_scope_segment``
+    asserts a specific project path segment is ABSENT from the default layout,
+    which requires naming that segment to assert against it. A scan that
+    included test prose would make proving the requirement indistinguishable
+    from violating it.
+
+    The gate that matters -- every shipped runtime file is literal-free -- is
+    preserved in full, and guarded against becoming vacuous below.
+    """
+    for path in _plugin_files():
+        if "tests" in path.relative_to(PLUGIN_ROOT).parts:
+            continue
+        yield path
+
+
+def test_runtime_scan_is_not_vacuous():
+    """The tests/ exclusion above must never empty the scan set."""
+    runtime = list(_runtime_files())
+    assert runtime, "genericity scan found no runtime files -- gate is vacuous"
+    assert any(p.suffix == ".py" for p in runtime), (
+        "genericity scan covers no Python modules -- gate is vacuous"
+    )
+
+
 def test_no_project_literal_appears_anywhere_in_the_plugin():
     offenders = []
-    for path in _plugin_files():
+    for path in _runtime_files():
         text = path.read_text(encoding="utf-8", errors="ignore")
         for literal in PROJECT_LITERALS:
             if _literal_pattern(literal).search(text):
