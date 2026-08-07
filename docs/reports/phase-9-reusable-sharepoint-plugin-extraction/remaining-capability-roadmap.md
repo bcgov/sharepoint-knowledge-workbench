@@ -22,6 +22,7 @@ estimates — several of which the evidence overturned (see the retrospective).
 | `sp-discovering-pages`, `sp-analysing-aspx-pages`, `sp-discovering-web-parts`, `sp-discovering-navigation`, `sp-discovering-forms`, `sp-discovering-permissions` | `sharepoint-discovery` (new) | 5 | 71 |
 | `sp-auditing-schema`, `sp-extracting-choices` | `sharepoint-schema` (new) | 2 | 50 |
 | `sp-analysing-aspx-pages`, `sp-converting-aspx-pages` | `sharepoint-page-modernization` (new) | 2 | 54 |
+| `combine-preview.ps1` (from `sp-running-sharegate-jobs`) | `sharepoint-page-modernization` (existing) | 1 | 63 (plugin total) |
 
 ---
 
@@ -45,10 +46,18 @@ collects those exports** — a real capability hole at the front of every discov
 
 ### Rank 2 — `sp-running-sharegate-jobs`
 
-- **Status:** `IMPLEMENTED` (3 LIVE symlinks), generic *if* ShareGate is an assumed available tool.
-- **Blocker:** an external **commercial licensed tool** dependency. Per §8d it must be documented
-  in `DEPENDENCIES.md` and explicitly accepted before extraction — not silently assumed.
-- **Cost:** low once the dependency decision is made.
+- **Status:** `IMPLEMENTED` (3 LIVE symlinks). **Corrected 2026-08-07:** the symlink count is not
+  uniformly ShareGate-dependent. One of the three, `combine-preview.ps1`, was independently
+  verified to have zero ShareGate calls, zero live-tenant I/O (no `Connect-PnPOnline`/`Get-PnP`/
+  `New-ClientContext`/`Invoke-WebRequest`/`Invoke-RestMethod`), and zero project literals — a
+  purely offline, disk-only preview-composition capability that happened to be filed under a
+  ShareGate-dependent skill. It has been extracted to `sharepoint-page-modernization`'s
+  `compose-page-preview` skill; see provenance Record 16.
+- **Remaining blocker:** the other two scripts in this skill (the ShareGate upload jobs
+  themselves) are genuinely dependent on the external **commercial licensed tool**. Per §8d that
+  dependency must be documented in `DEPENDENCIES.md` and explicitly accepted before those two are
+  extracted — not silently assumed.
+- **Cost:** low once the dependency decision is made, for the two remaining scripts only.
 
 ### Rank 3 — Discovery synthesis (REBUILD, not extract)
 

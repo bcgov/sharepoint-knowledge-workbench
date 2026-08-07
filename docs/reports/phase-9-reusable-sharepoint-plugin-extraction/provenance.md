@@ -931,3 +931,82 @@ were perfectly generic.
 Live-tenant collection remains unowned in this workbench. If it is ever wanted it needs its own
 plugin with an explicit connection/write-safety boundary, designed against `workbench-setup`'s
 connector-injection contract — not folded into the analysis plugin.
+
+---
+
+## Appended 2026-08-07 — Record 16: `combine-preview.ps1` (from `sp-running-sharegate-jobs`) → `compose-page-preview`
+
+### Independence verification (why this one component, out of a ShareGate-dependent skill)
+
+`sp-running-sharegate-jobs` is filed under 3 LIVE symlinks and was previously ranked as blocked on
+a commercial-tool dependency decision (Rank 2, roadmap §2). Read individually, one of the three,
+`combine-preview.ps1` (458 lines), is not ShareGate-dependent at all:
+
+- **Zero ShareGate calls** — no `Import-Module ShareGate`, no `Connect-Site`, no `Copy-Content`, no
+  ShareGate cmdlet of any kind.
+- **Zero live-tenant I/O** — no `Connect-PnPOnline`/`Get-PnP*`/`New-ClientContext`/
+  `Invoke-WebRequest`/`Invoke-RestMethod` anywhere in the file.
+- **Zero project literals** — no organisation, site, or tenant name; its only `.EXAMPLE` block
+  references a project-specific path (`courts-intranet\...`), which was **not** carried into the
+  destination (see below).
+
+The script is a purely offline, disk-only merge: it reads a chrome folder's `site-chrome.json`
+(navigation, header, logo, ancestors) and a page folder's `modern-preview.html` +
+`metadata.json`, and writes one combined offline preview HTML file. It was simply co-located with
+two genuinely ShareGate-dependent upload scripts inside the same source skill folder.
+
+### Record
+
+- **Source skill:** `plugins/sharepoint-migration/skills/sp-running-sharegate-jobs/`
+- **Source script:** `plugins/sharepoint-migration/scripts/page-migration/combine-preview.ps1`
+  (ported in full; the two remaining ShareGate upload scripts in the same skill were **not**
+  ported — they remain blocked on the commercial-dependency decision, see roadmap §2 Rank 2).
+- **Source tests:** none found.
+- **Source implementation status:** `IMPLEMENTED`.
+- **Destination files:**
+  - `plugins/sharepoint-page-modernization/scripts/preview_composition.py` (new module)
+  - `plugins/sharepoint-page-modernization/tests/test_preview_composition.py` (new tests, 9 cases)
+  - `plugins/sharepoint-page-modernization/skills/compose-page-preview/SKILL.md` (new skill;
+    `preview_composition.py` and `outcomes.py` symlinked into the skill's `scripts/` folder)
+- **Why this plugin:** `sharepoint-page-modernization` already converts classic pages and ships a
+  `preview-template.html` asset for its own webpart-mapping preview stage. A reviewer confirming a
+  page conversion needs to see the result in the site's actual navigation/header/logo/breadcrumb
+  context — this closes that loop, and reuses the plugin's existing `outcomes.py` vocabulary
+  rather than introducing a second one.
+- **Removed project coupling:** the `.EXAMPLE` block's `courts-intranet\...` sample path was
+  dropped, not carried into any docstring, comment, or SKILL.md.
+- **Intentional behavior changes:**
+  1. Honest outcomes per this plugin's vocabulary: a missing `metadata.json`, `modern-preview.html`,
+     or `site-chrome.json` is `Unavailable` and writes no output (the source `throw`s but leaves no
+     structured signal); empty page content is `Empty` (source had no such check and would have
+     merged an empty fragment silently); missing logo/ancestors/navigation is `Partial`, with the
+     specific missing part(s) named in the outcome detail (source silently rendered blank
+     nav/breadcrumb/logo regions with no signal that anything was missing); full chrome and content
+     is `Observed`.
+  2. Never fabricates a substitute logo, breadcrumb entry, or nav item when chrome data is absent —
+     verified by `test_partial_reason_never_fabricates_a_substitute_logo`.
+  3. `--output` is an explicit CLI option (defaults to `full-preview.html` inside the page folder,
+     matching the source's default), rather than a PowerShell parameter.
+- **New neutral fixtures:** synthetic `site-chrome.json` (built inline in the test module — a
+  generic `"Example Site"` web title, `/home` nav link, `/` ancestor), `modern-preview.html`, and
+  `metadata.json`. No real tenant URLs, GUIDs, or organisation names.
+- **Parity evidence:** retained behavior is chrome+content merge, logo-file portability (local logo
+  copied into the page folder's `assets/` subfolder), top-nav overflow grouped under a "More" entry
+  beyond 5 visible items, and pill-styled breadcrumb rendering with the current page title appended
+  — verified by `test_full_chrome_and_content_reports_observed`,
+  `test_top_nav_beyond_five_entries_grouped_under_more`, and
+  `test_breadcrumb_includes_current_page_title`.
+
+### Verification (Record 16)
+
+- `python3 -m pytest -q plugins/sharepoint-page-modernization` — **63 passed** (54 pre-existing + 9
+  new).
+- `python3 tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py --plugin
+  sharepoint-page-modernization --import-package outcomes` — passed (exit 0), all 63 tests green
+  inside a clean, isolated venv built from the plugin's own wheel.
+- `symlink_manager.py restore` — 2 new symlinks created (`preview_composition.py`, `outcomes.py`
+  into `compose-page-preview/scripts/`), 0 new failures (24 pre-existing broken links elsewhere in
+  the repo, unchanged — confirmed via `diagnose`).
+- No project literal (`justin`, `ceis`, `ords`, `courthouse`, `ag-csb`, `ag-bcps`, `ag-pssg`,
+  `itau`, `pio`, `icm`, `crownnet`, `mediainfo`, `jag.gov.bc.ca`, `bcgov.sharepoint.com`, `cmat`,
+  `courts-intranet`) found in the new module, skill doc, or test (grep-verified).

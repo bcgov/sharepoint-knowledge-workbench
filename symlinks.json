@@ -1610,6 +1610,18 @@
       "description": "convert-aspx-pages skill's bundled copy of outcomes.py"
     },
     {
+      "src": "plugins/sharepoint-page-modernization/scripts/preview_composition.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/compose-page-preview/scripts/preview_composition.py",
+      "strategy": "symlink",
+      "description": "compose-page-preview skill's bundled copy of preview_composition.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/compose-page-preview/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "compose-page-preview skill's bundled copy of outcomes.py"
+    },
+    {
       "src": "plugins/sharepoint-discovery/assets/form-classification-rules.json",
       "dst": "plugins/sharepoint-discovery/scripts/assets/form-classification-rules.json",
       "strategy": "symlink",
