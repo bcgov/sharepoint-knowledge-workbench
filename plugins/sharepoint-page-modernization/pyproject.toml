@@ -18,6 +18,7 @@ py-modules = [
     "component_classification",
     "layout_selection",
     "component_mapping",
+    "preview_composition",
 ]
 
 [tool.setuptools.packages.find]
