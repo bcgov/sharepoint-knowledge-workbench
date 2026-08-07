@@ -58,8 +58,8 @@ class ExtractedLink:
 class LinkInventory:
     """The result of an extraction run, including anything that went wrong."""
 
-    links: Sequence[ExtractedLink] = field(default_factory=tuple)
-    problems: Sequence[str] = field(default_factory=tuple)
+    links: Sequence[ExtractedLink] = field(default_factory=list)
+    problems: Sequence[str] = field(default_factory=list)
     outcome: str = Outcome.EMPTY
 
     @classmethod
@@ -70,8 +70,8 @@ class LinkInventory:
         *,
         sources_attempted: int | None = None,
     ) -> "LinkInventory":
-        links = tuple(links)
-        problems = tuple(problems)
+        links = list(links)
+        problems = list(problems)
         if sources_attempted is not None and problems and len(problems) == sources_attempted:
             outcome = Outcome.FAILED
         elif problems:
