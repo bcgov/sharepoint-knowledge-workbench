@@ -45,7 +45,17 @@ nothing on failure) and refuses to silently overwrite an existing
 `test_connection` requires an injected `connector` callable — this
 module ships no live SharePoint SDK/PnP connector itself, so calling it
 without one raises `NotImplementedError` rather than silently no-op'ing
-or faking success.
+or faking success. The `validate-app-registration` skill's
+`make_device_code_connector(http_client)` builds a real, working
+connector for this parameter (device-code auth + `_api/contextinfo`
+smoke test) -- wiring it in is still an explicit, opt-in caller choice,
+never a default:
+
+```python
+from app_registration_validation import make_device_code_connector
+connector = make_device_code_connector(http_client)  # caller supplies http_client
+test_connection(connection, connector=connector)
+```
 
 ## Installation
 

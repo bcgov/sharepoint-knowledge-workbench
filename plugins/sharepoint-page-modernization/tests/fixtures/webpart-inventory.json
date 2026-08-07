@@ -1,0 +1,47 @@
+[
+  {
+    "FileName": "My_Requests.aspx",
+    "Category": "SitePage",
+    "ListTitle": "",
+    "ConnectedWPCount": 2,
+    "HasCEWP": true,
+    "HasSEWP": false,
+    "WebParts": [
+      { "Category": "CEWP", "TypeName": "ContentEditorWebPart", "Title": "Header", "ListName": "" },
+      { "Category": "ListView", "TypeName": "XsltListViewWebPart", "Title": "Requests", "ListName": "Project_Requests" },
+      { "Category": "ListView", "TypeName": "XsltListViewWebPart", "Title": "Tasks", "ListName": "Request_Tasks" }
+    ]
+  },
+  {
+    "FileName": "NewForm.aspx",
+    "Category": "ListForm",
+    "ListTitle": "Project_Requests",
+    "ConnectedWPCount": 0,
+    "HasCEWP": false,
+    "HasSEWP": false,
+    "WebParts": [
+      { "Category": "ListForm", "TypeName": "ListFormWebPart", "Title": "New item", "ListName": "Project_Requests" }
+    ]
+  },
+  {
+    "FileName": "Legacy_Dashboard.aspx",
+    "Category": "SitePage",
+    "ListTitle": "",
+    "ConnectedWPCount": 0,
+    "HasCEWP": false,
+    "HasSEWP": true,
+    "WebParts": [
+      { "Category": "SEWP", "TypeName": "ScriptEditorWebPart", "Title": "Custom script", "ListName": "" },
+      { "Category": "Sandbox", "TypeName": "SPUserCodeWebPart", "Title": "Legacy widget", "ListName": "" }
+    ]
+  },
+  {
+    "FileName": "Empty_Page.aspx",
+    "Category": "SitePage",
+    "ListTitle": "",
+    "ConnectedWPCount": 0,
+    "HasCEWP": false,
+    "HasSEWP": false,
+    "WebParts": []
+  }
+]

@@ -11,3 +11,4 @@ skills:
   - setup-sharepoint-connection
   - initialize-document-workflow
   - validate-workbench-environment
+  - validate-app-registration

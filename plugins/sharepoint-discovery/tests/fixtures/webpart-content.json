@@ -1,0 +1,44 @@
+[
+  {
+    "PageUrl": "/sites/demo/SitePages/home.aspx",
+    "WebPartId": "00000000-0000-0000-0000-000000000001",
+    "WebPartTitle": "Welcome",
+    "Content": "<div><h2>Welcome</h2><p>Use the links below to get started.</p></div>"
+  },
+  {
+    "PageUrl": "/sites/demo/SitePages/team.aspx",
+    "WebPartId": "00000000-0000-0000-0000-000000000002",
+    "WebPartTitle": "Empty placeholder",
+    "Content": ""
+  },
+  {
+    "PageUrl": "/sites/demo/SitePages/stale.aspx",
+    "WebPartId": "00000000-0000-0000-0000-000000000003",
+    "WebPartTitle": "Script Editor",
+    "Content": ""
+  },
+  {
+    "PageUrl": "/sites/demo/Lists/Requests/AllItems.aspx",
+    "WebPartId": "00000000-0000-0000-0000-000000000004",
+    "WebPartTitle": "View helper",
+    "Content": "<script src=\"/sites/demo/SiteAssets/JS/HideGear.js\"></script>"
+  },
+  {
+    "PageUrl": "/sites/demo/SitePages/scripted-a.aspx",
+    "WebPartId": "00000000-0000-0000-0000-000000000005",
+    "WebPartTitle": "Form helper",
+    "Content": "<script src=\"/sites/demo/SiteAssets/JS/jquery-3.5.0.js\"></script><script>$(function(){ toggleSection(); });</script>"
+  },
+  {
+    "PageUrl": "/sites/demo/SitePages/scripted-b.aspx",
+    "WebPartId": "00000000-0000-0000-0000-000000000006",
+    "WebPartTitle": "Form helper",
+    "Content": "<script src=\"/sites/demo/SiteAssets/JS/jquery-3.5.0.js\"></script><script>$(function(){   toggleSection(); });</script>"
+  },
+  {
+    "PageUrl": "/sites/demo/SitePages/faq.aspx",
+    "WebPartId": "00000000-0000-0000-0000-000000000007",
+    "WebPartTitle": "FAQ",
+    "Content": "<div class=\"panel-group\" id=\"accordion\"><div class=\"panel-heading\">A</div><div class=\"panel-collapse\">1</div></div>"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "sourcePage": "/team/Pages/Legacy_Dashboard.aspx",
+  "analyzedAt": "2026-01-01T00:00:00+00:00",
+  "detectionMethod": "rendered-html",
+  "detectionSources": ["rendered-html"],
+  "pageType": "BlankWebPartPage",
+  "hasConnections": false,
+  "zones": [
+    {
+      "zoneId": "wpz_x_1",
+      "webPartType": "SPUserCodeWebPart",
+      "detectionPatterns": ["SPUserCodeWebPart"],
+      "detectionSource": "rendered-html"
+    },
+    {
+      "zoneId": "wpz_x_2",
+      "webPartType": "ScriptEditorWebPart",
+      "detectionPatterns": ["SEWPCTL"],
+      "detectionSource": "rendered-html"
+    }
+  ],
+  "warnings": [],
+  "outcome": { "status": "Observed", "detail": "2 zones detected", "counts": { "zones": 2 } }
+}

@@ -9,3 +9,8 @@ platforms:
   - windows
 skills:
   - review-manual-topics
+agents:
+  - sharepoint-link-agent
+  - sharepoint-modernization-agent
+  - sharepoint-schema-agent
+  - sharepoint-validation-agent
