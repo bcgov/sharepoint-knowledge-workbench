@@ -24,6 +24,7 @@ py-modules = [
     "sharepoint_package",
     "sharepoint_publish_plan",
     "sharepoint_reconcile",
+    "sharepoint_upload",
     "canonical_package",
     "dispositions",
     "hashing",
