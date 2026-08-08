@@ -18,7 +18,6 @@ py-modules = [
     "field_provisioning",
     "content_type_provisioning",
     "list_provisioning",
-    "wave_planning",
     "calendar_provisioning",
 ]
 

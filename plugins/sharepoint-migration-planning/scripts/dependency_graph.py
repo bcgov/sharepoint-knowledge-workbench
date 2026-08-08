@@ -9,9 +9,10 @@ Purpose:
     document -- the declared objects plus their computed wave order.
 
     Deliberately thin: all deployment-order computation is delegated to
-    ``wave_planning.plan_waves`` (reused directly from sharepoint-
-    provisioning via a managed file symlink -- see this plugin's README's
-    "why 3a and 3b are split" section -- not reimplemented). This module's
+    ``wave_planning.plan_waves`` (authored in this plugin -- moved from
+    sharepoint-provisioning 2026-08-08, which never called it internally;
+    see this plugin's README's "why 3a and 3b are split" section -- not
+    reimplemented here, just relocated to its actual owner). This module's
     only job is the matrix <-> DeploymentObject shape translation and
     honest, per-object validation errors, so a malformed raw matrix entry is
     reported with enough context (object name or array index) to fix it
@@ -20,8 +21,7 @@ Purpose:
 Layer: sharepoint-migration-planning / dependency-graph analysis (stage 3a)
 
 Key Input Dependencies:
-    - wave_planning.DeploymentObject / plan_waves (symlinked from
-      sharepoint-provisioning)
+    - wave_planning.DeploymentObject / plan_waves (local to this plugin)
     - provisioning_outcomes.Outcome (symlinked from sharepoint-provisioning)
 """
 

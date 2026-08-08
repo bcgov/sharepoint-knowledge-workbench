@@ -1,8 +1,8 @@
 """Tests for dependency_graph.py -- shapes a caller-supplied object list into
 wave_planning.DeploymentObjects, computes the wave order via plan_waves
-(reused directly from sharepoint-provisioning, not reimplemented -- see this
-plugin's README), and emits a dependency-matrix.json-shaped dict conforming
-to assets/dependency-matrix-schema.json."""
+(local to this plugin -- moved from sharepoint-provisioning 2026-08-08, see
+this plugin's README), and emits a dependency-matrix.json-shaped dict
+conforming to assets/dependency-matrix-schema.json."""
 
 from __future__ import annotations
 

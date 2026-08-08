@@ -15,8 +15,8 @@ Confirmed against every other plugin in this workbench: nothing else does this.
   audit, diff, choice-field extraction) — read-only, no cross-object dependency graph, no
   sequencing.
 - `sharepoint-provisioning` **executes** a single-pass reconcile of one target schema (three-gate
-  write safety), and its `wave_planning.py` module topologically sorts a dependency list **it is
-  handed** — it does not discover a site or build that list itself.
+  write safety) — it consumes a computed wave order as an input to that apply, it does not discover
+  a site, build a dependency graph, or compute wave order itself.
 - `sharepoint-collection` (design only, not built — see
   `docs/superpowers/specs/2026-08-07-sharepoint-collection-and-orchestration-design.md`) would be
   the raw connector only — no analysis, no generation.
@@ -46,8 +46,10 @@ See `references/pipeline-overview.mmd` for the full diagram. Four stages:
 
 **Why 3a and 3b are split:** deriving the dependency graph and computing wave order is
 deterministic — same input always produces the same graph and the same topological order, so it
-belongs in tested Python (`sharepoint-provisioning`'s `wave_planning.py` is reused directly, not
-reimplemented). Turning that graph into *readable, well-structured deployment scripts and a human
+belongs in tested Python (`wave_planning.py`, authored in this plugin — see
+`plan-sharepoint-deployment-waves`'s provenance for why it moved here from
+`sharepoint-provisioning` on 2026-08-08). Turning that graph into *readable, well-structured
+deployment scripts and a human
 runbook* is a synthesis task — the same script structure can be expressed many reasonable ways —
 so that step is explicitly agent-assisted, using the assets below as style/shape references, not a
 pure function with one correct output.
@@ -62,6 +64,15 @@ for fabricating headline metrics), so nothing was ported from it — but the two
 itself is sound and is what this plugin's 3a/3b split generalizes, applied once at the pipeline
 level rather than per discovery step, and grounded in an offline export rather than live-tenant
 calls.
+
+## A fifth, standalone skill: `plan-sharepoint-deployment-waves`
+
+Exposes `wave_planning.plan_waves()` directly for a caller that already has a dependency-annotated
+object list and just needs wave order — the same primitive stage 3a's `build_dependency_matrix`
+uses internally, without the matrix-shaping/completeness-check layer around it. Moved here from
+`sharepoint-provisioning` on 2026-08-08 (see that skill's own Provenance section) — provisioning
+never called it internally, only exposed it; the plugin that actually builds on it (this one) now
+owns it directly.
 
 ## Assets (templates the agent step reads, not executable code)
 

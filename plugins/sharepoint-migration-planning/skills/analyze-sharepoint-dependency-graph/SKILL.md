@@ -70,8 +70,10 @@ planning outcome to report gracefully.
 
 - `scripts/dependency_graph.py` -- `load_matrix_objects`, `build_dependency_matrix`, `MatrixValidationError`
 - `scripts/completeness_checks.py` -- `run_all_checks`, and the four individual checks it composes
-- `scripts/wave_planning.py`, `scripts/provisioning_outcomes.py` -- reused directly from
-  `sharepoint-provisioning` via a managed file symlink (see `symlinks.json`), not reimplemented
+- `scripts/wave_planning.py` -- authored in this plugin (moved from `sharepoint-provisioning`
+  2026-08-08, which never called it internally; see `plan-sharepoint-deployment-waves`'s provenance)
+- `scripts/provisioning_outcomes.py` -- reused directly from `sharepoint-provisioning` via a
+  managed file symlink (see `symlinks.json`), not reimplemented
 
 ## Rules
 

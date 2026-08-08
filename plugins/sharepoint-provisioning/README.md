@@ -17,13 +17,14 @@ plugins/sharepoint-provisioning/
 │   │                                 # field-link add/hide/show/unlink
 │   ├── list_provisioning.py         # schema reconciliation, duplicate
 │   │                                 # detection, the three-gate write apply
-│   └── wave_planning.py             # deployment-order planning via
-│                                     # topological sort, no tenant I/O
+│   └── calendar_provisioning.py     # modern-calendar-list provisioning,
+│                                     # structurally prevents the Start/End
+│                                     # platform bug
 ├── skills/
 │   ├── provision-content-types/
 │   ├── provision-fields/
 │   ├── provision-list/
-│   └── plan-sharepoint-deployment-waves/
+│   └── provision-modern-calendar-list/
 ├── rules/
 │   └── schema-driven-sharepoint-deployment.md  # schema/dependency-graph
 │                                                 # deployment convention
