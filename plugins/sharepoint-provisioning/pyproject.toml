@@ -19,6 +19,7 @@ py-modules = [
     "content_type_provisioning",
     "list_provisioning",
     "wave_planning",
+    "calendar_provisioning",
 ]
 
 [tool.setuptools.package-dir]
