@@ -74,7 +74,20 @@ collects those exports** — a real capability hole at the front of every discov
 - **Gated:** publication-path work depends on Phase 3's unmet exit gate (library schema and
   source-of-truth lifecycle). Defer until Phase 3 closes.
 
-### Rank 5 — `sharepoint-content-migration`
+### Rank 0 (re-audit required, not yet actioned) — `sharepoint-content-migration` exclusion needs re-review
+
+**Correction owed, 2026-08-07.** The exclusion below was based on categorizing `sp-migrating-content`'s
+symlink *targets* (live/deprecated/broken), never on reading the shared lib files' actual content —
+the same blind spot that missed `combine-preview.ps1` and the provisioning pattern in
+`ords-integration-migration`. Direct read of `scripts/lib/migrate-helpers.ps1` (631 lines, 1 literal)
+found `Read-IdMappings`/`Write-IdMappingBatch`/`Resolve-LookupIdsFromMap` — a genuinely generic
+source-ID-to-destination-ID mapping and lookup-field-resolution mechanism, not CMAT-specific. This
+may be exactly the "separable generic mechanism" the exclusion below says does not exist. **Not
+re-evaluated fully in this pass — flagged for a dedicated review before the exclusion is
+reaffirmed or reversed.** `guidmap-helpers.ps1` (`Build-GuidMap`, 38 lines, 0 literals) is likely
+related and should be read in the same pass.
+
+### Rank 5 — `sharepoint-content-migration` (original exclusion, now provisional pending Rank 0)
 
 - **Excluded on evidence, not deferred by preference.** Task 2a recomputed `sp-migrating-content`
   from 44 raw symlinks to **29 LIVE** — 12 resolve into `scripts/_deprecated/stages/`, 3 dangle.
