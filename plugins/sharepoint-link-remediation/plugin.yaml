@@ -11,3 +11,4 @@ skills:
   - extract-links
   - remediate-links
   - validate-link-integrity
+  - remediate-document-content-links

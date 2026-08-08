@@ -19,6 +19,7 @@ py-modules = [
     "link_extraction",
     "link_remediation",
     "link_integrity",
+    "document_link_remediation",
 ]
 
 [tool.setuptools.package-dir]
