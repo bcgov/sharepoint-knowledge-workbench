@@ -165,3 +165,12 @@
 - **Severity**: M (no defect shipped — caught during Wave 2 execution and guarded by test — but the same incomplete cost model is about to be applied to the remaining five agents in a later wave)
 - **Repeat**: NO for these four (resolved and test-guarded); YES as a classification-model gap for Wave 3+ unless §8f gains the axis.
 - **Status**: RESOLVED (Wave 2 artifacts); recommendation for §8f is OPEN
+
+### 2026-08-07 — source-repo config fallback in sharepoint-agents-and-skills
+
+- **Artifact:** `plugins/sharepoint-agents-and-skills/scripts/{verify-agentassets-ready,verify-agentassets-artifact,reconcile-deployed-skill,diagnose-sharepoint-library}.ps1`
+- **Friction observed:** four scripts defaulted `$ConfigFile` to a plugin-local `config.psd1` and fell back to `tools/phase-3-sharepoint-discovery/config.psd1` — a source-repo/phase-evidence path that `CLAUDE.md` §0 explicitly says must never hold reusable operational implementation. They also read flat top-level keys, incompatible with the nested `Connection` block that `workbench-setup`'s `setup-sharepoint-connection` actually generates, and surfaced "Phase 3"/"Phase 4" phase language in user-facing error messages.
+- **Why not fixed earlier:** predates Phase 9; surfaced by a config-alignment audit run this session.
+- **Fix applied:** default is now the repository-root `config.psd1` (workbench-setup's canonical output). A normalizer accepts the canonical nested `Connection` block and falls back to flat keys for older plugin-local configs. The `tools/phase-3-*` fallback and all phase language are removed; a missing/placeholder app registration now points the operator at `setup-sharepoint-connection` instead.
+- **Evidence:** `grep -rn 'FallbackConfigFile|phase3|tools/phase-3' plugins/sharepoint-agents-and-skills/scripts/*.ps1` returns nothing; all four parse clean via the PowerShell AST parser; plugin suite 68/68.
+- **Severity:** M. **Repeat:** NO. **Status:** RESOLVED.
