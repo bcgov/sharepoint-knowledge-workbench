@@ -61,9 +61,24 @@ print(outcome.status, outcome.detail)
 - `scripts/webpart_code_analysis.py` -- `run`, `analyse`, `classify`, `recommend`, `generate_report`, `generate_instance_csv`, `KnowledgeBase`, `InlineLogicRule`
 - `scripts/discovery_inputs.py` -- shared status vocabulary and input loading
 
+## Stage 2 — AI-reasoning pass over this skill's output
+
+This skill performs Stage 1 only: deterministic grouping. Assigning a
+modernization disposition per group (business behaviour, MVP decision,
+SPFx candidacy) and collapsing groups that share one mechanism into a
+single shared decision is Stage 2, agent-assisted by design — route to
+`sharepoint-webpart-modernization-analysis-agent` (in
+`sharepoint-agents-and-skills`) once this skill's grouped output exists.
+
 ## Provenance
 
 Adapted from `sp-discovering-web-parts` in the originating SharePoint migration
 repository. Note that 6 of that skill's 19 symlinks pointed at project analysis
-*data* outside the plugin boundary; those were **not** extracted. See
+*data* outside the plugin boundary; that data was **not** extracted, but the
+Stage-2 reasoning *framework* those analysis documents applied (per-group
+disposition fields, category-level defaults, and the pattern-collapse
+discipline) was later generalized into
+`sharepoint-webpart-modernization-analysis-agent` after a Phase 9 audit
+follow-up confirmed it was a distinct, valuable, reusable pattern separate
+from the project-specific data it had originally been applied to. See
 `docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`.
