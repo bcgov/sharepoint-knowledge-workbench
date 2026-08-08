@@ -1,9 +1,11 @@
 # sharepoint-migration-planning
 
-> **Status: `DESIGN_SCAFFOLD`, `NOT_IMPLEMENTED`.** This plugin's folder structure, skill names,
-> and pipeline diagram exist so the design can be agreed before any real code is written. No
-> skill below has a working implementation yet — each `SKILL.md` states what it *will* do, not
-> what it does today. Do not install or invoke anything here expecting a working result.
+> **Status: `PARTIALLY_IMPLEMENTED`.** Stage 3a (`analyze-sharepoint-dependency-graph` —
+> deterministic dependency-graph shaping, completeness checks, wave-order computation) is real,
+> tested, and installs standalone. Stages 1, 2, and 3b (`setup-sharepoint-migration-project`,
+> `discover-sharepoint-site-inventory`, `generate-sharepoint-wave-scripts`) remain
+> `DESIGN_SCAFFOLD, NOT_IMPLEMENTED` — their `SKILL.md` files still state what they *will* do, not
+> what they do today. Do not invoke those three expecting a working result.
 
 ## Why this plugin exists (the gap it fills)
 
