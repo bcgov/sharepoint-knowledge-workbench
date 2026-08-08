@@ -174,3 +174,21 @@
 - **Fix applied:** default is now the repository-root `config.psd1` (workbench-setup's canonical output). A normalizer accepts the canonical nested `Connection` block and falls back to flat keys for older plugin-local configs. The `tools/phase-3-*` fallback and all phase language are removed; a missing/placeholder app registration now points the operator at `setup-sharepoint-connection` instead.
 - **Evidence:** `grep -rn 'FallbackConfigFile|phase3|tools/phase-3' plugins/sharepoint-agents-and-skills/scripts/*.ps1` returns nothing; all four parse clean via the PowerShell AST parser; plugin suite 68/68.
 - **Severity:** M. **Repeat:** NO. **Status:** RESOLVED.
+
+### 2026-08-07 — CWD-fragile config.psd1 defaults across sharepoint-agents-and-skills
+
+- **Artifact:** 14 scripts in `plugins/sharepoint-agents-and-skills/scripts/*.ps1`.
+- **Friction observed:** a precision audit (`scratchpad/audit_config_path_refs_v2.py`, filtering
+  actual code paths from docstring noise) found every `$ConfigFile`/`$ConfigPath` PowerShell param
+  default was a bare relative literal (`"config.psd1"` or `"plugins/sharepoint-agents-and-skills/
+  config.psd1"`) with zero `$PSScriptRoot` anchoring anywhere in the repo's PowerShell scripts.
+  Correct only if invoked with CWD == repo root, which nothing documents or enforces. 10 of the 14
+  additionally pointed at the wrong file entirely — a plugin-local `config.psd1` that
+  `setup-sharepoint-connection` never creates (same class of defect fixed for 4 of these scripts
+  earlier this session in the `tools/phase-3-*` fallback fix, just not caught for all 14 at once).
+- **Fix applied:** all 14 defaults now resolve via `(Join-Path $PSScriptRoot '../../../config.psd1')`
+  — anchored to the script's own location, correct regardless of invocation CWD, and pointing at the
+  single repo-root source of truth.
+- **Evidence:** re-running the audit script shows 0 fragile hits; all 14 files parse clean via the
+  PowerShell AST parser; plugin suite 68/68 unchanged.
+- **Severity:** M. **Repeat:** NO. **Status:** RESOLVED.

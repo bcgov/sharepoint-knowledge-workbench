@@ -16,7 +16,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "config.psd1",
+    [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [string]$RepoSkillPath = "plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md",
     [string]$TargetSkillName = "review-manual-topics",
     [string]$TempDownloadDir = "temp/artifact-verification"
