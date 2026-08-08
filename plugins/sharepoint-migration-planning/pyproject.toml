@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-migration-planning"
+version = "0.1.0-alpha.1"
+description = "Deterministic SharePoint dependency-graph analysis and wave-order computation (Stage 3a). Reuses sharepoint-provisioning's wave_planning.py directly via a managed file symlink -- this wheel is self-contained (symlinks resolve to real file content at build time), no sibling plugin needs co-installing at runtime."
+requires-python = ">=3.10"
+# No runtime dependency on any other workbench distribution -- wave_planning.py and
+# provisioning_outcomes.py are included via managed file-level symlinks (symlinks.json),
+# matching sharepoint-content-publication's proven pattern for the same isolation
+# requirement (plugin-architecture-policy.md 1.3, Phase 9 spec section 14).
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "dependency_graph",
+    "completeness_checks",
+    "wave_planning",
+    "provisioning_outcomes",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"
