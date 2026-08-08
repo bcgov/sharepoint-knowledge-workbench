@@ -58,8 +58,8 @@ Link kinds are reported by `classify(url)`: `absolute`, `server_relative`,
 
 ## Scripts
 
-- `../../scripts/link_extraction.py` -- `extract_links_from_text`, `extract_links_from_paths`, `classify`, `ExtractedLink`, `LinkInventory`
-- `../../scripts/link_outcomes.py` -- the shared `Outcome` vocabulary
+- `scripts/link_extraction.py` -- `extract_links_from_text`, `extract_links_from_paths`, `classify`, `ExtractedLink`, `LinkInventory`
+- `scripts/link_outcomes.py` -- the shared `Outcome` vocabulary
 
 ## Provenance
 

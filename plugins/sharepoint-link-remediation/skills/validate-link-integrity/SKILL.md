@@ -61,9 +61,9 @@ print(report.outcome, [f.status for f in report.findings])
 
 ## Scripts
 
-- `../../scripts/link_integrity.py` -- `validate_link_integrity`, `make_local_path_resolver`, `LinkStatus`, `LinkFinding`, `IntegrityReport`
-- `../../scripts/link_extraction.py` -- produces the input inventory
-- `../../scripts/link_outcomes.py` -- shared `Outcome` vocabulary
+- `scripts/link_integrity.py` -- `validate_link_integrity`, `make_local_path_resolver`, `LinkStatus`, `LinkFinding`, `IntegrityReport`
+- `scripts/link_extraction.py` -- produces the input inventory
+- `scripts/link_outcomes.py` -- shared `Outcome` vocabulary
 
 ## Relationship to `sharepoint-content-publication`
 

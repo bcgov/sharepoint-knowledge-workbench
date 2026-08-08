@@ -72,9 +72,9 @@ confirmation token.
 
 ## Scripts
 
-- `../../scripts/link_remediation.py` -- `plan_remediation`, `apply_remediation`, `rollback_remediation`, safety errors
-- `../../scripts/link_rules.py` -- `load_ruleset`, `RewriteRule`, `RewriteRuleset`
-- `../../scripts/link_outcomes.py` -- shared `Outcome` vocabulary
+- `scripts/link_remediation.py` -- `plan_remediation`, `apply_remediation`, `rollback_remediation`, safety errors
+- `scripts/link_rules.py` -- `load_ruleset`, `RewriteRule`, `RewriteRuleset`
+- `scripts/link_outcomes.py` -- shared `Outcome` vocabulary
 
 ## Provenance
 

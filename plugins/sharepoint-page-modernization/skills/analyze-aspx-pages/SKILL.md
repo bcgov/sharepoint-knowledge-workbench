@@ -4,8 +4,8 @@ plugin: sharepoint-page-modernization
 description: Stages 1-2 of classic page modernization -- parses exported classic .aspx content, view exports, and connected-consumer overrides into a neutral component inventory, then classifies each component by role, type, and variant. Read-only, operates on exported files, never contacts a tenant.
 allowed-tools: Bash, Read
 examples:
-  - "python3 ../../scripts/aspx_inventory.py --raw-html page.html --views views.json --output inventory.json"
-  - "python3 ../../scripts/component_classification.py --inventory inventory.json --output classified.json"
+  - "python3 scripts/aspx_inventory.py --raw-html page.html --views views.json --output inventory.json"
+  - "python3 scripts/component_classification.py --inventory inventory.json --output classified.json"
 ---
 
 # Analyze ASPX Pages
@@ -52,21 +52,21 @@ SharePoint connection, no writes outside the output path you name.
 ## Usage
 
 ```bash
-python3 ../../scripts/aspx_inventory.py \
+python3 scripts/aspx_inventory.py \
   --raw-html classic-page.raw.html \
   --views classic-page.views.json \
   --overrides classic-page.override.json \
   --output inventory.json
 
-python3 ../../scripts/component_classification.py \
+python3 scripts/component_classification.py \
   --inventory inventory.json --output classified.json
 ```
 
 ## Scripts
 
-- `../../scripts/aspx_inventory.py` -- stage 1 CLI
-- `../../scripts/component_classification.py` -- stage 2 CLI
-- `../../scripts/outcomes.py` -- shared status vocabulary
+- `scripts/aspx_inventory.py` -- stage 1 CLI
+- `scripts/component_classification.py` -- stage 2 CLI
+- `scripts/outcomes.py` -- shared status vocabulary
 
 ## Boundary vs `structured-content-rendering`
 
