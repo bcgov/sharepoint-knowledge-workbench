@@ -9,4 +9,6 @@ platforms:
   - windows
 skills:
   - audit-schema
+  - diff-sharepoint-schema
   - extract-choice-fields
+  - generate-sharepoint-schema-from-export

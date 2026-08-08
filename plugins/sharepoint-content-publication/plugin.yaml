@@ -7,4 +7,10 @@ platforms:
   - linux
   - macos
   - windows
-skills: []
+skills:
+  - publish-aspx-to-sharepoint
+  - publish-markdown-to-sharepoint
+  - reconcile-sharepoint-publication
+  - rollback-sharepoint-publication
+  - upload-content
+  - validate-sharepoint-publication

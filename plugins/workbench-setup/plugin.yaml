@@ -10,5 +10,6 @@ platforms:
 skills:
   - setup-sharepoint-connection
   - initialize-document-workflow
+  - resolve-workbench-paths
   - validate-workbench-environment
   - validate-app-registration

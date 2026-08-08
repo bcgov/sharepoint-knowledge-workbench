@@ -9,6 +9,20 @@ platforms:
   - windows
 skills:
   - review-manual-topics
+  - apply-sharepoint-agent-template
+  - backup-sharepoint-agents
+  - backup-sharepoint-native-skills
+  - configure-sharepoint-agent-knowledge
+  - create-sharepoint-agent
+  - create-sharepoint-agent-template
+  - create-sharepoint-native-skill
+  - deploy-sharepoint-native-skill
+  - inventory-and-validate-agentassets
+  - restore-sharepoint-agents
+  - restore-sharepoint-native-skills
+  - rollback-sharepoint-native-skill
+  - update-sharepoint-agent
+  - verify-sharepoint-native-skill
 agents:
   - sharepoint-link-agent
   - sharepoint-modernization-agent
