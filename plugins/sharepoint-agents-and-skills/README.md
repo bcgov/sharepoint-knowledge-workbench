@@ -42,13 +42,19 @@ skills. See the plan for exact per-skill status.
 `agents/` holds Claude Code routing agents — orchestration artifacts that decide *which*
 capability to run for a request, and that report honestly when no capability exists. Four were
 extracted in Phase 9 Wave 2 (see
-`docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`, Records 3–6):
+`docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`, Records 3–6); two more
+were added generalizing findings from the Phase 9 exhaustive source audit
+(`temp/phase9-source-audit/file-tracking.json`):
 
 - `sharepoint-link-agent` — enforces extract → remediate → validate ordering for link work.
 - `sharepoint-modernization-agent` — separates "render modern page artifacts" from "convert an
   existing classic page" (only the former is supported here).
 - `sharepoint-schema-agent` — read-only schema conformance before any mapping question.
 - `sharepoint-validation-agent` — routes post-stage validation by artifact under test.
+- `sharepoint-deployment-planning-agent` — routes matrix-completeness questions before any
+  deployment-order question is asked.
+- `sharepoint-deployment-sequencing-agent` — routes deployment-order questions to the
+  deterministic dependency-graph/topological-sort computation, never a hand-maintained sequence.
 
 Every agent carries a mandatory `## Not available in this workbench` section. The contract
 (frontmatter schema, zero project literals, zero dangling capability references, manifest
