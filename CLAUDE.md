@@ -93,7 +93,16 @@ supporting `prior-research-source-ledger.md`, `capability-gap-analysis.md`, and
 `current-source-verification-record.md`) for the full evidence record. Later phases beyond 7 are
 deliberately planned at a structural level only, gated on evidence that doesn't exist yet — see
 the master plan's own detail-level discipline before assuming any later phase is ready to
-implement.
+implement. **Updated 2026-08-08:** Phase 9 (reusable SharePoint plugin extraction) merged to
+`main` via PR #40 and has continued directly on `main` since. Ten SharePoint-domain plugins now
+exist — `sharepoint-discovery`, `sharepoint-schema`, `sharepoint-provisioning`,
+`sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-publication`,
+`sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning` (Stage 3a
+dependency-graph analysis implemented; setup/discovery/generated-wave-script stages remain design
+scaffolds), and `sharepoint-content-migration` (item-level content migration mechanism) — plus 11
+Claude Code routing/analysis agents in `sharepoint-agents-and-skills/agents/`. See
+`temp/phase9-source-audit/file-tracking.json` for the full 505-file source-repository audit this
+ecosystem was built from, and each plugin's own README for scope/provenance.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
 `source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`

@@ -1746,6 +1746,96 @@
       "dst": "plugins/sharepoint-content-migration/scripts/provisioning_outcomes.py",
       "strategy": "symlink",
       "description": "Shared honest-outcome vocabulary reused from sharepoint-provisioning"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/calendar_provisioning.py",
+      "dst": "plugins/sharepoint-provisioning/skills/provision-modern-calendar-list/scripts/calendar_provisioning.py",
+      "strategy": "symlink",
+      "description": "provision-modern-calendar-list skill's bundled copy of calendar_provisioning.py"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-provisioning/skills/provision-modern-calendar-list/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "provision-modern-calendar-list skill's bundled copy of provisioning_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/dependency_graph.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/analyze-sharepoint-dependency-graph/scripts/dependency_graph.py",
+      "strategy": "symlink",
+      "description": "analyze-sharepoint-dependency-graph skill's bundled copy of dependency_graph.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/completeness_checks.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/analyze-sharepoint-dependency-graph/scripts/completeness_checks.py",
+      "strategy": "symlink",
+      "description": "analyze-sharepoint-dependency-graph skill's bundled copy of completeness_checks.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/wave_planning.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/analyze-sharepoint-dependency-graph/scripts/wave_planning.py",
+      "strategy": "symlink",
+      "description": "analyze-sharepoint-dependency-graph skill's bundled copy of wave_planning.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/analyze-sharepoint-dependency-graph/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "analyze-sharepoint-dependency-graph skill's bundled copy of provisioning_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/id_mapping.py",
+      "dst": "plugins/sharepoint-content-migration/skills/migrate-sharepoint-list-content/scripts/id_mapping.py",
+      "strategy": "symlink",
+      "description": "migrate-sharepoint-list-content skill's bundled copy of id_mapping.py"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/item_migration.py",
+      "dst": "plugins/sharepoint-content-migration/skills/migrate-sharepoint-list-content/scripts/item_migration.py",
+      "strategy": "symlink",
+      "description": "migrate-sharepoint-list-content skill's bundled copy of item_migration.py"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-content-migration/skills/migrate-sharepoint-list-content/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "migrate-sharepoint-list-content skill's bundled copy of provisioning_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/document_link_remediation.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-document-content-links/scripts/document_link_remediation.py",
+      "strategy": "symlink",
+      "description": "remediate-document-content-links skill's bundled copy of document_link_remediation.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-document-content-links/scripts/link_rules.py",
+      "strategy": "symlink",
+      "description": "remediate-document-content-links skill's bundled copy of link_rules.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-document-content-links/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "remediate-document-content-links skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/field_image_remediation.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/field_image_remediation.py",
+      "strategy": "symlink",
+      "description": "remediate-field-image-references skill's bundled copy of field_image_remediation.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/link_rules.py",
+      "strategy": "symlink",
+      "description": "remediate-field-image-references skill's bundled copy of link_rules.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/link_outcomes.py",
+      "strategy": "symlink",
+      "description": "remediate-field-image-references skill's bundled copy of link_outcomes.py"
     }
   ]
 }

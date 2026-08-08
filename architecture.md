@@ -133,6 +133,19 @@ monorepo — a separate concern from these first-party plugins).
   (`renderers/multipage_markdown.py`) → `renderers/validate_rendered.py` → atomic promotion;
   produces `rendered-output-profile`.
 
+**Ten SharePoint-domain plugins (Phase 9, `2026-08-08` update):** extracted/generalized from a
+separate SharePoint migration repository per an exhaustive 505-file source audit
+(`temp/phase9-source-audit/file-tracking.json`), same standalone-install convention as the four
+content-pipeline plugins above — `sharepoint-discovery`, `sharepoint-schema`,
+`sharepoint-provisioning`, `sharepoint-page-modernization`, `sharepoint-link-remediation`,
+`sharepoint-content-migration`, `sharepoint-migration-planning` (Stage 3a implemented; setup/
+discovery/generated-wave-script stages remain design scaffolds), `sharepoint-content-publication`,
+`workbench-setup`, and `sharepoint-agents-and-skills` (agent/native-skill lifecycle plus 11 Claude
+Code routing/analysis agents in `agents/`). Every write-capable module across these plugins shares
+one three-gate safety contract: planning is pure, apply is dry-run by default, and a real apply
+requires both an explicitly injected executor/writer and a plan-derived confirmation token. See
+each plugin's own README for scope, non-responsibilities, and provenance.
+
 **Installed skills remain a separate concern:** `.agents/skills/` (superpowers, agent-scaffolders,
 cli-agents, dependency-management, dev-utils) are consumed from `agent-plugins-skills` and
 `obra/superpowers` via `plugin-sources.json`/`skills-lock.json`, gitignored, reproducible via the
@@ -146,14 +159,19 @@ Tracked in `DEPENDENCIES.md` — external CLI tools (pandoc, LibreOffice/`soffic
 packages: do not install/upgrade system tools without checking with the user first, outside the
 scope of `.agent/rules/dependency-management.md` (Python `.in`/`.txt` lockfiles only).
 
-## 5. What This Repo Deliberately Does Not Have (Phase 1 scope)
+## 5. What This Repo Deliberately Does Not Have (Phase 1 scope, plus later corrections)
 
 - No running service, no API, no database, no CI/CD pipeline.
 - No preview/editing tool for content — SharePoint Online already provides native markdown
   preview/editing at the eventual destination.
-- No actual publish step into SharePoint/OneDrive — that and native SharePoint skills,
-  publication-map-driven multi-target rendering, and knowledge-access agents are later-phase
-  concerns described in `docs/vision/`, not built or authorized here.
+- **Corrected 2026-08-08:** an actual publish step into SharePoint and native SharePoint skills
+  now exist (`sharepoint-content-publication`, `sharepoint-agents-and-skills`) — this line
+  originally said neither was built or authorized; that was true for Phase 1 scope only, and is
+  superseded by Phase 6/9 work merged since. Live-tenant I/O beyond opt-in connection testing
+  still does not exist anywhere in this workbench — every write-capable module (publication,
+  provisioning, content migration, link/field-image remediation) ships zero transport of its own
+  and requires an explicitly injected executor/writer plus a plan-derived confirmation token; nothing
+  writes to a real tenant autonomously.
 - No renderers beyond `multipage_markdown.py` — see
   `docs/research/structured-content-engineering/legacy/future-output-profiles.md` for candidate
   profiles (including dual-target rendering for human visual consumption vs. agent-optimized RAG

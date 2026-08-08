@@ -91,6 +91,19 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
   - `document-structure-analysis` — Topic-boundary reasoning, chunking-strategy recommendation, and draft conversion-plan construction.
   - `structured-content-assembly` — Pandoc AST postprocessing, chunking, structured-package build, and validation.
   - `structured-content-rendering` — Multi-target publication rendering and validation.
+- **SharePoint Domain Plugins** (Phase 9, `plugins/`): independently installable, extracted/
+  generalized from a separate SharePoint migration repository per an exhaustive 505-file source
+  audit (`temp/phase9-source-audit/file-tracking.json`)
+  - `sharepoint-discovery` — read-only analysis of exported classic SharePoint inventories.
+  - `sharepoint-schema` — read-only schema variance/duplicate-field/choice-field auditing.
+  - `sharepoint-provisioning` — declarative, gated site-column/content-type/list/calendar provisioning.
+  - `sharepoint-page-modernization` — classic-to-modern page conversion manifest generation.
+  - `sharepoint-link-remediation` — page/document/field-content link extraction, remediation, validation.
+  - `sharepoint-content-migration` — item-level content migration with two-pass lookup-ID re-link.
+  - `sharepoint-migration-planning` — dependency-graph analysis and deployment wave-order computation.
+  - `sharepoint-content-publication`, `workbench-setup` — tenant publication and connection/config setup.
+  - `sharepoint-agents-and-skills` — agent/native-skill lifecycle plus 11 Claude Code routing/analysis
+    agents (`agents/`) spanning link, schema, modernization, deployment, and content-migration domains.
 - **Intake & Runs**
   - `intake/` — Source `.docx` input files for the CEIS Manual pilot.
   - `runs/ceis-manual-v2/` — Current authoritative, fully validated conversion run.
