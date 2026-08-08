@@ -100,7 +100,7 @@ exist — `sharepoint-discovery`, `sharepoint-schema`, `sharepoint-provisioning`
 `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-publication`,
 `sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning` (Stage 3a
 dependency-graph analysis implemented; setup/discovery/generated-wave-script stages remain design
-scaffolds), and `sharepoint-content-migration` (item-level content migration mechanism) — plus 11
+scaffolds), and `sharepoint-content-migration` (item-level content migration mechanism) — plus 9
 Claude Code routing/analysis agents in `sharepoint-agents-and-skills/agents/`. See
 `temp/phase9-source-audit/file-tracking.json` for the full 505-file source-repository audit this
 ecosystem was built from, and each plugin's own README for scope/provenance.

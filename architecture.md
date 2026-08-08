@@ -140,7 +140,7 @@ content-pipeline plugins above — `sharepoint-discovery`, `sharepoint-schema`,
 `sharepoint-provisioning`, `sharepoint-page-modernization`, `sharepoint-link-remediation`,
 `sharepoint-content-migration`, `sharepoint-migration-planning` (Stage 3a implemented; setup/
 discovery/generated-wave-script stages remain design scaffolds), `sharepoint-content-publication`,
-`workbench-setup`, and `sharepoint-agents-and-skills` (agent/native-skill lifecycle plus 11 Claude
+`workbench-setup`, and `sharepoint-agents-and-skills` (agent/native-skill lifecycle plus 9 Claude
 Code routing/analysis agents in `agents/`). Every write-capable module across these plugins shares
 one three-gate safety contract: planning is pure, apply is dry-run by default, and a real apply
 requires both an explicitly injected executor/writer and a plan-derived confirmation token. See
