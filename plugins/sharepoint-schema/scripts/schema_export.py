@@ -38,13 +38,13 @@ class SectionStatus(Enum):
     """Honest outcome vocabulary for a single section read, or for an
     aggregate of several section reads."""
 
-    OBSERVED = "observed"
-    EMPTY = "empty"
-    FORBIDDEN = "forbidden"
-    UNAVAILABLE = "unavailable"
-    NOT_SUPPORTED = "not_supported"
-    PARTIAL = "partial"
-    FAILED = "failed"
+    OBSERVED = "Observed"
+    EMPTY = "Empty"
+    FORBIDDEN = "Forbidden"
+    UNAVAILABLE = "Unavailable"
+    NOT_SUPPORTED = "NotSupported"
+    PARTIAL = "Partial"
+    FAILED = "Failed"
 
 
 @dataclass(frozen=True)
