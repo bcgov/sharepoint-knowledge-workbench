@@ -86,24 +86,31 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
 
 ## 🛠️ Active Implementation & Tools
 
-- **Core Conversion Plugins** (Phase 4.5, `plugins/`): four independently installable domain plugins
-  - `source-document-extraction` — Structural analysis, defect detection, and normalized-source-document extraction.
-  - `document-structure-analysis` — Topic-boundary reasoning, chunking-strategy recommendation, and draft conversion-plan construction.
-  - `structured-content-assembly` — Pandoc AST postprocessing, chunking, structured-package build, and validation.
-  - `structured-content-rendering` — Multi-target publication rendering and validation.
-- **SharePoint Domain Plugins** (Phase 9, `plugins/`): independently installable, extracted/
-  generalized from a separate SharePoint migration repository per an exhaustive 505-file source
-  audit (`temp/phase9-source-audit/file-tracking.json`)
-  - `sharepoint-discovery` — read-only analysis of exported classic SharePoint inventories.
-  - `sharepoint-schema` — read-only schema variance/duplicate-field/choice-field auditing.
-  - `sharepoint-provisioning` — declarative, gated site-column/content-type/list/calendar provisioning.
-  - `sharepoint-page-modernization` — classic-to-modern page conversion manifest generation.
-  - `sharepoint-link-remediation` — page/document/field-content link extraction, remediation, validation.
-  - `sharepoint-content-migration` — item-level content migration with two-pass lookup-ID re-link.
-  - `sharepoint-migration-planning` — dependency-graph analysis and deployment wave-order computation.
-  - `sharepoint-content-publication`, `workbench-setup` — tenant publication and connection/config setup.
-  - `sharepoint-agents-and-skills` — agent/native-skill lifecycle plus 11 Claude Code routing/analysis
-    agents (`agents/`) spanning link, schema, modernization, deployment, and content-migration domains.
+- **Core Conversion Plugins** (Phase 4.5, `plugins/`): four independently installable domain plugins, 10 skills total
+  - `source-document-extraction` (1 skill) — Structural analysis, defect detection, and normalized-source-document extraction (`extract-docx`).
+  - `document-structure-analysis` (1 skill) — Topic-boundary reasoning, chunking-strategy recommendation, and draft conversion-plan construction (`analyze-document-structure`).
+  - `structured-content-assembly` (1 skill) — Pandoc AST postprocessing, chunking, structured-package build, and validation (`assemble-structured-content`).
+  - `structured-content-rendering` (7 skills) — Multi-target publication rendering and validation: `render-multipage-markdown`, `render-sharepoint-aspx`, `create-markdown-rendering-template`, `create-aspx-rendering-template`, `validate-rendering-template`, `validate-rendered-output`, `compare-rendered-output`.
+- **SharePoint Domain Plugins** (Phase 9, `plugins/`): 10 independently installable plugins, 53 skills
+  and 9 agents total, extracted/generalized from a separate SharePoint migration repository per an
+  exhaustive 505-file source audit (`temp/phase9-source-audit/file-tracking.json`)
+  - `sharepoint-discovery` (5 skills) — read-only analysis of exported classic SharePoint inventories: `analyze-site-navigation`, `analyze-permissions`, `analyze-page-inventory`, `analyze-webpart-code`, `analyze-custom-forms`.
+  - `sharepoint-schema` (4 skills) — read-only schema variance/duplicate-field/choice-field auditing: `audit-schema`, `diff-sharepoint-schema`, `extract-choice-fields`, `generate-sharepoint-schema-from-export`.
+  - `sharepoint-provisioning` (5 skills) — declarative, gated site-column/content-type/list/calendar provisioning: `provision-fields`, `provision-content-types`, `provision-list`, `provision-modern-calendar-list`, `plan-sharepoint-deployment-waves`.
+  - `sharepoint-page-modernization` (3 skills) — classic-to-modern page conversion manifest generation: `analyze-aspx-pages`, `convert-aspx-pages`, `compose-page-preview`.
+  - `sharepoint-link-remediation` (5 skills) — page/document/field-content link extraction, remediation, validation: `extract-links`, `remediate-links`, `remediate-document-content-links`, `remediate-field-image-references`, `validate-link-integrity`.
+  - `sharepoint-content-migration` (1 skill) — item-level content migration with two-pass lookup-ID re-link (`migrate-sharepoint-list-content`).
+  - `sharepoint-migration-planning` (4 skills) — dependency-graph analysis and deployment wave-order computation: `discover-sharepoint-site-inventory`, `analyze-sharepoint-dependency-graph`, `generate-sharepoint-wave-scripts`, `setup-sharepoint-migration-project` (only `analyze-sharepoint-dependency-graph` is fully implemented; the rest remain design scaffolds).
+  - `sharepoint-content-publication` (6 skills) — tenant publication: `upload-content`, `publish-markdown-to-sharepoint`, `publish-aspx-to-sharepoint`, `validate-sharepoint-publication`, `reconcile-sharepoint-publication`, `rollback-sharepoint-publication`.
+  - `workbench-setup` (5 skills) — connection/config setup: `setup-sharepoint-connection`, `initialize-document-workflow`, `resolve-workbench-paths`, `validate-workbench-environment`, `validate-app-registration`.
+  - `sharepoint-agents-and-skills` (15 skills, 9 agents) — agent/native-skill lifecycle (create/update/
+    deploy/verify/rollback/backup/restore agents and native skills) plus 9 Claude Code routing/analysis
+    agents (`agents/`) spanning link (`sharepoint-link-agent`, `sharepoint-link-remediation-analysis-agent`),
+    schema (`sharepoint-schema-agent`), modernization (`sharepoint-modernization-agent`,
+    `sharepoint-webpart-modernization-analysis-agent`), deployment
+    (`sharepoint-deployment-planning-agent`, `sharepoint-deployment-sequencing-agent`), validation
+    (`sharepoint-validation-agent`), and content-migration
+    (`sharepoint-content-migration-sequencing-agent`) domains.
 - **Intake & Runs**
   - `intake/` — Source `.docx` input files for the CEIS Manual pilot.
   - `runs/ceis-manual-v2/` — Current authoritative, fully validated conversion run.
