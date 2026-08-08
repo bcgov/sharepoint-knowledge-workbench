@@ -189,3 +189,23 @@ def test_load_does_not_write_anything_into_the_export(tmp_path):
     load_schema_export(root, label="ro")
     after = sorted(p.relative_to(root).as_posix() for p in root.rglob("*"))
     assert before == after
+
+
+def test_section_status_wire_values_match_the_workbench_wide_outcome_convention():
+    """External review (2026-08-08) found this enum's serialized values had
+    silently forked to lowercase ("observed") while every other plugin's
+    honest-outcome vocabulary uses capitalized values ("Observed") -- a
+    cross-plugin consumer pattern-matching the wire string would silently
+    miss this plugin's output. Pins the values to the shared convention so
+    they cannot drift back without this test failing."""
+    expected = {
+        "OBSERVED": "Observed",
+        "EMPTY": "Empty",
+        "FORBIDDEN": "Forbidden",
+        "UNAVAILABLE": "Unavailable",
+        "NOT_SUPPORTED": "NotSupported",
+        "PARTIAL": "Partial",
+        "FAILED": "Failed",
+    }
+    actual = {member.name: member.value for member in SectionStatus}
+    assert actual == expected
