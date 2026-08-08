@@ -1,0 +1,15 @@
+name: sharepoint-migration-planning
+version: 0.1.0-alpha.0
+status: scaffold
+description: "Plans a SharePoint site migration end-to-end: interactively confirms source/target site setup, discovers the source site's schema, deterministically derives the object dependency graph and computes deployment wave order (reusing sharepoint-provisioning's wave_planning.py), then generates site-specific wave deployment scripts and a human wave guide. Sits between sharepoint-collection (raw discovery, not yet built) and sharepoint-provisioning (execution)."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - setup-sharepoint-migration-project
+  - discover-sharepoint-site-inventory
+  - analyze-sharepoint-dependency-graph
+  - generate-sharepoint-wave-scripts
