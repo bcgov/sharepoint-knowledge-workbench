@@ -38,6 +38,7 @@ never becomes a default; `test_connection()` still raises
 from app_registration_validation import (
     validate_app_registration,
     make_device_code_connector,
+    validate_permission_boundary,
 )
 
 result = validate_app_registration(connection, http_client)
@@ -47,7 +48,19 @@ result = validate_app_registration(connection, http_client)
 from config_setup import test_connection
 connector = make_device_code_connector(http_client)
 test_connection(connection, connector=connector)
+
+# Prove Effective permissions = App ∩ User for a delegated registration --
+# see references/delegated-permission-boundary-test.md for the full method.
+boundary = validate_permission_boundary(authorized_connection, unauthorized_connection, http_client)
+# PermissionBoundaryResult(boundary_proven, authorized_result, unauthorized_result, detail)
 ```
+
+`validate_permission_boundary` runs `validate_app_registration` against two
+connections sharing the same `ClientId`/`TenantId` but different
+`SiteUrl`s — one the signed-in user can reach, one they cannot.
+`boundary_proven` is only `True` when the authorized site succeeds AND the
+unauthorized site is denied; an unauthorized site unexpectedly succeeding
+is reported as a security finding in `detail`, not a passing result.
 
 ## Installation
 
@@ -61,10 +74,25 @@ None beyond the Python standard library -- `http_client` is supplied
 by the caller (e.g. a `requests`-based device-code client), not shipped
 here.
 
+## References and assets
+
+- `references/overview.md` -- two-scenario (App-Only / Interactive)
+  pre-request verification test plan for a trial or sandbox tenant.
+- `references/delegated-permission-boundary-test.md` -- the empirical
+  boundary-proof method behind `validate_permission_boundary`.
+- `assets/service-request-application-registration-template.md`,
+  `assets/service-request-interactive-registration-template.md` --
+  fill-in-the-blanks templates for requesting the two registration types
+  from a cloud/IT team, once the corresponding scenario above has passed.
+
 ## Provenance
 
 Extracted from the CMAT repository's `sp-validating-app-registration`
 skill (device-code REST auth smoke test,
 `scripts/diagnostics/test-spo-auth.ps1`) -- see
 `docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`
-for the full source-to-destination record.
+for the full source-to-destination record. `validate_permission_boundary`
+and the reference/asset files above were added during the Phase 9
+exhaustive source audit (`temp/phase9-source-audit/file-tracking.json`),
+which found these already-genericized files described a real gap beyond
+the original single-site smoke test.
