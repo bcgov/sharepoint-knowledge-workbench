@@ -1,14 +1,108 @@
-# Resume — Phase 9 IN PROGRESS on a branch (NOT merged); Phase 8 merged; Phase 7 paused
+# Resume — Phase 9 COMPLETE and on `main`; Phase 8 merged; Phase 7 paused
 
-**Update (2026-08-08):** the `phase-9-reusable-sharepoint-plugin-extraction` branch referenced
-below was merged to `main` via PR #40; Phase 9 follow-on work has continued directly on `main`
-since. A new plugin, `sharepoint-content-migration` (item-level content migration mechanism: batched
-migration with retry, two-pass lookup-ID re-link), was added onboarding findings from the Phase 9
-exhaustive source audit (`temp/phase9-source-audit/file-tracking.json`) — see that plugin's own
-README for scope and provenance. The rest of this file's "NOT merged" framing below is stale;
-kept as historical record of the branch's original state, not current status.
+## Phase 9 — authoritative fresh-session handoff (2026-08-08, verified against git + real test runs)
 
-## Phase 9 — extraction work done on `phase-9-reusable-sharepoint-plugin-extraction` (2026-08-07)
+**Read this section first.** Phase 9 (reusable SharePoint plugin extraction) is done: merged to
+`main` via PR #40, then continued directly on `main` through an exhaustive source audit, a 6-wave
+onboarding pass, an external architecture review, and 4 review-driven fixes. If starting a fresh
+session, this section — not the "Phase 9 — extraction work done..." section immediately below it
+(kept as historical record of the branch's original, pre-merge state) — is the current truth.
+
+### What exists right now (verified 2026-08-08: filesystem scan + full test run, not summary)
+
+- **14 plugins total**, all standalone-installable (`pip install -e plugins/<name>`), **1,113
+  tests passing** across all of them (verified this session via a full sweep, not carried forward
+  from an earlier count). 4 pre-existing content-pipeline plugins (`source-document-extraction`,
+  `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`) +
+  10 SharePoint-domain plugins.
+- **10 SharePoint plugins, 53 skills:** `sharepoint-discovery` (5), `sharepoint-schema` (4),
+  `sharepoint-provisioning` (5), `sharepoint-page-modernization` (3), `sharepoint-link-remediation`
+  (5), `sharepoint-content-migration` (1, new this session), `sharepoint-migration-planning` (4,
+  new this session — only `analyze-sharepoint-dependency-graph` implemented, other 3 remain design
+  scaffolds), `sharepoint-content-publication` (6), `workbench-setup` (5), `sharepoint-agents-and-
+  skills` (15 skills + **9 agents** — see README for the full by-name list).
+- **`.claude-plugin/marketplace.json`** lists all 14 plugins (was missing 2 until this session).
+- **`temp/phase9-source-audit/file-tracking.json`** — the authoritative record of the exhaustive
+  505-file CMAT-source audit this ecosystem was built from: every file classified `ONBOARDED` /
+  `NOT_RECOMMENDED` / `NEEDS_ONBOARDING_DEFERRED` (8 remaining, see below) with a one-line reason
+  each. Read this before assuming any CMAT-source capability is or isn't already covered — it is
+  the ledger, not memory or a prior summary.
+- **`temp/bundles/plugins-only/`** — a full `plugins/` bundle (444 files, ~454K tokens) plus
+  `prompt.md` (the review persona used) and `reviews/{gpt.md,opus.md}` (two independent external
+  architecture reviews of the whole ecosystem, 2026-08-08). Kept for reference; not required
+  reading to resume work, but read before proposing a plugin restructuring — see "Open decisions"
+  below for what they found.
+
+### Every write-capable module shares one safety contract
+
+Planning is pure (no I/O); apply is dry-run by default; a real apply requires both an explicitly
+injected executor/writer callable and a plan-derived confirmation token derived from the plan's
+own content. This is enforced (not just narrated) in `sharepoint-provisioning`,
+`sharepoint-link-remediation`, `sharepoint-content-migration`, and `sharepoint-content-publication`
+— confirmed by an external reviewer reading the actual gate code, not just the docstrings.
+
+### Fixed this session (2026-08-08), all committed + pushed to `origin/main`
+
+Two external reviewers (GPT-5.6, Opus, via the bundle above) independently audited the whole
+`plugins/` tree. Verified-real findings, all fixed:
+
+1. **Plugin manifest drift** — 21 shipped skills across 4 plugins (`sharepoint-agents-and-skills`,
+   `sharepoint-content-publication`, `sharepoint-schema`, `workbench-setup`) were missing from
+   their `plugin.yaml` `skills:` list, invisible to any loader trusting that list. Synced all 14
+   plugins' manifests to disk (skills and agents both); added `test_plugin_manifest.py` to the 4
+   affected plugins so this can't drift back silently.
+2. **Silent data-loss bug** — `sharepoint-content-migration`'s `apply_item_migration` with
+   `retry_attempts=0` dropped every item and reported `OBSERVED`. Now raises `ValueError`.
+3. **Outcome vocabulary casing fork** — `sharepoint-schema` serialized `"observed"` (lowercase)
+   while every other plugin uses `"Observed"`. Aligned, pinned with a regression test.
+4. **Stale agent claim** — `sharepoint-schema-agent` falsely claimed no `schema-audit` equivalent
+   existed; `audit-schema`/`diff-sharepoint-schema` both exist (likely invisible to whoever wrote
+   the agent because of finding #1). Corrected.
+
+One reviewer's claim was checked and found **false** — "circular symlink ownership" between
+`provisioning_outcomes.py`/`canonical_package.py` copies across plugins. Verified with `ls -la`:
+each has exactly one real file and one-directional symlinks pointing at it. No cycle. Don't act on
+that specific claim if re-reading `reviews/gpt.md`.
+
+### Open decisions — not acted on, need your call before someone builds on top
+
+Both external reviews independently converged on two structural points, neither urgent:
+
+1. **`sharepoint-agents-and-skills` is becoming a dumping ground** — it now centralizes 9
+   domain-routing agents for *other* plugins' domains (link, schema, modernization, deployment,
+   content-migration) on top of its own actual charter (agent/native-skill lifecycle tooling).
+   Both reviews suggest relocating each domain agent physically next to its own domain plugin
+   (e.g. `sharepoint-schema/agents/sharepoint-schema-agent.md`), leaving this plugin with lifecycle
+   tooling only.
+2. **Wave-planning ownership is split** — `sharepoint-provisioning` exposes the
+   `plan-sharepoint-deployment-waves` skill; `sharepoint-migration-planning` owns the underlying
+   dependency-graph/completeness logic over the same `wave_planning.py` module. Pick one owner.
+
+Neither review recommended renaming or merging the core domain plugins — both explicitly endorsed
+keeping the `sharepoint-provisioning` / `sharepoint-migration-planning` / `sharepoint-content-
+migration` three-way split as conceptually sound.
+
+### Not yet verified
+
+GPT's review also flagged `sharepoint-link-remediation/scripts/link_integrity.py`'s external-link
+resolver semantics (claims a resolver validates external `http(s)://` links; code may exempt them
+from resolution entirely without saying so in the outcome). Not yet checked against the actual
+code this session — do that before trusting either the claim or a dismissal of it.
+
+### 8 deferred capabilities (recorded, not urgent)
+
+`file-tracking.json` records 8 `NEEDS_ONBOARDING_DEFERRED` findings — `sharepoint-page-
+modernization` manifest-hash/confidence/report-generation gaps and a `sharepoint-discovery`
+report-generation gap. Real but lower-value refinements to plugins already fully built; scoped out
+of this session's onboarding pass deliberately (see the ledger's own notes on each entry).
+
+---
+
+## Phase 9 — extraction work done on `phase-9-reusable-sharepoint-plugin-extraction` (2026-08-07) — HISTORICAL, superseded above
+
+**This section describes the branch's state before it was merged and before the exhaustive audit,
+6-wave onboarding pass, and review-driven fixes above happened. Read the "authoritative fresh-
+session handoff" section above first — everything below is preserved as historical record only.**
 
 **Read this section first. Phase 9 is NOT merged and NOT complete.** Substantial extraction work
 exists on the branch `phase-9-reusable-sharepoint-plugin-extraction` (30 commits ahead of `main`,
