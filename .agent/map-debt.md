@@ -219,3 +219,38 @@
 - **Evidence:** `python3 -m pytest plugins/sharepoint-provisioning/tests/ -q` → 87 passed, run directly with no install step.
 - **Severity:** S. **Repeat:** possible — future rounds should verify a new plugin's tests both via direct `pytest` and via `isolated_install_check.py`, not just the latter.
 - **Status:** RESOLVED.
+
+### 2026-08-07 — new py-module omitted from pyproject.toml py-modules list
+
+- **Artifact:** `plugins/sharepoint-schema/pyproject.toml`, new module
+  `plugins/sharepoint-schema/scripts/schema_definition.py`.
+- **Friction observed:** direct `pytest` against the source tree passed (57/57) because it imports
+  via `sys.path.insert`, but `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py
+  --plugin sharepoint-schema --import-package schema_definition` failed with
+  `ModuleNotFoundError: No module named 'schema_definition'` after a successful wheel build — the
+  plugin's `[tool.setuptools] py-modules` list is an explicit enumeration (not auto-discovered),
+  so adding a new top-level module to `scripts/` requires also adding its bare name to that list,
+  or it silently gets left out of the installable wheel while still passing source-tree tests.
+- **Fix applied:** added `"schema_definition"` to `plugins/sharepoint-schema/pyproject.toml`'s
+  `py-modules` list.
+- **Evidence:** `isolated_install_check.py --plugin sharepoint-schema --import-package
+  schema_definition` now passes (57 passed) against the wheel-installed copy.
+- **Severity:** S. **Repeat:** likely — every new bare-module file added to any of these
+  flat-`scripts/` plugins must remember this same enumeration step; a source-tree-only pytest run
+  will not catch its absence.
+- **Status:** RESOLVED.
+
+### 2026-08-07 — plugin_add.py cannot install sharepoint-schema (no .claude-plugin/plugin.json)
+
+- **Artifact:** `plugins/sharepoint-schema/` (uses `plugin.yaml`, no `.claude-plugin/plugin.json`).
+- **Friction observed:** `python3 .agents/skills/plugin-installer/scripts/plugin_add.py <repo>
+  --plugins sharepoint-schema -y` failed with `Validation Failed: Missing manifest
+  (.claude-plugin/plugin.json or plugin.json) in sharepoint-schema`. This is a pre-existing
+  condition of the plugin (present before this task's changes; several other Phase-9 plugins use
+  the same `plugin.yaml`-only convention) — not something introduced by adding the new skill.
+  Side effect: running it did touch `skills-lock.json` timestamps repo-wide; reverted per task
+  instructions with `git checkout -- plugin-sources.json skills-lock.json`.
+- **Fix applied:** none — out of scope for this task (pre-existing manifest-format gap, not
+  specific to the new skill).
+- **Severity:** S. **Repeat:** yes, for any future skill added to a `plugin.yaml`-only plugin.
+- **Status:** OPEN, informational.

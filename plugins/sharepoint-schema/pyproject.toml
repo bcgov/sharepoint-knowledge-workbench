@@ -17,6 +17,7 @@ py-modules = [
     "schema_diff",
     "choice_fields",
     "duplicate_fields",
+    "schema_definition",
 ]
 
 [tool.setuptools.package-dir]
