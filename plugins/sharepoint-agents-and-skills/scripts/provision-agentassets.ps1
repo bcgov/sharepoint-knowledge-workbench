@@ -15,7 +15,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$ConfigPath = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$ConfigPath = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [string]$SkillName = "",
     [string]$SkillSourcePath = "",
     [string]$JsonOutputPath = ""

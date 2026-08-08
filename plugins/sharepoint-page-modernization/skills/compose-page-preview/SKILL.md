@@ -4,7 +4,7 @@ plugin: sharepoint-page-modernization
 description: Merges a site's structural chrome (navigation, header, logo, ancestors) with an already-extracted page's content (modern-preview.html + metadata.json) into a single self-contained offline preview HTML file. Disk-only; performs no tenant writes.
 allowed-tools: Bash, Read
 examples:
-  - "python3 ../../scripts/preview_composition.py --page-folder ./destination/My-Page --chrome-folder ./site-chrome/Example --output ./destination/My-Page/full-preview.html"
+  - "python3 scripts/preview_composition.py --page-folder ./destination/My-Page --chrome-folder ./site-chrome/Example --output ./destination/My-Page/full-preview.html"
 ---
 
 # Compose Page Preview
@@ -53,7 +53,7 @@ kind.
 ## Usage
 
 ```bash
-python3 ../../scripts/preview_composition.py \
+python3 scripts/preview_composition.py \
   --page-folder ./destination/My-Page \
   --chrome-folder ./site-chrome/Example \
   --output ./destination/My-Page/full-preview.html
@@ -64,8 +64,8 @@ inside the page folder.
 
 ## Scripts
 
-- `../../scripts/preview_composition.py` -- CLI entry point
-- `../../scripts/outcomes.py` -- shared status vocabulary
+- `scripts/preview_composition.py` -- CLI entry point
+- `scripts/outcomes.py` -- shared status vocabulary
 
 ## Provenance
 

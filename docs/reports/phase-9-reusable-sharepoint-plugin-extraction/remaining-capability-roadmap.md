@@ -74,7 +74,20 @@ collects those exports** — a real capability hole at the front of every discov
 - **Gated:** publication-path work depends on Phase 3's unmet exit gate (library schema and
   source-of-truth lifecycle). Defer until Phase 3 closes.
 
-### Rank 5 — `sharepoint-content-migration`
+### Rank 0 (re-audit required, not yet actioned) — `sharepoint-content-migration` exclusion needs re-review
+
+**Correction owed, 2026-08-07.** The exclusion below was based on categorizing `sp-migrating-content`'s
+symlink *targets* (live/deprecated/broken), never on reading the shared lib files' actual content —
+the same blind spot that missed `combine-preview.ps1` and the provisioning pattern in
+`ords-integration-migration`. Direct read of `scripts/lib/migrate-helpers.ps1` (631 lines, 1 literal)
+found `Read-IdMappings`/`Write-IdMappingBatch`/`Resolve-LookupIdsFromMap` — a genuinely generic
+source-ID-to-destination-ID mapping and lookup-field-resolution mechanism, not CMAT-specific. This
+may be exactly the "separable generic mechanism" the exclusion below says does not exist. **Not
+re-evaluated fully in this pass — flagged for a dedicated review before the exclusion is
+reaffirmed or reversed.** `guidmap-helpers.ps1` (`Build-GuidMap`, 38 lines, 0 literals) is likely
+related and should be read in the same pass.
+
+### Rank 5 — `sharepoint-content-migration` (original exclusion, now provisional pending Rank 0)
 
 - **Excluded on evidence, not deferred by preference.** Task 2a recomputed `sp-migrating-content`
   from 44 raw symlinks to **29 LIVE** — 12 resolve into `scripts/_deprecated/stages/`, 3 dangle.
@@ -114,7 +127,7 @@ collects those exports** — a real capability hole at the front of every discov
 
 | Agent | Literals | Disposition |
 |---|---|---|
-| `sp-discovery-agent`, `sp-migration-agent` | 3 each | `AGENT_REQUIRES_GENERICIZING` — low scrub cost, viable next |
+| `sp-discovery-agent`, `sp-migration-agent` | 3 each | **CORRECTED 2026-08-07 (full-content re-read, not just literal count):** `AGENT_REQUIRES_GENERICIZING` was wrong for both — the low literal count was a false signal, exactly the router-agent trap flagged below. `sp-discovery-agent` (173 lines) is not a lightweight router: every one of its 14 steps invokes `-SiteUrl`/`-UseIntegratedAuth` live-tenant PnP scripts — it **is** Part A (collection) wearing an agent costume, not separable from it — defaults to a CMAT-specific output layout, and step 14 calls `generate-master-discovery-meta-review.py`, the exact script already `REJECT`ed for fabricating headline metrics (`sp-synthesizing-discovery`, §3). `sp-migration-agent` (25 lines) routes across 4 capabilities; only `sp-uploading-content` exists in this workbench — the other 3 targets are excluded (`sp-migrating-content`), unevaluated/CMAT-coupled (`sp-content-migration`), or blocked on the ShareGate decision. **Neither is extraction-ready.** `sp-discovery-agent`'s re-entry trigger is Part A's design being approved; `sp-migration-agent`'s is its routing targets existing. |
 | `sp-deployment-planner` | 14 | `RESEARCH` — no confirmed generic plugin owner |
 | `sp-migration-orchestrator` | 36 | `ORCHESTRATOR_COUPLED_TO_CMAT_WAVES` |
 | `sp-wave-orchestrator` | 161 | `KEEP_PROJECT_SPECIFIC` — highest literal density in the audit |
@@ -123,6 +136,46 @@ collects those exports** — a real capability hole at the front of every discov
 The four extracted agents scored zero literals yet required their entire routing tables rebuilt,
 because they routed to ~15 source skills that do not exist here. Expect the same for
 `sp-discovery-agent`/`sp-migration-agent`.
+
+## 4a. `sharepoint-provisioning` disposition OVERTURNED (2026-08-07)
+
+**Original spec §8e verdict:** "Not justified as a standalone plugin — no confirmed generic
+implemented skill exists here at all." **That verdict is wrong.** It was based on scanning only
+`sharepoint-migration`'s 34 skills; `ords-integration-migration` was checked by `SKILL.md` alone
+until this session's direct-script review found real value hiding there, the same pattern that
+surfaced `combine-preview.ps1` (Wave 4) and the certificate-auth precedent (design spec).
+
+**Real, generic, implemented pattern found:**
+`scripts/ag-tenant/reset-and-provision-etl-target-schema.ps1` (351 lines) + its dependency
+`scripts/lib/content-type-lib.ps1` (138 lines, 6 functions, **zero project literals already**).
+Stripped of the CMAT domain content (list names, field names, calendar/court-appearance
+specifics), the underlying pattern is:
+
+- Declarative JSON-schema-driven provisioning: site columns + content-type field definitions
+  (with hidden flags) + a target list inventory, not per-list hardcoded logic.
+- **Reconcile, not blind recreate**: content types/columns are create-if-missing; display-name
+  drift against the schema is detected and fixed; fields no longer declared are explicitly
+  unlinked.
+- A genuine PnP limitation workaround: `Add-PnPField` does not support `-Formula` — calculated
+  columns require raw Field XML construction. Proven, non-obvious technique worth keeping.
+- Three incident-derived safety fixes, each independently valuable: duplicate-title detection
+  before any delete (real incident — a stray duplicate list caused auth to silently resolve to
+  the wrong one), fail-loud (not silent) if a list unexpectedly survives deletion, and an
+  explicit show/hide reconciliation pass rather than create-time-only.
+- `-DryRun` support throughout, matching this workbench's existing convention.
+
+**Not extracted — deliberately, not by oversight.** This is write-capable and destructive by
+design (deletes and recreates lists). Every Phase 9 plugin built so far is either read-only or
+gated like `remediate-links` (dry-run default + injected writer + confirmation token). A
+provisioning plugin needs that same safety-gate design decided **before** any code is written —
+spec §13 requires "a separately approved plan with dry-run, confirmation, least privilege,
+rollback, evidence" for this category. `New-ModernCalendarList` (referenced but not yet located
+in this pass) likely carries further generic provisioning logic and should be checked in the same
+pass if this candidate is pursued.
+
+**Recommendation:** rank this alongside Rank 1 (collection) as high-value, design-gated work —
+not effort-gated. A short design pass mirroring `remediate-links`'s three-gate pattern would make
+`sharepoint-provisioning` genuinely buildable.
 
 ## 5. Not required by any evidence
 

@@ -4,7 +4,7 @@
 #>
 [CmdletBinding()]
 param (
-    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [string]$SitePagesLibraryName = "Site Pages",
     [string[]]$ExcludedSitePagesFiles = @("Home.aspx", "TopicHome.aspx", "Site-Links.aspx", "Chief-Sheriff-Messages.aspx", "ADM-Messages.aspx"),
     [string[]]$MediaFileExtensions = @("*.png", "*.jpeg", "*.jpg", "*.gif"),

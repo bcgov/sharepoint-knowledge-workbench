@@ -4,8 +4,8 @@ plugin: sharepoint-page-modernization
 description: Stages 3-4 of classic page modernization -- selects a modern page layout from declarative, data-driven rules, then maps classified components to modern sections and views, emitting an explicit gap notice for components that cannot be migrated. Produces a conversion manifest; performs no tenant writes.
 allowed-tools: Bash, Read
 examples:
-  - "python3 ../../scripts/layout_selection.py --classified classified.json --output layout.json"
-  - "python3 ../../scripts/component_mapping.py --layout layout.json --output manifest.json"
+  - "python3 scripts/layout_selection.py --classified classified.json --output layout.json"
+  - "python3 scripts/component_mapping.py --layout layout.json --output manifest.json"
 ---
 
 # Convert ASPX Pages
@@ -47,10 +47,10 @@ explicitly-authorized concern owned elsewhere in the workbench.
 ## Usage
 
 ```bash
-python3 ../../scripts/layout_selection.py \
+python3 scripts/layout_selection.py \
   --classified classified.json --output layout.json
 
-python3 ../../scripts/component_mapping.py \
+python3 scripts/component_mapping.py \
   --layout layout.json --output manifest.json
 ```
 
@@ -58,9 +58,9 @@ The manifest conforms to the packaged `assets/manifest-schema.json`.
 
 ## Scripts
 
-- `../../scripts/layout_selection.py` -- stage 3 CLI, `safe_eval_condition`, `UnsafeConditionError`
-- `../../scripts/component_mapping.py` -- stage 4 CLI
-- `../../scripts/outcomes.py` -- shared status vocabulary
+- `scripts/layout_selection.py` -- stage 3 CLI, `safe_eval_condition`, `UnsafeConditionError`
+- `scripts/component_mapping.py` -- stage 4 CLI
+- `scripts/outcomes.py` -- shared status vocabulary
 
 Packaged assets: `assets/layout-rules.json`, `assets/webpart-mapping.json`,
 `assets/manifest-schema.json`, `assets/preview-template.html`,

@@ -81,6 +81,12 @@ committing to extraction.**
 
 - **Auth model:** device-code (as `workbench-setup`'s `validate-app-registration` uses) only, or
   also app-only? App-only implies a stored secret and a different risk posture.
+  **Evidence found 2026-08-07:** a working certificate-based App-Only pattern exists in the source
+  repo's `ords-integration-migration` plugin (`scripts/ag-tenant/test-spo-connection-certificate.ps1`
+  — 30 lines, zero ORDS/JUSTIN/CEIS references, a plain `Connect-PnPOnline -Thumbprint` call reading
+  a cert from `Cert:\CurrentUser\My`). Not extracted — it is live-tenant I/O, out of scope for
+  every currently-built plugin, and Part A itself is not authorized to build. Recorded here as a
+  real precedent for whichever auth model is chosen, not as a recommendation for either.
 - **Does this need Phase 3's exit gate?** Probably not — it is read-only and touches no publication
   contract — but confirm rather than assume.
 

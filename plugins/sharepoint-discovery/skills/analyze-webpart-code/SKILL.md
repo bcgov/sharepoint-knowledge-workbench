@@ -58,8 +58,8 @@ print(outcome.status, outcome.detail)
 
 ## Scripts
 
-- `../../scripts/webpart_code_analysis.py` -- `run`, `analyse`, `classify`, `recommend`, `generate_report`, `generate_instance_csv`, `KnowledgeBase`, `InlineLogicRule`
-- `../../scripts/discovery_inputs.py` -- shared status vocabulary and input loading
+- `scripts/webpart_code_analysis.py` -- `run`, `analyse`, `classify`, `recommend`, `generate_report`, `generate_instance_csv`, `KnowledgeBase`, `InlineLogicRule`
+- `scripts/discovery_inputs.py` -- shared status vocabulary and input loading
 
 ## Provenance
 

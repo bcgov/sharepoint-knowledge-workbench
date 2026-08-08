@@ -19,7 +19,7 @@
 #>
 [CmdletBinding(ConfirmImpact="High", SupportsShouldProcess=$true)]
 param (
-    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [string]$ManifestFile = "plugins/sharepoint-agents-and-skills/deployment-manifest.example.json",
     [switch]$Execute,
     [string]$ConfirmExactTarget,

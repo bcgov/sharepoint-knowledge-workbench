@@ -165,3 +165,57 @@
 - **Severity**: M (no defect shipped — caught during Wave 2 execution and guarded by test — but the same incomplete cost model is about to be applied to the remaining five agents in a later wave)
 - **Repeat**: NO for these four (resolved and test-guarded); YES as a classification-model gap for Wave 3+ unless §8f gains the axis.
 - **Status**: RESOLVED (Wave 2 artifacts); recommendation for §8f is OPEN
+
+### 2026-08-07 — source-repo config fallback in sharepoint-agents-and-skills
+
+- **Artifact:** `plugins/sharepoint-agents-and-skills/scripts/{verify-agentassets-ready,verify-agentassets-artifact,reconcile-deployed-skill,diagnose-sharepoint-library}.ps1`
+- **Friction observed:** four scripts defaulted `$ConfigFile` to a plugin-local `config.psd1` and fell back to `tools/phase-3-sharepoint-discovery/config.psd1` — a source-repo/phase-evidence path that `CLAUDE.md` §0 explicitly says must never hold reusable operational implementation. They also read flat top-level keys, incompatible with the nested `Connection` block that `workbench-setup`'s `setup-sharepoint-connection` actually generates, and surfaced "Phase 3"/"Phase 4" phase language in user-facing error messages.
+- **Why not fixed earlier:** predates Phase 9; surfaced by a config-alignment audit run this session.
+- **Fix applied:** default is now the repository-root `config.psd1` (workbench-setup's canonical output). A normalizer accepts the canonical nested `Connection` block and falls back to flat keys for older plugin-local configs. The `tools/phase-3-*` fallback and all phase language are removed; a missing/placeholder app registration now points the operator at `setup-sharepoint-connection` instead.
+- **Evidence:** `grep -rn 'FallbackConfigFile|phase3|tools/phase-3' plugins/sharepoint-agents-and-skills/scripts/*.ps1` returns nothing; all four parse clean via the PowerShell AST parser; plugin suite 68/68.
+- **Severity:** M. **Repeat:** NO. **Status:** RESOLVED.
+
+### 2026-08-07 — CWD-fragile config.psd1 defaults across sharepoint-agents-and-skills
+
+- **Artifact:** 14 scripts in `plugins/sharepoint-agents-and-skills/scripts/*.ps1`.
+- **Friction observed:** a precision audit (`scratchpad/audit_config_path_refs_v2.py`, filtering
+  actual code paths from docstring noise) found every `$ConfigFile`/`$ConfigPath` PowerShell param
+  default was a bare relative literal (`"config.psd1"` or `"plugins/sharepoint-agents-and-skills/
+  config.psd1"`) with zero `$PSScriptRoot` anchoring anywhere in the repo's PowerShell scripts.
+  Correct only if invoked with CWD == repo root, which nothing documents or enforces. 10 of the 14
+  additionally pointed at the wrong file entirely — a plugin-local `config.psd1` that
+  `setup-sharepoint-connection` never creates (same class of defect fixed for 4 of these scripts
+  earlier this session in the `tools/phase-3-*` fallback fix, just not caught for all 14 at once).
+- **Fix applied:** all 14 defaults now resolve via `(Join-Path $PSScriptRoot '../../../config.psd1')`
+  — anchored to the script's own location, correct regardless of invocation CWD, and pointing at the
+  single repo-root source of truth.
+- **Evidence:** re-running the audit script shows 0 fragile hits; all 14 files parse clean via the
+  PowerShell AST parser; plugin suite 68/68 unchanged.
+- **Severity:** M. **Repeat:** NO. **Status:** RESOLVED.
+
+### 2026-08-07 — symlink_manager.py not present in this worktree
+
+- **Artifact:** N/A (tooling gap noticed while building `plugins/sharepoint-provisioning`).
+- **Friction observed:** CLAUDE.md's Plugin-Local Resource Sharing section and this session's task
+  brief both require any shared script/reference symlinked into a skill folder to go through
+  `.agents/skills/symlink-manager/scripts/symlink_manager.py`. That path does not exist in this
+  worktree (`.agents/` is not populated here); the only `symlink_manager.py` copies found on disk
+  live in sibling repos (`agent-plugins-skills`, `jag-legacy-oracle-plugins`) or `~/Downloads`.
+  `sharepoint-provisioning` did not end up needing any symlinks (all three skills' only file is a
+  real `SKILL.md`, matching `sharepoint-schema`'s/`sharepoint-link-remediation`'s precedent of
+  skills with no bundled scripts/references), so this was not blocking, but it would block the
+  next plugin/skill that does need one until `.agents/skills/` is populated in this worktree.
+- **Fix applied:** none — out of scope for this task. Documented so the next session that needs to
+  create a real symlink knows to check `.agents/skills/` availability first rather than assuming
+  the tool is present.
+- **Severity:** L (did not block this task). **Repeat:** unknown — first time this worktree's
+  `.agents/` absence was noticed explicitly. **Status:** OPEN, informational.
+
+### 2026-08-07 — sharepoint-provisioning tests only ran via isolated_install_check.py, not directly
+
+- **Artifact:** `plugins/sharepoint-provisioning/tests/{test_field_provisioning,test_content_type_provisioning,test_list_provisioning}.py`
+- **Friction observed:** the agent that built this plugin reported `87 passed` verified only via `isolated_install_check.py` (an installed wheel). Running `python3 -m pytest plugins/sharepoint-provisioning/tests/ -q` directly failed with 3 collection errors — missing `sys.path.insert(0, .../scripts)`, the per-test-file convention `sharepoint-schema`'s test suite already establishes (as opposed to a shared `conftest.py`, which `sharepoint-link-remediation`/`sharepoint-page-modernization` use instead). Caught only because I independently re-ran the plugin's own tests directly rather than trusting the wheel-only verification.
+- **Fix applied:** added the `sys.path.insert` block to all 3 files, ordered correctly after `from __future__ import annotations` (which must be the first statement after the module docstring — an intermediate fix attempt broke this ordering and had to be corrected).
+- **Evidence:** `python3 -m pytest plugins/sharepoint-provisioning/tests/ -q` → 87 passed, run directly with no install step.
+- **Severity:** S. **Repeat:** possible — future rounds should verify a new plugin's tests both via direct `pytest` and via `isolated_install_check.py`, not just the latter.
+- **Status:** RESOLVED.

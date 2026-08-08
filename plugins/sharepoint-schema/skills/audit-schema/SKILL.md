@@ -72,9 +72,9 @@ print(render_markdown(report))
 
 ## Scripts
 
-- `../../scripts/schema_export.py` -- `load_schema_export`, `SectionStatus`, `ExportLayout`, `SchemaExport`
-- `../../scripts/schema_diff.py` -- `compare_schema_exports`, `compare_named_sets`, `render_markdown`
-- `../../scripts/duplicate_fields.py` -- `find_duplicate_fields`, `DEFAULT_BUILTIN_INTERNAL_NAMES`
+- `scripts/schema_export.py` -- `load_schema_export`, `SectionStatus`, `ExportLayout`, `SchemaExport`
+- `scripts/schema_diff.py` -- `compare_schema_exports`, `compare_named_sets`, `render_markdown`
+- `scripts/duplicate_fields.py` -- `find_duplicate_fields`, `DEFAULT_BUILTIN_INTERNAL_NAMES`
 
 ## Provenance
 

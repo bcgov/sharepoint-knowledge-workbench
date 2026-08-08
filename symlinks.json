@@ -1668,6 +1668,30 @@
       "dst": "plugins/sharepoint-discovery/skills/analyze-permissions/scripts/discovery_inputs.py",
       "strategy": "symlink",
       "description": "analyze-permissions skill's bundled copy of discovery_inputs.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/layout-rules.json",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/assets/layout-rules.json",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of layout-rules.json"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/manifest-schema.json",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/assets/manifest-schema.json",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of manifest-schema.json"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/preview-template.html",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/assets/preview-template.html",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of preview-template.html"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/webpart-mapping.json",
+      "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/assets/webpart-mapping.json",
+      "strategy": "symlink",
+      "description": "convert-aspx-pages skill's bundled copy of webpart-mapping.json"
     }
   ]
 }

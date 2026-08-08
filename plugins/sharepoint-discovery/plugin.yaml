@@ -1,0 +1,15 @@
+name: sharepoint-discovery
+version: 0.1.0-alpha.1
+description: "Read-only analysis of exported classic SharePoint inventories: per-page migration complexity scoring, functional grouping of web-part code, site navigation depth analysis, custom-form classification, and permissions/broken-inheritance auditing. Consumes exports you already have; performs zero tenant I/O. All classification rules and behavioural knowledge are caller-supplied, never built in."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - analyze-page-inventory
+  - analyze-webpart-code
+  - analyze-site-navigation
+  - analyze-custom-forms
+  - analyze-permissions
