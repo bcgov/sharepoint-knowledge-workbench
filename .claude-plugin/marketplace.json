@@ -69,6 +69,18 @@
       "source": "./plugins/sharepoint-provisioning",
       "strict": true,
       "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Zero tenant I/O ships in this plugin."
+    },
+    {
+      "name": "sharepoint-migration-planning",
+      "source": "./plugins/sharepoint-migration-planning",
+      "strict": true,
+      "description": "Deterministic SharePoint dependency-graph analysis and deployment wave-order computation (Stage 3a), gated by completeness checks that catch a matrix silently not matching the source it claims to describe. Reuses sharepoint-provisioning's wave_planning.py directly. Setup, site-inventory discovery, and generated wave-script authoring remain design scaffolds, not yet implemented."
+    },
+    {
+      "name": "sharepoint-content-migration",
+      "source": "./plugins/sharepoint-content-migration",
+      "strict": true,
+      "description": "Item-level SharePoint content (list-item data) migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique (record source-to-destination IDs during a content pass, resolve lookup fields against that mapping once target lists exist). Distinct from sharepoint-provisioning (schema/list/field structure, not row data). Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token."
     }
   ]
 }

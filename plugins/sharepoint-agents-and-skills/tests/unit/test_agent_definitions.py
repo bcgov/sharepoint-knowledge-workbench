@@ -45,6 +45,7 @@ EXPECTED_AGENTS = {
     "sharepoint-deployment-sequencing-agent",
     "sharepoint-content-migration-sequencing-agent",
     "sharepoint-webpart-modernization-analysis-agent",
+    "sharepoint-link-remediation-analysis-agent",
 }
 
 REQUIRED_FRONTMATTER_FIELDS = ("name", "plugin", "description", "model", "color")
