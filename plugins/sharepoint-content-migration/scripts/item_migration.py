@@ -145,10 +145,18 @@ def apply_item_migration(
 ) -> ItemMigrationResult:
     """Apply a plan. DRY RUN BY DEFAULT -- ``dry_run=False`` additionally
     requires an injected ``executor`` and ``plan.confirmation_token``. Each
-    item is retried up to ``retry_attempts`` times before being recorded as
+    item gets ``retry_attempts`` total attempts before being recorded as
     failed -- a transient failure (e.g. a throttled request) does not lose
     the item, but a permanent failure is reported honestly, never silently
-    dropped or retried forever."""
+    dropped or retried forever.
+
+    ``retry_attempts`` must be at least 1: with 0, the attempt loop never
+    runs, so an item lands in neither ``migrated`` nor ``failed`` and the
+    result would misreport ``OBSERVED`` with every item silently dropped --
+    this is rejected outright rather than allowed to produce that result."""
+    if retry_attempts < 1:
+        raise ValueError(f"retry_attempts must be >= 1, got {retry_attempts}")
+
     items = plan.all_items
 
     if dry_run:

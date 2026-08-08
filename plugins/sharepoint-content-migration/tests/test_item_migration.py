@@ -128,3 +128,23 @@ class TestApplyItemMigration:
         assert result.outcome == Outcome.PARTIAL
         assert dict(result.migrated) == {0: 900}
         assert any(source_id == 1 for source_id, _ in result.failed)
+
+    def test_retry_attempts_zero_is_rejected_not_silently_dropping_every_item(self):
+        """External review finding: retry_attempts=0 makes `range(retry_attempts)`
+        never execute, so every item lands in neither migrated nor failed and
+        the function falls through to OBSERVED -- silent, complete data loss
+        reported as success. Must raise instead of running."""
+        plan = plan_item_migration(_items(2), batch_size=10)
+        with pytest.raises(ValueError, match="retry_attempts"):
+            apply_item_migration(
+                plan, dry_run=False, executor=lambda item: 1,
+                confirm=plan.confirmation_token, retry_attempts=0,
+            )
+
+    def test_retry_attempts_negative_is_rejected(self):
+        plan = plan_item_migration(_items(1), batch_size=10)
+        with pytest.raises(ValueError, match="retry_attempts"):
+            apply_item_migration(
+                plan, dry_run=False, executor=lambda item: 1,
+                confirm=plan.confirmation_token, retry_attempts=-1,
+            )
