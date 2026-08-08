@@ -1010,3 +1010,227 @@ two genuinely ShareGate-dependent upload scripts inside the same source skill fo
 - No project literal (`justin`, `ceis`, `ords`, `courthouse`, `ag-csb`, `ag-bcps`, `ag-pssg`,
   `itau`, `pio`, `icm`, `crownnet`, `mediainfo`, `jag.gov.bc.ca`, `bcgov.sharepoint.com`, `cmat`,
   `courts-intranet`) found in the new module, skill doc, or test (grep-verified).
+
+---
+
+# `sharepoint-provisioning` (new plugin, 2026-08-07)
+
+**Source repository:** `jag-csb-cmat-sharepoint-online` (local checkout, read-only).
+**Source commit (pinned):** `78d6bb91a6c3c01208208a8c2a06f241fef9ce9f` (2026-08-05 09:19:39 -0700).
+**Destination plugin:** `plugins/sharepoint-provisioning` (new).
+
+## Disposition history
+
+`remaining-capability-roadmap.md` §4a records that spec §8e's original verdict on a provisioning
+plugin ("not justified — no confirmed generic implemented skill exists here at all") was based on
+scanning only `sharepoint-migration`'s 34 skills. A direct read of
+`plugins/ords-integration-migration/scripts/ag-tenant/reset-and-provision-etl-target-schema.ps1`
+and its dependency `plugins/sharepoint-migration/scripts/lib/content-type-lib.ps1` found a real,
+generic, already-zero-literal pattern hiding there. §4a overturned the exclusion and ranked this
+work alongside Rank 1 (live-tenant collection) as design-gated, not effort-gated — this record is
+that design pass, executed once the write-safety gate design (mirroring `remediate-links`) was
+decided.
+
+## Record — content-type-lib.ps1 / field-helpers.ps1 / list-helpers.ps1 → `sharepoint-provisioning`
+
+- **Source scripts (read in full, not just symlink-resolved):**
+  - `plugins/sharepoint-migration/scripts/lib/content-type-lib.ps1` (138 lines, 6 functions,
+    zero project literals in the source itself) — `New-SiteContentTypeSafe`,
+    `Add-FieldToContentTypeSafe`, `Hide-FieldOnContentTypeSafe`, `Show-FieldOnContentTypeSafe`,
+    `Unlink-FieldFromContentTypeSafe`, `Add-ContentTypeToListSafe`.
+  - `plugins/sharepoint-migration/scripts/lib/field-helpers.ps1` (250 lines, 2 literals in the
+    source: a `CMAT replatform` naming-normalisation comment and a `Court_Room` field rename —
+    both stripped, neither ported) — `Get-DeployableFields`, `Repair-FieldType`, `Add-FieldSafe`,
+    `Invoke-FieldsForList`.
+  - `plugins/sharepoint-migration/scripts/lib/list-helpers.ps1` (43 lines, 0 literals) —
+    `Invoke-WithRetry`, `New-ListSafe`, `New-LibrarySafe`.
+- **Source implementation status:** `IMPLEMENTED` (all three files, live production helper
+  libraries dot-sourced by multiple wave scripts).
+- **Source pattern only (explicitly not ported as content):**
+  `plugins/ords-integration-migration/scripts/ag-tenant/reset-and-provision-etl-target-schema.ps1`
+  (351 lines). Read in full. The declarative-schema-driven provisioning shape, reconcile-not-
+  recreate semantics (create-if-missing content types/columns, display-name drift detection and
+  reconciliation, explicit unlink of undeclared fields), the `Add-PnPField` `-Formula`-parameter
+  limitation and its raw-Field-XML workaround (for Calculated columns; generalised here to also
+  cover Lookup/LookupMulti and User/UserMulti, which the same script's field-helpers dependency
+  also renders via raw XML for the same typed-API-limitation reason), the duplicate-title
+  detection before any delete (`Get-PnPList | Where-Object Title -eq`, never a single identity
+  lookup — a real incident: a stray duplicate-titled list caused auth to silently resolve to the
+  wrong list), and the fail-loud "still exists after delete" check were all read and are reflected
+  in this plugin's design. **No CMAT content was ported from this file**: not the 52-list
+  inventory, not `Modern_Manual_Appearances`/`Modern_Scheduled_Appearances`, not the calendar/
+  court-appearance provisioning logic (`New-ModernCalendarList`, `Set-AppearanceFormLayouts`), not
+  any list/field/content-type name, not any BC Government/JAG/ORDS/ITAU literal.
+- **Destination files:**
+  - `plugins/sharepoint-provisioning/scripts/provisioning_outcomes.py` (new — shared `Outcome`
+    vocabulary, same shape as `sharepoint-link-remediation`'s `link_outcomes.py`)
+  - `plugins/sharepoint-provisioning/scripts/field_provisioning.py` (new — ports
+    `Get-DeployableFields`/`Repair-FieldType` as `filter_deployable_fields`/
+    `field_needs_type_repair`; ports the calculated/lookup/user raw-XML technique as
+    `build_calculated_field_xml`/`build_lookup_field_xml`/`build_user_field_xml`; per-field
+    planning as `plan_field_action`)
+  - `plugins/sharepoint-provisioning/scripts/content_type_provisioning.py` (new — ports all six
+    `content-type-lib.ps1` functions as pure planning: `plan_content_type`,
+    `plan_add_content_type_to_list`)
+  - `plugins/sharepoint-provisioning/scripts/list_provisioning.py` (new — ports
+    `Invoke-WithRetry`'s retry *intent* as an executor-boundary concern left to the caller's
+    injected executor, not reimplemented as a sleep loop in planning code; ports
+    `New-ListSafe`/`New-LibrarySafe` as create-if-missing list planning; ports the reconcile-
+    schema/duplicate-detection/fail-loud pattern as `plan_provisioning`, `detect_duplicate_lists`,
+    `apply_provisioning`, `verify_deletion_complete`)
+  - `plugins/sharepoint-provisioning/tests/test_field_provisioning.py` (30 tests)
+  - `plugins/sharepoint-provisioning/tests/test_content_type_provisioning.py` (10 tests)
+  - `plugins/sharepoint-provisioning/tests/test_list_provisioning.py` (20 tests, including the
+    explicit four-state write-safety gate proof: dry-run writes nothing, missing executor raises,
+    missing/stale confirmation token raises, a real executor with a valid token executes)
+  - `plugins/sharepoint-provisioning/tests/test_plugin_independence.py` (27 tests — genericity,
+    source-repo-marker, GUID-shape, and zero-tenant-transport gates)
+  - `plugins/sharepoint-provisioning/skills/provision-content-types/SKILL.md`,
+    `skills/provision-fields/SKILL.md`, `skills/provision-list/SKILL.md` (new)
+- **Removed project coupling:** every source/tenant/project literal from all four source files —
+  no `bcgov.sharepoint.com`, no `AG-CSB-ITAU-CMAT-*` site names, no `Modern_Manual_Appearances`/
+  `Modern_Scheduled_Appearances` content-type names, no `Court_Room`/`ITAU_Cal_*`/
+  `All_Appearances`/`Appearance_City_to_be_Verified` field or list names, no `CMAT Columns`
+  group name (destination default group is `Custom Columns`, matching the generic default already
+  used by `content-type-lib.ps1` itself, not the CMAT-specific override used only in the reset
+  script's site-column loop), no wave-dependency-matrix/target-list-inventory JSON schema shape
+  tied to the 52-list CMAT inventory. Every column, content type, and target list this plugin
+  provisions is 100% caller-supplied via `ProvisioningSchema`.
+- **Intentional behavior changes:**
+  1. PowerShell → Python (Wave 1 precedent, matches this repo's plugin-language convention).
+  2. **The whole plugin is planning-only; no PnP/CSOM call, no raw network call, ships anywhere in
+     it** (task hard requirement #2, enforced by
+     `test_no_live_pnp_or_csom_or_network_transport_ships`). The source scripts performed live
+     `Get-PnPContentType`/`Add-PnPField`/`Remove-PnPList`/etc. calls inline; every one of those
+     call sites is replaced here by either a pure comparison against caller-supplied
+     `CurrentState`/observed-type input, or a step in `ProvisioningPlan._write_items()` that is
+     only ever invoked through a caller-injected `executor(step, detail)` callable.
+  3. **Three-gate write safety, exactly matching `remediate-links`** (task hard requirement #1):
+     dry-run by default (`apply_provisioning(plan)` with no arguments changes nothing),
+     `ExecutorRequired` raised without an injected executor, `ConfirmationRequired` raised without
+     `confirm=plan.confirmation_token` (a token derived from the plan's own write-item content via
+     SHA-256, so it goes stale the instant the schema or observed state changes — proven directly
+     by `test_apply_provisioning_token_goes_stale_when_plan_source_data_changes`). **This is a
+     real, significant improvement over the source**: the source script had a `-DryRun` switch but
+     no confirmation-token concept at all — a live run with `-DryRun` unset executed immediately.
+  4. **A fourth, unconditional gate** not present in the three-gate pattern this plugin otherwise
+     mirrors: `DuplicateListsBlockProvisioning` refuses execution of any plan carrying a duplicate-
+     title finding, even with an otherwise-valid confirmation token — direct response to the
+     source's own documented incident (`reset-and-provision-etl-target-schema.ps1`'s Stage 1
+     comment: "a stray duplicate-titled 'Persons' list on PROD caused app-only auth to silently
+     resolve to the wrong list"). `detect_duplicate_lists` compares a caller-supplied
+     `matching_count` (never a single identity lookup) against every `recreate=True` list target.
+  5. **Reconcile, not recreate, preserved and made explicit** (task hard requirement #3): fields
+     and content types are create-if-missing by default; an existing content type's field-link
+     hidden-flag drift against the schema is reported in the plan's `detail` text
+     (`"... (drift: was ...)"`) rather than silently corrected without being named — proven by
+     `test_plan_content_type_detects_hidden_flag_drift_and_reports_not_silently_fixes`; fields no
+     longer declared on a content type are explicitly unlinked via
+     `ContentTypeDef.unlink_fields`, mirroring the source's explicit
+     `Unlink-FieldFromContentTypeSafe` calls for `Appearance_Description`/`Full_URL`. Lists are
+     untouched unless explicitly declared `recreate=True` — the source always deleted its full 52-
+     list inventory unconditionally; this plugin narrows that to an explicit per-list opt-in.
+  6. **The calculated-column XML-construction technique preserved and generalised, with escaping
+     verified and hardened** (task hard requirement #4): `build_calculated_field_xml` reproduces
+     the source's `Add-PnPFieldFromXml` workaround for the fact that no typed field-creation API
+     accepts a formula. The source's escaping was inconsistent across call sites — the field-
+     helpers `Lookup`/`User` XML builders escaped only `&` and `"`, while the reset script's
+     Calculated-column builder separately escaped `&`/`<`/`>` for the formula and `&`/`"`/`'` for
+     the display name, with no escaping applied to `StaticName`/`Name`/`Group` at all (those are
+     always internal identifiers in the source, never literal user text, so this was safe in
+     context but not defensively correct). The destination applies the full XML attribute-escaping
+     set (`&` `<` `>` `"` `'`) to **every** attribute value and the text-escaping subset (`&` `<`
+     `>`) to the formula's element-text body, consistently across `build_calculated_field_xml`,
+     `build_lookup_field_xml`, and `build_user_field_xml` — verified directly by
+     `test_build_calculated_field_xml_escapes_ampersand_lt_gt_in_display_name` and
+     `test_build_calculated_field_xml_escapes_formula_body`, which assert the raw unescaped
+     characters never survive into the rendered XML.
+  7. **Field/tenant-identifier resolution is deliberately left to the caller.** The source's
+     `Invoke-FieldsForList` resolved a lookup field's target list id via a live `Get-PnPList` call
+     against a `GuidMap`; a `field_id`/`lookup_list_id` in this plugin's XML builders is always a
+     caller-supplied value (a real GUID the caller has already resolved via whatever collection
+     mechanism it uses) — this module never resolves a `lookup_list_key` to a live id itself, since
+     doing so would itself be tenant I/O.
+  8. **Honest outcomes** (task hard requirement #6): a plan with nothing to do is `EMPTY`; a plan
+     with real changes is `OBSERVED`; a plan carrying a blocking duplicate finding is `FAILED` and
+     `list_deletions` for the blocked title is deliberately left empty (not silently populated then
+     ignored); an `apply_provisioning` call where some steps succeed and some fail is `PARTIAL`
+     with both lists populated; an executor raising `PermissionError` yields `FORBIDDEN`, never a
+     generic `FAILED`.
+- **Fail-loud verification (task hard requirement #5, second half):** `verify_deletion_complete`
+  ports the source's `if (-not $check) { throw "... verification failed ..." }` post-creation
+  check (from `New-ListSafe`) generalised to the delete side per the reset script's own Stage 3
+  guard ("SKIPPING creation ... Stage 1 deletion did not fully clear it. Investigate before
+  re-running.") — it raises `DeletionVerificationFailed` if a caller's fresh post-delete
+  observation shows the object still present, rather than assuming a delete call succeeding means
+  the object is gone.
+- **New neutral fixtures:** every test uses synthetic names (`Demo_Item`, `Demo_List`,
+  `Widget_Count`, `Full_Label`) — no real tenant URLs, GUIDs (test GUIDs are placeholder-shaped,
+  e.g. `11111111-2222-3333-4444-555555555555`, and live only in `tests/`, which is excluded from
+  the genericity scan by the same rationale documented in `sharepoint-link-remediation`'s
+  `test_plugin_independence.py`), or CMAT domain concepts.
+- **Parity evidence:** the retained behavior per source function is: `New-SiteContentTypeSafe` →
+  `plan_content_type`'s `create_content_type` step (create-if-missing, `already_correct` when
+  present); `Add-FieldToContentTypeSafe`/`Hide-FieldOnContentTypeSafe`/
+  `Show-FieldOnContentTypeSafe` → `plan_content_type`'s `link_field`/`hide_field`/`show_field`
+  steps with drift detection; `Unlink-FieldFromContentTypeSafe` → `plan_content_type`'s
+  `unlink_field` step, only emitted when the field is actually linked (matching the source's own
+  "nothing to do" branch); `Add-ContentTypeToListSafe` → `plan_add_content_type_to_list`;
+  `Get-DeployableFields` → `filter_deployable_fields` (verified by
+  `test_filter_deployable_fields_*`, covering group/type/Title/hidden/readonly/force-include/
+  explicit-exclude, matching every predicate in the source `Where-Object` clause);
+  `Repair-FieldType` → `field_needs_type_repair`; the Calculated/Lookup/User raw-XML branches of
+  `Add-FieldSafe` → `build_calculated_field_xml`/`build_lookup_field_xml`/`build_user_field_xml`;
+  `New-ListSafe`/`New-LibrarySafe` → `plan_provisioning`'s list-creation planning; the reset
+  script's Stage 1 duplicate-title check → `detect_duplicate_lists`. Verified by 87 tests total
+  (30 field, 10 content-type, 20 list/gate, 27 independence).
+
+## Not extracted, and why
+
+- **`New-ModernCalendarList`, `Set-AppearanceFormLayouts`, `Set-NewButtonContentTypes`** (called by
+  the reset script but defined in `plugins/sharepoint-migration/scripts/calendars/
+  modern-calendar-lib.ps1`, not read in this pass) — calendar/court-appearance-domain
+  provisioning logic, `KEEP_PROJECT_SPECIFIC` per the roadmap's existing disposition for
+  `sp-provisioning-modern-calendars`. Not read, not ported.
+- **The 52-list CMAT target inventory, `wave-dependency-matrix.json`, `site-columns.json`,
+  `Modern_Manual_Appearances.json`/`Modern_Scheduled_Appearances.json` templates** — CMAT-specific
+  data files, not a reusable mechanism. `ProvisioningSchema` replaces the *shape* these files
+  played (declarative columns/content-types/lists) but ships with zero pre-populated content.
+- **The reset script's site-column loop's `Add-PnPField`/`Set-PnPField` calls for non-Calculated
+  columns** — folded into the generic `plan_field_action`/`field_needs_type_repair` path rather
+  than ported as a separate site-columns-specific function; the source's distinction between
+  "site column" and "list column" provisioning is a scope parameter to the caller
+  (`FieldDef` with no `ListTitle` vs. one bound to a list), not a separate code path here.
+- **`Auth-helpers.ps1`'s `Connect-Spo`** — tenant connection/authentication, explicitly out of
+  scope (task hard requirement #2: zero tenant I/O).
+- **The reset script's `Write-Log`/`Write-Host` console formatting** — replaced entirely by the
+  structured `ProvisioningPlan`/`ProvisioningResult` dataclasses and the `Outcome` vocabulary,
+  matching this repo's honest-outcomes convention.
+
+## Independence verification
+
+- `tools/phase-4-5-core-plugin-refactoring/isolated_install_check.py --plugin
+  sharepoint-provisioning --import-package list_provisioning` → **PASS, 87 tests against the
+  wheel-installed package.**
+- `test_plugin_independence.py` enforces, as executable gates: no project literal, no source-
+  repository marker, no GUID-shaped identifier, every module importing with no third-party
+  dependency, no module living only inside a skill directory (hub-and-spoke — moot here since no
+  symlinks were created; every skill's only file is a real `SKILL.md`, matching
+  `sharepoint-schema`'s and `sharepoint-link-remediation`'s precedent of skills with no bundled
+  scripts/references), and zero live PnP/CSOM/network transport calls anywhere in the runtime
+  tree.
+- No symlink was created for this plugin — none of its three skills reference a shared script or
+  reference file from inside the skill directory (each `SKILL.md` is the skill directory's only
+  file), the same shape as `sharepoint-schema`'s and `sharepoint-link-remediation`'s skills.
+  `symlink_manager.py` was not run because there was nothing to symlink; this plugin adds zero
+  entries to `symlinks.json` and zero new broken links by construction.
+
+## Source-repository preservation
+
+No file in either `jag-csb-cmat-sharepoint-online` or its sibling checkouts was modified, moved,
+or written to by any write-capable tool during this extraction — read-only inspection only.
+
+## Merge status
+
+**NOT merged to `main`.** Per this repository's per-phase workflow, `main` integration requires
+human review and approval; the agent does not merge.

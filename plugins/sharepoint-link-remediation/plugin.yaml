@@ -1,0 +1,13 @@
+name: sharepoint-link-remediation
+version: 0.1.0-alpha.1
+description: "Generic SharePoint link extraction, rewrite-rule remediation, and post-migration link-integrity validation. Extraction and validation are read-only; remediation is dry-run by default and requires both an explicitly injected writer and a plan-derived confirmation token before any write occurs."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - extract-links
+  - remediate-links
+  - validate-link-integrity

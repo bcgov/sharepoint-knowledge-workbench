@@ -27,7 +27,7 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [Parameter(Mandatory = $true)]
     [string]$AgentPath,
     [string]$JsonOutputPath

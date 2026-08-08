@@ -1,0 +1,13 @@
+name: sharepoint-provisioning
+version: 0.1.0-alpha.1
+description: "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics (create-if-missing, drift detection and reporting, explicit unlink for undeclared fields), a raw Field XML construction workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure and read-safe; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token that goes stale if the plan's source data changes. Zero tenant I/O ships in this plugin."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - provision-content-types
+  - provision-fields
+  - provision-list

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-provisioning"
+version = "0.1.0-alpha.1"
+description = "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token."
+requires-python = ">=3.10"
+# No dependency on any other workbench distribution -- this plugin must install and
+# run standalone (plugin-architecture-policy.md 1.3, Phase 9 spec section 14: it must
+# pass with the originating source repository entirely absent).
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "provisioning_outcomes",
+    "field_provisioning",
+    "content_type_provisioning",
+    "list_provisioning",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"

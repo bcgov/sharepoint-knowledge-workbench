@@ -56,8 +56,8 @@ print(to_overrides_mapping(inv))
 
 ## Scripts
 
-- `../../scripts/choice_fields.py` -- `inventory_choice_fields`, `to_overrides_mapping`, `ChoiceField`, `ChoiceFieldInventory`
-- `../../scripts/schema_export.py` -- export loading and shared status vocabulary
+- `scripts/choice_fields.py` -- `inventory_choice_fields`, `to_overrides_mapping`, `ChoiceField`, `ChoiceFieldInventory`
+- `scripts/schema_export.py` -- export loading and shared status vocabulary
 
 ## Provenance
 

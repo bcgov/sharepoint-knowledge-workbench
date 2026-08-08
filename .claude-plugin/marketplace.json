@@ -63,6 +63,12 @@
       "source": "./plugins/sharepoint-page-modernization",
       "strict": true,
       "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, and component mapping with explicit gap notices. Produces plans, never tenant writes."
+    },
+    {
+      "name": "sharepoint-provisioning",
+      "source": "./plugins/sharepoint-provisioning",
+      "strict": true,
+      "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Zero tenant I/O ships in this plugin."
     }
   ]
 }
