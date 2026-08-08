@@ -241,6 +241,56 @@ def plan_field_image_remediation(
     )
 
 
+def generate_gap_report(plan: FieldImageRemediationPlan) -> str:
+    """Render the plan's classifications as a reviewer-facing Markdown gap
+    report -- the fourth step of the pattern this module generalizes (get
+    source field data -> extract paths -> compare to a destination
+    inventory -> gap analysis -> remediation), made a first-class,
+    reusable artifact rather than an internal dict a caller has to know to
+    inspect. Every `missing` and `matched` item is named individually, not
+    just counted -- a report that only shows counts is not actionable; a
+    reviewer needs to know exactly which items still need attention,
+    matching the source pattern's per-row CSV output."""
+    statuses = list(plan.classifications.values())
+    total = len(statuses)
+    matched = [sid for sid, c in plan.classifications.items() if c.status == "matched"]
+    missing = [sid for sid, c in plan.classifications.items() if c.status == "missing"]
+    img_no_src = sum(1 for c in statuses if c.status == "img_no_src")
+    no_img_tag = sum(1 for c in statuses if c.status == "no_img_tag")
+
+    lines = [
+        "# Field Image Reference Gap Report",
+        "",
+        f"**Total items:** {total} | "
+        f"**Matched (fix proposed):** {len(matched)} | "
+        f"**Missing (genuinely absent):** {len(missing)} | "
+        f"**Broken placeholder (no src):** {img_no_src} | "
+        f"**No image reference:** {no_img_tag}",
+        "",
+        "---",
+        "",
+    ]
+
+    if missing:
+        lines += ["## Missing -- file not found anywhere in the destination inventory", "",
+                   "| Item | Referenced Filename | Original Path |", "|:---|:---|:---|"]
+        for source_id in missing:
+            c = plan.classifications[source_id]
+            lines.append(f"| `{source_id}` | {c.extracted_filename} | {c.original_src} |")
+        lines.append("")
+
+    lines += ["## Proposed Fixes -- confirmed match in the destination inventory", ""]
+    if plan.changed_items:
+        lines += ["| Item | New Reference |", "|:---|:---|"]
+        for fix in plan.changed_items:
+            matched_url = plan.classifications[fix.source_id].matched_relative_url
+            lines.append(f"| `{fix.source_id}` | {matched_url} |")
+    else:
+        lines.append("No confirmed-matched items -- nothing to fix.")
+
+    return "\n".join(lines)
+
+
 def _gate(plan: FieldImageRemediationPlan, executor: Executor | None, confirm: str | None) -> None:
     if executor is None:
         raise ExecutorRequired(

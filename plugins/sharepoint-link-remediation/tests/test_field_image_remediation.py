@@ -19,6 +19,7 @@ from field_image_remediation import (
     ConfirmationRequired,
     ExecutorRequired,
     classify_field_images,
+    generate_gap_report,
     plan_field_image_remediation,
     apply_field_image_remediation,
 )
@@ -161,3 +162,45 @@ class TestApplyFieldImageRemediation:
         )
         assert result.outcome == Outcome.OBSERVED
         assert written == ["1"]
+
+
+class TestGenerateGapReport:
+    def test_report_states_counts_for_every_status(self):
+        items = {
+            "1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />',  # matched
+            "2": '<img src="/sites/Demo/PublishingImages/gone.jpg" />',  # missing
+            "3": '<img alt="" />',  # img_no_src
+            "4": "plain text",  # no_img_tag
+        }
+        plan = plan_field_image_remediation(
+            items, inventory={"photo.jpg": "/x/photo.jpg"}, ruleset=_ruleset()
+        )
+        report = generate_gap_report(plan)
+        assert "Total items" in report
+        assert "4" in report  # total count
+        assert "matched" in report.lower()
+        assert "missing" in report.lower()
+
+    def test_report_names_every_missing_item_individually(self):
+        """A gap report that only shows a count of missing items is not
+        actionable -- the reviewer needs to know exactly which items still
+        need attention, matching the source pattern's per-row CSV output."""
+        items = {"42": '<img src="/sites/Demo/PublishingImages/gone.jpg" />'}
+        plan = plan_field_image_remediation(items, inventory={}, ruleset=_ruleset())
+        report = generate_gap_report(plan)
+        assert "42" in report
+        assert "gone.jpg" in report
+
+    def test_report_names_every_proposed_fix_individually(self):
+        items = {"7": '<img src="/sites/Demo/PublishingImages/photo.jpg" />'}
+        plan = plan_field_image_remediation(
+            items, inventory={"photo.jpg": "/x/photo.jpg"}, ruleset=_ruleset()
+        )
+        report = generate_gap_report(plan)
+        assert "7" in report
+
+    def test_report_on_empty_plan_states_nothing_to_do(self):
+        plan = plan_field_image_remediation({}, inventory={}, ruleset=_ruleset())
+        report = generate_gap_report(plan)
+        assert "Total items" in report
+        assert "0" in report
