@@ -15,7 +15,7 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "plugins/sharepoint-agents-and-skills/config.psd1",
+    [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [Parameter(Mandatory = $true)]
     [hashtable[]]$Items,
     [string]$OutputDir = "plugins/sharepoint-agents-and-skills/backups/native-skills"

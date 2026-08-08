@@ -15,7 +15,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$ConfigFile = "config.psd1",
+    [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [string]$JsonOutputPath = ""
 )
 
