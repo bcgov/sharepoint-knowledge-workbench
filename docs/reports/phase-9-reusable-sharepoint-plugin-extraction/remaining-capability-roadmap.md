@@ -124,6 +124,46 @@ The four extracted agents scored zero literals yet required their entire routing
 because they routed to ~15 source skills that do not exist here. Expect the same for
 `sp-discovery-agent`/`sp-migration-agent`.
 
+## 4a. `sharepoint-provisioning` disposition OVERTURNED (2026-08-07)
+
+**Original spec §8e verdict:** "Not justified as a standalone plugin — no confirmed generic
+implemented skill exists here at all." **That verdict is wrong.** It was based on scanning only
+`sharepoint-migration`'s 34 skills; `ords-integration-migration` was checked by `SKILL.md` alone
+until this session's direct-script review found real value hiding there, the same pattern that
+surfaced `combine-preview.ps1` (Wave 4) and the certificate-auth precedent (design spec).
+
+**Real, generic, implemented pattern found:**
+`scripts/ag-tenant/reset-and-provision-etl-target-schema.ps1` (351 lines) + its dependency
+`scripts/lib/content-type-lib.ps1` (138 lines, 6 functions, **zero project literals already**).
+Stripped of the CMAT domain content (list names, field names, calendar/court-appearance
+specifics), the underlying pattern is:
+
+- Declarative JSON-schema-driven provisioning: site columns + content-type field definitions
+  (with hidden flags) + a target list inventory, not per-list hardcoded logic.
+- **Reconcile, not blind recreate**: content types/columns are create-if-missing; display-name
+  drift against the schema is detected and fixed; fields no longer declared are explicitly
+  unlinked.
+- A genuine PnP limitation workaround: `Add-PnPField` does not support `-Formula` — calculated
+  columns require raw Field XML construction. Proven, non-obvious technique worth keeping.
+- Three incident-derived safety fixes, each independently valuable: duplicate-title detection
+  before any delete (real incident — a stray duplicate list caused auth to silently resolve to
+  the wrong one), fail-loud (not silent) if a list unexpectedly survives deletion, and an
+  explicit show/hide reconciliation pass rather than create-time-only.
+- `-DryRun` support throughout, matching this workbench's existing convention.
+
+**Not extracted — deliberately, not by oversight.** This is write-capable and destructive by
+design (deletes and recreates lists). Every Phase 9 plugin built so far is either read-only or
+gated like `remediate-links` (dry-run default + injected writer + confirmation token). A
+provisioning plugin needs that same safety-gate design decided **before** any code is written —
+spec §13 requires "a separately approved plan with dry-run, confirmation, least privilege,
+rollback, evidence" for this category. `New-ModernCalendarList` (referenced but not yet located
+in this pass) likely carries further generic provisioning logic and should be checked in the same
+pass if this candidate is pursued.
+
+**Recommendation:** rank this alongside Rank 1 (collection) as high-value, design-gated work —
+not effort-gated. A short design pass mirroring `remediate-links`'s three-gate pattern would make
+`sharepoint-provisioning` genuinely buildable.
+
 ## 5. Not required by any evidence
 
 Deployment/publication of modernization output, CMAT rebind (§17 forbids), and a general-purpose
