@@ -114,7 +114,7 @@ collects those exports** — a real capability hole at the front of every discov
 
 | Agent | Literals | Disposition |
 |---|---|---|
-| `sp-discovery-agent`, `sp-migration-agent` | 3 each | `AGENT_REQUIRES_GENERICIZING` — low scrub cost, viable next |
+| `sp-discovery-agent`, `sp-migration-agent` | 3 each | **CORRECTED 2026-08-07 (full-content re-read, not just literal count):** `AGENT_REQUIRES_GENERICIZING` was wrong for both — the low literal count was a false signal, exactly the router-agent trap flagged below. `sp-discovery-agent` (173 lines) is not a lightweight router: every one of its 14 steps invokes `-SiteUrl`/`-UseIntegratedAuth` live-tenant PnP scripts — it **is** Part A (collection) wearing an agent costume, not separable from it — defaults to a CMAT-specific output layout, and step 14 calls `generate-master-discovery-meta-review.py`, the exact script already `REJECT`ed for fabricating headline metrics (`sp-synthesizing-discovery`, §3). `sp-migration-agent` (25 lines) routes across 4 capabilities; only `sp-uploading-content` exists in this workbench — the other 3 targets are excluded (`sp-migrating-content`), unevaluated/CMAT-coupled (`sp-content-migration`), or blocked on the ShareGate decision. **Neither is extraction-ready.** `sp-discovery-agent`'s re-entry trigger is Part A's design being approved; `sp-migration-agent`'s is its routing targets existing. |
 | `sp-deployment-planner` | 14 | `RESEARCH` — no confirmed generic plugin owner |
 | `sp-migration-orchestrator` | 36 | `ORCHESTRATOR_COUPLED_TO_CMAT_WAVES` |
 | `sp-wave-orchestrator` | 161 | `KEEP_PROJECT_SPECIFIC` — highest literal density in the audit |
