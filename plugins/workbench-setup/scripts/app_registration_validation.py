@@ -202,6 +202,86 @@ def validate_app_registration(connection: dict, http_client) -> AppRegistrationV
     return AppRegistrationValidationResult(success=True, signed_in_as=signed_in_as, app_id=app_id, detail=detail)
 
 
+@dataclass
+class PermissionBoundaryResult:
+    """Empirical proof (or disproof) that a delegated app registration's
+    effective permissions equal the intersection of its own API permissions
+    and the signed-in user's actual SharePoint permissions -- i.e. the
+    registration is not a backdoor to sites the user cannot already reach.
+    """
+
+    boundary_proven: bool
+    authorized_result: AppRegistrationValidationResult
+    unauthorized_result: AppRegistrationValidationResult
+    detail: str = ""
+
+    def to_dict(self) -> dict:
+        return {
+            "boundary_proven": self.boundary_proven,
+            "authorized_result": self.authorized_result.to_dict(),
+            "unauthorized_result": self.unauthorized_result.to_dict(),
+            "detail": self.detail,
+        }
+
+
+def validate_permission_boundary(
+    authorized_connection: dict, unauthorized_connection: dict, http_client
+) -> PermissionBoundaryResult:
+    """Empirically prove the security boundary `Effective permissions = App
+    permissions ∩ User permissions` for a delegated app registration, by
+    running `validate_app_registration` against two sites with the same
+    `ClientId`/`TenantId`: one the signed-in user has access to
+    (`authorized_connection`, expected to succeed) and one the user does not
+    (`unauthorized_connection`, expected to fail with Access Denied).
+
+    Zero tenant I/O beyond what the injected `http_client` performs -- same
+    contract as `validate_app_registration`.
+
+    A proven boundary requires BOTH the authorized site to succeed AND the
+    unauthorized site to fail -- either sub-result on its own is
+    insufficient and is reported with a distinct, honest `detail` message
+    naming which side of the boundary did not behave as expected. An
+    unauthorized site unexpectedly succeeding is a security finding (the
+    registration grants broader access than intended), never conflated with
+    a misconfigured authorized site.
+    """
+    authorized_result = validate_app_registration(authorized_connection, http_client)
+    unauthorized_result = validate_app_registration(unauthorized_connection, http_client)
+
+    if authorized_result.success and not unauthorized_result.success:
+        return PermissionBoundaryResult(
+            boundary_proven=True,
+            authorized_result=authorized_result,
+            unauthorized_result=unauthorized_result,
+            detail="boundary proven: authorized site succeeded, unauthorized site was denied",
+        )
+
+    if not authorized_result.success and not unauthorized_result.success:
+        detail = (
+            "boundary not proven: the authorized site also failed "
+            f"({authorized_result.detail!r}) -- registration or site permission is misconfigured, "
+            "not a boundary result"
+        )
+    elif authorized_result.success and unauthorized_result.success:
+        detail = (
+            "boundary not proven: the unauthorized site unexpectedly succeeded -- "
+            "this registration grants access beyond the signed-in user's actual permissions, "
+            "a real security finding, not a test failure"
+        )
+    else:
+        detail = (
+            "boundary not proven: the authorized site failed while the unauthorized site "
+            f"succeeded ({unauthorized_result.detail!r}) -- results are inverted from expectation"
+        )
+
+    return PermissionBoundaryResult(
+        boundary_proven=False,
+        authorized_result=authorized_result,
+        unauthorized_result=unauthorized_result,
+        detail=detail,
+    )
+
+
 def make_device_code_connector(http_client) -> "Callable[[dict], bool]":
     """Build a `connector(connection) -> bool` callable compatible with
     `config_setup.test_connection(connection, connector=...)`'s existing

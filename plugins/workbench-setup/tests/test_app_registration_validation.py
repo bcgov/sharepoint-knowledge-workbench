@@ -22,6 +22,7 @@ from app_registration_validation import (
     decode_jwt_claims,
     make_device_code_connector,
     validate_app_registration,
+    validate_permission_boundary,
 )
 
 
@@ -187,3 +188,78 @@ def test_connector_wires_into_config_setup_test_connection_opt_in_only():
 
     connector = make_device_code_connector(FakeHttpClient())
     assert test_connection(CONNECTION, connector=connector) is True
+
+
+# ---------------------------------------------------------------------------
+# validate_permission_boundary -- proves Effective permissions = App ∩ User
+# ---------------------------------------------------------------------------
+
+AUTHORIZED_CONNECTION = {
+    "SiteUrl": "https://example.sharepoint.com/sites/Authorized",
+    "TenantId": "example-tenant-id",
+    "ClientId": "example-client-id",
+}
+
+UNAUTHORIZED_CONNECTION = {
+    "SiteUrl": "https://example.sharepoint.com/sites/Unauthorized",
+    "TenantId": "example-tenant-id",
+    "ClientId": "example-client-id",
+}
+
+
+class SiteAwareHttpClient:
+    """Injected transport double whose get_context_info behaviour depends on
+    which site's contextinfo URL is called -- lets one client simulate a
+    delegated app registration that succeeds on an authorized site and is
+    denied on an unauthorized one, without any real tenant."""
+
+    def __init__(self, *, denied_site_url: str):
+        self._denied_site_url = denied_site_url
+
+    def request_device_code(self, url, body):
+        return {"device_code": "dc-abc", "interval": 0, "expires_in": 60}
+
+    def poll_for_token(self, url, body):
+        return {"access_token": _fake_jwt({"upn": "user@example.com", "appid": "app-id-123"})}
+
+    def get_context_info(self, url, headers):
+        if url.startswith(self._denied_site_url):
+            raise RuntimeError("403 Access Denied")
+        return {"FormDigestValue": "digest-value"}
+
+
+def test_boundary_proven_when_authorized_succeeds_and_unauthorized_is_denied():
+    client = SiteAwareHttpClient(denied_site_url=UNAUTHORIZED_CONNECTION["SiteUrl"])
+    result = validate_permission_boundary(AUTHORIZED_CONNECTION, UNAUTHORIZED_CONNECTION, client)
+    assert result.boundary_proven is True
+    assert result.authorized_result.success is True
+    assert result.unauthorized_result.success is False
+
+
+def test_boundary_not_proven_when_unauthorized_site_unexpectedly_succeeds():
+    """If the 'unauthorized' site is actually reachable, the app registration
+    grants broader access than intended -- a real security finding, must be
+    reported distinctly from a plain test failure, never silently passed."""
+    client = SiteAwareHttpClient(denied_site_url="https://nonexistent.example.com/never-called")
+    result = validate_permission_boundary(AUTHORIZED_CONNECTION, UNAUTHORIZED_CONNECTION, client)
+    assert result.boundary_proven is False
+    assert "unauthorized site" in result.detail.lower()
+
+
+def test_boundary_not_proven_when_authorized_site_unexpectedly_fails():
+    """If the 'authorized' site fails too, the registration or the site
+    permission is misconfigured -- distinct from the unauthorized-succeeded
+    case, and must say so."""
+    client = SiteAwareHttpClient(denied_site_url=AUTHORIZED_CONNECTION["SiteUrl"])
+    result = validate_permission_boundary(AUTHORIZED_CONNECTION, UNAUTHORIZED_CONNECTION, client)
+    assert result.boundary_proven is False
+    assert "authorized site" in result.detail.lower()
+
+
+def test_boundary_result_serializes_both_sub_results():
+    client = SiteAwareHttpClient(denied_site_url=UNAUTHORIZED_CONNECTION["SiteUrl"])
+    result = validate_permission_boundary(AUTHORIZED_CONNECTION, UNAUTHORIZED_CONNECTION, client)
+    as_dict = result.to_dict()
+    assert as_dict["boundary_proven"] is True
+    assert as_dict["authorized_result"]["success"] is True
+    assert as_dict["unauthorized_result"]["success"] is False
