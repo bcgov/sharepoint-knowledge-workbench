@@ -53,8 +53,8 @@ print(outcome.status, outcome.detail)
 
 ## Scripts
 
-- `../../scripts/page_inventory_analysis.py` -- `run`, `analyse`, `generate_report`, `load_rules`, `compute_complexity`, `disposition_hint`
-- `../../scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
+- `scripts/page_inventory_analysis.py` -- `run`, `analyse`, `generate_report`, `load_rules`, `compute_complexity`, `disposition_hint`
+- `scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
 
 ## Provenance
 

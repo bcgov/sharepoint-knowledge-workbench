@@ -56,8 +56,8 @@ print(outcome.status, outcome.detail)
 
 ## Scripts
 
-- `../../scripts/permissions_analysis.py` -- `run`, `analyse`, `generate_report`
-- `../../scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
+- `scripts/permissions_analysis.py` -- `run`, `analyse`, `generate_report`
+- `scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
 
 ## Provenance
 
