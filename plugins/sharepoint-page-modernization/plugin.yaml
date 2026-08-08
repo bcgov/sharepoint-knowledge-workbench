@@ -1,0 +1,13 @@
+name: sharepoint-page-modernization
+version: 0.1.0-alpha.1
+description: "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection (evaluated by a restricted AST evaluator that rejects any call expression), component mapping with explicit gap notices for unconvertible content, and offline preview composition. Produces plans only; performs zero tenant I/O and no tenant writes."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - analyze-aspx-pages
+  - convert-aspx-pages
+  - compose-page-preview
