@@ -51,27 +51,47 @@ record just because there is nothing to write for them.
 3. **A confirmation token is required.** `dry_run=False` additionally
    requires `confirm=plan.confirmation_token`.
 
+## The five-step pattern this skill generalizes
+
+1. **Get source field data.** Read the rich-text field's stored value per
+   item — a live-tenant read, out of scope for this module (caller-supplied).
+2. **Extract paths.** `classify_field_images` extracts the embedded
+   `<img src>` and decodes it to a bare filename.
+3. **Compare to a destination inventory.** The extracted filename is looked
+   up (case-insensitively) against a caller-supplied
+   `{filename.lower(): relative_url}` inventory — also caller-collected,
+   live-tenant work out of scope here.
+4. **Gap analysis.** Every item is classified (`matched` / `missing` /
+   `img_no_src` / `no_img_tag`) and `generate_gap_report` renders the full
+   set as a reviewer-facing Markdown report — every `missing` and
+   `matched` item named individually, never just counted.
+5. **Remediation.** `plan_field_image_remediation` proposes a rewrite ONLY
+   for `matched` items; `apply_field_image_remediation` applies it under
+   the same three-gate write safety as every other write-capable module
+   here.
+
 ## Usage
 
 ```python
 from link_rules import load_ruleset
-from field_image_remediation import plan_field_image_remediation, apply_field_image_remediation
+from field_image_remediation import (
+    plan_field_image_remediation,
+    generate_gap_report,
+    apply_field_image_remediation,
+)
 
 # items: {source_id: field_value_html}, inventory: {filename.lower(): relative_url}
 plan = plan_field_image_remediation(items, inventory=inventory, ruleset=load_ruleset("rules.json"))
-print(plan.outcome, plan.change_count)
-for source_id, classification in plan.classifications.items():
-    if classification.status == "missing":
-        print(f"genuinely missing: {source_id} -> {classification.extracted_filename}")
+print(generate_gap_report(plan))  # step 4 -- reviewer-facing gap report, before any write
 
-result = apply_field_image_remediation(
+result = apply_field_image_remediation(  # step 5
     plan, executor=my_executor, dry_run=False, confirm=plan.confirmation_token
 )
 ```
 
 ## Scripts
 
-- `scripts/field_image_remediation.py` -- `classify_field_images`, `plan_field_image_remediation`, `apply_field_image_remediation`, `ExecutorRequired`, `ConfirmationRequired`
+- `scripts/field_image_remediation.py` -- `classify_field_images`, `plan_field_image_remediation`, `generate_gap_report`, `apply_field_image_remediation`, `ExecutorRequired`, `ConfirmationRequired`
 - `scripts/link_rules.py`, `scripts/link_outcomes.py` -- shared with `remediate-links`
 
 ## Provenance
