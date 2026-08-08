@@ -210,3 +210,12 @@
   the tool is present.
 - **Severity:** L (did not block this task). **Repeat:** unknown — first time this worktree's
   `.agents/` absence was noticed explicitly. **Status:** OPEN, informational.
+
+### 2026-08-07 — sharepoint-provisioning tests only ran via isolated_install_check.py, not directly
+
+- **Artifact:** `plugins/sharepoint-provisioning/tests/{test_field_provisioning,test_content_type_provisioning,test_list_provisioning}.py`
+- **Friction observed:** the agent that built this plugin reported `87 passed` verified only via `isolated_install_check.py` (an installed wheel). Running `python3 -m pytest plugins/sharepoint-provisioning/tests/ -q` directly failed with 3 collection errors — missing `sys.path.insert(0, .../scripts)`, the per-test-file convention `sharepoint-schema`'s test suite already establishes (as opposed to a shared `conftest.py`, which `sharepoint-link-remediation`/`sharepoint-page-modernization` use instead). Caught only because I independently re-ran the plugin's own tests directly rather than trusting the wheel-only verification.
+- **Fix applied:** added the `sys.path.insert` block to all 3 files, ordered correctly after `from __future__ import annotations` (which must be the first statement after the module docstring — an intermediate fix attempt broke this ordering and had to be corrected).
+- **Evidence:** `python3 -m pytest plugins/sharepoint-provisioning/tests/ -q` → 87 passed, run directly with no install step.
+- **Severity:** S. **Repeat:** possible — future rounds should verify a new plugin's tests both via direct `pytest` and via `isolated_install_check.py`, not just the latter.
+- **Status:** RESOLVED.

@@ -5,6 +5,11 @@ sharepoint-link-remediation/scripts/link_remediation.py's gate exactly."""
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+
 import pytest
 
 from field_provisioning import FieldDef
