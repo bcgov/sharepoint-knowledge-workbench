@@ -192,3 +192,21 @@
 - **Evidence:** re-running the audit script shows 0 fragile hits; all 14 files parse clean via the
   PowerShell AST parser; plugin suite 68/68 unchanged.
 - **Severity:** M. **Repeat:** NO. **Status:** RESOLVED.
+
+### 2026-08-07 — symlink_manager.py not present in this worktree
+
+- **Artifact:** N/A (tooling gap noticed while building `plugins/sharepoint-provisioning`).
+- **Friction observed:** CLAUDE.md's Plugin-Local Resource Sharing section and this session's task
+  brief both require any shared script/reference symlinked into a skill folder to go through
+  `.agents/skills/symlink-manager/scripts/symlink_manager.py`. That path does not exist in this
+  worktree (`.agents/` is not populated here); the only `symlink_manager.py` copies found on disk
+  live in sibling repos (`agent-plugins-skills`, `jag-legacy-oracle-plugins`) or `~/Downloads`.
+  `sharepoint-provisioning` did not end up needing any symlinks (all three skills' only file is a
+  real `SKILL.md`, matching `sharepoint-schema`'s/`sharepoint-link-remediation`'s precedent of
+  skills with no bundled scripts/references), so this was not blocking, but it would block the
+  next plugin/skill that does need one until `.agents/skills/` is populated in this worktree.
+- **Fix applied:** none — out of scope for this task. Documented so the next session that needs to
+  create a real symlink knows to check `.agents/skills/` availability first rather than assuming
+  the tool is present.
+- **Severity:** L (did not block this task). **Repeat:** unknown — first time this worktree's
+  `.agents/` absence was noticed explicitly. **Status:** OPEN, informational.
