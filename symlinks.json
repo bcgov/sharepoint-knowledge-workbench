@@ -1704,6 +1704,24 @@
       "dst": "plugins/sharepoint-schema/skills/generate-sharepoint-schema-from-export/scripts/schema_export.py",
       "strategy": "symlink",
       "description": "generate-sharepoint-schema-from-export skill's bundled copy of schema_export.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_diff.py",
+      "dst": "plugins/sharepoint-schema/skills/diff-sharepoint-schema/scripts/schema_diff.py",
+      "strategy": "symlink",
+      "description": "diff-sharepoint-schema skill's bundled copy of schema_diff.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-schema/skills/diff-sharepoint-schema/scripts/schema_definition.py",
+      "strategy": "symlink",
+      "description": "diff-sharepoint-schema skill's bundled copy of schema_definition.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-schema/skills/diff-sharepoint-schema/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "diff-sharepoint-schema skill's bundled copy of schema_export.py"
     }
   ]
 }

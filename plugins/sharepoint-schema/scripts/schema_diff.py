@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from schema_definition import SiteSchemaDefinition, generate_schema_definition
 from schema_export import SchemaExport, SectionStatus
 
 
@@ -169,6 +170,137 @@ def compare_schema_exports(
         lists_only_left=lists_only_left,
         lists_only_right=lists_only_right,
         status=status,
+    )
+
+
+def compare_schema_definitions(
+    left: SiteSchemaDefinition,
+    right: SiteSchemaDefinition,
+    left_label: str = None,
+    right_label: str = None,
+    column_properties: tuple = ("type_as_string",),
+    content_type_properties: tuple = (),
+    list_properties: tuple = (),
+    field_properties: tuple = ("type_as_string",),
+) -> SchemaComparisonReport:
+    """Compare two declarative `SiteSchemaDefinition` objects (see
+    `schema_definition.py`), section by section. Mirrors
+    `compare_schema_exports`' semantics exactly -- named-set comparison,
+    duplicate/missing-key ambiguity surfaced not guessed, a list present on
+    only one side reported not dropped, deterministic output -- over the
+    declarative shape instead of a raw export.
+
+    `left_label`/`right_label` default to each definition's own `.label`
+    when not supplied, so a caller can still override display labels for a
+    report without the definition itself needing to change.
+
+    A `SiteSchemaDefinition` has a single `key` per list (unlike a raw
+    export, which has both a title-keyed summary list and a separately
+    directory-keyed `list_fields`), so `lists` here is compared by `key` and
+    doubles as the only-left/only-right list membership signal;
+    `lists_only_left`/`lists_only_right` are populated from the same
+    comparison for parity with `compare_schema_exports`' report shape.
+    """
+
+    left_label = left.label if left_label is None else left_label
+    right_label = right.label if right_label is None else right_label
+
+    site_columns = compare_named_sets(
+        [f.to_dict() for f in left.site_columns],
+        [f.to_dict() for f in right.site_columns],
+        "internal_name",
+        column_properties,
+    )
+    content_types = compare_named_sets(
+        [ct.to_dict() for ct in left.content_types],
+        [ct.to_dict() for ct in right.content_types],
+        "name",
+        content_type_properties,
+    )
+    lists = compare_named_sets(
+        [l.to_dict() for l in left.lists],
+        [l.to_dict() for l in right.lists],
+        "key",
+        list_properties,
+    )
+
+    left_by_key = {l.key: l for l in left.lists}
+    right_by_key = {l.key: l for l in right.lists}
+    all_keys = set(left_by_key) | set(right_by_key)
+
+    per_list = {}
+    for key in sorted(all_keys, key=str):
+        left_list = left_by_key.get(key)
+        right_list = right_by_key.get(key)
+        left_fields = [f.to_dict() for f in left_list.fields] if left_list is not None else []
+        right_fields = [f.to_dict() for f in right_list.fields] if right_list is not None else []
+        fields_diff = compare_named_sets(left_fields, right_fields, "internal_name", field_properties)
+        per_list[key] = ListComparison(fields=fields_diff)
+
+    if left.status is SectionStatus.UNAVAILABLE or right.status is SectionStatus.UNAVAILABLE:
+        status = SectionStatus.UNAVAILABLE
+    elif left.status is not SectionStatus.OBSERVED or right.status is not SectionStatus.OBSERVED:
+        status = SectionStatus.PARTIAL
+    else:
+        status = SectionStatus.OBSERVED
+
+    return SchemaComparisonReport(
+        left_label=left_label,
+        right_label=right_label,
+        site_columns=site_columns,
+        content_types=content_types,
+        lists=lists,
+        per_list=per_list,
+        lists_only_left=lists.only_left,
+        lists_only_right=lists.only_right,
+        status=status,
+    )
+
+
+def compare_definition_to_export(
+    definition: SiteSchemaDefinition,
+    export: SchemaExport,
+    definition_label: str = None,
+    export_label: str = None,
+    column_properties: tuple = ("type_as_string",),
+    content_type_properties: tuple = (),
+    list_properties: tuple = (),
+    field_properties: tuple = ("type_as_string",),
+) -> SchemaComparisonReport:
+    """Compare a declarative `SiteSchemaDefinition` against a live
+    `SchemaExport` -- "what would change if I applied this target
+    definition against this current state". Read-only; produces a report,
+    never a write/apply plan.
+
+    Implementation choice: the export is first converted to its own
+    `SiteSchemaDefinition` via `generate_schema_definition` (a pure,
+    already-existing transform -- see `schema_definition.py`), then compared
+    via `compare_schema_definitions`. This is the cleanest path because it
+    means there is exactly one place (`compare_schema_definitions`) that
+    knows how to diff the declarative shape; diffing at a lower level would
+    require re-deriving the same named-set/per-list logic a second time
+    against export's raw dict items, duplicating -- and risking drift from
+    -- the semantics already established for definition-vs-definition
+    comparison. `generate_schema_definition` already carries the export's
+    honest `SectionStatus` through unchanged, so a degraded export produces
+    a degraded definition, and that degradation flows into the comparison
+    report exactly as it would for two hand-built definitions.
+    """
+
+    export_label = export.label if export_label is None else export_label
+    export_as_definition = generate_schema_definition(export, label=export_label)
+
+    definition_label = definition.label if definition_label is None else definition_label
+
+    return compare_schema_definitions(
+        definition,
+        export_as_definition,
+        left_label=definition_label,
+        right_label=export_label,
+        column_properties=column_properties,
+        content_type_properties=content_type_properties,
+        list_properties=list_properties,
+        field_properties=field_properties,
     )
 
 

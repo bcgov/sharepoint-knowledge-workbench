@@ -20,10 +20,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from schema_diff import (  # noqa: E402
+    compare_definition_to_export,
     compare_named_sets,
+    compare_schema_definitions,
     compare_schema_exports,
     render_markdown,
 )
+from schema_definition import generate_schema_definition  # noqa: E402
 from schema_export import SectionStatus, load_schema_export  # noqa: E402
 
 
@@ -149,6 +152,98 @@ def test_render_markdown_carries_no_timestamp_or_host_identifiers(tmp_path):
     markdown = render_markdown(compare_schema_exports(left, right))
     assert "sharepoint.com" not in markdown
     assert "https://" not in markdown
+
+
+def test_compare_schema_definitions_reports_differences(tmp_path):
+    left = generate_schema_definition(
+        load_schema_export(
+            _export(
+                tmp_path / "dl",
+                [{"InternalName": "A", "TypeAsString": "Text"},
+                 {"InternalName": "B", "TypeAsString": "Text"}],
+                [{"Title": "Records", "IsLibrary": False}],
+                {"Records": [{"InternalName": "Alpha", "TypeAsString": "Text"}]},
+            ),
+            label="dl",
+        ),
+        label="left-def",
+    )
+    right = generate_schema_definition(
+        load_schema_export(
+            _export(
+                tmp_path / "dr",
+                [{"InternalName": "B", "TypeAsString": "Note"},
+                 {"InternalName": "C", "TypeAsString": "Text"}],
+                [{"Title": "Records", "IsLibrary": False}],
+                {"Records": [{"InternalName": "Alpha", "TypeAsString": "Note"}]},
+            ),
+            label="dr",
+        ),
+        label="right-def",
+    )
+
+    report = compare_schema_definitions(left, right, left_label="baseline", right_label="candidate")
+
+    assert report.left_label == "baseline"
+    assert report.right_label == "candidate"
+    assert report.site_columns.only_left == ("A",)
+    assert report.site_columns.only_right == ("C",)
+    assert [c.key for c in report.site_columns.changed] == ["B"]
+    assert report.per_list["lists/Records"].fields.changed
+    assert report.status is SectionStatus.PARTIAL
+
+
+def test_definition_generated_from_export_compares_identical_to_that_export(tmp_path):
+    export = load_schema_export(
+        _export(
+            tmp_path / "eq",
+            [{"InternalName": "A", "TypeAsString": "Text"}],
+            [{"Title": "Records", "IsLibrary": False}],
+            {"Records": [{"InternalName": "Alpha", "TypeAsString": "Text"}]},
+        ),
+        label="export-side",
+    )
+    definition = generate_schema_definition(export, label="definition-side")
+
+    report = compare_definition_to_export(definition, export)
+
+    assert report.site_columns.only_left == () and report.site_columns.only_right == ()
+    assert report.site_columns.changed == ()
+    assert report.lists.only_left == () and report.lists.only_right == ()
+    assert report.per_list["lists/Records"].fields.only_left == ()
+    assert report.per_list["lists/Records"].fields.only_right == ()
+    assert report.per_list["lists/Records"].fields.changed == ()
+    assert report.status is SectionStatus.PARTIAL
+
+
+def test_degraded_definition_side_is_reported_honestly_not_a_clean_pass(tmp_path):
+    clean_export = load_schema_export(
+        _export(tmp_path / "clean", [{"InternalName": "A"}], [], {}), label="clean"
+    )
+    clean_definition = generate_schema_definition(clean_export, label="clean-def")
+
+    missing_export = load_schema_export(tmp_path / "does-not-exist", label="missing")
+    degraded_definition = generate_schema_definition(missing_export, label="missing-def")
+    assert degraded_definition.status is SectionStatus.UNAVAILABLE
+
+    report = compare_schema_definitions(clean_definition, degraded_definition)
+
+    assert report.status is SectionStatus.UNAVAILABLE
+    assert "unavailable" in render_markdown(report).lower()
+
+
+def test_compare_definition_to_export_propagates_export_degradation(tmp_path):
+    clean_export = load_schema_export(
+        _export(tmp_path / "clean2", [{"InternalName": "A"}], [], {}), label="clean2"
+    )
+    clean_definition = generate_schema_definition(clean_export, label="clean2-def")
+
+    missing_export = load_schema_export(tmp_path / "still-nowhere", label="missing2")
+
+    report = compare_definition_to_export(clean_definition, missing_export)
+
+    assert report.status is SectionStatus.UNAVAILABLE
+    assert "unavailable" in render_markdown(report).lower()
 
 
 def test_compare_properties_are_caller_configurable(tmp_path):
