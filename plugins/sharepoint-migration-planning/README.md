@@ -50,6 +50,17 @@ runbook* is a synthesis task — the same script structure can be expressed many
 so that step is explicitly agent-assisted, using the assets below as style/shape references, not a
 pure function with one correct output.
 
+**Design lineage, stated explicitly:** this 3a/3b split is the same underlying discipline as the
+"2-Stage Deep Architectural Review Protocol" observed in a discovery agent in the source
+repository — Stage 1 deterministic script execution, Stage 2 mandatory AI reasoning pass over the
+real output, never synthesize before the deterministic stage has produced something real to reason
+over. That source agent was evaluated and rejected for extraction (it orchestrates live-tenant
+scripts and its final step calls a script already rejected elsewhere in this workbench's evidence
+for fabricating headline metrics), so nothing was ported from it — but the two-stage discipline
+itself is sound and is what this plugin's 3a/3b split generalizes, applied once at the pipeline
+level rather than per discovery step, and grounded in an offline export rather than live-tenant
+calls.
+
 ## Assets (templates the agent step reads, not executable code)
 
 - `assets/dependency-matrix-schema.json` — JSON Schema the deterministic step's output must satisfy
