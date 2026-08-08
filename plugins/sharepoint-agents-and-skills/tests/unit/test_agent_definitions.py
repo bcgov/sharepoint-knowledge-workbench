@@ -43,6 +43,7 @@ EXPECTED_AGENTS = {
     "sharepoint-validation-agent",
     "sharepoint-deployment-planning-agent",
     "sharepoint-deployment-sequencing-agent",
+    "sharepoint-content-migration-sequencing-agent",
 }
 
 REQUIRED_FRONTMATTER_FIELDS = ("name", "plugin", "description", "model", "color")

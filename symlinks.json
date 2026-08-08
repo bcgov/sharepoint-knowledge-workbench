@@ -1740,6 +1740,12 @@
       "dst": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
       "strategy": "symlink",
       "description": "Shared honest-outcome vocabulary reused from sharepoint-provisioning"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-content-migration/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Shared honest-outcome vocabulary reused from sharepoint-provisioning"
     }
   ]
 }
