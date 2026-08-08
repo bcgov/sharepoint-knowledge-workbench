@@ -1,6 +1,6 @@
 ---
 name: plan-sharepoint-deployment-waves
-plugin: sharepoint-provisioning
+plugin: sharepoint-migration-planning
 description: Computes a deployment wave plan by topologically sorting a caller-supplied, dependency-annotated list of deployment objects -- groups objects into ordered stages where every dependency is satisfied by a strictly earlier stage, and honestly reports cycles or unresolved dependencies instead of guessing an order. Pure computation, no tenant I/O.
 allowed-tools: Bash, Read
 examples:
@@ -27,10 +27,14 @@ object's position in a separate list, removes this entire class of staleness
 bug: an object that no longer exists, or a dependency that doesn't resolve,
 is reported as a planning failure before anything is ever run.
 
-Stage: independent of `provision-fields` / `provision-content-types` /
-`provision-list` -- this skill only computes ORDER. It does not plan or
-apply any actual field/content-type/list change itself; feed its output
-order into those skills' own planning, in stage order.
+Stage: independent of `sharepoint-provisioning`'s `provision-fields` /
+`provision-content-types` / `provision-list` -- this skill only computes
+ORDER. It does not plan or apply any actual field/content-type/list change
+itself; feed its output order into those skills' own planning, in stage
+order. This skill and `analyze-sharepoint-dependency-graph` (stage 3a, in
+this same plugin) share `scripts/wave_planning.py` directly -- both are the
+pure-planning half of this workbench's plan/apply split; provisioning
+consumes a finished wave order as an input, it does not produce one.
 
 ## Honest outcomes
 
@@ -86,3 +90,17 @@ or domain content from that repository was carried over; only the general
 principle (compute order from a dependency graph, don't hand-maintain a
 step list) was generalized into this module. No entry is needed in the
 Phase 9 `provenance.md` for this reason.
+
+**Moved from `sharepoint-provisioning` to this plugin, 2026-08-08** (external
+architecture review + user decision): `wave_planning.py` and its skills were
+originally authored in `sharepoint-provisioning`, symlinked into this plugin.
+Nothing in provisioning's own field/content-type/list/calendar provisioning
+logic ever called `plan_waves` directly -- only this skill did -- so once
+`analyze-sharepoint-dependency-graph` (this plugin) took on the completeness-
+check and dependency-graph-shaping logic built on top of the same module,
+provisioning was left exposing a skill it didn't itself depend on, while
+the plugin that actually built on `wave_planning.py` was one symlink hop
+away from it. Moved here so the whole pure-planning pipeline
+(dependency-graph shaping -> completeness checks -> wave order) lives in one
+plugin; `sharepoint-provisioning` now consumes a computed wave plan as an
+input to its own gated apply, rather than producing one.

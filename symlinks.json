@@ -2,12 +2,6 @@
   "version": 1,
   "links": [
     {
-      "src": "plugins/sharepoint-provisioning/scripts/wave_planning.py",
-      "dst": "plugins/sharepoint-provisioning/skills/plan-sharepoint-deployment-waves/scripts/wave_planning.py",
-      "strategy": "symlink",
-      "description": "plan-sharepoint-deployment-waves skill's bundled copy of wave_planning.py"
-    },
-    {
       "src": "plugins/source-document-extraction/references/contracts/normalized-source-document.md",
       "dst": "plugins/source-document-extraction/skills/extract-docx/references/contracts/normalized-source-document.md",
       "strategy": "symlink",
@@ -1730,12 +1724,6 @@
       "description": "diff-sharepoint-schema skill's bundled copy of schema_export.py"
     },
     {
-      "src": "plugins/sharepoint-provisioning/scripts/wave_planning.py",
-      "dst": "plugins/sharepoint-migration-planning/scripts/wave_planning.py",
-      "strategy": "symlink",
-      "description": "Reused directly from sharepoint-provisioning per sharepoint-migration-planning README's 3a design (deterministic wave ordering, not reimplemented)"
-    },
-    {
       "src": "plugins/sharepoint-provisioning/scripts/provisioning_outcomes.py",
       "dst": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
       "strategy": "symlink",
@@ -1836,6 +1824,12 @@
       "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/link_outcomes.py",
       "strategy": "symlink",
       "description": "remediate-field-image-references skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/wave_planning.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/plan-sharepoint-deployment-waves/scripts/wave_planning.py",
+      "strategy": "symlink",
+      "description": "plan-sharepoint-deployment-waves skill's bundled copy of wave_planning.py (moved here from sharepoint-provisioning, 2026-08-08)"
     }
   ]
 }

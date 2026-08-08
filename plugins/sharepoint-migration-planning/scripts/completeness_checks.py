@@ -24,7 +24,7 @@ Purpose:
 Layer: sharepoint-migration-planning / dependency-graph analysis (stage 3a)
 
 Key Input Dependencies:
-    - wave_planning.DeploymentObject (symlinked from sharepoint-provisioning)
+    - wave_planning.DeploymentObject (local to this plugin)
     - provisioning_outcomes.Outcome (symlinked from sharepoint-provisioning)
 """
 

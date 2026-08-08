@@ -17,13 +17,13 @@
   exactly the kind of coupling that silently breaks when stages are renumbered or split — see
   `../rules/schema-driven-sharepoint-deployment.md`.
 - **`waves`** — the *computed* output: an ordered list of stages, each a list of object names ready
-  to deploy once every earlier stage is done. Produced by
-  `sharepoint-provisioning`'s `wave_planning.plan_waves()`, never hand-authored.
+  to deploy once every earlier stage is done. Produced by this plugin's own
+  `wave_planning.plan_waves()`, never hand-authored.
 
 ## What this deliberately does not carry over from the observed source pattern
 
 The source repository's equivalent file mixed two different kinds of `dependsOn` entry — sometimes
 an object name, sometimes a bare wave-number string. That ambiguity is not reproduced here: a
 dependency must always name a specific object. See
-`plugins/sharepoint-provisioning/scripts/wave_planning.py`'s module docstring for the full
+`plugins/sharepoint-migration-planning/scripts/wave_planning.py`'s module docstring for the full
 reasoning.
