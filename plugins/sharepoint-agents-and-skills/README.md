@@ -55,6 +55,12 @@ were added generalizing findings from the Phase 9 exhaustive source audit
   deployment-order question is asked.
 - `sharepoint-deployment-sequencing-agent` — routes deployment-order questions to the
   deterministic dependency-graph/topological-sort computation, never a hand-maintained sequence.
+- `sharepoint-content-migration-sequencing-agent` — states the two-pass content-migration
+  sequencing rule (parent lists before dependent lists, self-referential lookups last).
+- `sharepoint-webpart-modernization-analysis-agent` — runs the Stage 2 AI-reasoning pass over
+  `analyze-webpart-code`'s grouped output: per-group disposition (business behaviour, MVP
+  decision, SPFx candidacy) and collapsing groups that share one mechanism into a single
+  decision.
 
 Every agent carries a mandatory `## Not available in this workbench` section. The contract
 (frontmatter schema, zero project literals, zero dangling capability references, manifest

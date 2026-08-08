@@ -41,6 +41,11 @@ files — none of them contact a live tenant:
 - `compose-page-preview` — merges the converted page's content with the
   site's structural chrome into one self-contained offline preview file for
   reviewer sign-off before anything is uploaded.
+- **Web-part modernization dispositions specifically** (business behaviour,
+  MVP decision, SPFx candidacy per functional group) are a distinct,
+  agent-assisted second stage — route to
+  `sharepoint-webpart-modernization-analysis-agent`, which runs after
+  `analyze-webpart-code`'s deterministic grouping.
 
 ## Routing in this workbench — originating new page content (render pipeline)
 
