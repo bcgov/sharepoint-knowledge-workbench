@@ -1692,6 +1692,18 @@
       "dst": "plugins/sharepoint-page-modernization/skills/convert-aspx-pages/assets/webpart-mapping.json",
       "strategy": "symlink",
       "description": "convert-aspx-pages skill's bundled copy of webpart-mapping.json"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-schema/skills/generate-sharepoint-schema-from-export/scripts/schema_definition.py",
+      "strategy": "symlink",
+      "description": "generate-sharepoint-schema-from-export skill's bundled copy of schema_definition.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-schema/skills/generate-sharepoint-schema-from-export/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "generate-sharepoint-schema-from-export skill's bundled copy of schema_export.py"
     }
   ]
 }
