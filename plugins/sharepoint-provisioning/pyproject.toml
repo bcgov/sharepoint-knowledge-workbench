@@ -18,6 +18,7 @@ py-modules = [
     "field_provisioning",
     "content_type_provisioning",
     "list_provisioning",
+    "wave_planning",
 ]
 
 [tool.setuptools.package-dir]

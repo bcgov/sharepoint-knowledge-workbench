@@ -15,12 +15,18 @@ plugins/sharepoint-provisioning/
 │   │                                 # detection, raw Field XML construction
 │   ├── content_type_provisioning.py # create-if-missing content types,
 │   │                                 # field-link add/hide/show/unlink
-│   └── list_provisioning.py         # schema reconciliation, duplicate
-│                                     # detection, the three-gate write apply
+│   ├── list_provisioning.py         # schema reconciliation, duplicate
+│   │                                 # detection, the three-gate write apply
+│   └── wave_planning.py             # deployment-order planning via
+│                                     # topological sort, no tenant I/O
 ├── skills/
 │   ├── provision-content-types/
 │   ├── provision-fields/
-│   └── provision-list/
+│   ├── provision-list/
+│   └── plan-sharepoint-deployment-waves/
+├── rules/
+│   └── schema-driven-sharepoint-deployment.md  # schema/dependency-graph
+│                                                 # deployment convention
 └── tests/
 ```
 
