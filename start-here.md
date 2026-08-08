@@ -1,5 +1,13 @@
 # Resume — Phase 9 IN PROGRESS on a branch (NOT merged); Phase 8 merged; Phase 7 paused
 
+**Update (2026-08-08):** the `phase-9-reusable-sharepoint-plugin-extraction` branch referenced
+below was merged to `main` via PR #40; Phase 9 follow-on work has continued directly on `main`
+since. A new plugin, `sharepoint-content-migration` (item-level content migration mechanism: batched
+migration with retry, two-pass lookup-ID re-link), was added onboarding findings from the Phase 9
+exhaustive source audit (`temp/phase9-source-audit/file-tracking.json`) — see that plugin's own
+README for scope and provenance. The rest of this file's "NOT merged" framing below is stale;
+kept as historical record of the branch's original state, not current status.
+
 ## Phase 9 — extraction work done on `phase-9-reusable-sharepoint-plugin-extraction` (2026-08-07)
 
 **Read this section first. Phase 9 is NOT merged and NOT complete.** Substantial extraction work

@@ -16,3 +16,4 @@ agents:
   - sharepoint-validation-agent
   - sharepoint-deployment-planning-agent
   - sharepoint-deployment-sequencing-agent
+  - sharepoint-content-migration-sequencing-agent
