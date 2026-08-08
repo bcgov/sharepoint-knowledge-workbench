@@ -20,6 +20,7 @@ py-modules = [
     "link_remediation",
     "link_integrity",
     "document_link_remediation",
+    "field_image_remediation",
 ]
 
 [tool.setuptools.package-dir]

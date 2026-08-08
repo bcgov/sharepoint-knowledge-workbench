@@ -12,3 +12,4 @@ skills:
   - remediate-links
   - validate-link-integrity
   - remediate-document-content-links
+  - remediate-field-image-references
