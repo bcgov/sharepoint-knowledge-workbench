@@ -64,23 +64,36 @@ One reviewer's claim was checked and found **false** — "circular symlink owner
 each has exactly one real file and one-directional symlinks pointing at it. No cycle. Don't act on
 that specific claim if re-reading `reviews/gpt.md`.
 
-### Open decisions — not acted on, need your call before someone builds on top
+### Both open architectural decisions RESOLVED and shipped (2026-08-08)
 
-Both external reviews independently converged on two structural points, neither urgent:
+Both external reviews independently converged on two structural points; the user reviewed both,
+decided B/B, and both are now done:
 
-1. **`sharepoint-agents-and-skills` is becoming a dumping ground** — it now centralizes 9
-   domain-routing agents for *other* plugins' domains (link, schema, modernization, deployment,
-   content-migration) on top of its own actual charter (agent/native-skill lifecycle tooling).
-   Both reviews suggest relocating each domain agent physically next to its own domain plugin
-   (e.g. `sharepoint-schema/agents/sharepoint-schema-agent.md`), leaving this plugin with lifecycle
-   tooling only.
-2. **Wave-planning ownership is split** — `sharepoint-provisioning` exposes the
-   `plan-sharepoint-deployment-waves` skill; `sharepoint-migration-planning` owns the underlying
-   dependency-graph/completeness logic over the same `wave_planning.py` module. Pick one owner.
+1. **Wave-planning ownership (Q2), decided: `sharepoint-migration-planning` owns it.**
+   `wave_planning.py` moved there as a real file (was real in `sharepoint-provisioning`, symlinked
+   into migration-planning — flipped, not duplicated; provisioning had zero internal consumers of
+   it). The `plan-sharepoint-deployment-waves` skill moved with it. Provisioning now consumes a
+   computed wave plan as an input to its own gated apply, never produces one — consistent with the
+   plan/apply separation enforced everywhere else in this workbench.
+2. **`sharepoint-agents-and-skills` dumping ground (Q1), decided: decentralize.** All 9
+   domain-routing agents moved to their own domain plugin's `agents/` folder (link → `sharepoint-
+   link-remediation`, schema → `sharepoint-schema`, modernization → `sharepoint-page-modernization`,
+   deployment → `sharepoint-migration-planning`, content-migration → `sharepoint-content-migration`,
+   validation → `sharepoint-content-publication`). `sharepoint-agents-and-skills` now owns
+   agent/native-skill *lifecycle* tooling only, zero domain agents. The agent-contract test stayed
+   one canonical file (in `sharepoint-agents-and-skills`), symlinked into all 6 consuming plugins —
+   genericized (no hardcoded plugin name/agent list) in the process. Two real bugs found and fixed
+   while wiring this: `Path.resolve()` on a symlinked test file follows it back to the canonical
+   source, silently testing the wrong plugin; and the literal-check regex false-positived on
+   `sharepoint-migration-planning`'s own real plugin name.
 
 Neither review recommended renaming or merging the core domain plugins — both explicitly endorsed
 keeping the `sharepoint-provisioning` / `sharepoint-migration-planning` / `sharepoint-content-
-migration` three-way split as conceptually sound.
+migration` three-way split as conceptually sound, and that split is unchanged.
+
+462 tests passing across the 7 plugins touched by these two moves, all isolated wheel installs
+verified, zero new broken symlinks, all 14 plugins' `skills:`/`agents:` manifests confirmed
+matching disk exactly (mechanical drift check re-run after the moves, not assumed).
 
 ### Not yet verified
 
