@@ -1,0 +1,1 @@
+../../../scripts/test-pnp-effective-capability-probe.ps1

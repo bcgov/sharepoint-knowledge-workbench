@@ -187,7 +187,7 @@ decision made here.
 An illustrative (not authoritative) diagram of this candidate hybrid — SharePoint business
 authoring, the authorized SharePoint-to-Git boundary, Git validation and canonical promotion, the
 governed publication pipeline, and the published SharePoint knowledge environment — is at
-`docs/vision/06-editing-workflow-hybrid-option.mmd`.
+`docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd`.
 
 ## Third round of review: the editor must not see the machinery
 
@@ -240,8 +240,8 @@ should probably be:
 **Draft → In review → Changes requested → Approved → Publishing → Published**, with an exceptional
 **Publication issue — author action required** state for the case above. An illustrative diagram of
 the editor-facing half of this flow (through the Approved state, where the publisher notification
-in `docs/vision/07-publisher-triggered-render-workflow.mmd` picks up) is at
-`docs/vision/08-editor-submission-and-approval-workflow.mmd`.
+in `docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd` picks up) is at
+`docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd`.
 
 **Revised framing of the preferred candidate:** not "authors feed Git," but *SharePoint is the
 complete authoring, review, approval, and status experience; Power Automate and the repository
@@ -307,7 +307,7 @@ GitHub↔SharePoint integration, and later automation could replace pieces of it
 adapter absorbing the intake/publish scripts) without changing the editor-facing experience.
 
 An illustrative diagram of this flow is at
-`docs/vision/07-publisher-triggered-render-workflow.mmd`.
+`docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd`.
 
 ## Refinement: three named repository skills, supervised not autonomous
 

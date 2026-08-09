@@ -31,6 +31,16 @@ plugins (`source-document-extraction`, `document-structure-analysis`, `structure
 `ai-assisted-structured-knowledge-workbench-broader-plan.md` (near its top) before treating any
 plugin name in this directory's documents as current.
 
+**Scope-expansion update (added 2026-08-09):** the document-conversion pipeline above remains the
+founding use case, but Phase 9 added a second, independently real cluster of SharePoint
+migration/modernization engineering capability (discovery, schema, provisioning, page
+modernization, link remediation, content migration, migration planning, publication, setup, and
+agent/skill lifecycle) — 10 plugins beyond the 4 conversion-pipeline plugins, 14 total. See the
+"Scope-expansion update" block in `ai-assisted-structured-knowledge-workbench-broader-plan.md` for
+the full current plugin inventory; this directory's older text below still frames the initiative
+around document conversion as the primary anchor, which undersells how much of the repository is
+now general-purpose SharePoint engineering tooling rather than conversion-specific.
+
 The initiative name is intentionally broader than SharePoint. SharePoint is a major operational platform and deployment target, but the workbench also covers canonical content, publication assembly, validation, GitHub Copilot skills, Cowork packaging, Copilot Studio integration, evaluation, and generated outputs.
 
 ## Directory Purpose
@@ -84,11 +94,11 @@ Use this document for:
 
 **Status:** Active proposal. It requires repository reconnaissance and adversarial review before rename, restructuring, or plugin scaffolding.
 
-### 2. Current government workbench vision
+### 2. Current governance workbench vision
 
-[`ai-assisted-sharepoint-knowledge-workbench-government-vision.md`](ai-assisted-sharepoint-knowledge-workbench-government-vision.md)
+[`ai-assisted-sharepoint-knowledge-workbench-governance-vision.md`](ai-assisted-sharepoint-knowledge-workbench-governance-vision.md)
 
-**Role:** Detailed future-state capability and governance vision centred on government knowledge management and SharePoint operations.
+**Role:** Detailed future-state capability and governance vision for regulated-enterprise knowledge management and SharePoint operations (generalized 2026-08-09 from an earlier government-specific framing — the governance/records/security/accessibility rigor is unchanged, only the government-specific wording and site examples were reworded).
 
 Use this document for:
 
@@ -100,7 +110,7 @@ Use this document for:
 - SharePoint delivery models;
 - proposed skill families;
 - proposed agent boundaries;
-- government security, privacy, records, accessibility, approval, and audit controls.
+- security, privacy, records, accessibility, approval, and audit controls.
 
 **Status:** Active future-state architecture. It does not expand the authorized scope of Phase 1.
 
@@ -128,54 +138,16 @@ Use this document to track unresolved decisions about:
 
 **Status:** Active. Questions should move to `docs/decisions/` when resolved rather than being silently removed.
 
-### 4. Earlier government governance vision
+### Deleted historical documents (2026-08-09)
 
-[`government-structured-knowledge-sharepoint-governance-vision-v2.md`](government-structured-knowledge-sharepoint-governance-vision-v2.md)
-
-**Role:** Earlier detailed version of the government structured-knowledge and SharePoint governance vision.
-
-Most of its core material is incorporated into the newer `ai-assisted-sharepoint-knowledge-workbench-government-vision.md`, which adds the broader workbench framing, user journeys, operating modes, routing, and SharePoint-agent concepts.
-
-**Status:** Superseded as the primary vision, but retained for history until content reconciliation proves that no unique requirement would be lost by archiving it.
-
-**Recommended action:** Compare it against the current workbench vision, extract any unique requirements, then move it to `docs/vision/archive/` with a supersession note.
-
-### 5. Original combined vision
-
-[`vision-original.md`](vision-original.md)
-
-**Role:** Historical bridge between the original content-management proposal and the original Copilot knowledge-access proposal.
-
-It records the key early insight that:
-
-```text
-raw DOCX-to-Markdown extraction
-≠ canonical structured content
-```
-
-It also explains why conversational knowledge access is a downstream payoff of creating governed canonical content.
-
-**Status:** Historical foundation. Retain as provenance rather than treating it as the current roadmap.
-
-### 6. Original content-management proposal
-
-[`plan-content-management-proposal.md`](plan-content-management-proposal.md)
-
-**Role:** Original proposal to move from document-centric knowledge management to:
-
-```text
-Content + Template + Renderer = Published Output
-```
-
-**Status:** Historical source proposal. Its major ideas are incorporated into the current vision and broader plan.
-
-### 7. Original knowledge-access proposal
-
-[`plan-copilot-knowledge-access-proposal.md`](plan-copilot-knowledge-access-proposal.md)
-
-**Role:** Original proposal for conversational access to approved organizational knowledge, including policy support, procedure assistance, learning support, quizzes, discovery, pilot measurement, and consumption-based licensing investigation.
-
-**Status:** Historical source proposal. Its major ideas are incorporated into the current workbench and agent vision.
+Four historical/superseded documents previously lived in `docs/vision/archive/` (an earlier
+government-structured-knowledge governance vision v2, the original combined vision, the original
+content-management proposal, and the original Copilot knowledge-access proposal) — their content
+was fully superseded by `ai-assisted-sharepoint-knowledge-workbench-governance-vision.md` and
+`ai-assisted-structured-knowledge-workbench-broader-plan.md`. Deleted by explicit user request
+(not merely archived) since they were no longer relevant even as provenance; recoverable from git
+history if ever needed. Sections referencing them below (reading order, document-authority table,
+folder-organization proposal, cross-links, change-control rules) are corrected accordingly.
 
 ## Recommended Reading Order
 
@@ -184,19 +156,9 @@ Content + Template + Renderer = Published Output
 ```text
 1. This README
 2. ai-assisted-structured-knowledge-workbench-broader-plan.md
-3. ai-assisted-sharepoint-knowledge-workbench-government-vision.md
+3. ai-assisted-sharepoint-knowledge-workbench-governance-vision.md
 4. key-unanswered-questions.md
-```
-
-### To understand how the idea evolved
-
-```text
-1. plan-content-management-proposal.md
-2. plan-copilot-knowledge-access-proposal.md
-3. vision-original.md
-4. government-structured-knowledge-sharepoint-governance-vision-v2.md
-5. ai-assisted-sharepoint-knowledge-workbench-government-vision.md
-6. ai-assisted-structured-knowledge-workbench-broader-plan.md
+5. master-initiative-plan-workstreams-and-phases.md (authoritative phase/stage traceability matrix)
 ```
 
 ### To plan implementation
@@ -217,105 +179,30 @@ The documents do not all have equal authority.
 Current strategic direction
 → ai-assisted-structured-knowledge-workbench-broader-plan.md
 
-Current detailed government capability vision
-→ ai-assisted-sharepoint-knowledge-workbench-government-vision.md
+Current detailed capability/governance vision
+→ ai-assisted-sharepoint-knowledge-workbench-governance-vision.md
 
 Open decision register
 → key-unanswered-questions.md
 
-Superseded detailed vision
-→ government-structured-knowledge-sharepoint-governance-vision-v2.md
-
-Historical origin documents
-→ vision-original.md
-→ plan-content-management-proposal.md
-→ plan-copilot-knowledge-access-proposal.md
+Authoritative phase/stage traceability matrix
+→ master-initiative-plan-workstreams-and-phases.md
 ```
 
 A vision document may propose capabilities, but does not authorize implementation. Authorization should come from a reviewed phase plan or accepted architecture decision.
 
-## Recommended Folder Organization
-
-Do not perform a broad file move while the repository rename and restructuring decision is still pending. Adding this README provides immediate logical organization without breaking links.
-
-After repository reconnaissance and approval, use this target structure:
-
-```text
-docs/vision/
-├── README.md
-├── ai-assisted-structured-knowledge-workbench-broader-plan.md
-├── ai-assisted-sharepoint-knowledge-workbench-government-vision.md
-├── key-unanswered-questions.md
-└── archive/
-    ├── README.md
-    ├── government-structured-knowledge-sharepoint-governance-vision-v2.md
-    ├── vision-original.md
-    ├── plan-content-management-proposal.md
-    └── plan-copilot-knowledge-access-proposal.md
-```
-
-### Why this layout
-
-- Three active documents remain easy to find.
-- Historical evolution is preserved.
-- Superseded material is not mistaken for current direction.
-- Relative-link disruption is limited to one reviewed archive move.
-- Detailed implementation plans remain outside the vision directory.
-
-## Proposed Archive README
-
-When the archive move is approved, add `docs/vision/archive/README.md` with content similar to:
-
-```markdown
-# Archived Vision Documents
-
-These documents preserve the evolution of the AI-Assisted Structured Knowledge Workbench vision.
-
-They are retained for provenance and research history but are not the current source of strategic direction.
-
-Current documents:
-
-- ../ai-assisted-structured-knowledge-workbench-broader-plan.md
-- ../ai-assisted-sharepoint-knowledge-workbench-government-vision.md
-- ../key-unanswered-questions.md
-```
-
 ## Review Findings
 
-### 1. The directory has a clear conceptual progression
+### 1. The broader plan and detailed vision serve different purposes
 
-The seven documents show a traceable evolution:
-
-```text
-content-centric proposal
-+ conversational knowledge-access proposal
-→ original combined vision
-→ detailed government governance vision
-→ expanded SharePoint Knowledge Workbench vision
-→ broader multi-plugin initiative and implementation roadmap
-```
-
-This history is useful and should be preserved.
-
-### 2. There is substantial duplication
-
-The two long government vision documents overlap heavily. The newer workbench vision appears to extend the earlier governance vision rather than represent a separate competing direction.
-
-Recommended treatment:
-
-- retain the newer document as current;
-- reconcile unique content before archiving the earlier version;
-- do not continue updating both documents independently.
-
-### 3. The broader plan and detailed vision serve different purposes
-
-Do not merge them into one very large document.
+Do not merge them into one very large document (reconfirmed 2026-08-09 when asked directly — see
+`ai-assisted-structured-knowledge-workbench-broader-plan.md`'s own "Scope-expansion update" note).
 
 ```text
 Broader plan
 → naming, repository structure, plugins, agents, phases, planning workflow
 
-Government workbench vision
+Governance workbench vision
 → future capabilities, governance model, operating modes, trust boundaries
 ```
 
@@ -347,7 +234,7 @@ Add a short navigation block near the top of the two current primary documents.
 ```markdown
 ## Related Documents
 
-- [Detailed government workbench vision](ai-assisted-sharepoint-knowledge-workbench-government-vision.md)
+- [Detailed governance workbench vision](ai-assisted-sharepoint-knowledge-workbench-governance-vision.md)
 - [Key unanswered questions](key-unanswered-questions.md)
 - [Vision directory guide](README.md)
 ```

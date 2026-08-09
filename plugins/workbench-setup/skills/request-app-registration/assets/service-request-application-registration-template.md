@@ -1,0 +1,1 @@
+../../../assets/service-request-application-registration-template.md

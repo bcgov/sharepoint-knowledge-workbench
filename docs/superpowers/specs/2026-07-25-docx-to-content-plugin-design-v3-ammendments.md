@@ -8,7 +8,7 @@
 
 ## v3.1 Deviation Notice (2026-07-25, Task 0 finding)
 
-Task 0 reconnaissance (see `docs/implementation-baseline.md`) established that the pandoc cleanup
+Task 0 reconnaissance (see `docs/reports/phase-1-conversion-poc/implementation-baseline.md`) established that the pandoc cleanup
 pipeline this spec describes below as "already-tested" and "relocated, not redesigned"
 (`pandoc_fixes/{attrs,images,toc,tables,footnotes}.py`, `emf_convert.py`, `pandoc_validate.py`,
 `docx_to_md.py`, `md_to_docx.py`) **does not exist anywhere** — not in this repo, not in the

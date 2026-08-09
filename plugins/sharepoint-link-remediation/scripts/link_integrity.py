@@ -6,8 +6,14 @@ Purpose:
     Read-only verification that a link inventory is actually clean: every link
     that the rewrite ruleset says should have been rewritten still being present
     is a residual-legacy finding, malformed URLs are reported rather than
-    silently passed, and -- when the caller injects a resolver -- links that do
-    not resolve are reported as unresolvable.
+    silently passed, and -- when the caller injects a resolver -- non-external
+    (relative) links that do not resolve are reported as unresolvable.
+
+    Resolver scope: absolute http(s):// links are never passed to the injected
+    resolver -- they are classified EXTERNAL and counted as healthy
+    unconditionally, regardless of whether they actually resolve. Injecting a
+    resolver validates relative links only; it does not make this module an
+    external-link checker.
 
     Scope boundary: this module verifies LINKS ONLY. Reconciling a published
     package against its publication map is a different responsibility, already
@@ -174,6 +180,9 @@ def validate_link_integrity(
             continue
 
         if _is_absolute(link.url):
+            # Never passed to `resolver` -- external links are classified
+            # EXTERNAL and always counted healthy, resolver or not (see
+            # module docstring's "Resolver scope" note).
             findings.append(LinkFinding(link.source, link.url, LinkStatus.EXTERNAL))
             continue
 

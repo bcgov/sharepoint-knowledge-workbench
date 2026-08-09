@@ -716,42 +716,6 @@
       "description": "extract-docx skill's bundled copy"
     },
     {
-      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with source-document-extraction"
-    },
-    {
-      "src": "plugins/source-document-extraction/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "extract-docx skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with source-document-extraction"
-    },
-    {
-      "src": "plugins/source-document-extraction/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "extract-docx skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with source-document-extraction"
-    },
-    {
-      "src": "plugins/source-document-extraction/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "strategy": "symlink",
-      "description": "extract-docx skill's bundled copy"
-    },
-    {
       "src": "docs/diagrams/01-phase1-overview.mmd",
       "dst": "plugins/document-structure-analysis/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
@@ -796,42 +760,6 @@
     {
       "src": "plugins/document-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
       "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/05-validation-and-evidence.mmd",
-      "strategy": "symlink",
-      "description": "analyze-document-structure skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with document-structure-analysis"
-    },
-    {
-      "src": "plugins/document-structure-analysis/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "analyze-document-structure skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with document-structure-analysis"
-    },
-    {
-      "src": "plugins/document-structure-analysis/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "analyze-document-structure skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with document-structure-analysis"
-    },
-    {
-      "src": "plugins/document-structure-analysis/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy"
     },
@@ -884,42 +812,6 @@
       "description": "assemble-structured-content skill's bundled copy"
     },
     {
-      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-assembly"
-    },
-    {
-      "src": "plugins/structured-content-assembly/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "assemble-structured-content skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-assembly"
-    },
-    {
-      "src": "plugins/structured-content-assembly/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "assemble-structured-content skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-assembly"
-    },
-    {
-      "src": "plugins/structured-content-assembly/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "strategy": "symlink",
-      "description": "assemble-structured-content skill's bundled copy"
-    },
-    {
       "src": "docs/diagrams/01-phase1-overview.mmd",
       "dst": "plugins/structured-content-rendering/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
@@ -964,42 +856,6 @@
     {
       "src": "plugins/structured-content-rendering/references/diagrams/05-validation-and-evidence.mmd",
       "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/05-validation-and-evidence.mmd",
-      "strategy": "symlink",
-      "description": "render-multipage-markdown skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-rendering"
-    },
-    {
-      "src": "plugins/structured-content-rendering/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/06-editing-workflow-hybrid-option.mmd",
-      "strategy": "symlink",
-      "description": "render-multipage-markdown skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-rendering"
-    },
-    {
-      "src": "plugins/structured-content-rendering/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/07-publisher-triggered-render-workflow.mmd",
-      "strategy": "symlink",
-      "description": "render-multipage-markdown skill's bundled copy"
-    },
-    {
-      "src": "docs/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-rendering"
-    },
-    {
-      "src": "plugins/structured-content-rendering/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/08-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": "render-multipage-markdown skill's bundled copy"
     },
@@ -1347,21 +1203,21 @@
     },
     {
       "src": "plugins/workbench-setup/scripts/config_setup.py",
-      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/scripts/config_setup.py",
+      "dst": "plugins/workbench-setup/skills/initialize-workbench-config/scripts/config_setup.py",
       "strategy": "symlink",
-      "description": "setup-sharepoint-connection skill's bundled copy of config_setup.py"
+      "description": "initialize-workbench-config skill's bundled copy of config_setup.py"
     },
     {
       "src": "plugins/workbench-setup/scripts/psd1_writer.py",
-      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/scripts/psd1_writer.py",
+      "dst": "plugins/workbench-setup/skills/initialize-workbench-config/scripts/psd1_writer.py",
       "strategy": "symlink",
-      "description": "setup-sharepoint-connection skill's bundled copy of psd1_writer.py"
+      "description": "initialize-workbench-config skill's bundled copy of psd1_writer.py"
     },
     {
       "src": "plugins/workbench-setup/assets/config.psd1.example",
-      "dst": "plugins/workbench-setup/skills/setup-sharepoint-connection/assets/config.psd1.example",
+      "dst": "plugins/workbench-setup/skills/initialize-workbench-config/assets/config.psd1.example",
       "strategy": "symlink",
-      "description": "setup-sharepoint-connection skill's bundled copy of config.psd1.example"
+      "description": "initialize-workbench-config skill's bundled copy of config.psd1.example"
     },
     {
       "src": "plugins/workbench-setup/scripts/document_workflow.py",
@@ -1458,12 +1314,6 @@
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": "sharepoint-content-publication's copy of canonical_schema/shared.py (Phase 6 remediation, 2026-08-03)"
-    },
-    {
-      "src": "plugins/workbench-setup/scripts/app_registration_validation.py",
-      "dst": "plugins/workbench-setup/skills/validate-app-registration/scripts/app_registration_validation.py",
-      "strategy": "symlink",
-      "description": "validate-app-registration skill's bundled copy of app_registration_validation.py"
     },
     {
       "src": "plugins/workbench-setup/scripts/path_resolution.py",
@@ -1866,6 +1716,252 @@
       "dst": "plugins/sharepoint-content-publication/tests/unit/test_agent_definitions.py",
       "strategy": "symlink",
       "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
+    },
+    {
+      "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/source-document-extraction/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/document-structure-analysis/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/structured-content-assembly/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/source-document-extraction/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/structured-content-rendering/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/network_connectivity.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/network_connectivity.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/test-spo-connection.ps1",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/test-spo-connection.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/app_registration_validation.py",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/app_registration_validation.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/assets/service-request-application-registration-template.md",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/assets/service-request-application-registration-template.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/assets/service-request-interactive-registration-template.md",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/assets/service-request-interactive-registration-template.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-overview.md",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/references/app-registration-overview.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/delegated-permission-boundary-test.md",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/references/delegated-permission-boundary-test.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/assets/service-request-application-registration-template.md",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/assets/service-request-application-registration-template.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/assets/service-request-interactive-registration-template.md",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/assets/service-request-interactive-registration-template.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-overview.md",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/references/app-registration-overview.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/app_registration_request.py",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/scripts/app_registration_request.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/resource-specific-consent-summary.md",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/references/resource-specific-consent-summary.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/test-pnp-effective-capability-probe.ps1",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/scripts/test-pnp-effective-capability-probe.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/test-pnp-effective-capability-probe.ps1",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/scripts/test-pnp-effective-capability-probe.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/graph-selected-permissions-overview-summary.md",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/references/graph-selected-permissions-overview-summary.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/effective-permissions-matrix.md",
+      "dst": "plugins/workbench-setup/skills/request-app-registration/references/effective-permissions-matrix.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/effective-permissions-matrix.md",
+      "dst": "plugins/workbench-setup/skills/validate-workbench-environment/references/effective-permissions-matrix.md",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

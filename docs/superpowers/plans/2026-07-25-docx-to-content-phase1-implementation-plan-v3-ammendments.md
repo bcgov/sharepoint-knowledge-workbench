@@ -26,7 +26,7 @@
 
 ## Task 0: Repository Reconnaissance and Source Inventory — COMPLETE
 
-**Deliverable:** `docs/implementation-baseline.md` containing verified paths and conventions. **Done — see that file for full detail.**
+**Deliverable:** `docs/reports/phase-1-conversion-poc/implementation-baseline.md` containing verified paths and conventions. **Done — see that file for full detail.**
 
 - [x] Locate the existing working plugin scaffold used as the structural reference. **Finding:** no plugin scaffold exists anywhere in `manual-conversion-poc`. The sibling `agent-plugins-skills` monorepo's `plugins/` tree (e.g. `dev-utils`, `exploration-cycle-plugin`) is the only available structural reference, for layout conventions only.
 - [x] Record actual `plugin.json`, `plugin.yaml`, skill-frontmatter, test, import, and symlink conventions. **Finding:** no per-skill symlink layer is required by any local convention (none exists to require it); v3's centralized `scripts/` + CLI design (Section 14 of the spec) is retained as-is per explicit user confirmation — no deviation needed here.
@@ -34,7 +34,7 @@
 - [x] Verify actual CEIS source path. **Verified:** `sourcedocuments/CEIS MANUAL - working version.docx`.
 - [x] Verify `pandoc --version`, `soffice --version`, and Python version. **Verified:** pandoc 3.8.3, LibreOffice 26.2.5.2 (`soffice`), Python 3.13.4, pytest present.
 - [x] Identify the current generated CEIS output that must not be deleted before cutover. **Identified:** `output/ceis-manual/CEIS-Manual.md`.
-- [x] Write `docs/implementation-baseline.md` with commands and observed results. **Done.**
+- [x] Write `docs/reports/phase-1-conversion-poc/implementation-baseline.md` with commands and observed results. **Done.**
 - [ ] Commit: `docs: record docx-to-content implementation baseline`.
 
 **Gate outcome:** the required source modules were not found. Per the gate rule, this was surfaced rather than fabricated under a "relocation" label, and the user made an explicit build-from-scratch decision. Task 0 is closed; proceed to Task 1 only after the Task 0 commit above.
@@ -54,7 +54,7 @@
 ## Task 2: Build Pandoc Cleanup Pipeline From Scratch Under TDD
 
 **Deviation from original Task 2:** Task 0 found that the cleanup pipeline this task originally
-described as "relocation" does not exist anywhere (see `docs/implementation-baseline.md`). This
+described as "relocation" does not exist anywhere (see `docs/reports/phase-1-conversion-poc/implementation-baseline.md`). This
 task is rewritten to build it as new code, TDD-first, targeting the four defect categories the
 specs describe rather than copying prior work.
 

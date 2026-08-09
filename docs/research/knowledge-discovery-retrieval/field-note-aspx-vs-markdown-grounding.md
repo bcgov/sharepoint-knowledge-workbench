@@ -26,7 +26,7 @@ review date. Neither agent declined or flagged the absence of real currency meta
 no topic page in the entire evidence set was ever observed to contain an actual authored
 "Reviewed: [date]" line.
 
-**Why this generalizes:** this is exactly the risk `docs/vision/ai-assisted-sharepoint-knowledge-workbench-government-vision.md`
+**Why this generalizes:** this is exactly the risk `docs/vision/ai-assisted-sharepoint-knowledge-workbench-governance-vision.md`
 and `docs/vision/key-unanswered-questions.md` already flag under currency/trust-boundary design —
 concrete, reproducible evidence that a grounded agent will silently substitute a plausible-looking
 but semantically wrong signal (upload time) for a real one (authored review date) when asked a
