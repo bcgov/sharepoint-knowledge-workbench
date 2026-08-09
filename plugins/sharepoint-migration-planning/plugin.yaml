@@ -14,3 +14,6 @@ skills:
   - analyze-sharepoint-dependency-graph
   - generate-sharepoint-wave-scripts
   - plan-sharepoint-deployment-waves
+agents:
+  - sharepoint-deployment-planning-agent
+  - sharepoint-deployment-sequencing-agent

@@ -1,28 +1,40 @@
 """
-test_agent_definitions.py -- Orchestration contract for this plugin's `agents/` definitions.
+test_agent_definitions.py -- Orchestration contract for a plugin's `agents/` definitions.
 
 Purpose:
-    Phase 9 Wave 2 extracts four generic SharePoint routing agents from the CMAT
-    `sharepoint-migration` plugin into this plugin's `agents/` directory. Agents are
-    orchestration artifacts, not code, so per `.agent/rules/test-driven-development.md`'s
-    Test-Driven Orchestration section the contract is asserted as an output-schema /
-    boundary-invariance check written before the artifacts themselves:
+    Generic agent-contract test, symlinked into every plugin that owns
+    routing/analysis agents (originally centralized here in
+    sharepoint-agents-and-skills; decentralized 2026-08-08 per an external
+    architecture review + user decision -- each domain-routing agent now
+    lives next to its own domain's skills, so it can't go stale unnoticed
+    the way sharepoint-schema-agent once did). This module is the single
+    canonical source (`symlinks.json` wires it into each consuming plugin's
+    `tests/unit/`), not reimplemented per plugin.
 
-      1. Required frontmatter schema (name/plugin/description/model/color) and
-         name-matches-filename.
-      2. Genericity contract (spec Sec.9): zero project literals, zero source-repository
-         paths, zero tenant URLs/GUIDs.
-      3. No dangling capability references -- every hyphenated inline-code token an agent
-         routes to must resolve to a real skill or plugin in THIS repository, or be
-         explicitly declared under the agent's "Not available in this workbench" section.
-      4. Manifest registration -- plugin.yaml lists every agent file.
+    Agents are orchestration artifacts, not code, so per
+    `.agent/rules/test-driven-development.md`'s Test-Driven Orchestration
+    section the contract is asserted as an output-schema / boundary-
+    invariance check written before the artifacts themselves:
 
-Layer: Plugin tests (unit)
+      1. Required frontmatter schema (name/plugin/description/model/color),
+         name-matches-filename, and plugin-matches-actual-plugin-root.
+      2. Genericity contract (spec Sec.9): zero project literals, zero
+         source-repository paths, zero tenant URLs/GUIDs.
+      3. No dangling capability references -- every hyphenated inline-code
+         token an agent routes to must resolve to a real skill, agent, or
+         plugin anywhere in this repository, or be explicitly declared
+         under the agent's "Not available in this workbench" section.
+      4. Manifest registration -- plugin.yaml's `agents:` list matches
+         exactly what's shipped in `agents/`, in either direction (no
+         drift, the same class of bug found and fixed in this session's
+         plugin.yaml `skills:` manifest-drift pass).
+
+Layer: Plugin tests (unit) -- canonical source, symlinked elsewhere
 
 Key Input Dependencies:
-    - plugins/sharepoint-agents-and-skills/agents/*.md
-    - plugins/sharepoint-agents-and-skills/plugin.yaml
-    - plugins/*/skills/* (capability-reference resolution)
+    - <this plugin's own>/agents/*.md
+    - <this plugin's own>/plugin.yaml
+    - plugins/*/skills/*, plugins/*/agents/* (capability-reference resolution)
 """
 
 from __future__ import annotations
@@ -32,30 +44,45 @@ from pathlib import Path
 
 import pytest
 
-PLUGIN_ROOT = Path(__file__).resolve().parents[2]
+
+def _find_plugin_root(start: Path) -> Path:
+    """Walk upward from this file to the nearest ancestor containing
+    plugin.yaml. Depth-agnostic on purpose: consuming plugins symlink this
+    file at different depths (flat tests/, or tests/unit/ where an existing
+    suite already used that layout) -- a hardcoded parents[N] would break
+    for whichever depth wasn't originally authored against.
+
+    Deliberately does NOT call ``.resolve()`` on ``__file__`` -- this file
+    is itself a symlink in every consuming plugin except its canonical
+    source (sharepoint-agents-and-skills). ``.resolve()`` follows a symlink
+    back to its real target, which would make every consumer silently test
+    the canonical source's own (empty, post-relocation) agents/ directory
+    instead of its own. ``.absolute()`` makes the path absolute without
+    dereferencing the symlink."""
+    for candidate in start.parents:
+        if (candidate / "plugin.yaml").is_file():
+            return candidate
+    raise RuntimeError(f"no plugin.yaml found above {start} -- symlink placed outside a plugin?")
+
+
+PLUGIN_ROOT = _find_plugin_root(Path(__file__).absolute())
 PLUGINS_DIR = PLUGIN_ROOT.parent
 AGENTS_DIR = PLUGIN_ROOT / "agents"
-
-EXPECTED_AGENTS = {
-    "sharepoint-link-agent",
-    "sharepoint-modernization-agent",
-    "sharepoint-schema-agent",
-    "sharepoint-validation-agent",
-    "sharepoint-deployment-planning-agent",
-    "sharepoint-deployment-sequencing-agent",
-    "sharepoint-content-migration-sequencing-agent",
-    "sharepoint-webpart-modernization-analysis-agent",
-    "sharepoint-link-remediation-analysis-agent",
-}
+PLUGIN_NAME = PLUGIN_ROOT.name
 
 REQUIRED_FRONTMATTER_FIELDS = ("name", "plugin", "description", "model", "color")
 
 # Spec Sec.8h literal set, plus the source project's own identifiers. Word-bounded so
 # ordinary English ("appearances", "picompute") cannot produce false negatives OR
 # false positives.
+# "sharepoint-migration" (the CMAT source plugin's literal name) must not survive into an
+# agent -- but this workbench has its own, legitimately-named "sharepoint-migration-planning"
+# plugin, whose own `plugin:` frontmatter value is a real, required literal, not a leak. The
+# trailing negative lookahead excludes that (and any future "sharepoint-migration-<suffix>"
+# plugin name) without excluding a genuine bare "sharepoint-migration" reference.
 FORBIDDEN_LITERALS = re.compile(
     r"\b(JUSTIN|CEIS|ORDS|courthouse|appearance|AG-CSB|ITAU|PIO|ICM|CMAT|wave|bcgov|"
-    r"jag-csb|sharepoint-migration)\b",
+    r"jag-csb|sharepoint-migration(?!-))\b",
     re.IGNORECASE,
 )
 
@@ -75,6 +102,14 @@ NOT_AVAILABLE_HEADING = "## Not available in this workbench"
 
 def _agent_files() -> list[Path]:
     return sorted(AGENTS_DIR.glob("*.md")) if AGENTS_DIR.is_dir() else []
+
+
+def _declared_agent_names() -> set[str]:
+    manifest = (PLUGIN_ROOT / "plugin.yaml").read_text(encoding="utf-8")
+    match = re.search(r"^agents:\n((?:[ \t]+-.*\n?)*)", manifest, re.MULTILINE)
+    if not match:
+        return set()
+    return {line.strip().lstrip("-").strip() for line in match.group(1).splitlines() if line.strip()}
 
 
 def _frontmatter(text: str) -> dict[str, str]:
@@ -124,9 +159,14 @@ def _declared_unavailable(body: str) -> set[str]:
     return {token for token in INLINE_CODE.findall(section) if "-" in token}
 
 
-def test_expected_agents_exist():
-    assert AGENTS_DIR.is_dir(), f"missing agents directory: {AGENTS_DIR}"
-    assert {p.stem for p in _agent_files()} == EXPECTED_AGENTS
+def test_plugin_yaml_agents_matches_agents_directory():
+    declared = _declared_agent_names()
+    on_disk = {p.stem for p in _agent_files()}
+    assert declared == on_disk, (
+        f"plugin.yaml agents list has drifted from agents/ on disk -- "
+        f"missing from plugin.yaml: {on_disk - declared}; "
+        f"declared but not shipped: {declared - on_disk}"
+    )
 
 
 @pytest.mark.parametrize("path", _agent_files(), ids=lambda p: p.stem)
@@ -135,7 +175,7 @@ def test_agent_frontmatter_schema(path: Path):
     missing = [f for f in REQUIRED_FRONTMATTER_FIELDS if not fields.get(f)]
     assert not missing, f"{path.name}: missing/empty frontmatter fields {missing}"
     assert fields["name"] == path.stem, f"{path.name}: `name` must match the filename stem"
-    assert fields["plugin"] == "sharepoint-agents-and-skills"
+    assert fields["plugin"] == PLUGIN_NAME, f"{path.name}: `plugin` must be {PLUGIN_NAME!r}"
 
 
 @pytest.mark.parametrize("path", _agent_files(), ids=lambda p: p.stem)
@@ -176,11 +216,3 @@ def test_agent_declares_honest_unavailability_section(path: Path):
         f"{path.name}: must carry a '{NOT_AVAILABLE_HEADING}' section, even if it lists "
         "nothing, so no routing target is silently assumed to be implemented"
     )
-
-
-def test_plugin_manifest_registers_every_agent():
-    manifest = (PLUGIN_ROOT / "plugin.yaml").read_text(encoding="utf-8")
-    section = manifest.split("agents:", 1)
-    assert len(section) == 2, "plugin.yaml must declare an `agents:` list"
-    listed = set(re.findall(r"^\s+-\s+([a-z0-9-]+)\s*$", section[1], re.MULTILINE))
-    assert EXPECTED_AGENTS <= listed, f"plugin.yaml missing agents: {EXPECTED_AGENTS - listed}"

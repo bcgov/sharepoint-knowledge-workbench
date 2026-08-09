@@ -13,3 +13,6 @@ skills:
   - validate-link-integrity
   - remediate-document-content-links
   - remediate-field-image-references
+agents:
+  - sharepoint-link-agent
+  - sharepoint-link-remediation-analysis-agent

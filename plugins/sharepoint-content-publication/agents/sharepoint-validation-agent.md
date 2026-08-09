@@ -1,6 +1,6 @@
 ---
 name: sharepoint-validation-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-content-publication
 description: >
   Decides which validation/reconciliation capability to run after a stage of
   work completes, and produces the final summary report. Use when asked to

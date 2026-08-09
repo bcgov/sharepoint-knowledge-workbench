@@ -1,6 +1,6 @@
 ---
 name: sharepoint-content-migration-sequencing-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-content-migration
 description: >
   States the sequencing rule item-level content migration requires when
   lookup columns are involved -- parent lists before dependent lists,

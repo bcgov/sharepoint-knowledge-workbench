@@ -1,6 +1,6 @@
 ---
 name: sharepoint-webpart-modernization-analysis-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-page-modernization
 description: >
   Runs the second, AI-reasoning stage of classic web-part modernization
   analysis over an already-grouped web-part inventory: assigns a

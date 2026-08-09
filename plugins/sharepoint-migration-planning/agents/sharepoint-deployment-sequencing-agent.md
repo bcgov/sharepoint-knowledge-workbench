@@ -1,6 +1,6 @@
 ---
 name: sharepoint-deployment-sequencing-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-migration-planning
 description: >
   Decides what order a set of dependent SharePoint objects must deploy in,
   and routes to the deterministic sequencing capability that computes it.

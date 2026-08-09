@@ -1830,6 +1830,42 @@
       "dst": "plugins/sharepoint-migration-planning/skills/plan-sharepoint-deployment-waves/scripts/wave_planning.py",
       "strategy": "symlink",
       "description": "plan-sharepoint-deployment-waves skill's bundled copy of wave_planning.py (moved here from sharepoint-provisioning, 2026-08-08)"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
+      "dst": "plugins/sharepoint-link-remediation/tests/test_agent_definitions.py",
+      "strategy": "symlink",
+      "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
+      "dst": "plugins/sharepoint-schema/tests/test_agent_definitions.py",
+      "strategy": "symlink",
+      "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
+      "dst": "plugins/sharepoint-page-modernization/tests/test_agent_definitions.py",
+      "strategy": "symlink",
+      "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
+      "dst": "plugins/sharepoint-migration-planning/tests/test_agent_definitions.py",
+      "strategy": "symlink",
+      "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
+      "dst": "plugins/sharepoint-content-migration/tests/test_agent_definitions.py",
+      "strategy": "symlink",
+      "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
+      "dst": "plugins/sharepoint-content-publication/tests/unit/test_agent_definitions.py",
+      "strategy": "symlink",
+      "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
     }
   ]
 }

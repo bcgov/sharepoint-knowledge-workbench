@@ -1,6 +1,6 @@
 ---
 name: sharepoint-modernization-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-page-modernization
 description: >
   Decides which page-production capability to run to get modern SharePoint
   page output — full render pipeline vs. template authoring vs. work that is
