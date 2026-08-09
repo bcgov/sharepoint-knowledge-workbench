@@ -10,9 +10,10 @@ session, this section — not the "Phase 9 — extraction work done..." section 
 
 ### What exists right now (verified 2026-08-08: filesystem scan + full test run, not summary)
 
-- **14 plugins total**, all standalone-installable (`pip install -e plugins/<name>`), **1,113
-  tests passing** across all of them (verified this session via a full sweep, not carried forward
-  from an earlier count). 4 pre-existing content-pipeline plugins (`source-document-extraction`,
+- **14 plugins total**, all standalone-installable (`pip install -e plugins/<name>`), **1,120
+  tests passing** across all of them (re-verified 2026-08-09 via a full sweep after the Q1/Q2
+  restructuring below, not carried forward from an earlier count). 4 pre-existing content-pipeline
+  plugins (`source-document-extraction`,
   `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`) +
   10 SharePoint-domain plugins.
 - **10 SharePoint plugins, 53 skills:** `sharepoint-discovery` (5), `sharepoint-schema` (4),
@@ -94,6 +95,14 @@ migration` three-way split as conceptually sound, and that split is unchanged.
 462 tests passing across the 7 plugins touched by these two moves, all isolated wheel installs
 verified, zero new broken symlinks, all 14 plugins' `skills:`/`agents:` manifests confirmed
 matching disk exactly (mechanical drift check re-run after the moves, not assumed).
+
+### A pre-existing, unrelated worktree still exists — not part of this work
+
+`.claude/worktrees/agent-a606c5ac05933fad6` (branch `worktree-agent-a606c5ac05933fad6`) is fully
+merged into `main` (0 unique commits, its one commit is an ancestor of `main`) and marked `locked`.
+It predates this session, was never touched by it, and holds nothing at risk of being lost. Not
+removed because it's locked and removal wasn't explicitly requested — ask the user before
+unlocking/removing it if it comes up.
 
 ### Not yet verified
 
