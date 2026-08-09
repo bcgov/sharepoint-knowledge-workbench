@@ -95,22 +95,19 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
   and 9 agents total, extracted/generalized from a separate SharePoint migration repository per an
   exhaustive 505-file source audit (`temp/phase9-source-audit/file-tracking.json`)
   - `sharepoint-discovery` (5 skills) — read-only analysis of exported classic SharePoint inventories: `analyze-site-navigation`, `analyze-permissions`, `analyze-page-inventory`, `analyze-webpart-code`, `analyze-custom-forms`.
-  - `sharepoint-schema` (4 skills) — read-only schema variance/duplicate-field/choice-field auditing: `audit-schema`, `diff-sharepoint-schema`, `extract-choice-fields`, `generate-sharepoint-schema-from-export`.
-  - `sharepoint-provisioning` (5 skills) — declarative, gated site-column/content-type/list/calendar provisioning: `provision-fields`, `provision-content-types`, `provision-list`, `provision-modern-calendar-list`, `plan-sharepoint-deployment-waves`.
-  - `sharepoint-page-modernization` (3 skills) — classic-to-modern page conversion manifest generation: `analyze-aspx-pages`, `convert-aspx-pages`, `compose-page-preview`.
-  - `sharepoint-link-remediation` (5 skills) — page/document/field-content link extraction, remediation, validation: `extract-links`, `remediate-links`, `remediate-document-content-links`, `remediate-field-image-references`, `validate-link-integrity`.
-  - `sharepoint-content-migration` (1 skill) — item-level content migration with two-pass lookup-ID re-link (`migrate-sharepoint-list-content`).
-  - `sharepoint-migration-planning` (4 skills) — dependency-graph analysis and deployment wave-order computation: `discover-sharepoint-site-inventory`, `analyze-sharepoint-dependency-graph`, `generate-sharepoint-wave-scripts`, `setup-sharepoint-migration-project` (only `analyze-sharepoint-dependency-graph` is fully implemented; the rest remain design scaffolds).
-  - `sharepoint-content-publication` (6 skills) — tenant publication: `upload-content`, `publish-markdown-to-sharepoint`, `publish-aspx-to-sharepoint`, `validate-sharepoint-publication`, `reconcile-sharepoint-publication`, `rollback-sharepoint-publication`.
+  - `sharepoint-schema` (4 skills, 1 agent) — read-only schema variance/duplicate-field/choice-field auditing: `audit-schema`, `diff-sharepoint-schema`, `extract-choice-fields`, `generate-sharepoint-schema-from-export`; agent: `sharepoint-schema-agent`.
+  - `sharepoint-provisioning` (4 skills) — declarative, gated site-column/content-type/list/calendar provisioning: `provision-fields`, `provision-content-types`, `provision-list`, `provision-modern-calendar-list`.
+  - `sharepoint-page-modernization` (3 skills, 2 agents) — classic-to-modern page conversion manifest generation: `analyze-aspx-pages`, `convert-aspx-pages`, `compose-page-preview`; agents: `sharepoint-modernization-agent`, `sharepoint-webpart-modernization-analysis-agent`.
+  - `sharepoint-link-remediation` (5 skills, 2 agents) — page/document/field-content link extraction, remediation, validation: `extract-links`, `remediate-links`, `remediate-document-content-links`, `remediate-field-image-references`, `validate-link-integrity`; agents: `sharepoint-link-agent`, `sharepoint-link-remediation-analysis-agent`.
+  - `sharepoint-content-migration` (1 skill, 1 agent) — item-level content migration with two-pass lookup-ID re-link (`migrate-sharepoint-list-content`); agent: `sharepoint-content-migration-sequencing-agent`.
+  - `sharepoint-migration-planning` (5 skills, 2 agents) — dependency-graph analysis and deployment wave-order computation: `discover-sharepoint-site-inventory`, `analyze-sharepoint-dependency-graph`, `generate-sharepoint-wave-scripts`, `setup-sharepoint-migration-project`, `plan-sharepoint-deployment-waves` (only `analyze-sharepoint-dependency-graph` is fully implemented; the rest remain design scaffolds); agents: `sharepoint-deployment-planning-agent`, `sharepoint-deployment-sequencing-agent`.
+  - `sharepoint-content-publication` (6 skills, 1 agent) — tenant publication: `upload-content`, `publish-markdown-to-sharepoint`, `publish-aspx-to-sharepoint`, `validate-sharepoint-publication`, `reconcile-sharepoint-publication`, `rollback-sharepoint-publication`; agent: `sharepoint-validation-agent`.
   - `workbench-setup` (5 skills) — connection/config setup: `setup-sharepoint-connection`, `initialize-document-workflow`, `resolve-workbench-paths`, `validate-workbench-environment`, `validate-app-registration`.
-  - `sharepoint-agents-and-skills` (15 skills, 9 agents) — agent/native-skill lifecycle (create/update/
-    deploy/verify/rollback/backup/restore agents and native skills) plus 9 Claude Code routing/analysis
-    agents (`agents/`) spanning link (`sharepoint-link-agent`, `sharepoint-link-remediation-analysis-agent`),
-    schema (`sharepoint-schema-agent`), modernization (`sharepoint-modernization-agent`,
-    `sharepoint-webpart-modernization-analysis-agent`), deployment
-    (`sharepoint-deployment-planning-agent`, `sharepoint-deployment-sequencing-agent`), validation
-    (`sharepoint-validation-agent`), and content-migration
-    (`sharepoint-content-migration-sequencing-agent`) domains.
+  - `sharepoint-agents-and-skills` (15 skills, 0 agents) — agent/native-skill lifecycle only
+    (create/update/deploy/verify/rollback/backup/restore agents and native skills); the 9 Claude
+    Code routing/analysis agents formerly listed here have moved to their owning domain plugins
+    above (link, schema, modernization, migration-planning, content-migration,
+    content-publication).
 - **Intake & Runs**
   - `intake/` — Source `.docx` input files for the CEIS Manual pilot.
   - `runs/ceis-manual-v2/` — Current authoritative, fully validated conversion run.
