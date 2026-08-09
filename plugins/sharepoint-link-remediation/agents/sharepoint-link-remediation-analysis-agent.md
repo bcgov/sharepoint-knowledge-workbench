@@ -1,6 +1,6 @@
 ---
 name: sharepoint-link-remediation-analysis-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-link-remediation
 description: >
   Runs the second, AI-reasoning stage of link-remediation analysis across
   all of sharepoint-link-remediation's skills: decides what a broken link

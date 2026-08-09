@@ -1,6 +1,6 @@
 ---
 name: sharepoint-link-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-link-remediation
 description: >
   Sequences link-domain work correctly: extract before remediate, remediate
   before validate. Use when asked to find and fix broken links in SharePoint

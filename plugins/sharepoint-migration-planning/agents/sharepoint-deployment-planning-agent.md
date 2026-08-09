@@ -1,6 +1,6 @@
 ---
 name: sharepoint-deployment-planning-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-migration-planning
 description: >
   Decides whether a dependency matrix is complete enough to compute a
   deployment order from, and routes to the completeness checks that answer

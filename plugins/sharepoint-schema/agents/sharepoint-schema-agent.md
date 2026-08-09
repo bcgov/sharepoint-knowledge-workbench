@@ -1,6 +1,6 @@
 ---
 name: sharepoint-schema-agent
-plugin: sharepoint-agents-and-skills
+plugin: sharepoint-schema
 description: >
   Decides how to answer a SharePoint schema question — read-only conformance
   checking against a target library schema vs. producing a mapping plan. Use
