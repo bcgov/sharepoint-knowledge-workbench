@@ -34,6 +34,20 @@ session, this section — not the "Phase 9 — extraction work done..." section 
   reading to resume work, but read before proposing a plugin restructuring — see "Open decisions"
   below for what they found.
 
+### `workbench-setup` app-registration/permission-tier work (2026-08-09, on `main`)
+
+Beyond the 2026-08-08 state above, `workbench-setup` gained a new `request-app-registration` skill
+(pure guidance: two distinct app-registration types — unattended App-Only/certificate vs.
+interactive/delegated — service-request template generation, and the full setup sequence through
+PnP site grant, `config.psd1` population, and validation). The old `validate-app-registration`
+skill was merged into `validate-workbench-environment` (now 5 skills total, not 6). Production
+testing against a live tenant disproved an earlier assumption that the PnP `Write` grant tier
+blocks list/library/site-column/content-type creation — a `write`-tier registration succeeded at
+all of those. This does **not** disprove Microsoft's delegated-access intersection model itself;
+see `plugins/workbench-setup/references/effective-permissions-matrix.md` for the full findings and
+still-open questions, and `CLAUDE.md`'s "workbench-setup plugin" section for the summary. Tests:
+91/91 passing in `plugins/workbench-setup/`.
+
 ### Every write-capable module shares one safety contract
 
 Planning is pure (no I/O); apply is dry-run by default; a real apply requires both an explicitly
@@ -1377,7 +1391,7 @@ Before changing anything, read in full:
 1. `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md` — the authoritative v3 spec (includes the v3.1 Deviation Notice, Section 14a authoring guidance, Section 14b future-output-profiles/SharePoint boundary).
 2. `docs/superpowers/plans/2026-07-25-docx-to-content-phase1-implementation-plan-v3-ammendments.md` — the authoritative v3 plan for Tasks 0–16.
 3. `docs/superpowers/plans/2026-07-28-docx-to-content-topic-grouping.md` — the plan for the grouped-strategy work (Tasks 1–9 of that plan), **complete and merged**.
-4. `docs/implementation-baseline.md` — Task 0 reconnaissance findings (dated 2026-07-25; paths in it reference the pre-rename `sourcedocuments/`/`output/` directory names — historically accurate, not a live reference).
+4. `docs/reports/phase-1-conversion-poc/implementation-baseline.md` — Task 0 reconnaissance findings (dated 2026-07-25; paths in it reference the pre-rename `sourcedocuments/`/`output/` directory names — historically accurate, not a live reference).
 5. This file — the actual, verified current status. Trust this over any other handoff summary; verify against `git log` regardless.
 
 The v1 spec/plan (`2026-07-25-docx-to-content-plugin-design.md` / `...-implementation-plan.md`, no `-ammendments` suffix) are superseded, kept only for historical comparison.

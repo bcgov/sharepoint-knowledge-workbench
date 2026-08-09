@@ -767,7 +767,7 @@ published content — not pulled forward ahead of that evidence.
 Stage 3.1.4 (what the workflow must do) and Phase 6 Subphase 6.3 (which runtime does each step)
 have both answered their respective design questions.
 
-**Diagram:** `docs/vision/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` renders the
+**Diagram:** `docs/diagrams/09-phase6-5-ongoing-authoring-and-republishing-loop.mmd` renders the
 loop and runtime division below.
 
 **The loop this phase closes** (three flows total, correcting the original two-flow framing in

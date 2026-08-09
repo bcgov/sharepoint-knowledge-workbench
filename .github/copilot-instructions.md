@@ -297,6 +297,24 @@ carries only the key non-negotiables:
 
 See `docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` for full discovery path, verification checklist, and Phase 5+ recommendations.
 
+### `workbench-setup` plugin: app-registration guidance and PnP permission-tier findings
+
+**Critical Learning (2026-08-09):** the PnP site-grant tier (`Read`/`Write`/`Manage`/`FullControl`)
+is **not** a reliable predictor of what operations will succeed — an earlier assumption that
+`Write` blocks list/library/site-column/content-type creation was disproven against production
+(a `write`-tier registration successfully created and removed lists, libraries, pages, items,
+files, site columns, and content types on two real tenant sites). This does not disprove
+Microsoft's delegated-access intersection model itself (effective access = intersection of the
+app's grant and the signed-in user's own SharePoint rights) — that remains a separate, still-open
+question. Before trusting any claim about what a given app registration can or cannot do, use
+`plugins/workbench-setup/scripts/test-pnp-effective-capability-probe.ps1` to observe actual
+behavior rather than inferring it from the nominal tier. The `workbench-setup` plugin's
+`request-app-registration` skill walks through both app-registration types (unattended App-Only/
+certificate vs. interactive/delegated), the service-request templates to fill out, the PnP grant
+step, populating this repo's `config.psd1` with the new registration, and finally running the
+capability probe — see that skill's `SKILL.md` and
+`plugins/workbench-setup/references/effective-permissions-matrix.md` for the full picture.
+
 ## SUB-agent usage
 Use the cheapest models possible where possible.  If the job doesn't require spawning sub-agents don't do so.
 

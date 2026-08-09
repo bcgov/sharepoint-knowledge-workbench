@@ -41,6 +41,47 @@
 > or any other proposed plugin — that still requires its own reviewed decision, per this
 > document's own Section 8/9 planning discipline below.
 
+> **Scope-expansion update (added 2026-08-09 — supersedes the 2026-08-02 note above for plugin
+> inventory; read this before checking whether a SharePoint-facing capability already has a
+> plugin, per `CLAUDE.md` Section 0):**
+>
+> The document-conversion pipeline this file originally scoped — Word/PDF → structured content →
+> multi-target render — remains the initiative's founding use case and is fully built (the four
+> Phase 4.5 plugins: `source-document-extraction`, `document-structure-analysis`,
+> `structured-content-assembly`, `structured-content-rendering`). **It is not, however, the only
+> use case this repository now serves.** Phase 9 (reusable SharePoint plugin extraction, merged to
+> `main`, see `start-here.md`'s "authoritative fresh-session handoff" section) built out a second,
+> equally real cluster of capability: a general SharePoint migration/modernization engineering
+> toolset, independent of document conversion, covering site discovery, schema auditing,
+> declarative provisioning, classic-page modernization, link/embedded-field-reference remediation,
+> item-level content migration, and migration-wave planning. `sharepoint-agents-and-skills` (this
+> document's Plugin 2, above) **was created** and now owns only agent/native-skill lifecycle
+> tooling — its 9 domain-routing agents were decentralized to their owning domain plugins in a
+> later restructuring (2026-08-08), per `start-here.md`.
+>
+> **The current, authoritative plugin inventory is 14 plugins — this document's own plugin-count
+> and naming statements above and in Section "Plugin 2" are stale and should not be treated as an
+> exhaustive list.** The 10 SharePoint-domain plugins (4 conversion-pipeline plugins are listed
+> separately above):
+>
+> | Plugin | Domain |
+> |---|---|
+> | `sharepoint-discovery` | Read-only analysis of exported classic SharePoint site inventories (navigation, permissions, pages, webpart code, custom forms) |
+> | `sharepoint-schema` | Schema variance/duplicate-field/choice-field auditing |
+> | `sharepoint-provisioning` | Declarative, gated site-column/content-type/list/calendar provisioning |
+> | `sharepoint-page-modernization` | Classic-to-modern page conversion manifest generation |
+> | `sharepoint-link-remediation` | Page/document/field-content link extraction, remediation, and validation |
+> | `sharepoint-content-migration` | Item-level content migration with lookup-ID re-linking |
+> | `sharepoint-migration-planning` | Dependency-graph analysis and deployment wave-order computation |
+> | `sharepoint-content-publication` | Tenant publication (Markdown/ASPX upload, validation, reconciliation, rollback) |
+> | `workbench-setup` | Cross-cutting connection/config/document-workflow setup |
+> | `sharepoint-agents-and-skills` | Agent and native-skill lifecycle only (create/deploy/verify/rollback/backup/restore) — zero domain agents as of the 2026-08-08 decentralization |
+>
+> Do not re-derive or rename any of these from this document's older "proposed plugin set" section
+> below — that section is preserved as historical proposal context, not current fact. For live,
+> per-plugin skill/agent counts and status, read `start-here.md` and each plugin's own README
+> rather than trying to keep a second copy of that detail current in this document.
+
 ## 1. Executive Decision
 
 The initiative has outgrown the name `manual-conversion-poc`.

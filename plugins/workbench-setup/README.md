@@ -17,7 +17,7 @@ requested, governance/evidence settings) — see
 configuration-design.md` Section 8.
 
 **Zero SharePoint tenant I/O by default**, and zero document
-extraction/rendering in this version. `setup-sharepoint-connection`'s
+extraction/rendering in this version. `initialize-workbench-config`'s
 config generation never connects to anything; an explicit,
 separately-injected connector is required to opt into a read-only
 connection test. `initialize-document-workflow`'s execution boundary is
@@ -27,20 +27,38 @@ it never extracts, renders, or touches SharePoint.
 ```
 plugins/workbench-setup/
 ├── scripts/
-│   ├── psd1_writer.py          # shared Python-dict -> PowerShell .psd1 text renderer
-│   ├── config_setup.py         # setup-sharepoint-connection logic
-│   ├── document_workflow.py    # initialize-document-workflow logic
-│   ├── workflow_validation.py  # validate-workbench-environment logic
-│   └── app_registration_validation.py  # validate-app-registration logic
+│   ├── app_registration_request.py  # request-app-registration logic
+│   ├── psd1_writer.py               # shared Python-dict -> PowerShell .psd1 text renderer
+│   ├── config_setup.py              # initialize-workbench-config logic
+│   ├── document_workflow.py         # initialize-document-workflow logic
+│   ├── workflow_validation.py       # validate-workbench-environment: config/profile validation
+│   ├── app_registration_validation.py  # validate-workbench-environment: app-registration validation
+│   ├── network_connectivity.py      # validate-workbench-environment: network-reachability checklist
+│   ├── test-network-connectivity.ps1  # validate-workbench-environment: live network + auth check
+│   ├── test-spo-connection.ps1      # validate-workbench-environment: minimal live connection check
+│   └── test-pnp-effective-capability-probe.ps1  # validate-workbench-environment, request-app-registration:
+│                                     # empirically probe effective capabilities (list/library/page/
+│                                     # site-column/content-type creation) under the granted PnP tier
 ├── assets/
 │   ├── config.psd1.example
 │   ├── document-workflow.psd1.example
-│   └── publication-profile.psd1.example
+│   ├── publication-profile.psd1.example
+│   ├── service-request-interactive-registration-template.md   # request-app-registration
+│   └── service-request-application-registration-template.md   # request-app-registration
+├── references/
+│   ├── app-registration-overview.md              # request-app-registration, validate-workbench-environment
+│   ├── delegated-permission-boundary-test.md      # validate-workbench-environment
+│   ├── effective-permissions-matrix.md            # request-app-registration, validate-workbench-environment:
+│   │                                                # start here for "why did/didn't this operation work"
+│   ├── resource-specific-consent-summary.md       # request-app-registration
+│   └── graph-selected-permissions-overview-summary.md  # request-app-registration
 ├── skills/
-│   ├── setup-sharepoint-connection/
+│   ├── request-app-registration/       # pure guidance: service-request generation + setup sequence
+│   ├── initialize-workbench-config/
 │   ├── initialize-document-workflow/
-│   ├── validate-workbench-environment/
-│   └── validate-app-registration/
+│   ├── validate-workbench-environment/  # config/profile validation, app-registration validation,
+│   │                                     # and live network/auth scripts (merged 2026-08-09)
+│   └── resolve-workbench-paths/
 └── tests/
 ```
 

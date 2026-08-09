@@ -7,7 +7,7 @@
 ## Prerequisites
 
 - `config.psd1` at the repository root, with a populated `Connection` block (see
-  `workbench-setup`'s `setup-sharepoint-connection` skill).
+  `workbench-setup`'s `initialize-workbench-config` skill).
 - The dependency matrix for this migration: `{path to dependency-matrix.json}`.
 
 ## How to use this guide

@@ -32,8 +32,8 @@ what's actually protecting production.
    silently — this was the specific failure mode `dependency-matrix.json`'s design is meant to
    prevent.
 3. **Wave order is computed, never hand-assigned.** `analyze-sharepoint-dependency-graph` derives
-   order via topological sort (`sharepoint-provisioning`'s `wave_planning.py`) from declared
-   dependencies — it is never a human-maintained sequence of stage numbers.
+   order via topological sort (`sharepoint-migration-planning`'s own `wave_planning.py`) from
+   declared dependencies — it is never a human-maintained sequence of stage numbers.
 4. **A dependency is declared by name, not by wave number.** Referring to "whatever ran in an
    earlier stage" instead of a specific named object is exactly the kind of coupling that goes
    stale when stages are renumbered, split, or reordered.

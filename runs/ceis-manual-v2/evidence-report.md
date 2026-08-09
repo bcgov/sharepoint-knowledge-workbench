@@ -238,7 +238,7 @@ this report, not against task narrative.
 
 | Item | Status | Evidence |
 |---|---|---|
-| Repository baseline is factual and complete | ✅ | Task 0 recon (`docs/implementation-baseline.md`), superseded-path caveat noted in `start-here.md` |
+| Repository baseline is factual and complete | ✅ | Task 0 recon (`docs/reports/phase-1-conversion-poc/implementation-baseline.md`), superseded-path caveat noted in `start-here.md` |
 | New cleanup suite passes (built from scratch, not relocated) | ✅ | `plugins/docx-to-content/scripts/pandoc_fixes/`, 448 passed/1 skipped |
 | Manual-topic template, authoring guide, supported Markdown profile, generated-elements doc exist and pass contract tests | ✅ | `references/content-authoring-guide.md`, `references/generated-elements.md`, `tests/contract/test_content_authoring_guidance.py` present and passing |
 | Word-generated TOC removed from canonical content; headings remain available for generated nav | ✅ | "no raw TOC dump" grep above; `publication-map.json` drives index |

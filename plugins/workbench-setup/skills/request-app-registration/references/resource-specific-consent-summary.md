@@ -1,0 +1,1 @@
+../../../references/resource-specific-consent-summary.md
