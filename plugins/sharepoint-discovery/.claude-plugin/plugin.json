@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-discovery",
+    "version": "0.1.0-alpha.1",
+    "description": "Read-only analysis of classic SharePoint discovery exports: page inventory and complexity planning, web part code classification, site navigation architecture, custom form inventory, and permissions/broken-inheritance analysis. Zero tenant I/O -- reads already-collected export files only.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "discovery",
+        "inventory",
+        "migration-analysis"
+    ]
+}

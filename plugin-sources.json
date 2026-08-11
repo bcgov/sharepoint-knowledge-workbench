@@ -18,13 +18,22 @@
       ]
     },
     {
-      "source": ".",
+      "source": "plugins",
       "plugins": [
         "document-structure-analysis",
+        "sharepoint-agents-and-skills",
+        "sharepoint-content-migration",
         "sharepoint-content-publication",
+        "sharepoint-discovery",
+        "sharepoint-link-remediation",
+        "sharepoint-migration-planning",
+        "sharepoint-page-modernization",
+        "sharepoint-provisioning",
+        "sharepoint-schema",
         "source-document-extraction",
         "structured-content-assembly",
-        "structured-content-rendering"
+        "structured-content-rendering",
+        "workbench-setup"
       ]
     }
   ]

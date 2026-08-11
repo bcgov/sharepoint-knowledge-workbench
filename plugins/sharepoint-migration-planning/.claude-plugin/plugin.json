@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-migration-planning",
+    "version": "0.1.0-alpha.1",
+    "description": "Deterministic SharePoint dependency-graph analysis and wave-order computation (Stage 3a), plus wave-order planning as its own skill. Setup, discovery, and generated-wave-script stages remain design scaffolds unless their skills state otherwise.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "migration-planning",
+        "dependency-graph",
+        "deployment-waves"
+    ]
+}
