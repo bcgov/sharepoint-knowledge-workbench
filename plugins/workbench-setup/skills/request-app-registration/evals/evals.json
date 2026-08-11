@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "skill": "request-app-registration",
+  "plugin": "workbench-setup",
+  "evals": [
+    {
+      "name": "documented-skill-contract",
+      "description": "Guides the pre-work before any SharePoint use case that connects to a live tenant. Two distinct app-registration types exist for two distinct purposes (unattended App-Only/certificate for scheduled jobs, interactive/delegated for human-operator provisioning) -- this skill documents both, generates a filled service-request document for your tenant/cloud administrator, and provides the step-by-step setup sequence once granted (Entra API permissions, admin consent, Enterprise Application user assignment, and the separate PnP PowerShell site-level grant). No network I/O -- pure templating and reference data only.",
+      "prompt": "Use the request-app-registration skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+      "expected": [
+        "Uses the skill documented in SKILL.md",
+        "Identifies the required input artifacts or parameters",
+        "Identifies the expected output or report artifact",
+        "Respects the documented plugin boundaries and non-responsibilities",
+        "Does not invent destructive tenant writes or bypass required confirmation gates"
+      ]
+    }
+  ]
+}

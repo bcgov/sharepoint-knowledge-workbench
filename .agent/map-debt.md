@@ -254,3 +254,54 @@
   specific to the new skill).
 - **Severity:** S. **Repeat:** yes, for any future skill added to a `plugin.yaml`-only plugin.
 - **Status:** OPEN, informational.
+### [2026-08-11] `sharepoint-content-migration` Skill Missing Installer Eval Manifest
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Plugin installer warning cleanup
+- **Artifact Affected**: `plugins/sharepoint-content-migration/skills/migrate-sharepoint-list-content/evals/evals.json`
+- **Friction Observed**: `plugin-add plugins/` installed `sharepoint-content-migration` but warned that `migrate-sharepoint-list-content` was missing `evals/evals.json`.
+- **Why it wasn't fixed earlier**: The plugin was made installable by adding its missing plugin manifest first; the eval warning was non-blocking and surfaced as follow-up installer hygiene.
+- **Recommended Fix**: Add a skill-local eval manifest covering the migration safety gates and two-pass lookup-ID backfill contract.
+- **Evidence**: Reproduction from installer output: `Warning: Skill 'migrate-sharepoint-list-content' in plugin 'sharepoint-content-migration' is missing evals/evals.json`.
+- **Severity**: S
+- **Repeat**: NO
+- **Status**: RESOLVED
+
+### [2026-08-11] `document-structure-analysis` Skill Missing Installer Eval Manifest
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Plugin installer warning cleanup
+- **Artifact Affected**: `plugins/document-structure-analysis/skills/analyze-document-structure/evals/evals.json`
+- **Friction Observed**: `plugin-add plugins/` installed `document-structure-analysis` but warned that `analyze-document-structure` was missing `evals/evals.json`.
+- **Why it wasn't fixed earlier**: Earlier cleanup targeted the first user-named warning; reinstall exposed the next plugin in sequence with the same missing-eval-manifest issue.
+- **Recommended Fix**: Add a skill-local eval manifest covering the normalized-source-document input, draft analysis-plan output, and plugin-boundary constraints.
+- **Evidence**: Reproduction from installer output: `Warning: Skill 'analyze-document-structure' in plugin 'document-structure-analysis' is missing evals/evals.json`.
+- **Severity**: S
+- **Repeat**: YES
+- **Status**: RESOLVED
+
+### [2026-08-11] Plugin Skills Missing Installer Eval Manifests in Bulk
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Plugin installer warning cleanup
+- **Artifact Affected**: `plugins/*/skills/*/evals/evals.json`
+- **Friction Observed**: Reinstalling all plugins showed the missing-eval warning was systemic across many plugin-local skills, not isolated to one or two skills.
+- **Why it wasn't fixed earlier**: Earlier passes fixed the first warnings encountered sequentially instead of auditing the whole `plugins/*/skills/*` surface.
+- **Recommended Fix**: Audit every plugin-local skill and add a minimal skill-local eval manifest where missing, using each skill's documented contract as the eval target.
+- **Evidence**: Repository audit found 61 remaining skills without `evals/evals.json`; each now has a generated manifest under its own `skills/<skill>/evals/` directory.
+- **Severity**: M
+- **Repeat**: YES
+- **Status**: RESOLVED
+
+### [2026-08-11] Transient Windows `skills-lock.json` Installer Write Crash
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Plugin installer warning cleanup
+- **Artifact Affected**: `skills-lock.json`, `plugin-add plugins/ --all`
+- **Friction Observed**: A full install run crashed while writing `skills-lock.json` for `sharepoint-content-publication` with `[Errno 22] Invalid argument`, even though the lockfile path was valid.
+- **Why it wasn't fixed earlier**: The crash did not reproduce after inspecting the file; `skills-lock.json` was writable and valid JSON, and targeted plus full reinstalls completed successfully with UTF-8 environment variables set.
+- **Recommended Fix**: If repeated, inspect the upstream installer's lockfile write/replace path on Windows for transient file-handle or path-normalization issues; for now, rerun with `PYTHONUTF8=1` and `PYTHONIOENCODING=utf-8`.
+- **Evidence**: Targeted `sharepoint-content-publication` reinstall succeeded, followed by full `plugin-add plugins/ --all --yes` succeeding for 14/14 plugins.
+- **Severity**: S
+- **Repeat**: NO
+- **Status**: RESOLVED

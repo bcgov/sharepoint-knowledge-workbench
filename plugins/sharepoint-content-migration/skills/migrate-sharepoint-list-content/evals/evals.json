@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "skill": "migrate-sharepoint-list-content",
+  "plugin": "sharepoint-content-migration",
+  "evals": [
+    {
+      "name": "plans-content-migration-without-tenant-writes",
+      "description": "Verifies that the skill directs callers to plan item migration first and preserves the plugin's dry-run-by-default, injected-executor, confirmation-token write gates.",
+      "prompt": "Use the migrate-sharepoint-list-content skill to migrate three SharePoint list items into an already-provisioned destination list. Explain the safe sequence and identify what is required before a real write can occur.",
+      "expected": [
+        "Uses plan_item_migration before apply_item_migration",
+        "States that dry-run is the default",
+        "Requires an explicitly injected executor for real writes",
+        "Requires the plan-derived confirmation token for real writes",
+        "Does not claim that the skill creates lists, fields, content types, or connects to a tenant by itself"
+      ]
+    },
+    {
+      "name": "explains-two-pass-lookup-backfill",
+      "description": "Verifies that the skill explains lookup-field migration as a two-pass process: migrate content and record source-to-destination IDs, then backfill lookup fields after target items exist.",
+      "prompt": "Use the migrate-sharepoint-list-content skill for a migration where list items have lookup columns referencing other items migrated in the same run. Describe the required sequencing.",
+      "expected": [
+        "Migrates non-lookup content first",
+        "Records source-to-destination ID mappings during the content pass",
+        "Resolves lookup source IDs against the mapping only after target items exist",
+        "Backfills lookup fields in a second pass",
+        "Handles self-referential lookups last"
+      ]
+    }
+  ]
+}
