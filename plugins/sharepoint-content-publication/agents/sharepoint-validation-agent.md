@@ -30,6 +30,9 @@ Pick by the artifact under test, not by the word the requester used:
 - **Two rendered packages against each other** — `compare-rendered-output`.
 - **Upload package against the target library schema (pre-upload, offline)** —
   `validate-sharepoint-publication`.
+- **Converted modern pages against a bulk-migration run manifest** —
+  `validate-page-migration` (re-queries the live site; never trusts the
+  conversion run's own exit code).
 - **Published state vs. intended state** — `reconcile-sharepoint-publication`.
 - **A deployed native skill vs. its repository source** —
   `verify-sharepoint-native-skill` (exact SHA-256 comparison, read-only).

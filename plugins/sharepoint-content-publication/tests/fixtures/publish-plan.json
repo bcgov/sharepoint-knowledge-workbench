@@ -1,0 +1,7 @@
+{
+  "document_id": "test-doc",
+  "action_count": 1,
+  "actions": [
+    {"source_path": "page1.html", "target_library": "SitePages", "target_folder": "", "target_filename": "page1.aspx"}
+  ]
+}

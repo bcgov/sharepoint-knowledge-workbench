@@ -1,0 +1,1 @@
+../../../scripts/audit-onprem-sharepoint-schema-drift.ps1

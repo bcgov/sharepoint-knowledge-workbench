@@ -1,4 +1,322 @@
 
+### [2026-08-11] Reusable Playbook for Porting a Source-Repo Plugin, Learned the Hard Way on `sharepoint-discovery`
+
+**Read this before starting the same porting process on any other plugin**
+(`sharepoint-schema`, `sharepoint-provisioning`, `sharepoint-content-migration`,
+`sharepoint-content-publication`, `sharepoint-link-remediation`, `sharepoint-page-modernization`,
+`sharepoint-migration-planning`). This session ran the full `sharepoint-discovery` porting cycle
+end to end and got corrected by the user at nearly every step — the corrections are the reusable
+lesson, recorded once here instead of re-derived plugin by plugin.
+
+1. **A source plugin's onboardable surface is five categories, not one.** `scripts/*.ps1` is not
+   "the source" — it's one of `scripts/`, `skills/` (a full parallel structure with real Python +
+   tests), `agents/` (orchestrating `.md` files), `assets/templates/` (reusable report templates +
+   real project data mixed together), and `references/` (mostly project-specific runbooks, but a
+   few genuinely portable methodology docs). Scope every one of these five before calling an audit
+   "thorough" — this session did NOT do this at first, was corrected by the user three separate
+   times (after agents/, after assets/, after references/), and had to run 2 extra audit passes to
+   catch up. Do all five in one pass next time, not sequentially as each gets discovered.
+2. **"Complete"/"already exists"/"already covered" is a claim, not a status — verify it or don't
+   say it.** Every one of these claims made this session (by sub-agents and by the orchestrating
+   session itself) turned out to need correction on direct inspection at least once: a whole-
+   audit "thorough" claim (missed 4 categories), multiple per-plugin "Done — complete" claims
+   (each was 1 skill's worth of work, not the whole plugin), and an `ALREADY_EXISTS_IN_WORKBENCH`
+   classification for 4 file pairs that was right for 3 and wrong for 1 (the webpart narrative-
+   analysis gap). The fix that actually worked: **independently re-verify every agent's/audit's
+   claim yourself before repeating it** — parse-check scripts, grep for literal leakage, `ls -la`
+   symlinks for the real `l` mode bit (not trust "I created a symlink"), and diff claimed-matching
+   files field-by-field against real fixtures rather than trusting a filename match or a
+   classification label.
+3. **A source repo's own SKILL.md/agent docs can themselves be wrong.** `sp-discovering-permissions`'s
+   own `SKILL.md` has a copy-paste bug — its documented "Stage 1" command invokes
+   `extract-site-navigation.ps1`, not a real permissions collector, and its paired analysis script
+   has no tenant-collection logic of its own either. Don't assume a documented pipeline in the
+   source repo actually works; read the referenced scripts, not just the doc prose describing them.
+4. **Fix fabricated/hardcoded-conclusion scripts during the port — never carry them forward.**
+   `generate-discovery-reports.ps1` asserted fixed conclusions ("SPFx needed? **No.**") regardless
+   of actual scan data; same failure class as the earlier, already-rejected `sp-synthesizing-
+   discovery`. The corrective rewrite made every conclusion genuinely conditional on the real
+   computed counts, or explicitly reported the data as unavailable rather than fabricating
+   boilerplate. Check every ported report-generator for this pattern specifically — it's easy to
+   miss because the boilerplate reads as plausible prose, not as an obviously-wrong number.
+5. **`ln -s` via the Bash tool silently produces a real-file COPY on this Windows/Git-Bash setup,
+   not a symlink.** Every agent this session had to be told to use PowerShell's
+   `New-Item -ItemType SymbolicLink -Path <dst> -Target <relative-src>` instead, and every symlink
+   still had to be independently verified with `ls -la`'s `l` mode bit (or `Get-ChildItem`'s
+   `LinkType: SymbolicLink`) before trusting it. Bake this into every future agent prompt that
+   creates symlinks on this platform — don't rediscover it per-agent.
+6. **Parallelizing independent skill-builds across agents works well and is faster** — this
+   session's own earlier feedback ("you could have done those in batches of 5") was applied
+   successfully for `sharepoint-discovery`'s remaining 4 skill-builds (4 parallel agents, ~10
+   minutes total vs. what would have been much longer serially). Keep doing this for the next
+   plugin's skill-builds; don't revert to one-at-a-time.
+7. **A "gap" a script-level diff finds may already be covered by a properly-designed *agent*,
+   not another script.** The webpart narrative-analysis gap the verification pass found (source's
+   deep-analysis script vs. destination's shallower Python module) turned out to already have a
+   better answer than a script-level port: `sharepoint-webpart-modernization-analysis-agent`
+   already does this reasoning, and does it with a "pattern-collapse discipline" the source script
+   never had. Before building a Python/PowerShell fix for a narrative/judgment-shaped gap, check
+   whether an agent already exists in the destination for exactly that judgment call — building
+   more script logic to replicate what an agent should do is the wrong direction, matching this
+   session's broader skill-vs-agent distinction (procedures/collection → skill or script;
+   judgment/reasoning → agent).
+8. **Symlinks.json/plugin.yaml/plugin.json/map-debt.md are shared files — never let parallel
+   agents write to them.** Every agent dispatched this session was told to report the exact entries
+   needed and let the orchestrating session add them centrally, avoiding concurrent-write
+   conflicts. Also: agents proposed the wrong `symlinks.json` key names (`source`/`target` instead
+   of this repo's actual `src`/`dst`/`strategy`/`description`) every single time — check the real
+   schema yourself before pasting an agent's proposed entry in verbatim.
+
+### [2026-08-11] Phase 9 Onboarding — Real Tenant-Write/Discovery Executors Never Ported, Only Their Planning Halves
+
+- **Logged Date**: 2026-08-11
+- **Artifact Affected**: `plugins/sharepoint-discovery/`, `plugins/sharepoint-schema/`,
+  `plugins/sharepoint-provisioning/`, `plugins/sharepoint-content-migration/`,
+  `plugins/sharepoint-content-publication/` (`sharepoint_upload.py`),
+  `plugins/sharepoint-link-remediation/`, `plugins/sharepoint-page-modernization/`
+- **Friction Observed**: user asked "how are files uploaded" after being shown
+  `sharepoint_upload.py` requires an injected `uploader` callable and raises
+  `NotImplementedError` without one. Follow-up audit (general-purpose agent, 2026-08-11) found this
+  is a **systemic pattern across 6-7 plugins**, not a one-off: Phase 9's extraction from
+  `jag-csb-cmat-sharepoint-online` consistently ported the *planning/logic* half of a capability
+  (a Python module that builds a plan, dict, or diff) but never the *execution* half (the real
+  `Connect-PnPOnline`/`Get-PnP*`/`Add-PnP*` `.ps1` that source repo actually had working). Neither
+  README nor SKILL.md made this legible as a gap at a glance — each read as if the capability
+  worked until the injected-dependency requirement was traced through.
+- **Confirmed gaps** (source repo has real, working `.ps1`; workbench plugin does not):
+  1. **Discovery of lists/site structure** (`sharepoint-discovery`) — **MISSING**, zero `.ps1`,
+     zero tenant I/O. Source: `.agents/skills/sp-discovering-site-structure/scripts/
+     export-sharepoint-inventory.ps1` (real `Get-PnPList` etc.). Workbench only reads a pre-existing
+     local JSON export (`discovery_inputs.py::load_json_input`).
+  2. **Discovery of site columns/content types** (`sharepoint-schema`) — **MISSING**, same pattern;
+     source: `get-list-columns.ps1`, `get-lookup-columns.ps1`; workbench
+     (`schema_export.py::load_schema_export`) only reads a pre-existing export off disk.
+  3. **List/field/content-type provisioning** (`sharepoint-provisioning`) — **STUB**. Source:
+     `plugins/sharepoint-migration/scripts/waves/wave0a-site-columns.ps1`, `wave0b-content-types.ps1`
+     (real `Add-PnP*`). Workbench `list_provisioning.py::apply_provisioning` raises
+     `ExecutorRequired` without an injected executor; no `.ps1` in the plugin.
+  4. **List-item content migration** (`sharepoint-content-migration`) — **STUB**, same
+     `ExecutorRequired` pattern in `item_migration.py::apply_item_migration`. Source:
+     `wave2-persons.ps1`, `wave3-person-dependents.ps1` etc.
+  5. **Page upload/publish** (`sharepoint-content-publication`) — **STUB** (the finding that started
+     this audit). Source: `plugins/sharepoint-migration/scripts/upload/upload-modern-page.ps1`
+     (real `Add-PnPPage`/`Add-PnPPageTextPart`/`Publish-PnPPage`). Workbench `sharepoint_upload.py`
+     raises `NotImplementedError` without an injected `uploader`; the new
+     `spo-page-copy-plan.ps1` (2026-08-11, same session) is itself a planner/recommender for
+     `Copy-PnPPage`, not a generalized upload executor.
+  6. **Link remediation writes** (`sharepoint-link-remediation`) — **STUB/MISSING**. Source:
+     `link-conversion/LinkConversion.ps1`, `Repair-EmbeddedLinks.ps1` (real tenant writes).
+     Workbench modules are pure text-rule transforms with no tenant-write call path.
+  7. **Page modernization execution** (`sharepoint-page-modernization`) — **DESIGN_SCAFFOLD**.
+     Source: `page-migration/convert-and-upload-aspx.ps1` (real upload). Workbench has
+     classification/mapping/preview logic only, no execution path, no `.ps1`.
+- **Cleared, not a gap**: the `.aspx` naming complaint raised alongside this (stale/dangling
+  `.aspx` references in `publish-aspx-to-sharepoint`/`copy-spo-page-between-sites`) — checked, all
+  `.aspx` mentions in those skills are intentional and consistent (documenting that raw `.aspx`
+  upload is confirmed blocked on the tenant).
+- **Why it wasn't caught during Phase 9's own audit**: Phase 9's exhaustive
+  `temp/phase9-source-audit/file-tracking.json` classified individual *source files* as
+  `ONBOARDED`/`NOT_RECOMMENDED`/`NEEDS_ONBOARDING_DEFERRED`, but a planning-only Python module and
+  its real `.ps1` execution counterpart were treated as separately classifiable files rather than
+  one capability pair — a Python plan-builder being marked `ONBOARDED` didn't require its paired
+  executor script to also land, so the executor silently never got a tracking entry at all in
+  several cases. Each plugin's own "plan is pure, apply is gated behind an injected
+  executor/confirmation token" safety contract (real and correct on its own terms, see this file's
+  earlier entries and `CLAUDE.md`) also made a missing executor look like *deliberate design*
+  rather than an *incomplete port* — both explanations produce the exact same code shape
+  (`raise ExecutorRequired`/`NotImplementedError`), so nothing about reading the stub in isolation
+  distinguishes "safety gate, executor to be supplied by caller" from "nobody ever wrote the
+  executor."
+- **User decision (2026-08-11)**: log this gap list and pause — no porting started yet, sequencing
+  to be decided in a future session.
+- **Update (2026-08-11, same day, later session):** gap #5 (page upload/publish,
+  `sharepoint-content-publication`) partially closed — `upload-content` skill now has a real
+  `plugins/sharepoint-content-publication/scripts/spo-upload-plan.ps1` executor
+  (`Add-PnPPage`/`Add-PnPPageTextPart`/`Publish-PnPPage`, dry-run by default, `-Execute
+  -ConfirmToken UPLOAD-SPO-PLAN` gated, reads a `PublishPlan` JSON file directly since Python
+  cannot inject a PowerShell callback into `sharepoint_upload.py`). Scope: page creation from
+  pre-rendered HTML only (matches `structured-content-rendering`'s `render-sharepoint-aspx`
+  output) — raw asset/file upload to a document library is still MISSING, tracked as follow-on
+  work (see `docs/reports/sharepoint-migration-ps1-source-inventory.md`'s
+  `sharepoint-content-migration: migrate-site-assets` row). Full plan:
+  `docs/superpowers/plans/2026-08-11-sharepoint-content-publication-real-uploader.md`. Verified:
+  script parses clean, dry-run against a fixture plan produces the expected JSON, plugin's full
+  test suite (38 tests) still passes. `sharepoint-discovery`, `sharepoint-schema`,
+  `sharepoint-provisioning`, `sharepoint-content-migration`, `sharepoint-link-remediation`,
+  `sharepoint-page-modernization` gaps are unchanged.
+- **Update (2026-08-11, same day, later session):** gap #1 (discovery of lists/site structure)
+  partially closed — `sharepoint-discovery`'s `analyze-page-inventory` skill now has a real,
+  read-only `plugins/sharepoint-discovery/scripts/collect-sharepoint-page-inventory.ps1` collector
+  (Site Pages library only; `-IncludeListForms` warns and no-ops, not yet implemented; the
+  plugin's other 4 domains — forms, navigation, permissions, webpart-code — are still MISSING/
+  STUB, tracked as follow-on work per the source-script mapping table in
+  `docs/superpowers/plans/2026-08-11-sharepoint-discovery-real-collector-executors.md`'s
+  "Findings from the full 147-file source inventory" section). Verified: script parses clean, two
+  new shape-contract tests (`test_page_inventory_collector_shape.py`) pass against the plugin's
+  existing `page-inventory.json` fixture, plugin's test suite (63 of 64 tests — excluding one
+  pre-existing, unrelated `os.geteuid()` Windows-incompatibility failure in
+  `test_discovery_inputs.py` that blocks full-suite collection on Windows and should be fixed
+  separately) still passes. `sharepoint-schema`, `sharepoint-provisioning`,
+  `sharepoint-content-migration`, `sharepoint-link-remediation`, `sharepoint-page-modernization`
+  gaps are unchanged.
+- **Update (2026-08-11, same day, later session): `sharepoint-content-publication` fully closed**
+  (following the reusable playbook recorded elsewhere in this file). Cross-checked all 5 source
+  categories (scripts/skills/agents/assets/references/tests) before building anything — confirmed
+  only 3 remaining source files (`link-conversion/{Invoke-LinkConversionBulk,LinkConversion,
+  Test-LinkConversion}.ps1`), 2 already-covered skills needing no rework, zero assets/references
+  targeting this plugin, and one agent (`sp-validation-agent.md`) whose destination equivalent
+  (`sharepoint-validation-agent.md`) was independently verified to already be richer than the
+  source, not stale — only needed one new routing line added, not a rebuild. Built 3 new skills:
+  `convert-page-to-modern` (`spo-convert-page-to-modern.ps1`, single-page `ConvertTo-PnPPage` +
+  caller-supplied field mapping, dry-run/`-Execute`/confirm-token gated), `execute-page-bulk-
+  migration` (`spo-convert-pages-bulk.ps1`, subprocess-per-page orchestrator with resumable
+  manifest + throttle, kept from the source's already-generic design, minus its link-repair step
+  which belongs to `sharepoint-link-remediation` not duplicated here), and `validate-page-migration`
+  (`spo-validate-page-conversion.ps1`, read-only post-run validator). Two real literal leaks
+  (`"MediaInfo"`, a real CrownNet library name) found and fixed during independent verification,
+  in `.EXAMPLE` blocks that would have otherwise passed a cursory review. All 3 scripts parse
+  clean, zero remaining project-literal matches, all 5 symlinks confirmed real (`l` mode bit) via
+  `Get-ChildItem`, dry-run output verified to produce zero tenant I/O by default, plugin's 38-test
+  suite unaffected (no new Python — pure PowerShell addition, same verification bar as
+  `spo-page-copy-plan.ps1`/`spo-upload-plan.ps1`). `plugin.yaml` updated (3 new skills listed).
+  `sharepoint-schema`, `sharepoint-provisioning`, `sharepoint-content-migration`,
+  `sharepoint-link-remediation`, `sharepoint-page-modernization` gaps are unchanged.
+- **Correction (2026-08-11, same day, later session): the source-repo audit scope itself was
+  incomplete, not just the porting work.** The 147-file inventory
+  (`docs/reports/sharepoint-migration-ps1-source-inventory.md`) covered only
+  `plugins/sharepoint-migration/scripts/*.ps1` in the source repo. It silently missed four other
+  real, substantial categories in the same source plugin: `skills/` (35 skill folders, 148 files —
+  a proper skills structure mirroring this workbench's own, with real Python + tests),
+  `agents/` (10 orchestrating-agent `.md` files), `assets/templates/` (17 files), and
+  `references/` (14 files). This was caught by the user directly, not discovered proactively —
+  the earlier "Done — audit complete" framing for the 147-file pass was as overstated as the
+  per-plugin "complete" claims corrected above; same failure pattern, larger scale. Two follow-up
+  audits closed the gap:
+  - `docs/reports/sharepoint-migration-skills-and-agents-source-inventory.md` — 35 skills (corrected
+    from an initial 33), 148 files, 10 agents. Headline: no net-new missed CAPABILITY was found
+    (14/35 skills are `PLANNED_WITH_NO_IMPLEMENTATION` in the source itself; ~15 already match the
+    known "planning ported, executor missing" pattern) — but it found a real, previously-untracked
+    gap: `sp-discovering-permissions`'s live-collection leg has no named source script anywhere in
+    the `.ps1`-only audit. It also confirmed the 4 top-level orchestrator agents
+    (`sp-deployment-planner`, `sp-migration-agent`, `sp-migration-orchestrator`,
+    `sp-wave-orchestrator`) have **no destination equivalent** and were never attempted — the
+    biggest actual gap this pass found, and also the most CMAT-literal-dense files in the whole
+    source tree (up to 161 project-specific literals in one file). `sp-discovery-agent.md`
+    specifically (13-14 step discovery orchestration sequence) also has no destination equivalent —
+    `sharepoint-discovery` has zero agents today. Confirmed this does NOT duplicate the
+    `collect-sharepoint-page-inventory.ps1`/`collect-sharepoint-inventory` work already done —
+    only step 1 of its sequence overlaps; the rest route to collectors that don't exist yet
+    (navigation/webpart-code/forms/permissions), so building the orchestrating layer should wait
+    until those collectors exist. Per user discussion: this orchestration layer does not have to
+    become a separate `agents/*.md` file — it could equally be a skill (e.g.
+    `orchestrate-sharepoint-discovery`) under `plugins/sharepoint-discovery/skills/`, consistent
+    with how other plugins in this workbench mix agents and skills for orchestration; decide
+    skill-vs-agent when this piece is actually built, not before.
+  - `docs/reports/sharepoint-migration-assets-and-references-source-inventory.md` — 34 files
+    (17 assets + 14 references + 3 top-level tests). ~11 are real onboarding candidates (9 reusable
+    report templates, 2 methodology docs); 1 (`webpart-migration-rules.json`) confirmed already
+    ported (byte-diffed against the destination copy, exit 0 — not just a filename match); 22 are
+    correctly CMAT-specific project data/runbooks/decision records (including actual government
+    service-request/denial letters) that should stay in the source repo, not be onboarded.
+  - **Implication beyond `sharepoint-discovery`**: the source repo's `skills/`, `agents/`,
+    `assets/`, and `references/` span multiple destination plugins (schema, provisioning,
+    content-migration, content-publication, link-remediation, page-modernization,
+    migration-planning) — every gap entry logged in this file's earlier 2026-08-11 entries for
+    those plugins was made against the same incomplete scope and should be re-verified against
+    these two new inventory documents before being treated as complete, not just
+    `sharepoint-discovery`'s.
+- **Update (2026-08-11, same day, later session): `collect-sharepoint-inventory` skill added,
+  closing the remaining 6 of 7 files this gap's original list named** (the 7th,
+  `check-managed-metadata-custom.ps1`/`check-managed-metadata-spo-prod.ps1`, maps to a still-not-
+  built `audit-managed-metadata` skill, unchanged). Three real collector scripts added at
+  `plugins/sharepoint-discovery/scripts/`: `collect-sharepoint-inventory.ps1` (modern SPO,
+  PnP.PowerShell, 4 modes: Lists/ListFields/LibraryFiles/ContentTypes), `collect-onprem-sharepoint-
+  inventory.ps1` (on-prem SP2016, NTLM/Kerberos REST, full-crawl or `-QuickCountsOnly`), and
+  `collect-onprem-sharepoint-aspx-pages.ps1` (on-prem SP2016, NTLM/Kerberos REST, bulk `.aspx`
+  downloader) — consolidating 7 source files without silently dropping any (full per-source
+  mapping in the new skill's `SKILL.md`). Verified independently (not just trusting the building
+  agent's own report): all 3 scripts parse clean, zero CMAT/ITAU/AG-CSB literals found via grep,
+  plugin's 63-test suite still passes, symlinks confirmed real (`l` mode bit) via `ls -la`.
+  `plugin.yaml` and `.claude-plugin/plugin.json` both updated (skill added, "zero tenant I/O"
+  claim corrected to reflect this plugin now has a real collector). One CMAT-specific list-name
+  literal (`All_Appearances`) found leaking into a usage example during verification and fixed in
+  both the script and SKILL.md.
+- **Update (2026-08-11, same day, later session): `sharepoint-discovery` gap #1 now substantially
+  closed.** Following the user's explicit "get one plugin correct first" direction, 4 parallel
+  agents plus one script built directly by the orchestrating session closed every remaining
+  collector gap this plugin had:
+  - `audit-managed-metadata` (new skill) — 2 scripts (modern SPO + on-prem SP2016 variants).
+  - `audit-onprem-schema-drift` (new skill) — 1 script, generalized from a heavily CMAT-hardcoded
+    source (removed hardcoded `$WatchFields`/`$SourceLists`/`'ITAU_Cal_*'` pattern matching and a
+    CMAT-specific workflow-name search, replaced with `-SourceListNames`/`-DestinationListNames`/
+    `-DestinationListPattern`/`-WatchFieldNames` parameters).
+  - `generate-discovery-report-set` (new skill) — 1 script, **a corrective rewrite, not a port**:
+    the source script asserted hardcoded conclusions as findings regardless of actual scan data
+    (e.g. always printing "Are Modern Script Editor Web Parts needed? **No.**" regardless of the
+    real web-part count; a whole `security-analysis-summary.md` section generated from zero data
+    inputs). Independently verified the fix is real (not just claimed): the SPFx verdict is now
+    genuinely conditional on `$sewpEntries.Count`, and the security-summary section is skipped
+    entirely with a warning when no permissions input is supplied, rather than fabricating
+    boilerplate. Same failure pattern as `sp-synthesizing-discovery`'s previously-rejected
+    fabricated-metrics finding (Phase 9), now also caught and fixed for this script.
+  - `analyze-site-navigation`, `analyze-webpart-code`, `analyze-custom-forms` — each extended with
+    a real on-prem NTLM/REST collector (3 scripts; the two near-duplicate live web-part scanners
+    from the source, `scan-webparts.ps1` and `scan-all-webparts-live.ps1`, were consolidated into
+    one script's `-Mode Scan` with a `-FullSiteCrawl` switch rather than ported as two files).
+  - `analyze-permissions` — extended with `collect-sharepoint-permissions.ps1`, built directly (not
+    via agent) because **no real source script exists for this** — `sp-discovering-permissions`'s
+    own `SKILL.md` in the source repo has a copy-paste bug, its documented "Stage 1" command
+    actually invokes `extract-site-navigation.ps1`, not a permissions collector. Built from the
+    `Get-PermissionRecords` REST pattern already read earlier this session in
+    `export-sharepoint-inventory.ps1`, generalized and shape-matched to this skill's own existing
+    `permissions-flat.json` fixture (verified field-for-field, not assumed).
+  - 2 asset templates ported and generalized: `master-discovery-meta-review-template.md`,
+    `site-navigation-chrome-summary-template.md` (the other 7 of 9 recommended templates from the
+    assets audit belong to other plugins, out of scope here).
+  - **Every one of the above was independently re-verified by the orchestrating session, not
+    trusted from agent self-reports**: parse-checked, grepped for zero CMAT/ITAU/AG-CSB literal
+    leakage, symlinks confirmed real (`l` mode bit) via direct `ls -la`, and output field shapes
+    checked against real consumer fixtures line-by-line (not just the agent's claim that they
+    matched). `plugin.yaml` and `.claude-plugin/plugin.json` updated to list all 4 new skills and
+    correct the stale "zero tenant I/O" claim. Plugin test suite: 65/65 passing (63 baseline + 2
+    new shape-contract tests for the permissions collector).
+  - **What is still genuinely open**: the `sp-discovery-agent.md` orchestration layer (13-14 step
+    discovery sequence) — deliberately not built this pass since its dependency (every referenced
+    collector) only just landed. Per user discussion, this does not have to become a separate
+    `agents/*.md` file — it could be a skill (e.g. `orchestrate-sharepoint-discovery`), consistent
+    with how other plugins in this workbench mix agents and skills; decide when actually building
+    it, not before. `plugins/sharepoint-discovery` currently has zero agents.
+- **Update (2026-08-11, same day, later session): webpart narrative-analysis gap checked and
+  closed, with a correction to the checking itself.** A verification pass (requested after the
+  user pushed back on trusting "already exists" claims without diffing) found `webpart_code_
+  analysis.py` was missing 5 of 7 narrative dimensions the source's `generate-deep-webpart-
+  analysis.py` produced (business intent, actual enforcement level, SPFx assessment). Added
+  `businessIntent`/`enforcementLevel`/`spfxAssessment` fields to `analyse()`'s group output and
+  `generate_report()`'s Markdown, computed generically for structurally-unambiguous categories
+  (Empty/TextOnly), caller-supplied via `InlineLogicRule` for recognised inline logic, honestly
+  reported as "requires manual review" otherwise — never asserted as a fixed conclusion. 6 new
+  tests added (70/70 plugin tests passing, up from 65). **Correction to the gap itself, found
+  while wiring this in**: `analyze-webpart-code`'s own SKILL.md already documents a Stage 1/Stage
+  2 split, and `sharepoint-page-modernization/agents/sharepoint-webpart-modernization-analysis-
+  agent.md` already performs this narrative reasoning — and better than the source script did
+  (it has a "pattern-collapse discipline" collapsing near-duplicate groups into one decision,
+  which the source never had). The Python fields added here are a deterministic starting point,
+  not a replacement for that agent — SKILL.md updated to say so explicitly, and a stale reference
+  to the agent's old location (`sharepoint-agents-and-skills`, pre-2026-08-08 decentralization)
+  was corrected to its real current location (`sharepoint-page-modernization`) while in there.
+  **`sharepoint-discovery` is now considered fully closed for this porting pass** — the only
+  remaining item is the orchestration layer noted above, deliberately deferred, not a gap.
+- **Recommended fix, when resumed**: port the real `.ps1` executors listed above from
+  `jag-csb-cmat-sharepoint-online`, generalizing per this plugin ecosystem's existing conventions
+  (`.agent/rules/sharepoint-ps1-authentication-convention.md` for auth, dry-run-by-default +
+  confirm-token pattern already used by `spo-page-copy-plan.ps1`/`test-grant-tier-probe.ps1`).
+  Discovery/schema (read-only) are the lowest-risk, highest-leverage starting point since
+  provisioning/migration/upload arguably need their output as input. Update each plugin's
+  `plugin.yaml`/SKILL.md and run `symlink_manager.py diagnose` after any shared-script changes.
+- **Severity**: L (blocks real day-to-day use of 6-7 of 10 SharePoint plugins for live tenant work).
+  **Repeat**: yes, in the sense that it is one root cause manifesting across many plugins — treat as
+  a single tracked initiative, not seven independent bugs.
+
 ### [2026-07-30] PnP.PowerShell Tenant Upload Friction & Execution Discipline Failure
 
 - **Logged Date**: 2026-07-30
@@ -317,4 +635,17 @@
 - **Evidence**: `glob **/symlink_manager.py` found no helper; `symlinks.json` now contains the `spo_page_copy_plan.py` link and the destination is a `SymbolicLink`.
 - **Severity**: S
 - **Repeat**: NO
+- **Status**: RESOLVED
+
+### [2026-08-11] SPO Page Copy Skill Used Python Front Door Instead of PowerShell Operator Script
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: `copy-spo-page-between-sites` page-to-page execution planning
+- **Artifact Affected**: `plugins/sharepoint-content-publication/scripts/spo-page-copy-plan.ps1`; `plugins/sharepoint-content-publication/skills/copy-spo-page-between-sites/SKILL.md`
+- **Friction Observed**: The initial page-copy planner was implemented as `spo_page_copy_plan.py`, which was awkward for an SPO/PnP operator workflow and unclear to the user.
+- **Why it wasn't fixed earlier**: The Python helper followed the repo's pure-planning/test pattern, but this workflow is SharePoint operator-facing and should expose PowerShell/PnP command semantics directly.
+- **Recommended Fix**: Replace the operator-facing planner with a `.ps1` front door that emits the exact `Copy-PnPPage` and `Rename-PnPFile` commands, supports `-Execute` behind a confirmation token, and remove the Python planner/symlink references.
+- **Evidence**: `spo_page_copy_plan.py` and its test were removed; `spo-page-copy-plan.ps1` now validates source/target URLs, emits `Copy-PnPPage` plus `Rename-PnPFile` when page names differ, and the skill points to the `.ps1`.
+- **Severity**: M
+- **Repeat**: YES
 - **Status**: RESOLVED

@@ -151,6 +151,68 @@ def test_knowledge_base_from_missing_file_is_rejected_not_silently_empty(tmp_pat
         KnowledgeBase.from_file(tmp_path / "absent.json")
 
 
+# -- Narrative assessment (businessIntent / enforcementLevel / spfxAssessment) --
+
+def test_text_only_group_gets_generic_display_only_assessment(entries):
+    plan = analyse(entries, DEFAULT_KNOWLEDGE_BASE)
+    text_group = next(g for g in plan["groups"] if g["category"] == "TextOnly")
+    assert "display only" in text_group["enforcementLevel"].lower()
+    assert "not required" in text_group["spfxAssessment"].lower()
+
+
+def test_empty_group_gets_none_needed_assessment():
+    plan = analyse(
+        [{"PageUrl": "/p.aspx", "WebPartId": "1", "WebPartTitle": "X", "Content": ""}],
+        DEFAULT_KNOWLEDGE_BASE,
+    )
+    group = plan["groups"][0]
+    assert group["businessIntent"].startswith("None")
+    assert "not required" in group["spfxAssessment"].lower()
+
+
+def test_unrecognised_inline_logic_is_honest_unknown_not_guessed():
+    plan = analyse(
+        [{"PageUrl": "/p.aspx", "WebPartId": "1", "WebPartTitle": "X",
+          "Content": "<script>doSomethingObscure();</script>"}],
+        DEFAULT_KNOWLEDGE_BASE,
+    )
+    group = plan["groups"][0]
+    assert "unknown" in group["businessIntent"].lower()
+    assert "unknown" in group["spfxAssessment"].lower()
+
+
+def test_caller_supplied_business_intent_and_spfx_assessment_are_applied():
+    kb = KnowledgeBase.from_dict(
+        {
+            "inlineLogicRules": [
+                {
+                    "match": ["lockField"],
+                    "summary": "Locks a field once a status value is reached.",
+                    "modernEquivalent": "Low-code form rule",
+                    "effort": "Low",
+                    "businessIntent": "Prevent edits to closed records.",
+                    "spfxAssessment": "Not required -- a Power Automate flow covers this.",
+                }
+            ]
+        }
+    )
+    plan = analyse(
+        [{"PageUrl": "/p.aspx", "WebPartId": "1", "WebPartTitle": "X",
+          "Content": "<script>lockField();</script>"}],
+        kb,
+    )
+    group = plan["groups"][0]
+    assert group["businessIntent"] == "Prevent edits to closed records."
+    assert group["spfxAssessment"] == "Not required -- a Power Automate flow covers this."
+
+
+def test_report_includes_business_intent_and_spfx_assessment(entries):
+    report = generate_report(analyse(entries, DEFAULT_KNOWLEDGE_BASE))
+    assert "Business intent:" in report
+    assert "Actual enforcement level:" in report
+    assert "SPFx assessment:" in report
+
+
 # -- Outputs ------------------------------------------------------------------
 
 def test_instance_csv_has_one_row_per_web_part(entries):

@@ -13,8 +13,10 @@ examples:
 
 Use this skill when planning a classic-to-modern SharePoint migration and you
 need to know which pages are cheap to move and which are hard. It consumes a
-page inventory already exported from a tenant and produces a scored,
-prioritised analysis.
+page inventory exported from a tenant -- either produced by
+`scripts/collect-sharepoint-page-inventory.ps1` (this skill's own real,
+read-only PnP.PowerShell collector) or supplied from any other source in the
+same JSON shape -- and produces a scored, prioritised analysis.
 
 It answers: how complex is each page, which web-part categories appear, and
 what is the suggested disposition (migrate as-is, rebuild, retire).
@@ -38,8 +40,26 @@ is `EMPTY`, never a pass.
 
 ## Read-only guarantee
 
-No writes to any tenant, no network access. It reads the export path you name
-and writes analysis artifacts to the output directory you name.
+`page_inventory_analysis.py` itself makes no writes to any tenant and no
+network access -- it reads the export path you name and writes analysis
+artifacts to the output directory you name.
+`collect-sharepoint-page-inventory.ps1` (below) does connect to a live
+tenant, but only ever calls read cmdlets (`Get-PnP*`) -- it makes zero
+tenant writes.
+
+## Collecting a fresh export
+
+`collect-sharepoint-page-inventory.ps1` connects interactively (delegated
+auth, per `.agent/rules/sharepoint-ps1-authentication-convention.md`) to a
+live site and writes a `page-inventory.json` in the exact shape
+`page_inventory_analysis.py` consumes. Read-only -- calls only `Get-PnP*`
+cmdlets, zero tenant writes. Covers the Site Pages library only in this first
+pass; list-form (`NewForm`/`EditForm`/`DispForm`) scanning is not yet
+implemented (`-IncludeListForms` currently warns and no-ops).
+
+```bash
+pwsh -File scripts/collect-sharepoint-page-inventory.ps1 -SiteUrl "https://tenant.sharepoint.com/sites/Test" -OutputPath page-inventory.json
+```
 
 ## Usage
 
@@ -53,6 +73,7 @@ print(outcome.status, outcome.detail)
 
 ## Scripts
 
+- `scripts/collect-sharepoint-page-inventory.ps1` -- real, read-only PnP.PowerShell collector
 - `scripts/page_inventory_analysis.py` -- `run`, `analyse`, `generate_report`, `load_rules`, `compute_complexity`, `disposition_hint`
 - `scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
 

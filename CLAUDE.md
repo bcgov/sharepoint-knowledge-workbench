@@ -282,6 +282,7 @@ carries only the key non-negotiables:
 - `test-driven-development.md` — TDD approach where code is involved
 - `symlink-cross-platform.md` — symlink protocol if shared scripts are introduced
 - `github-issue-logging-policy.md` — issue logging conventions, if/when this repo tracks issues on GitHub
+- `sharepoint-ps1-authentication-convention.md` — standard PnP.PowerShell `Connect-PnPOnline` interactive-auth + `TenantAdminUrl` pattern every live-tenant `.ps1` script must follow (except documented Certificate/App-Only scripts)
 
 
 ### Phase 4+ SharePoint Copilot Agent Configuration

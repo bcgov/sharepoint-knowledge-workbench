@@ -2,30 +2,41 @@
 sharepoint_upload.py
 =====================
 
-Phase 9 extraction (source: CMAT repository `sp-uploading-content` skill,
-commit `78d6bb91a6c3c01208208a8c2a06f241fef9ce9f` -- see
-`docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`).
+Executes a `PublishPlan` (a list of file-upload actions, built by
+`sharepoint_publish_plan.py`) against SharePoint Online by delegating each
+action to a caller-supplied `uploader` callable.
 
-Generic modern-page/asset upload primitive for SharePoint Online, adapted from
-CMAT's proven `Add-PnPPage` / `Add-PnPPageTextPart` / `Publish-PnPPage` call
-pattern (`scripts/upload/upload-modern-page-rest.ps1`,
-`scripts/upload/upload-modern-page.ps1`) -- the same page-creation approach
-this workbench already independently confirmed as the only working mechanism
-on this tenant (`docs/research/research-experimentation/tenant-discovery/
-field-note-sharepoint-write-capability-discovery.md` Section 15, referenced by
-`publish-aspx-to-sharepoint`'s SKILL.md).
+Inputs:
+    - `plan: PublishPlan` -- the actions to execute (`document_id`, `actions`).
+    - `uploader: Uploader | None` -- `Callable[[PublishAction], UploadResult]`.
+      Required. This module ships no live PnP/REST client itself and performs
+      zero SharePoint tenant I/O on its own -- without an `uploader`,
+      `upload_pages()` raises `NotImplementedError` rather than silently
+      no-op'ing or faking success. A real `uploader` should create/publish
+      pages via the modern-page API (`Add-PnPPage` / `Add-PnPPageTextPart` /
+      `Publish-PnPPage` or the equivalent REST calls), not a raw file upload
+      -- raw `.aspx` upload is not a supported path on SharePoint Online.
 
-Matches this plugin's established Phase 3 package-only architecture
-(`sharepoint_publish_plan.py`, `sharepoint_package.py`): this module performs
-**zero SharePoint tenant I/O by default**. `upload_pages()` requires an
-explicitly injected `uploader` callable -- without one it raises
-`NotImplementedError` rather than silently no-op'ing or faking success, the
-same connector-injection contract `workbench-setup`'s `config_setup.
-test_connection()` already uses. No live PnP/REST client ships in this
-module; callers wire in their own transport (e.g. a REST client built against
-`_api/sitepages/pages` and `_api/web/getfolderbyserverrelativeurl(...)/files/
-add`) only when they explicitly want a real upload to run. This preserves the
-plugin's existing "no autonomous production tenant writes" property.
+Outputs:
+    - `list[UploadResult]`, one per action, in plan order.
+
+Preconditions:
+    - `plan.actions` must be non-empty (`UploadError` if empty).
+    - Stops and raises `UploadError` on the first action whose `uploader` call
+      reports `success=False`, rather than continuing and reporting partial
+      success as full success.
+
+Example:
+    from sharepoint_publish_plan import build_markdown_publish_plan
+    from sharepoint_upload import upload_pages, UploadResult
+
+    plan = build_markdown_publish_plan(document_id, source_dir, library, folder)
+
+    def my_uploader(action):
+        # call Add-PnPPage / Add-PnPPageTextPart / Publish-PnPPage (or REST)
+        return UploadResult(action=action, success=True)
+
+    results = upload_pages(plan, uploader=my_uploader)
 """
 from __future__ import annotations
 

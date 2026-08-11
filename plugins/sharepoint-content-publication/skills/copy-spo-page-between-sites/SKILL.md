@@ -15,15 +15,20 @@ classic page modernization.
 
 ## Steps
 
-1. Confirm the source site URL, target site URL, page library, page name, and
-   overwrite expectation.
-2. Build a copy plan with `scripts/spo_page_copy_plan.py`.
+1. Confirm the source site URL, target site URL, page library, source page
+   name, target page name, and overwrite expectation.
+2. Build a page-to-page copy plan with `scripts/spo-page-copy-plan.ps1`.
+   - Use `-SourcePageUrl` and `-TargetPageUrl` when the user provides full
+     source and destination page URLs.
+   - Use `-Overwrite` only when the target page may be replaced.
 3. Present the generated plan and the recommended human-run execution approach.
 4. Do not run live tenant write commands automatically.
 
 ## Common Failures
 
 - A non-`.aspx` page name is supplied.
+- The target page should use a different name but no `target_page_name` is
+  provided to the plan helper.
 - The request is actually classic SP2016 modernization; route that to the page
   modernization skills instead.
 - The user asks for raw `.aspx` upload; prefer supported SPO page APIs/PnP page

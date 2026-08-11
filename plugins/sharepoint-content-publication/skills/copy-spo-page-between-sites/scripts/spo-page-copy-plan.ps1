@@ -1,0 +1,1 @@
+../../../scripts/spo-page-copy-plan.ps1

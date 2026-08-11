@@ -45,8 +45,33 @@ print(outcome.status, outcome.detail)
 "
 ```
 
+## Collecting a fresh export
+
+`collect-sharepoint-site-navigation.ps1` connects to a live on-prem
+SharePoint 2016 site (REST + NTLM/Kerberos, no PnP/CSOM -- see
+`.agent/rules/sharepoint-ps1-authentication-convention.md` for why on-prem
+uses this auth mechanism instead of `Connect-PnPOnline`) and writes a
+`navigation.json` in the exact `{topNav, quickLaunch}` shape
+`navigation_analysis.py` consumes, each node shaped
+`{title, url, children}`. It also writes a fuller `site-chrome.json`
+(site title, logo URL, master page path, locale, breadcrumb ancestor chain)
+for reference/reporting -- not consumed by `navigation_analysis.py`, which
+reads `navigation.json` only. Read-only: calls only REST GETs, makes zero
+writes to the tenant.
+
+```bash
+pwsh -File scripts/collect-sharepoint-site-navigation.ps1 -SiteUrl "https://sp2016.example.org/sites/Legacy" -OutputDir ./nav-export -UseDefaultCredentials
+```
+
+`assets/site-navigation-chrome-summary-template.md` is a Markdown template
+for writing up the collected navigation/chrome data as a reviewer-facing
+architecture summary (top nav table, quick launch, master page chrome) --
+fill in its `{{...}}` placeholders from `site-chrome.json` and
+`navigation-plan.json`.
+
 ## Scripts
 
+- `scripts/collect-sharepoint-site-navigation.ps1` -- real, read-only on-prem REST collector
 - `scripts/navigation_analysis.py` -- `run`, `analyse`, `generate_report`
 - `scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
 
