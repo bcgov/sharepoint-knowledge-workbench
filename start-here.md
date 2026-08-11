@@ -1,5 +1,102 @@
 # Resume — Phase 9 COMPLETE and on `main`; Phase 8 merged; Phase 7 paused
 
+## Post-Phase-9 SharePoint plugin real-executor porting (2026-08-11, current work, on `main`)
+
+**Read this section first if resuming.** This is ongoing work directly on `main` (no branch/
+worktree — small, independently-verified, reviewed-as-you-go commits per plugin, per explicit
+user direction this round), separate from and after Phase 9. Latest commit: `08e2a46` ("feat: real
+.ps1 executors for sharepoint-discovery and sharepoint-content-publication"), pushed to
+`origin/main`.
+
+### The problem this work is fixing
+
+Phase 9's extraction from the source repo (`jag-csb-cmat-sharepoint-online`) consistently ported
+the *planning/analysis* half of a capability (a Python module) but left the *live-tenant
+execution* half (the real `.ps1` that actually calls `Connect-PnPOnline`/`Get-PnP*`/`Add-PnP*`)
+behind unported. This looked like a safety-gate ("`raise NotImplementedError` without an injected
+executor") but was actually an incomplete port — both produce the identical code shape, so it went
+unnoticed until the user tried to actually use `sharepoint-content-publication`'s upload skill and
+found nothing behind it. Full incident record, all decisions, and every fix are in
+`.agent/map-debt.md`'s **2026-08-11 entries** (search for that date — there are several, read them
+in file order, they're additive not edited).
+
+### The emergent method — apply this to every remaining plugin, one at a time
+
+A first pass scoped only to `plugins/sharepoint-migration/scripts/*.ps1` in the source repo missed
+four other real onboardable categories entirely — caught by direct user pushback three separate
+times mid-session, not found proactively. **Do not repeat that mistake.** Before touching any
+plugin's remaining gap, audit ALL FIVE of these source-repo categories for that plugin, not just
+scripts:
+
+1. `scripts/` — flat `.ps1`/`.py` utility scripts (what the first, incomplete pass covered alone).
+2. `skills/` — a full parallel skills structure (35 folders, 148 files) with its own real Python +
+   tests, often richer than what's in `scripts/`.
+3. `agents/` — 10 orchestrating `.md` files describing multi-step sequencing/routing logic.
+4. `assets/templates/` — 17 files, a mix of genuinely reusable report templates and real
+   project-specific data; only the templates are portable.
+5. `references/` — 14 files, almost all project-specific runbooks/decision records; 2 hold
+   genuinely portable methodology.
+
+Three audit documents already exist from this pass and should be consulted (not re-derived) for
+any remaining plugin's file-to-plugin mapping:
+- `docs/reports/sharepoint-migration-ps1-source-inventory.md` (category 1, all 147 files)
+- `docs/reports/sharepoint-migration-skills-and-agents-source-inventory.md` (categories 2–3)
+- `docs/reports/sharepoint-migration-assets-and-references-source-inventory.md` (categories 4–5,
+  plus the 3 top-level `tests/` files)
+
+**Critical rule learned the hard way, applied from here on**: a classification in these audit docs
+(`ALREADY_EXISTS_IN_WORKBENCH`, "already ported", etc.) is a claim, not a verified fact — one of
+four such claims checked directly this session turned out to be wrong (a materially shallower
+Python reimplementation, not a real equivalent). **Independently re-verify every such claim before
+trusting it** — read both files, diff the actual capability, don't trust a filename match or a
+label. The full, generalized 8-point playbook (audit scope, claim verification, source-repo's-own-
+doc-bugs, fabricated-conclusion scripts, the `ln -s`-silently-copies Windows gotcha, agent
+parallelization, skill-vs-agent judgment calls, shared-file write conflicts) is recorded once, in
+full, at the top of `.agent/map-debt.md` under **"[2026-08-11] Reusable Playbook for Porting a
+Source-Repo Plugin"** — read that entry in full before starting the next plugin, it is the
+authoritative process document for this work, not a summary of it.
+
+### Status per plugin (10 SharePoint plugins total)
+
+| Plugin | Status |
+|---|---|
+| `sharepoint-discovery` | **DONE** — 9 skills, all with real collectors (5 extended, 4 new); 1 Python module upgraded with richer narrative fields after a real gap was found and confirmed; 70/70 tests passing (excl. 1 pre-existing unrelated Windows-only failure in `test_discovery_inputs.py`, not yet fixed, tracked separately) |
+| `sharepoint-content-publication` | **DONE** — 3 new skills (`convert-page-to-modern`, `execute-page-bulk-migration`, `validate-page-migration`) plus 2 already built earlier this pass (`copy-spo-page-between-sites`'s real executor, `upload-content`'s real executor); 38/38 tests passing |
+| `sharepoint-schema` | **NOT STARTED** — 0 real `.ps1` scripts in the whole plugin currently; audit already names ~9 source files (`get-list-columns.ps1`, `get-lookup-columns.ps1`, `compare-prod-vs-test-schema.ps1`, `audit-list-columns.ps1`, `audit-spo-duplicates.ps1`, `compare-site-parity.ps1`, `compare-test-prod.ps1`, `discover-calculated-columns.ps1`, `get-persons-missing-fields-live.ps1`) |
+| `sharepoint-migration-planning` | **NOT STARTED** — smallest remaining plugin by file count (1 script, `deploy-all-waves.ps1`), plus porting the generic sequencing pattern (not the CMAT-specific content) from `sp-migration-orchestrator.md`/`sp-wave-orchestrator.md` and the portable half of `references/guiding-principles.md` |
+| `sharepoint-link-remediation` | **NOT STARTED, likely smallest real gap** — audit suggests most of its skills (`extract-links`, `validate-link-integrity`, `remediate-links`) may already have real executors; **this claim is unverified** per the rule above, check it directly before assuming |
+| `sharepoint-provisioning` | **NOT STARTED** — largest remaining scope (~15+ source files: schema deployment waves, calendar provisioning, user/group management, destructive clean-slate scripts) |
+| `sharepoint-content-migration` | **NOT STARTED** — medium scope, centered on `lib/migrate-helpers.ps1` (632-line real executor behind the existing `ExecutorRequired` stub) plus orchestration scripts |
+| `sharepoint-page-modernization` | **NOT STARTED** — medium scope (`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`, `diagnose-page.ps1`, 2 asset templates); note `sp-running-sharegate-jobs`'s two scripts are `NOT_RECOMMENDED` (require a commercial ShareGate license) |
+
+### Recommended next plugin
+
+**`sharepoint-migration-planning`** or **`sharepoint-link-remediation`** — both are the smallest
+remaining candidates by file count. `link-remediation` may be smaller still but its "mostly already
+built" status is an unverified audit claim (see the rule above) — verify that first if picking it,
+otherwise `migration-planning`'s 1-script gap is the safest small next step. Do **not** start
+`sharepoint-provisioning` next; it's the largest remaining plugin and should come after the smaller
+ones are cleared, per the user's explicit "smallest first" sequencing this round.
+
+### Session process notes for whoever resumes
+
+- Work happens directly on `main`, small commits, pushed after each plugin closes (not batched).
+- Independently re-verify everything an agent reports before trusting it: parse-check every new
+  `.ps1` (`[System.Management.Automation.Language.Parser]::ParseFile`), grep for zero project-
+  literal leakage (CMAT/ITAU/AG-CSB/project codenames), confirm every symlink is real via
+  `Get-ChildItem`'s `LinkType: SymbolicLink` (not `ls -la`'s `l` bit alone on this Windows/Git-Bash
+  setup — `ln -s` via Bash silently produces a real-file copy, use PowerShell's
+  `New-Item -ItemType SymbolicLink` instead), and run the plugin's full test suite.
+- Independent skill-builds within one plugin parallelize well via the `Agent` tool (background,
+  `run_in_background: true`) — dispatched 4-5 at once this session, each told explicitly not to
+  touch shared files (`symlinks.json`, `plugin.yaml`, `.claude-plugin/plugin.json`,
+  `.agent/map-debt.md`) and instead report the exact entries needed, added centrally afterward to
+  avoid concurrent-write conflicts.
+- Only call a plugin "done" when every file in all 5 source categories has been checked, not just
+  scripts — and only say "complete" when it's actually true; this session's own premature "Done —
+  complete" claims (corrected by the user) are recorded as the cautionary example in the playbook
+  entry referenced above.
+
 ## Phase 9 — authoritative fresh-session handoff (2026-08-08, verified against git + real test runs)
 
 **Read this section first.** Phase 9 (reusable SharePoint plugin extraction) is done: merged to
