@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "skill": "render-sharepoint-aspx",
+  "plugin": "structured-content-rendering",
+  "evals": [
+    {
+      "name": "documented-skill-contract",
+      "description": "Renders a validated structured content package into SharePoint modern-page-ready artifacts (an HTML fragment per chunk plus a page-manifest.json) for the confirmed-working Add-PnPPage/Add-PnPPageTextPart route. Does not upload to SharePoint, does not attempt raw .aspx file upload (confirmed Access denied), and does not extract source documents or determine topic boundaries.",
+      "prompt": "Use the render-sharepoint-aspx skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+      "expected": [
+        "Uses the skill documented in SKILL.md",
+        "Identifies the required input artifacts or parameters",
+        "Identifies the expected output or report artifact",
+        "Respects the documented plugin boundaries and non-responsibilities",
+        "Does not invent destructive tenant writes or bypass required confirmation gates"
+      ]
+    }
+  ]
+}
