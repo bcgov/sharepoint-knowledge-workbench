@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-page-modernization",
+    "version": "0.1.0-alpha.1",
+    "description": "Analyses exported classic SharePoint page content on disk and produces a modern-page mapping plan: component classification, layout selection, web part mapping, gap reporting, and offline preview composition. Zero tenant I/O.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "classic-pages",
+        "modernization",
+        "page-conversion"
+    ]
+}

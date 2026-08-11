@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-content-migration",
+    "version": "0.1.0-alpha.1",
+    "description": "Item-level SharePoint content migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "content-migration",
+        "list-items",
+        "lookup-fields"
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-link-remediation",
+    "version": "0.1.0-alpha.1",
+    "description": "Generic SharePoint link extraction, rewrite-rule remediation, and post-migration link-integrity validation. Extraction is read-only; remediation is dry-run by default and requires an explicitly injected writer plus a confirmation token.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "links",
+        "remediation",
+        "migration"
+    ]
+}
