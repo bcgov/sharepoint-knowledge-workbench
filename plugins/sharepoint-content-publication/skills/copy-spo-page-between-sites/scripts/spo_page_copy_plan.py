@@ -1,0 +1,1 @@
+../../../scripts/spo_page_copy_plan.py

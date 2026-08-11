@@ -1,0 +1,14 @@
+[
+  {
+    "id": "copy-spo-page-positive",
+    "type": "positive",
+    "prompt": "Copy Briefing.aspx from the SPO TEST site to the SPO PROD site.",
+    "should_trigger": true
+  },
+  {
+    "id": "classic-modernization-negative",
+    "type": "negative",
+    "prompt": "Convert this SP2016 classic ASPX page into a modern SharePoint page manifest.",
+    "should_trigger": false
+  }
+]

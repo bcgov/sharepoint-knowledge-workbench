@@ -1,6 +1,6 @@
 name: sharepoint-content-publication
 version: 0.1.0-alpha.1
-description: "SharePoint tenant publication tooling: packages a rendered publication output, dry-runs the upload plan, and reconciles it against live tenant state. Not yet decomposed to the Phase 4.5 domain-plugin model."
+description: "SharePoint tenant publication tooling: packages a rendered publication output, dry-runs the upload plan, reconciles it against live tenant state, and builds safe human-reviewed SPO Site Page copy/promotion plans. Not yet decomposed to the Phase 4.5 domain-plugin model."
 author: Richard Fremmerlid
 kind: backend
 platforms:
@@ -8,6 +8,7 @@ platforms:
   - macos
   - windows
 skills:
+  - copy-spo-page-between-sites
   - publish-aspx-to-sharepoint
   - publish-markdown-to-sharepoint
   - reconcile-sharepoint-publication
