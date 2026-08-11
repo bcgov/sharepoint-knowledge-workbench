@@ -1,0 +1,1 @@
+../../../scripts/spo-upload-plan.ps1

@@ -1,0 +1,1 @@
+../../../scripts/collect-sharepoint-webpart-content.ps1

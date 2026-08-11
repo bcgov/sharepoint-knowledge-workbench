@@ -56,19 +56,47 @@ print(outcome.status, outcome.detail)
 "
 ```
 
+## Collecting a fresh export
+
+`collect-sharepoint-webpart-content.ps1` connects to a live on-prem
+SharePoint 2016 site (REST + NTLM/Kerberos, no PnP/CSOM -- see
+`.agent/rules/sharepoint-ps1-authentication-convention.md`) in two modes:
+`-Mode Scan` (default) enumerates pages and queries
+`GetLimitedWebPartManager` for every web part on every page, writing
+`webpart-scan.csv`/`.json`; `-Mode ExtractContent` reads that CSV and pulls
+each web part's full HTML/JS payload via the legacy `_vti_bin/exportwp.aspx`
+handler (the only mechanism that exposes it on SP2016 -- the modern REST
+`ExportWebPart` action 404s unconditionally), writing `webpart-content.json`
+in the exact `[{PageUrl, WebPartId, WebPartTitle, Content}]` shape
+`webpart_code_analysis.py` consumes. Read-only: calls only REST GETs, makes
+zero writes to the tenant.
+
+```bash
+pwsh -File scripts/collect-sharepoint-webpart-content.ps1 -SiteUrl "https://sp2016.example.org/sites/Legacy" -Mode Scan -UseDefaultCredentials
+pwsh -File scripts/collect-sharepoint-webpart-content.ps1 -SiteUrl "https://sp2016.example.org/sites/Legacy" -Mode ExtractContent -UseDefaultCredentials
+```
+
 ## Scripts
 
+- `scripts/collect-sharepoint-webpart-content.ps1` -- real, read-only on-prem REST collector (Scan + ExtractContent modes)
 - `scripts/webpart_code_analysis.py` -- `run`, `analyse`, `classify`, `recommend`, `generate_report`, `generate_instance_csv`, `KnowledgeBase`, `InlineLogicRule`
 - `scripts/discovery_inputs.py` -- shared status vocabulary and input loading
 
 ## Stage 2 — AI-reasoning pass over this skill's output
 
-This skill performs Stage 1 only: deterministic grouping. Assigning a
-modernization disposition per group (business behaviour, MVP decision,
-SPFx candidacy) and collapsing groups that share one mechanism into a
-single shared decision is Stage 2, agent-assisted by design — route to
-`sharepoint-webpart-modernization-analysis-agent` (in
-`sharepoint-agents-and-skills`) once this skill's grouped output exists.
+This skill's Stage 1 grouping is deterministic, but each group's JSON also
+carries `businessIntent`/`enforcementLevel`/`spfxAssessment` fields --
+generic and structurally honest for Empty/TextOnly categories, caller-
+supplied via `InlineLogicRule.business_intent`/`spfx_assessment` for
+recognised inline logic, and an explicit "requires manual review" for
+everything unrecognised. **These are a deterministic starting point, not a
+substitute for real judgment** -- the full disposition (business behaviour,
+MVP decision, SPFx candidacy with justification, pattern-collapse across
+groups sharing one mechanism, evidence gaps) is Stage 2, agent-assisted by
+design: route to `sharepoint-webpart-modernization-analysis-agent` (in
+`sharepoint-page-modernization`) once this skill's grouped output exists --
+that agent's per-group analysis structure and category-level defaults are
+richer than anything this Python module attempts to compute on its own.
 
 ## Provenance
 

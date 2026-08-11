@@ -15,5 +15,8 @@ skills:
   - rollback-sharepoint-publication
   - upload-content
   - validate-sharepoint-publication
+  - convert-page-to-modern
+  - execute-page-bulk-migration
+  - validate-page-migration
 agents:
   - sharepoint-validation-agent

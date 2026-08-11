@@ -1,0 +1,1 @@
+../../../scripts/collect-sharepoint-permissions.ps1

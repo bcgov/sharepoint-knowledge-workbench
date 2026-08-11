@@ -14,7 +14,10 @@ examples:
 Use this skill when planning a classic-to-modern SharePoint migration and you
 need to know which groups exist and which lists/libraries have broken
 permission inheritance that must be explicitly re-provisioned rather than
-inherited. It consumes a permissions export already pulled from a tenant.
+inherited. It consumes a permissions export -- either produced by
+`scripts/collect-sharepoint-permissions.ps1` (this skill's own real,
+read-only NTLM/REST collector) or supplied from any other source in one of
+the two accepted shapes below.
 
 ## Two accepted export shapes
 
@@ -41,8 +44,27 @@ never a pass. An input that is neither a JSON array nor object is `FAILED`.
 
 ## Read-only guarantee
 
-No writes to any tenant, no network access. It reads the export path you name
-and writes analysis artifacts to the output directory you name.
+`permissions_analysis.py` itself makes no writes to any tenant and no network
+access -- it reads the export path you name and writes analysis artifacts to
+the output directory you name. `collect-sharepoint-permissions.ps1` (below)
+does connect to a live site, but only ever calls REST GET
+(`_api/web/roleassignments`) -- zero tenant writes.
+
+## Collecting a fresh export
+
+`collect-sharepoint-permissions.ps1` connects via Windows-credential/NTLM
+REST (works against both legacy on-premises SharePoint 2016 and modern
+SharePoint Online, since both expose the same REST surface) and writes a
+flat JSON array in exactly the shape #1 above -- `webUrl`, `principalTitle`,
+`permissionLevels`, and `objectTitle`/`listName`. It queries the site's own
+role assignments plus every non-hidden list/library where
+`HasUniqueRoleAssignments` is true (inherited-permission lists have nothing
+of their own to report). Read-only -- REST GET calls only, zero tenant
+writes.
+
+```bash
+pwsh -File scripts/collect-sharepoint-permissions.ps1 -SiteUrl "https://tenant.example.com/sites/Team" -OutputPath permissions.json -UseDefaultCredentials
+```
 
 ## Usage
 
@@ -56,6 +78,7 @@ print(outcome.status, outcome.detail)
 
 ## Scripts
 
+- `scripts/collect-sharepoint-permissions.ps1` -- real, read-only NTLM/REST collector
 - `scripts/permissions_analysis.py` -- `run`, `analyse`, `generate_report`
 - `scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
 

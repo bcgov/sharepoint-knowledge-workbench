@@ -17,7 +17,18 @@ Key Input Dependencies:
       { PageUrl, WebPartId, WebPartTitle, Content }.
     - Optional: a site knowledge base JSON file (see `KnowledgeBase`). The shipped
       default is deliberately EMPTY -- all site-specific helper-script meanings and
-      business-logic interpretations are caller-supplied data, never built in.
+      business-logic interpretations are caller-supplied data, never built in. Each
+      `inlineLogicRules` entry may also carry `businessIntent`/`spfxAssessment`
+      strings; without them, those two output fields honestly report "requires
+      manual review" rather than guessing.
+
+Narrative assessment fields (per group, in addition to summary/modernEquivalent/
+effort): `businessIntent`, `enforcementLevel`, `spfxAssessment`. Categories with a
+structurally unambiguous answer (Empty/TextOnly) get a fixed generic value since
+that's genuinely true regardless of site; everything else is computed from
+caller-supplied rules or reported as an honest gap -- never asserted as a fixed
+conclusion the way a prior source implementation's report generator did (see
+`generate-sharepoint-discovery-report-set.ps1`'s own header for that precedent).
 
 Provenance:
     Extracted from the originating SharePoint migration repository's web-part code
@@ -74,6 +85,8 @@ class InlineLogicRule:
     summary: str
     modern_equivalent: str
     effort: str
+    business_intent: str = "Unknown -- requires manual review to confirm business purpose."
+    spfx_assessment: str = "Unknown -- requires manual review to confirm whether SPFx is needed."
 
     def matches(self, script: str) -> bool:
         return all(token in script for token in self.match)
@@ -108,6 +121,14 @@ class KnowledgeBase:
                 summary=entry["summary"],
                 modern_equivalent=entry.get("modernEquivalent", "Manual review required"),
                 effort=entry.get("effort", "Unknown"),
+                business_intent=entry.get(
+                    "businessIntent",
+                    "Unknown -- requires manual review to confirm business purpose.",
+                ),
+                spfx_assessment=entry.get(
+                    "spfxAssessment",
+                    "Unknown -- requires manual review to confirm whether SPFx is needed.",
+                ),
             )
             for entry in data.get("inlineLogicRules", [])
         )
@@ -288,6 +309,66 @@ def summarize_group(members: list[dict], knowledge: KnowledgeBase) -> str:
     return "Unclassified."
 
 
+def assess_group(category: str, inline_script: str, knowledge: KnowledgeBase) -> dict:
+    """
+    Return the narrative assessment dimensions for a group: business intent, actual
+    enforcement level, and an SPFx-needed assessment. Only categories with a
+    structurally unambiguous answer (Empty/TextOnly -- display-only content, no
+    logic) get a fixed generic answer; everything else is genuinely computed from
+    caller-supplied rules or reported as an honest "requires manual review" gap,
+    never asserted regardless of the underlying content.
+    """
+    if category == "Empty":
+        return {
+            "businessIntent": "None -- no content or functional impact.",
+            "enforcementLevel": "None.",
+            "spfxAssessment": "Not required -- nothing to migrate.",
+        }
+    if category == "ScriptEditorMissing":
+        return {
+            "businessIntent": "Unknown -- content not retrievable (stale web part id).",
+            "enforcementLevel": "Unknown.",
+            "spfxAssessment": "Unknown -- re-extract before assessing.",
+        }
+    if category == "TextOnly":
+        return {
+            "businessIntent": "Provide information, guidance, or links to site visitors.",
+            "enforcementLevel": "Informational / display only -- no logic executes.",
+            "spfxAssessment": "Not required -- a modern Text web part is a 100% native OOB replacement.",
+        }
+    if category == "ExternalHelpersOnly":
+        return {
+            "businessIntent": (
+                "Unknown -- requires manual review of the referenced helper script(s) "
+                "to confirm business purpose."
+            ),
+            "enforcementLevel": "Client-side DOM manipulation (hide/show/rename UI elements).",
+            "spfxAssessment": (
+                "Conditional -- often replaceable with modern list view column/row "
+                "formatting (JSON, no code); an SPFx application customizer is only "
+                "needed if the effect genuinely can't be expressed that way."
+            ),
+        }
+    if category == "InlineLogic":
+        for rule in knowledge.inline_logic_rules:
+            if rule.matches(inline_script):
+                return {
+                    "businessIntent": rule.business_intent,
+                    "enforcementLevel": "Client-side script execution on page load.",
+                    "spfxAssessment": rule.spfx_assessment,
+                }
+        return {
+            "businessIntent": "Unknown -- requires manual review to confirm business purpose.",
+            "enforcementLevel": "Client-side script execution on page load.",
+            "spfxAssessment": "Unknown -- requires manual review to confirm whether SPFx is needed.",
+        }
+    return {
+        "businessIntent": "Unknown.",
+        "enforcementLevel": "Unknown.",
+        "spfxAssessment": "Unknown.",
+    }
+
+
 def recommend(category: str, inline_script: str, knowledge: KnowledgeBase) -> tuple[str, str]:
     """Return (modern_equivalent, effort) for a group."""
     if category == "Empty":
@@ -350,6 +431,7 @@ def analyse(entries: list[dict], knowledge: KnowledgeBase = DEFAULT_KNOWLEDGE_BA
         )
         inline_script = members[0]["classification"].get("inline_script", "")
         modern_equivalent, effort = recommend(category, inline_script, knowledge)
+        assessment = assess_group(category, inline_script, knowledge)
         groups.append(
             {
                 "signature": signature,
@@ -366,6 +448,9 @@ def analyse(entries: list[dict], knowledge: KnowledgeBase = DEFAULT_KNOWLEDGE_BA
                 "summary": summarize_group(members, knowledge),
                 "modernEquivalent": modern_equivalent,
                 "effort": effort,
+                "businessIntent": assessment["businessIntent"],
+                "enforcementLevel": assessment["enforcementLevel"],
+                "spfxAssessment": assessment["spfxAssessment"],
             }
         )
 
@@ -468,7 +553,10 @@ def generate_report(plan: dict) -> str:
             "",
             "#### Modernization assessment",
             f"- **Observed behaviour:** {group['summary']}",
+            f"- **Business intent:** {group['businessIntent']}",
+            f"- **Actual enforcement level:** {group['enforcementLevel']}",
             f"- **Recommended modern replacement:** {group['modernEquivalent']}",
+            f"- **SPFx assessment:** {group['spfxAssessment']}",
             f"- **Estimated effort:** {group['effort']}",
             f"- **External scripts:** {', '.join(group['externalScripts']) or 'none'}",
             "",

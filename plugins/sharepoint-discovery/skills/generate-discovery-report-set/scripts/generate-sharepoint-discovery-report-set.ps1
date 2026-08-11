@@ -1,0 +1,1 @@
+../../../scripts/generate-sharepoint-discovery-report-set.ps1

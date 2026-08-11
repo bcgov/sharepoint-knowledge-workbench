@@ -53,8 +53,26 @@ print(outcome.status, outcome.detail)
 "
 ```
 
+## Collecting a fresh export
+
+`collect-sharepoint-custom-forms.ps1` connects to a live on-prem SharePoint
+2016 site (REST + NTLM/Kerberos, no PnP/CSOM -- see
+`.agent/rules/sharepoint-ps1-authentication-convention.md`), checks every
+list/library's `Forms` folder for non-standard `.aspx` files, downloads
+them, and does a best-effort classification (inline `<script>` present ->
+`hasScript`; InfoPath/XSN markers -> `formType: InfoPath`) -- writing
+`forms.json` in the exact `[{listName, isCustomized, hasScript, formType}]`
+shape `forms_analysis.py` consumes. This classification is a heuristic
+starting point, not a substitute for the rules-driven analysis this skill
+performs. Read-only: calls only REST GETs, makes zero writes to the tenant.
+
+```bash
+pwsh -File scripts/collect-sharepoint-custom-forms.ps1 -SiteUrl "https://sp2016.example.org/sites/Legacy" -OutputDir ./forms-export -UseDefaultCredentials
+```
+
 ## Scripts
 
+- `scripts/collect-sharepoint-custom-forms.ps1` -- real, read-only on-prem REST collector
 - `scripts/forms_analysis.py` -- `run`, `analyse`, `generate_report`, `load_rules`
 - `scripts/discovery_inputs.py` -- `DiscoveryStatus`, `DiscoveryOutcome`, `load_json_input`, `require_output_dir`
 

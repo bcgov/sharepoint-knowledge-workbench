@@ -7,14 +7,17 @@ description: Executes a PublishPlan (built by publish-aspx-to-sharepoint or publ
 
 ## Purpose
 
-Executes a `PublishPlan`'s actions -- created a modern page or uploaded a
-site asset per action -- via an injected `uploader` callable. This is the
-execution primitive that would consume `publish-aspx-to-sharepoint`'s or
-`publish-markdown-to-sharepoint`'s plans once Stage 3.4.3 (approved-write-
-identity) authorizes real tenant writes; today it still requires an explicit
-`uploader` to be supplied by the caller and raises `NotImplementedError`
-without one, so no autonomous production tenant write is introduced by
-adding this skill.
+Executes a `PublishPlan`'s actions -- creates a modern page or uploads a
+site asset per action. Two execution paths exist:
+
+1. **`sharepoint_upload.py::upload_pages(plan, uploader)`** -- a
+   Python plan-execution loop requiring an injected `uploader(action) ->
+   UploadResult` callable. Zero tenant I/O of its own; raises
+   `NotImplementedError` without one.
+2. **`scripts/spo-upload-plan.ps1`** -- a real, working PowerShell executor
+   for the modern-page-creation path described below. Reads a `PublishPlan`
+   JSON file directly and creates/publishes each page for real, gated behind
+   `-Execute -ConfirmToken UPLOAD-SPO-PLAN`. See "Real executor" below.
 
 ## Real platform constraint recorded
 
@@ -24,6 +27,28 @@ call pattern is the only confirmed-working mechanism on this tenant (raw
 `.aspx` upload is blocked). Any real `uploader` a caller injects should
 follow that pattern (or the equivalent SharePoint REST calls), not attempt
 raw file upload.
+
+## Real executor
+
+`scripts/spo-upload-plan.ps1` implements the constraint above directly: it
+reads a `PublishPlan.to_dict()`-shaped JSON file and, per action, creates a
+modern page via `Add-PnPPage`, injects the `source_path` file's content via
+`Add-PnPPageTextPart`, and publishes via `Publish-PnPPage`. Dry run by
+default; real writes require `-Execute -ConfirmToken UPLOAD-SPO-PLAN`.
+
+```bash
+pwsh -File scripts/spo-upload-plan.ps1 -PlanPath plan.json -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken UPLOAD-SPO-PLAN
+```
+
+**Scope:** page creation from pre-rendered HTML only (`source_path` should
+point at an HTML fragment file, matching `structured-content-rendering`'s
+`render-sharepoint-aspx` output). Raw file/asset upload to a document
+library (`Add-PnPFile`, no page creation) is a separate, not-yet-built
+capability.
+
+It is not wired in as `sharepoint_upload.py`'s injected `uploader`
+automatically -- Python cannot call a PowerShell script as an in-process
+callback, so the two paths are used independently rather than composed.
 
 ## Input boundaries
 
@@ -41,6 +66,7 @@ raw file upload.
 ## Scripts
 
 - `../../scripts/sharepoint_upload.py` (`upload_pages`, `UploadResult`, `UploadError`)
+- `../../scripts/spo-upload-plan.ps1` -- real, working PnP.PowerShell executor (page-creation path)
 
 ## Tests
 
