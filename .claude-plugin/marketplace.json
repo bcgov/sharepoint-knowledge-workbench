@@ -28,7 +28,8 @@
     {
       "name": "sharepoint-content-publication",
       "source": "./plugins/sharepoint-content-publication",
-      "strict": true
+      "strict": true,
+      "description": "SharePoint tenant publication tooling: packages rendered publication output, dry-runs upload plans, reconciles tenant state, and builds safe human-reviewed SPO Site Page copy/promotion plans without raw .aspx upload or automatic tenant writes."
     },
     {
       "name": "sharepoint-agents-and-skills",

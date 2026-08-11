@@ -1962,6 +1962,12 @@
       "dst": "plugins/workbench-setup/skills/validate-workbench-environment/references/effective-permissions-matrix.md",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/spo_page_copy_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/copy-spo-page-between-sites/scripts/spo_page_copy_plan.py",
+      "strategy": "symlink",
+      "description": "copy-spo-page-between-sites skill's bundled copy of spo_page_copy_plan.py"
     }
   ]
 }

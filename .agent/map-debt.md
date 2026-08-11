@@ -305,3 +305,16 @@
 - **Severity**: S
 - **Repeat**: NO
 - **Status**: RESOLVED
+
+### [2026-08-11] `copy-spo-page-between-sites` Symlink Manager Unavailable During Skill Audit
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: `sharepoint-content-publication` new skill audit
+- **Artifact Affected**: `symlinks.json`; `plugins/sharepoint-content-publication/skills/copy-spo-page-between-sites/scripts/spo_page_copy_plan.py`
+- **Friction Observed**: The skill acceptance criteria required exposing `spo_page_copy_plan.py` through a file-level symlink, but the documented `.agents/skills/symlink-manager/scripts/symlink_manager.py` helper was not present in this checkout.
+- **Why it wasn't fixed earlier**: The new skill was added before this audit and had not yet been checked against the repository's hub-and-spoke symlink convention.
+- **Recommended Fix**: Add the `symlinks.json` entry and create the specific file-level symlink; if this repeats, reinstall the symlink-manager skill or restore the helper before further symlink work.
+- **Evidence**: `glob **/symlink_manager.py` found no helper; `symlinks.json` now contains the `spo_page_copy_plan.py` link and the destination is a `SymbolicLink`.
+- **Severity**: S
+- **Repeat**: NO
+- **Status**: RESOLVED
