@@ -1,4 +1,24 @@
 
+### [2026-08-11] RESOLVED: Scratch SharePoint Page Edit Needed Explicit Checkout/Checkin
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session ID**: `9df8d825-19a5-46ef-88e8-4b18c496f39d`
+- **Artifact Affected**: `temp/bc-gov-sharepoint-aspx-experiment.ps1`,
+  `temp/spo-page-checkout-utility.ps1`
+- **Friction Observed**: the initial scratch page-edit flow mutated `CanvasContent1`/published
+  without explicitly checking out and checking in the target Site Pages file.
+- **Why it was not fixed earlier**: the first pass treated `Publish-PnPPage` as sufficient for a
+  scratch experiment and did not account for libraries requiring checkout/version discipline.
+- **Recommended fix**: keep checkout/checkin as a reusable helper around all future page-canvas
+  mutation scripts before promoting any learning into `plugins/sharepoint-content-publication/`.
+- **Evidence or reproduction step**: run `temp/bc-gov-sharepoint-aspx-experiment.ps1 -Execute
+  -Action ReplaceHeader -ConfirmToken BC-GOV-ASPX-EXPERIMENT`; the write path now dot-sources
+  `temp/spo-page-checkout-utility.ps1`, calls `Invoke-SpoPageCheckout`, mutates `CanvasContent1`,
+  calls `Invoke-SpoPageCheckin`, then publishes.
+- **Severity**: M
+- **Repeat**: NO
+- **Status**: RESOLVED
+
 ### [2026-08-11] Reusable Playbook for Porting a Source-Repo Plugin, Learned the Hard Way on `sharepoint-discovery`
 
 **Read this before starting the same porting process on any other plugin**
