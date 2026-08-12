@@ -66,21 +66,25 @@ authoritative process document for this work, not a summary of it.
 | `sharepoint-link-remediation` | **DONE** — 3 write-capable skills (`remediate-links`, `remediate-document-content-links`, `remediate-field-image-references`) now have real `.ps1` executors following `spo-upload-plan.ps1`'s dry-run/`-Execute`/`-ConfirmToken` convention, cmdlet sequences verified against the source repo's `Repair-EmbeddedLinks.ps1` (content only, no CrownNet literals ported); `extract-links`/`validate-link-integrity` correctly left untouched (read-only/local-only by design); 164/164 real tests passing (1 pre-existing unrelated `evals.json` failure, confirmed via `git stash` to predate this work) |
 | `sharepoint-schema` | **DONE** — none of the 9 originally-audited source scripts were a clean port target: this plugin has a deliberate "zero tenant I/O" design contract (already once rejected a destructive `-Cleanup` capability), and the 9 scripts are either live collectors (belong in `sharepoint-discovery`), already-covered comparison logic, or CMAT-specific (confirmed with the user before proceeding, same pattern as `sharepoint-migration-planning`'s orchestrator question). Real work done instead: new `extract-calculated-columns` skill (5th skill, zero-tenant-I/O, generalized from `discover-calculated-columns.ps1`); a new `sharepoint-discovery` orchestrator (`collect-sharepoint-schema-export.ps1`) that actually produces the directory-tree export shape this plugin's tools consume, closing a real cross-plugin gap the user asked about directly; and `Get-WorkbenchConnectionConfig` deduplicated from 11 independently-pasted copies (across `sharepoint-content-publication`, `sharepoint-discovery`, `sharepoint-link-remediation`) down to 1 canonical file owned by `workbench-setup`, symlinked everywhere — a real functional divergence was found and fixed in the process. Two small honest gaps logged as follow-ups (no site-columns-only collector mode; no collector captures Calculated-field `Formula`), not blocking. 75/76 tests passing (1 pre-existing unrelated `os.geteuid()` Windows failure) |
 | `sharepoint-content-migration` | **DONE** — real executor `spo-migrate-list-items.ps1` added (non-batched `Add-PnPListItem` for create, `Set-PnPListItem -Identity` for the two-pass lookup-backfill update, matching a real finding in the source repo's `migrate-helpers.ps1` that `-Batch` doesn't reliably return a usable item ID); a real design seam found and honestly documented (`MigrationItem` has no native `dest_id`/backfill field — the `.ps1`'s plan JSON is its own contract, not a literal Python dataclass serialization); 5-source-category audit confirmed no second gap (rest of the source scope is CMAT-specific or already superseded by this workbench's own generalized sequencing agent); `Get-WorkbenchConnectionConfig.ps1` gained its 4th consuming plugin; 30/30 tests passing |
-| `sharepoint-provisioning` | **NOT STARTED** — largest remaining scope (~15+ source files: schema deployment waves, calendar provisioning, user/group management, destructive clean-slate scripts) |
-| `sharepoint-page-modernization` | **NOT STARTED** — medium scope (`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`, `diagnose-page.ps1`, 2 asset templates); note `sp-running-sharegate-jobs`'s two scripts are `NOT_RECOMMENDED` (require a commercial ShareGate license). A separate, unrelated scratch experiment (`temp/bc-gov-sharepoint-aspx-experiment.ps1`, `temp/spo-page-checkout-utility.ps1`, debrief at `temp/aspx-design-system-debrief.md`) is prototyping live ASPX-page restyling against the BC Gov design system in a different session; its confirmed eventual home is **`sharepoint-content-publication`** (write-capable, live-page-canvas-mutation domain), not this plugin (explicitly "no tenant writes" by design) — see `temp/aspx-design-system-guidance.md` for the promotion-path guidance given to that session. Not yet promoted; still scratch as of this entry. |
+| `sharepoint-page-modernization` | **DONE** — all 3 pre-existing skills were already fully implemented (not a scaffold situation); the 3 originally-audited source scripts were all live-tenant I/O and confirmed out of scope for this deliberately zero-tenant-I/O plugin (3rd occurrence of this exact tension this session, after `sharepoint-migration-planning`/`sharepoint-schema`). Real gap instead: new `generate-conversion-report` skill (4th skill) renders `manifest-schema.json`'s `PageConversionManifest` into a human-readable Markdown report, matching a known Phase-9 deferred finding. Found and honestly documented a real second gap: neither `component_mapping.py` nor `layout_selection.py` actually produces a schema-conformant manifest today — `generate-conversion-report` has no upstream producer yet, logged as follow-up. Also caught a missing `pyproject.toml` `py-modules` entry (2nd occurrence this session of that exact bug class). 82/82 tests passing. A separate, unrelated scratch experiment (`temp/bc-gov-sharepoint-aspx-experiment.ps1` and others, debrief at `temp/aspx-design-system-debrief.md`, promotion directive at `temp/aspx-design-system-promotion-directive.md`) is prototyping live ASPX-page restyling against the BC Gov design system in a different session; its confirmed eventual home is **`sharepoint-content-publication`**, not this plugin. Not yet promoted; still scratch as of this entry. |
+| `sharepoint-provisioning` | **NOT STARTED** — largest remaining scope (~15+ source files: schema deployment waves, calendar provisioning, user/group management, destructive clean-slate scripts). **Last remaining plugin.** |
 
 ### Recommended next plugin
 
-**`sharepoint-page-modernization`** — medium scope, well-scoped source targets
-(`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`, `diagnose-page.ps1`, 2 asset templates).
-Note the separate ASPX/design-system scratch work described above targets
-`sharepoint-content-publication`, not this plugin — don't conflate the two when picking this up.
-Do **not** start `sharepoint-provisioning` yet; it's the largest remaining plugin and should come
-after the smaller ones are cleared, per the user's explicit "smallest first" sequencing this round.
+**`sharepoint-provisioning`** — the only plugin left. Largest remaining scope (~15+ source files:
+schema deployment waves, calendar provisioning, user/group management, destructive clean-slate
+scripts) — deliberately saved for last per the user's "smallest first" sequencing. Given the
+destructive clean-slate scripts named in the source audit, expect the same "does this actually fit
+the plugin's own safety contract" check that mattered for the last 3 plugins — read this plugin's
+own write-safety gates (dry-run/executor/confirmation-token) before assuming any source script is a
+clean port target, and check whether any of its scope overlaps with the ASPX/design-system
+promotion work in flight for `sharepoint-content-publication` before starting (it shouldn't, but
+verify rather than assume).
 
 **Session note (2026-08-11, continued):** `sharepoint-migration-planning`, `sharepoint-link-
-remediation`, `sharepoint-schema`, and `sharepoint-content-migration` all closed this session, each
-via one or more background implementation agents given a concrete spec, then independently
+remediation`, `sharepoint-schema`, `sharepoint-content-migration`, and `sharepoint-page-
+modernization` all closed this session, each via one or more background implementation agents given
+a concrete spec, then independently
 re-verified (parse-checked scripts, grepped for literal leakage, confirmed every symlink with
 `Get-ChildItem`'s `LinkType: SymbolicLink`, ran the full test suite, and manually added the
 shared-file entries — `symlinks.json`, `.agent/map-debt.md` — the agents were told not to touch)
@@ -90,8 +94,12 @@ boundary twice (a
 because the real gaps were cross-plugin, not contained to the one plugin nominally "next" — surface
 that kind of finding to the user before assuming a gap list maps 1:1 onto plugin boundaries.
 `sharepoint-content-migration` found and honestly documented a similar-flavor seam (`MigrationItem`
-has no native `dest_id` field) rather than silently reshaping the Python module to fit. All four
-pushed to `origin/main`. Next session should start fresh with `sharepoint-page-modernization`.
+has no native `dest_id` field) rather than silently reshaping the Python module to fit.
+`sharepoint-page-modernization` was the 3rd plugin where the source-repo audit's named files turned
+out to be entirely out of scope (live-tenant I/O vs. a zero-tenant-I/O design contract) — the real
+work was a report-generation gap instead, which also surfaced a second real gap (no manifest-
+assembly step exists). All five pushed to `origin/main`. **`sharepoint-provisioning` is the only
+plugin left** — next session should start fresh with it.
 
 ### Session process notes for whoever resumes
 
