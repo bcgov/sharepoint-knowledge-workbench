@@ -54,10 +54,14 @@ deterministic — same input always produces the same graph and the same topolog
 belongs in tested Python (`wave_planning.py`, authored in this plugin — see
 `plan-sharepoint-deployment-waves`'s provenance for why it moved here from
 `sharepoint-provisioning` on 2026-08-08). Turning that graph into *readable, well-structured
-deployment scripts and a human
-runbook* is a synthesis task — the same script structure can be expressed many reasonable ways —
-so that step is explicitly agent-assisted, using the assets below as style/shape references, not a
-pure function with one correct output.
+deployment scripts and a human runbook* was originally scoped as agent-assisted synthesis — the
+same script structure can be expressed many reasonable ways — but is implemented as a thin,
+deterministic templating function (`wave_script_generation.py`) instead: the matrix carries only
+`name`/`objectType`/`dependsOn`, not field-level schema, so full synthesis genuinely isn't
+mechanically derivable from it, and a deterministic fill (real names/types/dependsOn only, an
+honest `NotImplementedError` TODO where field schema would go) keeps the output exactly
+test-verifiable rather than requiring an AI-model call for what the matrix alone can support. The
+assets below remain style/shape references for that templating, not values ever copied verbatim.
 
 **Design lineage, stated explicitly:** this 3a/3b split is the same underlying discipline as the
 "2-Stage Deep Architectural Review Protocol" observed in a discovery agent in the source
