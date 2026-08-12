@@ -66,6 +66,19 @@ lesson, recorded once here instead of re-derived plugin by plugin.
    conflicts. Also: agents proposed the wrong `symlinks.json` key names (`source`/`target` instead
    of this repo's actual `src`/`dst`/`strategy`/`description`) every single time — check the real
    schema yourself before pasting an agent's proposed entry in verbatim.
+9. **Refactor the plugin's `README.md` as the last step of every plugin pass, every time.**
+   `sharepoint-discovery`'s and `sharepoint-content-publication`'s READMEs were both left stale
+   after their respective passes closed (one still claimed "zero tenant I/O"/"5 of 7 capabilities",
+   the other still described the plugin as a Phase 4.5 transitional holding location) — caught only
+   because the user asked, not caught proactively. Add "update `README.md`" as a mandatory final
+   step alongside `plugin.yaml`/`plugin.json`/`map-debt.md` updates, not an afterthought: file tree,
+   what's real vs. planning-only, any real platform constraints discovered, install/test
+   instructions. Do this before declaring the plugin done, not after being asked.
+10. **Commit and push after each plugin closes, don't batch across plugins.** Small, reviewable,
+    individually-revertable commits per plugin (or per logical unit within a large plugin) — this
+    session's actual commits (`08e2a46` discovery+content-publication code,
+    `b0223c1` start-here.md, `4887363` READMEs) show the pattern: even the same-session README fix
+    got its own commit rather than being folded into the original one after the fact.
 
 ### [2026-08-11] Phase 9 Onboarding — Real Tenant-Write/Discovery Executors Never Ported, Only Their Planning Halves
 
