@@ -4,80 +4,27 @@
 
 **Read this section first if resuming.** This is ongoing work directly on `main` (no branch/
 worktree — small, independently-verified, reviewed-as-you-go commits per plugin, per explicit
-user direction this round), separate from and after Phase 9. Latest commit: `c248211` ("docs:
-sharepoint-page-modernization DONE, sharepoint-provisioning is the only plugin left"), pushed to
-`origin/main`.
+user direction this round), separate from and after Phase 9. Latest commit: `ea62dfc` ("feat: real
+executors for sharepoint-provisioning, in sharepoint-migration-planning"), pushed to `origin/main`.
 
-### ⚠️ IN PROGRESS, NOT COMMITTED: `sharepoint-provisioning` (the last plugin)
+### ✅ `sharepoint-provisioning` — DONE. All 10 SharePoint plugins in this porting round are now closed.
 
-**A background agent was dispatched to build this plugin's real executors and had not yet reported
-back when this session ended.** Nothing for `sharepoint-provisioning` is committed. If resuming,
-first check whether that agent's output ever landed in the working tree
-(`git status` in the repo root — look for new/modified files under `plugins/sharepoint-migration-
-planning/scripts/spo-provision-*.ps1`, since the executors were directed to live there, NOT inside
-`plugins/sharepoint-provisioning/` itself — see below for why). If nothing is there, the work needs
-to be (re)dispatched from scratch using the spec below; if something is there, independently
-verify it exactly like every other plugin this round (parse-check every `.ps1`, grep for
-project-specific literal leakage, confirm every symlink via `Get-ChildItem`'s `LinkType:
-SymbolicLink`, run the full test suite) before trusting or committing any of it — do not assume a
-background agent's own "done" claim.
+Real executors for `sharepoint-provisioning`'s 4 write-capable skills were built in `plugins/
+sharepoint-migration-planning/scripts/spo-provision-{site-columns,content-types,list,calendar}.ps1`
+— **not** inside `plugins/sharepoint-provisioning/` itself, because that plugin enforces zero
+tenant I/O via a real test (`test_no_live_pnp_or_csom_or_network_transport_ships`), confirmed with
+the user as this session's 4th and strongest occurrence of "the source-audit gap list doesn't map
+onto the target plugin's own design contract." `sharepoint-provisioning/` itself was verified
+untouched. Full detail, real cmdlet sequences, the Start/End platform-bug guards, and the
+duplicate-title whole-plan-refusal gate are recorded in `.agent/map-debt.md`'s closing 2026-08-11
+entry for this plugin — read that before assuming anything about this work rather than re-deriving
+it. 64/64 `sharepoint-migration-planning` tests passing. `clean-slate-*.ps1`/`user-groups-lib.ps1`
+scope explicitly excluded (confirmed with the user, no destination module wants them).
 
-**Why the executors don't live inside `plugins/sharepoint-provisioning/` itself:** that plugin's
-own README states zero tenant I/O of any kind, **enforced by a real test**
-(`test_no_live_pnp_or_csom_or_network_transport_ships`) — no live PnP/CSOM/network code can ever
-ship inside that plugin's package. But its 4 skills (`provision-list`, `provision-fields`,
-`provision-content-types`, `provision-modern-calendar-list`) are write-capable and each define an
-`ExecutorRequired` gate waiting on a real executor. **Confirmed with the user**: the real `.ps1`
-executors belong in `plugins/sharepoint-migration-planning/scripts/` instead (that plugin already
-positions itself, per its own README, as generating wave scripts that call into
-`sharepoint-provisioning`'s plan/apply functions — never a new, parallel write path). This is the
-4th time this exact "source-audit gap list doesn't map onto the target plugin's own design
-contract" tension has appeared this session (after `sharepoint-migration-planning`,
-`sharepoint-schema`, `sharepoint-page-modernization`) but the strongest version of it, since it's
-enforced by a test rather than just convention — and the first time the resolution was "the
-executor needs a different plugin entirely" rather than "find/build a small in-scope capability
-instead."
+**Next real work**: take over the ASPX/design-system promotion work directly, described next —
+not a new plugin porting pass, that's finished.
 
-**What was dispatched** (4 real `.ps1` executors in `plugins/sharepoint-migration-planning/scripts/`,
-reusing the canonical `plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1` — a new
-5th consuming plugin, first use, new plugin-root symlink hop needed):
-1. `spo-provision-site-columns.ps1` — consumes `field_provisioning.py`'s plan shape; `Add-PnPField`
-   for typed fields, `Add-PnPFieldFromXml` for the raw-XML Calculated/Lookup/User cases
-   `build_calculated_field_xml`/`build_lookup_field_xml`/`build_user_field_xml` already build.
-   **Must get the Start/End-never-a-site-column platform bug right** (see `calendar_provisioning.py`
-   and the source repo's `wave0a-site-columns.ps1` comment for why: SPO creates a hidden internal
-   collision if `Start`/`End` exist as site columns before content-type attachment on a calendar
-   list — this is the one platform bug the whole calendar-provisioning module exists to prevent).
-2. `spo-provision-content-types.ps1` — consumes `content_type_provisioning.py`'s plan shape;
-   `Add-PnPContentType`, `Add-PnPFieldToContentType`/hide/show/unlink for field-link reconciliation.
-   Must apply exactly what the plan's own drift computation says, nothing inferred locally.
-3. `spo-provision-list.ps1` — consumes `list_provisioning.py`'s plan shape. **Must enforce the
-   duplicate-title safety gate for real** — refuse to proceed on any plan carrying a
-   `blocking_findings` duplicate-detection result, even with an otherwise-valid confirmation token.
-4. `spo-provision-calendar.ps1` — consumes `calendar_provisioning.py`'s plan shape. Must
-   structurally guard against ever submitting `Start`/`End` as site-level fields, with a clear
-   error if a plan somehow tries.
-
-Explicitly excluded from this work (confirmed with the user, do not build): `clean-slate-dev-
-bulk.ps1`/`clean-slate-test-bulk.ps1`/`phase1-clean-slate.ps1` (destructive bulk-delete, no
-destination module wants this), `user-groups-lib.ps1` (user/group management — no destination
-Python module exists for this at all; if a future session finds it's genuinely needed, that's a new
-decision to raise with the user, not something to build speculatively).
-
-The full dispatch spec (real cmdlet evidence, source files to read, 5-category audit requirements,
-required doc updates) is preserved in this session's own agent-dispatch transcript — if the agent's
-work never landed, re-derive the same spec from `plugins/sharepoint-provisioning/README.md` (read
-in full — the "Reconcile, not recreate," "Duplicate-title detection before any delete," "Write
-safety — three independent gates," and "Fail-loud deletion verification" sections are binding
-contracts), each of the 4 provisioning `scripts/*.py` modules' own docstrings, and the source repo's
-`scripts/waves/wave0a-site-columns.ps1`/`wave0b-content-types.ps1`/`scripts/lib/{field,list}-
-helpers.ps1` for the real proven cmdlet sequences — same as every other plugin this session, this
-is not a shortcut-able step.
-
-**Once this plugin is verified, committed, and pushed**, update this file's plugin-status table
-(below) to mark it DONE, and proceed to the ASPX/design-system promotion work described next.
-
-### After `sharepoint-provisioning` closes: take over the ASPX/design-system promotion work directly
+### Take over the ASPX/design-system promotion work directly
 
 **Explicit user direction (2026-08-11, same session):** a separate, parallel session has been
 prototyping live ASPX-page restyling against the BC Gov Design System in `temp/` (scratch, not
@@ -90,10 +37,10 @@ directive already handed to that session at `temp/aspx-design-system-promotion-d
 own convention, no more live `ReplaceHeader` runs until the layout-mutation logic is generalized and
 tested).
 
-**The user has now directed this session to take over that promotion work directly, once
-`sharepoint-provisioning` closes** — not continue relaying between sessions. Do not wait for or
-depend on the other session's own output; treat `temp/aspx-design-system-promotion-directive.md`
-as your own task list. Before starting:
+**The user has directed this session to take over that promotion work directly** — not continue
+relaying between sessions. `sharepoint-provisioning` is now closed (see above), so this is the
+active next task. Do not wait for or depend on the other session's own output; treat
+`temp/aspx-design-system-promotion-directive.md` as your own task list. Before starting:
 - Check whether `temp/aspx-design-system-promotion-report.md` exists (the other session may have
   produced real, tested work before being told to stand down) — if so, independently verify it
   (parse-check every `.ps1`, grep for literal leakage, confirm every symlink via `Get-ChildItem`'s
@@ -172,39 +119,29 @@ authoritative process document for this work, not a summary of it.
 | `sharepoint-schema` | **DONE** — none of the 9 originally-audited source scripts were a clean port target: this plugin has a deliberate "zero tenant I/O" design contract (already once rejected a destructive `-Cleanup` capability), and the 9 scripts are either live collectors (belong in `sharepoint-discovery`), already-covered comparison logic, or CMAT-specific (confirmed with the user before proceeding, same pattern as `sharepoint-migration-planning`'s orchestrator question). Real work done instead: new `extract-calculated-columns` skill (5th skill, zero-tenant-I/O, generalized from `discover-calculated-columns.ps1`); a new `sharepoint-discovery` orchestrator (`collect-sharepoint-schema-export.ps1`) that actually produces the directory-tree export shape this plugin's tools consume, closing a real cross-plugin gap the user asked about directly; and `Get-WorkbenchConnectionConfig` deduplicated from 11 independently-pasted copies (across `sharepoint-content-publication`, `sharepoint-discovery`, `sharepoint-link-remediation`) down to 1 canonical file owned by `workbench-setup`, symlinked everywhere — a real functional divergence was found and fixed in the process. Two small honest gaps logged as follow-ups (no site-columns-only collector mode; no collector captures Calculated-field `Formula`), not blocking. 75/76 tests passing (1 pre-existing unrelated `os.geteuid()` Windows failure) |
 | `sharepoint-content-migration` | **DONE** — real executor `spo-migrate-list-items.ps1` added (non-batched `Add-PnPListItem` for create, `Set-PnPListItem -Identity` for the two-pass lookup-backfill update, matching a real finding in the source repo's `migrate-helpers.ps1` that `-Batch` doesn't reliably return a usable item ID); a real design seam found and honestly documented (`MigrationItem` has no native `dest_id`/backfill field — the `.ps1`'s plan JSON is its own contract, not a literal Python dataclass serialization); 5-source-category audit confirmed no second gap (rest of the source scope is CMAT-specific or already superseded by this workbench's own generalized sequencing agent); `Get-WorkbenchConnectionConfig.ps1` gained its 4th consuming plugin; 30/30 tests passing |
 | `sharepoint-page-modernization` | **DONE** — all 3 pre-existing skills were already fully implemented (not a scaffold situation); the 3 originally-audited source scripts were all live-tenant I/O and confirmed out of scope for this deliberately zero-tenant-I/O plugin (3rd occurrence of this exact tension this session, after `sharepoint-migration-planning`/`sharepoint-schema`). Real gap instead: new `generate-conversion-report` skill (4th skill) renders `manifest-schema.json`'s `PageConversionManifest` into a human-readable Markdown report, matching a known Phase-9 deferred finding. Found and honestly documented a real second gap: neither `component_mapping.py` nor `layout_selection.py` actually produces a schema-conformant manifest today — `generate-conversion-report` has no upstream producer yet, logged as follow-up. Also caught a missing `pyproject.toml` `py-modules` entry (2nd occurrence this session of that exact bug class). 82/82 tests passing. A separate, unrelated scratch experiment (`temp/bc-gov-sharepoint-aspx-experiment.ps1` and others, debrief at `temp/aspx-design-system-debrief.md`, promotion directive at `temp/aspx-design-system-promotion-directive.md`) is prototyping live ASPX-page restyling against the BC Gov design system in a different session; its confirmed eventual home is **`sharepoint-content-publication`**, not this plugin. Not yet promoted; still scratch as of this entry. |
-| `sharepoint-provisioning` | **NOT STARTED** — largest remaining scope (~15+ source files: schema deployment waves, calendar provisioning, user/group management, destructive clean-slate scripts). **Last remaining plugin.** |
+| `sharepoint-provisioning` | **DONE** — 4th and strongest occurrence of the "source-audit gap list doesn't map onto the target plugin's own design contract" tension: this plugin enforces zero tenant I/O via a real test (`test_no_live_pnp_or_csom_or_network_transport_ships`), so its 4 write-capable skills' real executors were built in `sharepoint-migration-planning` instead (`spo-provision-{site-columns,content-types,list,calendar}.ps1`), confirmed with the user. Real cmdlets: `Add-PnPField`/`Add-PnPFieldFromXml` (site columns, including raw-XML Calculated/Lookup/User types), `Add-PnPContentType`/`Add-PnPFieldToContentType` (content types), `New-PnPList`/`Remove-PnPList` with whole-plan refusal on any duplicate-title `blocking_findings` (lists), `New-PnPList -Template 100` + two independent structural guards against the real SPO Start/End-as-site-column platform bug (calendar). `clean-slate-*.ps1`/`user-groups-lib.ps1` explicitly excluded (no destination module wants them). `Get-WorkbenchConnectionConfig.ps1` gained its 5th consuming plugin. 64/64 tests passing, `sharepoint-provisioning/` itself verified untouched. **This closes all 10 SharePoint plugins in this porting round.** |
 
-### Recommended next plugin
+### All 10 SharePoint plugins closed — next task is the ASPX/design-system promotion, not a new plugin
 
-**`sharepoint-provisioning`** — the only plugin left. Largest remaining scope (~15+ source files:
-schema deployment waves, calendar provisioning, user/group management, destructive clean-slate
-scripts) — deliberately saved for last per the user's "smallest first" sequencing. Given the
-destructive clean-slate scripts named in the source audit, expect the same "does this actually fit
-the plugin's own safety contract" check that mattered for the last 3 plugins — read this plugin's
-own write-safety gates (dry-run/executor/confirmation-token) before assuming any source script is a
-clean port target, and check whether any of its scope overlaps with the ASPX/design-system
-promotion work in flight for `sharepoint-content-publication` before starting (it shouldn't, but
-verify rather than assume).
+**Session note (2026-08-11, continued):** every plugin above closed this session, each via one or
+more background implementation agents given a concrete spec, then independently re-verified
+(parse-checked scripts, grepped for literal leakage, confirmed every symlink with `Get-ChildItem`'s
+`LinkType: SymbolicLink`, ran the full test suite, and manually added the shared-file entries —
+`symlinks.json`, `.agent/map-debt.md` — the agents were told not to touch) before committing.
+`sharepoint-schema` required stepping outside its own plugin boundary twice (a `sharepoint-
+discovery` orchestrator script, a `workbench-setup`-owned shared connection helper) because the
+real gaps were cross-plugin. `sharepoint-content-migration` found and honestly documented a
+`MigrationItem`-has-no-`dest_id` seam rather than silently reshaping the Python module to fit.
+`sharepoint-migration-planning`, `sharepoint-schema`, and `sharepoint-page-modernization` were each
+a case where the source-repo audit's named files turned out to be entirely out of scope for the
+target plugin's own design contract; `sharepoint-provisioning` was the 4th and strongest version of
+that same tension, resolved by building the executors in a *different* plugin entirely rather than
+finding a small in-scope substitute. All pushed to `origin/main`.
 
-**Session note (2026-08-11, continued):** `sharepoint-migration-planning`, `sharepoint-link-
-remediation`, `sharepoint-schema`, `sharepoint-content-migration`, and `sharepoint-page-
-modernization` all closed this session, each via one or more background implementation agents given
-a concrete spec, then independently
-re-verified (parse-checked scripts, grepped for literal leakage, confirmed every symlink with
-`Get-ChildItem`'s `LinkType: SymbolicLink`, ran the full test suite, and manually added the
-shared-file entries — `symlinks.json`, `.agent/map-debt.md` — the agents were told not to touch)
-before committing. `sharepoint-schema` in particular required stepping outside its own plugin
-boundary twice (a
-`sharepoint-discovery` orchestrator script, a `workbench-setup`-owned shared connection helper)
-because the real gaps were cross-plugin, not contained to the one plugin nominally "next" — surface
-that kind of finding to the user before assuming a gap list maps 1:1 onto plugin boundaries.
-`sharepoint-content-migration` found and honestly documented a similar-flavor seam (`MigrationItem`
-has no native `dest_id` field) rather than silently reshaping the Python module to fit.
-`sharepoint-page-modernization` was the 3rd plugin where the source-repo audit's named files turned
-out to be entirely out of scope (live-tenant I/O vs. a zero-tenant-I/O design contract) — the real
-work was a report-generation gap instead, which also surfaced a second real gap (no manifest-
-assembly step exists). All five pushed to `origin/main`. **`sharepoint-provisioning` is the only
-plugin left** — next session should start fresh with it.
+**Next real work, per explicit user direction**: take over the ASPX/design-system promotion work
+into `sharepoint-content-publication` directly — see the section above ("Take over the ASPX/
+design-system promotion work directly") for the full task list, readiness assessment, and handoff
+protocol. This is not a new plugin-porting pass; that work is finished.
 
 ### Session process notes for whoever resumes
 
