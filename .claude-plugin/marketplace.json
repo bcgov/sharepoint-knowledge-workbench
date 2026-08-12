@@ -75,7 +75,7 @@
       "name": "sharepoint-migration-planning",
       "source": "./plugins/sharepoint-migration-planning",
       "strict": true,
-      "description": "Deterministic SharePoint dependency-graph analysis and deployment wave-order computation (Stage 3a), gated by completeness checks that catch a matrix silently not matching the source it claims to describe. Reuses sharepoint-provisioning's wave_planning.py directly. Setup, site-inventory discovery, and generated wave-script authoring remain design scaffolds, not yet implemented."
+      "description": "Plans a SharePoint site migration end-to-end across four implemented skills: project setup (config.psd1 confirmation + working directory), site-inventory export validation (lookup-target normalization), deterministic dependency-graph analysis and deployment wave-order computation (Stage 3a, gated by completeness checks that catch a matrix silently not matching the source it claims to describe, reusing sharepoint-provisioning's wave_planning.py directly), and generated wave deployment scripts plus a human wave guide (Stage 3b, one wave at a time -- never an unattended run-everything script)."
     },
     {
       "name": "sharepoint-content-migration",
