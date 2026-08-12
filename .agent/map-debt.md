@@ -1,4 +1,66 @@
 
+### [2026-08-11] `sharepoint-provisioning`'s Real Executors Built — Last Plugin, Session Closes
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Post-Phase-9 real-executor porting round — this closes the last of 10
+  SharePoint plugins
+- **Artifact Affected**: `plugins/sharepoint-migration-planning/scripts/spo-provision-{site-columns,
+  content-types,list,calendar}.ps1` (new, 4 scripts). `plugins/sharepoint-provisioning/` itself was
+  **not touched** — deliberately, by design (see below).
+- **The strongest version of this session's recurring tension, 4th occurrence**: `sharepoint-
+  provisioning`'s own README states zero tenant I/O of any kind, **enforced by a real test**
+  (`test_no_live_pnp_or_csom_or_network_transport_ships`) — no live PnP/CSOM/network code can ever
+  ship inside that plugin's package. But its 4 skills (`provision-list`, `provision-fields`,
+  `provision-content-types`, `provision-modern-calendar-list`) are write-capable and each define an
+  `ExecutorRequired` gate. Confirmed with the user: the real executors belong in `sharepoint-
+  migration-planning` instead (which already positions itself, per its own README, as generating
+  wave scripts that call into `sharepoint-provisioning`'s plan/apply functions). Unlike the 3 prior
+  occurrences (`sharepoint-migration-planning`'s own orchestrator question, `sharepoint-schema`,
+  `sharepoint-page-modernization` — each resolved as "find/build a small in-scope capability
+  instead"), this one resolved as "the executor needs a different plugin entirely."
+- **Real cmdlet sequences, evidenced against the source repo's `wave0a-site-columns.ps1`/
+  `wave0b-content-types.ps1`/`lib/field-helpers.ps1`/a modern-calendar-list library**:
+  `Add-PnPField` (typed fields) / `Add-PnPFieldFromXml` (raw-XML Calculated/Lookup/User fields,
+  fed by `field_provisioning.py`'s `build_*_field_xml` output) for site columns;
+  `Add-PnPContentType`/`Add-PnPFieldToContentType`/`Remove-PnPFieldFromContentType` plus CSOM
+  `FieldLinks[...].Hidden` + `Invoke-PnPQuery` (no typed hide/show cmdlet exists) for content
+  types; `New-PnPList`/`Remove-PnPList` with post-op `Get-PnPList` verification for lists;
+  `New-PnPList -Template 100`/`Add-PnPFieldFromXml -List <title>`/`Invoke-PnPSPRestMethod` (modern
+  calendar view creation, no typed cmdlet) for calendars.
+- **Real design seam, found and documented honestly (same class as `spo-migrate-list-items.ps1`'s
+  `MigrationItem` seam)**: `field_provisioning.py`'s `FieldAction.to_dict()` doesn't carry `type`/
+  `display_name`/`required`/`choices` — the plan JSON `spo-provision-site-columns.ps1` consumes is
+  augmented by the caller, not a literal serialization of the Python dataclass.
+- **Start/End platform-bug guard, verified correct by direct code read**: `field_provisioning.py`
+  has no awareness of the Start/End-must-never-be-a-site-column rule at all (confirmed by reading
+  it) — `spo-provision-site-columns.ps1` refuses any field action named `Start`/`End` itself, before
+  any cmdlet runs. `spo-provision-calendar.ps1` has two independent structural guards: refuses any
+  `list_creation.template` other than 100, and has no code path that ever calls `Add-PnPFieldFromXml`
+  without `-List` for a `list_local_fields` entry — there is no site-column branch to fall into by
+  mistake, not just a runtime check.
+- **Duplicate-title safety gate implemented as a real whole-plan refusal**: `spo-provision-list.ps1`
+  checks `plan.blocking_findings` before processing any deletion step and refuses the entire plan
+  outright if non-empty, matching `list_provisioning.py`'s own README language exactly ("never, not
+  even a partial subset").
+- **5-source-category audit confirmed no second gap**: agents, assets/templates, references, and
+  `sp-provisioning-modern-calendars` all checked directly — either already covered or genuinely out
+  of scope (group/permissions template correctly left unbuilt; `user-groups-lib.ps1` and the
+  destructive `clean-slate-*.ps1` scripts explicitly excluded per the user's confirmed scope
+  boundary, no destination Python module exists for user/group management).
+- **`Get-WorkbenchConnectionConfig.ps1` now has a 5th consuming plugin** (`sharepoint-migration-
+  planning`, new plugin-root symlink hop).
+- **Evidence**: all 4 scripts parse-clean, zero project-specific literal leakage, 1 new symlink
+  verified real via `Get-ChildItem`'s `LinkType: SymbolicLink`, `sharepoint-migration-planning`
+  64/64 tests passing before and after, dry-run smoke tests against fixtures (including
+  guard-triggering fixtures) all correct, no tenant I/O performed, `sharepoint-provisioning/`
+  verified untouched.
+- **Severity**: N/A (closure entry)
+- **Repeat**: N/A
+- **Status**: RESOLVED — **this closes the last of 10 SharePoint plugins in this porting round.**
+  Next real work (per the user's explicit direction): take over the ASPX/design-system promotion
+  work into `sharepoint-content-publication` directly (see `temp/aspx-design-system-promotion-
+  directive.md` and `start-here.md`'s own section on this), rather than a new plugin porting pass.
+
 ### [2026-08-11] `sharepoint-page-modernization` Report Generator Added — No Manifest-Assembly Step Exists Yet
 
 - **Logged Date**: 2026-08-11

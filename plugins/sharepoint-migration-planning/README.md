@@ -74,6 +74,54 @@ itself is sound and is what this plugin's 3a/3b split generalizes, applied once 
 level rather than per discovery step, and grounded in an offline export rather than live-tenant
 calls.
 
+## Real `sharepoint-provisioning` executors (2026-08-11)
+
+`sharepoint-provisioning` has zero tenant I/O of any kind (enforced by its
+own test suite) — its four planning modules (`field_provisioning.py`,
+`content_type_provisioning.py`, `list_provisioning.py`,
+`calendar_provisioning.py`) each define a real, gated `apply_*` step that
+raises `ExecutorRequired` without an injected executor callable. Per that
+plugin's own README ("Deliberate scope limits"), the real tenant-facing
+executor for those plans belongs in a different plugin — this one, which
+already positions itself as generating wave deployment scripts that call
+into `sharepoint-provisioning`'s plan/apply functions and never opens a new,
+parallel write path. Four real `.ps1` scripts now live in `scripts/`:
+
+- `scripts/spo-provision-site-columns.ps1` — consumes `field_provisioning.py`'s
+  planned `FieldAction`s; typed fields via `Add-PnPField`, raw-XML field
+  types (Calculated/Lookup/User) via `Add-PnPFieldFromXml` fed by the plan's
+  own pre-built XML. Refuses outright if a plan ever names `Start`/`End` —
+  those must never be site columns (see the calendar-bug note below).
+- `scripts/spo-provision-content-types.ps1` — consumes
+  `content_type_provisioning.py`'s planned `ContentTypeAction` steps
+  (`create_content_type`/`link_field`/`hide_field`/`show_field`/
+  `unlink_field`/`attach_content_type`); applies exactly what the plan says,
+  infers nothing locally.
+- `scripts/spo-provision-list.ps1` — consumes `list_provisioning.py`'s
+  `ProvisioningPlan`; refuses the entire plan outright if
+  `blocking_findings` (duplicate-titled lists) is non-empty, before any
+  deletion or creation step is processed — the non-optional core safety
+  contract `detect_duplicate_lists` exists to enforce.
+- `scripts/spo-provision-calendar.ps1` — consumes
+  `calendar_provisioning.py`'s `CalendarProvisioningPlan`; structurally
+  prevents the real, confirmed SPO platform bug where Start/End declared as
+  site columns silently breaks calendar-view rendering, by refusing any
+  `list_creation.template` other than 100 and always submitting Start/End
+  list-scoped (`-List <title>`), never as a bare site column.
+
+All four are dry-run by default; a real write additionally requires
+`-Execute` plus the script's own literal `-ConfirmToken`
+(`PROVISION-SPO-SITE-COLUMNS` / `PROVISION-SPO-CONTENT-TYPES` /
+`PROVISION-SPO-LIST` / `PROVISION-SPO-CALENDAR`), and reuse the canonical
+`Get-WorkbenchConnectionConfig.ps1` (owned by `workbench-setup`, symlinked
+into this plugin's `scripts/` root). See each script's own comment-based
+help for its exact plan JSON shape and any honest design seam where the
+Python module's `to_dict()` doesn't carry a field this script's cmdlet
+sequence needs (mirroring `sharepoint-content-migration`'s
+`spo-migrate-list-items.ps1` and `sharepoint-link-remediation`'s
+`spo-remediate-document-content-links.ps1` seams). `sharepoint-provisioning`
+itself was not touched — it still ships zero tenant I/O.
+
 ## A fifth, standalone skill: `plan-sharepoint-deployment-waves`
 
 Exposes `wave_planning.plan_waves()` directly for a caller that already has a dependency-annotated

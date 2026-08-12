@@ -58,11 +58,41 @@ from the matrix.
   references only; every real value in generated output comes from the
   matrix.
 
+## Real executors now available (2026-08-11)
+
+Each generated wave script's `main()` still requires an injected executor
+and confirmation token (see "What this skill never does" above) -- but that
+executor no longer has to be hand-written or left as a TODO. Four real,
+gated `.ps1` scripts now exist in `../../scripts/` and can be invoked from a
+generated wave script's `main()` (or run standalone against a hand-built
+plan JSON) to apply exactly the write items `sharepoint-provisioning`'s
+planning modules already compute:
+
+| Script | Consumes a plan matching | Confirm token |
+|---|---|---|
+| `spo-provision-site-columns.ps1` | `field_provisioning.py`'s `FieldAction` list | `PROVISION-SPO-SITE-COLUMNS` |
+| `spo-provision-content-types.ps1` | `content_type_provisioning.py`'s `ContentTypeAction` list | `PROVISION-SPO-CONTENT-TYPES` |
+| `spo-provision-list.ps1` | `list_provisioning.py`'s `ProvisioningPlan` | `PROVISION-SPO-LIST` |
+| `spo-provision-calendar.ps1` | `calendar_provisioning.py`'s `CalendarProvisioningPlan` | `PROVISION-SPO-CALENDAR` |
+
+All four are dry-run by default, require `-Execute` plus their exact
+`-ConfirmToken`, and reuse the canonical `Get-WorkbenchConnectionConfig.ps1`
+(symlinked into this plugin's `scripts/` root from `workbench-setup`). Each
+script's own comment-based help documents its plan JSON shape and any
+augmentation the plan needs beyond what the Python module's `to_dict()`
+serializes (see each script's `.DESCRIPTION` "Design seam" notes). This
+skill's own `generate_wave_scripts` templating logic has not been changed to
+reference them automatically -- that remains a real, undone follow-up if a
+generated wave script should call these scripts directly rather than
+leaving a `build_schema()` TODO.
+
 ## Scripts
 
 - `scripts/wave_script_generation.py` -- `generate_wave_scripts`,
   `GeneratedWaveScript`, `WaveGenerationResult`
 - `scripts/provisioning_outcomes.py` -- reused via a managed file symlink (see `symlinks.json`)
+- `../../scripts/spo-provision-*.ps1` -- the four real executors described
+  above (plugin-root, not skill-local; see this plugin's `README.md`)
 
 ## Provenance
 
