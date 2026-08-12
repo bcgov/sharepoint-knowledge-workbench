@@ -81,6 +81,36 @@
 - **Repeat**: YES
 - **Status**: OPEN
 
+### [2026-08-11] Two Real Collector Gaps Found While Wiring `sharepoint-discovery` → `sharepoint-schema`
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Post-Phase-9 real-executor porting round, `sharepoint-schema` follow-up work
+- **Artifact Affected**: `plugins/sharepoint-discovery/scripts/collect-sharepoint-schema-export.ps1`
+  (new), `plugins/sharepoint-schema/scripts/calculated_columns.py` (new)
+- **Context**: `sharepoint-schema`'s analysis tools (`schema_export.py`'s `ExportLayout`) expect a
+  directory-tree export shape that nothing in the workbench previously produced end-to-end.
+  `collect-sharepoint-schema-export.ps1` was built to close that gap by orchestrating
+  `collect-sharepoint-inventory.ps1`'s existing modes into the right shape. Two real,
+  separate gaps surfaced while doing this — both reported honestly (a `Write-Warning` at runtime
+  plus an inline comment) rather than fabricated or silently omitted:
+  1. **No site-columns-only collector mode exists.** `collect-sharepoint-inventory.ps1`'s
+     `ListFields` mode requires `-ListName`, so site-scoped/web-level fields (not attached to any
+     specific list) are never enumerated by any of its 4 modes. `summary/site_columns.json` is
+     therefore never written by the new orchestrator. Follow-up: add a genuine site-columns mode to
+     `collect-sharepoint-inventory.ps1` (or a standalone collector) before this can close.
+  2. **No collector captures `Formula` for Calculated-type fields.** Both the source repository's
+     own `discover-calculated-columns.ps1` and this workbench's `collect-sharepoint-inventory.ps1`
+     leave `Formula` uncaptured for Calculated fields (the source script explicitly notes its REST
+     export target doesn't carry it either — this isn't a regression introduced here, it's a
+     pre-existing upstream gap). `extract-calculated-columns`'s `find_calculated_columns` reports
+     the field with `formula=None` plus an ambiguity entry rather than fabricating a formula.
+     Follow-up: `collect-sharepoint-inventory.ps1`'s `ListFields` mode would need to request the
+     `Formula` field property explicitly for Calculated-type fields.
+- **Severity**: L (both honestly reported, no silent data loss; real work, not urgent)
+- **Repeat**: N/A (new findings, not a repeat of a known issue)
+- **Status**: OPEN (both are real follow-up collector work, not blocking anything shipped this
+  round — `sharepoint-schema`'s 5 skills and the new orchestrator are otherwise complete and tested)
+
 ### [2026-08-11] `Get-WorkbenchConnectionConfig` Deduplicated From 11 Copies to 1 Canonical File
 
 - **Logged Date**: 2026-08-11

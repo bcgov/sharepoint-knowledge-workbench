@@ -6,6 +6,7 @@ allowed-tools: Bash, Read
 examples:
   - "pwsh -File scripts/collect-sharepoint-inventory.ps1 -SiteUrl \"https://tenant.sharepoint.com/sites/Test\" -Mode Lists -OutputPath lists.json"
   - "pwsh -File scripts/collect-onprem-sharepoint-inventory.ps1 -SiteUrl \"https://sp2016.example.org/sites/Legacy\" -OutputDir .\\inventory -UseDefaultCredentials"
+  - "pwsh -File scripts/collect-sharepoint-schema-export.ps1 -SiteUrl \"https://tenant.sharepoint.com/sites/Test\" -OutputDir .\\schema-export"
 ---
 
 # Collect SharePoint Inventory
@@ -35,13 +36,18 @@ warning.
 
 Three scripts consolidate seven source collectors from the originating
 migration repository. Nothing below was silently dropped -- see each
-script's own header for the detailed per-source mapping.
+script's own header for the detailed per-source mapping. A fourth script,
+`collect-sharepoint-schema-export.ps1`, is this plugin's own orchestrator
+(not ported from a source collector) that assembles the directory-tree
+shape `sharepoint-schema`'s analysis tools expect out of several
+`collect-sharepoint-inventory.ps1` invocations.
 
 | Script | Target | Subsumes (source file) |
 | --- | --- | --- |
 | `collect-sharepoint-inventory.ps1` | Modern SPO, PnP.PowerShell | `export-sharepoint-inventory.ps1` / `-custom.ps1` (list/library enumeration value only, `-Mode Lists`); `export-persons-picture-description.ps1` (`-Mode ListFields`, generalized from hardcoded Persons/Comment); `export-images-library-inventory.ps1` (`-Mode LibraryFiles`, generalized from hardcoded Images1); `discover-sandbox-definitions.ps1` (`-Mode ContentTypes`, generalized from hardcoded Sandbox/NTT site URLs and list names) |
 | `collect-onprem-sharepoint-inventory.ps1` | On-prem SP2016, NTLM/Kerberos REST | `export-sharepoint-inventory.ps1` and `export-sharepoint-inventory-custom.ps1` (full crawl -- default mode, generalized: no hardcoded site URL/output path); `get-source-item-counts.ps1` (`-QuickCountsOnly`, generalized: no hardcoded config-only SiteUrl) |
 | `collect-onprem-sharepoint-aspx-pages.ps1` | On-prem SP2016, NTLM/Kerberos REST | `extract-all-aspx-pages.ps1` (generalized: no hardcoded `itau.test.jag.gov.bc.ca` default, no hardcoded `01_source_sharepoint` output path) |
+| `collect-sharepoint-schema-export.ps1` | Modern SPO, PnP.PowerShell | Not ported -- new orchestrator. Drives `collect-sharepoint-inventory.ps1` once per mode/per-list to assemble `summary/{lists,content_types}.json` + `lists/<name>/{fields,content_types}.json`. Does **not** produce `summary/site_columns.json` -- `collect-sharepoint-inventory.ps1` has no site-columns-only mode; see the orchestrator's own header for the full gap description. |
 
 ## Usage
 
@@ -67,11 +73,18 @@ pwsh -File scripts/collect-onprem-sharepoint-inventory.ps1 -SiteUrl "https://sp2
 pwsh -File scripts/collect-onprem-sharepoint-aspx-pages.ps1 -SiteUrl "https://sp2016.example.org/sites/Legacy" -UseDefaultCredentials
 ```
 
+### Modern SPO -- full schema-export directory tree (for sharepoint-schema)
+
+```bash
+pwsh -File scripts/collect-sharepoint-schema-export.ps1 -SiteUrl "https://tenant.sharepoint.com/sites/Test" -OutputDir .\schema-export
+```
+
 ## Scripts
 
 - `scripts/collect-sharepoint-inventory.ps1` -- modern SPO PnP.PowerShell collector (`-Mode Lists|ListFields|LibraryFiles|ContentTypes`)
 - `scripts/collect-onprem-sharepoint-inventory.ps1` -- on-prem SP2016 NTLM/REST full-crawl or quick-counts collector
 - `scripts/collect-onprem-sharepoint-aspx-pages.ps1` -- on-prem SP2016 NTLM/REST bulk `.aspx` downloader
+- `scripts/collect-sharepoint-schema-export.ps1` -- orchestrates `collect-sharepoint-inventory.ps1` into the `summary/`+`lists/<name>/` directory tree `sharepoint-schema`'s tools consume
 
 ## Provenance
 
