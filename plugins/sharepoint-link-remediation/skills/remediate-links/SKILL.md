@@ -70,11 +70,34 @@ print(plan.outcome, plan.to_dict()['would_change'])
 Apply only after reviewing the plan, with a real writer and the plan's own
 confirmation token.
 
+## Real executor
+
+`scripts/spo-remediate-page-links.ps1` implements the writer role directly:
+it reads a `RemediationPlan.to_dict()`-shaped JSON file, resolves each
+changed document's `source` (a server-relative path) to a list item in
+`-TargetLibrary` via `Get-PnPListItem`, then overwrites `-TargetField`
+(default `CanvasContent1`, the modern-page body field) via
+`Set-PnPListItem`. Dry run by default; real writes require
+`-Execute -ConfirmToken REMEDIATE-SPO-LINKS`.
+
+```bash
+pwsh -File scripts/spo-remediate-page-links.ps1 -PlanPath plan.json -TargetLibrary "Site Pages" -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken REMEDIATE-SPO-LINKS
+```
+
+The plan JSON must carry each changed document's already-computed
+`remediated_content` text (Python's `RemediationPlan.to_dict()` reports only
+`source`/`changed`/`changes`, not the new content -- see the script's
+comment-based help for the exact augmentation). It is not wired in as
+`link_remediation.py`'s injected `writer` automatically -- Python cannot
+call a PowerShell script as an in-process callback, so the two paths are
+used independently rather than composed.
+
 ## Scripts
 
 - `scripts/link_remediation.py` -- `plan_remediation`, `apply_remediation`, `rollback_remediation`, safety errors
 - `scripts/link_rules.py` -- `load_ruleset`, `RewriteRule`, `RewriteRuleset`
 - `scripts/link_outcomes.py` -- shared `Outcome` vocabulary
+- `scripts/spo-remediate-page-links.ps1` -- real PnP executor (see "Real executor" above)
 
 ## Provenance
 

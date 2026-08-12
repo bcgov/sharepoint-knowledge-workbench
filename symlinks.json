@@ -1352,6 +1352,12 @@
       "description": "remediate-links skill's bundled copy of link_outcomes.py"
     },
     {
+      "src": "plugins/sharepoint-link-remediation/scripts/spo-remediate-page-links.ps1",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/spo-remediate-page-links.ps1",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of spo-remediate-page-links.ps1 (real PnP executor)"
+    },
+    {
       "src": "plugins/sharepoint-link-remediation/scripts/link_integrity.py",
       "dst": "plugins/sharepoint-link-remediation/skills/validate-link-integrity/scripts/link_integrity.py",
       "strategy": "symlink",
@@ -1658,6 +1664,12 @@
       "description": "remediate-document-content-links skill's bundled copy of link_outcomes.py"
     },
     {
+      "src": "plugins/sharepoint-link-remediation/scripts/spo-remediate-document-content-links.ps1",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-document-content-links/scripts/spo-remediate-document-content-links.ps1",
+      "strategy": "symlink",
+      "description": "remediate-document-content-links skill's bundled copy of spo-remediate-document-content-links.ps1 (real PnP executor)"
+    },
+    {
       "src": "plugins/sharepoint-link-remediation/scripts/field_image_remediation.py",
       "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/field_image_remediation.py",
       "strategy": "symlink",
@@ -1674,6 +1686,12 @@
       "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/link_outcomes.py",
       "strategy": "symlink",
       "description": "remediate-field-image-references skill's bundled copy of link_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/spo-remediate-field-image-references.ps1",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/spo-remediate-field-image-references.ps1",
+      "strategy": "symlink",
+      "description": "remediate-field-image-references skill's bundled copy of spo-remediate-field-image-references.ps1 (real PnP executor)"
     },
     {
       "src": "plugins/sharepoint-migration-planning/scripts/wave_planning.py",
