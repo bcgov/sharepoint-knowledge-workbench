@@ -19,6 +19,112 @@
 - **Repeat**: NO
 - **Status**: RESOLVED
 
+### [2026-08-11] OPEN: SharePoint Modern ASPX Authoring Lessons Need Promotion From Scratch Script to Plugin Capability
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session ID**: `9df8d825-19a5-46ef-88e8-4b18c496f39d`
+- **Artifact Affected**: `temp/bc-gov-sharepoint-aspx-experiment.ps1`,
+  `temp/spo-page-checkout-utility.ps1`, future `plugins/sharepoint-content-publication/`
+  page-authoring scripts/skills
+- **Friction Observed**: live SharePoint modern `.aspx` authoring cannot be treated as a raw file
+  upload or blind `Add-PnPPageTextPart` append. The page's visible surface lives in
+  `CanvasContent1`; existing section/zone/control placement must be exported and analyzed before
+  mutation. Rich-text canvas control metadata (`data-sp-controldata`) must be HTML-encoded for
+  the attribute, but the `data-sp-rte` body must remain real HTML or SharePoint renders literal
+  markup. Page writes also need checkout/checkin discipline before publish/check-in completion.
+- **Why it was not fixed now**: current work is an experiment under `temp/`; promoting this into a
+  reusable plugin capability needs a TDD contract, fixtures based on exported `CanvasContent1`,
+  and design of a supported script/skill interface rather than further hardening the scratch file.
+- **Recommended fix**: create a tested `plugins/sharepoint-content-publication/` utility that
+  exports `.aspx` + `CanvasContent1` + `LayoutWebpartsContent`, extracts canvas controls with
+  section/zone/control indices, supports targeted replacement/insertion, wraps mutation in
+  checkout/checkin, and uses the repo's standard PnP auth pattern. Add fixtures covering encoded
+  control metadata versus raw RTE HTML so literal-markup regressions fail offline before tenant
+  writes.
+- **Source-repo scripts to consult during promotion**:
+  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\analyze-aspx-webparts.ps1`
+    for downloaded-ASPX web part inventory, zones, list bindings, connected web parts, and
+    CEWP/SEWP extraction from raw page files.
+  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\scan-webparts.ps1`
+    and `extract-webpart-content.ps1` for live content-database web part discovery via
+    `GetLimitedWebPartManager` plus `exportwp.aspx`, including the lesson not to filter by
+    author-editable web part Title.
+  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\convert-wiki-page.ps1`
+    and `extract-site-navigation.ps1` for content-first extraction, chrome stripping,
+    navigation/chrome capture, asset URL rewriting, and local preview package generation.
+  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\convert-and-upload-aspx.ps1`
+    for the end-to-end legacy ASPX to modern SPO page pipeline, including local intermediate
+    artifacts and optional upload.
+  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\upload\upload-modern-page.ps1`
+    and `upload-modern-page-rest.ps1` for modern page creation/upload patterns, HTML sanitizing
+    before PnP injection, overwrite handling, and PnP-version compatibility considerations.
+  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\upload\migrate-site-assets.ps1`
+    for source SiteAssets enumeration/download/cache/upload so page image and icon URLs resolve
+    after migration.
+- **Existing workbench plugin scripts to consult during promotion**:
+  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-convert-page-to-modern.ps1`
+    for single-page conversion flow and current repo-standard PnP auth/config handling.
+  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-convert-pages-bulk.ps1`
+    for bulk orchestration, worker invocation patterns, and validation chaining.
+  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-page-copy-plan.ps1`
+    for copy-plan safety contracts, tenant-admin URL handling, and dry-run/execute confirmation
+    patterns.
+  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-upload-plan.ps1`
+    for current modern page creation/upload plan execution and overwrite handling.
+  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-validate-page-conversion.ps1`
+    for validation/readback patterns after page conversion.
+- **Evidence or reproduction step**: run
+  `temp/bc-gov-sharepoint-aspx-experiment.ps1 -Execute -Action Export` against
+  `TopicHome Copy.aspx` and inspect `canvas-controls.json`/`CanvasContent1.html`; earlier
+  over-encoded RTE body rendered as visible `<section style=...>` text on the page.
+- **Severity**: M
+- **Repeat**: YES
+- **Status**: OPEN
+
+### [2026-08-11] `sharepoint-link-remediation`'s 3 Write-Capable Skills Now Have Real `.ps1` Executors
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Post-Phase-9 real-executor porting round, `sharepoint-link-remediation`
+- **Artifact Affected**: `plugins/sharepoint-link-remediation/scripts/spo-remediate-page-links.ps1`,
+  `spo-remediate-document-content-links.ps1`, `spo-remediate-field-image-references.ps1`
+- **Friction Observed**: Same gap class as `sharepoint-discovery`/`sharepoint-content-publication`
+  (see the 2026-08-11 "Phase 9 Onboarding" entry below) — `remediate-links`,
+  `remediate-document-content-links`, and `remediate-field-image-references` each defined a real
+  `Writer`/`Executor`-callable safety gate with nothing behind it. `extract-links` and
+  `validate-link-integrity` were confirmed out of scope (deliberately read-only/local-only by
+  design, not a gap).
+- **Fix**: 3 new `.ps1` scripts, following `sharepoint-content-publication/scripts/spo-upload-plan.ps1`'s
+  established convention exactly (`Get-WorkbenchConnectionConfig` from `config.psd1`, dry-run
+  default, `-Execute` + a literal `-ConfirmToken`, `Get-Command`-gated PnP cmdlet checks). Real PnP
+  cmdlet sequences verified against `Repair-EmbeddedLinks.ps1` in the source repository (proven
+  cmdlets only, none of its CrownNet-specific config/literals ported).
+- **Reusable design seam, worth remembering for any future document-content-mutation executor**:
+  `document_link_remediation.py`'s OOXML zipfile/XML-part rewrite is Python-only logic — it can't be
+  reimplemented in PowerShell, and rewritten file bytes aren't JSON-safe to put in a plan file. The
+  division of labor that works: the Python `plan_document_link_remediation` caller writes each
+  changed document's already-remediated bytes to a local temp file and augments the plan JSON with a
+  `remediated_content_path` field; `spo-remediate-document-content-links.ps1` starts from that
+  augmented plan and only does the checkout/upload/checkin. Documented in the script's own
+  comment-based help and the skill's `SKILL.md`, not left implicit.
+- **Checkout/checkin discipline applied**: per this same file's newest scratch-page-edit entry
+  (`RESOLVED: Scratch SharePoint Page Edit Needed Explicit Checkout/Checkin`), the document-content
+  executor wraps its write in `Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType
+  MajorCheckIn`, not a bare content overwrite.
+- **`Get-WorkbenchConnectionConfig` is now duplicated a third time** (once each in
+  `sharepoint-content-publication`, and now twice more across these 3 new link-remediation scripts,
+  which share one copy across their own 3 files but don't share it with the other plugin). Worth
+  factoring into a genuinely shared, symlinked helper if a 4th plugin needs the same
+  `config.psd1`-reading logic — not urgent, flagged here so it isn't silently reinvented a 4th time.
+- **Evidence**: all 3 scripts parse-check clean (`[System.Management.Automation.Language.Parser]::ParseFile`),
+  zero project-specific literal leakage (grepped for `CrownNet`/`CMAT`/`ITAU`/`AG-BCPS`/`AG-CSB`),
+  all 6 skill-directory symlinks (3 `.ps1` + pre-existing Python copies) verified real via
+  `Get-ChildItem`'s `LinkType: SymbolicLink`, 164/164 real tests passing (1 pre-existing unrelated
+  failure, `test_no_module_lives_only_inside_a_skill_directory` re: `evals.json`, confirmed via
+  `git stash` to predate this work).
+- **Severity**: L
+- **Repeat**: NO
+- **Status**: RESOLVED
+
 ### [2026-08-11] Reusable Playbook for Porting a Source-Repo Plugin, Learned the Hard Way on `sharepoint-discovery`
 
 **Read this before starting the same porting process on any other plugin**

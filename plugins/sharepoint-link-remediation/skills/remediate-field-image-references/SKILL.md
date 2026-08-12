@@ -89,10 +89,27 @@ result = apply_field_image_remediation(  # step 5
 )
 ```
 
+## Real executor
+
+`scripts/spo-remediate-field-image-references.ps1` implements the executor
+role directly: it reads a `FieldImageRemediationPlan.to_dict()`-shaped JSON
+file and, per `changed_items` entry (`source_id` = the item's Id), overwrites
+`-FieldName` on `-ListName` via `Set-PnPListItem`. Dry run by default; real
+writes require `-Execute -ConfirmToken REMEDIATE-SPO-FIELD-IMAGES`.
+
+```bash
+pwsh -File scripts/spo-remediate-field-image-references.ps1 -PlanPath plan.json -ListName "Persons" -FieldName "Picture" -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken REMEDIATE-SPO-FIELD-IMAGES
+```
+
+It is not wired in as `field_image_remediation.py`'s injected `executor`
+automatically -- Python cannot call a PowerShell script as an in-process
+callback, so the two paths are used independently rather than composed.
+
 ## Scripts
 
 - `scripts/field_image_remediation.py` -- `classify_field_images`, `plan_field_image_remediation`, `generate_gap_report`, `apply_field_image_remediation`, `ExecutorRequired`, `ConfirmationRequired`
 - `scripts/link_rules.py`, `scripts/link_outcomes.py` -- shared with `remediate-links`
+- `scripts/spo-remediate-field-image-references.ps1` -- real PnP executor (see "Real executor" above)
 
 ## Provenance
 

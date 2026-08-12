@@ -72,10 +72,35 @@ result = apply_document_link_remediation(
 )
 ```
 
+## Real executor
+
+`scripts/spo-remediate-document-content-links.ps1` implements the executor
+role directly: it reads a `DocumentRemediationPlan.to_dict()`-shaped JSON
+file and, per changed document, checks out the target file
+(`Set-PnPFileCheckedOut`), uploads the new content (`Add-PnPFile`), then
+checks it back in (`Set-PnPFileCheckedIn -CheckinType MajorCheckIn`). Dry run
+by default; real writes require
+`-Execute -ConfirmToken REMEDIATE-SPO-DOCUMENT-LINKS`.
+
+```bash
+pwsh -File scripts/spo-remediate-document-content-links.ps1 -PlanPath plan.json -TargetLibrary "Shared Documents" -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken REMEDIATE-SPO-DOCUMENT-LINKS
+```
+
+**Design seam:** `document_link_remediation.py`'s OOXML zipfile/XML-part
+rewrite is Python-only logic; PowerShell does not reimplement it. The plan
+JSON must be augmented with a `remediated_content_path` field (an absolute
+local path to the already-rewritten file bytes, written by the Python
+caller) on each changed document before this script can act on it -- see
+the script's comment-based help for the exact augmentation. It is not wired
+in as `document_link_remediation.py`'s injected `executor` automatically --
+Python cannot call a PowerShell script as an in-process callback, so the two
+paths are used independently rather than composed.
+
 ## Scripts
 
 - `scripts/document_link_remediation.py` -- `detect_document_format`, `plan_document_link_remediation`, `apply_document_link_remediation`, `ExecutorRequired`, `ConfirmationRequired`
 - `scripts/link_rules.py`, `scripts/link_outcomes.py` -- shared with `remediate-links`
+- `scripts/spo-remediate-document-content-links.ps1` -- real PnP executor (see "Real executor" above)
 
 ## Provenance
 
