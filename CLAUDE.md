@@ -97,12 +97,24 @@ implement. **Updated 2026-08-08:** Phase 9 (reusable SharePoint plugin extractio
 `main` via PR #40 and has continued directly on `main` since. Ten SharePoint-domain plugins now
 exist — `sharepoint-discovery`, `sharepoint-schema`, `sharepoint-provisioning`,
 `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-publication`,
-`sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning` (Stage 3a
-dependency-graph analysis implemented; setup/discovery/generated-wave-script stages remain design
-scaffolds), and `sharepoint-content-migration` (item-level content migration mechanism) — plus 9
-Claude Code routing/analysis agents in `sharepoint-agents-and-skills/agents/`. See
-`temp/phase9-source-audit/file-tracking.json` for the full 505-file source-repository audit this
-ecosystem was built from, and each plugin's own README for scope/provenance.
+`sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning`, and
+`sharepoint-content-migration` — plus 9 Claude Code routing/analysis agents in
+`sharepoint-agents-and-skills/agents/`. See `temp/phase9-source-audit/file-tracking.json` for the
+full 505-file source-repository audit this ecosystem was built from, and each plugin's own README
+for scope/provenance.
+
+**Updated 2026-08-11:** a follow-on real-executor porting round closed all 10 SharePoint plugins
+above — each plugin's Python planning modules had shipped, but the live-tenant `.ps1` execution
+half (`Connect-PnPOnline`/`Get-PnP*`/`Add-PnP*`) was frequently left unported, indistinguishable
+from an intentional safety gate until someone tried to actually use it. See `start-here.md`'s
+own section on this round for the full plugin-by-plugin record — several plugins turned out to
+have a deliberate zero-tenant-I/O design contract of their own (some enforced by a real test), in
+which case the source-repo audit's originally-named files were confirmed out of scope and the real
+gap closed was something else entirely (a missing report-generation capability, a missing
+cross-plugin export-shape bridge, or — for `sharepoint-provisioning`, whose own test forbids any
+live transport shipping inside it — real executors built in `sharepoint-migration-planning`
+instead). Do not assume any plugin's skill list or implementation status from this paragraph or
+Phase 9 sources alone; read `start-here.md`'s current plugin-status table.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
 `source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`
