@@ -62,29 +62,33 @@ authoritative process document for this work, not a summary of it.
 |---|---|
 | `sharepoint-discovery` | **DONE** — 9 skills, all with real collectors (5 extended, 4 new); 1 Python module upgraded with richer narrative fields after a real gap was found and confirmed; 70/70 tests passing (excl. 1 pre-existing unrelated Windows-only failure in `test_discovery_inputs.py`, not yet fixed, tracked separately) |
 | `sharepoint-content-publication` | **DONE** — 3 new skills (`convert-page-to-modern`, `execute-page-bulk-migration`, `validate-page-migration`) plus 2 already built earlier this pass (`copy-spo-page-between-sites`'s real executor, `upload-content`'s real executor); 38/38 tests passing |
-| `sharepoint-schema` | **NOT STARTED** — 0 real `.ps1` scripts in the whole plugin currently; audit already names ~9 source files (`get-list-columns.ps1`, `get-lookup-columns.ps1`, `compare-prod-vs-test-schema.ps1`, `audit-list-columns.ps1`, `audit-spo-duplicates.ps1`, `compare-site-parity.ps1`, `compare-test-prod.ps1`, `discover-calculated-columns.ps1`, `get-persons-missing-fields-live.ps1`) |
 | `sharepoint-migration-planning` | **DONE** — all 4 skills implemented (`setup-sharepoint-migration-project`, `discover-sharepoint-site-inventory`, `analyze-sharepoint-dependency-graph`, `generate-sharepoint-wave-scripts`); no unattended all-waves orchestrator built (would contradict this plugin's own `test-driven-wave-deployment.md` rule — one wave at a time, human-gated; confirmed with the user before implementation); the CMAT-specific wave count/composition was deliberately not ported, only the generic dependency-graph-driven wave computation (already generic, already implemented); 64/64 tests passing |
 | `sharepoint-link-remediation` | **DONE** — 3 write-capable skills (`remediate-links`, `remediate-document-content-links`, `remediate-field-image-references`) now have real `.ps1` executors following `spo-upload-plan.ps1`'s dry-run/`-Execute`/`-ConfirmToken` convention, cmdlet sequences verified against the source repo's `Repair-EmbeddedLinks.ps1` (content only, no CrownNet literals ported); `extract-links`/`validate-link-integrity` correctly left untouched (read-only/local-only by design); 164/164 real tests passing (1 pre-existing unrelated `evals.json` failure, confirmed via `git stash` to predate this work) |
-| `sharepoint-schema` | **NOT STARTED** — 0 real `.ps1` scripts in the whole plugin currently; audit already names ~9 source files (`get-list-columns.ps1`, `get-lookup-columns.ps1`, `compare-prod-vs-test-schema.ps1`, `audit-list-columns.ps1`, `audit-spo-duplicates.ps1`, `compare-site-parity.ps1`, `compare-test-prod.ps1`, `discover-calculated-columns.ps1`, `get-persons-missing-fields-live.ps1`) |
+| `sharepoint-schema` | **DONE** — none of the 9 originally-audited source scripts were a clean port target: this plugin has a deliberate "zero tenant I/O" design contract (already once rejected a destructive `-Cleanup` capability), and the 9 scripts are either live collectors (belong in `sharepoint-discovery`), already-covered comparison logic, or CMAT-specific (confirmed with the user before proceeding, same pattern as `sharepoint-migration-planning`'s orchestrator question). Real work done instead: new `extract-calculated-columns` skill (5th skill, zero-tenant-I/O, generalized from `discover-calculated-columns.ps1`); a new `sharepoint-discovery` orchestrator (`collect-sharepoint-schema-export.ps1`) that actually produces the directory-tree export shape this plugin's tools consume, closing a real cross-plugin gap the user asked about directly; and `Get-WorkbenchConnectionConfig` deduplicated from 11 independently-pasted copies (across `sharepoint-content-publication`, `sharepoint-discovery`, `sharepoint-link-remediation`) down to 1 canonical file owned by `workbench-setup`, symlinked everywhere — a real functional divergence was found and fixed in the process. Two small honest gaps logged as follow-ups (no site-columns-only collector mode; no collector captures Calculated-field `Formula`), not blocking. 75/76 tests passing (1 pre-existing unrelated `os.geteuid()` Windows failure) |
 | `sharepoint-provisioning` | **NOT STARTED** — largest remaining scope (~15+ source files: schema deployment waves, calendar provisioning, user/group management, destructive clean-slate scripts) |
 | `sharepoint-content-migration` | **NOT STARTED** — medium scope, centered on `lib/migrate-helpers.ps1` (632-line real executor behind the existing `ExecutorRequired` stub) plus orchestration scripts |
-| `sharepoint-page-modernization` | **NOT STARTED** — medium scope (`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`, `diagnose-page.ps1`, 2 asset templates); note `sp-running-sharegate-jobs`'s two scripts are `NOT_RECOMMENDED` (require a commercial ShareGate license) |
+| `sharepoint-page-modernization` | **NOT STARTED** — medium scope (`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`, `diagnose-page.ps1`, 2 asset templates); note `sp-running-sharegate-jobs`'s two scripts are `NOT_RECOMMENDED` (require a commercial ShareGate license). A separate, unrelated scratch experiment (`temp/bc-gov-sharepoint-aspx-experiment.ps1`, `temp/spo-page-checkout-utility.ps1`, debrief at `temp/aspx-design-system-debrief.md`) is prototyping live ASPX-page restyling against the BC Gov design system in a different session; its confirmed eventual home is **`sharepoint-content-publication`** (write-capable, live-page-canvas-mutation domain), not this plugin (explicitly "no tenant writes" by design) — see `temp/aspx-design-system-guidance.md` for the promotion-path guidance given to that session. Not yet promoted; still scratch as of this entry.
+| `sharepoint-content-migration` (next) | **NOT STARTED** — recommended next: medium scope, well-scoped single real executor target (`lib/migrate-helpers.ps1`) |
 
 ### Recommended next plugin
 
-**`sharepoint-schema`** — next smallest remaining plugin (0 real `.ps1` scripts currently; ~9
-source files already named by the audit, all narrowly scoped schema comparison/audit utilities, no
-destructive operations). Do **not** start `sharepoint-provisioning` next; it's the largest
-remaining plugin and should come after the smaller ones are cleared, per the user's explicit
-"smallest first" sequencing this round.
+**`sharepoint-content-migration`** — medium scope, centered on porting the real logic already
+sitting behind `sharepoint-content-migration`'s existing `ExecutorRequired` stub
+(`lib/migrate-helpers.ps1`, 632 lines) plus its orchestration scripts. Do **not** start
+`sharepoint-provisioning` yet; it's the largest remaining plugin and should come after the smaller
+ones are cleared, per the user's explicit "smallest first" sequencing this round.
 
-**Session note (2026-08-11, continued):** `sharepoint-migration-planning` and
-`sharepoint-link-remediation` both closed this session, each via a background implementation
-agent given a concrete spec, then independently re-verified (parse-checked scripts, grepped for
-literal leakage, confirmed every symlink with `Get-ChildItem`'s `LinkType: SymbolicLink`, ran the
-full test suite, and manually added the shared-file entries — `symlinks.json`,
-`.agent/map-debt.md` — the agents were told not to touch) before committing. Both pushed to
-`origin/main`. Next session should start fresh with `sharepoint-schema`.
+**Session note (2026-08-11, continued):** `sharepoint-migration-planning`, `sharepoint-link-
+remediation`, and `sharepoint-schema` all closed this session, each via one or more background
+implementation agents given a concrete spec, then independently re-verified (parse-checked
+scripts, grepped for literal leakage, confirmed every symlink with `Get-ChildItem`'s `LinkType:
+SymbolicLink`, ran the full test suite, and manually added the shared-file entries —
+`symlinks.json`, `.agent/map-debt.md` — the agents were told not to touch) before committing.
+`sharepoint-schema` in particular required stepping outside its own plugin boundary twice (a
+`sharepoint-discovery` orchestrator script, a `workbench-setup`-owned shared connection helper)
+because the real gaps were cross-plugin, not contained to the one plugin nominally "next" — surface
+that kind of finding to the user before assuming a gap list maps 1:1 onto plugin boundaries. All
+three pushed to `origin/main`. Next session should start fresh with `sharepoint-content-migration`.
 
 ### Session process notes for whoever resumes
 
