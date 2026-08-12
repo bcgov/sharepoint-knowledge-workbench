@@ -81,25 +81,7 @@ $script:systemTitles = @(
     "User Information List", "Web Part Gallery", "wfpub", "Workflow History", "Workflow Tasks"
 )
 
-function Get-WorkbenchConnectionConfig {
-    [CmdletBinding()]
-    param([Parameter(Mandatory = $true)][string]$Path)
-
-    if (-not (Test-Path -LiteralPath $Path)) {
-        return [pscustomobject]@{ SiteUrl = $null; ClientId = $null; TenantId = $null; TenantAdminUrl = $null }
-    }
-
-    $rawConfig = Import-PowerShellDataFile -LiteralPath $Path
-    $cfg = if ($rawConfig.Connection) { $rawConfig.Connection } else { $rawConfig }
-    $tenantAdminUrl = if ($rawConfig.Authentication) { $rawConfig.Authentication.TenantAdminUrl } else { $rawConfig.TenantAdminUrl }
-
-    [pscustomobject]@{
-        SiteUrl        = $cfg.SiteUrl
-        ClientId       = $cfg.ClientId
-        TenantId       = $cfg.TenantId
-        TenantAdminUrl = $tenantAdminUrl
-    }
-}
+. (Join-Path $PSScriptRoot "Get-WorkbenchConnectionConfig.ps1")
 
 function Write-JsonOutput {
     param($Object, [string]$Path)

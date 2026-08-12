@@ -2130,6 +2130,90 @@
       "dst": "plugins/sharepoint-content-publication/skills/execute-page-bulk-migration/scripts/spo-validate-page-conversion.ps1",
       "strategy": "symlink",
       "description": "execute-page-bulk-migration skill's bundled copy of spo-validate-page-conversion.ps1 (shared validator script)"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "sharepoint-content-publication's plugin-root copy of workbench-setup's canonical Get-WorkbenchConnectionConfig.ps1 (cross-plugin hop 1, dedup of 11 duplicated copies, 2026-08-11)"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-discovery/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "sharepoint-discovery's plugin-root copy of workbench-setup's canonical Get-WorkbenchConnectionConfig.ps1 (cross-plugin hop 1, dedup of 11 duplicated copies, 2026-08-11)"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-link-remediation/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "sharepoint-link-remediation's plugin-root copy of workbench-setup's canonical Get-WorkbenchConnectionConfig.ps1 (cross-plugin hop 1, dedup of 11 duplicated copies, 2026-08-11)"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-links/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "remediate-links skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-document-content-links/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "remediate-document-content-links skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-link-remediation/skills/remediate-field-image-references/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "remediate-field-image-references skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/copy-spo-page-between-sites/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "copy-spo-page-between-sites skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/upload-content/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "upload-content skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/convert-page-to-modern/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "convert-page-to-modern skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/validate-page-migration/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "validate-page-migration skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/execute-page-bulk-migration/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "execute-page-bulk-migration skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-discovery/skills/analyze-page-inventory/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "analyze-page-inventory skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-discovery/skills/collect-sharepoint-inventory/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "collect-sharepoint-inventory skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-discovery/skills/audit-managed-metadata/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "audit-managed-metadata skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
     }
   ]
 }

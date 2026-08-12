@@ -130,38 +130,7 @@ function Resolve-SpoSitePageUrl {
     }
 }
 
-function Get-WorkbenchConnectionConfig {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$Path
-    )
-
-    if (-not (Test-Path -LiteralPath $Path)) {
-        return [pscustomobject]@{
-            ClientId       = $null
-            TenantId       = $null
-            TenantAdminUrl = $null
-        }
-    }
-
-    $rawConfig = Import-PowerShellDataFile -LiteralPath $Path
-    $tenantAdminUrl = if ($rawConfig.Authentication) { $rawConfig.Authentication.TenantAdminUrl } else { $rawConfig.TenantAdminUrl }
-
-    if ($rawConfig.Connection) {
-        return [pscustomobject]@{
-            ClientId       = $rawConfig.Connection.ClientId
-            TenantId       = $rawConfig.Connection.TenantId
-            TenantAdminUrl = $tenantAdminUrl
-        }
-    }
-
-    [pscustomobject]@{
-        ClientId       = $rawConfig.ClientId
-        TenantId       = $rawConfig.TenantId
-        TenantAdminUrl = $tenantAdminUrl
-    }
-}
+. (Join-Path $PSScriptRoot "Get-WorkbenchConnectionConfig.ps1")
 
 function Format-ConnectPnPOnlineCommand {
     [CmdletBinding()]
