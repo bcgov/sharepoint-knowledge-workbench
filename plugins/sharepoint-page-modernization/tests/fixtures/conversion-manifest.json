@@ -1,0 +1,63 @@
+{
+  "sourcePage": "/sites/example/SitePages/Team-Overview.aspx",
+  "convertedAt": "2026-08-11T00:00:00Z",
+  "manifestHash": "sha256:test-fixture-hash",
+  "mapping": {
+    "mappingVersion": "1.0.0",
+    "rulesApplied": ["ARCH-001"]
+  },
+  "environmentProfile": {
+    "sourceEnvironment": "Test",
+    "sourceUrl": "https://example.sharepoint.com/sites/example",
+    "sourceParityAssumed": true,
+    "targetValidationRequired": true
+  },
+  "source": {
+    "pageType": "WikiPage",
+    "hasConnections": true,
+    "detectionMethod": "markup+overrides"
+  },
+  "target": {
+    "layout": "Home",
+    "sections": 2,
+    "views": 1
+  },
+  "webParts": [
+    {
+      "type": "TextWebPart",
+      "sourceZone": "Zone1",
+      "listName": null,
+      "isGapNotice": false
+    },
+    {
+      "type": "ListWebPart",
+      "sourceZone": "Zone2",
+      "listName": "Announcements",
+      "isGapNotice": false
+    },
+    {
+      "type": "TextWebPart",
+      "sourceZone": null,
+      "listName": null,
+      "isGapNotice": true
+    }
+  ],
+  "layout": {
+    "template": "OneColumn",
+    "mappedTo": "Home",
+    "columnCount": 1
+  },
+  "gaps": [
+    "GAP-001-CRITICAL: modern SharePoint pages do not support the classic web part connection framework -- list 'RelatedTasks' not migrated"
+  ],
+  "confidence": {
+    "layoutRuleApplied": "RULE-002",
+    "componentsMapped": 2,
+    "componentsTotal": 3
+  },
+  "outcome": {
+    "status": "Partial",
+    "detail": "1 gap(s) recorded; see gaps section",
+    "counts": null
+  }
+}

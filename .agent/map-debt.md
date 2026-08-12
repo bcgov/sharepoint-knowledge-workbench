@@ -1,4 +1,44 @@
 
+### [2026-08-11] `sharepoint-page-modernization` Report Generator Added — No Manifest-Assembly Step Exists Yet
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Post-Phase-9 real-executor porting round, `sharepoint-page-modernization`
+- **Artifact Affected**: `plugins/sharepoint-page-modernization/scripts/conversion_report.py` (new),
+  `component_mapping.py`/`layout_selection.py` (gap found, not fixed)
+- **Context**: this plugin's 3 skills (`analyze-aspx-pages`, `convert-aspx-pages`,
+  `compose-page-preview`) were already fully implemented — unlike every other plugin closed this
+  session, the gap here wasn't a missing `.ps1` executor (this plugin is deliberately zero-tenant-
+  I/O and already once rejected a live-tenant collector) but a missing report-generation capability,
+  matching a known Phase-9 deferred finding. Confirmed with the user before proceeding: none of the
+  3 originally-audited source scripts (`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`,
+  `diagnose-page.ps1`) were in scope, same tension pattern as `sharepoint-migration-planning` and
+  `sharepoint-schema` before it — the source-repo audit's gap list doesn't reliably map onto what a
+  target plugin's own design contract will actually accept.
+- **Real second gap found while building the report generator, not silently papered over**:
+  `plugins/sharepoint-page-modernization/scripts/assets/manifest-schema.json`'s
+  `PageConversionManifest` shape (`webParts`, `manifestHash`, `gaps`, `confidence`, `layout`, etc.)
+  is not produced by anything in this codebase today. `component_mapping.py` returns a `plan` dict
+  (`mappingVersion`/`rulesApplied`/`sections`/`notMigrated`/`outcome`); `layout_selection.py`
+  returns a `decision` dict (`selectedLayout`/`sectionTemplate`/`ruleApplied`/`skippedRules`/
+  `outcome`). Neither matches the schema, and nothing assembles them into it — confirmed via grep,
+  no file under `scripts/*.py` contains `webParts`/`manifestHash`/`PageConversionManifest` outside
+  the schema file itself. `conversion_report.py` was built strictly against the schema contract as
+  specified (a fixture manifest was hand-built for its tests, since no real producer exists to
+  generate one), so `generate-conversion-report` currently has **no upstream producer** feeding it a
+  real manifest yet.
+- **Follow-up, undone**: a manifest-assembly step that turns `component_mapping.py`'s `plan` +
+  `layout_selection.py`'s `decision` into a schema-conformant `PageConversionManifest` (adding the
+  currently-absent `manifestHash`, `convertedAt`, `environmentProfile`, `source`, `target` fields).
+- **Evidence**: 82/82 tests passing (74 pre-existing + 8 new); zero project-specific literal
+  leakage; 1 new symlink verified real via `Get-ChildItem`'s `LinkType: SymbolicLink`; caught and
+  fixed a missing `conversion_report` entry in `pyproject.toml`'s `py-modules` (same class of bug
+  as the earlier `sharepoint-schema`/`calculated_columns` miss — editable installs mask this,
+  isolated installs don't; worth checking for this pattern proactively on every new module going
+  forward, not just after it's caught twice).
+- **Severity**: L (real gap, honestly documented, not blocking what shipped)
+- **Repeat**: YES (missing `pyproject.toml` `py-modules` entry — 2nd occurrence this session)
+- **Status**: OPEN (manifest-assembly step is real follow-up work, not urgent)
+
 ### [2026-08-11] RESOLVED: Scratch SharePoint Page Edit Needed Explicit Checkout/Checkin
 
 - **Logged Date**: 2026-08-11
@@ -24,8 +64,10 @@
 - **Logged Date**: 2026-08-11
 - **Cycle/Session ID**: `9df8d825-19a5-46ef-88e8-4b18c496f39d`
 - **Artifact Affected**: `temp/bc-gov-sharepoint-aspx-experiment.ps1`,
-  `temp/spo-page-checkout-utility.ps1`, future `plugins/sharepoint-content-publication/`
-  page-authoring scripts/skills
+  `temp/spo-page-checkout-utility.ps1`,
+  `temp/spo-page-style-section-headings-experiment.ps1`,
+  `temp/spo-list-webpart-format-experiment.ps1`, future
+  `plugins/sharepoint-content-publication/` page-authoring scripts/skills
 - **Friction Observed**: live SharePoint modern `.aspx` authoring cannot be treated as a raw file
   upload or blind `Add-PnPPageTextPart` append. The page's visible surface lives in
   `CanvasContent1`; existing section/zone/control placement must be exported and analyzed before
@@ -35,6 +77,12 @@
 - **Why it was not fixed now**: current work is an experiment under `temp/`; promoting this into a
   reusable plugin capability needs a TDD contract, fixtures based on exported `CanvasContent1`,
   and design of a supported script/skill interface rather than further hardening the scratch file.
+- **Readiness assessment update**: keep the tenant-tested lessons, but do not straight-promote
+  the mutation scripts. The checkout/checkin utility and export/control-inventory pattern are the
+  closest to promotion. Header replacement, section-heading replacement, and list-view formatting
+  remain scratch: they contain page-specific selectors/content, hardcoded formatter opinions, and
+  no offline tests. The rejected `Apply` action that blindly appends a text part should not be
+  promoted.
 - **Recommended fix**: create a tested `plugins/sharepoint-content-publication/` utility that
   exports `.aspx` + `CanvasContent1` + `LayoutWebpartsContent`, extracts canvas controls with
   section/zone/control indices, supports targeted replacement/insertion, wraps mutation in
@@ -76,7 +124,9 @@
 - **Evidence or reproduction step**: run
   `temp/bc-gov-sharepoint-aspx-experiment.ps1 -Execute -Action Export` against
   `TopicHome Copy.aspx` and inspect `canvas-controls.json`/`CanvasContent1.html`; earlier
-  over-encoded RTE body rendered as visible `<section style=...>` text on the page.
+  over-encoded RTE body rendered as visible `<section style=...>` text on the page. Additional
+  scratch scripts now cover section-heading text cleanup and list-web-part view-formatting
+  inventory/apply, but both need generalization and tests before reuse.
 - **Severity**: M
 - **Repeat**: YES
 - **Status**: OPEN

@@ -2250,6 +2250,12 @@
       "dst": "plugins/sharepoint-content-migration/skills/migrate-sharepoint-list-content/scripts/spo-migrate-list-items.ps1",
       "strategy": "symlink",
       "description": "migrate-sharepoint-list-content skill's bundled copy of spo-migrate-list-items.ps1 (real PnP executor)"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/conversion_report.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/generate-conversion-report/scripts/conversion_report.py",
+      "strategy": "symlink",
+      "description": "generate-conversion-report skill's bundled copy of conversion_report.py"
     }
   ]
 }

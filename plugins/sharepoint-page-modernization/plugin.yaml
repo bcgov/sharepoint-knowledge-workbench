@@ -11,6 +11,7 @@ skills:
   - analyze-aspx-pages
   - convert-aspx-pages
   - compose-page-preview
+  - generate-conversion-report
 agents:
   - sharepoint-modernization-agent
   - sharepoint-webpart-modernization-analysis-agent
