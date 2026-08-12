@@ -45,7 +45,7 @@
       "name": "sharepoint-link-remediation",
       "source": "./plugins/sharepoint-link-remediation",
       "strict": true,
-      "description": "Generic SharePoint link extraction, rewrite-rule remediation, and post-migration link-integrity validation. Extraction and validation are read-only; remediation is dry-run by default and requires an injected writer plus a confirmation token."
+      "description": "Generic SharePoint link extraction, rewrite-rule remediation, and post-migration link-integrity validation. Extraction and validation are read-only; the 3 write-capable remediation skills (page links, document-content links, field image references) are dry-run by default and each have a real PnP executor requiring -Execute plus a confirmation token."
     },
     {
       "name": "sharepoint-discovery",
@@ -57,19 +57,19 @@
       "name": "sharepoint-schema",
       "source": "./plugins/sharepoint-schema",
       "strict": true,
-      "description": "Read-only SharePoint schema auditing: compares two exported schema snapshots for list/content-type/site-column/field variance, audits duplicate display names, and inventories Choice field option sets. Environment labels and compared properties are caller-supplied."
+      "description": "Read-only SharePoint schema auditing: compares two exported schema snapshots for list/content-type/site-column/field variance, audits duplicate display names, inventories Choice field option sets, and extracts Calculated-column formulas/references from an export. Environment labels and compared properties are caller-supplied. Zero tenant I/O by design; a companion sharepoint-discovery orchestrator produces the directory-tree export shape these tools consume."
     },
     {
       "name": "sharepoint-page-modernization",
       "source": "./plugins/sharepoint-page-modernization",
       "strict": true,
-      "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, and component mapping with explicit gap notices. Produces plans, never tenant writes."
+      "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, component mapping with explicit gap notices, and a human-readable Markdown conversion report. Produces plans, never tenant writes."
     },
     {
       "name": "sharepoint-provisioning",
       "source": "./plugins/sharepoint-provisioning",
       "strict": true,
-      "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Zero tenant I/O ships in this plugin."
+      "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Zero tenant I/O ships in this plugin (enforced by a test) -- the real PnP executors for these plans live in sharepoint-migration-planning instead."
     },
     {
       "name": "sharepoint-migration-planning",
@@ -81,7 +81,7 @@
       "name": "sharepoint-content-migration",
       "source": "./plugins/sharepoint-content-migration",
       "strict": true,
-      "description": "Item-level SharePoint content (list-item data) migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique (record source-to-destination IDs during a content pass, resolve lookup fields against that mapping once target lists exist). Distinct from sharepoint-provisioning (schema/list/field structure, not row data). Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token."
+      "description": "Item-level SharePoint content (list-item data) migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique (record source-to-destination IDs during a content pass, resolve lookup fields against that mapping once target lists exist). Distinct from sharepoint-provisioning (schema/list/field structure, not row data). Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token -- a real PnP executor (non-batched item create plus identity-based backfill update) is implemented."
     }
   ]
 }
