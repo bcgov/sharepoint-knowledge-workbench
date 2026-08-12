@@ -2232,6 +2232,24 @@
       "dst": "plugins/sharepoint-schema/skills/extract-calculated-columns/scripts/schema_export.py",
       "strategy": "symlink",
       "description": "extract-calculated-columns skill's bundled copy of schema_export.py"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-migration/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "sharepoint-content-migration's plugin-root copy of workbench-setup's canonical Get-WorkbenchConnectionConfig.ps1 (cross-plugin hop 1, 4th consuming plugin, 2026-08-11)"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/migrate-sharepoint-list-content/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "migrate-sharepoint-list-content skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/spo-migrate-list-items.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/migrate-sharepoint-list-content/scripts/spo-migrate-list-items.ps1",
+      "strategy": "symlink",
+      "description": "migrate-sharepoint-list-content skill's bundled copy of spo-migrate-list-items.ps1 (real PnP executor)"
     }
   ]
 }

@@ -81,6 +81,45 @@
 - **Repeat**: YES
 - **Status**: OPEN
 
+### [2026-08-11] `sharepoint-content-migration`'s Real Executor Added — `MigrationItem` Design Seam Found
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Post-Phase-9 real-executor porting round, `sharepoint-content-migration`
+- **Artifact Affected**: `plugins/sharepoint-content-migration/scripts/spo-migrate-list-items.ps1`
+  (new), `plugins/sharepoint-content-migration/scripts/item_migration.py` (seam found, not fixed)
+- **Context**: same gap class as every other plugin closed this round — `apply_item_migration`
+  required an injected `executor(item) -> dest_id` callable with nothing real behind it. New script
+  distinguishes create (`Add-PnPListItem`, non-batched — confirmed against the source repository's
+  own `migrate-helpers.ps1` that `-Batch` doesn't reliably return a usable item reference in the
+  installed PnP.PowerShell version, exactly the finding that mattered here since this workflow needs
+  the real ID immediately for `id_mapping.record_id_mapping`) from backfill/update
+  (`Set-PnPListItem -Identity <id>`, pass 2 of the two-pass lookup-resolution technique).
+- **Real design seam found, not silently papered over**: `item_migration.py`'s `MigrationItem`
+  dataclass carries only `source_id`/`fields` — no `dest_id`/"is this a backfill" field — and
+  neither `MigrationItem` nor `ItemMigrationPlan` defines `to_dict()`/`from_dict()` (only
+  `ItemMigrationResult` does). The new `.ps1`'s plan-JSON is therefore its own contract, not a
+  literal serialization of the Python dataclass — a caller producing that plan JSON from Python must
+  augment each backfill item with `dest_id` itself. Documented in the script's own comment-based help
+  and the skill's `SKILL.md` "Design seam" section (same pattern as `spo-remediate-document-content-
+  links.ps1`'s `remediated_content` seam). Follow-up, undone: give `MigrationItem` a native optional
+  `dest_id` field if a caller wants the Python plan object itself to represent both passes.
+- **5-source-category audit run, no second gap found**: `skills/sp-content-migration` (thin CMAT
+  wrappers, nothing new), `skills/sp-migrating-content` (entirely CMAT wave-schema-deployment
+  orchestration, out of scope), `agents/sp-migration-agent.md`/`sp-migration-orchestrator.md` (CMAT
+  wave sequencing — this workbench's own `sharepoint-content-migration-sequencing-agent.md` already
+  generalizes the real rule, parent-before-child + self-referential-last, more cleanly),
+  `assets/templates/content-migration-manifest.json` (pure CMAT project data), `references/CONTENT-
+  MIGRATION-GUIDE.md`/`CALENDAR-OVERLAY-MIGRATION-DECISION.md` (pure CMAT runbooks). Confirmed via
+  direct reads, not assumed from the audit's own classification labels.
+- **`Get-WorkbenchConnectionConfig.ps1` now has a 4th consuming plugin** (`sharepoint-content-
+  migration`, first use — new plugin-root symlink hop created).
+- **Evidence**: script parse-checks clean, dry-run smoke test against a fixture plan correctly
+  distinguished create vs. backfill actions, zero project-specific literal leakage, 3 new symlinks
+  verified real via `Get-ChildItem`'s `LinkType: SymbolicLink`, 30/30 tests passing before and after.
+- **Severity**: L (real seam, honestly documented, not blocking)
+- **Repeat**: N/A (new finding)
+- **Status**: OPEN (the `MigrationItem` native `dest_id` field is real follow-up work, not urgent)
+
 ### [2026-08-11] Two Real Collector Gaps Found While Wiring `sharepoint-discovery` → `sharepoint-schema`
 
 - **Logged Date**: 2026-08-11

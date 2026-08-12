@@ -1,7 +1,7 @@
 name: sharepoint-content-migration
 version: 0.1.0-alpha.1
 status: partial
-description: "Item-level SharePoint content (list-item data) migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique (record a source-to-destination ID mapping during a content pass, resolve lookup fields against it once all target lists exist). Distinct from sharepoint-provisioning (schema/list/field structure, not row data) and sharepoint-page-modernization/sharepoint-link-remediation (pages and links, not list items). Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token."
+description: "Item-level SharePoint content (list-item data) migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique (record a source-to-destination ID mapping during a content pass, resolve lookup fields against it once all target lists exist). Distinct from sharepoint-provisioning (schema/list/field structure, not row data) and sharepoint-page-modernization/sharepoint-link-remediation (pages and links, not list items). Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Has a real PnP executor (scripts/spo-migrate-list-items.ps1): non-batched Add-PnPListItem for creates, Set-PnPListItem for lookup backfills."
 author: Richard Fremmerlid
 kind: backend
 platforms:

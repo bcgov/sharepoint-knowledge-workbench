@@ -87,6 +87,67 @@ dest_ids = resolve_lookup_ids(mapping, target_list="TargetList", source_ids=[103
 - `scripts/id_mapping.py` -- `record_id_mapping`, `resolve_lookup_ids`
 - `scripts/item_migration.py` -- `MigrationItem`, `plan_item_migration`, `apply_item_migration`, `ExecutorRequired`, `ConfirmationRequired`
 - `scripts/provisioning_outcomes.py` -- shared `Outcome` vocabulary (reused from `sharepoint-provisioning`)
+- `scripts/spo-migrate-list-items.ps1` -- real PnP executor, see "Real executor" below
+- `scripts/Get-WorkbenchConnectionConfig.ps1` -- symlink to the canonical
+  `workbench-setup`-owned `config.psd1` reader shared by every write-capable
+  plugin
+
+## Real executor
+
+`scripts/spo-migrate-list-items.ps1` is the real tenant-facing counterpart
+to `apply_item_migration`'s injected `executor(item) -> dest_id` callable
+-- Python cannot inject a PowerShell callback across the process boundary,
+so this script instead reads a plan JSON file directly and performs the
+real writes itself.
+
+Per item, it chooses one of two real PnP cmdlets based on whether the plan
+entry carries a `dest_id`:
+
+- **No `dest_id` -> create.** Non-batched
+  `Add-PnPListItem -List $TargetList -Values $fields -ErrorAction Stop`
+  (not `-Batch` -- confirmed against a source-repository migration
+  library's own comment: `Add-PnPListItem -Batch` does not reliably
+  return a usable lazy item reference in the installed PnP.PowerShell
+  version, so the source falls back to non-batched per-item creates
+  whenever the real created ID is needed immediately, which this
+  workflow always needs for `record_id_mapping`). The real created
+  item's `Id` becomes the result's `dest_id`.
+- **Present `dest_id` -> backfill (update).**
+  `Set-PnPListItem -List $TargetList -Identity <dest_id> -Values $fields
+  -ErrorAction Stop` -- pass 2, writing an already-resolved lookup value
+  onto an item this same two-pass technique already created in an
+  earlier content pass.
+
+Retry: every item always gets at least one real write attempt --
+`-RetryAttempts 0` is clamped to 1, never allowed to silently skip an
+item (mirrors the fix already applied on the Python side, where
+`apply_item_migration` now raises `ValueError` for `retry_attempts < 1`
+instead of silently dropping every item).
+
+Result JSON matches `ItemMigrationResult.to_dict()`'s field names exactly
+(`outcome`, `dry_run`, `migrated: [{source_id, dest_id}]`,
+`failed: [{source_id, error}]`) so a Python caller can feed
+`result.migrated` straight into `record_id_mapping` without reshaping.
+
+By default performs no tenant I/O; `-Execute` plus
+`-ConfirmToken MIGRATE-SPO-LIST-ITEMS` runs the real writes.
+
+### Design seam -- plan JSON is not a literal `MigrationItem`/`ItemMigrationPlan` serialization
+
+Neither `MigrationItem` nor `ItemMigrationPlan` defines a `to_dict()`/
+`from_dict()` method in `item_migration.py` (only `ItemMigrationResult`
+does), and `MigrationItem` itself has no `dest_id`/"is this a backfill"
+field -- it only carries `source_id` and `fields`. That means the two-pass
+distinction this script's plan JSON needs (create vs. backfill) has no
+native representation in the Python dataclass today. The plan JSON is
+therefore this script's own contract: a caller producing it from Python
+augments each item dict with `dest_id` itself when it's a backfill entry
+(the same division of labor `spo-remediate-document-content-links.ps1`
+uses for its own `remediated_content` augmentation). This was flagged
+rather than silently assumed to already exist -- giving `MigrationItem` a
+native optional `dest_id` field is real, undone follow-up work if a
+caller wants the Python plan object itself to represent both passes
+without a manual augmentation step.
 
 ## Provenance
 
