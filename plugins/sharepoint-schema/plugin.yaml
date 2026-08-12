@@ -11,6 +11,7 @@ skills:
   - audit-schema
   - diff-sharepoint-schema
   - extract-choice-fields
+  - extract-calculated-columns
   - generate-sharepoint-schema-from-export
 agents:
   - sharepoint-schema-agent

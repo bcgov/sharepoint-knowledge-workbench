@@ -2214,6 +2214,24 @@
       "dst": "plugins/sharepoint-discovery/skills/audit-managed-metadata/scripts/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
       "description": "audit-managed-metadata skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/collect-sharepoint-schema-export.ps1",
+      "dst": "plugins/sharepoint-discovery/skills/collect-sharepoint-inventory/scripts/collect-sharepoint-schema-export.ps1",
+      "strategy": "symlink",
+      "description": "collect-sharepoint-inventory skill's bundled copy of collect-sharepoint-schema-export.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/calculated_columns.py",
+      "dst": "plugins/sharepoint-schema/skills/extract-calculated-columns/scripts/calculated_columns.py",
+      "strategy": "symlink",
+      "description": "extract-calculated-columns skill's bundled copy of calculated_columns.py"
+    },
+    {
+      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-schema/skills/extract-calculated-columns/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "extract-calculated-columns skill's bundled copy of schema_export.py"
     }
   ]
 }
