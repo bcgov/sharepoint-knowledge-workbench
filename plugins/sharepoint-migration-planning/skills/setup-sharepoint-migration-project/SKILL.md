@@ -1,48 +1,71 @@
 ---
 name: setup-sharepoint-migration-project
 plugin: sharepoint-migration-planning
-status: design-scaffold
+status: implemented
 description: >
-  NOT YET IMPLEMENTED. Will interactively ask for the source and target
-  SharePoint site URLs for a migration-planning run, confirm the workbench's
-  own connection setup (workbench-setup's initialize-workbench-config /
-  config.psd1) already exists rather than re-inventing connection config,
-  and create a per-migration working folder to hold this pipeline's
-  intermediate and final outputs.
+  Confirms the workbench's own repository-root config.psd1 (produced by
+  workbench-setup's initialize-workbench-config) already exists with a
+  Connection block, then creates a per-migration working directory to hold
+  this pipeline's later-stage outputs. Pure filesystem + text check -- no
+  tenant I/O, never fabricates a config.
 allowed-tools: Bash, Read, Write
 ---
 
 # Setup SharePoint Migration Project
 
-> **Status: design scaffold, not implemented.** This file states intent; there is no working
-> script behind it yet.
-
-## Trigger and Purpose (planned)
-
 Stage 1 of the `sharepoint-migration-planning` pipeline (see
-`../../references/pipeline-overview.mmd`). Interactive: asks the operator for the source site URL
-and target site URL, then **confirms** — does not recreate — that `workbench-setup`'s
-`initialize-workbench-config` skill has already produced a repository-root `config.psd1`. This
-skill must never generate its own competing connection config; `config.psd1` has exactly one
-source of truth, established by an earlier `workbench-setup` fix this session.
+`../../references/pipeline-overview.mmd`). Confirms -- does not recreate -- that
+`workbench-setup`'s `initialize-workbench-config` skill has already produced a
+repository-root `config.psd1`. This skill never generates its own competing
+connection config; `config.psd1` has exactly one source of truth.
 
-## Planned behavior
+## Public interface
 
-1. Ask for source site URL, target site URL.
-2. Check for a repository-root `config.psd1` with a `Connection` block. If absent, tell the
-   operator to run `workbench-setup`'s `initialize-workbench-config` first — do not proceed by
-   fabricating a config.
-3. Create a per-migration working directory (exact location/naming: not yet decided) to hold this
-   pipeline's outputs: the source-site export (once stage 2 exists), `dependency-matrix.json`
-   (stage 3a), generated wave scripts and a wave guide (stage 3b).
+```python
+from project_setup import setup_migration_project
 
-## Honest outcomes (planned)
+result = setup_migration_project(
+    repo_root,
+    source_site_url="https://contoso.sharepoint.com/sites/old",
+    target_site_url="https://contoso.sharepoint.com/sites/new",
+    project_slug="acme-migration",
+)
+# result.outcome: Outcome.OBSERVED (paths created) or Outcome.FAILED
+# (config.psd1 missing/no Connection block, or a required argument missing)
+```
 
-Missing `config.psd1` or missing `Connection` block must be reported clearly, not silently worked
-around. This skill performs no tenant I/O itself.
+`check_config_psd1(repo_root)` and `project_paths(repo_root, project_slug)` are
+also exposed individually for callers that only need one half.
+
+## Working directory convention
+
+`runs/sharepoint-migration-planning/<project-slug>/`, holding:
+
+- `export/` -- the source-site export directory stage 2 validates
+- `generated-scripts/` -- stage 3b's generated wave scripts
+- `dependency-matrix.json` -- stage 3a's output (path only; this skill does not write it)
+- `wave-guide.md` -- stage 3b's output (path only; this skill does not write it)
+
+This mirrors this repo's existing `runs/<doc-name>/` convention for the
+content-pipeline plugins (root `CLAUDE.md`'s "Layout" section), adapted for
+migration-planning runs. Directory creation is idempotent.
+
+## Honest outcomes
+
+A missing `config.psd1`, a `config.psd1` with no `Connection` key, or a
+missing required argument (`source_site_url`/`target_site_url`/`project_slug`)
+is reported as `Outcome.FAILED` with an actionable message -- and no working
+directory is created in that case. This skill performs no tenant I/O itself
+and never writes or edits `config.psd1`.
+
+## Scripts
+
+- `scripts/project_setup.py` -- `check_config_psd1`, `project_paths`,
+  `create_project_directories`, `setup_migration_project`
+- `scripts/provisioning_outcomes.py` -- reused via a managed file symlink (see `symlinks.json`)
 
 ## Provenance
 
 New design work, generalizing a manual process (source: a human hand-configuring
-`config/config.psd1` before running wave scripts) observed in a separate SharePoint migration
-repository. Not a code port.
+`config/config.psd1` before running wave scripts) observed in a separate
+SharePoint migration repository. Not a code port.

@@ -662,3 +662,16 @@ lesson, recorded once here instead of re-derived plugin by plugin.
 - **Severity**: M
 - **Repeat**: YES
 - **Status**: RESOLVED
+
+### [2026-08-11] `sharepoint-migration-planning`'s Remaining 3 Skills Implemented — `symlink_manager.py` Missing From This Checkout
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Post-Phase-9 real-executor porting round, `sharepoint-migration-planning` (smallest remaining plugin, per `start-here.md`'s sequencing)
+- **Artifact Affected**: `.agents/skills/symlink-manager/` (expected location, not present)
+- **Friction Observed**: `CLAUDE.md`'s "Plugin-Local Resource Sharing" section and this repo's symlink rule both mandate creating shared-script symlinks via `.agents/skills/symlink-manager/scripts/symlink_manager.py create`, never `ln -s`/`New-Item` directly. When implementing `setup-sharepoint-migration-project`, `discover-sharepoint-site-inventory`, and `generate-sharepoint-wave-scripts` (flipping all 3 from `design-scaffold` to real, TDD-tested implementations, mirroring the existing `analyze-sharepoint-dependency-graph`/`plan-sharepoint-deployment-waves` pattern), `symlink_manager.py` was found absent from this checkout's `.agents/skills/`.
+- **Why it wasn't fixed earlier**: Not previously needed — no new plugin-local symlinks had been created recently enough to hit this gap.
+- **Recommended Fix**: The 6 required symlinks (`project_setup.py`, `inventory_validation.py`, `wave_script_generation.py`, and 3 `provisioning_outcomes.py` copies, one per new skill) were created directly with PowerShell's `New-Item -ItemType SymbolicLink`, then independently verified via `Get-ChildItem`'s `LinkType: SymbolicLink` — same end state the tool would produce, but bypassing the mandated tool since it isn't installed here. Check whether `symlink-manager` needs reinstalling from `agent-plugins-skills` (per `CLAUDE.md`'s Skill Development Protocol) before the next plugin pass that needs a new symlink.
+- **Evidence**: 64/64 tests passing (up from 39/39) in `plugins/sharepoint-migration-planning/`; all 6 new symlinks verified real; `symlinks.json` updated with the corresponding entries; isolated `pip install -e` + import check passing.
+- **Severity**: L
+- **Repeat**: TBD
+- **Status**: OPEN (tooling gap, not blocking; workaround used successfully)
