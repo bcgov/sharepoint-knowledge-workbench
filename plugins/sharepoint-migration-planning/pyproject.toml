@@ -19,6 +19,9 @@ py-modules = [
     "completeness_checks",
     "wave_planning",
     "provisioning_outcomes",
+    "project_setup",
+    "inventory_validation",
+    "wave_script_generation",
 ]
 
 [tool.setuptools.package-dir]

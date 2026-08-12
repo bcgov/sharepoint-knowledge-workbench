@@ -1682,6 +1682,42 @@
       "description": "plan-sharepoint-deployment-waves skill's bundled copy of wave_planning.py (moved here from sharepoint-provisioning, 2026-08-08)"
     },
     {
+      "src": "plugins/sharepoint-migration-planning/scripts/project_setup.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/setup-sharepoint-migration-project/scripts/project_setup.py",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-migration-project skill's bundled copy of project_setup.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/setup-sharepoint-migration-project/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "setup-sharepoint-migration-project skill's bundled copy of provisioning_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/inventory_validation.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/discover-sharepoint-site-inventory/scripts/inventory_validation.py",
+      "strategy": "symlink",
+      "description": "discover-sharepoint-site-inventory skill's bundled copy of inventory_validation.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/discover-sharepoint-site-inventory/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "discover-sharepoint-site-inventory skill's bundled copy of provisioning_outcomes.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/wave_script_generation.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/generate-sharepoint-wave-scripts/scripts/wave_script_generation.py",
+      "strategy": "symlink",
+      "description": "generate-sharepoint-wave-scripts skill's bundled copy of wave_script_generation.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/generate-sharepoint-wave-scripts/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "generate-sharepoint-wave-scripts skill's bundled copy of provisioning_outcomes.py"
+    },
+    {
       "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
       "dst": "plugins/sharepoint-link-remediation/tests/test_agent_definitions.py",
       "strategy": "symlink",

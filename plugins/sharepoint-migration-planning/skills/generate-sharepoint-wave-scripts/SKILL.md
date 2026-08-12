@@ -1,52 +1,72 @@
 ---
 name: generate-sharepoint-wave-scripts
 plugin: sharepoint-migration-planning
-status: design-scaffold
+status: implemented
 description: >
-  NOT YET IMPLEMENTED. Will read dependency-matrix.json (from
-  analyze-sharepoint-dependency-graph) plus this plugin's template assets,
-  and synthesize new, site-specific wave deployment scripts and a human
-  wave guide -- one script per computed wave, calling into
-  sharepoint-provisioning's plan/apply functions. Explicitly agent-assisted,
-  not a pure deterministic function: the same dependency graph can be
-  expressed as reasonable deployment code many ways.
+  Reads dependency-matrix.json (from analyze-sharepoint-dependency-graph)
+  and synthesizes one wave-script skeleton per computed wave, plus a single
+  human wave guide -- real object names/types/dependsOn from the matrix
+  only, never fabricated field-level schema (the matrix does not carry
+  it) and never a single unattended run-everything script.
 allowed-tools: Bash, Read, Write
 ---
 
 # Generate SharePoint Wave Scripts
 
-> **Status: design scaffold, not implemented.**
+Stage 3b. Templating, not full schema synthesis: turning a dependency graph
+into deployment scripts and a runbook is a synthesis task with more than one
+reasonable shape, but this implementation is deliberately a thin, pure,
+deterministic templating function (`generate_wave_scripts`) rather than an
+AI-model call, so its output is exactly test-verifiable (real names present,
+zero project-specific leakage, honest refusal on a `Failed` matrix).
 
-## Trigger and Purpose (planned)
+## Public interface
 
-Stage 3b — the **AI-model-assisted half**. Deliberately not a pure function: turning a dependency
-graph into well-structured deployment code and a readable runbook is a synthesis task with more
-than one reasonable output, unlike stage 3a's deterministic wave computation.
+```python
+from wave_script_generation import generate_wave_scripts
 
-## Planned behavior
+result = generate_wave_scripts(dependency_matrix_dict)
+# result.outcome: Outcome.OBSERVED | Outcome.EMPTY | Outcome.FAILED
+# result.scripts: one GeneratedWaveScript per wave (wave_number, object_names,
+#                  source, filename) in matrix wave order
+# result.guide: a single Markdown wave guide covering every wave as a
+#               discrete test -> deploy -> retest step
+```
 
-1. Read `dependency-matrix.json` (stage 3a's output).
-2. Read `../../assets/wave-script-template.example.py` and
-   `../../assets/wave-guide-template.md` as style/shape references — **templates to follow, not
-   values to copy**. No project-specific content from either template should ever appear in a
-   generated script; every generated script's actual object names/fields come only from the
-   dependency matrix.
-3. Synthesize one script per computed wave, each calling `sharepoint-provisioning`'s existing
-   `list_provisioning`/`content_type_provisioning`/`field_provisioning` plan/apply functions —
-   **never a new, parallel write path**. This skill must not introduce any tenant-write capability
-   of its own; it only assembles calls into the already three-gate-safe provisioning plugin.
-4. Synthesize a wave guide document: the human runbook (test → deploy → retest, one wave at a
-   time, stop on first fail) — see `../../rules/test-driven-wave-deployment.md` for why this
-   sequencing discipline is treated as this repo's TDD rule applied to infrastructure, not a
-   separate convention.
+Each generated script's `ProvisioningSchema`/`build_schema()` body is an
+honest `NotImplementedError` TODO: the matrix carries only
+`name`/`objectType`/`dependsOn`, not field-level schema, so full schema
+synthesis is genuinely not mechanically derivable from the matrix alone and
+is never fabricated to fill the gap. Every generated script's comment block
+names the wave's real objects (name, objectType, dependsOn) taken directly
+from the matrix.
 
-## Explicit non-goal
+## What this skill never does
 
-This skill never executes a generated script itself. It produces scripts and a guide for a human
-to run, wave by wave, through the existing three-gate-safe `sharepoint-provisioning` plugin.
+- Never generates a script from a matrix whose `outcome` is `Outcome.FAILED`
+  (a blocked/invalid dependency graph) -- `generate_wave_scripts` refuses and
+  reports `Outcome.FAILED` with an explanatory issue instead.
+- Never emits a single script that deploys every wave unattended -- the wave
+  guide presents each wave as its own gated step, per
+  `../../rules/test-driven-wave-deployment.md`.
+- Never opens a new tenant-write path -- each generated script's `main()`
+  requires an explicitly injected executor and confirmation token, matching
+  `sharepoint-provisioning`'s existing three-gate write safety exactly. This
+  skill itself never executes a generated script.
+- Never copies content from `../../assets/wave-script-template.example.py` or
+  `../../assets/wave-guide-template.md` verbatim -- those are style/shape
+  references only; every real value in generated output comes from the
+  matrix.
+
+## Scripts
+
+- `scripts/wave_script_generation.py` -- `generate_wave_scripts`,
+  `GeneratedWaveScript`, `WaveGenerationResult`
+- `scripts/provisioning_outcomes.py` -- reused via a managed file symlink (see `symlinks.json`)
 
 ## Provenance
 
-New design work, generalizing the *shape* of hand-written wave scripts observed in a separate
-SharePoint migration repository (e.g. `wave1-zero-deps.ps1`) — those were written by hand, one at a
-time, by a person; this automates that authoring step, it does not port their content.
+New design work, generalizing the *shape* of hand-written wave scripts observed
+in a separate SharePoint migration repository (e.g. `wave1-zero-deps.ps1`) --
+those were written by hand, one at a time, by a person; this automates that
+authoring step, it does not port their content.

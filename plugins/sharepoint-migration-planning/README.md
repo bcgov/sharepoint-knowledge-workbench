@@ -1,11 +1,15 @@
 # sharepoint-migration-planning
 
-> **Status: `PARTIALLY_IMPLEMENTED`.** Stage 3a (`analyze-sharepoint-dependency-graph` —
-> deterministic dependency-graph shaping, completeness checks, wave-order computation) is real,
-> tested, and installs standalone. Stages 1, 2, and 3b (`setup-sharepoint-migration-project`,
-> `discover-sharepoint-site-inventory`, `generate-sharepoint-wave-scripts`) remain
-> `DESIGN_SCAFFOLD, NOT_IMPLEMENTED` — their `SKILL.md` files still state what they *will* do, not
-> what they do today. Do not invoke those three expecting a working result.
+> **Status: `IMPLEMENTED`.** All four pipeline skills are real, tested, and install standalone —
+> `setup-sharepoint-migration-project` (stage 1), `discover-sharepoint-site-inventory` (stage 2,
+> scoped to its buildable half), `analyze-sharepoint-dependency-graph` (stage 3a, deterministic),
+> and `generate-sharepoint-wave-scripts` (stage 3b). Stage 2's live-tenant discovery connector
+> (`sharepoint-collection`) remains design-only and out of scope — stage 2 here validates an
+> already-produced export directory, it does not connect to a tenant itself. Stage 3b is
+> implemented as a pure, deterministic templating function rather than an AI-model call (a
+> deviation from this plugin's original "explicitly agent-assisted" design intent — flagged here,
+> not silently papered over); see that skill's `SKILL.md` for why its output is still exactly
+> test-verifiable.
 
 ## Why this plugin exists (the gap it fills)
 
@@ -31,17 +35,18 @@ the already-built executor.
 See `references/pipeline-overview.mmd` for the full diagram. Four stages:
 
 ```text
-1. setup-sharepoint-migration-project   (interactive)
-     ask source/target site, confirm workbench-setup's config.psd1 exists, create a working folder
+1. setup-sharepoint-migration-project   (project_setup.py -- filesystem + text check only)
+     confirm source/target site args + workbench-setup's config.psd1 exists, create a working folder
 
-2. discover-sharepoint-site-inventory   (depends on sharepoint-collection -- NOT YET BUILT)
-     until Part A exists: accepts an already-produced export directory as input
+2. discover-sharepoint-site-inventory   (inventory_validation.py -- validates a human-produced export)
+     accepts an already-produced export directory as input; real live-tenant discovery
+     (sharepoint-collection, Part A) remains NOT YET BUILT
 
 3a. analyze-sharepoint-dependency-graph  (DETERMINISTIC, Python)
      export -> DeploymentObjects + depends_on -> wave_planning.plan_waves() -> dependency-matrix.json
 
-3b. generate-sharepoint-wave-scripts     (AI-MODEL-ASSISTED, not pure function)
-     dependency-matrix.json + template assets -> new site-specific wave scripts + a wave guide
+3b. generate-sharepoint-wave-scripts     (wave_script_generation.py -- deterministic templating)
+     dependency-matrix.json -> new site-specific wave script skeletons + a wave guide
 ```
 
 **Why 3a and 3b are split:** deriving the dependency graph and computing wave order is
@@ -95,7 +100,10 @@ owns it directly.
 ## Explicitly not decided/built yet
 
 - Stage 2's real discovery connector (`sharepoint-collection`) — blocked on an auth-model decision.
+  `discover-sharepoint-site-inventory` validates an export directory a human already produced; it
+  never connects to a tenant itself.
 - Whether stage 3a should also accept `sharepoint-provisioning`'s existing `ListDef`/
   `ContentTypeDef`/`FieldDef` shapes directly as an alternative input, or only a raw export.
-- Exact generated wave-script language/shape (Python calling `sharepoint-provisioning`'s
-  `list_provisioning`/`content_type_provisioning`/`field_provisioning`, most likely — not decided).
+- Full field-level schema synthesis inside generated wave scripts — the dependency matrix carries
+  only `name`/`objectType`/`dependsOn`, so each generated script's `build_schema()` is an honest
+  `NotImplementedError` TODO, filled in by hand before a wave is actually run.

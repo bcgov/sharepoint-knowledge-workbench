@@ -1,0 +1,1 @@
+../../../scripts/project_setup.py
