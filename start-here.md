@@ -64,19 +64,26 @@ authoritative process document for this work, not a summary of it.
 | `sharepoint-content-publication` | **DONE** — 3 new skills (`convert-page-to-modern`, `execute-page-bulk-migration`, `validate-page-migration`) plus 2 already built earlier this pass (`copy-spo-page-between-sites`'s real executor, `upload-content`'s real executor); 38/38 tests passing |
 | `sharepoint-schema` | **NOT STARTED** — 0 real `.ps1` scripts in the whole plugin currently; audit already names ~9 source files (`get-list-columns.ps1`, `get-lookup-columns.ps1`, `compare-prod-vs-test-schema.ps1`, `audit-list-columns.ps1`, `audit-spo-duplicates.ps1`, `compare-site-parity.ps1`, `compare-test-prod.ps1`, `discover-calculated-columns.ps1`, `get-persons-missing-fields-live.ps1`) |
 | `sharepoint-migration-planning` | **NOT STARTED** — smallest remaining plugin by file count (1 script, `deploy-all-waves.ps1`), plus porting the generic sequencing pattern (not the CMAT-specific content) from `sp-migration-orchestrator.md`/`sp-wave-orchestrator.md` and the portable half of `references/guiding-principles.md` |
-| `sharepoint-link-remediation` | **NOT STARTED, likely smallest real gap** — audit suggests most of its skills (`extract-links`, `validate-link-integrity`, `remediate-links`) may already have real executors; **this claim is unverified** per the rule above, check it directly before assuming |
+| `sharepoint-link-remediation` | **NOT STARTED — audit claim CORRECTED (2026-08-11, verified directly)**: `find plugins/sharepoint-link-remediation/scripts -iname "*.ps1"` returns **zero files**. The audit's "mostly already built" classification was wrong — this plugin is in the same pre-collector state `sharepoint-discovery` was in at session start (5 skill names, `extract-links`/`remediate-links`/`remediate-document-content-links`/`remediate-field-image-references`/`validate-link-integrity`, none with real executors). Not smaller than `sharepoint-migration-planning` after all. |
 | `sharepoint-provisioning` | **NOT STARTED** — largest remaining scope (~15+ source files: schema deployment waves, calendar provisioning, user/group management, destructive clean-slate scripts) |
 | `sharepoint-content-migration` | **NOT STARTED** — medium scope, centered on `lib/migrate-helpers.ps1` (632-line real executor behind the existing `ExecutorRequired` stub) plus orchestration scripts |
 | `sharepoint-page-modernization` | **NOT STARTED** — medium scope (`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`, `diagnose-page.ps1`, 2 asset templates); note `sp-running-sharegate-jobs`'s two scripts are `NOT_RECOMMENDED` (require a commercial ShareGate license) |
 
 ### Recommended next plugin
 
-**`sharepoint-migration-planning`** or **`sharepoint-link-remediation`** — both are the smallest
-remaining candidates by file count. `link-remediation` may be smaller still but its "mostly already
-built" status is an unverified audit claim (see the rule above) — verify that first if picking it,
-otherwise `migration-planning`'s 1-script gap is the safest small next step. Do **not** start
-`sharepoint-provisioning` next; it's the largest remaining plugin and should come after the smaller
-ones are cleared, per the user's explicit "smallest first" sequencing this round.
+**`sharepoint-migration-planning`** — confirmed smallest remaining plugin (1 source script,
+`deploy-all-waves.ps1`, plus porting the generic sequencing pattern from `sp-migration-
+orchestrator.md`/`sp-wave-orchestrator.md`, not their CMAT-specific content). `sharepoint-link-
+remediation` was checked directly this session and is **not** smaller — its "mostly already built"
+audit claim was wrong (0 real `.ps1` files, 5 unbuilt skill names) — treat it as similar scope to
+`sharepoint-discovery`'s original state, not a quick win. Do **not** start `sharepoint-provisioning`
+next; it's the largest remaining plugin and should come after the smaller ones are cleared, per the
+user's explicit "smallest first" sequencing this round.
+
+**Session note (2026-08-11):** stopped here deliberately at high context usage rather than starting
+a new multi-script plugin build without room to finish and independently verify it — per this
+session's own playbook, an unfinished or unverified pass is worse than not starting. Next session
+should start fresh with `sharepoint-migration-planning`.
 
 ### Session process notes for whoever resumes
 
