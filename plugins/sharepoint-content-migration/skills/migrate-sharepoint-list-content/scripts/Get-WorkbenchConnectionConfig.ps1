@@ -1,0 +1,1 @@
+C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-content-migration/scripts/Get-WorkbenchConnectionConfig.ps1

@@ -50,6 +50,14 @@ injected `executor` callable and the plan's own confirmation token.
   functions over a caller-supplied mapping dict, no file/tenant I/O.
 - `scripts/item_migration.py` — `MigrationItem`, `plan_item_migration`,
   `apply_item_migration`: batched migration with per-item retry, gated.
+- `scripts/spo-migrate-list-items.ps1` — the real PnP executor:
+  non-batched `Add-PnPListItem` for creates (content pass), `Set-PnPListItem`
+  for backfills (lookup pass), retry with a guaranteed minimum of one
+  attempt per item, dry-run by default, `-Execute -ConfirmToken
+  MIGRATE-SPO-LIST-ITEMS` gated. See the skill's `SKILL.md` "Real executor"
+  section for the create-vs-backfill plan-JSON contract and its design seam.
+- `scripts/Get-WorkbenchConnectionConfig.ps1` — symlink to the canonical
+  `workbench-setup`-owned `config.psd1` reader.
 
 ## Skills
 
