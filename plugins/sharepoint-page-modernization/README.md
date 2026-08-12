@@ -12,6 +12,7 @@ plugins/sharepoint-page-modernization/
 │   ├── layout_selection.py            # stage 3: data-driven layout rules, restricted AST evaluator
 │   ├── component_mapping.py           # stage 4: map to modern sections, gap notices
 │   ├── preview_composition.py         # offline chrome+content preview composer
+│   ├── conversion_report.py           # Markdown disposition report from a manifest
 │   └── assets/
 │       ├── layout-rules.json
 │       ├── webpart-mapping.json
@@ -22,7 +23,8 @@ plugins/sharepoint-page-modernization/
 ├── skills/
 │   ├── analyze-aspx-pages/
 │   ├── convert-aspx-pages/
-│   └── compose-page-preview/
+│   ├── compose-page-preview/
+│   └── generate-conversion-report/
 └── tests/
 ```
 
@@ -31,7 +33,7 @@ plugins/sharepoint-page-modernization/
 ```
 analyze-aspx-pages           convert-aspx-pages
   1. inventory        ->       3. layout selection    -> compose-page-preview
-  2. classification            4. component mapping
+  2. classification            4. component mapping   -> generate-conversion-report
 ```
 
 ## No tenant writes

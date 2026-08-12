@@ -19,6 +19,7 @@ py-modules = [
     "layout_selection",
     "component_mapping",
     "preview_composition",
+    "conversion_report",
 ]
 
 [tool.setuptools.packages.find]
