@@ -81,6 +81,42 @@
 - **Repeat**: YES
 - **Status**: OPEN
 
+### [2026-08-11] `Get-WorkbenchConnectionConfig` Deduplicated From 11 Copies to 1 Canonical File
+
+- **Logged Date**: 2026-08-11
+- **Cycle/Session**: Post-Phase-9 real-executor porting round, `sharepoint-schema` prep work
+- **Artifact Affected**: 11 `.ps1` scripts across `sharepoint-content-publication` (5),
+  `sharepoint-discovery` (3), `sharepoint-link-remediation` (3) — every real `.ps1` executor added
+  this session had independently pasted its own copy of the same `Get-WorkbenchConnectionConfig`
+  function, a DRY violation flagged twice already (in this session's own earlier map-debt entries)
+  before finally being fixed.
+- **Friction Observed**: user directly asked "should we have one lib at root, shared with
+  symlinks?" and "dedupe one copy regardless, most important" — surfaced the debt this session had
+  been accumulating silently across its own `.ps1` executor work.
+- **Real functional divergence found, not just duplication**: 10 of 11 copies were byte-identical;
+  `sharepoint-content-publication/scripts/spo-page-copy-plan.ps1`'s copy was an older/incomplete
+  version — missing the `SiteUrl` property and the nested-`Connection`-block merge logic the other
+  10 have. Checked whether this was a live bug: `spo-page-copy-plan.ps1` derives its own `SiteUrl`
+  values from parsed page URLs rather than consuming the connection config's `SiteUrl`, so the gap
+  was dead/unused in that specific script, not an active bug — but it would have become one the
+  moment anyone reused that field, and is now fixed by picking up the corrected canonical version.
+- **Fix**: `plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1` is now the one real
+  file (workbench-setup already owns `config.psd1` concerns). Every consuming plugin gets a
+  plugin-root symlink to it (`sharepoint-content-publication`, `sharepoint-discovery`,
+  `sharepoint-link-remediation`), and every skill that needs it gets a second-hop symlink to its own
+  plugin's root copy — the same two-hop hub-and-spoke pattern already established for
+  `provisioning_outcomes.py` (owned by `sharepoint-provisioning`, symlinked into 5+ other plugins),
+  now proven out for `.ps1` as well as `.py`. All 11 original files edited to dot-source the local
+  symlinked copy instead of defining the function inline.
+- **Evidence**: all 12 relevant files (1 new canonical + 11 edited) parse-clean via
+  `[System.Management.Automation.Language.Parser]::ParseFile()`; 14 new symlinks (3 plugin-root hops
+  + 11 skill-dir hops) verified real via `Get-ChildItem`'s `LinkType: SymbolicLink`; zero project-
+  specific literal leakage; `sharepoint-content-publication` 38/38 and `sharepoint-link-remediation`
+  164/164 (1 pre-existing unrelated `evals.json` failure) tests still passing after the edit.
+- **Severity**: M (real functional divergence found, not just style debt)
+- **Repeat**: NO (root cause fixed at the source, not worked around)
+- **Status**: RESOLVED
+
 ### [2026-08-11] `sharepoint-link-remediation`'s 3 Write-Capable Skills Now Have Real `.ps1` Executors
 
 - **Logged Date**: 2026-08-11
