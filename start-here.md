@@ -63,27 +63,28 @@ authoritative process document for this work, not a summary of it.
 | `sharepoint-discovery` | **DONE** — 9 skills, all with real collectors (5 extended, 4 new); 1 Python module upgraded with richer narrative fields after a real gap was found and confirmed; 70/70 tests passing (excl. 1 pre-existing unrelated Windows-only failure in `test_discovery_inputs.py`, not yet fixed, tracked separately) |
 | `sharepoint-content-publication` | **DONE** — 3 new skills (`convert-page-to-modern`, `execute-page-bulk-migration`, `validate-page-migration`) plus 2 already built earlier this pass (`copy-spo-page-between-sites`'s real executor, `upload-content`'s real executor); 38/38 tests passing |
 | `sharepoint-schema` | **NOT STARTED** — 0 real `.ps1` scripts in the whole plugin currently; audit already names ~9 source files (`get-list-columns.ps1`, `get-lookup-columns.ps1`, `compare-prod-vs-test-schema.ps1`, `audit-list-columns.ps1`, `audit-spo-duplicates.ps1`, `compare-site-parity.ps1`, `compare-test-prod.ps1`, `discover-calculated-columns.ps1`, `get-persons-missing-fields-live.ps1`) |
-| `sharepoint-migration-planning` | **NOT STARTED** — smallest remaining plugin by file count (1 script, `deploy-all-waves.ps1`), plus porting the generic sequencing pattern (not the CMAT-specific content) from `sp-migration-orchestrator.md`/`sp-wave-orchestrator.md` and the portable half of `references/guiding-principles.md` |
-| `sharepoint-link-remediation` | **NOT STARTED — audit claim CORRECTED (2026-08-11, verified directly)**: `find plugins/sharepoint-link-remediation/scripts -iname "*.ps1"` returns **zero files**. The audit's "mostly already built" classification was wrong — this plugin is in the same pre-collector state `sharepoint-discovery` was in at session start (5 skill names, `extract-links`/`remediate-links`/`remediate-document-content-links`/`remediate-field-image-references`/`validate-link-integrity`, none with real executors). Not smaller than `sharepoint-migration-planning` after all. |
+| `sharepoint-migration-planning` | **DONE** — all 4 skills implemented (`setup-sharepoint-migration-project`, `discover-sharepoint-site-inventory`, `analyze-sharepoint-dependency-graph`, `generate-sharepoint-wave-scripts`); no unattended all-waves orchestrator built (would contradict this plugin's own `test-driven-wave-deployment.md` rule — one wave at a time, human-gated; confirmed with the user before implementation); the CMAT-specific wave count/composition was deliberately not ported, only the generic dependency-graph-driven wave computation (already generic, already implemented); 64/64 tests passing |
+| `sharepoint-link-remediation` | **DONE** — 3 write-capable skills (`remediate-links`, `remediate-document-content-links`, `remediate-field-image-references`) now have real `.ps1` executors following `spo-upload-plan.ps1`'s dry-run/`-Execute`/`-ConfirmToken` convention, cmdlet sequences verified against the source repo's `Repair-EmbeddedLinks.ps1` (content only, no CrownNet literals ported); `extract-links`/`validate-link-integrity` correctly left untouched (read-only/local-only by design); 164/164 real tests passing (1 pre-existing unrelated `evals.json` failure, confirmed via `git stash` to predate this work) |
+| `sharepoint-schema` | **NOT STARTED** — 0 real `.ps1` scripts in the whole plugin currently; audit already names ~9 source files (`get-list-columns.ps1`, `get-lookup-columns.ps1`, `compare-prod-vs-test-schema.ps1`, `audit-list-columns.ps1`, `audit-spo-duplicates.ps1`, `compare-site-parity.ps1`, `compare-test-prod.ps1`, `discover-calculated-columns.ps1`, `get-persons-missing-fields-live.ps1`) |
 | `sharepoint-provisioning` | **NOT STARTED** — largest remaining scope (~15+ source files: schema deployment waves, calendar provisioning, user/group management, destructive clean-slate scripts) |
 | `sharepoint-content-migration` | **NOT STARTED** — medium scope, centered on `lib/migrate-helpers.ps1` (632-line real executor behind the existing `ExecutorRequired` stub) plus orchestration scripts |
 | `sharepoint-page-modernization` | **NOT STARTED** — medium scope (`convert-and-upload-aspx.ps1`, `convert-wiki-page.ps1`, `diagnose-page.ps1`, 2 asset templates); note `sp-running-sharegate-jobs`'s two scripts are `NOT_RECOMMENDED` (require a commercial ShareGate license) |
 
 ### Recommended next plugin
 
-**`sharepoint-migration-planning`** — confirmed smallest remaining plugin (1 source script,
-`deploy-all-waves.ps1`, plus porting the generic sequencing pattern from `sp-migration-
-orchestrator.md`/`sp-wave-orchestrator.md`, not their CMAT-specific content). `sharepoint-link-
-remediation` was checked directly this session and is **not** smaller — its "mostly already built"
-audit claim was wrong (0 real `.ps1` files, 5 unbuilt skill names) — treat it as similar scope to
-`sharepoint-discovery`'s original state, not a quick win. Do **not** start `sharepoint-provisioning`
-next; it's the largest remaining plugin and should come after the smaller ones are cleared, per the
-user's explicit "smallest first" sequencing this round.
+**`sharepoint-schema`** — next smallest remaining plugin (0 real `.ps1` scripts currently; ~9
+source files already named by the audit, all narrowly scoped schema comparison/audit utilities, no
+destructive operations). Do **not** start `sharepoint-provisioning` next; it's the largest
+remaining plugin and should come after the smaller ones are cleared, per the user's explicit
+"smallest first" sequencing this round.
 
-**Session note (2026-08-11):** stopped here deliberately at high context usage rather than starting
-a new multi-script plugin build without room to finish and independently verify it — per this
-session's own playbook, an unfinished or unverified pass is worse than not starting. Next session
-should start fresh with `sharepoint-migration-planning`.
+**Session note (2026-08-11, continued):** `sharepoint-migration-planning` and
+`sharepoint-link-remediation` both closed this session, each via a background implementation
+agent given a concrete spec, then independently re-verified (parse-checked scripts, grepped for
+literal leakage, confirmed every symlink with `Get-ChildItem`'s `LinkType: SymbolicLink`, ran the
+full test suite, and manually added the shared-file entries — `symlinks.json`,
+`.agent/map-debt.md` — the agents were told not to touch) before committing. Both pushed to
+`origin/main`. Next session should start fresh with `sharepoint-schema`.
 
 ### Session process notes for whoever resumes
 
