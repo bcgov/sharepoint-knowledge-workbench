@@ -1,11 +1,35 @@
 # Resume — Phase 9 COMPLETE and on `main`; Phase 8 merged; Phase 7 paused
 
-## Post-Phase-9 SharePoint plugin real-executor porting (2026-08-11, current work, on `main`)
+## Post-porting-round follow-up: stale "Stage 3.4.3" false blockers fixed (2026-08-17, current work, on `main`)
 
-**Read this section first if resuming.** This is ongoing work directly on `main` (no branch/
-worktree — small, independently-verified, reviewed-as-you-go commits per plugin, per explicit
-user direction this round), separate from and after Phase 9. Latest commit: `ea62dfc` ("feat: real
-executors for sharepoint-provisioning, in sharepoint-migration-planning"), pushed to `origin/main`.
+**Read this section first if resuming.** Latest commit: `82184cc` ("fix: correct stale Stage 3.4.3
+blockers in sharepoint-content-publication, add 3 real executors"), pushed to `origin/main`.
+
+A separate session inventorying `.ps1` scripts flagged 4 apparently-missing capabilities. 3 were
+confirmed correctly out-of-scope (SPFx packaging, ad-hoc list-item seeding, web-part-connection
+wiring — none ever claimed by any plugin, confirmed by a full repo grep). The 4th, SharePoint page
+authoring/upload, turned out to be a **real, already-working capability**
+(`upload-content`'s `spo-upload-plan.ps1`) that 3 sibling `sharepoint-content-publication` SKILL.md
+files falsely claimed was still blocked behind an unapproved "Stage 3.4.3" write-identity decision
+— a stale doc bug, not an actual gate (every other real executor in this plugin, and all 10
+plugins from the 2026-08-11 porting round, already run under the ordinary interactive
+`Connect-PnPOnline` convention with no Stage 3.4.3 dependency). Fixed:
+- `publish-aspx-to-sharepoint`'s SKILL.md now correctly credits its existing real executor.
+- `publish-markdown-to-sharepoint` and `rollback-sharepoint-publication` gained real new
+  executors (`spo-publish-markdown-plan.ps1` — `Add-PnPFile`; `spo-rollback-publication.ps1` —
+  `Remove-PnPPage`/`Remove-PnPFile` with fail-loud post-removal verification).
+- `validate-sharepoint-publication`'s separately, honestly-documented post-deployment-validation
+  gap also closed (`spo-validate-publication-deployment.ps1`, read-only).
+
+38/38 `sharepoint-content-publication` tests passing, all 3 new scripts parse-clean, no other
+plugin has this false-blocker pattern (confirmed by grep across every `SKILL.md` in the repo).
+Full detail in `.agent/map-debt.md`'s 2026-08-17 entry.
+
+## Post-Phase-9 SharePoint plugin real-executor porting (2026-08-11, prior work, on `main`)
+
+This is ongoing work directly on `main` (no branch/worktree — small, independently-verified,
+reviewed-as-you-go commits per plugin, per explicit user direction this round), separate from and
+after Phase 9.
 
 ### ✅ `sharepoint-provisioning` — DONE. All 10 SharePoint plugins in this porting round are now closed.
 
