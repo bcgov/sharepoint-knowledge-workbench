@@ -1,4 +1,55 @@
 
+### [2026-08-17] Stale "Stage 3.4.3" False Blockers Found and Fixed in `sharepoint-content-publication`
+
+- **Logged Date**: 2026-08-17
+- **Cycle/Session**: Post-porting-round follow-up, prompted by direct user pushback: a separate
+  session inventorying `.ps1` scripts across 7 plugins reported 4 expected-but-missing
+  capabilities (new-page-from-scratch web-part authoring, ad-hoc list-item seeding, SPFx
+  packaging, web-part-connection wiring). Investigation found 3 of those 4 were correctly out of
+  scope (no PnP cmdlet exists for web-part connections; SPFx is a different toolchain never
+  claimed by any plugin; ad-hoc seeding deliberately doesn't fit this workbench's plan-not-script
+  convention) — but page authoring/upload turned out to be a **real, already-built capability**
+  (`upload-content`'s `spo-upload-plan.ps1`, `Add-PnPPage`/`Add-PnPPageTextPart`/`Publish-PnPPage`,
+  shipped in an earlier session) that a sibling skill's SKILL.md was **falsely claiming didn't
+  exist yet**.
+- **Artifact Affected**: `plugins/sharepoint-content-publication/skills/{publish-aspx-to-sharepoint,
+  publish-markdown-to-sharepoint,rollback-sharepoint-publication,validate-sharepoint-publication}/
+  SKILL.md`, plus 3 new real executors: `scripts/spo-publish-markdown-plan.ps1`,
+  `scripts/spo-rollback-publication.ps1`, `scripts/spo-validate-publication-deployment.ps1`.
+- **The actual bug**: `publish-aspx-to-sharepoint`'s and `rollback-sharepoint-publication`'s
+  SKILL.md both said real tenant writes "remain a future, separately-authorized capability once
+  Stage 3.4.3 is approved" — Stage 3.4.3 is a real, still-unapproved decision (naming an
+  authorized-write owner/identity, per `docs/vision/master-initiative-plan-workstreams-and-phases.md`),
+  but it was never actually the gate on these skills: every other real `.ps1` executor in this
+  plugin (and all 10 SharePoint plugins from the 2026-08-11 porting round) already runs today
+  under the ordinary interactive `Connect-PnPOnline` convention with no Stage 3.4.3 dependency
+  at all. The doc language was written once, early, and never corrected when the first real
+  executor (`spo-upload-plan.ps1`) actually shipped and proved the gate didn't apply. A
+  same-repo scan for the same phrase (`Grep` for "Stage 3.4.3"/"not yet approved"/"remains a
+  future capability" across every `SKILL.md`) confirmed no other plugin has this pattern —
+  isolated to this one plugin's 3 skills.
+- **Fix**: corrected all 3 stale SKILL.md files to point at (or add) real executors instead of
+  repeating the false blocker; built the 2 genuinely missing executors
+  (`spo-publish-markdown-plan.ps1` — `Add-PnPFile` + checkout/checkin discipline per
+  `sharepoint-ps1-authentication-convention.md`'s spirit; `spo-rollback-publication.ps1` —
+  `Remove-PnPPage`/`Remove-PnPFile` with fail-loud post-removal verification, same discipline as
+  `spo-migrate-list-items.ps1`'s verification pattern). Also closed `validate-sharepoint-
+  publication`'s separately, honestly-documented (not a false blocker — a real admitted gap)
+  post-deployment-validation absence with `spo-validate-publication-deployment.ps1`, read-only,
+  no confirmation token required since it never writes.
+- **Evidence**: all 3 new scripts parse-checked clean via
+  `[System.Management.Automation.Language.Parser]::ParseFile()`. `README.md` updated with the
+  correction and the 3 new scripts. `Get-WorkbenchConnectionConfig.ps1` reused (already present
+  in this plugin, no new symlink needed).
+- **Severity**: Medium — no incorrect production behavior (these were planning-only skills that
+  correctly refused to write), but the false "blocked" framing could have caused a future session
+  to avoid building real capability that was actually safe to build, or to re-litigate a
+  governance question that didn't need litigating.
+- **Repeat**: Yes — same failure class as every other "source-audit gap doesn't map onto the
+  target plugin's own design contract" entry in this file, but inverted: here the plugin's *own
+  documentation* was the source of the false constraint, not an external source-repo audit.
+- **Status**: Fixed, this session.
+
 ### [2026-08-11] `sharepoint-provisioning`'s Real Executors Built — Last Plugin, Session Closes
 
 - **Logged Date**: 2026-08-11

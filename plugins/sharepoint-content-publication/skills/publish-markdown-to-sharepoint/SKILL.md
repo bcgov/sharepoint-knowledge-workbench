@@ -1,6 +1,6 @@
 ---
 name: publish-markdown-to-sharepoint
-description: Builds a human-actionable publish plan for rendered Markdown + media to an exact SharePoint library/folder. Performs no tenant writes -- matches this plugin's Phase 3 package-only architecture.
+description: Builds a human-actionable publish plan for rendered Markdown + media to an exact SharePoint library/folder, then a real PnP executor uploads it (Add-PnPFile with checkout/checkin discipline). Dry-run by default.
 ---
 
 # publish-markdown-to-sharepoint
@@ -8,16 +8,19 @@ description: Builds a human-actionable publish plan for rendered Markdown + medi
 ## Purpose
 
 Produces a `PublishPlan` — an exact list of source file → target library/folder/filename
-mappings — for a human to execute manually. **Does not upload anything itself.**
+mappings — via `sharepoint_publish_plan.py`. The real executor,
+`scripts/spo-publish-markdown-plan.ps1`, then uploads it: `Add-PnPFile`, with
+`Set-PnPFileCheckedOut`/`Set-PnPFileCheckedIn -CheckinType MajorCheckIn` around any overwrite of
+an existing file. Dry-run by default; real writes require `-Execute -ConfirmToken
+PUBLISH-SPO-MARKDOWN`.
 
-## Why this skill produces a plan instead of uploading
-
-This plugin's Phase 3 architecture is explicitly package-only, zero-tenant-I/O (see
-`sharepoint_package.py`'s own module docstring). Real automated tenant writes for this plugin
-remain gated behind Stage 3.4.3's approved-write-identity decision
-(`docs/vision/master-initiative-plan-workstreams-and-phases.md`), which is **not yet approved**.
-Building an automated-upload skill here would cross that established architectural boundary.
-This skill stays consistent with the existing plugin's design instead of bypassing it.
+**Correction (2026-08-17):** this SKILL.md previously said upload "remain[s] gated behind Stage
+3.4.3's approved-write-identity decision." That was a stale/incorrect blocker — Stage 3.4.3
+concerns a separate, not-yet-approved write identity; this plugin's other real executors
+(`spo-upload-plan.ps1`, `spo-convert-page-to-modern.ps1`, etc.) already run today under the same
+interactive `Connect-PnPOnline` convention every plugin in this workbench uses, with no Stage
+3.4.3 dependency. The real gap was simply that no `Add-PnPFile` executor had been built yet — now
+fixed.
 
 ## Input boundaries
 
@@ -27,13 +30,13 @@ This skill stays consistent with the existing plugin's design instead of bypassi
 
 ## Prohibited scope
 
-- Zero tenant I/O.
-- Does not perform the upload — a human (or a future, separately-authorized skill, once Stage
-  3.4.3 is approved) executes the plan.
+- The planning module itself performs zero tenant I/O — it only builds the plan.
+- The real executor performs no write without `-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`.
 
 ## Scripts
 
 - `../../scripts/sharepoint_publish_plan.py` (`build_markdown_publish_plan`)
+- Real executor: `../../scripts/spo-publish-markdown-plan.ps1`
 
 ## Tests
 

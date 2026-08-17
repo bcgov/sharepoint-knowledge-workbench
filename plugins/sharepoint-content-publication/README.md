@@ -21,20 +21,23 @@ plugins/sharepoint-content-publication/
 │   ├── spo-upload-plan.ps1              # real executor: Add-PnPPage/Add-PnPPageTextPart/Publish-PnPPage
 │   ├── spo-convert-page-to-modern.ps1   # real executor: ConvertTo-PnPPage + caller-supplied field mapping
 │   ├── spo-convert-pages-bulk.ps1       # real executor: subprocess-per-page orchestrator, resumable manifest
-│   └── spo-validate-page-conversion.ps1 # real, read-only post-run validator
+│   ├── spo-validate-page-conversion.ps1 # real, read-only post-run validator
+│   ├── spo-publish-markdown-plan.ps1    # real executor: Add-PnPFile + checkout/checkin discipline
+│   ├── spo-rollback-publication.ps1     # real executor: Remove-PnPPage/Remove-PnPFile + fail-loud verification
+│   └── spo-validate-publication-deployment.ps1 # real, read-only post-deployment presence check
 ├── agents/
 │   └── sharepoint-validation-agent.md
 └── skills/
     ├── copy-spo-page-between-sites/    # + real executor (spo-page-copy-plan.ps1)
     ├── upload-content/                 # + real executor (spo-upload-plan.ps1, page-creation path only)
-    ├── convert-page-to-modern/         # new
-    ├── execute-page-bulk-migration/    # new
-    ├── validate-page-migration/        # new
-    ├── publish-aspx-to-sharepoint/
-    ├── publish-markdown-to-sharepoint/
+    ├── convert-page-to-modern/
+    ├── execute-page-bulk-migration/
+    ├── validate-page-migration/
+    ├── publish-aspx-to-sharepoint/     # plan built here, real executor is upload-content's spo-upload-plan.ps1
+    ├── publish-markdown-to-sharepoint/ # + real executor (spo-publish-markdown-plan.ps1)
     ├── reconcile-sharepoint-publication/
-    ├── rollback-sharepoint-publication/
-    └── validate-sharepoint-publication/
+    ├── rollback-sharepoint-publication/ # + real executor (spo-rollback-publication.ps1)
+    └── validate-sharepoint-publication/ # + real executor (spo-validate-publication-deployment.ps1)
 ```
 
 ## What's real vs. planning-only
@@ -45,12 +48,21 @@ JSON but perform zero tenant I/O, matching this plugin's plan/apply safety
 split. The `.ps1` scripts listed above are the real executors: dry-run by
 default, real writes gated behind `-Execute` plus a script-specific
 confirmation token (e.g. `COPY-SPO-PAGE`, `UPLOAD-SPO-PLAN`,
-`CONVERT-SPO-PAGE`, `CONVERT-SPO-PAGES-BULK`).
+`CONVERT-SPO-PAGE`, `CONVERT-SPO-PAGES-BULK`, `PUBLISH-SPO-MARKDOWN`,
+`ROLLBACK-SPO-PLAN`).
 
-**Still planning-only, not yet built**: raw file/asset upload to a document
-library (`Add-PnPFile`, distinct from page creation) -- `sharepoint_upload.py`
-covers this conceptually but has no real executor behind it yet. See
-`.agent/map-debt.md`'s 2026-08-11 entries for the full history.
+**Correction (2026-08-17):** three SKILL.md files (`publish-aspx-to-sharepoint`,
+`publish-markdown-to-sharepoint`, `rollback-sharepoint-publication`) previously claimed real
+tenant writes "remain gated behind Stage 3.4.3's unapproved write-identity decision." That
+framing was stale/incorrect -- Stage 3.4.3 concerns a separate, not-yet-approved write identity
+question that never actually blocked this plugin's other real executors (all of which already ran
+under the ordinary interactive `Connect-PnPOnline` convention). Fixed: `publish-aspx-to-sharepoint`
+now correctly points at its real executor (`upload-content`'s `spo-upload-plan.ps1`, which already
+existed); `publish-markdown-to-sharepoint` and `rollback-sharepoint-publication` gained real new
+executors (`spo-publish-markdown-plan.ps1`, `spo-rollback-publication.ps1`).
+`validate-sharepoint-publication`'s honestly-documented post-deployment gap is also now closed
+(`spo-validate-publication-deployment.ps1`, read-only, no confirmation token needed). See
+`.agent/map-debt.md`'s 2026-08-17 entry for the full incident and fix.
 
 ## Real platform constraints recorded
 
