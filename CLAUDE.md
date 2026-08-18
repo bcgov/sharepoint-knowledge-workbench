@@ -97,11 +97,12 @@ implement. **Updated 2026-08-08:** Phase 9 (reusable SharePoint plugin extractio
 `main` via PR #40 and has continued directly on `main` since. Ten SharePoint-domain plugins now
 exist — `sharepoint-discovery`, `sharepoint-schema`, `sharepoint-provisioning`,
 `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-publication`,
-`sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning`, and
-`sharepoint-content-migration` — plus 9 Claude Code routing/analysis agents in
+`sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning`,
+`sharepoint-content-migration`, and `sharepoint-spfx-authoring` — plus 9 Claude Code routing/analysis agents in
 `sharepoint-agents-and-skills/agents/`. See `temp/phase9-source-audit/file-tracking.json` for the
 full 505-file source-repository audit this ecosystem was built from, and each plugin's own README
 for scope/provenance.
+
 
 **Updated 2026-08-11:** a follow-on real-executor porting round closed all 10 SharePoint plugins
 above — each plugin's Python planning modules had shipped, but the live-tenant `.ps1` execution

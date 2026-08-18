@@ -1,0 +1,13 @@
+{
+  "name": "sharepoint-spfx-authoring",
+  "version": "1.0.0",
+  "description": "SPFx solution scaffolding, Master-Detail component templating, Heft/Webpack build packaging, and App Catalog deployment helpers.",
+  "author": "SharePoint Knowledge Workbench",
+  "skills": [
+    "scaffold-spfx-master-detail",
+    "package-spfx-solution",
+    "deploy-spfx-solution",
+    "request-site-collection-app-catalog"
+  ]
+
+}

@@ -2262,6 +2262,12 @@
       "dst": "plugins/sharepoint-migration-planning/scripts/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
       "description": "sharepoint-migration-planning's plugin-root copy of workbench-setup's canonical Get-WorkbenchConnectionConfig.ps1 (cross-plugin hop 1, 5th consuming plugin, 2026-08-11 -- owns the real tenant-write executors for sharepoint-provisioning's plan/apply modules since that plugin enforces zero tenant I/O via its own test)"
+    },
+    {
+      "src": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/scripts/scaffold_spfx_master_detail.py",
+      "dst": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/skills/scaffold-spfx-master-detail/scripts/scaffold_spfx_master_detail.py",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

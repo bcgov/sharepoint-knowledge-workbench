@@ -18,7 +18,13 @@
       ]
     },
     {
-      "source": "plugins",
+      "source": "richfrem/claude-design-bc-gov-design-system",
+      "plugins": [
+        "bc-gov-design-system"
+      ]
+    },
+    {
+      "source": "C:\\Users\\RICHFREM\\source\\repos\\sharepoint-knowledge-workbench\\plugins",
       "plugins": [
         "document-structure-analysis",
         "sharepoint-agents-and-skills",
