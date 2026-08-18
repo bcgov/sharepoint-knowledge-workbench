@@ -1,0 +1,1 @@
+../../../scripts/scaffold_spfx_master_detail.py
