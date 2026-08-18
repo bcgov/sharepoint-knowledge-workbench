@@ -19,6 +19,12 @@ Modern SharePoint Online out-of-the-box List Web Parts do not support URL query 
 
 ## Core Workflow
 
+### Step 0: Initialize SPFx Solution Workspace (If Starting from Scratch)
+
+You can either:
+- **Option A (Instant Template)**: Copy the pre-configured project boilerplate from `../../assets/templates/spfx-project-reference/` to your target directory.
+- **Option B (Yeoman Generator)**: Run `yo @microsoft/sharepoint` selecting component type `WebPart`, template `Minimal` (Node v22/v18 LTS required).
+
 ### Step 1: Prepare the JSON Layout Specification
 
 Create a spec JSON file (e.g. `dossier_spec.json`) describing the primary record, lookup relationships, and child event lists:

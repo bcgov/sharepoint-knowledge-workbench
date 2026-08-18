@@ -24,6 +24,10 @@ This skill provides step-by-step instructions for compiling, testing, and packag
 cd path/to/spfx-solution-root
 ```
 
+
+> [!WARNING]
+> **Do NOT run `npm audit fix --force`**: SPFx projects use strictly pinned toolchain packages (`@rushstack/heft`, `@microsoft/spfx-web-build-rig`). Running forced dependency upgrades will break the Heft build toolchain.
+
 ### Step 2: Execute Production Build & Package Command
 
 For modern SPFx solutions using Heft (version 1.20+):

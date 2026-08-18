@@ -48,6 +48,7 @@ def test_generate_spfx_ts_code_contains_primary_and_child_lists(sample_spec: dic
     assert "All_Appearances" in ts_code
     assert "PIO_Narratives" in ts_code
     assert "_api/web/lists/getbytitle" in ts_code
+    assert "_escapeHtml" in ts_code
 
 
 def test_generate_spfx_manifest_has_valid_guid(sample_spec: dict) -> None:

@@ -61,3 +61,7 @@ Output package: `spfx-selectedid-filter\sharepoint\solution\spfx-selectedid-filt
 
 Page: `https://<tenant>.sharepoint.com/sites/<site>/SitePages/<page>.aspx?SelectedID=3`
 - Valid item ID → renders 5-section Master-Detail briefing dossier with photo and action links.
+
+## Important Safety Note on Dependencies
+
+Do **not** run `npm audit fix --force` inside SPFx solutions. Pinned toolchain dependencies (`@rushstack/heft`, `@microsoft/spfx-web-build-rig`) will be broken by forced major-version upgrades.
