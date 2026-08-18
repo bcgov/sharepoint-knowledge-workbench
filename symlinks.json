@@ -2268,6 +2268,24 @@
       "dst": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/skills/scaffold-spfx-master-detail/scripts/scaffold_spfx_master_detail.py",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/scripts/deploy-spfx-package.ps1",
+      "dst": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/skills/deploy-spfx-solution/scripts/deploy-spfx-package.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/scripts/verify-app-catalog.ps1",
+      "dst": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/skills/deploy-spfx-solution/scripts/verify-app-catalog.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/scripts/provision-sample-dossier-schema.ps1",
+      "dst": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/skills/scaffold-spfx-master-detail/scripts/provision-sample-dossier-schema.ps1",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

@@ -1,0 +1,1 @@
+../../../scripts/verify-app-catalog.ps1
