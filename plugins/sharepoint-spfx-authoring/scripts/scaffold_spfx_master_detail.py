@@ -59,6 +59,13 @@ export interface I{class_name}Props {{
 export default class {class_name} extends BaseClientSideWebPart<I{class_name}Props> {{
   private _renderToken: number = 0;
 
+  private _escapeHtml(text: string | null | undefined): string {{
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }}
+
   public async render(): void {{
     const token = ++this._renderToken;
     const urlParams = new URLSearchParams(window.location.search);
@@ -78,7 +85,7 @@ export default class {class_name} extends BaseClientSideWebPart<I{class_name}Pro
       this.domElement.innerHTML = `
         <div class="${{styles.masterDetailContainer}}">
           <div class="${{styles.banner}}"><h1>{title}</h1></div>
-          <div class="${{styles.emptyNotice}}">Invalid SelectedID: ${{selectedIdParam}}</div>
+          <div class="${{styles.emptyNotice}}">Invalid SelectedID: ${{this._escapeHtml(selectedIdParam)}}</div>
         </div>`;
       return;
     }}
@@ -125,7 +132,7 @@ export default class {class_name} extends BaseClientSideWebPart<I{class_name}Pro
               <div class="${{styles.detailGrid}}">
                 <div class="${{styles.detailItem}}">
                   <span class="${{styles.label}}">Item Title</span>
-                  <span class="${{styles.value}}">${{primaryData.Title || 'None'}}</span>
+                  <span class="${{styles.value}}">${{this._escapeHtml(primaryData.Title || 'None')}}</span>
                 </div>
                 <div class="${{styles.detailItem}}">
                   <span class="${{styles.label}}">Record ID</span>
