@@ -1,0 +1,1 @@
+../../../scripts/provision-sample-dossier-schema.ps1
