@@ -1410,7 +1410,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:30:15.180304Z"
+      "updatedAt": "2026-08-19T17:33:44.158144Z"
     },
     "sharepoint-diff-sharepoint-schema": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -1501,7 +1501,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:30:15.180304Z"
+      "updatedAt": "2026-08-19T17:33:44.158144Z"
     },
     "sharepoint-plan-sharepoint-deployment-waves": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -1585,7 +1585,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:30:15.180304Z"
+      "updatedAt": "2026-08-19T17:33:44.158144Z"
     },
     "sharepoint-restore-sharepoint-agents": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -1634,21 +1634,21 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:30:15.180304Z"
+      "updatedAt": "2026-08-19T17:33:44.158144Z"
     },
     "sharepoint-scaffold-spfx-react-app": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:30:05.975755Z",
-      "updatedAt": "2026-08-19T17:30:15.180304Z"
+      "updatedAt": "2026-08-19T17:33:44.158144Z"
     },
     "sharepoint-scaffold-spfx-webpart": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:30:15.180304Z"
+      "updatedAt": "2026-08-19T17:33:44.158144Z"
     },
     "sharepoint-setup-sharepoint-migration-project": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",

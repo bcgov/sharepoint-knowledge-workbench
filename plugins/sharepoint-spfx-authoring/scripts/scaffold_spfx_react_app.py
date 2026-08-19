@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# Purpose: Scaffold a production-ready SPFx React Web Part boilerplate from a JSON layout specification.
+# Layer: Plugin Engineering / SPFx Scaffolding Generator
+
 """
 scaffold_spfx_react_app.py
 ==========================
@@ -5,7 +9,15 @@ Generates a complete production-ready SPFx React Web Part component tree
 with PnPjs v4 initialization, Context API state management, self-healing
 GUID migration recovery, and Tailwind CSS / Fluent UI styling.
 
-Inspired by patterns proven in production on enterprise SharePoint migrations.
+Key Input Dependencies:
+    - spec: JSON layout specification containing `webPartName`, `title`, `description`, etc.
+
+Key Procedures:
+    - scaffold_react_app(spec, output_dir): Generates manifest, pnpjsConfig, React components, and styling.
+    - main(): CLI entrypoint for spec parsing and output generation.
+
+Usage:
+    python scripts/scaffold_spfx_react_app.py --spec app_spec.json --output-dir src/webparts/myApp
 """
 
 from __future__ import annotations
@@ -18,6 +30,13 @@ from typing import Any, Dict
 
 
 def scaffold_react_app(spec: Dict[str, Any], output_dir: Path) -> None:
+    """
+    Scaffolds an enterprise React SPFx component tree in the target output directory.
+
+    Args:
+        spec: Dictionary containing component layout options and metadata.
+        output_dir: Target path where web part files will be written.
+    """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     
