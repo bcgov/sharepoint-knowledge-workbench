@@ -20,7 +20,7 @@ Phase 1 plugin:
 docx-to-content
 
 Phase 1 pilot:
-CEIS Manual
+Source Manual
 ```
 
 **Naming reconciliation (added 2026-08-02):** the repository was renamed, but to
@@ -266,7 +266,7 @@ Add a short navigation block near the top of the two current primary documents.
 
 The immediate work should remain bounded:
 
-1. Complete the current CEIS Phase 1 evidence and cutover work under its approved plan.
+1. Complete the current Phase 1 evidence and cutover work under its approved plan.
 2. Use Superpowers brainstorming and repository reconnaissance to test the broader plan against the real repository.
 3. Decide whether to rename the repository to `structured-knowledge-workbench`.
 4. Decide which plugin boundaries are justified now versus later.

@@ -9,7 +9,7 @@ A heading is not automatically a knowledge unit. A file is not automatically a p
 
 ## 1. What is the actual unit of knowledge?
 
-The current CEIS proposal risks creating one canonical file for every heading—159 files. Technically stable IDs do not prove those are sensible authoring units.
+The initial document conversion proposal risks creating one canonical file for every heading—159 files. Technically stable IDs do not prove those are sensible authoring units.
 
 A good topic should usually:
 

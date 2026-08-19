@@ -12,7 +12,7 @@
 > any plugin/agent name from this document as settled.
 >
 > **Generalization note (added 2026-08-09):** this document was originally titled and framed as a
-> "Government" vision, written against a real government pilot tenant (CEIS). Renamed to
+> "Government" vision, written against a real government pilot tenant. Renamed to
 > `ai-assisted-sharepoint-knowledge-workbench-governance-vision.md` and reworded to describe a
 > general regulated-enterprise structured knowledge management workbench — the governance/records/
 > security/accessibility rigor throughout is substantive and kept as-is (it applies to any
@@ -1325,7 +1325,7 @@ Before building SharePoint governance automation, decide:
 
 ```text
 1. Complete Phase 1 conversion and evidence.
-2. Review the actual CEIS authoring and review experience.
+2. Review the actual pilot authoring and review experience.
 3. Confirm the canonical topic and publication-map model.
 4. Define metadata authority and dictionary.
 5. Design SharePoint content types and approval workflows.
