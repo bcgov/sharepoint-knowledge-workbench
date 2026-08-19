@@ -22,3 +22,5 @@ skills:
   - extract-calculated-columns
   - extract-choice-fields
   - generate-sharepoint-schema-from-export
+  - scaffold-schema-definition
+
