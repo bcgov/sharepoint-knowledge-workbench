@@ -1,9 +1,18 @@
 ---
-description: A subagent's pwd/git-branch confirmation does not guarantee its Edit/Write calls stay inside the assigned worktree — a mandatory post-task check does.
+description: A subagent's pwd/git-branch confirmation does not guarantee its Edit/Write calls stay inside the assigned worktree — a mandatory post-task check does. Companion to worktree-lifecycle-management.md, which covers the full worktree lifecycle (create/commit/push/merge/cleanup) this file does not.
 globs: ["**/*"]
 ---
 
-# Worktree/Subagent Isolation
+# Worktree/Subagent Isolation (Leak Detection)
+
+**Scope note (renamed 2026-08-18):** this file covers exactly one failure mode — a
+dispatched subagent writing outside its assigned worktree. For the broader lifecycle
+(creating a worktree, reporting its state honestly, pushing, verifying an actual merge,
+updating local `main`, and cleaning up afterward), see
+`.agent/rules/worktree-lifecycle-management.md`, added the same day after a session
+repeatedly conflated "pushed" with "merged" and "local branch ref updated" with "visible
+on disk". Both rules apply simultaneously whenever a `subagent-driven-development` session
+runs inside a worktree.
 
 ## The Problem This Rule Solves
 

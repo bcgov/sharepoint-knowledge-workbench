@@ -125,19 +125,36 @@ def test_no_module_lives_only_inside_a_skill_directory():
 def test_no_live_pnp_or_csom_or_network_transport_ships():
     """Zero tenant I/O ships in this plugin (Phase 9 spec s13, task hard
     requirement #2): no PnP/CSOM call, no raw network call, anywhere in the
-    runtime tree."""
-    forbidden_calls = [
+    runtime script/code tree -- scans all code files (.py, .ps1, .sh), and bans
+    every PnP write-verb prefix, not an enumerable cmdlet list that goes
+    stale as new executors are written elsewhere in this ecosystem."""
+    forbidden_exact = [
         "Connect-PnPOnline", "Get-PnPContext", "New-ClientContext",
         "requests.get", "requests.post", "urllib.request", "http.client",
         "socket.socket",
     ]
+    forbidden_prefixes = ["Add-PnP", "New-PnP", "Set-PnP", "Remove-PnP", "Invoke-PnPSPRestMethod"]
     offenders = []
-    for path in _shipped_files():
-        if path.suffix != ".py":
+    for path in sorted(PLUGIN_ROOT.rglob("*")):
+        if not path.is_file():
+            continue
+        if path.suffix not in {".py", ".ps1", ".sh", ".cmd", ".bat"}:
+            continue
+        parts = path.relative_to(PLUGIN_ROOT).parts
+        if "__pycache__" in parts or path.suffix in {".pyc"}:
+            continue
+        if ".pytest_cache" in parts or ".egg-info" in " ".join(parts):
+            continue
+        if "tests" in parts:
             continue
         text = path.read_text(encoding="utf-8", errors="ignore")
-        for call in forbidden_calls:
+        for call in forbidden_exact:
             if call in text:
                 offenders.append(f"{path.relative_to(PLUGIN_ROOT)}: {call}")
+        for prefix in forbidden_prefixes:
+            for match in re.finditer(re.escape(prefix) + r"[A-Za-z]+", text):
+                offenders.append(f"{path.relative_to(PLUGIN_ROOT)}: {match.group()}")
 
     assert offenders == []
+
+
