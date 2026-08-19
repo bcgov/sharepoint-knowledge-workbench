@@ -102,7 +102,7 @@ contract/runtime code.
    one interpreter. `combined_install_check.py` (Wave 6) proves each plugin's own test suite still
    passes when all four are co-installed in one venv (each run in its own subprocess); the
    cross-plugin golden-master integration test
-   (`tests/integration/test_full_ceis_pipeline_across_plugins.py`) proves the real
+   (`tests/integration/test_full_conversion_pipeline_across_plugins.py`) proves the real
    `structured-content-assembly → structured-content-rendering` handoff also works correctly, by running each
    stage in its own subprocess.
 
