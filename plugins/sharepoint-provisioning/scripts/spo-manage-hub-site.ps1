@@ -118,8 +118,10 @@ if ($Execute) {
         try {
             if ($action.action -eq "register") { Register-PnPHubSite -Site $action.site_url -ErrorAction Stop | Out-Null } elseif ($action.action -eq "associate") { Add-PnPHubSiteAssociation -Site $action.site_url -HubSite $action.hub_site_url -ErrorAction Stop | Out-Null }
             $updated += [ordered]@{ site_url = $action.site_url }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $act = if ($action.PSObject.Properties.Name -contains 'action') { $action.action } else { "manage" }
+            $failed += [ordered]@{ action = $act; error = $_.Exception.Message }
         }
     }
 
@@ -140,18 +142,17 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $act = if ($action.PSObject.Properties.Name -contains 'action') { $action.action } else { $null }
+        $hubUrl = if ($action.PSObject.Properties.Name -contains 'hub_site_url') { $action.hub_site_url } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            action       = $act
+            hub_site_url = $hubUrl
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "manage-spo-hub-site"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        manage_count        = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -163,4 +164,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-

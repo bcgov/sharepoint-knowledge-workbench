@@ -120,8 +120,9 @@ if ($Execute) {
             New-PnPTermSet -GroupName $action.group_name -Name $action.term_set_name -ErrorAction SilentlyContinue | Out-Null
             if ($action.terms) { foreach ($t in $action.terms) { New-PnPTerm -TermSet $action.term_set_name -TermGroup $action.group_name -Name $t -ErrorAction SilentlyContinue | Out-Null } }
             $updated += [ordered]@{ term_set_name = $action.term_set_name }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ term_set_name = $action.term_set_name; group_name = $action.group_name; error = $_.Exception.Message }
         }
     }
 
@@ -142,18 +143,18 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $groupName = if ($action.PSObject.Properties.Name -contains 'group_name') { $action.group_name } else { $null }
+        $termSetName = if ($action.PSObject.Properties.Name -contains 'term_set_name') { $action.term_set_name } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            group_name    = $groupName
+            term_set_name = $termSetName
+            action        = "New-PnPTermSet -GroupName `"$groupName`" -Name `"$termSetName`""
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "provision-spo-term-set"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        provision_count     = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -165,4 +166,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-

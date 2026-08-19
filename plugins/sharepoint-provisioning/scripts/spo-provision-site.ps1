@@ -119,8 +119,9 @@ if ($Execute) {
             if ($action.type -eq "CommunicationSite") { New-PnPSite -Type CommunicationSite -Title $action.title -Url $action.url -Description $action.description -ErrorAction Stop | Out-Null } else { New-PnPSite -Type TeamSite -Title $action.title -Alias $action.alias -Description $action.description -ErrorAction Stop | Out-Null }
             if ($action.time_zone_id -or $action.locale_id) { $regParams = @{ ErrorAction = "SilentlyContinue" }; if ($action.time_zone_id) { $regParams["TimeZone"] = $action.time_zone_id }; if ($action.locale_id) { $regParams["LocaleId"] = $action.locale_id }; Set-PnPRegionalSettings @regParams | Out-Null }
             $updated += [ordered]@{ title = $action.title }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ title = $action.title; error = $_.Exception.Message }
         }
     }
 
@@ -141,18 +142,18 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $title = if ($action.PSObject.Properties.Name -contains 'title') { $action.title } else { $null }
+        $type = if ($action.PSObject.Properties.Name -contains 'type') { $action.type } else { "CommunicationSite" }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            title  = $title
+            type   = $type
+            action = "New-PnPSite -Type $type -Title `"$title`""
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "provision-spo-site"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        provision_count     = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -164,4 +165,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-

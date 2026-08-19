@@ -118,8 +118,9 @@ if ($Execute) {
         try {
             Set-PnPListItemPermission -List $action.list_title -Identity [int]$action.item_id -ClearExisting -Group $action.group_name -AddRole $action.permission_level -ErrorAction Stop | Out-Null
             $updated += [ordered]@{ item_id = $action.item_id }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ list_title = $action.list_title; item_id = $action.item_id; error = $_.Exception.Message }
         }
     }
 
@@ -140,18 +141,18 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $listTitle = if ($action.PSObject.Properties.Name -contains 'list_title') { $action.list_title } else { $null }
+        $itemId = if ($action.PSObject.Properties.Name -contains 'item_id') { $action.item_id } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            list_title = $listTitle
+            item_id    = $itemId
+            action     = "Set-PnPListItemPermission -List `"$listTitle`" -Identity $itemId"
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "configure-spo-item-permissions"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        configure_count     = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -163,4 +164,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-
