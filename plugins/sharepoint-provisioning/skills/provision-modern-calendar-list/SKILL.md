@@ -50,6 +50,16 @@ a plan matching the broken shape.
    content — a stale token (schema changed since the plan was produced)
    raises `ConfirmationRequired`.
 
+## Where the "injected executor" actually lives
+
+This skill's Python `apply_calendar_list(plan, executor=...)` ships no tenant
+transport of its own -- by design (see Write safety above). A tested
+PnP.PowerShell executor (`spo-provision-calendar.ps1`) exists in
+`sharepoint-migration-planning/scripts/` and is being designed for integration
+into the `apply-sharepoint-provisioning-plan` skill. Until that integration is
+complete, calendar provisioning is not yet part of the full workflow — treat
+this skill as a follow-up planning-only capability.
+
 ## Honest outcomes
 
 | Outcome | Meaning |

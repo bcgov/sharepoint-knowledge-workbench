@@ -17,6 +17,16 @@ provisioning template. It inventories `Choice` and `MultiChoice` fields across
 an exported schema and can emit them as an overrides mapping keyed by list and
 internal field name.
 
+## Where the exported schema comes from
+
+This skill consumes an already-exported schema directory tree
+(`<dir>/summary/lists.json`, `<dir>/lists/<listname>/fields.json`, etc. — see
+`schema_export.py`'s `ExportLayout`). That tree is produced by
+`sharepoint-discovery`'s `collect-sharepoint-inventory` skill running
+`collect-sharepoint-schema-export.ps1` against a live tenant — this plugin
+never connects to a tenant itself. Run that script first if you don't
+already have an export directory.
+
 ## Unknown is not empty
 
 The distinction this skill exists to preserve:

@@ -33,6 +33,17 @@ against a tenant; execution happens only via `provision-list`'s gated
   currently linked — never a no-op mistaken for success, never an error on
   an already-absent link either.
 
+## Where the "injected executor" actually lives
+
+This skill's Python planning functions ship no tenant transport of their own
+-- by design. The real, tested PnP.PowerShell executor that these content-type
+plans are meant to be submitted to is `sharepoint-migration-planning`'s
+`apply-sharepoint-provisioning-plan` skill, which runs
+`spo-provision-content-types.ps1`, `spo-update-content-type.ps1`,
+`spo-remove-content-type.ps1`, and `spo-detach-content-type-from-list.ps1`
+(all of which consume outputs from this module verbatim). This skill produces
+the plan; that skill is the executor you inject.
+
 ## Usage
 
 ```bash
