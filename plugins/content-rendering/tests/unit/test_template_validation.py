@@ -33,9 +33,9 @@ def _template(content, fmt="markdown", profile="generic"):
 
 @pytest.mark.parametrize("profile,fmt", [
     ("generic", "markdown"),
-    ("ceis", "markdown"),
+    ("standard-manual", "markdown"),
     ("generic", "aspx"),
-    ("ceis", "aspx"),
+    ("standard-manual", "aspx"),
 ])
 def test_canonical_starter_templates_pass(tmp_path, profile, fmt):
     dest = tmp_path / f"{profile}-{fmt}.tpl"

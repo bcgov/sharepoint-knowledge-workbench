@@ -532,13 +532,13 @@
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "source": "plugins/content-rendering/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "source": "plugins/content-rendering/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
       "type": "file"
     },
     {
@@ -607,13 +607,13 @@
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
       "type": "file"
     },
     {
@@ -632,13 +632,13 @@
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
       "type": "file"
     },
     {
@@ -967,13 +967,13 @@
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
       "type": "file"
     },
     {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
+      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
       "type": "file"
     },
     {

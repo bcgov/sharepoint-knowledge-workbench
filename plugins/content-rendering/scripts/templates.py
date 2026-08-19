@@ -8,7 +8,7 @@ Shared module backing the `create-markdown-rendering-template` and
 These are rendering templates: Markdown document/page structure, ASPX
 page structure, navigation, headings/sections, metadata placement, media
 placement, links, and human-facing layout under
-`assets/templates/{generic,solutions/ceis}/{markdown,aspx}/`.
+`assets/templates/{generic,solutions/standard-manual}/{markdown,aspx}/`.
 
 A template is a small placeholder-driven text file plus a JSON sidecar
 recording its `profile`/`format`/`schema_version` (the sidecar is what
@@ -21,9 +21,9 @@ Starter templates are authored at the plugin root and packaged within
 `scripts/assets/templates/...`:
 
     assets/templates/generic/markdown/page.template.md
-    assets/templates/solutions/ceis/markdown/page.template.md
+    assets/templates/solutions/standard-manual/markdown/page.template.md
     assets/templates/generic/aspx/page.template.html
-    assets/templates/solutions/ceis/aspx/page.template.html
+    assets/templates/solutions/standard-manual/aspx/page.template.html
 """
 
 import json
@@ -37,7 +37,7 @@ _TEMPLATES_ROOT = _THIS_DIR / "assets" / "templates"
 
 _PROFILE_DIRS = {
     "generic": _TEMPLATES_ROOT / "generic",
-    "ceis": _TEMPLATES_ROOT / "solutions" / "ceis",
+    "standard-manual": _TEMPLATES_ROOT / "solutions" / "standard-manual",
 }
 
 _FORMAT_EXTENSIONS = {
@@ -56,7 +56,7 @@ KNOWN_FORMATS = frozenset(_FORMAT_EXTENSIONS)
 
 class UnknownTemplateProfileError(Exception):
     """Raised when `profile` is not one of the plugin's known template
-    profiles (`generic`, `ceis`)."""
+    profiles (`generic`, `standard-manual`)."""
 
 
 class UnknownTemplateFormatError(Exception):
