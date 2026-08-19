@@ -1,0 +1,16 @@
+name: sharepoint-page-modernization-execution
+version: 0.1.0-alpha.1
+status: implemented
+description: "Real PnP.PowerShell page modernization executors: single page conversion, bulk conversion, page copying between sites, and post-conversion validation. Gated behind -Execute and confirmation tokens."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - convert-page-to-modern
+  - execute-page-bulk-migration
+  - validate-page-migration
+  - copy-spo-page-between-sites
+
