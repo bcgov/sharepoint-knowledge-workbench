@@ -1,0 +1,39 @@
+import { IWeb } from '@pnp/sp/webs';
+
+export interface IListResolutionResult {
+  id: string;
+  title: string;
+}
+
+/**
+ * Resolves a SharePoint list or library by GUID with automatic title-based recovery.
+ */
+export async function resolveOrRecoverListGuid(
+  web: IWeb,
+  currentGuid: string,
+  expectedTitle?: string,
+  onRecovered?: (newGuid: string) => void
+): Promise<IListResolutionResult | null> {
+  if (currentGuid) {
+    try {
+      const list = await web.lists.getById(currentGuid).select('Id', 'Title')();
+      return { id: list.Id, title: list.Title };
+    } catch {
+      // GUID failed, proceed to title fallback
+    }
+  }
+
+  if (expectedTitle) {
+    try {
+      const list = await web.lists.getByTitle(expectedTitle).select('Id', 'Title')();
+      if (onRecovered) {
+        onRecovered(list.Id);
+      }
+      return { id: list.Id, title: list.Title };
+    } catch (err) {
+      console.error(`Failed to resolve list by title: ${expectedTitle}`, err);
+    }
+  }
+
+  return null;
+}
