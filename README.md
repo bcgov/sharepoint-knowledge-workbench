@@ -8,13 +8,13 @@ Moving document-centric manuals (Word/PDF) into a content-centric, governed know
 
 The **AI-Assisted Structured Knowledge Workbench** is a multi-phase initiative designed to transform legacy enterprise manuals into modular, version-controlled, structured Markdown assets. This enables multi-target publishing to human readers (SharePoint/ASPX/Web) and grounded AI RAG agents (Microsoft Copilot, custom SharePoint Agents).
 
-Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx` analysis, human plan confirmation, structured content chunking, TDD validation, and multipage Markdown rendering on the pilot **CEIS Manual**. Phase 3.0 has completed substantial tenant discovery in real SharePoint Online environments. Phase 4.5 is **complete**: the original combined conversion plugin has been decomposed into four independently installable domain plugins (`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`), each installable and testable standalone. See [start-here.md](start-here.md) for the current branch/merge status and authoritative phase context.
+Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx` analysis, human plan confirmation, structured content chunking, TDD validation, and multipage Markdown rendering on the pilot **CEIS Manual**. Phase 3.0 has completed substantial tenant discovery in real SharePoint Online environments. Phase 4.5 is **complete**: the original combined conversion plugin has been decomposed into four independently installable domain plugins (`content-extraction`, `content-structure-analysis`, `content-assembly`, `content-rendering`), each installable and testable standalone. See [start-here.md](start-here.md) for the current branch/merge status and authoritative phase context.
 
-**This document-conversion pipeline is the founding use case and remains the primary reference architecture below — but it is no longer the only use case this repository serves.** Phase 9 built out a second, independently real cluster of capability: general-purpose SharePoint migration and modernization engineering tooling (site discovery, schema auditing, provisioning, page modernization, link/reference remediation, content migration, wave planning, tenant publication, and agent/skill lifecycle management) — 10 additional plugins, each its own use case — plus one documented but not-yet-built target-state use case (an AI-assisted knowledge management pipeline). See **[docs/use-cases/](docs/use-cases/README.md)** for a one-page overview of all 12, or jump straight to the **[Additional Use Cases](#-additional-use-cases-sharepoint-migration--modernization-engineering)** or **[Target-State Vision](#-target-state-vision-ai-assisted-knowledge-management-pipeline-not-yet-built)** sections below.
+**This document-conversion pipeline is the founding use case and reference architecture for the Content Conversion workstream below — but it is not the only workstream this repository serves.** Phase 9 built out a second, independently real cluster of capability: general-purpose SharePoint migration and modernization engineering tooling (site discovery, schema reconciliation, tenant provisioning, page modernization, link/reference remediation, content migration, wave planning, tenant publication, SPFx development, and agent/skill lifecycle management) — 11 additional plugins, each its own use case — plus one documented but not-yet-built target-state use case (an AI-assisted knowledge management pipeline). See **[docs/use-cases/](docs/use-cases/README.md)** for a one-page overview of all 12, or jump straight to the **[Additional Use Cases](#-additional-use-cases-sharepoint-migration--modernization-engineering)** or **[Target-State Vision](#-target-state-vision-ai-assisted-knowledge-management-pipeline-not-yet-built)** sections below.
 
 ---
 
-## 🗺️ Master Architecture & Workflow
+## 🗺️ Content Conversion Workstream: Architecture & Workflow
 
 ```text
                                +-----------------------------+
@@ -53,7 +53,7 @@ Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx
 
 ### 1. Prerequisite (SharePoint use cases only): request an app registration
 
-Skip this step if you only need the [document-conversion pipeline](#-master-architecture--workflow)
+Skip this step if you only need the [document-conversion pipeline](#-content-conversion-workstream-architecture--workflow)
 (no live SharePoint tenant access). Any use case that connects to a real tenant
 (`validate-workbench-environment`'s live network/auth checks, `sharepoint-content-publication`,
 live discovery/migration work) needs an Entra ID app registration your tenant administrator
