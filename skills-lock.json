@@ -6,28 +6,28 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "agent-file-synchronization": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "agt-security": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "agy-cli-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "algorithmic-art": {
       "source": "anthropics/skills",
@@ -75,7 +75,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "analyze-sharepoint-dependency-graph": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -103,7 +103,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "apply-sharepoint-agent-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -138,14 +138,14 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "audit-plugin-l5": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "audit-schema": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -226,28 +226,28 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "claude-project-setup": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "codex-cli-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "coding-conventions-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "collect-sharepoint-inventory": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -268,7 +268,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "compose-page-preview": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -289,7 +289,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "convert-aspx-pages": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -303,7 +303,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "convert-page-to-modern": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -317,14 +317,14 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "copilot-cli-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "copy-spo-page-between-sites": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -338,14 +338,14 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-apm-package": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-aspx-rendering-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -359,35 +359,35 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-command": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-docker-skill": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-github-action": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-hook": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-markdown-rendering-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -401,14 +401,14 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-plugin": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-sharepoint-agent": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -436,28 +436,28 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-stateful-skill": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "create-sub-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "dependency-management": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.526872Z",
-      "updatedAt": "2026-07-25T21:17:13.526872Z"
+      "updatedAt": "2026-08-19T04:21:37.048760Z"
     },
     "deploy-sharepoint-native-skill": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -505,21 +505,21 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "ecosystem-standards": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "eval-autoresearch-fit": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "execute-page-bulk-migration": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -575,7 +575,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "frontend-design": {
       "source": "anthropics/skills",
@@ -588,7 +588,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "generate-conversion-report": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -623,56 +623,56 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "github-issue-backlog-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "github-issue-prioritizer": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "gpt55-critical-auditor": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "hf-download": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "hf-init": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "hf-upload": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "humanize": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "initialize-document-workflow": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -693,7 +693,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "internal-comms": {
       "source": "anthropics/skills",
@@ -713,56 +713,56 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "issue-worktree-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "l5-red-team-auditor": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "link-checker-agent": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "local-llm-bridge": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "local-llm-setup": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "maf-adapter": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "manage-marketplace": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "mcp-builder": {
       "source": "anthropics/skills",
@@ -782,133 +782,133 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "mine-skill": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "optimize-agent-instructions": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "optimize-context": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "os-architect": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-clean-locks": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-environment-probe": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-eval-backport": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-eval-lab-setup": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-eval-runner": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-evolution-planner": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-evolution-verifier": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-experiment-log": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-guide": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-improvement-loop": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-improvement-report": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-init": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-memory-manager": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "os-skill-improvement": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "package-spfx-solution": {
       "source": "sharepoint-spfx-authoring",
@@ -922,7 +922,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "pdf": {
       "source": "anthropics/skills",
@@ -942,21 +942,21 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:43:06.103674Z",
-      "updatedAt": "2026-07-25T21:43:06.103674Z"
+      "updatedAt": "2026-08-19T04:21:40.496378Z"
     },
     "plugin-remover": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:43:06.103674Z",
-      "updatedAt": "2026-07-25T21:43:06.103674Z"
+      "updatedAt": "2026-08-19T04:21:40.496378Z"
     },
     "plugin-syncer": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:43:06.103674Z",
-      "updatedAt": "2026-07-25T21:43:06.103674Z"
+      "updatedAt": "2026-08-19T04:21:40.496378Z"
     },
     "pptx": {
       "source": "anthropics/skills",
@@ -969,7 +969,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "provision-content-types": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -1151,14 +1151,14 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "self-evolution": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "setup-sharepoint-migration-project": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -1191,14 +1191,14 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "synthesize-learnings": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "systematic-debugging": {
       "source": "https://github.com/obra/superpowers",
@@ -1212,7 +1212,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.702826Z",
-      "updatedAt": "2026-07-25T21:43:06.048836Z"
+      "updatedAt": "2026-08-19T04:21:39.921171Z"
     },
     "template-skill": {
       "source": "anthropics/skills",
@@ -1238,21 +1238,21 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:12.695117Z",
-      "updatedAt": "2026-07-25T21:17:12.695117Z"
+      "updatedAt": "2026-08-19T04:21:28.531648Z"
     },
     "update-cli-models": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.480200Z",
-      "updatedAt": "2026-07-25T21:17:13.480200Z"
+      "updatedAt": "2026-08-19T04:21:36.654581Z"
     },
     "update-ecosystem-index": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-07-25T21:17:13.380349Z",
-      "updatedAt": "2026-07-25T21:17:13.380349Z"
+      "updatedAt": "2026-08-19T04:21:34.741463Z"
     },
     "update-sharepoint-agent": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",

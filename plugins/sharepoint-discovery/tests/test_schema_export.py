@@ -115,8 +115,8 @@ def test_malformed_json_fails_honestly(tmp_path):
 
 
 def test_unreadable_file_is_forbidden_not_empty(tmp_path):
-    if os.geteuid() == 0:  # pragma: no cover - root ignores mode bits
-        pytest.skip("cannot test permission denial as root")
+    if not hasattr(os, "geteuid") or os.geteuid() == 0:  # pragma: no cover
+        pytest.skip("Windows or root ignores POSIX permission bits")
     root = _minimal_export(tmp_path / "p")
     target = root / "summary" / "site_columns.json"
     target.chmod(stat.S_IWUSR)
