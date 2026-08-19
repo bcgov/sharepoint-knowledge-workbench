@@ -26,17 +26,40 @@
 
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $false)]
     [string]$SiteUrl,
 
     [Parameter(Mandatory = $false)]
     [string]$ClientId,
 
     [Parameter(Mandatory = $false)]
+    [string]$TenantId,
+
+    [Parameter(Mandatory = $false)]
+    [string]$TenantAdminUrl,
+
+    [Parameter(Mandatory = $false)]
+    [string]$ConfigPath = (Join-Path $PSScriptRoot "..\..\..\config.psd1"),
+
+    [Parameter(Mandatory = $false)]
     [string]$PageName = "master-detail-dossier-poc"
 )
 
 $ErrorActionPreference = "Stop"
+
+$connectionHelper = Join-Path $PSScriptRoot "Get-WorkbenchConnectionConfig.ps1"
+if (Test-Path $connectionHelper) {
+    . $connectionHelper
+    $connectionConfig = Get-WorkbenchConnectionConfig -Path $ConfigPath
+    if (-not $SiteUrl) { $SiteUrl = $connectionConfig.SiteUrl }
+    if (-not $ClientId) { $ClientId = $connectionConfig.ClientId }
+    if (-not $TenantId) { $TenantId = $connectionConfig.TenantId }
+    if (-not $TenantAdminUrl) { $TenantAdminUrl = $connectionConfig.TenantAdminUrl }
+}
+
+if (-not $SiteUrl) {
+    throw "SiteUrl is required. Provide -SiteUrl or a valid -ConfigPath."
+}
 
 $AuthorsListName = "Authors"
 $BooksListName   = "Books"
@@ -49,11 +72,11 @@ Write-Host "==================================================================" 
 
 try {
     Write-Host "Connecting to SharePoint Online..." -ForegroundColor Cyan
-    if ($ClientId) {
-        Connect-PnPOnline -Url $SiteUrl -ClientId $ClientId -Interactive
-    } else {
-        Connect-PnPOnline -Url $SiteUrl -Interactive
-    }
+    $connectParams = @{ Url = $SiteUrl; Interactive = $true }
+    if ($ClientId) { $connectParams["ClientId"] = $ClientId }
+    if ($TenantId) { $connectParams["Tenant"] = $TenantId }
+    if ($TenantAdminUrl) { $connectParams["TenantAdminUrl"] = $TenantAdminUrl }
+    Connect-PnPOnline @connectParams
 
     # 1. Ensure Authors list + Picture column
     Write-Host "Ensuring '$AuthorsListName' list and Picture column exist..." -ForegroundColor Cyan
