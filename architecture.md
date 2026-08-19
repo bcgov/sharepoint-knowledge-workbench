@@ -25,7 +25,6 @@ sharepoint-knowledge-workbench/
 │   ├── sharepoint-spfx-authoring/
 │   ├── sharepoint-agents-and-skills/
 │   └── workbench-setup/
-├── archive/                  # Historical phase exploration, probes, evidence, and test harnesses (Phases 3–6)
 ├── docs/
 │   ├── vision/               # broader-initiative direction: naming, phases, plugin/agent boundaries
 │   ├── research/              # product research / field notes feeding the broader vision
@@ -34,8 +33,7 @@ sharepoint-knowledge-workbench/
 │       ├── specs/             # design specs (brainstorming skill output)
 │       └── plans/             # implementation plans (writing-plans skill output)
 ├── architecture.md           # this file
-├── JOURNAL.md                # chronological, learning-oriented log — what was tried, what broke, what fixed it
-├── start-here.md             # authoritative, kept-current resume document
+├── INSTALL.md                # comprehensive installation and bootstrapping guide
 ├── DEPENDENCIES.md           # running log of required external CLI tools (pandoc, LibreOffice, PnP.PowerShell)
 ├── CLAUDE.md / GEMINI.md / AGENTS.md # behavioral guidelines + repository conventions
 ├── .claude-plugin/marketplace.json # marketplace manifest for all 16 plugins
@@ -44,7 +42,7 @@ sharepoint-knowledge-workbench/
 └── .agents/skills/           # installed skills in the active IDE agent environment
 ```
 
-`intake/`/`runs/` are Phase 1's own working directories; the conversion plugins take `--source`/`--output` as arbitrary CLI arguments.
+Consumer documents, intake files, run outputs, and project-specific tests are managed in separate consumer repositories (e.g. project POC repositories).
 
 This repo **is** a git repository, pushed to `github.com/richfrem/sharepoint-knowledge-workbench` (`main` is the default branch).
 
@@ -135,14 +133,8 @@ Tracked in `DEPENDENCIES.md` — external system tools (pandoc, LibreOffice/`sof
 
 ## 6. Roadmap / Open Questions
 
-- **Phase 1 status:** engineering-complete (real CEIS Manual cut over through the finished plugin,
-  `convert`/`render` both validated PASS, a real defect found and fixed with regression tests, full
-  suite 449 passed/1 skipped). Formal closure is pending one human step — see `start-here.md` for
-  the exact remaining checklist.
-- **Phase 2 status:** planned, not yet executed. Spec and an 18-task TDD implementation plan exist
-  (`docs/superpowers/specs/2026-07-28-phase2-canonical-publication-contract-hardening-design.md`
-  and its companion plan), reviewed across multiple rounds of external adversarial review.
-  Execution is gated on Phase 1's formal closure and explicit user approval — see `start-here.md`.
+- **Phase 1 status:** engineering-complete (enterprise manual conversion proven through the finished plugin pipeline, `convert`/`render` validated, full test suite passing).
+- **Phase 2 status:** planned canonical publication contract hardening design.
 - **The authoritative full roadmap** — Phase 2 through Phase 8, plus 3.0 and 5.5A/5.5B, each with
   subphases, implementation stages, entry/exit gates, and a full traceability matrix — is
   `docs/vision/master-initiative-plan-workstreams-and-phases.md`. This supersedes the original
