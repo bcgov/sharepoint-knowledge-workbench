@@ -75,7 +75,7 @@
       "name": "sharepoint-provisioning",
       "source": "./plugins/sharepoint-provisioning",
       "strict": true,
-      "description": "Real PnP.PowerShell executors for declarative site-column, list-column, content-type, view, item, library, site, branding, navigation, permissions, and taxonomy provisioning plans. Dry-run by default; every write gated behind -Execute and an operation-specific -ConfirmToken."
+      "description": "Real PnP.PowerShell executors for granular CRUD and declarative site-column, list-column, content-type, view, item, list, library, site, branding, navigation, permissions, and taxonomy provisioning. 19 dedicated execution skills: dry-run by default; every write gated behind -Execute and an operation-specific -ConfirmToken."
     },
     {
       "name": "sharepoint-migration-planning",

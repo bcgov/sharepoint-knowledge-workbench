@@ -1,4 +1,4 @@
-﻿# Architecture Overview
+# Architecture Overview
 
 This repository is the central public toolkit for the **AI-Assisted Structured Knowledge Workbench**, providing a modular, governed knowledge architecture (**Content + Template + Renderer = Published Output**) and a comprehensive suite of SharePoint discovery, migration, and provisioning tooling.
 
@@ -87,14 +87,14 @@ The workbench is organized into 16 plugins across standard functional prefixes (
 ### SharePoint Engineering Workstream
 5. **`sharepoint-discovery`** (15 skills) — Read-only analysis and schema auditing of exported classic SharePoint site inventories (navigation, permissions, webpart code, custom forms, calculated columns, choice fields, and schema drift).
 6. **`sharepoint-schema-reconciliation`** (4 skills) — Declarative, JSON-schema-driven planning for site columns, content types, lists, and modern calendar provisioning (pure planning, zero tenant I/O).
-7. **`sharepoint-provisioning`** (1 skill) — 17 real PnP.PowerShell executors for applying declarative site-column, list-column, content-type, view, item, site, branding, hub, navigation, permissions, and taxonomy provisioning plans.
+7. **`sharepoint-provisioning`** (19 skills) — 27 real PnP.PowerShell executors for applying direct CRUD and declarative site-column, list-column, content-type, view, item, list, library, site, branding, hub, navigation, permissions, and taxonomy provisioning plans.
 8. **`sharepoint-page-modernization`** (4 skills, 2 agents) — Classic ASPX page analysis, component classification, layout mapping, and modern conversion manifest generation.
 9. **`sharepoint-page-modernization-execution`** (4 skills) — PnP.PowerShell executors for single-page conversion, bulk page conversion, cross-site page copying, and post-conversion validation.
 10. **`sharepoint-link-remediation`** (5 skills, 2 agents) — Page, document, and field image link extraction, rule-based rewrite remediation, and link-integrity verification.
 11. **`sharepoint-content-migration`** (1 skill, 1 agent) — Item-level list item and document library file migration with two-pass lookup-ID resolution.
 12. **`sharepoint-migration-planning`** (5 skills, 2 agents) — Migration project setup, site inventory validation, dependency-graph analysis, deployment wave sequencing, and wave script generation.
 13. **`sharepoint-content-publication`** (6 skills, 1 agent) — SharePoint tenant publication: package upload, markdown/ASPX publishing, validation, state reconciliation, and rollback.
-14. **`sharepoint-spfx-authoring`** (5 skills) — Custom SPFx web part and Master-Detail dossier scaffolding, solution packaging (`.sppkg`), App Catalog provisioning guidance, and PnP deployment.
+14. **`sharepoint-spfx-authoring`** (6 skills) — Custom SPFx React web part, Master-Detail dossier scaffolding, solution packaging (`.sppkg`), App Catalog provisioning guidance, and PnP deployment.
 15. **`sharepoint-agents-and-skills`** (15 skills) — Lifecycle management (create, update, deploy, verify, rollback, backup, restore) for SharePoint Copilot agents and native AgentAssets skills.
 
 ### Workbench Setup & Environment
