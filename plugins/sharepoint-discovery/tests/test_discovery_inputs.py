@@ -77,7 +77,10 @@ def test_populated_collection_is_observed(tmp_path):
     assert outcome.data == [{"FileName": "default.aspx"}]
 
 
-@pytest.mark.skipif(os.geteuid() == 0, reason="root bypasses file permissions")
+@pytest.mark.skipif(
+    not hasattr(os, "geteuid") or os.geteuid() == 0,
+    reason="Windows or root bypasses POSIX file permissions",
+)
 def test_unreadable_file_is_forbidden_not_failed(tmp_path):
     p = tmp_path / "locked.json"
     p.write_text("[]", encoding="utf-8")

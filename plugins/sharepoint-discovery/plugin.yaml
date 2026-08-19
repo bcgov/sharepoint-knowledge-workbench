@@ -1,6 +1,6 @@
 name: sharepoint-discovery
 version: 0.1.0-alpha.1
-description: "Collects and analyzes classic/modern SharePoint site inventories: per-page migration complexity scoring, functional grouping of web-part code, site navigation depth analysis, custom-form classification, permissions/broken-inheritance auditing, and read-only PnP.PowerShell/on-prem collectors for lists, libraries, content types, and ASPX pages. Analysis rules and behavioural knowledge are caller-supplied, never built in; live collection is read-only, zero tenant writes."
+description: "Collects and analyzes classic/modern SharePoint site inventories and schemas: per-page migration complexity scoring, functional grouping of web-part code, site navigation depth analysis, custom-form classification, permissions/broken-inheritance auditing, schema drift auditing, choice field inventory, calculated column extraction, and read-only PnP.PowerShell/on-prem collectors for lists, libraries, content types, and ASPX pages. Analysis rules and behavioural knowledge are caller-supplied, never built in; live collection is read-only, zero tenant writes."
 author: Richard Fremmerlid
 kind: backend
 platforms:
@@ -17,3 +17,8 @@ skills:
   - audit-managed-metadata
   - audit-onprem-schema-drift
   - generate-discovery-report-set
+  - audit-schema
+  - diff-sharepoint-schema
+  - extract-calculated-columns
+  - extract-choice-fields
+  - generate-sharepoint-schema-from-export

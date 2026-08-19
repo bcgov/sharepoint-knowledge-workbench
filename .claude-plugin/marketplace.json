@@ -51,13 +51,7 @@
       "name": "sharepoint-discovery",
       "source": "./plugins/sharepoint-discovery",
       "strict": true,
-      "description": "Read-only analysis of exported classic SharePoint inventories: per-page migration complexity scoring and functional grouping of web-part code. All classification rules and behavioural knowledge are caller-supplied."
-    },
-    {
-      "name": "sharepoint-schema",
-      "source": "./plugins/sharepoint-schema",
-      "strict": true,
-      "description": "Read-only SharePoint schema auditing: compares two exported schema snapshots for list/content-type/site-column/field variance, audits duplicate display names, inventories Choice field option sets, and extracts Calculated-column formulas/references from an export. Environment labels and compared properties are caller-supplied. Zero tenant I/O by design; a companion sharepoint-discovery orchestrator produces the directory-tree export shape these tools consume."
+      "description": "Read-only analysis of exported classic SharePoint inventories and schemas: per-page migration complexity scoring, functional grouping of web-part code, schema drift auditing, choice field inventory, and calculated column extraction."
     },
     {
       "name": "sharepoint-page-modernization",
