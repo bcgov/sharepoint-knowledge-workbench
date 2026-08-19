@@ -8,7 +8,7 @@ This document outlines the design and scaffolding for a reusable **SPFx Master-D
 ---
 
 ## 1. Value Proposition
-When modernizing legacy SharePoint 2013/2016/2019 applications (like CMAT, CSB Intranet, etc.) to SharePoint Online:
+When modernizing legacy SharePoint 2013/2016/2019 applications to SharePoint Online:
 - Legacy pages often feature **multi-list briefing/dossier layouts** driven by URL parameters (e.g. `Appearing_Persons_Briefing.aspx?SelectedID=123`).
 - Rebuilding these with native SPO List Web Parts fails because modern List Web Parts only support manual click connections and ignore query parameters.
 - A reusable **SPFx Master-Detail Skill** automates the scaffolding, REST wiring, styling, and packaging of consolidated dossier web parts in minutes.

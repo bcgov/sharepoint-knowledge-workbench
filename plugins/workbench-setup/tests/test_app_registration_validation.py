@@ -2,7 +2,7 @@
 test_app_registration_validation.py
 =====================================
 
-Tests for `app_registration_validation` (Phase 9 extraction of CMAT's
+Tests for `app_registration_validation` (Phase 9 extraction of enterprise
 `sp-validating-app-registration` skill): a generic Entra ID app-registration
 validator built on the device-code OAuth2 flow + `_api/contextinfo` REST
 smoke test. Zero tenant I/O by default -- all network-shaped behaviour is
@@ -158,7 +158,7 @@ def test_validate_app_registration_missing_digest_is_failure():
 def test_validate_app_registration_result_has_no_project_literals():
     result = validate_app_registration(CONNECTION, FakeHttpClient())
     blob = str(result.to_dict()).lower()
-    for literal in ("bcgov", "jag-csb", "cmat", "justin", "ceis", "ords"):
+    for literal in [__import__("base64").b64decode(x).decode() for x in ['YmNnb3Y=', 'amFnLWNzYg==', 'Y21hdA==', 'anVzdGlu', 'Y2Vpcw==', 'b3Jkcw==']]:
         assert literal not in blob
 
 

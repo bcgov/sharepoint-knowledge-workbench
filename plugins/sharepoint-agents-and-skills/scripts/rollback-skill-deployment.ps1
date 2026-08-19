@@ -110,7 +110,7 @@ try {
     # $targetServerRelativeUrl built earlier is a library-title-relative path (e.g.
     # "AgentAssets/Skills/review-manual-topics/SKILL.md"), not a real server-relative path —
     # Remove-PnPFile/Get-PnPFile require the full site-relative path (e.g.
-    # "/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills/review-manual-topics/SKILL.md"). Derive it
+    # "/sites/TargetSite-Dev/AgentAssets/Skills/review-manual-topics/SKILL.md"). Derive it
     # from the library's own RootFolder, same pattern reconcile-deployed-skill.ps1 uses.
     $targetLibrary = Get-PnPList -Identity $targetLibraryTitle -Includes RootFolder -ErrorAction Stop
     $realServerRelativeUrl = "$($targetLibrary.RootFolder.ServerRelativeUrl)/$targetRelativeFolder/$targetFilename"

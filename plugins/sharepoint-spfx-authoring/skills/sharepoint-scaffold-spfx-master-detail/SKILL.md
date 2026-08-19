@@ -32,7 +32,7 @@ Create a spec JSON file (e.g. `dossier_spec.json`) describing the primary record
 ```json
 {
   "webPartName": "PersonBriefing",
-  "title": "ITAU Case Management And Tracking (CMAT)",
+  "title": "Master-Detail Dossier Dashboard",
   "primaryList": "Persons",
   "lookupList": "Authors",
   "childLists": [
@@ -43,7 +43,7 @@ Create a spec JSON file (e.g. `dossier_spec.json`) describing the primary record
     },
     {
       "title": "Background Information",
-      "listName": "PIO_Narratives",
+      "listName": "Dossier_Narratives",
       "filterField": "RelatedAuthorId"
     }
   ],

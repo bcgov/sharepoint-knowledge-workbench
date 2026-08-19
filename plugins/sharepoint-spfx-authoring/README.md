@@ -32,4 +32,4 @@ Modern SharePoint Online out-of-the-box List Web Parts do not support query para
 
 ## Acknowledgements
 
-Architectural patterns, PnPjs v4 singleton designs, and self-healing migration resilience featured in this plugin incorporate learnings and enterprise patterns contributed by **NTT DATA** during the BC Public Service (BCPS) CrownNet SharePoint modernization initiative.
+Architectural patterns, PnPjs v4 singleton designs, and self-healing migration resilience featured in this plugin incorporate learnings and enterprise patterns established during enterprise SharePoint modernization initiatives.

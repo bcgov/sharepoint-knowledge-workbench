@@ -5,7 +5,7 @@ test_aspx_inventory.py
 Stage 1 tests -- parse a classic SharePoint page (plus optional views export
 and override hints) into a neutral page inventory.
 
-Semantic-parity oracle: CMAT `sp-converting-aspx-pages/tests/test_analyze.py`
+Semantic-parity oracle: baseline page modernization test suite
 (source baseline 78d6bb91a6c3c01208208a8c2a06f241fef9ce9f). Retained
 behaviours: ContentEditor detection via the `ms-rtestate-field` class, list
 view detection from a views export, consumer-zone creation from override

@@ -21,7 +21,7 @@
     Name of the modern test page to create or update (default: master-detail-dossier-poc).
 
 .EXAMPLE
-    pwsh -File ./provision-sample-dossier-schema.ps1 -SiteUrl "https://bcgovernmenttrial400.sharepoint.com/sites/AppRegistrationTests"
+    pwsh -File ./provision-sample-dossier-schema.ps1 -SiteUrl "https://contoso.sharepoint.com/sites/TargetSite"
 #>
 
 [CmdletBinding()]

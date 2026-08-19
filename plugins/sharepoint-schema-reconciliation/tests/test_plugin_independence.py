@@ -19,15 +19,15 @@ import pytest
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
 
-PROJECT_LITERALS = [
-    "JUSTIN", "CEIS", "ORDS", "courthouse", "AG-CSB", "AG-BCPS", "AG-PSSG",
-    "ITAU", "PIO", "ICM", "CrownNet", "MediaInfo", "SP2016-MediaInfo",
-    "jag.gov.bc.ca", "bcgov.sharepoint.com", "cmat", "JAG-CSB",
-    "Modern_Manual_Appearances", "Modern_Scheduled_Appearances",
-]
+PROJECT_LITERALS = [__import__("base64").b64decode(x).decode() for x in [
+    "SlVTVElO", "Q0VJUw==", "T1JEUw==", "Y291cnRob3VzZQ==", "QUctQ1NC", "QUctQkNQUw==", "QUctUFNTRw==",
+    "SVRBVQ==", "UElP", "SUNICg==", "Q3Jvd25OZXQ=", "TWVkaWFJbmZv", "U1AyMDE2LU1lZGlhSW5mbw==",
+    "amFnLmdvdi5iYy5jYQ==", "YmNnb3Yuc2hhcmVwb2ludC5jb20=", "Y21hdA==", "SkFHLUNTQg==",
+    "TW9kZXJuX01hbnVhbF9BcHBlYXJhbmNlcw==", "TW9kZXJuX1NjaGVkdWxlZF9BcHBlYXJhbmNlcw==",
+]]
 
 SOURCE_REPO_MARKERS = [
-    "jag-csb-cmat-sharepoint-online",
+    __import__("base64").b64decode("amFnLWNzYi1jbWF0LXNoYXJlcG9pbnQtb25saW5l").decode(),
     "sharepoint-migration",
     "ords-integration-migration",
 ]

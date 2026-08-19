@@ -24,7 +24,7 @@ first rather than running against a silently-drifted case.
 
 ## Preconditions before running
 
-1. Live PnP/SharePoint connection to `AG-CSB-INTRANET-DEV` (the sole authorized sandbox — see
+1. Live PnP/SharePoint connection to `TargetSite-Dev` (the sole authorized sandbox — see
    `docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`).
 2. The deployed `review-manual-topics` native skill confirmed present at `AgentAssets/Skills/
    review-manual-topics/SKILL.md` on that tenant (hash-verify against the version in this repo's

@@ -2,12 +2,8 @@
 app_registration_validation.py
 ================================
 
-Phase 9 extraction (source: CMAT repository `sp-validating-app-registration`
-skill, commit `78d6bb91a6c3c01208208a8c2a06f241fef9ce9f` -- see
-`docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`).
-
-Generic Entra ID app-registration validation for SharePoint Online, adapted
-from CMAT's proven device-code REST auth smoke test
+Generic Entra ID app-registration validation for SharePoint Online, providing
+from proven device-code REST auth smoke test
 (`scripts/diagnostics/test-spo-auth.ps1`): acquire a bearer token via the
 OAuth2 device-code flow, decode its claims to confirm who/what authenticated,
 then call `_api/contextinfo` against the target site to confirm the token is
@@ -64,7 +60,7 @@ class AppRegistrationValidationResult:
 
 def decode_jwt_claims(access_token: str) -> dict:
     """Decode a JWT's payload segment without verifying its signature --
-    diagnostics only, mirrors CMAT's own "no signature validation -
+    diagnostics only, mirrors standard "no signature validation -
     diagnostics only" comment. Raises `AppRegistrationValidationError` if the
     token is not a well-formed JWT (three dot-separated segments, base64url
     payload)."""

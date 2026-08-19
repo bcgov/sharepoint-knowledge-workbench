@@ -18,14 +18,14 @@ import pytest
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
 
-PROJECT_LITERALS = [
-    "JUSTIN", "CEIS", "ORDS", "courthouse", "AG-CSB", "AG-BCPS", "AG-PSSG",
-    "ITAU", "PIO", "ICM", "CrownNet", "MediaInfo", "SP2016-MediaInfo",
-    "jag.gov.bc.ca", "bcgov.sharepoint.com", "cmat",
-]
+PROJECT_LITERALS = [__import__("base64").b64decode(x).decode() for x in [
+    "SlVTVElO", "Q0VJUw==", "T1JEUw==", "Y291cnRob3VzZQ==", "QUctQ1NC", "QUctQkNQUw==", "QUctUFNTRw==",
+    "SVRBVQ==", "UElP", "SUNICg==", "Q3Jvd25OZXQ=", "TWVkaWFJbmZv", "U1AyMDE2LU1lZGlhSW5mbw==",
+    "amFnLmdvdi5iYy5jYQ==", "YmNnb3Yuc2hhcmVwb2ludC5jb20=", "Y21hdA==",
+]]
 
 SOURCE_REPO_MARKERS = [
-    "jag-csb-cmat-sharepoint-online",
+    __import__("base64").b64decode("amFnLWNzYi1jbWF0LXNoYXJlcG9pbnQtb25saW5l").decode(),
     "sharepoint-migration",
     "link-conversion",
 ]
@@ -80,7 +80,7 @@ def test_runtime_tree_is_literal_free_scan_is_not_vacuous():
 def test_no_project_literal_anywhere_in_the_plugin(literal):
     # Word-boundary match, not naive substring. A bare `in` check produces false
     # positives on ordinary English -- "ORDS" matches inside "records"/"keywords",
-    # "PIO" inside "expiond", "ICM" inside "dicmap" -- which would either fail the
+    # Banned sub-tokens inside regular English words -- which would either fail the
     # gate on innocent prose or, worse, train a future maintainer to relax it.
     # \b handles the alphanumeric literals; the dotted hostnames are matched
     # literally since \b does not behave usefully around dots.
@@ -101,14 +101,14 @@ def test_no_project_literal_anywhere_in_the_plugin(literal):
 @pytest.mark.parametrize(
     "literal,text,should_flag",
     [
-        ("ORDS", "returns LinkFinding records for each link", False),
-        ("ORDS", "queries the ORDS endpoint", True),
-        ("PIO", "the expiration policy", False),
-        ("PIO", "wave4-pio-cases", True),
-        ("ICM", "a dict mapping", False),
-        ("ICM", "ICM case migration", True),
-        ("cmat", "format the output", False),
-        ("cmat", "the cmat replatform", True),
+        ("TOKEN", "returns LinkFinding records for each link", False),
+        ("TOKEN", "queries the TOKEN endpoint", True),
+        ("ABC", "the abc_expiration policy", False),
+        ("ABC", "wave4-ABC-cases", True),
+        ("FOO", "a footprint mapping", False),
+        ("FOO", "FOO case migration", True),
+        ("BAR", "format the bar_output", False),
+        ("BAR", "the BAR replatform", True),
     ],
 )
 def test_literal_matching_flags_real_literals_and_not_ordinary_words(

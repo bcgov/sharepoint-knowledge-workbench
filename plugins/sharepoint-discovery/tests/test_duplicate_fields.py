@@ -116,7 +116,7 @@ def test_unreadable_list_yields_partial(tmp_path):
 
 
 def test_module_exposes_no_remediation_or_write_capability():
-    """CMAT's source script had a `-Cleanup` switch calling Remove-PnPField.
+    """Legacy source script had a `-Cleanup` switch calling Remove-PnPField.
 
     That write path is deliberately not ported. Nothing in this module may
     delete, remove, or otherwise mutate a field.

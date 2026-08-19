@@ -136,7 +136,7 @@ explanation above is correct.
 
 | Operation | ETL app (App-Only, `Write` requested) | Interactive app (delegated, `write` confirmed via `Get-PnPAzureADAppSitePermission`) |
 |---|---|---|
-| Connect | ✅ tested, PASS (as service principal) | ✅ tested, PASS (as signed-in user), both `AG-CSB-ITAU-CMAT-DEV` and `AG-CSB-INTRANET-DEV` |
+| Connect | ✅ tested, PASS (as service principal) | ✅ tested, PASS (as signed-in user), across test sites |
 | Read stored PnP grant role | not attempted | ❌ `403 Forbidden` under the signed-in test account; a tenant admin *could* read it |
 | Item CRUD | not yet tested with cert auth | ✅ PASS, both sites |
 | Page create/delete | not yet tested with cert auth | ✅ PASS, both sites |

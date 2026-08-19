@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Provision AgentAssets library and sample native SKILL.md on AG-CSB-INTRANET-DEV.
+    Provision AgentAssets library and sample native SKILL.md on TargetSite-Dev.
 
 .DESCRIPTION
     1. Checks if AgentAssets library exists.

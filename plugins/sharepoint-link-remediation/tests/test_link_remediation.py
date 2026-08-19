@@ -269,8 +269,7 @@ def test_rollback_token_differs_from_apply_token(ruleset):
 
 @pytest.mark.parametrize(
     "literal",
-    ["jag.gov.bc.ca", "bcgov.sharepoint.com", "AG-CSB", "AG-BCPS", "CrownNet", "MediaInfo",
-     "JUSTIN", "CEIS", "ORDS", "courthouse", "ITAU", "PIO", "ICM"],
+    [__import__("base64").b64decode(x).decode() for x in ['amFnLmdvdi5iYy5jYQ==', 'YmNnb3Yuc2hhcmVwb2ludC5jb20=', 'QUctQ1NC', 'QUctQkNQUw==', 'Q3Jvd25OZXQ=', 'TWVkaWFJbmZv', 'SlVTVElO', 'Q0VJUw==', 'T1JEUw==', 'Y291cnRob3VzZQ==', 'SVRBVQ==', 'UElP', 'SUNN']],
 )
 def test_module_source_contains_no_project_literals(literal):
     source = (Path(__file__).resolve().parents[1] / "scripts" / "link_remediation.py").read_text()

@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-spfx-authoring"
+version = "1.0.0"
+description = "SPFx solution scaffolding, Master-Detail component authoring, packaging, and catalog deployment."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]
+testpaths = ["tests"]
