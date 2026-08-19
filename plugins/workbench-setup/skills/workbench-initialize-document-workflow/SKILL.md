@@ -1,7 +1,7 @@
 ---
 name: workbench-initialize-document-workflow
 plugin: workbench-setup
-description: Interactive intake wizard covering source-document identity, requested processing stages, requested output formats (only implemented renderer profiles offered as executable choices), publication locations, agent-grounding representations, and governance/evidence settings. Produces document-workflows/<DocumentId>.workflow.psd1 and publication-profiles/<DocumentId>.publication.psd1. Execution boundary: ask -> propose defaults -> validate -> display resolved configuration -> write profile files -> stop. Never extracts documents, renders content, or connects to/modifies SharePoint.
+description: "Interactive intake wizard covering source-document identity, requested processing stages, requested output formats (only implemented renderer profiles offered as executable choices), publication locations, agent-grounding representations, and governance/evidence settings. Produces document-workflows/<DocumentId>.workflow.psd1 and publication-profiles/<DocumentId>.publication.psd1. Execution boundary: ask -> propose defaults -> validate -> display resolved configuration -> write profile files -> stop. Never extracts documents, renders content, or connects to/modifies SharePoint."
 allowed-tools: Bash, Read
 examples:
   - "python -c \"import document_workflow as dw; dw.write_document_workflow('.', 'sample-manual', workflow, publication)\""
