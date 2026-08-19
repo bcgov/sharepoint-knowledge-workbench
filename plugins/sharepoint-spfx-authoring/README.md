@@ -15,15 +15,21 @@ Modern SharePoint Online out-of-the-box List Web Parts do not support query para
 
 ## Skills Included
 
-1. **`scaffold-spfx-master-detail`**: Generates a complete Master-Detail dossier SPFx web part boilerplate (TypeScript, SCSS module, manifest) based on a JSON list layout specification.
-2. **`scaffold-spfx-webpart`**: Generic, interactive scaffolding workflow for any new SPFx web part — confirms toolchain dependencies, gathers requirements via clarifying questions, runs the official Yeoman generator, and guides customization of the generated files.
-3. **`package-spfx-solution`**: Automates production build verification (`heft test` / `heft package-solution`) and verifies `.sppkg` package integrity.
-4. **`deploy-spfx-solution`**: Provides PnP PowerShell runbooks and scripts to upload, deploy, and verify `.sppkg` packages in Site Collection or Tenant App Catalogs.
-5. **`request-site-collection-app-catalog`**: Guides the setup and provisioning of Site Collection App Catalogs via ServiceNow ticket requests in BC Gov enterprise tenancy or direct Admin GUI/PnP PowerShell execution in trial/sandbox environments.
-
+1. **`scaffold-spfx-react-app`**: Generates an enterprise-grade React 17/18 SPFx Web Part boilerplate with Fluent UI, PnPjs v4 cross-site context, Tailwind CSS integration, and self-healing GUID recovery.
+2. **`scaffold-spfx-master-detail`**: Generates a consolidated Master-Detail dossier SPFx web part boilerplate (TypeScript, SCSS module, manifest) based on a JSON list layout specification.
+3. **`scaffold-spfx-webpart`**: Generic, interactive scaffolding workflow for any new SPFx web part — confirms toolchain dependencies, gathers requirements via clarifying questions, runs the official Yeoman generator, and guides customization of the generated files.
+4. **`package-spfx-solution`**: Automates production build verification (`heft test` / `heft package-solution`) and verifies `.sppkg` package integrity.
+5. **`deploy-spfx-solution`**: Provides PnP PowerShell runbooks and scripts to upload, deploy, and verify `.sppkg` packages in Site Collection or Tenant App Catalogs.
+6. **`request-site-collection-app-catalog`**: Guides the setup and provisioning of Site Collection App Catalogs via ServiceNow ticket requests in BC Gov enterprise tenancy or direct Admin GUI/PnP PowerShell execution in trial/sandbox environments.
 
 ## Reference Documentation
 
+- `references/SPFX-TAILWIND-INTEGRATION-GUIDE.md` — Tailwind CSS v3/v4 CLI compilation with Heft.
+- `references/SPFX-PNPJS-V4-CROSS-SITE-ARCHITECTURE.md` — Hub-and-Spoke data patterns and per-user state isolation.
+- `references/SPFX-SELF-HEALING-MIGRATION-GUIDE.md` — Self-healing list title and GUID recovery algorithms.
 - `references/MODERN-PAGE-DYNAMIC-FILTERING-GAP.md` — Detailed platform gap analysis and architectural rationale.
 - `references/FULL-SETUP-GUIDE.md` — 8-step build, package, upload, and deployment runbook.
-- `references/SPFX-MASTER-DETAIL-SKILL-PROPOSAL.md` — Original skill extraction specification.
+
+## Acknowledgements
+
+Architectural patterns, PnPjs v4 singleton designs, and self-healing migration resilience featured in this plugin incorporate learnings and enterprise patterns contributed by **NTT DATA** during the BC Public Service (BCPS) CrownNet SharePoint modernization initiative.

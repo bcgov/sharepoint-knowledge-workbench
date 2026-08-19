@@ -4,6 +4,7 @@
   "description": "SPFx solution scaffolding, Master-Detail component templating, Heft/Webpack build packaging, and App Catalog deployment helpers.",
   "author": "SharePoint Knowledge Workbench",
   "skills": [
+    "scaffold-spfx-react-app",
     "scaffold-spfx-master-detail",
     "scaffold-spfx-webpart",
     "package-spfx-solution",

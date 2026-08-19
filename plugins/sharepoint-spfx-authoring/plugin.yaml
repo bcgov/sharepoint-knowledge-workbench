@@ -8,6 +8,7 @@ platforms:
   - macos
   - windows
 skills:
+  - sharepoint-scaffold-spfx-react-app
   - sharepoint-deploy-spfx-solution
   - sharepoint-package-spfx-solution
   - sharepoint-request-site-collection-app-catalog
