@@ -7,8 +7,8 @@ Tests for scripts/chunking.py (Task 8): reconciling a CONFIRMED plan's
 against a CLEANED document's actual heading structure, then slicing the
 cleaned markdown into per-chunk content using the reconciled positions.
 
-Fixture heading names are invented placeholders (e.g. "Section Alpha",
-"Widget Setup") -- no real CEIS manual section names appear here.
+Fixture heading names are synthetic placeholders (e.g. "Section Alpha",
+"Widget Setup").
 """
 
 import pytest

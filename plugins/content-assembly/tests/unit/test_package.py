@@ -10,9 +10,8 @@ Uses fabricated `StructuralAnchor` / `chunking.ChunkSlice` /
 `chunking.SlicedDocument` objects directly rather than real pandoc/docx
 input, since package.py's contract is "already-sliced chunk content in" ->
 "canonical package on disk out" and does not itself invoke pandoc or the
-cleanup pipeline. Fixture heading/product names are invented placeholders
-(e.g. "Widget Setup", "Gadget Alpha") — no real CEIS manual content appears
-here.
+cleanup pipeline. Fixture heading/product names are synthetic placeholders (e.g.
+"Widget Setup", "Gadget Alpha").
 """
 
 import json
@@ -306,16 +305,10 @@ def test_url_encoded_and_space_containing_media_refs(tmp_path):
 
 
 def test_alt_text_with_escaped_brackets_still_recognized_as_media_ref(tmp_path):
-    """Regression test: a real CEIS run found that alt text containing a
-    markdown-escaped `]` (e.g. from Word content like "[Order Terminating
-    a Protection Order]", which pandoc escapes as `\\[...\\]`) caused the
-    naive `[^\\]]*` alt-text exclusion class to stop matching at that
-    literal `]` byte, so the whole image reference was never recognized,
-    never copied into media/, and never rewritten -- silently leaving a
-    raw extraction-directory path in promoted canonical content with no
-    validator catching it (content-loss checks still passed because the
-    text itself was never deleted, only mis-parsed as a media reference).
-    """
+    """Regression test: alt text containing a markdown-escaped `]`
+    (e.g. from Word captions with brackets which pandoc escapes as `\\[...\\]`)
+    must not cause the alt-text regex class to stop matching early. The whole
+    image reference must be recognized, copied into media/, and rewritten."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"

@@ -35,7 +35,7 @@ def make_manifest_dict():
         "schema_version": "1.0",
         "generator": {"plugin": "structured-content-assembly", "plugin_version": "0.1.0"},
         "source": {
-            "path": "sourcedocuments/CEIS MANUAL - working version.docx",
+            "path": "sourcedocuments/sample-manual.docx",
             "sha256": "a" * 64,
         },
         "plan_id": "sha256:" + "0" * 64,

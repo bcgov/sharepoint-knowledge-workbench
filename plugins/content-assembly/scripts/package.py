@@ -80,12 +80,9 @@ _LEGACY_MEDIA_EXTENSIONS = {".emf", ".wmf"}
 # (possibly URL-encoded) reference exactly as written in the source text.
 # Alt text is matched with `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*`:
 # alt text containing a markdown-escaped `]` (pandoc emits `\]` for a
-# literal `]` byte, e.g. captions quoting "[Order Terminating a Protection
-# Order]") otherwise terminates the character class early, so the image
-# reference is never recognized at all -- never copied, never rewritten,
-# and invisible to every downstream validator (a real defect found running
-# the CEIS pilot; content-loss checks stayed green because the raw text
-# survived untouched, just never parsed as a media reference).
+# literal `]` byte, e.g. captions quoting bracketed text) otherwise terminates
+# the character class early, so the image reference is never recognized at all
+# -- never copied, never rewritten, and invisible to every downstream validator.
 _IMAGE_REF = re.compile(r"(!\[(?:[^\]\\]|\\.)*\]\()([^)]+)(\))")
 
 

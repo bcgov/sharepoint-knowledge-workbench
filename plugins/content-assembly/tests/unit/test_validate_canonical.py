@@ -8,8 +8,8 @@ Tests for scripts/validate_canonical.py -- the canonical-package validator
 required detections in spec Section 9 / the Task 10 brief, asserting the
 resulting `ValidationReport` status and issue codes.
 
-Fixture heading/product names are invented placeholders (e.g. "Widget
-Setup", "Gadget Alpha") -- no real CEIS manual content appears here.
+Fixture heading/product names are synthetic placeholders (e.g. "Widget
+Setup", "Gadget Alpha").
 """
 
 import json
