@@ -537,7 +537,7 @@ Content should not be considered safe for AI use merely because SharePoint can s
 
 ## 13. Proposed Pilot Validation
 
-After the CEIS structured-content pilot is accepted, test a bounded SharePoint Markdown pilot.
+After the structured-content pilot is accepted, test a bounded SharePoint Markdown pilot.
 
 ### Pilot Scope
 

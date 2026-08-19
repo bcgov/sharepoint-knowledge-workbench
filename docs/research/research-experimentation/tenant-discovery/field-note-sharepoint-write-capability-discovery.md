@@ -1,13 +1,13 @@
 # Phase 3.0 Write-Exploration Findings — Agent/Skill/Template Capability Discovery
 
 Log of hands-on, authorized capability discovery performed directly on the BC Gov dev site
-(`AG-CSB-INTRANET-DEV`), moving beyond the read-only `phase-3-0-tenant-discovery.ps1` script into
+(`TargetSite-Dev`), moving beyond the read-only `phase-3-0-tenant-discovery.ps1` script into
 staged, reversible write actions. Site owner (user) explicitly authorized this as an active
 capability-discovery exercise. All artifacts below are labeled `TEST-DO-NOT-USE-*` and are
 reversible/removable per the staged-write protocol
 (`docs/vision/master-initiative-plan-workstreams-and-phases.md`, Subphase 3.0.2).
 
-**App registration constraint in effect throughout:** `ag.csb.cmat.interactive` is intentionally
+**App registration constraint in effect throughout:** `app.interactive` is intentionally
 manage-only (no permission-management rights). Findings below reflect what this specific
 delegated-permission profile can do, not a blanket "any SharePoint account" claim.
 
@@ -21,7 +21,7 @@ sanitized, committable summary.
 
 **Setup:** a document library and a `.agent` file were created on a real BC Gov dev SharePoint
 site, both entirely via PnP PowerShell (no Copilot UI wizard). Real content was then added: a
-small synthetic test file with a planted secret keyword, and later the **actual real CEIS manual
+small synthetic test file with a planted secret keyword, and later the **actual real source manual
 rendered output** (25 of 26 topic pages + 111 images from the `docx-to-content` plugin's Phase 1
 pilot deliverable). Eight custom `SKILL.md` skill variants were authored and uploaded to
 `AgentAssets/Skills/` to probe format-compliance and capability boundaries, then tested live
@@ -46,7 +46,7 @@ through the agent's chat pane in the browser.
    topic files, plus surfaces contextual Copilot suggestion chips automatically. This resolves a
    previously-flagged manual-only verification item from the read-only discovery script.
 5. **Multi-document synthesis across real manual content is high quality**: asked to relate two
-   real CEIS topics (warrants, protection orders), the agent correctly identified 3 relevant
+   real source manual topics (warrants, protection orders), the agent correctly identified 3 relevant
    source files, synthesized an accurate, domain-specific answer (correct form names/codes),
    cited every claim, and explicitly avoided overclaiming a causal relationship the source
    material didn't support.
@@ -188,7 +188,7 @@ plausible field name as evidence — only a planted high-entropy token proves li
 (this is exactly the failure mode our v4 test already exposed once).
 
 **Priority 5 — embedded media and link fidelity.** Open real topic pages exercising the actual
-CEIS profile: image-heavy topic, nested relative image path, spaces/special characters in
+source manual profile: image-heavy topic, nested relative image path, spaces/special characters in
 filenames, table-heavy topic, deep heading hierarchy, cross-topic relative link, broken-image
 negative control, missing-target negative control, image alt text, duplicate image name in
 different folders. Check separately: browser viewer rendering, browser editor/split rendering,
@@ -259,7 +259,7 @@ from a separate Microsoft documentation source, not from the truncated review.
 **Priority 11 — Autofill authority testing (added 2026-07-30, from a GPT-5.6 summary of the
 YouTube video "I Tested the SharePoint Knowledge Agent: Here's What It Can Do," see §19).**
 Add one low-risk, explicitly AI-maintained metadata column to the test library, run SharePoint's
-native Autofill against several real CEIS topics, change one topic and observe whether Autofill
+native Autofill against several real source manual topics, change one topic and observe whether Autofill
 updates its value, and confirm Autofill never alters deterministic package fields (`TopicID`,
 `ChunkID`, `PackageIdentity`, `TopicContentSHA256`, `PublicationOrder`). Test across Draft/
 Published/Retired items and under two different permission identities; record whether the
@@ -327,7 +327,7 @@ This is now captured as **Priority 11** in the backlog above.
 
 **Environment:** macOS, PowerShell 7.7.0-preview.3 (`pwsh`, installed via
 `brew install --cask powershell` → resolves to `powershell@preview`), `PnP.PowerShell` module
-`3.3.0`. App registration `ag.csb.cmat.interactive` — intentionally manage-only (no
+`3.3.0`. App registration `app.interactive` — intentionally manage-only (no
 permission-management rights); confirmed this does NOT block list/library/field/file creation,
 only permission/role-assignment reads and tenant-admin-tier calls.
 
@@ -353,7 +353,7 @@ server-relative URL diverge — don't assume they match).
 Resolve-PnPFolder -SiteRelativePath 'AgentAssets/Skills/my-skill-name'   # creates folder if absent
 Add-PnPFile -Path <local-file> -Folder 'AgentAssets/Skills/my-skill-name' -NewFileName 'SKILL.md'
 ```
-For recursive folder upload (used for the 348-file CEIS manual output): `Get-ChildItem -Recurse
+For recursive folder upload (used for the 348-file source manual output): `Get-ChildItem -Recurse
 -File`, then loop calling `Resolve-PnPFolder` per subfolder + `Add-PnPFile` per file, preserving
 relative paths manually (no built-in "upload whole folder" cmdlet in PnP.PowerShell for this).
 
@@ -466,7 +466,7 @@ binary format. Structure (fields observed, values redacted/genericized where ten
           "items_by_sharepoint_ids": [],
           "items_by_url": [
             {
-              "url": "https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV/TESTDONOTUSEAgentPilot",
+              "url": "https://contoso.sharepoint.com/sites/TargetSite-Dev/TESTDONOTUSEAgentPilot",
               "name": "TEST-DO-NOT-USE-Agent-Pilot",
               "site_id": "<guid>",
               "web_id": "<guid>",
@@ -491,7 +491,7 @@ Notable fields:
   points at a specific library/folder by `site_id`/`web_id`/`list_id` + URL, not just a URL string.
 - `behavior_overrides.special_instructions.discourage_model_knowledge` — a real, present flag
   controlling whether the agent leans on general model knowledge vs. only grounded content. Useful
-  for future CEIS-manual-grounded agent design (we'd want this `true` to force citation-grounded
+  for future SampleManual-manual-grounded agent design (we'd want this `true` to force citation-grounded
   answers).
 - `icon` is an embedded base64 PNG data URI — cosmetic, not required for function (omitted in our
   own test file below with no apparent issue at upload time, though UI *rendering* correctness
@@ -588,7 +588,7 @@ existing example) has NOT been tested yet — next step.
   delimiters we specified. Do not rely on `SKILL.md` output-format sections for byte-exact
   structured output (e.g. machine-parseable text) — they bias formatting, they don't guarantee it.
   This is directly relevant to any future plan to have a SharePoint agent produce
-  strictly-structured output (e.g. JSON, a fixed report schema) from CEIS-manual content: expect
+  strictly-structured output (e.g. JSON, a fixed report schema) from SampleManual-manual content: expect
   to need downstream validation/post-processing rather than trusting exact compliance.
 
 ## 7. Format-compliance A/B test — four variants compared
@@ -663,7 +663,7 @@ skill can perform a genuine **write** action.
     custom agent), a different licensing tier, or an update since that original field test. This
     discrepancy is worth a follow-up: retest the exact same write-action request against the
     site's default/ready-made Copilot experience (not a custom `.agent`), if accessible.
-  - Any real write-automation need (e.g., logging review items from CEIS-manual content) should
+  - Any real write-automation need (e.g., logging review items from SampleManual-manual content) should
     NOT be designed around "the SharePoint agent does the write" — it should route through PnP
     PowerShell/Graph/Power Automate (systems with genuine write access), with the SharePoint
     agent's role limited to drafting/preparing content for a human or automated process to then
@@ -718,7 +718,7 @@ graph as an interactive image or SVG in this chat."*
 - **Conclusion:** the Copilot-in-SharePoint custom-agent chat pane is a **text-only output
   surface** — no image/SVG/diagram rendering capability, regardless of skill or prompt wording.
   This is directly relevant to the `docx-to-content` plugin's rendered Markdown output (which
-  includes real images/diagrams for the CEIS manual) — a SharePoint agent grounded on that
+  includes real images/diagrams for the source manual) — a SharePoint agent grounded on that
   content can *describe* diagrams or *generate* Mermaid syntax on request, but cannot display the
   manual's actual images/diagrams as visuals within its own chat responses. Any image content
   the user needs to see must come from opening the source file directly, not from the agent
@@ -752,14 +752,14 @@ out-of-scope question:
 
 The original read-only discovery script's `ManualStepsNeeded` explicitly flagged Stage 3.0.2.4
 ("native Markdown rendering: this script cannot observe rendered output... manually upload one
-sample rendered CEIS topic... and record whether it renders usably") as requiring manual,
+sample rendered SampleManual topic... and record whether it renders usably") as requiring manual,
 non-automatable verification. That verification is now done:
 
-- Uploaded the **real CEIS manual rendered output** (`runs/ceis-manual-v2/render/rendered-output/`,
+- Uploaded the **real source manual rendered output** (`runs/sample-manual-v2/render/rendered-output/`,
   348 files / ~83MB, including `pages/` and `media/` subfolders — the actual Phase 1 pilot
   deliverable, not synthetic test content) into the test library via a recursive
   `Get-ChildItem` + `Add-PnPFile` loop that preserves the source folder structure
-  (`ceis-manual-full/index.md`, `ceis-manual-full/pages/*.md`, `ceis-manual-full/media/*`).
+  (`sample-manual-full/index.md`, `sample-manual-full/pages/*.md`, `sample-manual-full/media/*`).
 - Opening `index.md` directly in the browser renders it with SharePoint's native split-pane
   Markdown viewer: the `# Index` H1 heading renders correctly, and every relative Markdown link
   (e.g. `[LOCATE A FILE](pages/locate-a-file--82c06d21.md)`) renders as a real, clickable
@@ -781,17 +781,17 @@ non-automatable verification. That verification is now done:
 
 ## 14. Multi-document cross-topic synthesis — CONFIRMED, high quality (most impressive result yet)
 
-Uploaded the real CEIS manual rendered output (`ceis-manual-full/`, 25 of 26 real topic pages +
-111 media images; `ceis-sample/`, 5 hand-picked topics) and asked, using the §
+Uploaded the real source manual rendered output (`sample-manual-full/`, 25 of 26 real topic pages +
+111 media images; `manual-sample/`, 5 hand-picked topics) and asked, using the §
 `test-do-not-use-manual-cross-topic` skill: *"how do warrants relate to protection orders in the
-CEIS manual?"*
+source manual?"*
 
 - The agent correctly identified **3 relevant source files** and synthesized across all of them,
   structuring its answer as "Topic A: Warrants" / "Topic B: Protection Orders" / "Relationship
   Between the Topics" — organically matching the *intent* of the skill's structure even though
   (consistent with §12's finding) it did not use the skill's literal `**Answer:**` /
   `**Topics used:**` / `**Cross-topic relationship found:**` labels.
-- Content accuracy was high and domain-specific: correctly named real CEIS warrant types
+- Content accuracy was high and domain-specific: correctly named real sample warrant types
   (Warrant of Arrest/WOA, Warrant of Committal/WOC, Warrant for Arrest/WFA) and protection-order
   form types (POR, OTP, NRP, RESO/FMER), correctly referenced the Reports Module's Warrants
   Report and POR Reconciliation Report, and drew an accurate higher-level relationship (both are
@@ -820,7 +820,7 @@ CEIS manual?"*
 
 **Motivation:** this repo's own stated vision is `Content + Template + Renderer = Published
 Output` — a single structured Markdown source rendered to multiple output formats. This probe
-tests whether SharePoint itself can be one such Renderer target, using a real CEIS manual topic
+tests whether SharePoint itself can be one such Renderer target, using a real source manual topic
 (`initiate-a-file--51d1f554.md`, 4 headings, 2 images, 2 tables) converted via `pandoc -t html`.
 
 **Raw `.aspx` file upload (boundary probe, unsupported path) — CONFIRMED BLOCKED.**
@@ -839,7 +839,7 @@ an explicit content-type restriction on that specific library/file-type combinat
 `src` attributes rewritten to absolute URLs after uploading the images to a
 `SiteAssets/TEST-DO-NOT-USE-aspx-experiment/` test folder) → `Set-PnPPage -Publish`. Pushed
 without error and rendered correctly: heading, bullet list, body paragraphs, and the first
-embedded image (the CEIS "Caution" warning-dialog screenshot) all rendered inline exactly as
+embedded image (the sample "Caution" warning-dialog screenshot) all rendered inline exactly as
 authored, confirmed by user screenshot (`aspx-experiment/modern-page-rendered-screenshot.png`).
 
 **Classification: `CONFIRMED_TENANT_OBSERVATION`** — this tested tenant/site/permission profile
@@ -858,7 +858,7 @@ production pipeline would need to decide whether multi-section pages (multiple w
 columns) are worth the added complexity or whether "one Text web part per topic" is sufficient.
 
 **Corroborating research (found this session, from a sibling BC Gov project):**
-`/Users/richardfremmerlid/projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/`
+`/Users/richardfremmerlid/projects/legacy-source-repository/plugins/sharepoint-migration/`
 has two directly relevant, more mature skills for classic-ASPX→modern-SPO conversion:
 `sp-converting-aspx-pages` (an 8-stage inventory→classify→layout→map→manifest→validate→
 preview→report pipeline for migrating real classic SP2016 pages) and `sp-converting-wiki-pages`.
@@ -1042,7 +1042,7 @@ sensitive; only `config.psd1` (live credentials) stays gitignored.
 4. **Can an agent's `.agent` JSON reference a skill and/or template directly** (e.g. an additional
    `capabilities` entry, or a distinct top-level field) — inspect a UI-created agent that has a
    skill/template attached, once one exists, to find that field.
-5. Once these are answered: decide whether a small scriptable "agent factory" (structured CEIS
+5. Once these are answered: decide whether a small scriptable "agent factory" (structured SampleManual
    content → generated `.agent` + skill + template files → batch PnP upload) is worth building as
    a documented, optional future capability — NOT yet authorized/in scope beyond this discovery.
 

@@ -1,7 +1,7 @@
 # Field Note — `AgentAssets` Tenant Inventory (2026-08-05)
 
 **Purpose:** Record a live-tenant inventory of everything currently deployed under
-`AgentAssets` on `AG-CSB-INTRANET-DEV`, attribute each item to a known repository source
+`AgentAssets` on `TargetSite-Dev`, attribute each item to a known repository source
 (or flag it as unattributed), and capture the capability patterns visible in the skills that
 have **no** repository source of truth. This is empirical tenant evidence, not a governance
 decision.
@@ -26,11 +26,11 @@ capability a dedicated skill should own.
 
 | Item | Path | Size (bytes) | Repository attribution |
 |---|---|---|---|
-| `ceis-test-skill` | `AgentAssets/Skills/ceis-test-skill/SKILL.md` | 821 | **Known** — created by `tools/phase-4-native-sharepoint-skills/deployment/scripts/create-test-skill.ps1` (Phase 4.7.5 test skill). |
+| `sample-test-skill` | `AgentAssets/Skills/sample-test-skill/SKILL.md` | 821 | **Known** — created by `tools/phase-4-native-sharepoint-skills/deployment/scripts/create-test-skill.ps1` (Phase 4.7.5 test skill). |
 | `review-manual-topics` | `AgentAssets/Skills/review-manual-topics/SKILL.md` | 9,461 | **Known** — the repository's own deployed skill (see `field-note-agentassets-skill-creation.md`). Verified byte-for-byte identical to `plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md` (only a trailing-newline difference) — **no drift**. |
-| `ceis-procedure-review-template.md` | `AgentAssets/ceis-procedure-review-template.md` | 383 | **Known** — a tracked Phase 4 deliverable template (see `tools/phase-5-sharepoint-knowledge-agent-pilot/backup-skills-and-templates.ps1`'s own docstring, which explicitly lists it as "real Phase 4 deliverables, explicitly NOT in scope for any deletion"). |
-| `build-ceis-module-test` | `AgentAssets/Skills/build-ceis-module-test/SKILL.md` | 3,949 | **Unattributed.** No match anywhere in this repository's tracked source, docs, or tools for this skill name or its content. Not created by any script in this repo. |
-| `ceis-workflow-diagram` | `AgentAssets/Skills/ceis-workflow-diagram/SKILL.md` | 3,779 | **Unattributed.** Same as above — no repository source. |
+| `sample-procedure-review-template.md` | `AgentAssets/sample-procedure-review-template.md` | 383 | **Known** — a tracked Phase 4 deliverable template (see `tools/phase-5-sharepoint-knowledge-agent-pilot/backup-skills-and-templates.ps1`'s own docstring, which explicitly lists it as "real Phase 4 deliverables, explicitly NOT in scope for any deletion"). |
+| `build-sample-module-test` | `AgentAssets/Skills/build-sample-module-test/SKILL.md` | 3,949 | **Unattributed.** No match anywhere in this repository's tracked source, docs, or tools for this skill name or its content. Not created by any script in this repo. |
+| `sample-workflow-diagram` | `AgentAssets/Skills/sample-workflow-diagram/SKILL.md` | 3,779 | **Unattributed.** Same as above — no repository source. |
 | `content-review` | `AgentAssets/Skills/content-review/SKILL.md` | 11,748 | **Unattributed.** Same as above. (Repo docs use the generic phrase "content review"/"prepare-content-review" as a *proposed capability name* in design docs — that is not the source of this deployed skill's actual content.) |
 
 Confirmed via `git grep` across all tracked files (excluding the gitignored download folder)
@@ -61,19 +61,19 @@ functioning native SharePoint skills on the pilot tenant. Read for their own cap
 - This is the richest read+write interactive workflow found across every skill (repo-authored
   or not) reviewed in this plugin so far.
 
-### `build-ceis-module-test` (3.9 KB)
+### `build-sample-module-test` (3.9 KB)
 
-- Generates a Markdown **quiz/assessment** (default 10 questions, mixed format) from CEIS
+- Generates a Markdown **quiz/assessment** (default 10 questions, mixed format) from SampleManual
   module content, with a required answer key + rationale + **source citation per question**.
 - Explicit anti-hallucination guardrails: refuses to invent facts/policy/steps not present in
   retrieved source content; marks ambiguous questions "Needs human review" instead of guessing.
 - A capability category (content-derived assessment generation) not present in any
   repository-authored skill reviewed to date.
 
-### `ceis-workflow-diagram` (3.8 KB)
+### `sample-workflow-diagram` (3.8 KB)
 
-- Converts CEIS procedure text/pages into a **Mermaid flowchart** embedded in a new `.md` file,
-  written to a fixed destination (`CEISPilotKnowledgeMarkdown/diagrams/`), with a defined
+- Converts SampleManual procedure text/pages into a **Mermaid flowchart** embedded in a new `.md` file,
+  written to a fixed destination (`TargetPilotKnowledgeMarkdown/diagrams/`), with a defined
   filename convention (kebab-case + `-workflow-diagram.md` suffix, collision-avoidance
   suffixing).
 - Includes an explicit "Assumptions or gaps" section when a step is unclear, rather than
@@ -113,18 +113,18 @@ No skill under `plugins/sharepoint-agents-and-skills/skills/` currently performs
   did not author (there is nothing to hash-compare against).
 - `backup-sharepoint-agents`/`backup-sharepoint-native-skills` require the caller to already
   know the exact target list — neither discovers new/unattributed items on its own.
-- `review-manual-topics` reviews CEIS **manual content topics**, not skill/agent definitions.
+- `review-manual-topics` reviews SampleManual **manual content topics**, not skill/agent definitions.
 
 Three unattributed, functioning, write-capable native skills existing on a shared pilot tenant
 with no repository record, no test coverage, and no governance review is itself a real finding
-— not just a documentation gap. Whoever authored `content-review`, `build-ceis-module-test`,
-and `ceis-workflow-diagram` (and when) is currently unknown from this repository's evidence
+— not just a documentation gap. Whoever authored `content-review`, `build-sample-module-test`,
+and `sample-workflow-diagram` (and when) is currently unknown from this repository's evidence
 alone; the tenant's own file version history would be the next place to check.
 
 ## 4. Evidence
 
 ```text
-Site: https://bcgov.sharepoint.com/sites/AG-CSB-intRANET-DEV
+Site: https://contoso.sharepoint.com/sites/TargetSite-Dev
 Date tested: 2026-08-05
 AgentAssets library: exists, ItemCount 12
 Skills/ subfolder: exists, accessible

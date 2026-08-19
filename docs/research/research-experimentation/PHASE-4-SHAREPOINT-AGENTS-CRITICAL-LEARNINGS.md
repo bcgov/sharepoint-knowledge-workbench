@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-31  
 **Phase:** Phase 4 - Native SharePoint Skills Pilot  
-**Sandbox:** https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV (SOLE AUTHORIZED)  
+**Sandbox:** https://contoso.sharepoint.com/sites/TargetSite-Dev (SOLE AUTHORIZED)  
 **Status:** Superseded by this document's own Part 12 (below) — Task 8 is COMPLETE, Tasks 0-11 are COMPLETE, and Phase 4 has since closed entirely (Phases 5, 6, and 7 have since executed per `start-here.md`). This header was left unrevised after Part 11-12 were added 2026-08-01; corrected 2026-08 during the information-architecture reorganization. Custom-agent research remains preserved as historical record.
 
 ---
@@ -37,8 +37,8 @@ Phase 4 discovered and resolved a critical issue with SharePoint Copilot **agent
 
 ```json
 {
-  "url": "https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV/SitePages/CEISPilotKnowledgePages",
-  "name": "CEISPilotKnowledgePages",
+  "url": "https://contoso.sharepoint.com/sites/TargetSite-Dev/SitePages/TargetPilotKnowledgePages",
+  "name": "TargetPilotKnowledgePages",
   "site_id": "19801e68-6fba-44c7-89c7-923b85baf943",
   "web_id": "fbff48d7-76dd-4f69-8b03-9f8ed45f07cf",
   "list_id": "1a4a1eda-a2fe-4c43-8d48-4a841f07b253",
@@ -48,7 +48,7 @@ Phase 4 discovered and resolved a critical issue with SharePoint Copilot **agent
 ```
 
 **Key Corrections:**
-1. URL MUST include `/SitePages/` path segment (not `/CEISPilotKnowledgePages` alone)
+1. URL MUST include `/SitePages/` path segment (not `/TargetPilotKnowledgePages` alone)
 2. list_id identifies the SitePages library (not the document library)
 3. unique_id specifies the exact folder (not zeros)
 4. site_id and web_id must be non-empty
@@ -66,7 +66,7 @@ The AgentAssets document library was successfully created and verified in Phase 
 **Expected Structure:**
 
 ```text
-SharePoint site (AG-CSB-INTRANET-DEV)
+SharePoint site (TargetSite-Dev)
 └── AgentAssets (document library, no space in name)
     └── Skills (folder)
         └── <skill-name> (subfolder)
@@ -98,13 +98,13 @@ All scripts preserved for Phase 5 and ongoing research:
 | Script | Purpose | Status |
 |--------|---------|--------|
 | `create-aspx-only-agent-test.ps1` | Diagnostic agent with ASPX-only source | PHASE_5_CANDIDATE |
-| `create-corrected-agent.ps1` | CEIS agent with verified resource IDs | PHASE_5_CANDIDATE |
-| `create-test-agent.ps1` | Test CEIS Pilot Knowledge Agent | PHASE_5_CANDIDATE |
+| `create-corrected-agent.ps1` | SampleManual agent with verified resource IDs | PHASE_5_CANDIDATE |
+| `create-test-agent.ps1` | Test SampleManual Pilot Knowledge Agent | PHASE_5_CANDIDATE |
 | `create-updated-agent-sitepages.ps1` | Agent targeting SitePages subfolder | PHASE_5_CANDIDATE |
 | `provision-agentassets.ps1` | AgentAssets library provisioning | PHASE_4_SUPPORTING_RESEARCH |
 | `verify-agentassets-artifact.ps1` | Artifact verification | PHASE_4_SUPPORTING_RESEARCH |
 | `verify-agentassets-ready.ps1` | Readiness validation | PHASE_4_SUPPORTING_RESEARCH |
-| `find-ceis-location.ps1` | CEIS folder discovery | SHARED_SHAREPOINT_RESEARCH |
+| `find-sample-location.ps1` | SampleManual folder discovery | SHARED_SHAREPOINT_RESEARCH |
 | `create-test-skill.ps1` | Skill provisioning test | REQUIRES_RECONCILIATION |
 
 **Disposition:** All preserved. None deleted.
@@ -112,8 +112,8 @@ All scripts preserved for Phase 5 and ongoing research:
 ### Agent Retrieval Results
 
 **CONFIRMED_TENANT_OBSERVATION:**
-- CEIS-ASPX-Only-Test agent successfully retrieved ASPX procedure content
-- Query: "What procedures are documented in CEIS?"
+- Sample-ASPX-Only-Test agent successfully retrieved ASPX procedure content
+- Query: "What procedures are documented in SampleManual?"
 - Response: Structured list by functional area (File Creation, File Locate, File Details, File Access, etc.)
 - No image fallback invoked
 - Direct ASPX page citations present
@@ -133,8 +133,8 @@ All scripts preserved for Phase 5 and ongoing research:
 - Status: **Unknown whether deployed**
 
 **Repository-Authored Skill (Phase 4 Task 8):**
-- Purpose: Semantic editorial review of CEIS topic pages
-- Scope: Exactly one CEIS topic
+- Purpose: Semantic editorial review of SampleManual topic pages
+- Scope: Exactly one SampleManual topic
 - Actions: **Read-only** (no writes, no list creation)
 - Authored in: `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md`
 - Repository SHA-256: `9586379f777d2064004e747b2d73e49a3d16680efd0dc3e2c67d5d3c5e71ce2c`
