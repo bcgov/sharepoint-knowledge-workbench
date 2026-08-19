@@ -2358,6 +2358,12 @@
       "dst": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
       "description": "sharepoint-provisioning-execution's shared copy of the connection helper (reused from workbench-setup)"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/schema_scaffold.py",
+      "dst": "plugins/sharepoint-discovery/skills/scaffold-schema-definition/scripts/schema_scaffold.py",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

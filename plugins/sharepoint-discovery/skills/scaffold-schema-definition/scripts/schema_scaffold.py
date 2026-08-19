@@ -1,0 +1,1 @@
+../../../scripts/schema_scaffold.py
