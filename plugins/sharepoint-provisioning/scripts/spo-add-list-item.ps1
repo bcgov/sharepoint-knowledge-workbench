@@ -120,8 +120,9 @@ if ($Execute) {
             if ($action.values) { foreach ($prop in $action.values.PSObject.Properties) { $valuesHash[$prop.Name] = $prop.Value } }
             Add-PnPListItem -List $action.list_title -Values $valuesHash -ErrorAction Stop | Out-Null
             $updated += [ordered]@{ list_title = $action.list_title }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ list_title = $action.list_title; error = $_.Exception.Message }
         }
     }
 
@@ -142,18 +143,16 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $listTitle = if ($action.PSObject.Properties.Name -contains 'list_title') { $action.list_title } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            list_title = $listTitle
+            action     = "Add-PnPListItem -List `"$listTitle`""
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "add-spo-list-items"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        add_count           = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -165,4 +164,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-

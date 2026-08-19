@@ -118,8 +118,9 @@ if ($Execute) {
         try {
             Add-PnPNavigationNode -Title $action.title -Url $action.url -Location $action.location -ErrorAction Stop | Out-Null
             $updated += [ordered]@{ title = $action.title }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ title = $action.title; error = $_.Exception.Message }
         }
     }
 
@@ -140,18 +141,20 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $title = if ($action.PSObject.Properties.Name -contains 'title') { $action.title } else { $null }
+        $url = if ($action.PSObject.Properties.Name -contains 'url') { $action.url } else { $null }
+        $location = if ($action.PSObject.Properties.Name -contains 'location') { $action.location } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            title    = $title
+            url      = $url
+            location = $location
+            action   = "Add-PnPNavigationNode -Title `"$title`" -Url `"$url`" -Location `"$location`""
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "provision-spo-navigation"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        provision_count     = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -163,4 +166,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-

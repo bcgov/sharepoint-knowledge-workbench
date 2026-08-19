@@ -118,8 +118,10 @@ if ($Execute) {
         try {
             if ($action.list_title) { Request-PnPReIndexList -Identity $action.list_title -ErrorAction Stop | Out-Null } else { Request-PnPReIndexWeb -ErrorAction Stop | Out-Null }
             $updated += [ordered]@{ action = "reindex" }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $target = if ($action.PSObject.Properties.Name -contains 'list_title') { $action.list_title } else { "web" }
+            $failed += [ordered]@{ target = $target; error = $_.Exception.Message }
         }
     }
 
@@ -140,18 +142,16 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $listTitle = if ($action.PSObject.Properties.Name -contains 'list_title') { $action.list_title } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            list_title = $listTitle
+            action     = if ($listTitle) { "Request-PnPReIndexList -Identity `"$listTitle`"" } else { "Request-PnPReIndexWeb" }
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "trigger-spo-reindex"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        reindex_count       = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -163,4 +163,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-

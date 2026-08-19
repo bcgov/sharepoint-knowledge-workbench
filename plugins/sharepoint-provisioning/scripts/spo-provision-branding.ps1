@@ -119,8 +119,9 @@ if ($Execute) {
             if ($action.theme_name) { Set-PnPWebTheme -Theme $action.theme_name -ErrorAction Stop | Out-Null }
             if ($action.logo_path) { Set-PnPSite -LogoFilePath $action.logo_path -ErrorAction Stop | Out-Null }
             $updated += [ordered]@{ action = "branding" }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ theme_name = $action.theme_name; error = $_.Exception.Message }
         }
     }
 
@@ -141,18 +142,16 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $themeName = if ($action.PSObject.Properties.Name -contains 'theme_name') { $action.theme_name } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            theme_name = $themeName
+            action     = "Set-PnPWebTheme -Theme `"$themeName`""
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "provision-spo-branding"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        provision_count     = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -164,4 +163,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-

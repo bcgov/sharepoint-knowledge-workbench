@@ -119,8 +119,9 @@ if ($Execute) {
             $wpParams = @{ Page = $action.page_name; DefaultWebPartType = $action.webpart_type; Section = [int]$action.section; Column = [int]$action.column; ErrorAction = "Stop" }
             Add-PnPPageWebPart @wpParams | Out-Null
             $updated += [ordered]@{ page_name = $action.page_name }
+        }
         catch {
-            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ page_name = $action.page_name; error = $_.Exception.Message }
         }
     }
 
@@ -141,18 +142,17 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
-        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
-        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
+        $pageName = if ($action.PSObject.Properties.Name -contains 'page_name') { $action.page_name } else { $null }
+        $wpType = if ($action.PSObject.Properties.Name -contains 'webpart_type') { $action.webpart_type } else { $null }
         [ordered]@{
-            internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
+            page_name = $pageName
+            action    = "Add-PnPPageWebPart -Page `"$pageName`" -Component `"$wpType`""
         }
     }
     $summary = [ordered]@{
-        operation           = "update-spo-site-columns"
+        operation           = "configure-spo-webparts"
         confirmation_token  = $plan.confirmation_token
-        update_count        = $plan.actions.Count
+        configure_count     = $plan.actions.Count
         site_url            = $SiteUrl
         safety              = [ordered]@{
             tenant_io                      = "none"
@@ -164,4 +164,3 @@ else {
     $summaryJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
 }
-
