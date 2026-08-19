@@ -53,7 +53,7 @@ Output package: `spfx-selectedid-filter\sharepoint\solution\spfx-selectedid-filt
 
 ## 6. Upload / Redeploy Package
 
-1. Go to: `https://<tenant>.sharepoint.com/sites/<site>/AppCatalog/AppCatalog`
+1. Go to: `https://<tenant>.sharepoint.com/sites/<site>/AppCatalog/`
 2. Upload `spfx-selectedid-filter.sppkg`.
 3. Select **Enable app** / **Deploy**.
 
