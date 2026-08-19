@@ -5,6 +5,7 @@
   "author": "SharePoint Knowledge Workbench",
   "skills": [
     "scaffold-spfx-master-detail",
+    "scaffold-spfx-webpart",
     "package-spfx-solution",
     "deploy-spfx-solution",
     "request-site-collection-app-catalog"
