@@ -22,18 +22,30 @@ is the real tenant-facing counterpart for one plan JSON shape:
 | `spo-provision-list.ps1` | `list_provisioning.plan_provisioning` | `New-PnPList` / `Remove-PnPList` |
 | `spo-provision-content-types.ps1` | `content_type_provisioning` | `Add-PnPContentType` / `Add-PnPFieldToContentType` / `Remove-PnPFieldFromContentType` / `Add-PnPContentTypeToList` |
 | `spo-provision-site-columns.ps1` | `field_provisioning` | `Add-PnPField` / `Add-PnPFieldFromXml` |
-| `spo-update-site-column.ps1` | *(new -- no Python planner yet emits this shape)* | `Set-PnPField` |
-| `spo-remove-site-column.ps1` | *(new -- no Python planner yet emits this shape)* | `Remove-PnPField` |
-| `spo-update-content-type.ps1` | *(new -- no Python planner yet emits this shape)* | `Set-PnPContentType` |
-| `spo-remove-content-type.ps1` | *(new -- no Python planner yet emits this shape)* | `Remove-PnPContentType` |
-| `spo-detach-content-type-from-list.ps1` | *(new -- no Python planner yet emits this shape)* | `Remove-PnPContentTypeFromList` |
+| `spo-update-site-column.ps1` | *(custom/manual plan JSON)* | `Set-PnPField` |
+| `spo-remove-site-column.ps1` | *(custom/manual plan JSON)* | `Remove-PnPField` |
+| `spo-update-content-type.ps1` | *(custom/manual plan JSON)* | `Set-PnPContentType` |
+| `spo-remove-content-type.ps1` | *(custom/manual plan JSON)* | `Remove-PnPContentType` |
+| `spo-detach-content-type-from-list.ps1` | *(custom/manual plan JSON)* | `Remove-PnPContentTypeFromList` |
+| `spo-add-list-column.ps1` | *(custom/manual plan JSON)* | `Add-PnPField` (list scoped) |
+| `spo-update-list-column.ps1` | *(custom/manual plan JSON)* | `Set-PnPField` (list scoped) |
+| `spo-remove-list-column.ps1` | *(custom/manual plan JSON)* | `Remove-PnPField` (list scoped) |
+| `spo-provision-list-view.ps1` | *(custom/manual plan JSON)* | `Add-PnPView` |
+| `spo-add-list-item.ps1` | *(custom/manual plan JSON)* | `Add-PnPListItem` |
+| `spo-provision-site.ps1` | *(custom/manual plan JSON)* | `New-PnPSite` / `Set-PnPRegionalSettings` |
+| `spo-provision-branding.ps1` | *(custom/manual plan JSON)* | `Set-PnPWebTheme` / `Set-PnPSite -LogoFilePath` |
+| `spo-manage-hub-site.ps1` | *(custom/manual plan JSON)* | `Register-PnPHubSite` / `Add-PnPHubSiteAssociation` |
+| `spo-create-modern-page.ps1` | *(custom/manual plan JSON)* | `Add-PnPPage` / `Add-PnPPageSection` |
+| `spo-configure-webparts.ps1` | *(custom/manual plan JSON)* | `Add-PnPPageWebPart` |
+| `spo-configure-library-settings.ps1` | *(custom/manual plan JSON)* | `Set-PnPList` (versioning/approval) |
+| `spo-provision-permissions.ps1` | *(custom/manual plan JSON)* | `New-PnPGroup` / `Set-PnPGroupPermissions` / `Add-PnPUserToGroup` |
+| `spo-configure-item-permissions.ps1` | *(custom/manual plan JSON)* | `Set-PnPListItemPermission` |
+| `spo-configure-column-formatting.ps1` | *(custom/manual plan JSON)* | `Set-PnPField -Values CustomFormatter` |
+| `spo-provision-navigation.ps1` | *(custom/manual plan JSON)* | `Add-PnPNavigationNode` |
+| `spo-provision-term-set.ps1` | *(custom/manual plan JSON)* | `New-PnPTermGroup` / `New-PnPTermSet` / `New-PnPTerm` |
+| `spo-trigger-reindex.ps1` | *(custom/manual plan JSON)* | `Request-PnPReIndexWeb` / `Request-PnPReIndexList` |
 
-The five scripts marked "new" have no `sharepoint-provisioning` Python planner
-producing their plan JSON yet -- author the plan JSON by hand (see each
-script's own docstring for the exact shape) until a planner is added. This is
-an honest gap, not a hidden one: `sharepoint-provisioning`'s reconciliation
-modules currently only plan create/delete for lists and create/link/unlink/
-attach for content types and fields, never update or detach.
+These scripts cover the complete spectrum of SharePoint tenant provisioning and configuration operations. Each script validates its specific confirmation token, operates in dry-run mode by default, and requires `-Execute` to execute against live tenant infrastructure.
 
 ## Every script shares the same safety contract
 

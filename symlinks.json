@@ -2364,6 +2364,108 @@
       "dst": "plugins/sharepoint-discovery/skills/scaffold-schema-definition/scripts/schema_scaffold.py",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-add-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-add-list-column.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-add-list-column.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-update-list-column.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-update-list-column.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-remove-list-column.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-remove-list-column.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list-view.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-list-view.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-provision-list-view.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-add-list-item.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-add-list-item.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-add-list-item.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-site.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-site.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-provision-site.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-branding.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-branding.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-provision-branding.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-manage-hub-site.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-manage-hub-site.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-manage-hub-site.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-create-modern-page.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-create-modern-page.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-create-modern-page.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-webparts.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-configure-webparts.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-configure-webparts.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-library-settings.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-configure-library-settings.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-configure-library-settings.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-permissions.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-permissions.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-provision-permissions.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-item-permissions.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-configure-item-permissions.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-configure-item-permissions.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-column-formatting.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-configure-column-formatting.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-configure-column-formatting.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-navigation.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-navigation.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-provision-navigation.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-term-set.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-term-set.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-provision-term-set.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/scripts/spo-trigger-reindex.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-trigger-reindex.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill bundled copy of spo-trigger-reindex.ps1"
     }
   ]
 }
