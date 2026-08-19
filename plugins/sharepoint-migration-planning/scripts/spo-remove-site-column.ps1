@@ -1,0 +1,134 @@
+<#
+.SYNOPSIS
+Real PnP executor for site-column deletion -- Remove-PnPField against a plan
+JSON's `actions` array. Companion to spo-provision-site-columns.ps1
+(create-only) and spo-update-site-column.ps1 (update).
+
+.DESCRIPTION
+Same dry-run-by-default / -Execute + -ConfirmToken / Get-WorkbenchConnectionConfig.ps1
+pattern as every other spo-provision-*.ps1 script in this plugin.
+
+Plan JSON shape:
+
+    {
+      "confirmation_token": "REMOVE-2-abcdef0123456789",
+      "actions": [ { "internal_name": "DeprecatedField" } ]
+    }
+
+.PARAMETER PlanPath
+Path to the plan JSON described above.
+
+.PARAMETER Execute
+Runs the real Remove-PnPField call. Omit this to print a dry-run action
+summary and take no tenant action.
+
+.PARAMETER ConfirmToken
+Must equal REMOVE-SPO-SITE-COLUMNS when -Execute is passed. Refused otherwise.
+
+.PARAMETER SiteUrl
+.PARAMETER ClientId
+.PARAMETER TenantId
+.PARAMETER TenantAdminUrl
+.PARAMETER ConfigPath
+.PARAMETER OutputPath
+Same meaning as spo-update-site-column.ps1.
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$PlanPath,
+
+    [switch]$Execute,
+
+    [string]$ConfirmToken,
+
+    [string]$SiteUrl,
+    [string]$ClientId,
+    [string]$TenantId,
+    [string]$TenantAdminUrl,
+    [string]$ConfigPath,
+
+    [string]$OutputPath
+)
+
+$ErrorActionPreference = "Stop"
+
+if ($ConfigPath) {
+    $helperPath = Join-Path $PSScriptRoot "Get-WorkbenchConnectionConfig.ps1"
+    $config = & $helperPath -ConfigPath $ConfigPath
+    if (-not $SiteUrl) { $SiteUrl = $config.SiteUrl }
+    if (-not $ClientId) { $ClientId = $config.ClientId }
+    if (-not $TenantId) { $TenantId = $config.TenantId }
+    if (-not $TenantAdminUrl) { $TenantAdminUrl = $config.TenantAdminUrl }
+}
+
+if (-not (Test-Path -LiteralPath $PlanPath)) {
+    throw "Plan file not found at '$PlanPath'."
+}
+$plan = Get-Content -LiteralPath $PlanPath -Raw | ConvertFrom-Json
+
+if (-not $plan.actions -or $plan.actions.Count -eq 0) {
+    $emptyResult = [ordered]@{ outcome = "EMPTY"; dry_run = -not $Execute; removed = @(); failed = @() }
+    $emptyJson = $emptyResult | ConvertTo-Json -Depth 8
+    $emptyJson
+    if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $emptyJson -Encoding UTF8 }
+    return
+}
+
+if ($Execute) {
+    if ($ConfirmToken -ne "REMOVE-SPO-SITE-COLUMNS") {
+        throw "-Execute requires -ConfirmToken REMOVE-SPO-SITE-COLUMNS."
+    }
+    if (-not $SiteUrl -or -not $ClientId -or -not $TenantId) {
+        throw "SiteUrl/ClientId/TenantId not resolved. Provide -SiteUrl/-ClientId/-TenantId or a valid -ConfigPath."
+    }
+    if (-not (Get-Command Remove-PnPField -ErrorAction SilentlyContinue)) {
+        throw "PnP.PowerShell with Remove-PnPField is required. Install/import PnP.PowerShell before executing."
+    }
+
+    $connectParameters = @{
+        Url         = $SiteUrl
+        ClientId    = $ClientId
+        Tenant      = $TenantId
+        Interactive = $true
+    }
+    if ($TenantAdminUrl) { $connectParameters["TenantAdminUrl"] = $TenantAdminUrl }
+    Connect-PnPOnline @connectParameters
+
+    $removed = @()
+    $failed = @()
+    foreach ($action in $plan.actions) {
+        try {
+            Remove-PnPField -Identity $action.internal_name -Force -ErrorAction Stop
+            $removed += [ordered]@{ internal_name = $action.internal_name }
+        }
+        catch {
+            $failed += [ordered]@{ internal_name = $action.internal_name; error = $_.Exception.Message }
+        }
+    }
+
+    $outcome = if ($removed.Count -eq 0 -and $failed.Count -gt 0) { "FAILED" }
+        elseif ($failed.Count -gt 0) { "PARTIAL" }
+        else { "OBSERVED" }
+
+    $result = [ordered]@{ outcome = $outcome; dry_run = $false; removed = $removed; failed = $failed }
+    $resultJson = $result | ConvertTo-Json -Depth 8
+    $resultJson
+    if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $resultJson -Encoding UTF8 }
+}
+else {
+    $actionPlans = foreach ($action in $plan.actions) {
+        [ordered]@{ internal_name = $action.internal_name; action = "Remove-PnPField -Identity `"$($action.internal_name)`" -Force" }
+    }
+    $summary = [ordered]@{
+        operation          = "remove-spo-site-columns"
+        confirmation_token = $plan.confirmation_token
+        remove_count       = $plan.actions.Count
+        site_url           = $SiteUrl
+        safety             = [ordered]@{ tenant_io = "none"; execute_requires_confirm_token = "REMOVE-SPO-SITE-COLUMNS" }
+        planned_actions    = $actionPlans
+    }
+    $summaryJson = $summary | ConvertTo-Json -Depth 8
+    $summaryJson
+    if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $summaryJson -Encoding UTF8 }
+}
