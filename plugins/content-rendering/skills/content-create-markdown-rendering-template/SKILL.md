@@ -1,7 +1,7 @@
 ---
 name: content-create-markdown-rendering-template
 plugin: structured-content-rendering
-description: Instantiates a new Markdown rendering (page-structure) template file from this plugin's canonical generic or CEIS-solution starter -- headings, body, and media placeholders, backed by real Phase 1-2 CEIS rendered-output evidence. Not an agent/native-skill instruction template (that is Task 0.7/0.8's separate template system).
+description: Instantiates a new Markdown rendering (page-structure) template file from this plugin's canonical generic or standard-manual starter -- headings, body, and media placeholders, backed by real Phase 1-2 Standard Manual rendered-output evidence. Not an agent/native-skill instruction template (that is Task 0.7/0.8's separate template system).
 allowed-tools: Bash, Read
 examples:
   - "python -c \"import templates; templates.create_rendering_template('generic', 'markdown', 'out/page.template.md')\""
@@ -16,8 +16,8 @@ Use this skill to instantiate a new Markdown *rendering* template file
 placement) for a given profile. Two profiles are currently defined:
 
 - `generic` — the plugin's default page shape.
-- `ceis` — the CEIS-solution variant, structurally confirmed against
-  real rendered evidence at `runs/ceis-manual-v2/render/rendered-output/
+- `standard-manual` — the standard-manual variant, structurally confirmed against
+  real rendered evidence at `runs/standard-manual-manual-v2/render/rendered-output/
   pages/` (a level-2 heading directly followed by body content, no front
   matter).
 
@@ -32,7 +32,7 @@ answer formatting) — the two are never merged.
 from templates import create_rendering_template
 
 template = create_rendering_template(
-    profile="generic",  # or "ceis"
+    profile="generic",  # or "standard-manual"
     fmt="markdown",
     output_path="path/to/new-template.md",
 )

@@ -1,6 +1,6 @@
 # RESULT — AMB-01 (native-sharepoint)
 
-- **Agent/surface**: `CEIS-Pilot-Knowledge-Agent` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`) — confirmed via citations in both raw responses
+- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`) — confirmed via citations in both raw responses
 - **Identity**: `INTENDED_READER`
 - **Date executed**: 2026-08-04 (live session)
 - **Run count**: 2 of 2 (matches case's `run_count`)
@@ -15,9 +15,9 @@ I didn't find an exact topic ID or page named file-standards.
 Closest related topic is DATA CAPTURE STANDARDS:
 
 Topic ID: data-capture-standards--d1d8e601
-Page: /SitePages/CEISPilotKnowledgePages/data-capture-standards--d1d8e601.aspx
+Page: /SitePages/KnowledgePages/data-capture-standards--d1d8e601.aspx
 Key standards found
-Every filed document must be entered in CEIS.
+Every filed document must be entered in Manual.
 Documents must be entered within 24 elapsed clock hours, not business hours.
 Court results must be entered the same business day.
 Filing party must be entered for each document.
@@ -29,10 +29,10 @@ Multiple documents for one appearance should be scheduled together unless appear
 Ambiguity / possible conflicts
 No exact file-standards topic exists, so this review maps it to DATA CAPTURE STANDARDS plus related pages like INITIATE A FILE, FILE DETAILS, and DOCUMENTS/DATA ENTRY.
 "Same business day" vs "24 hours" note: the standards say court results must be entered the same business day, but the following note says 24 hours refers to elapsed clock hours. That note may belong only to document entry, not results.
-Code "Other" wording is unclear: it says use "Other" where there are existing applicable codes, but the next sentence says to contact CEIS Support when no appropriate code exists. This appears internally inconsistent.
+Code "Other" wording is unclear: it says use "Other" where there are existing applicable codes, but the next sentence says to contact Manual Support when no appropriate code exists. This appears internally inconsistent.
 Grounds for Divorce: DOCUMENTS/DATA ENTRY says the field is "not mandatory" but also says grounds "must be entered for all divorce files." That's a rule ambiguity.
 
-Citations: SharePoint / CEIS-Pilot-Knowledge-Agent.agent; SharePoint / DATA CAPTURE STANDARDS +10
+Citations: SharePoint / Knowledge-Assistant.agent; SharePoint / DATA CAPTURE STANDARDS +10
 ```
 
 ## Raw response — Run 2
@@ -52,7 +52,7 @@ DOCUMENT PRODUCTION
 APPEARANCES
 PARTIES
 Core standards found
-All documents filed per court file must be entered in CEIS.
+All documents filed per court file must be entered in Manual.
 Documents must be entered within 24 elapsed hours.
 Court results must be entered the same business day.
 Filing party must be entered for each document.
@@ -60,14 +60,14 @@ Date filed must match the SCSS stamp for documents filed through Supreme Court S
 Issues must be entered when a document contains an issue.
 The Act must be entered on initiating documents when known.
 One appearance with multiple documents should schedule documents together unless the appearance reason differs.
-Produced forms must be entered in CEIS; if a CEIS form exists, it must be produced from CEIS.
+Produced forms must be entered in Manual; if a Manual form exists, it must be produced from Manual.
 Ambiguities / conflicts flagged
 No exact file-standards topic exists. The likely intended topic is DATA CAPTURE STANDARDS, but several file-related pages also contain standards.
 General Access exceptions conflict: FILE ACCESS includes Supreme Probate as an exception to general access; FILE DETAILS lists Supreme Family Law, Provincial Family, and Supreme Adoption, but omits Supreme Probate.
 "Other" code wording is ambiguous: DATA CAPTURE STANDARDS says use "Other" where there are existing applicable codes, but the surrounding text implies it should be used when no appropriate code exists.
 Recommendation: treat DATA CAPTURE STANDARDS as the primary topic, but resolve the access-level and "Other" code wording before relying on it as authoritative.
 
-Citations: SharePoint / CEIS-Pilot-Knowledge-Agent.agent; SharePoint / DATA CAPTURE STANDARDS +10
+Citations: SharePoint / Knowledge-Assistant.agent; SharePoint / DATA CAPTURE STANDARDS +10
 ```
 
 ## Grading

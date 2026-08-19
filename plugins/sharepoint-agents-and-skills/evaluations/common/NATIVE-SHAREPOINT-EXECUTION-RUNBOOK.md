@@ -31,7 +31,7 @@ first rather than running against a silently-drifted case.
    `plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md` before running —
    if they differ, the live results won't correspond to this repo's current contract).
 3. A Copilot agent (or the ready-made SharePoint chat surface) with the skill enabled and access
-   to `CEISPilotKnowledgePages/`.
+   to `KnowledgePages/`.
 4. Test identities available matching each case's `test_identity_class` (`OWNER_EDITOR`,
    `INTENDED_READER`, `RESTRICTED_READER`, `NO_SOURCE_ACCESS`) — PERM-01 through PERM-06 each
    require a different one; running all 6 under one identity does not test what the cases claim

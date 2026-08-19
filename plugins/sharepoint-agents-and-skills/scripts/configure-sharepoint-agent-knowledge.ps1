@@ -9,7 +9,7 @@
 
     CORRECTION (2026-08-03): the Phase 6 plan's Task 0.6 named task-9-retrieve-topic-
     metadata.ps1 as this capability's source. Direct reading of that script found it is a
-    CEIS-hardcoded diagnostic that inspects topic ITEM metadata field values (TopicID,
+    diagnostic that inspects topic ITEM metadata field values (TopicID,
     PublicationOrder, TopicContentSHA256, Status, ReviewDate, TransitionAction,
     TransitionTarget) -- it has nothing to do with an agent's knowledge-source bindings. That
     script's capability is unrelated and was not extracted from here; it remains research-only

@@ -10,7 +10,7 @@ description: Authors a validated SharePoint Copilot agent (.agent JSON) source f
 Produces a locally validated `.agent` JSON source file per the reverse-engineered schema
 (`schemaVersion 0.2.0`, `customCopilotConfig.gptDefinition`) — new build, parameterized per the
 design doc's Section 4 script parameter matrix, not extracted verbatim from any of the 5
-experimental `create-*-agent.ps1`/`create-md-comparison-agent.ps1` scripts (all CEIS-hardcoded,
+experimental `create-*-agent.ps1`/`create-md-comparison-agent.ps1` scripts (
 kept in `tools/` as research/evidence of the schema pattern this script implements generically).
 
 ## Input boundaries
@@ -20,7 +20,7 @@ kept in `tools/` as research/evidence of the schema pattern this script implemen
 - `-KnowledgeSourcePaths` (required, at least one URL) — no default; replaces the research
   scripts' hardcoded `items_by_url` blocks.
 - `-AgentTemplatePath` (optional) — clone an existing agent's structure, e.g. the confirmed-
-  working `CEIS-ASPX-Only-Test` pattern from Phase 5 Task 4/6.
+  standard template pattern.
 - `-OutputPath` (required); `-Overwrite` required to replace an existing file.
 
 ## Prohibited scope

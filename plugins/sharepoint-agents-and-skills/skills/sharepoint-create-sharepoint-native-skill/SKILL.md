@@ -26,7 +26,7 @@ never connects to a tenant.
 - Performs zero tenant I/O — no `Connect-PnPOnline` call anywhere in this script.
 - Does not deploy the produced package — use `deploy-sharepoint-native-skill` separately, as a
   distinct, explicitly invoked step.
-- Does not use `create-test-skill.ps1` (the historical CEIS-hardcoded disposable test fixture) as
+- Does not use `create-test-skill.ps1`  as
   a runtime dependency — that script's content was reviewed as experimental evidence only, not
   extracted from.
 

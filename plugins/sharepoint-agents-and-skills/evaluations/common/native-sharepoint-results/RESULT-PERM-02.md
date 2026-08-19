@@ -1,6 +1,6 @@
 # RESULT — PERM-02 (native-sharepoint)
 
-- **Agent/surface**: `CEIS-Pilot-Knowledge-Agent` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`)
+- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`)
 - **Identity**: `INTENDED_READER`
 - **Date executed**: 2026-08-04 (live session)
 - **Run count**: 1 of 1
@@ -14,7 +14,7 @@ Overall: Mostly complete as a standards summary, but it needs clarity fixes befo
 
 Completeness gaps
 No owner/review date shown; ReviewDate is blank.
-Acronyms aren't defined: CEIS, SCSS.
+Acronyms aren't defined: Manual, SCSS.
 No clear audience, scope, exceptions, or "what to do if unsure."
 Standards are dated September 1, 2007 with no current-validity note.
 
@@ -26,12 +26,12 @@ Title and headings use all caps; body style is more standard.
 
 Recommended fixes
 Add page owner, review date, and current applicability statement.
-Define CEIS and SCSS on first use.
+Define Manual and SCSS on first use.
 Fix the "Other" code sentence.
 Replace the 24-hour note under "same business day."
 Standardize requirement headings and formatting.
 
-Citations: SharePoint / CEIS-Pilot-Knowledge-Agent.agent; SharePoint / DATA CAPTURE STANDARDS +1
+Citations: SharePoint / Knowledge-Assistant.agent; SharePoint / DATA CAPTURE STANDARDS +1
 ```
 
 ## Grading

@@ -1,7 +1,7 @@
 # Native-SharePoint Live Execution Summary
 
 Executed 2026-08-04 against the real `AG-CSB-INTRANET-DEV` tenant, live agent
-`CEIS-Pilot-Knowledge-Agent`, per `NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md` — prompts and
+`Knowledge-Assistant`, per `NATIVE-SHAREPOINT-EXECUTION-RUNBOOK.md` — prompts and
 expectations unchanged throughout.
 
 ## Precondition: skill deployment reconciled first

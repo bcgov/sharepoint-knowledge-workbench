@@ -18,14 +18,9 @@ Content rendering (owned by `structured-content-rendering`), SharePoint content 
 (owned by `sharepoint-content-publication`), workbench connection/config setup (owned by
 `workbench-setup`).
 
-## Ownership decision
+## Ownership model
 
-Per `docs/superpowers/specs/2026-08-02-sharepoint-agents-and-skills-plugin-design.md`'s "Ownership
-decision" section (resolved 2026-08-03):
-`PLUGIN_MAY_CONTAIN_REUSABLE_PLATFORM_CAPABILITIES_AND_CONFIGURED_SOLUTION_SKILLS`. This plugin
-holds both generic platform tooling and clearly labeled `CONFIGURED_SOLUTION_SKILL` /
-`CEIS_SPECIFIC` skills side by side — `review-manual-topics` is the current example of the
-latter.
+This plugin holds both generic agent/skill lifecycle platform tooling and configured domain skills (such as `review-manual-topics`).
 
 ## Skills
 

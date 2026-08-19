@@ -4,7 +4,7 @@
 
 .DESCRIPTION
     Produces a local SKILL.md file with valid frontmatter (name, description) and a body built
-    from explicit instruction/boundary parameters -- no CEIS-specific or otherwise hardcoded
+    from explicit instruction/boundary parameters -- no hardcoded
     skill content. Creation is deliberately separate from deployment: this script writes to
     -OutputPath only; use deploy-sharepoint-native-skill to push the result to a tenant.
 

@@ -5,7 +5,7 @@
   "primary_topic": "non-existent-topic--99999999.aspx",
   "related_topic_allowance": 0,
   "test_identity_class": "INTENDED_READER",
-  "prompt": "Review the CEIS topic page 'non-existent-topic--99999999.aspx' and report missing metadata and content.",
+  "prompt": "Review the topic page 'non-existent-topic--99999999.aspx' and report missing metadata and content.",
   "run_count": 1,
   "expected_semantic_behaviours": [
     "Gracefully reports that the specified primary topic was not found or is inaccessible.",

@@ -1,6 +1,6 @@
 # RESULT — PERM-01 (native-sharepoint)
 
-- **Agent/surface**: `CEIS-Pilot-Knowledge-Agent` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`)
+- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`)
 - **Identity**: `OWNER_EDITOR`
 - **Date executed**: 2026-08-04 (live session)
 - **Run count**: 1 of 1
@@ -12,7 +12,7 @@
 Page reviewed
 data-capture-standards--d1d8e601.aspx
 Title: DATA CAPTURE STANDARDS
-URL: /sites/AG-CSB-INTRANET-DEV/SitePages/CEISPilotKnowledgePages/data-capture-standards--d1d8e601.aspx
+URL: /sites/AG-CSB-INTRANET-DEV/SitePages/KnowledgePages/data-capture-standards--d1d8e601.aspx
 
 Accessible metadata
 List item ID: 182
@@ -42,9 +42,9 @@ Page settings/control block present
 
 Cross-references
 Explicit link:
-AG CEIS Support -> mailto:Courts.Ceis@gov.bc.ca
+AG Manual Support -> mailto:support@example.com
 Textual references:
-CEIS, e-filing, e-registry, Court Services Online, Supreme Court Scheduling / SCSS stamp,
+Manual, e-filing, e-registry, Court Services Online, Supreme Court Scheduling / SCSS stamp,
 Documents module, Parties Filed By tab, Document Details screen, issue table / issue codes,
 trial division, Small Claims settlement conference, Notice of Claim, Reply with Counterclaim
 
