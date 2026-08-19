@@ -36,6 +36,16 @@ Both modes are pure, read-only comparisons over local files/objects already
 loaded in memory. Neither mode contacts a tenant, and neither produces an
 apply/write plan -- only a diff report, same as `audit-schema`.
 
+## Where the exported schema comes from
+
+This skill consumes an already-exported schema directory tree
+(`<dir>/summary/lists.json`, `<dir>/lists/<listname>/fields.json`, etc. — see
+`schema_export.py`'s `ExportLayout`). That tree is produced by
+`sharepoint-discovery`'s `collect-sharepoint-inventory` skill running
+`collect-sharepoint-schema-export.ps1` against a live tenant — this plugin
+never connects to a tenant itself. Run that script first if you don't
+already have an export directory.
+
 ## Honest outcomes -- a degraded input side is never a clean pass
 
 Both new comparison modes reuse `SectionStatus` from `schema_export.py` and
