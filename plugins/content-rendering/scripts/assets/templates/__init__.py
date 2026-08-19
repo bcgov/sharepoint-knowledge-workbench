@@ -9,7 +9,7 @@ These are *rendering* templates: Markdown document/page structure, ASPX
 page structure, navigation, headings/sections, metadata placement, media
 placement, links, human-facing layout -- under
 `plugins/structured-content-rendering/assets/templates/{generic,
-solutions/ceis}/{markdown,aspx}/`. Distinct from Task 0.7/0.8's *agent/
+solutions/standard-manual}/{markdown,aspx}/`. Distinct from Task 0.7/0.8's *agent/
 native-skill* templates (agent instructions, native-skill instructions,
 agent answer formatting) -- do not merge the two template systems (see
 the plan's own "Template-family distinction" note).
@@ -28,9 +28,9 @@ never invents template text) are authored once at the plugin root
 Sharing"):
 
     assets/templates/generic/markdown/page.template.md
-    assets/templates/solutions/ceis/markdown/page.template.md
+    assets/templates/solutions/standard-manual/markdown/page.template.md
     assets/templates/generic/aspx/page.template.html
-    assets/templates/solutions/ceis/aspx/page.template.html
+    assets/templates/solutions/standard-manual/aspx/page.template.html
 
 and read at runtime through this module's own file-level symlinked
 copies under `scripts/assets/templates/...` -- unlike the references/
@@ -58,7 +58,7 @@ _TEMPLATES_ROOT = _THIS_DIR / "assets" / "templates"
 
 _PROFILE_DIRS = {
     "generic": _TEMPLATES_ROOT / "generic",
-    "ceis": _TEMPLATES_ROOT / "solutions" / "ceis",
+    "standard-manual": _TEMPLATES_ROOT / "solutions" / "ceis",
 }
 
 _FORMAT_EXTENSIONS = {
@@ -77,7 +77,7 @@ KNOWN_FORMATS = frozenset(_FORMAT_EXTENSIONS)
 
 class UnknownTemplateProfileError(Exception):
     """Raised when `profile` is not one of the plugin's known template
-    profiles (`generic`, `ceis`)."""
+    profiles (`generic`, `standard-manual`)."""
 
 
 class UnknownTemplateFormatError(Exception):

@@ -46,8 +46,8 @@ include = ["canonical_schema", "canonical_schema.*", "renderers", "renderers.*",
 # would never surface, only an isolated wheel-install check would).
 "assets.templates.generic.markdown" = ["*.md"]
 "assets.templates.generic.aspx" = ["*.html"]
-"assets.templates.solutions.ceis.markdown" = ["*.md"]
-"assets.templates.solutions.ceis.aspx" = ["*.html"]
+"assets.templates.solutions.standard_manual.markdown" = ["*.md"]
+"assets.templates.solutions.standard_manual.aspx" = ["*.html"]
 
 [tool.pytest.ini_options]
 pythonpath = ["scripts"]

@@ -8,7 +8,7 @@ skills. Both skills instantiate a new *rendering* template file (page
 structure -- headings/body/media placement) from one of the plugin's
 canonical starter templates under `assets/templates/{generic,solutions/
 ceis}/{markdown,aspx}/` (see that directory's own comment headers for the
-real evidence each starter is derived from -- Phase 1-2 CEIS rendered
+real evidence each starter is derived from -- Sample manual rendered
 output for markdown, Phase 3.0 Sec.15's tenant experiment for ASPX).
 
 Distinct from the *agent/native-skill* template system Task 0.7/0.8 owns
@@ -40,12 +40,12 @@ def test_create_markdown_template_generic_profile(tmp_path):
     assert sidecar.exists()
 
 
-def test_create_markdown_template_ceis_profile(tmp_path):
-    dest = tmp_path / "ceis-template.md"
+def test_create_markdown_template_standard_manual_profile(tmp_path):
+    dest = tmp_path / "standard-manual-template.md"
     tpl = templates.create_rendering_template(
-        profile="ceis", fmt="markdown", output_path=dest,
+        profile="standard-manual", fmt="markdown", output_path=dest,
     )
-    assert tpl.profile == "ceis"
+    assert tpl.profile == "standard-manual"
     assert "{{title}}" in tpl.content
     assert "{{body}}" in tpl.content
 
@@ -62,12 +62,12 @@ def test_create_aspx_template_generic_profile(tmp_path):
     assert "<html" not in tpl.content  # fragment only, no page wrapper
 
 
-def test_create_aspx_template_ceis_profile(tmp_path):
-    dest = tmp_path / "ceis-template.html"
+def test_create_aspx_template_standard_manual_profile(tmp_path):
+    dest = tmp_path / "standard-manual-template.html"
     tpl = templates.create_rendering_template(
-        profile="ceis", fmt="aspx", output_path=dest,
+        profile="standard-manual", fmt="aspx", output_path=dest,
     )
-    assert tpl.profile == "ceis"
+    assert tpl.profile == "standard-manual"
     assert tpl.format == "aspx"
 
 

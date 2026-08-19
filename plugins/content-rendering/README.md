@@ -48,7 +48,7 @@ plugins/structured-content-rendering/
 │       ├── multipage_markdown.py  # the concrete multipage-Markdown Renderer
 │       ├── sharepoint_aspx.py     # the concrete SharePoint-ASPX Renderer (Phase 6 Task 0.16)
 │       └── validate_rendered.py   # render validators + render_and_promote (both renderers)
-├── assets/templates/              # canonical starter rendering templates (generic + solutions/ceis, markdown + aspx)
+├── assets/templates/              # canonical starter rendering templates (generic + solutions/standard-manual, markdown + aspx)
 ├── references/contracts/
 ├── skills/
 │   ├── render-multipage-markdown/
