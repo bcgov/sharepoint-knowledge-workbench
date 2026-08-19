@@ -1,0 +1,15 @@
+name: sharepoint-spfx-authoring
+version: 1.0.0
+description: "SPFx solution scaffolding, Master-Detail component generation, package building, and deployment skills for SharePoint Online."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - sharepoint-deploy-spfx-solution
+  - sharepoint-package-spfx-solution
+  - sharepoint-request-site-collection-app-catalog
+  - sharepoint-scaffold-spfx-master-detail
+  - sharepoint-scaffold-spfx-webpart
