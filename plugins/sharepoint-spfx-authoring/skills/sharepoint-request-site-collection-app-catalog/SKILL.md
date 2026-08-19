@@ -12,7 +12,7 @@ allowed-tools: Bash, Read, Write
 Deploying custom SPFx web parts (like the Master-Detail briefing dashboard) requires a **Site Collection App Catalog** on the target SharePoint site.
 
 Because admin permission models differ between enterprise production environments and isolated trial environments, this skill details two distinct provisioning paths:
-- **Path A: Enterprise BC Government Tenancy (`bcgov.sharepoint.com`)**: Developers do not have SharePoint Tenant Admin rights (`-admin.sharepoint.com`). Requires submitting a ServiceNow ticket to MySc / CSBC referencing approved ticket templates.
+- **Path A: Enterprise Tenancy (`contoso.sharepoint.com`)**: Developers do not have SharePoint Tenant Admin rights (`-admin.sharepoint.com`). Requires submitting a ServiceNow ticket to MySc / CSBC referencing approved ticket templates.
 - **Path B: Isolated Trial / Sandbox Tenancy**: Developers possess Global/Tenant Admin rights and can provision the app catalog directly via PnP PowerShell or the SharePoint Admin Center GUI.
 
 ---
@@ -24,19 +24,19 @@ Submit a ServiceNow request to MySc / CSBC using the pre-filled template below.
 ### ServiceNow Ticket Template
 
 ```text
-Title: Request for Site Collection App Catalog Provisioning for CMAT SPO Sites
+Title: Request for Site Collection App Catalog Provisioning for Target SPO Sites
 
 ServiceNow Category: MySc / CSBC / SharePoint Online Administration
 
 Description:
-For the following SharePoint Online sites, we require the setup of a Site Collection App Catalog to enable deployment of custom SPFx web parts for the CMAT (Case Management and Tracking) replatforming initiative:
+For the following SharePoint Online sites, we require the setup of a Site Collection App Catalog to enable deployment of custom SPFx web parts for the application modernization initiative:
 
 Target SharePoint Online Sites:
-1. https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-TEST (Test Environment)
-2. https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT (Production Environment)
+1. https://contoso.sharepoint.com/sites/TargetSite-Test (Test Environment)
+2. https://contoso.sharepoint.com/sites/TargetSite-Prod (Production Environment)
 
 Business Justification:
-To enable a like-for-like migration of the SharePoint 2016 CMAT application, custom SPFx web parts are required to replicate the legacy multi-list URL-filtered briefing pages (Appearing_Persons_Briefing.aspx). Out-of-the-box SPO List Web Parts do not support query string filtering (?SelectedID=...).
+To enable a like-for-like migration of the legacy SharePoint application, custom SPFx web parts are required to replicate the legacy multi-list URL-filtered briefing pages (Dossier_Briefing.aspx). Out-of-the-box SPO List Web Parts do not support query string filtering (?SelectedID=...).
 
 Prior Approved Reference Tickets:
 We understand similar requests were previously approved and submitted to MySc for BCPS with the following references:
@@ -62,8 +62,8 @@ If working in an isolated trial tenancy or dev sandbox where you possess SharePo
 Connect-PnPOnline -Url "https://<tenant>-admin.sharepoint.com" -ClientId "<clientId>" -Interactive
 
 # 2. Enable Site Collection App Catalog on specific target sites
-Add-PnPSiteCollectionAppCatalog -Site "https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-TEST"
-Add-PnPSiteCollectionAppCatalog -Site "https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT"
+Add-PnPSiteCollectionAppCatalog -Site "https://contoso.sharepoint.com/sites/TargetSite-Test"
+Add-PnPSiteCollectionAppCatalog -Site "https://contoso.sharepoint.com/sites/TargetSite-Prod"
 ```
 
 ### Option 2: SharePoint Admin Center GUI Walkthrough
@@ -74,7 +74,7 @@ Add-PnPSiteCollectionAppCatalog -Site "https://bcgov.sharepoint.com/sites/AG-CSB
 3. Under the **Apps** section, click **Open** (opens classic Apps management page).
 4. Select **Site Collection App Catalogs**.
 5. Click **Add a site collection**.
-6. Enter the target site URL (e.g. `https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-TEST`).
+6. Enter the target site URL (e.g. `https://contoso.sharepoint.com/sites/TargetSite-Test`).
 7. Click **Confirm and create**.
 
 *SharePoint automatically enables the feature and provisions the app catalog site at `https://<tenant>.sharepoint.com/sites/<SiteName>/AppCatalog` within 10–30 seconds.*

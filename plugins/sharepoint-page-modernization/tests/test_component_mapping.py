@@ -5,18 +5,18 @@ test_component_mapping.py
 Stage 4 tests -- map classified components to modern sections and target list
 views, and record what could not be migrated.
 
-Semantic-parity oracle: CMAT `tests/test_map_components.py`. Retained
+Semantic-parity oracle: baseline test suite. Retained
 behaviours: ContentEditor -> TextWebPart; Primary list view -> ListWebPart
 plus a view-plan entry; connected consumer -> NOT_MIGRATED with the
 GAP-001-CRITICAL reason and relationship captured; a gap-notice section
 appended once when gaps exist; deterministic prefixed view names.
 
 Intentional improvements:
-  * CMAT's tests loaded a mapping file from a project-analysis directory five
+  * Baseline tests loaded a mapping file from a project-analysis directory five
     levels outside the plugin. This plugin ships its own neutral mapping file.
-  * CMAT hardcoded the `CMAT_Migration_` view-name prefix; here it is a CLI
+  * Baseline hardcoded the `Baseline_Migration_` view-name prefix; here it is a CLI
     option with a neutral default.
-  * CMAT's gap notice was a hardcoded HTML literal naming specific project
+  * Baseline gap notice was a hardcoded HTML literal naming specific project
     lists; here it is rendered from a template using the lists that were
     actually not migrated.
 """

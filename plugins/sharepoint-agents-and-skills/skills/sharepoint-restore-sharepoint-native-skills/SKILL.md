@@ -8,7 +8,7 @@ description: Restores AgentAssets native-skill/template files from a local backu
 ## Purpose
 
 Restores files previously saved by `backup-sharepoint-native-skills` back to their `AgentAssets`
-tenant locations. New build — no prior implementation existed in this repository or in CMAT.
+tenant locations. New build — no prior implementation existed in this repository.
 
 ## Input boundaries
 

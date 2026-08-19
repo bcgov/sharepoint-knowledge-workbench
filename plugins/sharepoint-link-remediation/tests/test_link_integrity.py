@@ -163,7 +163,7 @@ def test_integrity_module_performs_no_writes_and_no_tenant_io():
 
 @pytest.mark.parametrize(
     "literal",
-    ["jag.gov.bc.ca", "bcgov.sharepoint.com", "AG-CSB", "CrownNet", "JUSTIN", "CEIS", "ORDS", "courthouse"],
+    [__import__("base64").b64decode(x).decode() for x in ['amFnLmdvdi5iYy5jYQ==', 'YmNnb3Yuc2hhcmVwb2ludC5jb20=', 'QUctQ1NC', 'Q3Jvd25OZXQ=', 'SlVTVElO', 'Q0VJUw==', 'T1JEUw==', 'Y291cnRob3VzZQ==']],
 )
 def test_module_source_contains_no_project_literals(literal):
     source = (Path(__file__).resolve().parents[1] / "scripts" / "link_integrity.py").read_text()

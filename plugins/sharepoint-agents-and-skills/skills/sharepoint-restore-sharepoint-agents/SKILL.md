@@ -8,7 +8,7 @@ description: Restores .agent files from a local backup back to their tenant loca
 ## Purpose
 
 Restores files previously saved by `backup-sharepoint-agents` back to their tenant locations.
-New build — no prior implementation existed in this repository or in CMAT.
+New build — no prior implementation existed in this repository.
 
 ## Input boundaries
 

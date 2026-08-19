@@ -134,7 +134,7 @@ export default class SelectedIdFilterWebPart
       this.domElement.innerHTML = `
         <div class="${ styles.selectedIdFilter }">
           <div class="${ styles.banner }">
-            <h1>ITAU Case Management And Tracking (CMAT) — Briefing</h1>
+            <h1>Master-Detail Dossier Briefing</h1>
           </div>
           <p class="${ styles.emptyNotice }">No SelectedID provided in the URL query string (e.g. <code>?SelectedID=3</code>).</p>
         </div>
@@ -199,7 +199,7 @@ export default class SelectedIdFilterWebPart
   }
 
   /**
-   * Fetch and render the full 5-Section CMAT Person/Author Briefing Dashboard.
+   * Fetch and render the full 5-Section Dossier Briefing Dashboard.
    */
   private async _renderDashboard(rawSelectedId: string, token: number): Promise<void> {
     const id = parseInt(rawSelectedId, 10);
@@ -433,7 +433,7 @@ export default class SelectedIdFilterWebPart
     this.domElement.innerHTML = `
       <div class="${ styles.selectedIdFilter }">
         <div class="${ styles.banner }">
-          <h1>ITAU Case Management And Tracking (CMAT)</h1>
+          <h1>Master-Detail Dossier Dashboard</h1>
         </div>
 
         <!-- Section 1: Identification Details & Photo -->

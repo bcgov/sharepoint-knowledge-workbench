@@ -4,10 +4,10 @@ test_network_connectivity.py
 
 Tests for `network_connectivity`: a generic TCP-reachability pre-flight
 check for Entra ID, SharePoint Online, Microsoft Graph, and CRL/OCSP
-revocation endpoints, adapted from a CMAT-repository network-connectivity
+revocation endpoints, adapted from a enterprise repository network-connectivity
 script. Zero network I/O by default -- all reachability behaviour is driven
 through an injected `connector(host, port) -> bool` callable, never a live
-default. No ORDS-gateway or other CMAT-specific endpoint is included --
+default. No custom enterprise-specific endpoint is included --
 this module is tenant-agnostic beyond the SharePoint site's own hostname.
 """
 

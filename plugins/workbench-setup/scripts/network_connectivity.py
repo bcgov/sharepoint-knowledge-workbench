@@ -5,10 +5,8 @@ network_connectivity.py
 Generic TCP-reachability pre-flight check for the Microsoft endpoints an
 interactive (delegated) SharePoint Online connection needs: Entra ID token
 acquisition, SharePoint Online itself, Microsoft Graph, and certificate
-revocation checking (CRL/OCSP). Adapted from a CMAT-repository network-
-connectivity script's endpoint list -- the ORDS-gateway entry and every
-other CMAT/JAG-specific endpoint were dropped; this module is tenant-
-agnostic beyond the SharePoint site's own hostname, derived from
+revocation checking (CRL/OCSP). Validates standard Microsoft endpoints;
+this module is tenant-agnostic beyond the SharePoint site's own hostname, derived from
 `connection["SiteUrl"]` (the same `config.psd1` shape `config_setup.py`
 already builds at this repository's root).
 

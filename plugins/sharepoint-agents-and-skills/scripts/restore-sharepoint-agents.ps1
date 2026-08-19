@@ -6,7 +6,7 @@
 .DESCRIPTION
     Dry-run by default. Requires -Execute plus -ConfirmExactTarget "CONFIRM-RESTORE" before
     uploading anything. Mirrors restore-sharepoint-native-skills.ps1's pattern exactly (same
-    safety gate, same Items shape) -- new build, no prior implementation in this repo or CMAT.
+    safety gate, same Items shape) -- new build, no prior implementation in this repository.
 
 .PARAMETER Items
     Explicit list of hashtables with LocalPath (backup file) and Url (target site-relative path,

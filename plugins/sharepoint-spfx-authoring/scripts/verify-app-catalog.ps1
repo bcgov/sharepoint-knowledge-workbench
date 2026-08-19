@@ -17,7 +17,7 @@
     Optional Azure AD App Registration Client ID for interactive authentication.
 
 .EXAMPLE
-    pwsh -File ./verify-app-catalog.ps1 -SiteUrl "https://bcgov.sharepoint.com/sites/AG-CSB-ITAU-CMAT-TEST"
+    pwsh -File ./verify-app-catalog.ps1 -SiteUrl "https://contoso.sharepoint.com/sites/AppCatalogTest"
 #>
 
 [CmdletBinding()]

@@ -1,6 +1,6 @@
 # RESULT — PERM-02 (native-sharepoint)
 
-- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`)
+- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `TargetSite-Dev`)
 - **Identity**: `INTENDED_READER`
 - **Date executed**: 2026-08-04 (live session)
 - **Run count**: 1 of 1

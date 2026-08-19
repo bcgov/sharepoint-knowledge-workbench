@@ -113,7 +113,7 @@ try {
 
     # Enumerate all skill subfolders. Uses -Identity with the already-resolved $skillsFolder
     # object rather than -FolderSiteRelativeUrl with $skillsFolderPath: that path is
-    # SERVER-relative (e.g. "/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills", built from
+    # SERVER-relative (e.g. "/sites/TargetSite-Dev/AgentAssets/Skills", built from
     # $agentAssetsLib.RootFolder.ServerRelativeUrl above), but -FolderSiteRelativeUrl expects a
     # SITE-relative path (e.g. "AgentAssets/Skills") -- passing the wrong kind silently resolved
     # to zero folders instead of erroring, which previously caused this script to falsely report

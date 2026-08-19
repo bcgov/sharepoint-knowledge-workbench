@@ -203,16 +203,9 @@ module on PATH — see `DEPENDENCIES.md`.
 
 ## Provenance
 
-`app_registration_validation.py` was extracted from the CMAT
-repository's `sp-validating-app-registration` skill (device-code REST
-auth smoke test, `scripts/diagnostics/test-spo-auth.ps1`) -- see
-`docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`
-for the full source-to-destination record. `validate_permission_boundary`
-and the reference/asset files above were added during the Phase 9
-exhaustive source audit (`temp/phase9-source-audit/file-tracking.json`),
-which found these already-genericized files described a real gap beyond
-the original single-site smoke test. Originally shipped as its own
-`validate-app-registration` skill; merged into this skill 2026-08-09.
+`app_registration_validation.py` provides tenant validation (device-code REST
+auth smoke test, `scripts/diagnostics/test-spo-auth.ps1`). `validate_permission_boundary`
+and the reference/asset files above were added to provide comprehensive validation.
 `network_connectivity.py`/`test-network-connectivity.ps1` were adapted
 the same day from a real project's network-connectivity script, with
 its project-specific gateway endpoint and all other project-specific

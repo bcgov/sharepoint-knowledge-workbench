@@ -16,7 +16,7 @@
     Optional Azure AD App Registration Client ID for interactive authentication.
 
 .EXAMPLE
-    pwsh -File ./deploy-spfx-package.ps1 -SiteUrl "https://bcgovernmenttrial400.sharepoint.com/sites/AppRegistrationTests" -PackagePath "../sharepoint/solution/spfx-selectedid-filter.sppkg"
+    pwsh -File ./deploy-spfx-package.ps1 -SiteUrl "https://contoso.sharepoint.com/sites/TargetSite" -PackagePath "../sharepoint/solution/spfx-selectedid-filter.sppkg"
 #>
 
 [CmdletBinding()]

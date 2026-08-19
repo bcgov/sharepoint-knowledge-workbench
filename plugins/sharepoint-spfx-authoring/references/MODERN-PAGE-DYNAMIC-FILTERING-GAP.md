@@ -1,6 +1,6 @@
 # Modern Page Dynamic Cross-Web-Part Filtering Gap
 
-_lastUpdated: 2026-08-17 — added confirmed negative tests (FilterField1/FilterValue1 and DispForm.aspx) against real CMAT TEST site_
+_lastUpdated: 2026-08-17 — added confirmed negative tests (FilterField1/FilterValue1 and DispForm.aspx) against real SharePoint Online test environment_
 
 ## Issue
 
@@ -23,11 +23,11 @@ Live testing on the trial tenancy confirmed:
 
 ### The Modern Replatforming Pattern: Master-Detail Dashboard
 Instead of placing 5 separate list web parts on an ASPX page and trying to wire them together with cross-web-part connections:
-- A single custom SPFx web part (`SelectedIdFilterWebPart` / `CmatPersonBriefingWebPart`) reads `?SelectedID=<id>` from the URL.
+- A single custom SPFx web part (`SelectedIdFilterWebPart` / `DossierBriefingWebPart`) reads `?SelectedID=<id>` from the URL.
 - It executes parallel REST queries to retrieve:
   1. `Persons` (Identification & Status)
   2. `All_Appearances` (Upcoming where `EventDate >= Today` and Previous where `EventDate < Today`)
-  3. `PIO_Narratives` (Background Information)
+  3. `Dossier_Narratives` (Background Information)
 - It renders all 5 sections in one unified, responsive dashboard matching the SP2016 layout.
 - It embeds functional **`+ new appearance`**, **`+ new item`** (narrative), and **`Edit`** action buttons that link directly to SharePoint's native forms with `Source=<currentUrl>` return redirection.
 

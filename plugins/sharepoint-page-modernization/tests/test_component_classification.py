@@ -4,7 +4,7 @@ test_component_classification.py
 
 Stage 2 tests -- assign Role/Type/Variant to each detected zone.
 
-Semantic-parity oracle: CMAT `tests/test_classify.py`. Retained behaviours:
+Semantic-parity oracle: baseline test suite. Retained behaviours:
 first unconnected list view is Primary, additional standalone views are
 Secondary, connected consumers are Child/connected-consumer, ContentEditors
 are Banner, zone confidence is inherited, an empty inventory yields an empty

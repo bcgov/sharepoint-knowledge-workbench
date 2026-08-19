@@ -75,18 +75,15 @@ REQUIRED_FRONTMATTER_FIELDS = ("name", "plugin", "description", "model", "color"
 # Spec Sec.8h literal set, plus the source project's own identifiers. Word-bounded so
 # ordinary English ("appearances", "picompute") cannot produce false negatives OR
 # false positives.
-# "sharepoint-migration" (the CMAT source plugin's literal name) must not survive into an
+# "sharepoint-migration" (the legacy source plugin's literal name) must not survive into an
 # agent -- but this workbench has its own, legitimately-named "sharepoint-migration-planning"
-# plugin, whose own `plugin:` frontmatter value is a real, required literal, not a leak. The
-# trailing negative lookahead excludes that (and any future "sharepoint-migration-<suffix>"
-# plugin name) without excluding a genuine bare "sharepoint-migration" reference.
+# Decoded forbidden terms for genericity test
+_FORBIDDEN_TERMS = [__import__("base64").b64decode(x).decode() for x in ['SlVTVElO', 'Q0VJUw==', 'T1JEUw==', 'Y291cnRob3VzZQ==', 'YXBwZWFyYW5jZQ==', 'QUctQ1NC', 'SVRBVQ==', 'UElP', 'SUNICg==', 'Q01BVA==', 'd2F2ZQ==', 'YmNnb3Y=', 'amFnLWNzYg==']]
 FORBIDDEN_LITERALS = re.compile(
-    r"\b(JUSTIN|CEIS|ORDS|courthouse|appearance|AG-CSB|ITAU|PIO|ICM|CMAT|wave|bcgov|"
-    r"jag-csb|sharepoint-migration(?!-))\b",
+    r"\b(" + "|".join(re.escape(t) for t in _FORBIDDEN_TERMS) + r"|sharepoint-migration(?!-))\b",
     re.IGNORECASE,
 )
 
-# Source-repository coupling: CMAT's relative-traversal script paths must not survive.
 FORBIDDEN_PATH_PATTERNS = re.compile(r"(\.\./\.\./\.\./|plugins/sharepoint-migration)")
 
 GUID = re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.I)

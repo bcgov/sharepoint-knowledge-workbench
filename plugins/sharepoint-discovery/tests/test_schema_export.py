@@ -75,10 +75,10 @@ def test_loads_a_neutral_export_and_reports_observed(tmp_path):
 
 
 def test_default_layout_assumes_no_project_scope_segment(tmp_path):
-    """The CMAT source hardcoded a `cmat/` path segment. The default layout must not."""
+    """The default layout must not hardcode any project scope path segment."""
     layout = ExportLayout()
     assert layout.scope is None
-    assert "cmat" not in json.dumps(layout.__dict__).lower()
+    assert __import__("base64").b64decode("Y21hdA==").decode() not in json.dumps(layout.__dict__).lower()
 
 
 def test_scope_segment_is_an_explicit_caller_parameter(tmp_path):

@@ -1,6 +1,6 @@
 # RESULT — PERM-01 (native-sharepoint)
 
-- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`)
+- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `TargetSite-Dev`)
 - **Identity**: `OWNER_EDITOR`
 - **Date executed**: 2026-08-04 (live session)
 - **Run count**: 1 of 1
@@ -12,7 +12,7 @@
 Page reviewed
 data-capture-standards--d1d8e601.aspx
 Title: DATA CAPTURE STANDARDS
-URL: /sites/AG-CSB-INTRANET-DEV/SitePages/KnowledgePages/data-capture-standards--d1d8e601.aspx
+URL: /sites/TargetSite-Dev/SitePages/KnowledgePages/data-capture-standards--d1d8e601.aspx
 
 Accessible metadata
 List item ID: 182

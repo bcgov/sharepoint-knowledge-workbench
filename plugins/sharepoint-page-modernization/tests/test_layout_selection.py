@@ -4,12 +4,12 @@ test_layout_selection.py
 
 Stage 3 tests -- data-driven modern layout selection.
 
-Semantic-parity oracle: CMAT `tests/test_select_layout.py`. Retained
+Semantic-parity oracle: baseline test suite. Retained
 behaviours: LR-001..LR-004 rule outcomes, first-match-wins ordering, the
 DEFAULT fallback, and the presence of `ruleApplied`/`pnpFlag`/`rationale` on
 every decision.
 
-Intentional improvement: CMAT evaluated rule conditions with `eval()` and
+Intentional improvement: Baseline evaluated rule conditions with `eval()` and
 silently swallowed any rule that raised. This port uses a restricted AST
 evaluator and records every rejected rule in `skippedRules` with a reason --
 a malformed rule must be visible, not invisible.

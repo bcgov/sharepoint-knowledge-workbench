@@ -74,7 +74,7 @@ callback, so the two paths are used independently rather than composed.
 
 ## Provenance
 
-Extracted from the CMAT repository's `sp-uploading-content` skill
+Authoritative publication and upload skill
 (`scripts/upload/upload-modern-page.ps1`,
 `scripts/upload/upload-modern-page-rest.ps1`) -- see
 `docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md`

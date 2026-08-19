@@ -1,6 +1,6 @@
 # RESULT — AMB-01 (native-sharepoint)
 
-- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `AG-CSB-INTRANET-DEV`) — confirmed via citations in both raw responses
+- **Agent/surface**: `Knowledge-Assistant` (SharePoint Copilot chat pane, `TargetSite-Dev`) — confirmed via citations in both raw responses
 - **Identity**: `INTENDED_READER`
 - **Date executed**: 2026-08-04 (live session)
 - **Run count**: 2 of 2 (matches case's `run_count`)
