@@ -1,11 +1,11 @@
 {
   "case_id": "NORM-01",
   "category": "normal",
-  "objective": "Standard editorial review of a valid CEIS topic page with up to two related topics consulted.",
+  "objective": "Standard editorial review of a valid topic page with up to two related topics consulted.",
   "primary_topic": "data-capture-standards--d1d8e601.aspx",
   "related_topic_allowance": 2,
   "test_identity_class": "INTENDED_READER",
-  "prompt": "Review the CEIS topic page 'data-capture-standards--d1d8e601.aspx' for editorial completeness, logical structure, and consistency with related standards.",
+  "prompt": "Review the topic page 'data-capture-standards--d1d8e601.aspx' for editorial completeness, logical structure, and consistency with related standards.",
   "run_count": 2,
   "expected_semantic_behaviours": [
     "Identifies the primary topic reviewed with title or URL.",

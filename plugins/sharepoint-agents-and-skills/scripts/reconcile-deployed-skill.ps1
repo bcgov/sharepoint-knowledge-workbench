@@ -119,7 +119,7 @@ try {
     # to zero folders instead of erroring, which previously caused this script to falsely report
     # DISPOSITION: TASK_8_NO_SKILLS_DEPLOYED against a tenant that actually had 2 skills deployed
     # (found 2026-08-03 during Phase 6 native-runtime evaluation prep -- confirmed via direct
-    # SharePoint UI screenshot showing ceis-test-skill/ and review-manual-topics/ both present).
+    # SharePoint UI screenshot showing sample-test-skill/ and review-manual-topics/ both present).
     # -Identity sidesteps the site-relative-vs-server-relative ambiguity entirely.
     Write-Host "Enumerating skill subfolders..." -ForegroundColor Cyan
     $skillFolders = Get-PnPFolderInFolder -Identity $skillsFolder -ErrorAction Stop

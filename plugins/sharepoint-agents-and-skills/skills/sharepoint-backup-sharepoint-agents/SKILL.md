@@ -16,7 +16,7 @@ directory and overwrites in place on every run.
 - `-ConfigFile` — connection/authentication context only.
 - `-SitePath` (required) — site-relative path to the folder containing the `.agent` files.
 - `-AgentFileNames` (required) — explicit list. No hardcoded default — generalized from the
-  original Phase 5 `backup-existing-agents.ps1`, which hardcoded 5 specific CEIS agent
+  original Phase 5 `backup-existing-agents.ps1`, which hardcoded specific agent
   filenames; those 5 values now live only in that Phase 5 script's own thin-wrapper defaults.
 - `-OutputDir` — local destination directory.
 - **Read-only** — no tenant write of any kind.

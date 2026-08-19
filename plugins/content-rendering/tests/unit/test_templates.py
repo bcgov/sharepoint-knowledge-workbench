@@ -7,7 +7,7 @@ Tests for `templates` (Phase 6 Task 0.16): the shared module backing the
 skills. Both skills instantiate a new *rendering* template file (page
 structure -- headings/body/media placement) from one of the plugin's
 canonical starter templates under `assets/templates/{generic,solutions/
-ceis}/{markdown,aspx}/` (see that directory's own comment headers for the
+standard-manual}/{markdown,aspx}/` (see that directory's own comment headers for the
 real evidence each starter is derived from -- Sample manual rendered
 output for markdown, Phase 3.0 Sec.15's tenant experiment for ASPX).
 

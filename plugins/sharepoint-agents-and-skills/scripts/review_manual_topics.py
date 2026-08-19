@@ -3,7 +3,7 @@ review_manual_topics.py — repository/Claude runtime, deterministic topic resol
 
 Mirrors the native SharePoint review-manual-topics skill's Input Resolution
 Hierarchy and one-primary-plus-max-two-related boundary, operating over this
-repo's own rendered CEIS output (runs/ceis-manual-v2/render/rendered-output/pages/)
+local rendered manual output (runs/sample-manual/render/rendered-output/pages/)
 instead of a live tenant. Never invents content for a missing topic. Performs
 no tenant writes — there is nothing to write, the source is the repo's own
 render output.

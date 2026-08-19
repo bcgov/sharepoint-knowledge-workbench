@@ -22,7 +22,7 @@
 
 .EXAMPLE
     # Inspect specific library in detail
-    .\diagnose-sharepoint-library.ps1 -LibraryName "CEISPilotKnowledgePages" -Detailed
+    .\diagnose-sharepoint-library.ps1 -LibraryName "KnowledgePages" -Detailed
 
 .EXAMPLE
     # Inspect AgentAssets library

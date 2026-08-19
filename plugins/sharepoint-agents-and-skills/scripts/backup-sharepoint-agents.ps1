@@ -11,7 +11,7 @@
 
 .PARAMETER SitePath
     Site-relative path to the folder containing the .agent files (e.g.
-    "SitePages/CEISPilotKnowledgePages").
+    "SitePages/KnowledgePages").
 
 .PARAMETER AgentFileNames
     Explicit list of .agent file names to back up. No hardcoded default — the caller (or a

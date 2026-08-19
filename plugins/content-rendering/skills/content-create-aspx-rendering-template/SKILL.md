@@ -1,7 +1,7 @@
 ---
 name: content-create-aspx-rendering-template
 plugin: structured-content-rendering
-description: Instantiates a new ASPX/modern-page rendering (page-structure) template file from this plugin's canonical generic or CEIS-solution starter -- heading, body, and media placeholders, backed by the confirmed-working Add-PnPPage/Add-PnPPageTextPart fragment shape from the Phase 3.0 tenant experiment. Not an agent/native-skill instruction template (that is Task 0.7/0.8's separate template system), and never a raw wrapped .aspx page (confirmed Access denied).
+description: Instantiates a new ASPX/modern-page rendering (page-structure) template file from this plugin's canonical generic or standard-manual starter -- heading, body, and media placeholders, backed by the confirmed-working Add-PnPPage/Add-PnPPageTextPart fragment shape from the Phase 3.0 tenant experiment. Not an agent/native-skill instruction template (that is Task 0.7/0.8's separate template system), and never a raw wrapped .aspx page (confirmed Access denied).
 allowed-tools: Bash, Read
 examples:
   - "python -c \"import templates; templates.create_rendering_template('generic', 'aspx', 'out/page.template.html')\""
@@ -17,7 +17,7 @@ placement, media placement) for a given profile. Two profiles are
 currently defined:
 
 - `generic` — the plugin's default page shape.
-- `ceis` — the CEIS-solution variant, structurally confirmed against
+- `standard-manual` — the standard-manual variant, structurally confirmed against
   the Phase 3.0 Sec.15 tenant experiment
   (`tools/phase-3-sharepoint-discovery/aspx-experiment/
   initiate-a-file.html`): a heading followed directly by body content,
@@ -37,7 +37,7 @@ answer formatting) — the two are never merged.
 from templates import create_rendering_template
 
 template = create_rendering_template(
-    profile="generic",  # or "ceis"
+    profile="generic",  # or "standard-manual"
     fmt="aspx",
     output_path="path/to/new-template.html",
 )

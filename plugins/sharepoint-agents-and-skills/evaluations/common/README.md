@@ -25,8 +25,8 @@ Plus 1 new case added at Task 5:
 - **`case-boundary-01-related-topic-cap-exceeded.json`** — both runtimes. Added because Task 4's
   adversarial review found the original 11-case suite had zero coverage of the related-topic cap
   actually being exceeded (only that it isn't exceeded when the input doesn't invite it). Currently
-  `_fixture_status: REQUIRES_FIXTURE` — verified against the real rendered CEIS content
-  (`runs/ceis-manual-v2/render/rendered-output/pages/*.md`) that **no existing topic has more than
+  `_fixture_status: REQUIRES_FIXTURE` — verified against the real rendered Manual content
+  (`runs/sample-manual/render/rendered-output/pages/*.md`) that **no existing topic has more than
   2 local cross-reference links** (checked directly, not assumed), so this case cannot run against
   real content as-is. A synthetic fixture topic (or a real multi-link topic, once one exists) is
   required before this case executes — tracked as an open item in Task 6's findings.
