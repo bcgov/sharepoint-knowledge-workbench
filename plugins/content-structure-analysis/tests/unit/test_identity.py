@@ -8,8 +8,8 @@ position alone; it is derived from the normalized full heading path, the
 occurrence number needed to disambiguate repeated paths, and a short hash of
 the normalized structural key.
 
-Fixture heading names are invented placeholders (e.g. "Section Alpha",
-"Widget Configuration") — no real CEIS manual section names appear here.
+Fixture heading names are synthetic placeholders (e.g. "Section Alpha",
+"Widget Configuration").
 """
 
 import re
