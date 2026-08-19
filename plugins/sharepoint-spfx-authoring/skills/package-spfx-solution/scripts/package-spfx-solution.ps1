@@ -1,0 +1,1 @@
+../../../scripts/package-spfx-solution.ps1

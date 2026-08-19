@@ -28,10 +28,19 @@ cd path/to/spfx-solution-root
 > [!WARNING]
 > **Do NOT run `npm audit fix --force`**: SPFx projects use strictly pinned toolchain packages (`@rushstack/heft`, `@microsoft/spfx-web-build-rig`). Running forced dependency upgrades will break the Heft build toolchain.
 
-### Step 2: Execute Production Build & Package Command
+### Step 2: Execute Production Build, Package & Verify
 
-For modern SPFx solutions using Heft (version 1.20+):
+Run the bundled helper script, pointing it at the SPFx solution root:
 
+```powershell
+pwsh -File scripts/package-spfx-solution.ps1 -SolutionPath path/to/spfx-solution-root
+```
+
+This runs `npx heft test --clean --production` followed by
+`npx heft package-solution --production`, then confirms a non-empty `.sppkg` file exists under
+`sharepoint/solution/`, printing PASS/FAIL for each stage.
+
+*(Equivalently, if you prefer to run the underlying commands directly instead of the script):*
 ```powershell
 $env:Path = "C:\Users\RICHFREM\AppData\Local\nvm\v22.23.2;" + $env:Path; npx heft test --clean --production && npx heft package-solution --production
 ```
@@ -43,7 +52,8 @@ npm run build
 
 ### Step 3: Verify Output Artifacts
 
-Confirm the command completed with exit code 0 and generated the final `.sppkg` file at:
+The helper script in Step 2 already verifies the package; if running the commands manually instead,
+confirm the command completed with exit code 0 and generated the final `.sppkg` file at:
 
 ```text
 sharepoint/solution/<solution-name>.sppkg

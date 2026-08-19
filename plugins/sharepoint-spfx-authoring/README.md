@@ -16,9 +16,10 @@ Modern SharePoint Online out-of-the-box List Web Parts do not support query para
 ## Skills Included
 
 1. **`scaffold-spfx-master-detail`**: Generates a complete Master-Detail dossier SPFx web part boilerplate (TypeScript, SCSS module, manifest) based on a JSON list layout specification.
-2. **`package-spfx-solution`**: Automates production build verification (`heft test` / `heft package-solution`) and verifies `.sppkg` package integrity.
-3. **`deploy-spfx-solution`**: Provides PnP PowerShell runbooks and scripts to upload, deploy, and verify `.sppkg` packages in Site Collection or Tenant App Catalogs.
-4. **`request-site-collection-app-catalog`**: Guides the setup and provisioning of Site Collection App Catalogs via ServiceNow ticket requests in BC Gov enterprise tenancy or direct Admin GUI/PnP PowerShell execution in trial/sandbox environments.
+2. **`scaffold-spfx-webpart`**: Generic, interactive scaffolding workflow for any new SPFx web part — confirms toolchain dependencies, gathers requirements via clarifying questions, runs the official Yeoman generator, and guides customization of the generated files.
+3. **`package-spfx-solution`**: Automates production build verification (`heft test` / `heft package-solution`) and verifies `.sppkg` package integrity.
+4. **`deploy-spfx-solution`**: Provides PnP PowerShell runbooks and scripts to upload, deploy, and verify `.sppkg` packages in Site Collection or Tenant App Catalogs.
+5. **`request-site-collection-app-catalog`**: Guides the setup and provisioning of Site Collection App Catalogs via ServiceNow ticket requests in BC Gov enterprise tenancy or direct Admin GUI/PnP PowerShell execution in trial/sandbox environments.
 
 
 ## Reference Documentation
