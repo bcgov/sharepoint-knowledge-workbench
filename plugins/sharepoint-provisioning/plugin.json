@@ -1,0 +1,9 @@
+{
+  "name": "sharepoint-provisioning",
+  "version": "1.0.0",
+  "description": "Real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions, and taxonomy.",
+  "author": "SharePoint Knowledge Workbench",
+  "skills": [
+    "sharepoint-apply-provisioning-plan"
+  ]
+}

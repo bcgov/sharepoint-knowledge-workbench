@@ -1,11 +1,11 @@
-# sharepoint-provisioning
+# sharepoint-schema-reconciliation
 
 Declarative, JSON-schema-driven SharePoint site-column, content-type, and
 list/library provisioning. **Zero SharePoint tenant I/O.** Every column,
 content type, and target object comes from a caller-supplied schema; this
 plugin reads a schema and a caller-supplied observation of current state,
 plans what would need to change, and once approved, submits that plan to
-`sharepoint-migration-planning`'s `apply-sharepoint-provisioning-plan` skill
+`sharepoint-provisioning`'s `sharepoint-apply-provisioning-plan` skill
 for real execution. It never fetches tenant state itself.
 
 ```

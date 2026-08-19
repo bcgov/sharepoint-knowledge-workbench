@@ -1291,7 +1291,7 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.390643Z",
-      "updatedAt": "2026-08-19T17:30:14.664293Z"
+      "updatedAt": "2026-08-19T17:36:12.765671Z"
     },
     "sharepoint-apply-sharepoint-agent-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
@@ -1515,28 +1515,28 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:30:14.921234Z"
+      "updatedAt": "2026-08-19T17:36:13.005896Z"
     },
     "sharepoint-provision-fields": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:30:14.921234Z"
+      "updatedAt": "2026-08-19T17:36:13.005896Z"
     },
     "sharepoint-provision-list": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:30:14.921234Z"
+      "updatedAt": "2026-08-19T17:36:13.005896Z"
     },
     "sharepoint-provision-modern-calendar-list": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:30:14.921234Z"
+      "updatedAt": "2026-08-19T17:36:13.005896Z"
     },
     "sharepoint-publish-aspx-to-sharepoint": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",

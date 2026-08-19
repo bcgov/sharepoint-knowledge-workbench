@@ -1,6 +1,6 @@
 ---
 name: sharepoint-apply-provisioning-plan
-plugin: sharepoint-migration-planning
+plugin: sharepoint-provisioning
 description: The real PnP.PowerShell executor for sharepoint-provisioning's plan JSON output -- create/update/delete for lists, libraries, site columns, and content types, plus content-type-to-list attach/detach. Dry-run by default; every write gated behind -Execute and an operation-specific -ConfirmToken. This is the "injected executor" sharepoint-provisioning's SKILL.md files reference but do not themselves ship.
 allowed-tools: Bash, Read
 examples:
