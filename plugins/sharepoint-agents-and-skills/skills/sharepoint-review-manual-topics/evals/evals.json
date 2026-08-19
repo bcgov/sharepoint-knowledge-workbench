@@ -5,7 +5,7 @@
   "evals": [
     {
       "name": "documented-skill-contract",
-      "description": "Reviews one explicitly selected CEIS manual topic page for content completeness, section structure, cross-reference consistency, and terminology clarity against Phase 3 CEIS publication standards.",
+      "description": "Reviews one explicitly selected manual topic page for content completeness, section structure, cross-reference consistency, and terminology clarity against publication standards.",
       "prompt": "Use the review-manual-topics skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
       "expected": [
         "Uses the skill documented in SKILL.md",

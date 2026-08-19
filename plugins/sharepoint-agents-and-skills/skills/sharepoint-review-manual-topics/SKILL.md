@@ -1,22 +1,18 @@
 ---
 name: sharepoint-review-manual-topics
-description: Reviews one explicitly selected CEIS manual topic page for content completeness, section structure, cross-reference consistency, and terminology clarity against Phase 3 CEIS publication standards.
+description: Reviews one explicitly selected manual topic page for content completeness, section structure, cross-reference consistency, and terminology clarity against publication standards.
 ---
 
 # review-manual-topics
 
-**Two runtimes, one capability intent (Phase 6 Task 0.2–0.3):**
-- **`native-sharepoint`** — deployed to the real dev tenant's `AgentAssets/Skills/review-manual-
-  topics/SKILL.md`, invoked by Copilot in SharePoint against the live `CEISPilotKnowledgePages/`
-  library. This is the original runtime this document was authored for.
-- **`repository-claude`** — this repository's own Claude Code skill, invoked against
-  `runs/ceis-manual-v2/render/rendered-output/pages/*.md` instead of a live tenant, using
-  `../../scripts/review_manual_topics.py` for deterministic topic resolution. Same intent, same
-  input boundary, same prohibited scope, same output structure as below — only the content
-  source and the resolution mechanism differ (see "Repository/Claude Runtime Execution" below).
+**Two runtimes, one capability intent:**
+- **`native-sharepoint`** — deployed to the tenant's `AgentAssets/Skills/review-manual-topics/SKILL.md`,
+  invoked by Copilot in SharePoint against the published manual pages library.
+- **`repository-claude`** — Claude Code skill invoked against rendered Markdown pages
+  (`<rendered-output>/pages/*.md`) using `scripts/review_manual_topics.py` for deterministic topic resolution.
 
 ## Purpose & Overview
-Use this skill to perform a semantic editorial review of **exactly one** selected CEIS topic page. The skill operates as a read-only editorial synthesis capability. **`native-sharepoint`** reads from the published `CEISPilotKnowledgePages/` library; **`repository-claude`** reads from `runs/ceis-manual-v2/render/rendered-output/pages/`.
+Use this skill to perform a semantic editorial review of **exactly one** selected topic page. The skill operates as a read-only editorial synthesis capability. **`native-sharepoint`** reads from the published library; **`repository-claude`** reads from local rendered pages.
 
 ## Input Resolution Hierarchy
 When selecting the target topic for review, resolve inputs in the following order of precedence:
@@ -25,7 +21,7 @@ When selecting the target topic for review, resolve inputs in the following orde
 3. **Topic ID**: Use Topic ID ONLY IF empirical tenant testing proves unique resolution to exactly one source topic item. If Topic ID resolution is ambiguous or unverified, request explicit filename clarification.
 
 ## Input Boundaries & Rules
-1. **Primary Subject**: Review exactly **one** explicitly selected CEIS topic page per invocation.
+1. **Primary Subject**: Review exactly **one** explicitly selected topic page per invocation.
 2. **Bounded Related Context**: You may consult up to **2** (max 2) directly referenced topics as evidence inputs ONLY when:
    - The primary topic contains an explicit cross-reference link;
    - The user explicitly requests a consistency check across related topics; or
@@ -93,7 +89,7 @@ sys.path.insert(0, "../../scripts")  # plugins/sharepoint-agents-and-skills/scri
 from review_manual_topics import resolve_topic, TopicNotFoundError, TooManyRelatedTopicsError
 from pathlib import Path
 
-pages_dir = Path("runs/ceis-manual-v2/render/rendered-output/pages")
+pages_dir = Path("runs/sample-manual/render/rendered-output/pages")
 result = resolve_topic(pages_dir, "<requested-topic-filename-or-slug>")
 # result.primary.content -- the primary topic's raw Markdown
 # result.related          -- list of at most 2 Topic objects (empty if no cross-references)
