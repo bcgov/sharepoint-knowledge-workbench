@@ -133,14 +133,14 @@
           "name": "render-sharepoint-aspx",
           "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build, renderer + unit tests + validate-rendered-output/ASPX extension + golden-master fidelity proof (real CEIS manual, runs/ceis-manual-v2/render-aspx/) all complete",
-          "overlap_notes": "CMAT sp-converting-aspx-pages richer; Phase 6 stays minimal-interface, full extraction is Phase 9 candidate sharepoint-page-modernization"
+          "source_provenance": "new build, renderer + unit tests + validate-rendered-output/ASPX extension + golden-master fidelity proof (real sample manual, runs/sample-manual-v2/render-aspx/) all complete",
+          "overlap_notes": "LegacySource sp-converting-aspx-pages richer; Phase 6 stays minimal-interface, full extraction is Phase 9 candidate sharepoint-page-modernization"
         },
         {
           "name": "create-markdown-rendering-template",
           "status": "implemented",
           "phase_task": "Phase 6 Task 0.16",
-          "source_provenance": "new build, backed by runs/ceis-manual-v2/ rendered-output evidence",
+          "source_provenance": "new build, backed by runs/sample-manual-v2/ rendered-output evidence",
           "overlap_notes": null
         },
         {
@@ -196,14 +196,14 @@
           "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "sharepoint_package.py basis + upload-rendered-markdown.ps1",
-          "overlap_notes": "CMAT sp-migrating-content upload primitive, once genericized"
+          "overlap_notes": "LegacySource sp-migrating-content upload primitive, once genericized"
         },
         {
           "name": "publish-aspx-to-sharepoint",
           "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "new build, Phase 3.0 confirmed page-creation API",
-          "overlap_notes": "CMAT sp-uploading-content richer, PHASE_9_EXTRACT_TO_EXISTING_PLUGIN target"
+          "overlap_notes": "LegacySource sp-uploading-content richer, PHASE_9_EXTRACT_TO_EXISTING_PLUGIN target"
         },
         {
           "name": "reconcile-sharepoint-publication",
@@ -217,13 +217,13 @@
           "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
           "source_provenance": "sharepoint_dry_run.py partial basis",
-          "overlap_notes": "CMAT sp-validating-link-integrity candidate technique"
+          "overlap_notes": "LegacySource sp-validating-link-integrity candidate technique"
         },
         {
           "name": "rollback-sharepoint-publication",
           "status": "implemented",
           "phase_task": "Phase 6 Task 0.15",
-          "source_provenance": "new build, no CMAT counterpart",
+          "source_provenance": "new build, no LegacySource counterpart",
           "overlap_notes": "genuinely new work, both repos"
         }
       ],
@@ -391,7 +391,7 @@
           "status": "implemented",
           "phase_task": "Phase 6 Task 0.17",
           "source_provenance": "design spec Section 8",
-          "overlap_notes": "CMAT sp-validating-app-registration richer, PHASE_9_MERGE_WITH_EXISTING_SKILL target"
+          "overlap_notes": "LegacySource sp-validating-app-registration richer, PHASE_9_MERGE_WITH_EXISTING_SKILL target"
         },
         {
           "name": "initialize-document-workflow",
@@ -419,73 +419,73 @@
       "skills": [
         {
           "name": "discover-site-structure",
-          "cmat_source": "sp-discovering-site-structure",
+          "legacy_source": "sp-discovering-site-structure",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-site-structure/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-site-structure/"
         },
         {
           "name": "discover-lists",
-          "cmat_source": "sp-discovering-lists",
+          "legacy_source": "sp-discovering-lists",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-lists/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-lists/"
         },
         {
           "name": "discover-content-types",
-          "cmat_source": "sp-discovering-content-types",
+          "legacy_source": "sp-discovering-content-types",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-content-types/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-content-types/"
         },
         {
           "name": "discover-pages",
-          "cmat_source": "sp-discovering-pages",
+          "legacy_source": "sp-discovering-pages",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-pages/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-pages/"
         },
         {
           "name": "discover-web-parts",
-          "cmat_source": "sp-discovering-web-parts",
+          "legacy_source": "sp-discovering-web-parts",
           "cmat_status": "active_verified_richest",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-web-parts/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-web-parts/"
         },
         {
           "name": "discover-navigation",
-          "cmat_source": "sp-discovering-navigation",
+          "legacy_source": "sp-discovering-navigation",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-navigation/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-navigation/"
         },
         {
           "name": "discover-forms",
-          "cmat_source": "sp-discovering-forms",
+          "legacy_source": "sp-discovering-forms",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-forms/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-forms/"
         },
         {
           "name": "discover-permissions",
-          "cmat_source": "sp-discovering-permissions",
+          "legacy_source": "sp-discovering-permissions",
           "cmat_status": "active_verified_thin",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-permissions/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-permissions/"
         },
         {
           "name": "discover-workflows",
-          "cmat_source": "sp-discovering-workflows",
+          "legacy_source": "sp-discovering-workflows",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-discovering-workflows/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-discovering-workflows/"
         },
         {
           "name": "synthesize-discovery-report",
-          "cmat_source": "sp-synthesizing-discovery",
+          "legacy_source": "sp-synthesizing-discovery",
           "cmat_status": "active_verified_thin",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-synthesizing-discovery/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-synthesizing-discovery/"
         }
       ],
       "phase_6_overlap": "none"
@@ -498,38 +498,38 @@
       "skills": [
         {
           "name": "audit-schema",
-          "cmat_source": "sp-auditing-schema",
+          "legacy_source": "sp-auditing-schema",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-auditing-schema/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-auditing-schema/"
         },
         {
           "name": "extract-choice-fields",
-          "cmat_source": "sp-extracting-choices",
+          "legacy_source": "sp-extracting-choices",
           "cmat_status": "active_verified_thin",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-extracting-choices/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-extracting-choices/"
         },
         {
           "name": "map-content-types",
-          "cmat_source": "sp-mapping-content-types",
+          "legacy_source": "sp-mapping-content-types",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-mapping-content-types/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-mapping-content-types/"
         },
         {
           "name": "map-lists",
-          "cmat_source": "sp-mapping-lists",
+          "legacy_source": "sp-mapping-lists",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-mapping-lists/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-mapping-lists/"
         },
         {
           "name": "map-taxonomy",
-          "cmat_source": "sp-mapping-taxonomy",
+          "legacy_source": "sp-mapping-taxonomy",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-mapping-taxonomy/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-mapping-taxonomy/"
         }
       ],
       "phase_6_overlap": "none"
@@ -542,17 +542,17 @@
       "skills": [
         {
           "name": "synthesize-deployment-matrix",
-          "cmat_source": "sp-synthesizing-deployment-matrix",
+          "legacy_source": "sp-synthesizing-deployment-matrix",
           "cmat_status": "claimed_active_unverified",
           "disposition": "REQUIRES_HUMAN_DECISION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-synthesizing-deployment-matrix/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-synthesizing-deployment-matrix/"
         },
         {
           "name": "provision-modern-calendars",
-          "cmat_source": "sp-provisioning-modern-calendars",
+          "legacy_source": "sp-provisioning-modern-calendars",
           "cmat_status": "active_verified_cmat_specific",
-          "disposition": "KEEP_CMAT_SPECIFIC",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-provisioning-modern-calendars/"
+          "disposition": "KEEP_LEGACY_SPECIFIC",
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-provisioning-modern-calendars/"
         }
       ],
       "phase_6_overlap": "none"
@@ -565,38 +565,38 @@
       "skills": [
         {
           "name": "analyze-aspx-pages",
-          "cmat_source": "sp-analysing-aspx-pages",
+          "legacy_source": "sp-analysing-aspx-pages",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-analysing-aspx-pages/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-analysing-aspx-pages/"
         },
         {
           "name": "convert-aspx-pages",
-          "cmat_source": "sp-converting-aspx-pages",
+          "legacy_source": "sp-converting-aspx-pages",
           "cmat_status": "active_verified_richest_in_repo",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-converting-aspx-pages/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-converting-aspx-pages/"
         },
         {
           "name": "convert-wiki-pages",
-          "cmat_source": "sp-converting-wiki-pages",
+          "legacy_source": "sp-converting-wiki-pages",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-converting-wiki-pages/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-converting-wiki-pages/"
         },
         {
           "name": "remediate-page-layouts",
-          "cmat_source": "sp-remediating-page-layouts",
+          "legacy_source": "sp-remediating-page-layouts",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-remediating-page-layouts/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-remediating-page-layouts/"
         },
         {
           "name": "remediate-web-parts",
-          "cmat_source": "sp-remediating-web-parts",
+          "legacy_source": "sp-remediating-web-parts",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-remediating-web-parts/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-remediating-web-parts/"
         }
       ],
       "phase_6_overlap": "render-sharepoint-aspx (minimal-interface only), rendering-template creation (narrow validation scope only)"
@@ -609,31 +609,31 @@
       "skills": [
         {
           "name": "extract-links",
-          "cmat_source": "sp-extracting-links",
+          "legacy_source": "sp-extracting-links",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-extracting-links/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-extracting-links/"
         },
         {
           "name": "remediate-links",
-          "cmat_source": "sp-remediating-links",
+          "legacy_source": "sp-remediating-links",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-remediating-links/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-remediating-links/"
         },
         {
           "name": "remediate-document-content-links",
-          "cmat_source": "sp-remediating-document-content-links",
+          "legacy_source": "sp-remediating-document-content-links",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-remediating-document-content-links/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-remediating-document-content-links/"
         },
         {
           "name": "validate-link-integrity",
-          "cmat_source": "sp-validating-link-integrity",
+          "legacy_source": "sp-validating-link-integrity",
           "cmat_status": "active_verified_thin",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-validating-link-integrity/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-validating-link-integrity/"
         }
       ],
       "phase_6_overlap": "reconcile-sharepoint-publication, validate-sharepoint-publication (candidate technique only)"
@@ -646,32 +646,32 @@
       "skills": [
         {
           "name": "migrate-content",
-          "cmat_source": "sp-content-migration",
+          "legacy_source": "sp-content-migration",
           "cmat_status": "active_verified_scope_overlap_unresolved",
           "disposition": "REQUIRES_HUMAN_DECISION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-content-migration/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-content-migration/"
         },
         {
           "name": "run-migration-waves",
-          "cmat_source": "sp-migrating-content",
+          "legacy_source": "sp-migrating-content",
           "cmat_status": "active_verified_richest_by_symlink_count",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN_mechanism_only",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-migrating-content/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-migrating-content/"
         },
         {
           "name": "run-sharegate-jobs",
-          "cmat_source": "sp-running-sharegate-jobs",
+          "legacy_source": "sp-running-sharegate-jobs",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_AS_NEW_PLUGIN",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-running-sharegate-jobs/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-running-sharegate-jobs/"
         },
         {
           "name": "upload-content",
-          "cmat_source": "sp-uploading-content",
+          "legacy_source": "sp-uploading-content",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_EXTRACT_TO_EXISTING_PLUGIN",
           "reassigned_to": "sharepoint-content-publication",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-uploading-content/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-uploading-content/"
         }
       ],
       "phase_6_overlap": "publish-markdown-to-sharepoint (scale mismatch intentional)"
@@ -684,32 +684,32 @@
       "skills": [
         {
           "name": "validate-content",
-          "cmat_source": "sp-validating-content",
+          "legacy_source": "sp-validating-content",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-validating-content/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-validating-content/"
         },
         {
           "name": "validate-permissions",
-          "cmat_source": "sp-validating-permissions",
+          "legacy_source": "sp-validating-permissions",
           "cmat_status": "planned_no_implementation",
           "disposition": "PLANNED_WITH_NO_IMPLEMENTATION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-validating-permissions/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-validating-permissions/"
         },
         {
           "name": "validate-app-registration",
-          "cmat_source": "sp-validating-app-registration",
+          "legacy_source": "sp-validating-app-registration",
           "cmat_status": "active_verified",
           "disposition": "PHASE_9_MERGE_WITH_EXISTING_SKILL",
           "reassigned_to": "workbench-setup",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-validating-app-registration/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-validating-app-registration/"
         },
         {
           "name": "generate-migration-reports",
-          "cmat_source": "sp-generating-migration-reports",
+          "legacy_source": "sp-generating-migration-reports",
           "cmat_status": "claimed_active_unverified",
           "disposition": "REQUIRES_HUMAN_DECISION",
-          "cmat_source_path": "/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/sp-generating-migration-reports/"
+          "legacy_source_path": "<legacy-source-repository>/plugins/sharepoint-migration/skills/sp-generating-migration-reports/"
         }
       ],
       "phase_6_overlap": "reconcile-sharepoint-publication, validate-sharepoint-publication"
@@ -719,7 +719,7 @@
     {
       "name": "ords-integration-migration",
       "disposition": "ORDS_SPECIFIC_OUT_OF_SCOPE",
-      "reason": "Court-scheduling ETL, ORDS/JUSTIN/CEIS-coupled; no generic SharePoint helper identified in this audit."
+      "reason": "Domain-specific ETL, legacy systems-coupled; no generic SharePoint helper identified in this audit."
     }
   ]
 }
