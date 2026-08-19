@@ -1,1 +1,0 @@
-../../../source-document-extraction/scripts/pandoc/tables.py

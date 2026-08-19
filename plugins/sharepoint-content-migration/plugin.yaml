@@ -9,6 +9,9 @@ platforms:
   - macos
   - windows
 skills:
-  - migrate-sharepoint-list-content
+  - sharepoint-migrate-sharepoint-list-content
 agents:
   - sharepoint-content-migration-sequencing-agent
+
+
+

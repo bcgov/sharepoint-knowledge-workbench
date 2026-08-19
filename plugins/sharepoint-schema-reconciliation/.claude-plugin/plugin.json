@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-schema-reconciliation",
+    "version": "0.1.0-alpha.1",
+    "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning reconciliation. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "schema",
+        "reconciliation",
+        "content-types"
+    ]
+}

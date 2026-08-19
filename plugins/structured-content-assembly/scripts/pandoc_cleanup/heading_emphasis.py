@@ -1,1 +1,0 @@
-../../../source-document-extraction/scripts/pandoc/heading_emphasis.py

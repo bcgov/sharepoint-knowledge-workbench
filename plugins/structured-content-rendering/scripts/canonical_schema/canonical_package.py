@@ -1,1 +1,0 @@
-../../../structured-content-assembly/scripts/canonical_schema/canonical_package.py

@@ -1,7 +1,7 @@
 {
     "name": "sharepoint-provisioning",
     "version": "0.1.0-alpha.1",
-    "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token.",
+    "description": "Real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions, and taxonomy. Consumes plan JSON from sharepoint-schema-reconciliation modules or direct plans. Every script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken.",
     "author": {
         "name": "Richard Fremmerlid"
     },
@@ -10,7 +10,9 @@
     "keywords": [
         "sharepoint",
         "provisioning",
-        "schema",
-        "content-types"
+        "pnp-powershell",
+        "site-columns",
+        "content-types",
+        "lists"
     ]
 }

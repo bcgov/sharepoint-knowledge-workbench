@@ -163,49 +163,46 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
 ## 🛠️ Active Implementation & Tools
 
 - **Core Conversion Plugins** (Phase 4.5, `plugins/`): four independently installable domain plugins, 10 skills total
-  - `source-document-extraction` (1 skill) — Structural analysis, defect detection, and normalized-source-document extraction (`extract-docx`).
-  - `document-structure-analysis` (1 skill) — Topic-boundary reasoning, chunking-strategy recommendation, and draft conversion-plan construction (`analyze-document-structure`).
-  - `structured-content-assembly` (1 skill) — Pandoc AST postprocessing, chunking, structured-package build, and validation (`assemble-structured-content`).
-  - `structured-content-rendering` (7 skills) — Multi-target publication rendering and validation: `render-multipage-markdown`, `render-sharepoint-aspx`, `create-markdown-rendering-template`, `create-aspx-rendering-template`, `validate-rendering-template`, `validate-rendered-output`, `compare-rendered-output`.
-- **SharePoint Domain Plugins** (Phase 9, `plugins/`): 10 independently installable plugins, 53 skills
-  and 9 agents total, extracted/generalized from a separate SharePoint migration repository per an
-  exhaustive 505-file source audit (`temp/phase9-source-audit/file-tracking.json`)
-  - `sharepoint-discovery` (5 skills) — read-only analysis of exported classic SharePoint inventories: `analyze-site-navigation`, `analyze-permissions`, `analyze-page-inventory`, `analyze-webpart-code`, `analyze-custom-forms`.
-  - `sharepoint-schema` (4 skills, 1 agent) — read-only schema variance/duplicate-field/choice-field auditing: `audit-schema`, `diff-sharepoint-schema`, `extract-choice-fields`, `generate-sharepoint-schema-from-export`; agent: `sharepoint-schema-agent`.
-  - `sharepoint-provisioning` (4 skills) — declarative, gated site-column/content-type/list/calendar provisioning: `provision-fields`, `provision-content-types`, `provision-list`, `provision-modern-calendar-list`.
-  - `sharepoint-page-modernization` (3 skills, 2 agents) — classic-to-modern page conversion manifest generation: `analyze-aspx-pages`, `convert-aspx-pages`, `compose-page-preview`; agents: `sharepoint-modernization-agent`, `sharepoint-webpart-modernization-analysis-agent`.
-  - `sharepoint-link-remediation` (5 skills, 2 agents) — page/document/field-content link extraction, remediation, validation: `extract-links`, `remediate-links`, `remediate-document-content-links`, `remediate-field-image-references`, `validate-link-integrity`; agents: `sharepoint-link-agent`, `sharepoint-link-remediation-analysis-agent`.
-  - `sharepoint-content-migration` (1 skill, 1 agent) — item-level content migration with two-pass lookup-ID re-link (`migrate-sharepoint-list-content`); agent: `sharepoint-content-migration-sequencing-agent`.
-  - `sharepoint-migration-planning` (5 skills, 2 agents) — dependency-graph analysis and deployment wave-order computation: `discover-sharepoint-site-inventory`, `analyze-sharepoint-dependency-graph`, `generate-sharepoint-wave-scripts`, `setup-sharepoint-migration-project`, `plan-sharepoint-deployment-waves` (only `analyze-sharepoint-dependency-graph` is fully implemented; the rest remain design scaffolds); agents: `sharepoint-deployment-planning-agent`, `sharepoint-deployment-sequencing-agent`.
-  - `sharepoint-content-publication` (6 skills, 1 agent) — tenant publication: `upload-content`, `publish-markdown-to-sharepoint`, `publish-aspx-to-sharepoint`, `validate-sharepoint-publication`, `reconcile-sharepoint-publication`, `rollback-sharepoint-publication`; agent: `sharepoint-validation-agent`.
-  - `workbench-setup` (4 skills) — connection/config setup: `initialize-workbench-config`, `initialize-document-workflow`, `validate-workbench-environment` (also covers app-registration validation and live network/auth checks), `resolve-workbench-paths`.
-  - `sharepoint-agents-and-skills` (15 skills, 0 agents) — agent/native-skill lifecycle only
-    (create/update/deploy/verify/rollback/backup/restore agents and native skills); the 9 Claude
-    Code routing/analysis agents formerly listed here have moved to their owning domain plugins
-    above (link, schema, modernization, migration-planning, content-migration,
-    content-publication).
-- **Intake & Runs**
-  - `intake/` — Source `.docx` input files for the CEIS Manual pilot.
-  - `runs/ceis-manual-v2/` — Current authoritative, fully validated conversion run.
+  - `content-extraction` (1 skill) — Structural analysis, defect detection, and normalized-source-document extraction (`content-extract-docx`).
+  - `content-structure-analysis` (1 skill) — Topic-boundary reasoning, chunking-strategy recommendation, and draft conversion-plan construction (`content-analyze-document-structure`).
+  - `content-assembly` (1 skill) — Pandoc AST postprocessing, chunking, structured-package build, and validation (`content-assemble-structured-content`).
+  - `content-rendering` (7 skills) — Multi-target publication rendering and validation: `content-render-multipage-markdown`, `content-render-sharepoint-aspx`, `content-create-markdown-rendering-template`, `content-create-aspx-rendering-template`, `content-validate-rendering-template`, `content-validate-rendered-output`, `content-compare-rendered-output`.
+- **SharePoint Domain Plugins** (Phase 9, `plugins/`): 11 independently installable plugins, 65 skills
+  and 8 agents total:
+  - `sharepoint-discovery` (15 skills) — read-only analysis and schema auditing of exported classic SharePoint inventories: `sharepoint-analyze-site-navigation`, `sharepoint-analyze-permissions`, `sharepoint-analyze-page-inventory`, `sharepoint-analyze-webpart-code`, `sharepoint-analyze-custom-forms`, `sharepoint-audit-schema`, `sharepoint-diff-sharepoint-schema`, `sharepoint-extract-choice-fields`, `sharepoint-extract-calculated-columns`, `sharepoint-generate-sharepoint-schema-from-export`, `sharepoint-scaffold-schema-definition`, etc.
+  - `sharepoint-schema-reconciliation` (4 skills) — declarative, pure planning for site-column/content-type/list/calendar provisioning: `sharepoint-provision-fields`, `sharepoint-provision-content-types`, `sharepoint-provision-list`, `sharepoint-provision-modern-calendar-list`.
+  - `sharepoint-provisioning` (1 skill) — real PnP.PowerShell executors for applying declarative site-column, list-column, content-type, view, item, site, branding, hub, navigation, permissions, and taxonomy provisioning plans: `sharepoint-apply-provisioning-plan`.
+  - `sharepoint-page-modernization` (4 skills, 2 agents) — classic-to-modern page conversion manifest generation: `sharepoint-analyze-aspx-pages`, `sharepoint-convert-aspx-pages`, `sharepoint-compose-page-preview`, `sharepoint-generate-conversion-report`; agents: `sharepoint-modernization-agent`, `sharepoint-webpart-modernization-analysis-agent`.
+  - `sharepoint-page-modernization-execution` (4 skills) — real PnP.PowerShell page modernization executors: `sharepoint-convert-page-to-modern`, `sharepoint-copy-page-between-sites`, `sharepoint-execute-page-bulk-migration`, `sharepoint-validate-page-migration`.
+  - `sharepoint-link-remediation` (5 skills, 2 agents) — page/document/field-content link extraction, remediation, validation: `sharepoint-extract-links`, `sharepoint-remediate-links`, `sharepoint-remediate-document-content-links`, `sharepoint-remediate-field-image-references`, `sharepoint-validate-link-integrity`; agents: `sharepoint-link-agent`, `sharepoint-link-remediation-analysis-agent`.
+  - `sharepoint-content-migration` (1 skill, 1 agent) — item-level list and file content migration with two-pass lookup-ID re-link (`sharepoint-migrate-sharepoint-list-content`); agent: `sharepoint-content-migration-sequencing-agent`.
+  - `sharepoint-migration-planning` (5 skills, 2 agents) — dependency-graph analysis and deployment wave-order computation: `sharepoint-discover-sharepoint-site-inventory`, `sharepoint-analyze-sharepoint-dependency-graph`, `sharepoint-generate-sharepoint-wave-scripts`, `sharepoint-setup-sharepoint-migration-project`, `sharepoint-plan-sharepoint-deployment-waves`; agents: `sharepoint-deployment-planning-agent`, `sharepoint-deployment-sequencing-agent`.
+  - `sharepoint-content-publication` (6 skills, 1 agent) — tenant publication: `sharepoint-upload-content`, `sharepoint-publish-markdown-to-sharepoint`, `sharepoint-publish-aspx-to-sharepoint`, `sharepoint-validate-publication`, `sharepoint-reconcile-sharepoint-publication`, `sharepoint-rollback-sharepoint-publication`; agent: `sharepoint-validation-agent`.
+  - `sharepoint-spfx-authoring` (5 skills) — custom SPFx webpart authoring and packaging: `sharepoint-scaffold-spfx-webpart`, `sharepoint-scaffold-spfx-master-detail`, `sharepoint-package-spfx-solution`, `sharepoint-deploy-spfx-solution`, `sharepoint-request-site-collection-app-catalog`.
+  - `sharepoint-agents-and-skills` (15 skills, 0 agents) — agent/native-skill lifecycle management (create/update/deploy/verify/rollback/backup/restore Copilot agents and native skills).
+- **Workbench Setup Plugin** (`plugins/workbench-setup`, 5 skills):
+  - `workbench-setup` (5 skills) — foundational setup: `workbench-initialize-workbench-config`, `workbench-initialize-document-workflow`, `workbench-validate-workbench-environment`, `workbench-request-app-registration`, `workbench-resolve-workbench-paths`.
 
 ---
 
 ## 🌐 Additional Use Cases: SharePoint Migration & Modernization Engineering
 
-The document-conversion pipeline above (Master Architecture & Workflow) is this repository's founding use case and remains its primary reference architecture. Phase 9 added a second, independently real cluster of capability — general-purpose SharePoint migration/modernization engineering, decoupled from document conversion — as 10 additional standalone plugins. Each is its own use case with its own README, skills, agents, and test suite; none require the conversion pipeline to be useful on their own.
+The document-conversion pipeline above (Master Architecture & Workflow) is this repository's founding use case and remains its primary reference architecture. Phase 9 added general-purpose SharePoint migration/modernization engineering, decoupled from document conversion, across 11 standalone SharePoint domain plugins and `workbench-setup`.
 
 Full use-case overviews (what it is, when to use it, workflow at a glance) live under [`docs/use-cases/`](docs/use-cases/README.md), one doc per use case, each linking down to its plugin's own README for full technical detail.
 
 | Use case | Overview | Plugin | What it does |
 |---|---|---|---|
-| **Site discovery & assessment** | [overview](docs/use-cases/sharepoint-discovery.md) | [`sharepoint-discovery`](plugins/sharepoint-discovery/README.md) | Read-only analysis of exported classic SharePoint inventories — navigation, permissions, page inventory, webpart code, custom forms. |
-| **Schema auditing** | [overview](docs/use-cases/sharepoint-schema.md) | [`sharepoint-schema`](plugins/sharepoint-schema/README.md) | Schema variance, duplicate-field, and choice-field auditing across site exports. |
-| **Content provisioning** | [overview](docs/use-cases/sharepoint-provisioning.md) | [`sharepoint-provisioning`](plugins/sharepoint-provisioning/README.md) | Declarative, gated provisioning of site columns, content types, lists, and modern calendars. |
+| **Site discovery & schema auditing** | [overview](docs/use-cases/sharepoint-discovery.md) | [`sharepoint-discovery`](plugins/sharepoint-discovery/README.md) | Read-only analysis of exported classic SharePoint inventories, schema variance, duplicate-field, and choice-field auditing. |
+| **Schema reconciliation** | [overview](docs/use-cases/sharepoint-provisioning.md) | [`sharepoint-schema-reconciliation`](plugins/sharepoint-schema-reconciliation/README.md) | Declarative, pure planning of site columns, content types, lists, and modern calendars. |
+| **Tenant provisioning** | [overview](docs/use-cases/sharepoint-provisioning.md) | [`sharepoint-provisioning`](plugins/sharepoint-provisioning/README.md) | Real PnP executors for site columns, list columns, content types, views, items, sites, branding, and taxonomy. |
 | **Classic-to-modern page conversion** | [overview](docs/use-cases/sharepoint-page-modernization.md) | [`sharepoint-page-modernization`](plugins/sharepoint-page-modernization/README.md) | Classic ASPX page analysis and modern-page conversion manifest generation. |
+| **Modernization execution** | [overview](docs/use-cases/sharepoint-page-modernization.md) | [`sharepoint-page-modernization-execution`](plugins/sharepoint-page-modernization-execution/README.md) | Real PnP executors for single page conversion, bulk conversion, page copy, and validation. |
 | **Link & embedded-reference remediation** | [overview](docs/use-cases/sharepoint-link-remediation.md) | [`sharepoint-link-remediation`](plugins/sharepoint-link-remediation/README.md) | Extraction, remediation, and validation of page/document links and embedded field image references. |
-| **Content migration** | [overview](docs/use-cases/sharepoint-content-migration.md) | [`sharepoint-content-migration`](plugins/sharepoint-content-migration/README.md) | Item-level list content migration with two-pass lookup-ID re-linking. |
+| **Content migration** | [overview](docs/use-cases/sharepoint-content-migration.md) | [`sharepoint-content-migration`](plugins/sharepoint-content-migration/README.md) | Item-level list and file content migration with two-pass lookup-ID re-linking. |
 | **Migration wave planning** | [overview](docs/use-cases/sharepoint-migration-planning.md) | [`sharepoint-migration-planning`](plugins/sharepoint-migration-planning/README.md) | Dependency-graph analysis and deployment wave-order computation across a migration project. |
 | **Tenant publication** | [overview](docs/use-cases/sharepoint-content-publication.md) | [`sharepoint-content-publication`](plugins/sharepoint-content-publication/README.md) | Markdown/ASPX upload, validation, reconciliation, and rollback against a live tenant. |
+| **SPFx web part authoring** | [overview](docs/use-cases/sharepoint-spfx-authoring.md) | [`sharepoint-spfx-authoring`](plugins/sharepoint-spfx-authoring/README.md) | Custom SPFx web part and Master-Detail dossier scaffolding, packaging, and app-catalog deployment. |
 | **Workbench/connection setup** | [overview](docs/use-cases/workbench-setup.md) | [`workbench-setup`](plugins/workbench-setup/README.md) | Cross-cutting connection config, document-workflow, and publication-profile setup shared by the other use cases. |
 | **Agent & native-skill lifecycle** | [overview](docs/use-cases/sharepoint-agents-and-skills.md) | [`sharepoint-agents-and-skills`](plugins/sharepoint-agents-and-skills/README.md) | Create/update/deploy/verify/rollback/backup/restore for SharePoint Copilot agents and native skills. |
 

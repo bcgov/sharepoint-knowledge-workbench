@@ -1,28 +1,28 @@
 {
   "name": "sharepoint-knowledge-workbench",
-  "description": "Independently-installable domain plugins for the SharePoint Knowledge Workbench: source-document-extraction, document-structure-analysis, structured-content-assembly, and structured-content-rendering convert a source .docx manual into validated, structured, published content (Markdown and SharePoint ASPX); sharepoint-content-publication and sharepoint-agents-and-skills handle tenant publication and agent/native-skill lifecycle; workbench-setup provides foundational connection/config/workflow setup for the whole workbench.",
+  "description": "Independently-installable domain plugins for the SharePoint Knowledge Workbench: content-extraction, content-structure-analysis, content-assembly, and content-rendering convert source manuals into validated structured content (Markdown/ASPX); sharepoint-* plugins provide comprehensive discovery, schema reconciliation, tenant provisioning, content publication, page modernization, link remediation, wave planning, SPFx development, and Copilot agent management; workbench-setup provides foundational environment configuration.",
   "owner": {
     "name": "Richard Fremmerlid"
   },
   "plugins": [
     {
-      "name": "source-document-extraction",
-      "source": "./plugins/source-document-extraction",
+      "name": "content-extraction",
+      "source": "./plugins/content-extraction",
       "strict": true
     },
     {
-      "name": "document-structure-analysis",
-      "source": "./plugins/document-structure-analysis",
+      "name": "content-structure-analysis",
+      "source": "./plugins/content-structure-analysis",
       "strict": true
     },
     {
-      "name": "structured-content-assembly",
-      "source": "./plugins/structured-content-assembly",
+      "name": "content-assembly",
+      "source": "./plugins/content-assembly",
       "strict": true
     },
     {
-      "name": "structured-content-rendering",
-      "source": "./plugins/structured-content-rendering",
+      "name": "content-rendering",
+      "source": "./plugins/content-rendering",
       "strict": true
     },
     {
@@ -51,13 +51,7 @@
       "name": "sharepoint-discovery",
       "source": "./plugins/sharepoint-discovery",
       "strict": true,
-      "description": "Read-only analysis of exported classic SharePoint inventories: per-page migration complexity scoring and functional grouping of web-part code. All classification rules and behavioural knowledge are caller-supplied."
-    },
-    {
-      "name": "sharepoint-schema",
-      "source": "./plugins/sharepoint-schema",
-      "strict": true,
-      "description": "Read-only SharePoint schema auditing: compares two exported schema snapshots for list/content-type/site-column/field variance, audits duplicate display names, inventories Choice field option sets, and extracts Calculated-column formulas/references from an export. Environment labels and compared properties are caller-supplied. Zero tenant I/O by design; a companion sharepoint-discovery orchestrator produces the directory-tree export shape these tools consume."
+      "description": "Read-only analysis of exported classic SharePoint inventories and schemas: per-page migration complexity scoring, functional grouping of web-part code, schema drift auditing, choice field inventory, and calculated column extraction."
     },
     {
       "name": "sharepoint-page-modernization",
@@ -66,10 +60,22 @@
       "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, component mapping with explicit gap notices, and a human-readable Markdown conversion report. Produces plans, never tenant writes."
     },
     {
+      "name": "sharepoint-page-modernization-execution",
+      "source": "./plugins/sharepoint-page-modernization-execution",
+      "strict": true,
+      "description": "Real PnP.PowerShell page modernization executors: single page conversion, bulk conversion, page copying between sites, and post-conversion validation."
+    },
+    {
+      "name": "sharepoint-schema-reconciliation",
+      "source": "./plugins/sharepoint-schema-reconciliation",
+      "strict": true,
+      "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning reconciliation. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Zero tenant I/O ships in this plugin (enforced by a test) -- the real PnP executors for these plans live in sharepoint-provisioning instead."
+    },
+    {
       "name": "sharepoint-provisioning",
       "source": "./plugins/sharepoint-provisioning",
       "strict": true,
-      "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Zero tenant I/O ships in this plugin (enforced by a test) -- the real PnP executors for these plans live in sharepoint-migration-planning instead."
+      "description": "Real PnP.PowerShell executors for declarative site-column, list-column, content-type, view, item, library, site, branding, navigation, permissions, and taxonomy provisioning plans. Dry-run by default; every write gated behind -Execute and an operation-specific -ConfirmToken."
     },
     {
       "name": "sharepoint-migration-planning",
