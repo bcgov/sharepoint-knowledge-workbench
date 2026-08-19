@@ -28,13 +28,13 @@ from review_manual_topics import resolve_topic, TopicNotFoundError, TooManyRelat
 
 _EVALUATIONS_DIR = Path(__file__).resolve().parents[2] / "evaluations"
 _COMMON_DIR = _EVALUATIONS_DIR / "common"
-_REAL_PAGES_DIR = Path(__file__).resolve().parents[4] / "runs" / "ceis-manual-v2" / "render" / "rendered-output" / "pages"
+_REAL_PAGES_DIR = Path(__file__).resolve().parents[4] / "runs" / "sample-manual" / "render" / "rendered-output" / "pages"
 _BOUND01_FIXTURE = _EVALUATIONS_DIR / "fixtures" / "bound-01"
 _SAFE02_FIXTURE = _EVALUATIONS_DIR / "fixtures" / "safe-02"
 
 requires_real_corpus = pytest.mark.skipif(
     not _REAL_PAGES_DIR.exists(),
-    reason="runs/ceis-manual-v2/render/rendered-output/pages/ not present in this checkout",
+    reason="sample-manual rendered pages not present in this checkout",
 )
 
 
