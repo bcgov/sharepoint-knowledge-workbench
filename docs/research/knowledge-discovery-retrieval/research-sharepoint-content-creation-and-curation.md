@@ -498,7 +498,7 @@ Update standards, schemas, skills, templates, and content
 
 ## 14. Practical Pilot Implications
 
-After the CEIS conversion pilot is complete, a bounded follow-on experiment could test:
+After the conversion pilot is complete, a bounded follow-on experiment could test:
 
 1. Upload a manageable set of structured Markdown topics to a dedicated SharePoint library.
 2. Apply owner, knowledge type, review date, status, publication ID, stable topic ID, and validation status.

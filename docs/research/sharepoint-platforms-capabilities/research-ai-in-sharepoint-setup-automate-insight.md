@@ -621,7 +621,7 @@ AI-assisted SharePoint Knowledge Workbench
 ## 15. Practical Sequencing
 
 ```text
-1. Complete and evaluate the CEIS structured-content pilot.
+1. Complete and evaluate the structured-content pilot.
 2. Validate maintainable topic boundaries and publication assembly.
 3. Test a lightweight SharePoint document-library governance model.
 4. Define metadata authority and controlled vocabularies.

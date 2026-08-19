@@ -471,7 +471,7 @@ A bounded pilot could test both workbench layers.
 
 ### Phase A — Repository Preparation
 
-1. Complete the CEIS structured-content conversion and evidence review.
+1. Complete the sample structured-content conversion and evidence review.
 2. Produce a manageable topic package and explicit publication map.
 3. Define a minimal SharePoint metadata schema.
 4. Prepare skill specifications and evaluation cases.

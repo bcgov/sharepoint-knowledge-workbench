@@ -1,7 +1,7 @@
 # Field Note — `.aspx` vs. Rendered-Markdown Grounding: Live Comparison Findings
 
 **Date:** 2026-08-02/03. **Status:** TENANT-TESTED EVIDENCE, small sample (7 cases, 1-2 runs each).
-Source: Phase 5 CEIS grounding-only prototype, Tasks 4-8 —
+Source: Phase 5 grounding-only prototype, Tasks 4-8 —
 `tools/phase-5-sharepoint-knowledge-agent-pilot/results/task8-consolidated-findings.md` is the
 full evidence record; this note extracts the findings with the broadest relevance beyond Phase 5
 itself.
@@ -9,14 +9,14 @@ itself.
 ## What was tested
 
 Two live SharePoint Copilot agents, identical instructions except for source-format substitution,
-grounded on the same CEIS Manual content in two representations: `CEIS-ASPX-Only-Test`
-(pandoc-converted `.aspx` pages) and `CEIS-Markdown-Comparison-Agent` (rendered `.md` pages). 7
+grounded on the same Source Manual content in two representations: `Sample-ASPX-Only-Test`
+(pandoc-converted `.aspx` pages) and `Sample-Markdown-Comparison-Agent` (rendered `.md` pages). 7
 researcher-authored questions (normal/negative/ambiguous/currency categories), run against both,
 1-2 times each, 20 total live runs.
 
 ## Findings with relevance beyond Phase 5
 
-### 1. Agents will use file-system metadata as a currency proxy when no real one exists — a general trust-boundary risk, not a CEIS- or format-specific bug
+### 1. Agents will use file-system metadata as a currency proxy when no real one exists — a general trust-boundary risk, not a SampleManual- or format-specific bug
 
 Asked "was topic A or topic B reviewed more recently," **both** agents independently answered by
 comparing the topics' SharePoint file-modification (upload) timestamps — an artifact of the

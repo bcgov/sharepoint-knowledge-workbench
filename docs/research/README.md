@@ -275,7 +275,7 @@ This evidence does not yet prove every custom-agent-to-skill invocation scenario
 
 ## Near-Term Research and Pilot Priorities
 
-1. Complete and evaluate the CEIS structured-content pilot.
+1. Complete and evaluate the structured-content pilot.
 2. Confirm maintainable topic boundaries and publication-map behaviour.
 3. Test a bounded SharePoint Markdown authoring and approval model.
 4. Harden and evaluate the `review-manual-topics` native skill.

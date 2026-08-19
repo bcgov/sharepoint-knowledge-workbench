@@ -42,13 +42,13 @@ section that matters for your question.
   edit a skill's own `SKILL.md` definition conversationally. This reconciles Phase 3.0's earlier
   "writes are blocked" finding, which was specific to the custom-agent surface it tested. → §2.6
 - **Mermaid diagrams render as real visuals — but only via a saved `.md` file, never in chat.**
-  `ceis-workflow-diagram` sidesteps the chat pane's text-only limitation by always writing a new
+  `sample-workflow-diagram` sidesteps the chat pane's text-only limitation by always writing a new
   `.md` file with a fenced Mermaid block; opening that file in SharePoint's native Markdown
   viewer renders an actual flowchart. → §2.5, §3.
 - **Native Markdown rendering and multi-topic synthesis both work well on real manual content.**
   The actual `docx-to-content` plugin output (348 files) renders natively with working
   cross-links, and an agent grounded on it correctly synthesized a domain-accurate, cited answer
-  spanning 3 real CEIS topics without overclaiming. → §2.5
+  spanning 3 real source manual topics without overclaiming. → §2.5
 - **Two structurally different agent types exist** (always-present ready-made vs. editable
   custom `.agent`), each with real, documented constraints: ≤20 knowledge sources, no List data,
   no Site Pages library pages as a source, results filtered to the current user's own
@@ -109,7 +109,7 @@ creation, both `CONFIRMED_TENANT_OBSERVATION` (`phase-4-agent-format-learning-jo
 1. **Zero `unique_id` leaks cross-site content in the picker.** An agent's knowledge-source
    `unique_id` left as `00000000-0000-0000-0000-000000000000` permitted the SharePoint content
    picker to expose libraries from an entirely different, retired sandbox site
-   (`AG-CSB-ITAU-CMAT-DEV`) instead of the intended `AG-CSB-INTRANET-DEV`.
+   (`TargetSite-Dev`) instead of the intended `TargetSite-Dev`.
 2. **Wrong `site_id`/`web_id` grounds the agent on the wrong site entirely, silently.** An
    automation script initially reused `site_id`/`web_id` values copied from a different test
    agent, which pointed at the retired sandbox rather than the target site — the agent
@@ -131,7 +131,7 @@ implementation):
 
 | Field | Confirmed working pattern |
 |---|---|
-| `name` | Descriptive but reasonably short (e.g. "CEIS Pilot Knowledge Agent") |
+| `name` | Descriptive but reasonably short (e.g. "SampleManual Pilot Knowledge Agent") |
 | `description` | One short sentence stating purpose |
 | `instructions` | Single clear directive sentence, formal tone (e.g. "Provide accurate information about the content in the selected files and reply in a formal tone.") |
 | `conversationStarters` | Exactly 3 items, generic — not domain-specific |
@@ -215,7 +215,7 @@ human.
 ### 2.5 SharePoint as a Multi-Format Renderer Target — Confirmed and Blocked Paths
 
 Source: same Phase 3.0 note, §§13–15, testing this repository's own `Content + Template +
-Renderer = Published Output` vision directly against the real CEIS manual rendered output.
+Renderer = Published Output` vision directly against the real source manual rendered output.
 
 - **Native Markdown rendering: `CONFIRMED` working well.** The actual `docx-to-content` plugin's
   rendered output (348 files, `pages/` + `media/`) was uploaded and opened directly — SharePoint's
@@ -226,7 +226,7 @@ Renderer = Published Output` vision directly against the real CEIS manual render
   configuration. Embedded-image rendering within a topic page (as opposed to just links) was
   **not yet independently confirmed** — flagged as a distinct follow-up.
 - **Multi-document cross-topic synthesis: `CONFIRMED`, high quality — the strongest single
-  result in this note.** Asked how two real CEIS topics (warrants, protection orders) relate,
+  result in this note.** Asked how two real source manual topics (warrants, protection orders) relate,
   the agent correctly identified 3 relevant source files, used correct domain-specific
   terminology and form codes, cited every claim, and explicitly avoided overclaiming a causal
   relationship the source material didn't support (stating the manual only links the topics
@@ -238,7 +238,7 @@ Renderer = Published Output` vision directly against the real CEIS manual render
   modern SharePoint (its "no script"/restricted-file-type enforcement), not a permissions gap
   (the same account succeeded at every other write probe in the same session).
 - **Modern client-side page via `Add-PnPPage`/`Add-PnPPageTextPart`: `CONFIRMED WORKING`.** The
-  same CEIS topic, converted via `pandoc -t html` with image URLs rewritten to an uploaded
+  same SampleManual topic, converted via `pandoc -t html` with image URLs rewritten to an uploaded
   `SiteAssets/` folder, rendered correctly — heading, bullet list, body paragraphs, and the first
   embedded image all displayed inline exactly as authored (confirmed by screenshot). Independently
   corroborated by a sibling BC Gov project's own, more mature ASPX-to-SPO migration research:
@@ -251,7 +251,7 @@ Renderer = Published Output` vision directly against the real CEIS manual render
   rendered correctly (the confirming screenshot only captured the top of the page).
 - **Mermaid-in-file rendering vs. Mermaid-in-chat rendering — reconciled, not contradictory.**
   Phase 3.0 §11 found the **chat pane** cannot render an actual Mermaid diagram image — only the
-  text/code, with an ASCII-art fallback at best. The `ceis-workflow-diagram` skill (see §3)
+  text/code, with an ASCII-art fallback at best. The `sample-workflow-diagram` skill (see §3)
   works around this precisely by never trying to render inside chat at all: it always creates a
   **new `.md` file** whose body wraps the Mermaid syntax in a fenced ```` ```mermaid ```` code
   block, per its own `SKILL.md` template (`# <Title> Workflow Diagram` → `Source:` line →
@@ -275,7 +275,7 @@ question:
 
 - **Skill authoring itself is possible via natural-language chat with the ready-made
   assistant** — no manual `SKILL.md` file upload required. User-confirmed: `content-review`,
-  `build-ceis-module-test`, and `ceis-workflow-diagram` (§3) were each created this way, not by
+  `build-sample-module-test`, and `sample-workflow-diagram` (§3) were each created this way, not by
   hand-authoring and uploading a file. This is a distinct capability from *invoking* an existing
   skill, and from Phase 3.0's PnP-scriptable `Add-PnPFile` upload path (§2.3) — the ready-made
   assistant can generate the `SKILL.md` content itself, on request, from a conversational
@@ -286,10 +286,10 @@ question:
     styling, and separately saved the metadata fields** — both changes user-verified to persist
     (not just previewed/drafted). This is a genuine write, through the same kind of "invoke a
     native skill in chat" interaction Phase 3.0 found blocked for a *custom agent*.
-  - `ceis-workflow-diagram`, used live, **created a new destination `.md` file** containing the
+  - `sample-workflow-diagram`, used live, **created a new destination `.md` file** containing the
     generated Mermaid diagram — confirmed as a real file-write, not just diagram syntax rendered
     in the chat response.
-  - `build-ceis-module-test`, used live, generated a quiz **displayed in chat only** — no file
+  - `build-sample-module-test`, used live, generated a quiz **displayed in chat only** — no file
     or list item was written. This matches Phase 3.0 §9's separate finding that quiz generation
     is itself a native, no-skill-needed chat capability; here it is confirmed as skill-invoked
     output that stays chat-only rather than being persisted anywhere.
@@ -308,7 +308,7 @@ question:
 ### 2.7 Live Session Evidence — Iterative Review + Self-Modifying Skill (2026-08-05)
 
 A live 2026-08-05 review session of a real file, `desk-orders-workflow-diagram.md`
-(`CEISPilotKnowledgeMarkdown/pages/`), via the built-in Copilot side panel opened while
+(`TargetPilotKnowledgeMarkdown/pages/`), via the built-in Copilot side panel opened while
 previewing the file in the browser, was captured directly (screenshots) and cross-checked
 against the exact deployed skill definition,
 `temp/agentassets-analysis/downloaded-skills/content-review/SKILL.md` (gitignored local copy —
@@ -385,10 +385,10 @@ repository-authored; three have no repository source at all (see
 | Skill | Origin | Capability demonstrated |
 |---|---|---|
 | `review-manual-topics` | Repo-authored (`create-sharepoint-native-skill` → `deploy-sharepoint-native-skill`) | Editorial review of one selected topic against required metadata; creates follow-up items in a `Content Review` list; avoids duplicates. See `field-note-agentassets-skill-creation.md` for the full generated definition and governance-risk analysis (automatic list creation, schema-derived required fields, duplicate-detection key, default priority, exception vocabulary). |
-| `ceis-test-skill` | Repo-authored (`create-test-skill.ps1`, Phase 4.7.5) | Minimal single-topic review skill; smallest example (821 bytes) of the pattern. |
+| `sample-test-skill` | Repo-authored (`create-test-skill.ps1`, Phase 4.7.5) | Minimal single-topic review skill; smallest example (821 bytes) of the pattern. |
 | `content-review` | **Unattributed** (no repository source) | Interactive, one-question-at-a-time SME review checklist; reads the target item's real list/library schema for internal field names rather than assuming them; writes a visible, color-coded HTML review-status box into page content; saves both content edits and metadata in one flow. Largest and richest skill found (11.7 KB). |
-| `build-ceis-module-test` | **Unattributed** | Generates a Markdown quiz/assessment (questions + answer key + rationale + source citation per question) from CEIS module content; explicit anti-hallucination guardrails ("Needs human review" for ambiguous items). |
-| `ceis-workflow-diagram` | **Unattributed** | Converts procedure text into a Mermaid flowchart, written to a new `.md` file at a fixed destination with a defined naming/collision-avoidance convention — the only skill found that creates a new file as its primary output. |
+| `build-sample-module-test` | **Unattributed** | Generates a Markdown quiz/assessment (questions + answer key + rationale + source citation per question) from SampleManual module content; explicit anti-hallucination guardrails ("Needs human review" for ambiguous items). |
+| `sample-workflow-diagram` | **Unattributed** | Converts procedure text into a Mermaid flowchart, written to a new `.md` file at a fixed destination with a defined naming/collision-avoidance convention — the only skill found that creates a new file as its primary output. |
 
 Full content, byte sizes, and the drift/attribution check (byte-for-byte comparison of
 `review-manual-topics` between repo source and live tenant copy — identical apart from a
@@ -397,10 +397,10 @@ trailing newline) are in `field-note-agentassets-tenant-inventory-2026-08-05.md`
 ### 3.1 Native skill capability categories observed so far
 
 ```text
-Editorial review of a single item      -> review-manual-topics, ceis-test-skill
+Editorial review of a single item      -> review-manual-topics, sample-test-skill
 Interactive multi-turn review + write  -> content-review
-Content-derived assessment generation  -> build-ceis-module-test
-New-file generation (diagram)          -> ceis-workflow-diagram
+Content-derived assessment generation  -> build-sample-module-test
+New-file generation (diagram)          -> sample-workflow-diagram
 ```
 
 No native skill observed so far calls an external system, runs custom code, or operates

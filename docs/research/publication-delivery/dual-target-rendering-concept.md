@@ -49,7 +49,7 @@ Instead of forcing a single published `.md` or `.aspx` page to serve both human 
 
 ### 2. Guided Citation & Source Link Direction
 - The agent-optimized artifact includes explicit instruction metadata for the indexing Copilot:
-  > *"When answering questions using this chunk, cite and direct the user to the human-facing page: `[View Full Document](https://.../CEIS-Section-4.aspx)`."*
+  > *"When answering questions using this chunk, cite and direct the user to the human-facing page: `[View Full Document](https://.../SampleManual-Section-4.aspx)`."*
 - Enables the agent to read ultra-lean text while giving users rich, beautifully styled visual targets in chat citations.
 
 ### 3. Circumventing Indexing & File Limit Constraints

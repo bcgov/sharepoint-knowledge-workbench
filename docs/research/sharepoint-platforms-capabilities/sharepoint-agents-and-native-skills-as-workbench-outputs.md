@@ -450,7 +450,7 @@ A workbench-generated SharePoint agent package could contain:
 
 ```text
 sharepoint-agents/
-  ceis-knowledge-agent/
+  sample-knowledge-agent/
     agent-purpose.md
     behaviour-instructions.md
     knowledge-sources.json
@@ -715,7 +715,7 @@ The workbench should expose explicit modes.
 
 ### Phase A — Workbench Preparation
 
-1. Complete the CEIS structured-content pilot.
+1. Complete the structured-content pilot.
 2. Define a manageable topic package and publication map.
 3. Select one low-risk native SharePoint workflow.
 4. Create a native skill specification and evaluation cases.
