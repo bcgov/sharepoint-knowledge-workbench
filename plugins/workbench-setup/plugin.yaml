@@ -8,8 +8,9 @@ platforms:
   - macos
   - windows
 skills:
-  - request-app-registration
-  - initialize-workbench-config
-  - initialize-document-workflow
-  - resolve-workbench-paths
-  - validate-workbench-environment
+  - workbench-initialize-document-workflow
+  - workbench-initialize-workbench-config
+  - workbench-request-app-registration
+  - workbench-resolve-workbench-paths
+  - workbench-validate-workbench-environment
+

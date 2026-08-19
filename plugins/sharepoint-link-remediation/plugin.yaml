@@ -8,11 +8,14 @@ platforms:
   - macos
   - windows
 skills:
-  - extract-links
-  - remediate-links
-  - validate-link-integrity
-  - remediate-document-content-links
-  - remediate-field-image-references
+  - sharepoint-extract-links
+  - sharepoint-remediate-document-content-links
+  - sharepoint-remediate-field-image-references
+  - sharepoint-remediate-links
+  - sharepoint-validate-link-integrity
 agents:
   - sharepoint-link-agent
   - sharepoint-link-remediation-analysis-agent
+
+
+

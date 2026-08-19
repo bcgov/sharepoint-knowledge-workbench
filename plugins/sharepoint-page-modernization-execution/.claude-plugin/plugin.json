@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-page-modernization-execution",
+    "version": "0.1.0-alpha.1",
+    "description": "Real PnP.PowerShell page modernization executors: single page conversion, bulk conversion, page copying between sites, and post-conversion validation.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "modernization",
+        "pnp-powershell",
+        "pages"
+    ]
+}

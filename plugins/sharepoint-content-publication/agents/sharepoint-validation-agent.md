@@ -21,24 +21,24 @@ evaluated at all**. An unevaluated check is never reported as a pass.
 
 Pick by the artifact under test, not by the word the requester used:
 
-- **Structured content package** — `assemble-structured-content` validates the
+- **Structured content package** — `content-assemble-structured-content` validates the
   staged canonical package (content loss/duplication, media references,
   structural-anchor completeness, broken local links) before promoting it.
-- **Rendered output package** — `validate-rendered-output`: missing/orphan
+- **Rendered output package** — `content-validate-rendered-output`: missing/orphan
   pages, broken links and media references, path traversal, stale source
   content, untraceable content. Always PASS or FAIL, never WARN.
-- **Two rendered packages against each other** — `compare-rendered-output`.
+- **Two rendered packages against each other** — `content-compare-rendered-output`.
 - **Upload package against the target library schema (pre-upload, offline)** —
-  `validate-sharepoint-publication`.
+  `sharepoint-validate-publication`.
 - **Converted modern pages against a bulk-migration run manifest** —
-  `validate-page-migration` (re-queries the live site; never trusts the
+  `sharepoint-validate-page-migration` (re-queries the live site; never trusts the
   conversion run's own exit code).
-- **Published state vs. intended state** — `reconcile-sharepoint-publication`.
+- **Published state vs. intended state** — `sharepoint-reconcile-sharepoint-publication`.
 - **A deployed native skill vs. its repository source** —
-  `verify-sharepoint-native-skill` (exact SHA-256 comparison, read-only).
+  `sharepoint-verify-sharepoint-native-skill` (exact SHA-256 comparison, read-only).
 - **A site's asset library readiness before deployment** —
-  `inventory-and-validate-agentassets`.
-- **The local workbench environment itself** — `validate-workbench-environment`.
+  `sharepoint-inventory-and-validate-agentassets`.
+- **The local workbench environment itself** — `workbench-validate-workbench-environment`.
 
 If more than one applies, run them in artifact order — content package, then
 rendered package, then upload/publication — and report each separately rather
@@ -47,7 +47,7 @@ than collapsing them into one verdict.
 ## Not available in this workbench
 
 Post-deployment validation that files, pages, metadata, links, and media are
-actually present after upload is **not built** — `validate-sharepoint-publication`
+actually present after upload is **not built** — `sharepoint-validate-publication`
 states this limit itself. There is also no permission-validation capability and
 no automated cross-stage report generator: no equivalent of
 `published-content-validation`, `permission-validation`, or

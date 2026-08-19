@@ -1,6 +1,7 @@
 name: sharepoint-provisioning
 version: 0.1.0-alpha.1
-description: "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning. Reconcile-not-recreate semantics (create-if-missing, drift detection and reporting, explicit unlink for undeclared fields), a raw Field XML construction workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure and read-safe; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token that goes stale if the plan's source data changes. Zero tenant I/O ships in this plugin."
+status: implemented
+description: "Real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions, and taxonomy. Consumes plan JSON from sharepoint-schema-reconciliation modules or direct plans. Every script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken."
 author: Richard Fremmerlid
 kind: backend
 platforms:
@@ -8,7 +9,5 @@ platforms:
   - macos
   - windows
 skills:
-  - provision-content-types
-  - provision-fields
-  - provision-list
-  - provision-modern-calendar-list
+  - sharepoint-apply-provisioning-plan
+

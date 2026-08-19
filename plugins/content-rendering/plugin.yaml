@@ -1,0 +1,18 @@
+name: content-rendering
+version: 0.1.0-alpha.1
+description: "Renders a validated canonical-package (and publication-map, for grouped packages) to multipage-Markdown and SharePoint modern-page (ASPX) publication output, validated and atomically promoted."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - content-compare-rendered-output
+  - content-create-aspx-rendering-template
+  - content-create-markdown-rendering-template
+  - content-render-multipage-markdown
+  - content-render-sharepoint-aspx
+  - content-validate-rendered-output
+  - content-validate-rendering-template
+

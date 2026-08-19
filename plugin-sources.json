@@ -26,6 +26,10 @@
     {
       "source": "C:\\Users\\RICHFREM\\source\\repos\\sharepoint-knowledge-workbench\\plugins",
       "plugins": [
+        "content-assembly",
+        "content-extraction",
+        "content-rendering",
+        "content-structure-analysis",
         "document-structure-analysis",
         "sharepoint-agents-and-skills",
         "sharepoint-content-migration",
@@ -34,8 +38,11 @@
         "sharepoint-link-remediation",
         "sharepoint-migration-planning",
         "sharepoint-page-modernization",
+        "sharepoint-page-modernization-execution",
         "sharepoint-provisioning",
         "sharepoint-schema",
+        "sharepoint-schema-reconciliation",
+        "sharepoint-spfx-authoring",
         "source-document-extraction",
         "structured-content-assembly",
         "structured-content-rendering",

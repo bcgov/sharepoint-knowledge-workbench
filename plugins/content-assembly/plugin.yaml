@@ -1,0 +1,12 @@
+name: content-assembly
+version: 0.1.0-alpha.1
+description: "Canonical content package construction: cleanup, chunking, validation, and atomic promotion from a confirmed analysis-plan."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - content-assemble-structured-content
+
