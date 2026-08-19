@@ -4,7 +4,7 @@ plugin: workbench-setup
 description: Resolves a DocumentId plus already-parsed connection/document-workflow/publication-profile dicts into the concrete export paths and arguments the four Phase 9 SharePoint analysis plugins (sharepoint-discovery, sharepoint-schema, sharepoint-link-remediation, sharepoint-page-modernization) would need, checks each referenced path against the real filesystem, and prints the resolved invocations. Never executes a downstream plugin -- print, don't execute.
 allowed-tools: Bash, Read
 examples:
-  - "python -c \"from path_resolution import resolve_workbench_paths, format_invocations; print(format_invocations(resolve_workbench_paths(document_id='ceis-manual', connection=connection, workflow_profile=workflow, publication_profile=publication, workbench_root='.')))\""
+  - "python -c \"from path_resolution import resolve_workbench_paths, format_invocations; print(format_invocations(resolve_workbench_paths(document_id='sample-manual', connection=connection, workflow_profile=workflow, publication_profile=publication, workbench_root='.')))\""
 ---
 
 # Resolve Workbench Paths
@@ -75,7 +75,7 @@ if present.
 from path_resolution import resolve_workbench_paths, format_invocations
 
 result = resolve_workbench_paths(
-    document_id="ceis-manual",
+    document_id="sample-manual",
     connection=connection,               # Layer 1 connection-config dict
     workflow_profile=workflow_profile,   # Layer 1b document-workflow dict
     publication_profile=publication_profile,  # Layer 2 publication-profile dict

@@ -2,11 +2,11 @@
     SchemaVersion = "1.0"
 
     Document = @{
-        DocumentId        = "ceis-manual"
-        Title             = "CEIS Manual"
+        DocumentId        = "sample-manual"
+        Title             = "Sample Technical Manual"
         ContentType       = "Manual"
         ContentOwner      = ""
-        SourcePackagePath = "runs/ceis-manual-v2"
+        SourcePackagePath = "runs/sample-manual"
         PackageIdentity   = ""
     }
 
@@ -14,7 +14,7 @@
         Enabled            = $true
         TargetType         = "DocumentLibrary"
         LibraryName        = "KnowledgePublications"
-        RootFolder         = "ceis-manual"
+        RootFolder         = "sample-manual"
         TopicFolder        = "topics"
         MediaFolder        = "media"
         NavigationFolder   = "navigation"
@@ -25,7 +25,7 @@
         Enabled            = $false
         TargetType         = "SitePages"
         LibraryName        = "Site Pages"
-        RootFolder         = "ceis-manual"
+        RootFolder         = "sample-manual"
         PageTemplate       = ""
         PageNamePattern    = "{TopicId}.aspx"
     }
@@ -33,15 +33,15 @@
     AgentGrounding = @{
         Enabled            = $true
         LibraryName        = "AgentGrounding"
-        RootFolder         = "ceis-manual"
+        RootFolder         = "sample-manual"
         GroundingProfile   = "manual-grounding"
     }
 
     Agents = @(
         @{
             Enabled             = $true
-            AgentId             = "ceis-knowledge-agent"
-            AgentName           = "CEIS Knowledge Agent"
+            AgentId             = "knowledge-assistant"
+            AgentName           = "Knowledge Assistant"
             AgentTemplate       = ""
             KnowledgeTargets    = @("HumanPublication")
             IncludeNativeSkills = $false
@@ -54,6 +54,6 @@
     )
 
     Evidence = @{
-        OutputPath = "docs/reports/publications/ceis-manual"
+        OutputPath = "docs/reports/publications/sample-manual"
     }
 }
