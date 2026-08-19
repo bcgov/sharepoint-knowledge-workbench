@@ -1,2035 +1,389 @@
 {
   "version": "1.0",
-  "symlinks": [
+  "links": [
     {
-      "source": "plugins/content-assembly/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list/scripts/spo-provision-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-document-library/scripts/spo-provision-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-document-library/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-settings/scripts/spo-update-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-settings/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-library-settings.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-library-settings/scripts/spo-configure-library-settings.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-library-settings/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list/scripts/spo-provision-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/emf_convert.py",
-      "target": "plugins/content-extraction/scripts/emf_convert.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/identity_core.py",
-      "target": "plugins/content-structure-analysis/scripts/identity_core.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-site-columns.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-site-column/scripts/spo-provision-site-columns.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/__init__.py",
-      "target": "plugins/content-extraction/scripts/pandoc/__init__.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-site-column/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/attrs.py",
-      "target": "plugins/content-extraction/scripts/pandoc/attrs.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-site-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-site-column/scripts/spo-update-site-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/footnotes.py",
-      "target": "plugins/content-extraction/scripts/pandoc/footnotes.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-site-column/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/heading_emphasis.py",
-      "target": "plugins/content-extraction/scripts/pandoc/heading_emphasis.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-site-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-site-column/scripts/spo-remove-site-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/images.py",
-      "target": "plugins/content-extraction/scripts/pandoc/images.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-site-column/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/tables.py",
-      "target": "plugins/content-extraction/scripts/pandoc/tables.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-add-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-column/scripts/spo-add-list-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/toc.py",
-      "target": "plugins/content-extraction/scripts/pandoc/toc.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-column/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/pandoc_cleanup/validate.py",
-      "target": "plugins/content-extraction/scripts/pandoc/validate.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-column/scripts/spo-update-list-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/plan_verification.py",
-      "target": "plugins/content-structure-analysis/scripts/plan_verification_core.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-column/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/scripts/topic_boundary_core.py",
-      "target": "plugins/content-structure-analysis/scripts/topic_boundary_core.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list-column/scripts/spo-remove-list-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/contracts/canonical-package.md",
-      "target": "plugins/content-assembly/references/contracts/canonical-package.md",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list-column/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/contracts/publication-map.md",
-      "target": "plugins/content-assembly/references/contracts/publication-map.md",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-content-types.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-content-type/scripts/spo-provision-content-types.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-content-type/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-content-type.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-content-type/scripts/spo-update-content-type.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-content-type/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-content-type.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-content-type/scripts/spo-remove-content-type.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-content-type/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-detach-content-type-from-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-detach-content-type/scripts/spo-detach-content-type-from-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-detach-content-type/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list-view.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list-view/scripts/spo-provision-list-view.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list-view/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/atomic_output.py",
-      "target": "plugins/content-assembly/scripts/atomic_output.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-add-list-item.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-item/scripts/spo-add-list-item.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_package.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-item/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/canonical_schema/__init__.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-column-formatting.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-column-formatting/scripts/spo-configure-column-formatting.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/canonical_schema/analysis_plan.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/analysis_plan.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-column-formatting/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/canonical_schema/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
-      "type": "file"
+      "src": "plugins/sharepoint-spfx-authoring/scripts/scaffold_spfx_react_app.py",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/scripts/scaffold_spfx_react_app.py",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/canonical_schema/publication_map.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/canonical_schema/shared.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/shared.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-add-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-add-list-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/chunking.py",
-      "target": "plugins/content-assembly/scripts/chunking.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-add-list-item.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-add-list-item.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/convert.py",
-      "target": "plugins/content-assembly/scripts/convert.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-column-formatting.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-column-formatting.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/dispositions.py",
-      "target": "plugins/content-assembly/scripts/dispositions.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-item-permissions.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-item-permissions.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/emf_convert.py",
-      "target": "plugins/content-extraction/scripts/emf_convert.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-library-settings.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-library-settings.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/hashing.py",
-      "target": "plugins/content-assembly/scripts/hashing.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-configure-webparts.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-webparts.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/identity_core.py",
-      "target": "plugins/content-structure-analysis/scripts/identity_core.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-create-modern-page.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-create-modern-page.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/media_disposition.py",
-      "target": "plugins/content-assembly/scripts/media_disposition.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-detach-content-type-from-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-detach-content-type-from-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/package.py",
-      "target": "plugins/content-assembly/scripts/package.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-manage-hub-site.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-manage-hub-site.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/__init__.py",
-      "target": "plugins/content-extraction/scripts/pandoc/__init__.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-branding.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-branding.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/attrs.py",
-      "target": "plugins/content-extraction/scripts/pandoc/attrs.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-content-types.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-content-types.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/footnotes.py",
-      "target": "plugins/content-extraction/scripts/pandoc/footnotes.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list-view.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-list-view.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/heading_emphasis.py",
-      "target": "plugins/content-extraction/scripts/pandoc/heading_emphasis.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/images.py",
-      "target": "plugins/content-extraction/scripts/pandoc/images.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-navigation.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-navigation.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/tables.py",
-      "target": "plugins/content-extraction/scripts/pandoc/tables.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-permissions.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-permissions.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/toc.py",
-      "target": "plugins/content-extraction/scripts/pandoc/toc.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-site-columns.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-site-columns.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/pandoc_cleanup/validate.py",
-      "target": "plugins/content-extraction/scripts/pandoc/validate.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-site.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-site.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/plan_verification.py",
-      "target": "plugins/content-structure-analysis/scripts/plan_verification_core.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-term-set.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-term-set.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/publication_map.py",
-      "target": "plugins/content-assembly/scripts/publication_map.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-content-type.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-remove-content-type.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/structured_content_assembly.py",
-      "target": "plugins/content-assembly/scripts/structured_content_assembly.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-remove-list-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/topic_boundary_core.py",
-      "target": "plugins/content-structure-analysis/scripts/topic_boundary_core.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-site-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-remove-site-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-assembly/skills/content-assemble-structured-content/scripts/validate_canonical.py",
-      "target": "plugins/content-assembly/scripts/validate_canonical.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-trigger-reindex.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-trigger-reindex.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-extraction/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-content-type.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-update-content-type.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-extraction/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-list-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-update-list-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-extraction/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-update-list.ps1",
+      "strategy": "symlink",
+      "description": ""
     },
     {
-      "source": "plugins/content-extraction/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/contracts/normalized-source-document.md",
-      "target": "plugins/content-extraction/references/contracts/normalized-source-document.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/dependencies.py",
-      "target": "plugins/content-extraction/scripts/dependencies.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/emf_convert.py",
-      "target": "plugins/content-extraction/scripts/emf_convert.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/extraction.py",
-      "target": "plugins/content-extraction/scripts/extraction.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/heading_parsing.py",
-      "target": "plugins/content-extraction/scripts/heading_parsing.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/__init__.py",
-      "target": "plugins/content-extraction/scripts/pandoc/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/attrs.py",
-      "target": "plugins/content-extraction/scripts/pandoc/attrs.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/footnotes.py",
-      "target": "plugins/content-extraction/scripts/pandoc/footnotes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/heading_emphasis.py",
-      "target": "plugins/content-extraction/scripts/pandoc/heading_emphasis.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/images.py",
-      "target": "plugins/content-extraction/scripts/pandoc/images.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/tables.py",
-      "target": "plugins/content-extraction/scripts/pandoc/tables.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/toc.py",
-      "target": "plugins/content-extraction/scripts/pandoc/toc.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/pandoc/validate.py",
-      "target": "plugins/content-extraction/scripts/pandoc/validate.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/path_safety.py",
-      "target": "plugins/content-extraction/scripts/path_safety.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/schema/__init__.py",
-      "target": "plugins/content-extraction/scripts/schema/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/schema/normalized_source_document.py",
-      "target": "plugins/content-extraction/scripts/schema/normalized_source_document.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-extraction/skills/content-extract-docx/scripts/schema/shared.py",
-      "target": "plugins/content-extraction/scripts/schema/shared.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/assets/templates/generic/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/assets/templates/generic/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/atomic_output.py",
-      "target": "plugins/content-assembly/scripts/atomic_output.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/canonical_schema/__init__.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/canonical_schema/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/canonical_schema/publication_map.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/canonical_schema/shared.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/shared.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/dispositions.py",
-      "target": "plugins/content-assembly/scripts/dispositions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/hashing.py",
-      "target": "plugins/content-assembly/scripts/hashing.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/path_safety.py",
-      "target": "plugins/content-extraction/scripts/path_safety.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/scripts/publication_map.py",
-      "target": "plugins/content-assembly/scripts/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-compare-rendered-output/scripts/compare_rendered_output.py",
-      "target": "plugins/content-rendering/scripts/compare_rendered_output.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-aspx-rendering-template/scripts/templates.py",
-      "target": "plugins/content-rendering/scripts/templates.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-create-markdown-rendering-template/scripts/templates.py",
-      "target": "plugins/content-rendering/scripts/templates.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/contracts/rendered-output-profile.md",
-      "target": "plugins/content-rendering/references/contracts/rendered-output-profile.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/atomic_output.py",
-      "target": "plugins/content-assembly/scripts/atomic_output.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/canonical_schema/__init__.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/canonical_schema/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/canonical_schema/publication_map.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/canonical_schema/shared.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/shared.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/dispositions.py",
-      "target": "plugins/content-assembly/scripts/dispositions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/hashing.py",
-      "target": "plugins/content-assembly/scripts/hashing.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/path_safety.py",
-      "target": "plugins/content-extraction/scripts/path_safety.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/publication_map.py",
-      "target": "plugins/content-assembly/scripts/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/render_result.py",
-      "target": "plugins/content-rendering/scripts/render_result.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/renderers/__init__.py",
-      "target": "plugins/content-rendering/scripts/renderers/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/renderers/multipage_markdown.py",
-      "target": "plugins/content-rendering/scripts/renderers/multipage_markdown.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/renderers/protocol.py",
-      "target": "plugins/content-rendering/scripts/renderers/protocol.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/renderers/validate_rendered.py",
-      "target": "plugins/content-rendering/scripts/renderers/validate_rendered.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/structured_content_rendering.py",
-      "target": "plugins/content-rendering/scripts/structured_content_rendering.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/references/contracts/rendered-output-profile.md",
-      "target": "plugins/content-rendering/references/contracts/rendered-output-profile.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/atomic_output.py",
-      "target": "plugins/content-assembly/scripts/atomic_output.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/canonical_schema/__init__.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/canonical_schema/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/canonical_schema/publication_map.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/canonical_schema/shared.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/shared.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/dispositions.py",
-      "target": "plugins/content-assembly/scripts/dispositions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/hashing.py",
-      "target": "plugins/content-assembly/scripts/hashing.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/path_safety.py",
-      "target": "plugins/content-extraction/scripts/path_safety.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/publication_map.py",
-      "target": "plugins/content-assembly/scripts/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/render_result.py",
-      "target": "plugins/content-rendering/scripts/render_result.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/renderers/__init__.py",
-      "target": "plugins/content-rendering/scripts/renderers/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/renderers/multipage_markdown.py",
-      "target": "plugins/content-rendering/scripts/renderers/multipage_markdown.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/renderers/protocol.py",
-      "target": "plugins/content-rendering/scripts/renderers/protocol.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/renderers/sharepoint_aspx.py",
-      "target": "plugins/content-rendering/scripts/renderers/sharepoint_aspx.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/renderers/validate_rendered.py",
-      "target": "plugins/content-rendering/scripts/renderers/validate_rendered.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-render-sharepoint-aspx/scripts/structured_content_rendering.py",
-      "target": "plugins/content-rendering/scripts/structured_content_rendering.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/references/contracts/rendered-output-profile.md",
-      "target": "plugins/content-rendering/references/contracts/rendered-output-profile.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/atomic_output.py",
-      "target": "plugins/content-assembly/scripts/atomic_output.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/canonical_schema/__init__.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/canonical_schema/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/canonical_schema/publication_map.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/canonical_schema/shared.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/shared.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/dispositions.py",
-      "target": "plugins/content-assembly/scripts/dispositions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/hashing.py",
-      "target": "plugins/content-assembly/scripts/hashing.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/path_safety.py",
-      "target": "plugins/content-extraction/scripts/path_safety.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/publication_map.py",
-      "target": "plugins/content-assembly/scripts/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/render_result.py",
-      "target": "plugins/content-rendering/scripts/render_result.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/renderers/__init__.py",
-      "target": "plugins/content-rendering/scripts/renderers/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/renderers/multipage_markdown.py",
-      "target": "plugins/content-rendering/scripts/renderers/multipage_markdown.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/renderers/protocol.py",
-      "target": "plugins/content-rendering/scripts/renderers/protocol.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/renderers/sharepoint_aspx.py",
-      "target": "plugins/content-rendering/scripts/renderers/sharepoint_aspx.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/renderers/validate_rendered.py",
-      "target": "plugins/content-rendering/scripts/renderers/validate_rendered.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendered-output/scripts/structured_content_rendering.py",
-      "target": "plugins/content-rendering/scripts/structured_content_rendering.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/aspx/page.template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "target": "plugins/content-rendering/assets/templates/solutions/standard-manual/markdown/page.template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/template_validation.py",
-      "target": "plugins/content-rendering/scripts/template_validation.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-rendering/skills/content-validate-rendering-template/scripts/templates.py",
-      "target": "plugins/content-rendering/scripts/templates.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/contracts/analysis-plan.md",
-      "target": "plugins/content-structure-analysis/references/contracts/analysis-plan.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/01-phase1-overview.mmd",
-      "target": "docs/diagrams/01-phase1-overview.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/02-analyze-and-confirm.mmd",
-      "target": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/03-create-canonical-content.mmd",
-      "target": "docs/diagrams/03-create-canonical-content.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/04-generate-and-render.mmd",
-      "target": "docs/diagrams/04-generate-and-render.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/05-validation-and-evidence.mmd",
-      "target": "docs/diagrams/05-validation-and-evidence.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "target": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "target": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "target": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/diagrams/high-level.mmd",
-      "target": "docs/diagrams/high-level.mmd",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/document_structure_analysis.py",
-      "target": "plugins/content-structure-analysis/scripts/document_structure_analysis.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/identity.py",
-      "target": "plugins/content-structure-analysis/scripts/identity.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/plan_hashing.py",
-      "target": "plugins/content-structure-analysis/scripts/plan_hashing.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/plan_schema/__init__.py",
-      "target": "plugins/content-structure-analysis/scripts/plan_schema/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/plan_schema/analysis_plan.py",
-      "target": "plugins/content-structure-analysis/scripts/plan_schema/analysis_plan.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/plan_schema/shared.py",
-      "target": "plugins/content-structure-analysis/scripts/plan_schema/shared.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/plans.py",
-      "target": "plugins/content-structure-analysis/scripts/plans.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/topic_grouping.py",
-      "target": "plugins/content-structure-analysis/scripts/topic_grouping.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-migration/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/scripts/id_mapping.py",
-      "target": "plugins/sharepoint-content-migration/scripts/id_mapping.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/scripts/item_migration.py",
-      "target": "plugins/sharepoint-content-migration/scripts/item_migration.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/scripts/spo-migrate-list-items.ps1",
-      "target": "plugins/sharepoint-content-migration/scripts/spo-migrate-list-items.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-migration/tests/test_agent_definitions.py",
-      "target": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/canonical_schema/__init__.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/canonical_schema/canonical_package.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/canonical_schema/publication_map.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/canonical_schema/shared.py",
-      "target": "plugins/content-assembly/scripts/canonical_schema/shared.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/dispositions.py",
-      "target": "plugins/content-assembly/scripts/dispositions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/hashing.py",
-      "target": "plugins/content-assembly/scripts/hashing.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/scripts/publication_map.py",
-      "target": "plugins/content-assembly/scripts/publication_map.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/scripts/spo-upload-plan.ps1",
-      "target": "plugins/sharepoint-content-publication/scripts/spo-upload-plan.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-content-publication/tests/unit/test_agent_definitions.py",
-      "target": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/scripts/assets/form-classification-rules.json",
-      "target": "plugins/sharepoint-discovery/assets/form-classification-rules.json",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/scripts/assets/webpart-migration-rules.json",
-      "target": "plugins/sharepoint-discovery/assets/webpart-migration-rules.json",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/scripts/collect-sharepoint-custom-forms.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-sharepoint-custom-forms.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/scripts/discovery_inputs.py",
-      "target": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/scripts/forms_analysis.py",
-      "target": "plugins/sharepoint-discovery/scripts/forms_analysis.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/scripts/collect-sharepoint-page-inventory.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-sharepoint-page-inventory.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/scripts/discovery_inputs.py",
-      "target": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/scripts/page_inventory_analysis.py",
-      "target": "plugins/sharepoint-discovery/scripts/page_inventory_analysis.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/scripts/collect-sharepoint-permissions.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-sharepoint-permissions.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/scripts/discovery_inputs.py",
-      "target": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/scripts/permissions_analysis.py",
-      "target": "plugins/sharepoint-discovery/scripts/permissions_analysis.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/scripts/collect-sharepoint-site-navigation.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-sharepoint-site-navigation.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/scripts/discovery_inputs.py",
-      "target": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/scripts/navigation_analysis.py",
-      "target": "plugins/sharepoint-discovery/scripts/navigation_analysis.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/scripts/collect-sharepoint-webpart-content.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-sharepoint-webpart-content.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/scripts/discovery_inputs.py",
-      "target": "plugins/sharepoint-discovery/scripts/discovery_inputs.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/scripts/webpart_code_analysis.py",
-      "target": "plugins/sharepoint-discovery/scripts/webpart_code_analysis.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-audit-managed-metadata/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-audit-managed-metadata/scripts/audit-onprem-sharepoint-managed-metadata.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/audit-onprem-sharepoint-managed-metadata.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-audit-managed-metadata/scripts/audit-sharepoint-managed-metadata.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/audit-sharepoint-managed-metadata.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-audit-onprem-schema-drift/scripts/audit-onprem-sharepoint-schema-drift.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/audit-onprem-sharepoint-schema-drift.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/scripts/duplicate_fields.py",
-      "target": "plugins/sharepoint-discovery/scripts/duplicate_fields.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/scripts/schema_diff.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_diff.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/scripts/schema_export.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_export.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-collect-sharepoint-inventory/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-collect-sharepoint-inventory/scripts/collect-onprem-sharepoint-aspx-pages.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-onprem-sharepoint-aspx-pages.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-collect-sharepoint-inventory/scripts/collect-onprem-sharepoint-inventory.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-onprem-sharepoint-inventory.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-collect-sharepoint-inventory/scripts/collect-sharepoint-inventory.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-sharepoint-inventory.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-collect-sharepoint-inventory/scripts/collect-sharepoint-schema-export.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/collect-sharepoint-schema-export.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-diff-sharepoint-schema/scripts/schema_definition.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_definition.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-diff-sharepoint-schema/scripts/schema_diff.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_diff.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-diff-sharepoint-schema/scripts/schema_export.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_export.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-extract-calculated-columns/scripts/calculated_columns.py",
-      "target": "plugins/sharepoint-discovery/scripts/calculated_columns.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-extract-calculated-columns/scripts/schema_export.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_export.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-extract-choice-fields/scripts/choice_fields.py",
-      "target": "plugins/sharepoint-discovery/scripts/choice_fields.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-extract-choice-fields/scripts/schema_export.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_export.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-generate-discovery-report-set/scripts/generate-sharepoint-discovery-report-set.ps1",
-      "target": "plugins/sharepoint-discovery/scripts/generate-sharepoint-discovery-report-set.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-generate-sharepoint-schema-from-export/scripts/schema_definition.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_definition.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-generate-sharepoint-schema-from-export/scripts/schema_export.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_export.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/skills/sharepoint-scaffold-schema-definition/scripts/schema_scaffold.py",
-      "target": "plugins/sharepoint-discovery/scripts/schema_scaffold.py",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-discovery/tests/test_agent_definitions.py",
-      "target": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-extract-links/scripts/link_extraction.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_extraction.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-extract-links/scripts/link_outcomes.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/scripts/document_link_remediation.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/document_link_remediation.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/scripts/link_outcomes.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/scripts/link_rules.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/scripts/spo-remediate-document-content-links.ps1",
-      "target": "plugins/sharepoint-link-remediation/scripts/spo-remediate-document-content-links.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/scripts/field_image_remediation.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/field_image_remediation.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/scripts/link_outcomes.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/scripts/link_rules.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/scripts/spo-remediate-field-image-references.ps1",
-      "target": "plugins/sharepoint-link-remediation/scripts/spo-remediate-field-image-references.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/scripts/link_outcomes.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/scripts/link_remediation.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_remediation.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/scripts/link_rules.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/scripts/spo-remediate-page-links.ps1",
-      "target": "plugins/sharepoint-link-remediation/scripts/spo-remediate-page-links.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/scripts/link_extraction.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_extraction.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/scripts/link_integrity.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_integrity.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/scripts/link_outcomes.py",
-      "target": "plugins/sharepoint-link-remediation/scripts/link_outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-link-remediation/tests/test_agent_definitions.py",
-      "target": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/scripts/completeness_checks.py",
-      "target": "plugins/sharepoint-migration-planning/scripts/completeness_checks.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/scripts/dependency_graph.py",
-      "target": "plugins/sharepoint-migration-planning/scripts/dependency_graph.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/scripts/wave_planning.py",
-      "target": "plugins/sharepoint-migration-planning/scripts/wave_planning.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/scripts/inventory_validation.py",
-      "target": "plugins/sharepoint-migration-planning/scripts/inventory_validation.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/scripts/wave_script_generation.py",
-      "target": "plugins/sharepoint-migration-planning/scripts/wave_script_generation.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/skills/sharepoint-plan-sharepoint-deployment-waves/scripts/wave_planning.py",
-      "target": "plugins/sharepoint-migration-planning/scripts/wave_planning.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/scripts/project_setup.py",
-      "target": "plugins/sharepoint-migration-planning/scripts/project_setup.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-migration-planning/tests/test_agent_definitions.py",
-      "target": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-convert-page-to-modern/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-convert-page-to-modern/scripts/spo-convert-page-to-modern.ps1",
-      "target": "plugins/sharepoint-page-modernization-execution/scripts/spo-convert-page-to-modern.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/scripts/spo-page-copy-plan.ps1",
-      "target": "plugins/sharepoint-page-modernization-execution/scripts/spo-page-copy-plan.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/scripts/spo-convert-page-to-modern.ps1",
-      "target": "plugins/sharepoint-page-modernization-execution/scripts/spo-convert-page-to-modern.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/scripts/spo-convert-pages-bulk.ps1",
-      "target": "plugins/sharepoint-page-modernization-execution/scripts/spo-convert-pages-bulk.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/scripts/spo-validate-page-conversion.ps1",
-      "target": "plugins/sharepoint-page-modernization-execution/scripts/spo-validate-page-conversion.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-validate-page-migration/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-validate-page-migration/scripts/spo-validate-page-conversion.ps1",
-      "target": "plugins/sharepoint-page-modernization-execution/scripts/spo-validate-page-conversion.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-analyze-aspx-pages/scripts/aspx_inventory.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/aspx_inventory.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-analyze-aspx-pages/scripts/component_classification.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/component_classification.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-analyze-aspx-pages/scripts/outcomes.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-compose-page-preview/scripts/outcomes.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-compose-page-preview/scripts/preview_composition.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/preview_composition.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/assets/layout-rules.json",
-      "target": "plugins/sharepoint-page-modernization/scripts/assets/layout-rules.json",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/assets/manifest-schema.json",
-      "target": "plugins/sharepoint-page-modernization/scripts/assets/manifest-schema.json",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/assets/preview-template.html",
-      "target": "plugins/sharepoint-page-modernization/scripts/assets/preview-template.html",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/assets/webpart-mapping.json",
-      "target": "plugins/sharepoint-page-modernization/scripts/assets/webpart-mapping.json",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/scripts/component_mapping.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/component_mapping.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/scripts/layout_selection.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/layout_selection.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/scripts/outcomes.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/scripts/conversion_report.py",
-      "target": "plugins/sharepoint-page-modernization/scripts/conversion_report.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-page-modernization/tests/test_agent_definitions.py",
-      "target": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning-execution/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "target": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-add-list-column.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-add-list-column.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-add-list-item.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-add-list-item.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-column-formatting.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-configure-column-formatting.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-item-permissions.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-configure-item-permissions.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-library-settings.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-configure-library-settings.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-configure-webparts.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-configure-webparts.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-create-modern-page.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-create-modern-page.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-detach-content-type-from-list.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-detach-content-type-from-list.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-manage-hub-site.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-manage-hub-site.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-branding.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-branding.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-content-types.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-content-types.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-list-view.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-list-view.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-list.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-list.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-navigation.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-navigation.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-permissions.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-permissions.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-site-columns.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-site-columns.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-site.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-site.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-provision-term-set.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-provision-term-set.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-remove-content-type.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-remove-content-type.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-remove-list-column.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-remove-list-column.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-remove-site-column.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-remove-site-column.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-trigger-reindex.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-trigger-reindex.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-update-content-type.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-update-content-type.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-update-list-column.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-update-list-column.ps1",
-      "type": "directory"
-    },
-    {
-      "source": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-update-site-column.ps1",
-      "target": "plugins/sharepoint-provisioning/scripts/spo-update-site-column.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-modern-calendar-list/scripts/calendar_provisioning.py",
-      "target": "plugins/sharepoint-schema-reconciliation/scripts/calendar_provisioning.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-modern-calendar-list/scripts/provisioning_outcomes.py",
-      "target": "plugins/sharepoint-schema-reconciliation/scripts/provisioning_outcomes.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-schema/tests/test_agent_definitions.py",
-      "target": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/scripts/deploy-spfx-package.ps1",
-      "target": "plugins/sharepoint-spfx-authoring/scripts/deploy-spfx-package.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/scripts/verify-app-catalog.ps1",
-      "target": "plugins/sharepoint-spfx-authoring/scripts/verify-app-catalog.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/scripts/package-spfx-solution.ps1",
-      "target": "plugins/sharepoint-spfx-authoring/scripts/package-spfx-solution.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/scripts/provision-sample-dossier-schema.ps1",
-      "target": "plugins/sharepoint-spfx-authoring/scripts/provision-sample-dossier-schema.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/scripts/scaffold_spfx_master_detail.py",
-      "target": "plugins/sharepoint-spfx-authoring/scripts/scaffold_spfx_master_detail.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-webpart/scripts/check-spfx-toolchain.ps1",
-      "target": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/assets/document-workflow.psd1.example",
-      "target": "plugins/workbench-setup/assets/document-workflow.psd1.example",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/assets/publication-profile.psd1.example",
-      "target": "plugins/workbench-setup/assets/publication-profile.psd1.example",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/scripts/document_workflow.py",
-      "target": "plugins/workbench-setup/scripts/document_workflow.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/scripts/psd1_writer.py",
-      "target": "plugins/workbench-setup/scripts/psd1_writer.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-initialize-workbench-config/assets/config.psd1.example",
-      "target": "plugins/workbench-setup/assets/config.psd1.example",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-initialize-workbench-config/scripts/config_setup.py",
-      "target": "plugins/workbench-setup/scripts/config_setup.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-initialize-workbench-config/scripts/psd1_writer.py",
-      "target": "plugins/workbench-setup/scripts/psd1_writer.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/assets/service-request-application-registration-template.md",
-      "target": "plugins/workbench-setup/assets/service-request-application-registration-template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/assets/service-request-interactive-registration-template.md",
-      "target": "plugins/workbench-setup/assets/service-request-interactive-registration-template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-overview.md",
-      "target": "plugins/workbench-setup/references/app-registration-overview.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/references/effective-permissions-matrix.md",
-      "target": "plugins/workbench-setup/references/effective-permissions-matrix.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/references/graph-selected-permissions-overview-summary.md",
-      "target": "plugins/workbench-setup/references/graph-selected-permissions-overview-summary.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/references/resource-specific-consent-summary.md",
-      "target": "plugins/workbench-setup/references/resource-specific-consent-summary.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/scripts/app_registration_request.py",
-      "target": "plugins/workbench-setup/scripts/app_registration_request.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-request-app-registration/scripts/test-pnp-effective-capability-probe.ps1",
-      "target": "plugins/workbench-setup/scripts/test-pnp-effective-capability-probe.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-resolve-workbench-paths/scripts/path_resolution.py",
-      "target": "plugins/workbench-setup/scripts/path_resolution.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/assets/service-request-application-registration-template.md",
-      "target": "plugins/workbench-setup/assets/service-request-application-registration-template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/assets/service-request-interactive-registration-template.md",
-      "target": "plugins/workbench-setup/assets/service-request-interactive-registration-template.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/app-registration-overview.md",
-      "target": "plugins/workbench-setup/references/app-registration-overview.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/delegated-permission-boundary-test.md",
-      "target": "plugins/workbench-setup/references/delegated-permission-boundary-test.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/effective-permissions-matrix.md",
-      "target": "plugins/workbench-setup/references/effective-permissions-matrix.md",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/app_registration_validation.py",
-      "target": "plugins/workbench-setup/scripts/app_registration_validation.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/config_setup.py",
-      "target": "plugins/workbench-setup/scripts/config_setup.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/document_workflow.py",
-      "target": "plugins/workbench-setup/scripts/document_workflow.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/network_connectivity.py",
-      "target": "plugins/workbench-setup/scripts/network_connectivity.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/psd1_writer.py",
-      "target": "plugins/workbench-setup/scripts/psd1_writer.py",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-pnp-effective-capability-probe.ps1",
-      "target": "plugins/workbench-setup/scripts/test-pnp-effective-capability-probe.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-spo-connection.ps1",
-      "target": "plugins/workbench-setup/scripts/test-spo-connection.ps1",
-      "type": "file"
-    },
-    {
-      "source": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/workflow_validation.py",
-      "target": "plugins/workbench-setup/scripts/workflow_validation.py",
-      "type": "file"
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-site-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-update-site-column.ps1",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

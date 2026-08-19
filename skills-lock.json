@@ -289,70 +289,70 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.275129Z",
-      "updatedAt": "2026-08-19T17:39:35.313901Z"
+      "updatedAt": "2026-08-19T17:41:05.072712Z"
     },
     "content-assemble-structured-content": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:56.034584Z",
-      "updatedAt": "2026-08-19T17:39:33.823065Z"
+      "updatedAt": "2026-08-19T17:41:04.161778Z"
     },
     "content-compare-rendered-output": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.020123Z",
-      "updatedAt": "2026-08-19T17:39:34.945131Z"
+      "updatedAt": "2026-08-19T17:41:04.816133Z"
     },
     "content-create-aspx-rendering-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.020123Z",
-      "updatedAt": "2026-08-19T17:39:34.945131Z"
+      "updatedAt": "2026-08-19T17:41:04.816133Z"
     },
     "content-create-markdown-rendering-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.020123Z",
-      "updatedAt": "2026-08-19T17:39:34.945131Z"
+      "updatedAt": "2026-08-19T17:41:04.816133Z"
     },
     "content-extract-docx": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:56.320708Z",
-      "updatedAt": "2026-08-19T17:39:34.225385Z"
+      "updatedAt": "2026-08-19T17:41:04.436810Z"
     },
     "content-render-multipage-markdown": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.020123Z",
-      "updatedAt": "2026-08-19T17:39:34.945131Z"
+      "updatedAt": "2026-08-19T17:41:04.816133Z"
     },
     "content-render-sharepoint-aspx": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.020123Z",
-      "updatedAt": "2026-08-19T17:39:34.945131Z"
+      "updatedAt": "2026-08-19T17:41:04.816133Z"
     },
     "content-validate-rendered-output": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.020123Z",
-      "updatedAt": "2026-08-19T17:39:34.945131Z"
+      "updatedAt": "2026-08-19T17:41:04.816133Z"
     },
     "content-validate-rendering-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:57.020123Z",
-      "updatedAt": "2026-08-19T17:39:34.945131Z"
+      "updatedAt": "2026-08-19T17:41:04.816133Z"
     },
     "context-bundler": {
       "source": "https://github.com/richfrem/agent-plugins-skills",
@@ -1242,588 +1242,588 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-add-list-item": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-analyze-aspx-pages": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.731670Z",
-      "updatedAt": "2026-08-19T17:39:40.600483Z"
+      "updatedAt": "2026-08-19T17:41:07.161876Z"
     },
     "sharepoint-analyze-custom-forms": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-analyze-page-inventory": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-analyze-permissions": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-analyze-sharepoint-dependency-graph": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.344266Z",
-      "updatedAt": "2026-08-19T17:39:40.057766Z"
+      "updatedAt": "2026-08-19T17:41:06.846071Z"
     },
     "sharepoint-analyze-site-navigation": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-analyze-webpart-code": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-apply-provisioning-plan": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.390643Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-apply-sharepoint-agent-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-audit-managed-metadata": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-audit-onprem-schema-drift": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-audit-schema": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-backup-sharepoint-agents": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-backup-sharepoint-native-skills": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-collect-sharepoint-inventory": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-compose-page-preview": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.731670Z",
-      "updatedAt": "2026-08-19T17:39:40.600483Z"
+      "updatedAt": "2026-08-19T17:41:07.161876Z"
     },
     "sharepoint-configure-column-formatting": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-configure-library-settings": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-configure-sharepoint-agent-knowledge": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-convert-aspx-pages": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.731670Z",
-      "updatedAt": "2026-08-19T17:39:40.600483Z"
+      "updatedAt": "2026-08-19T17:41:07.161876Z"
     },
     "sharepoint-convert-page-to-modern": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.112616Z",
-      "updatedAt": "2026-08-19T17:39:41.024354Z"
+      "updatedAt": "2026-08-19T17:41:07.394876Z"
     },
     "sharepoint-copy-page-between-sites": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.112616Z",
-      "updatedAt": "2026-08-19T17:39:41.024354Z"
+      "updatedAt": "2026-08-19T17:41:07.394876Z"
     },
     "sharepoint-create-content-type": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-create-document-library": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-create-list": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-create-list-view": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-create-sharepoint-agent": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-create-sharepoint-agent-template": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-create-sharepoint-native-skill": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-create-site-column": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-deploy-sharepoint-native-skill": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-deploy-spfx-solution": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:39:42.121136Z"
+      "updatedAt": "2026-08-19T17:41:08.776538Z"
     },
     "sharepoint-detach-content-type": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-diff-sharepoint-schema": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-discover-sharepoint-site-inventory": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.344266Z",
-      "updatedAt": "2026-08-19T17:39:40.057766Z"
+      "updatedAt": "2026-08-19T17:41:06.846071Z"
     },
     "sharepoint-execute-page-bulk-migration": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.112616Z",
-      "updatedAt": "2026-08-19T17:39:41.024354Z"
+      "updatedAt": "2026-08-19T17:41:07.394876Z"
     },
     "sharepoint-extract-calculated-columns": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-extract-choice-fields": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-extract-links": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.803061Z",
-      "updatedAt": "2026-08-19T17:39:39.598316Z"
+      "updatedAt": "2026-08-19T17:41:06.616292Z"
     },
     "sharepoint-generate-conversion-report": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.731670Z",
-      "updatedAt": "2026-08-19T17:39:40.600483Z"
+      "updatedAt": "2026-08-19T17:41:07.161876Z"
     },
     "sharepoint-generate-discovery-report-set": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-generate-sharepoint-schema-from-export": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-generate-sharepoint-wave-scripts": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.344266Z",
-      "updatedAt": "2026-08-19T17:39:40.057766Z"
+      "updatedAt": "2026-08-19T17:41:06.846071Z"
     },
     "sharepoint-inventory-and-validate-agentassets": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-migrate-sharepoint-list-content": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.740095Z",
-      "updatedAt": "2026-08-19T17:39:37.329380Z"
+      "updatedAt": "2026-08-19T17:41:05.730802Z"
     },
     "sharepoint-package-spfx-solution": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:39:42.121136Z"
+      "updatedAt": "2026-08-19T17:41:08.776538Z"
     },
     "sharepoint-plan-sharepoint-deployment-waves": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.344266Z",
-      "updatedAt": "2026-08-19T17:39:40.057766Z"
+      "updatedAt": "2026-08-19T17:41:06.846071Z"
     },
     "sharepoint-provision-content-types": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:39:41.865802Z"
+      "updatedAt": "2026-08-19T17:41:08.456140Z"
     },
     "sharepoint-provision-fields": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:39:41.865802Z"
+      "updatedAt": "2026-08-19T17:41:08.456140Z"
     },
     "sharepoint-provision-list": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:39:41.865802Z"
+      "updatedAt": "2026-08-19T17:41:08.456140Z"
     },
     "sharepoint-provision-modern-calendar-list": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.702217Z",
-      "updatedAt": "2026-08-19T17:39:41.865802Z"
+      "updatedAt": "2026-08-19T17:41:08.456140Z"
     },
     "sharepoint-publish-aspx-to-sharepoint": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:59.340594Z",
-      "updatedAt": "2026-08-19T17:39:38.127113Z"
+      "updatedAt": "2026-08-19T17:41:05.965791Z"
     },
     "sharepoint-publish-markdown-to-sharepoint": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:59.340594Z",
-      "updatedAt": "2026-08-19T17:39:38.127113Z"
+      "updatedAt": "2026-08-19T17:41:05.965791Z"
     },
     "sharepoint-reconcile-sharepoint-publication": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:59.340594Z",
-      "updatedAt": "2026-08-19T17:39:38.127113Z"
+      "updatedAt": "2026-08-19T17:41:05.965791Z"
     },
     "sharepoint-remediate-document-content-links": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.803061Z",
-      "updatedAt": "2026-08-19T17:39:39.598316Z"
+      "updatedAt": "2026-08-19T17:41:06.616292Z"
     },
     "sharepoint-remediate-field-image-references": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.803061Z",
-      "updatedAt": "2026-08-19T17:39:39.598316Z"
+      "updatedAt": "2026-08-19T17:41:06.616292Z"
     },
     "sharepoint-remediate-links": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.803061Z",
-      "updatedAt": "2026-08-19T17:39:39.598316Z"
+      "updatedAt": "2026-08-19T17:41:06.616292Z"
     },
     "sharepoint-remove-content-type": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-remove-list": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-remove-list-column": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-remove-site-column": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-request-site-collection-app-catalog": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:39:42.121136Z"
+      "updatedAt": "2026-08-19T17:41:08.776538Z"
     },
     "sharepoint-restore-sharepoint-agents": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-restore-sharepoint-native-skills": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-review-manual-topics": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-rollback-sharepoint-native-skill": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-rollback-sharepoint-publication": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:59.340594Z",
-      "updatedAt": "2026-08-19T17:39:38.127113Z"
+      "updatedAt": "2026-08-19T17:41:05.965791Z"
     },
     "sharepoint-scaffold-schema-definition": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.472578Z",
-      "updatedAt": "2026-08-19T17:39:39.052989Z"
+      "updatedAt": "2026-08-19T17:41:06.361168Z"
     },
     "sharepoint-scaffold-spfx-master-detail": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:39:42.121136Z"
+      "updatedAt": "2026-08-19T17:41:08.776538Z"
     },
     "sharepoint-scaffold-spfx-react-app": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:30:05.975755Z",
-      "updatedAt": "2026-08-19T17:39:42.121136Z"
+      "updatedAt": "2026-08-19T17:41:08.776538Z"
     },
     "sharepoint-scaffold-spfx-webpart": {
       "source": "sharepoint-spfx-authoring",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.010378Z",
-      "updatedAt": "2026-08-19T17:39:42.121136Z"
+      "updatedAt": "2026-08-19T17:41:08.776538Z"
     },
     "sharepoint-setup-sharepoint-migration-project": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:01.344266Z",
-      "updatedAt": "2026-08-19T17:39:40.057766Z"
+      "updatedAt": "2026-08-19T17:41:06.846071Z"
     },
     "sharepoint-update-content-type": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-update-list-column": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-update-list-settings": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-update-sharepoint-agent": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "sharepoint-update-site-column": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T17:38:56.375784Z",
-      "updatedAt": "2026-08-19T17:39:41.386575Z"
+      "updatedAt": "2026-08-19T17:41:08.261898Z"
     },
     "sharepoint-upload-content": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:59.340594Z",
-      "updatedAt": "2026-08-19T17:39:38.127113Z"
+      "updatedAt": "2026-08-19T17:41:05.965791Z"
     },
     "sharepoint-validate-link-integrity": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:00.803061Z",
-      "updatedAt": "2026-08-19T17:39:39.598316Z"
+      "updatedAt": "2026-08-19T17:41:06.616292Z"
     },
     "sharepoint-validate-page-migration": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:02.112616Z",
-      "updatedAt": "2026-08-19T17:39:41.024354Z"
+      "updatedAt": "2026-08-19T17:41:07.394876Z"
     },
     "sharepoint-validate-publication": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:59.340594Z",
-      "updatedAt": "2026-08-19T17:39:38.127113Z"
+      "updatedAt": "2026-08-19T17:41:05.965791Z"
     },
     "sharepoint-verify-sharepoint-native-skill": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:47:58.473455Z",
-      "updatedAt": "2026-08-19T17:39:36.910339Z"
+      "updatedAt": "2026-08-19T17:41:05.458178Z"
     },
     "skill-creator": {
       "source": "anthropics/skills",
@@ -2013,35 +2013,35 @@
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.635090Z",
-      "updatedAt": "2026-08-19T17:39:43.007520Z"
+      "updatedAt": "2026-08-19T17:41:09.208354Z"
     },
     "workbench-initialize-workbench-config": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.635090Z",
-      "updatedAt": "2026-08-19T17:39:43.007520Z"
+      "updatedAt": "2026-08-19T17:41:09.208354Z"
     },
     "workbench-request-app-registration": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.635090Z",
-      "updatedAt": "2026-08-19T17:39:43.007520Z"
+      "updatedAt": "2026-08-19T17:41:09.208354Z"
     },
     "workbench-resolve-workbench-paths": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.635090Z",
-      "updatedAt": "2026-08-19T17:39:43.007520Z"
+      "updatedAt": "2026-08-19T17:41:09.208354Z"
     },
     "workbench-validate-workbench-environment": {
       "source": "https://github.com/richfrem/sharepoint-knowledge-workbench",
       "sourceType": "local",
       "computedHash": "",
       "installedAt": "2026-08-19T04:48:03.635090Z",
-      "updatedAt": "2026-08-19T17:39:43.007520Z"
+      "updatedAt": "2026-08-19T17:41:09.208354Z"
     },
     "writing-plans": {
       "source": "https://github.com/obra/superpowers",
