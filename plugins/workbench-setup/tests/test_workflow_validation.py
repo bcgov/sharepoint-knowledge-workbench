@@ -1,4 +1,4 @@
-"""
+﻿"""
 test_workflow_validation.py
 =============================
 
@@ -56,12 +56,12 @@ def test_validate_connection_config_missing_mandatory_fields():
 def _valid_workflow_profile():
     return {
         "SchemaVersion": "1.0",
-        "Document": {"DocumentId": "ceis-manual", "SourcePath": "intake/ceis.docx", "SourceFormat": "docx", "IsRevision": False},
+        "Document": {"DocumentId": "sample-manual", "SourcePath": "intake/sample.docx", "SourceFormat": "docx", "IsRevision": False},
         "RequestedStages": ["render"],
         "RequestedRendererProfiles": ["multipage-markdown"],
         "UnsupportedRequests": [],
         "HumanConfirmationGates": {"TopicBoundaries": True},
-        "PublicationProfilePath": "publication-profiles/ceis-manual.publication.psd1",
+        "PublicationProfilePath": "publication-profiles/sample-manual.publication.psd1",
         "AgentActionsRequested": [],
         "OutstandingDecisions": [],
     }
@@ -104,12 +104,12 @@ def _valid_publication_profile():
     return {
         "SchemaVersion": "1.0",
         "Document": {
-            "DocumentId": "ceis-manual", "Title": "CEIS Manual", "ContentType": "Manual",
-            "ContentOwner": "", "SourcePackagePath": "runs/ceis-manual-v2", "PackageIdentity": "",
+            "DocumentId": "sample-manual", "Title": "Sample Manual", "ContentType": "Manual",
+            "ContentOwner": "", "SourcePackagePath": "runs/sample-manual-v2", "PackageIdentity": "",
         },
         "HumanPublication": {
             "Enabled": True, "TargetType": "DocumentLibrary", "LibraryName": "KnowledgePublications",
-            "RootFolder": "ceis-manual", "TopicFolder": "topics", "MediaFolder": "media",
+            "RootFolder": "sample-manual", "TopicFolder": "topics", "MediaFolder": "media",
             "NavigationFolder": "navigation", "PublicationProfile": "multipage-markdown",
         },
         "PagePublication": {"Enabled": False},

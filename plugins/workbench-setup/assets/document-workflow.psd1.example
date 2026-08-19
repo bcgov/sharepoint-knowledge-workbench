@@ -2,8 +2,8 @@
     SchemaVersion = "1.0"
 
     Document = @{
-        DocumentId   = "ceis-manual"
-        SourcePath   = "intake/CEIS MANUAL - working version.docx"
+        DocumentId   = "sample-manual"
+        SourcePath   = "intake/sample-manual.docx"
         SourceFormat = "docx"
         IsRevision   = $false   # vs. new conversion
     }
@@ -19,7 +19,7 @@
         PublicationTargets  = $true
     }
 
-    PublicationProfilePath = "publication-profiles/ceis-manual.publication.psd1"
+    PublicationProfilePath = "publication-profiles/sample-manual.publication.psd1"
 
     AgentActionsRequested = @()   # e.g. "create-agent", "update-existing-agent" -- requests only,
                                    # never auto-executed by this profile's existence

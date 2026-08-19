@@ -1,4 +1,4 @@
-"""
+﻿"""
 test_document_workflow.py
 ===========================
 
@@ -56,18 +56,18 @@ def test_classify_renderer_requests_preserves_order_within_each_list():
 
 def test_build_workflow_profile_happy_path():
     profile = dw.build_workflow_profile(
-        document_id="ceis-manual",
-        source_path="intake/ceis.docx",
+        document_id="sample-manual",
+        source_path="intake/sample.docx",
         source_format="docx",
         is_revision=False,
         requested_stages=["extract", "analyze", "assemble", "render"],
         requested_renderer_profiles=["multipage-markdown"],
         human_confirmation_gates={"TopicBoundaries": True, "PublicationTargets": True},
-        publication_profile_path="publication-profiles/ceis-manual.publication.psd1",
+        publication_profile_path="publication-profiles/sample-manual.publication.psd1",
         agent_actions_requested=[],
         outstanding_decisions=[],
     )
-    assert profile["Document"]["DocumentId"] == "ceis-manual"
+    assert profile["Document"]["DocumentId"] == "sample-manual"
     assert profile["RequestedRendererProfiles"] == ["multipage-markdown"]
     assert profile["UnsupportedRequests"] == []
     assert profile["SchemaVersion"] == "1.0"
@@ -75,14 +75,14 @@ def test_build_workflow_profile_happy_path():
 
 def test_build_workflow_profile_moves_unsupported_renderer_out_of_requested():
     profile = dw.build_workflow_profile(
-        document_id="ceis-manual",
-        source_path="intake/ceis.docx",
+        document_id="sample-manual",
+        source_path="intake/sample.docx",
         source_format="docx",
         is_revision=False,
         requested_stages=["render"],
         requested_renderer_profiles=["multipage-markdown", "PDF"],
         human_confirmation_gates={"TopicBoundaries": True, "PublicationTargets": True},
-        publication_profile_path="publication-profiles/ceis-manual.publication.psd1",
+        publication_profile_path="publication-profiles/sample-manual.publication.psd1",
         agent_actions_requested=[],
         outstanding_decisions=[],
     )
@@ -94,7 +94,7 @@ def test_build_workflow_profile_rejects_empty_document_id():
     with pytest.raises(dw.DocumentWorkflowError):
         dw.build_workflow_profile(
             document_id="",
-            source_path="intake/ceis.docx",
+            source_path="intake/sample.docx",
             source_format="docx",
             is_revision=False,
             requested_stages=["render"],
@@ -112,21 +112,21 @@ def test_build_workflow_profile_rejects_empty_document_id():
 
 def test_render_workflow_psd1_produces_parseable_powershell_shape():
     profile = dw.build_workflow_profile(
-        document_id="ceis-manual",
-        source_path="intake/ceis.docx",
+        document_id="sample-manual",
+        source_path="intake/sample.docx",
         source_format="docx",
         is_revision=False,
         requested_stages=["render"],
         requested_renderer_profiles=["multipage-markdown"],
         human_confirmation_gates={"TopicBoundaries": True},
-        publication_profile_path="publication-profiles/ceis-manual.publication.psd1",
+        publication_profile_path="publication-profiles/sample-manual.publication.psd1",
         agent_actions_requested=[],
         outstanding_decisions=["confirm topic grouping"],
     )
     text = dw.render_workflow_psd1(profile)
     assert text.strip().startswith("@{")
     assert text.strip().endswith("}")
-    assert 'DocumentId   = "ceis-manual"' in text or 'DocumentId = "ceis-manual"' in text
+    assert 'DocumentId   = "sample-manual"' in text or 'DocumentId = "sample-manual"' in text
     assert '"multipage-markdown"' in text
     assert "$true" in text  # PowerShell boolean literal, not Python True
     assert "confirm topic grouping" in text
@@ -138,35 +138,35 @@ def test_render_workflow_psd1_produces_parseable_powershell_shape():
 
 def test_build_publication_profile_happy_path():
     profile = dw.build_publication_profile(
-        document_id="ceis-manual",
-        title="CEIS Manual",
+        document_id="sample-manual",
+        title="Sample Manual",
         content_type="Manual",
         content_owner="",
-        source_package_path="runs/ceis-manual-v2",
+        source_package_path="runs/sample-manual-v2",
         package_identity="",
         human_publication={
             "Enabled": True, "TargetType": "DocumentLibrary",
-            "LibraryName": "KnowledgePublications", "RootFolder": "ceis-manual",
+            "LibraryName": "KnowledgePublications", "RootFolder": "sample-manual",
             "TopicFolder": "topics", "MediaFolder": "media",
             "NavigationFolder": "navigation", "PublicationProfile": "multipage-markdown",
         },
     )
-    assert profile["Document"]["DocumentId"] == "ceis-manual"
+    assert profile["Document"]["DocumentId"] == "sample-manual"
     assert profile["HumanPublication"]["Enabled"] is True
 
 
 def test_build_publication_profile_rejects_unsupported_renderer_in_human_publication():
     with pytest.raises(dw.DocumentWorkflowError):
         dw.build_publication_profile(
-            document_id="ceis-manual",
-            title="CEIS Manual",
+            document_id="sample-manual",
+            title="Sample Manual",
             content_type="Manual",
             content_owner="",
-            source_package_path="runs/ceis-manual-v2",
+            source_package_path="runs/sample-manual-v2",
             package_identity="",
             human_publication={
                 "Enabled": True, "TargetType": "DocumentLibrary",
-                "LibraryName": "KnowledgePublications", "RootFolder": "ceis-manual",
+                "LibraryName": "KnowledgePublications", "RootFolder": "sample-manual",
                 "TopicFolder": "topics", "MediaFolder": "media",
                 "NavigationFolder": "navigation", "PublicationProfile": "PDF",
             },
@@ -175,15 +175,15 @@ def test_build_publication_profile_rejects_unsupported_renderer_in_human_publica
 
 def test_render_publication_profile_psd1_produces_parseable_powershell_shape():
     profile = dw.build_publication_profile(
-        document_id="ceis-manual",
-        title="CEIS Manual",
+        document_id="sample-manual",
+        title="Sample Manual",
         content_type="Manual",
         content_owner="",
-        source_package_path="runs/ceis-manual-v2",
+        source_package_path="runs/sample-manual-v2",
         package_identity="",
         human_publication={
             "Enabled": True, "TargetType": "DocumentLibrary",
-            "LibraryName": "KnowledgePublications", "RootFolder": "ceis-manual",
+            "LibraryName": "KnowledgePublications", "RootFolder": "sample-manual",
             "TopicFolder": "topics", "MediaFolder": "media",
             "NavigationFolder": "navigation", "PublicationProfile": "multipage-markdown",
         },
@@ -199,52 +199,52 @@ def test_render_publication_profile_psd1_produces_parseable_powershell_shape():
 
 def test_write_document_workflow_writes_both_files(tmp_path):
     workflow = dw.build_workflow_profile(
-        document_id="ceis-manual", source_path="intake/ceis.docx", source_format="docx",
+        document_id="sample-manual", source_path="intake/sample.docx", source_format="docx",
         is_revision=False, requested_stages=["render"],
         requested_renderer_profiles=["multipage-markdown"],
-        human_confirmation_gates={}, publication_profile_path="publication-profiles/ceis-manual.publication.psd1",
+        human_confirmation_gates={}, publication_profile_path="publication-profiles/sample-manual.publication.psd1",
         agent_actions_requested=[], outstanding_decisions=[],
     )
     publication = dw.build_publication_profile(
-        document_id="ceis-manual", title="CEIS Manual", content_type="Manual",
-        content_owner="", source_package_path="runs/ceis-manual-v2", package_identity="",
+        document_id="sample-manual", title="Sample Manual", content_type="Manual",
+        content_owner="", source_package_path="runs/sample-manual-v2", package_identity="",
         human_publication={
             "Enabled": True, "TargetType": "DocumentLibrary", "LibraryName": "KnowledgePublications",
-            "RootFolder": "ceis-manual", "TopicFolder": "topics", "MediaFolder": "media",
+            "RootFolder": "sample-manual", "TopicFolder": "topics", "MediaFolder": "media",
             "NavigationFolder": "navigation", "PublicationProfile": "multipage-markdown",
         },
     )
-    workflow_path, publication_path = dw.write_document_workflow(tmp_path, "ceis-manual", workflow, publication)
+    workflow_path, publication_path = dw.write_document_workflow(tmp_path, "sample-manual", workflow, publication)
 
-    assert workflow_path == tmp_path / "document-workflows" / "ceis-manual.workflow.psd1"
-    assert publication_path == tmp_path / "publication-profiles" / "ceis-manual.publication.psd1"
+    assert workflow_path == tmp_path / "document-workflows" / "sample-manual.workflow.psd1"
+    assert publication_path == tmp_path / "publication-profiles" / "sample-manual.publication.psd1"
     assert workflow_path.exists()
     assert publication_path.exists()
 
 
 def test_write_document_workflow_refuses_silent_overwrite(tmp_path):
     workflow = dw.build_workflow_profile(
-        document_id="ceis-manual", source_path="intake/ceis.docx", source_format="docx",
+        document_id="sample-manual", source_path="intake/sample.docx", source_format="docx",
         is_revision=False, requested_stages=["render"], requested_renderer_profiles=[],
-        human_confirmation_gates={}, publication_profile_path="publication-profiles/ceis-manual.publication.psd1",
+        human_confirmation_gates={}, publication_profile_path="publication-profiles/sample-manual.publication.psd1",
         agent_actions_requested=[], outstanding_decisions=[],
     )
     publication = dw.build_publication_profile(
-        document_id="ceis-manual", title="CEIS Manual", content_type="Manual",
-        content_owner="", source_package_path="runs/ceis-manual-v2", package_identity="",
+        document_id="sample-manual", title="Sample Manual", content_type="Manual",
+        content_owner="", source_package_path="runs/sample-manual-v2", package_identity="",
         human_publication={
             "Enabled": False, "TargetType": "DocumentLibrary", "LibraryName": "KnowledgePublications",
-            "RootFolder": "ceis-manual", "TopicFolder": "topics", "MediaFolder": "media",
+            "RootFolder": "sample-manual", "TopicFolder": "topics", "MediaFolder": "media",
             "NavigationFolder": "navigation", "PublicationProfile": "multipage-markdown",
         },
     )
-    dw.write_document_workflow(tmp_path, "ceis-manual", workflow, publication)
+    dw.write_document_workflow(tmp_path, "sample-manual", workflow, publication)
 
     with pytest.raises(dw.DocumentWorkflowError):
-        dw.write_document_workflow(tmp_path, "ceis-manual", workflow, publication)
+        dw.write_document_workflow(tmp_path, "sample-manual", workflow, publication)
 
     # Explicit overwrite=True is allowed.
-    dw.write_document_workflow(tmp_path, "ceis-manual", workflow, publication, overwrite=True)
+    dw.write_document_workflow(tmp_path, "sample-manual", workflow, publication, overwrite=True)
 
 
 # ---------------------------------------------------------------------------

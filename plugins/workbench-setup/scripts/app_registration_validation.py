@@ -29,10 +29,8 @@ This module provides two things:
    `setup-sharepoint-connection`'s `-TestConnection` path stays opt-in only,
    never wired as a default.
 
-No BC Government tenant URLs, GUIDs, app-registration values, or CMAT/ORDS/
-JUSTIN/CEIS literals appear anywhere in this module -- see the genericity
-contract in `docs/superpowers/specs/
-phase-9-reusable-sharepoint-plugin-extraction-spec.md` Section 9.
+No proprietary tenant URLs, client secrets, or private environment
+identifiers appear in this module.
 """
 from __future__ import annotations
 
