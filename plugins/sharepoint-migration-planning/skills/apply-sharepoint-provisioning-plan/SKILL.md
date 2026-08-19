@@ -28,7 +28,7 @@ is the real tenant-facing counterpart for one plan JSON shape:
 | `spo-remove-content-type.ps1` | *(new -- no Python planner yet emits this shape)* | `Remove-PnPContentType` |
 | `spo-detach-content-type-from-list.ps1` | *(new -- no Python planner yet emits this shape)* | `Remove-PnPContentTypeFromList` |
 
-The four scripts marked "new" have no `sharepoint-provisioning` Python planner
+The five scripts marked "new" have no `sharepoint-provisioning` Python planner
 producing their plan JSON yet -- author the plan JSON by hand (see each
 script's own docstring for the exact shape) until a planner is added. This is
 an honest gap, not a hidden one: `sharepoint-provisioning`'s reconciliation
@@ -36,6 +36,11 @@ modules currently only plan create/delete for lists and create/link/unlink/
 attach for content types and fields, never update or detach.
 
 ## Every script shares the same safety contract
+
+`Get-WorkbenchConnectionConfig.ps1` is a shared dot-sourced connection-resolution
+helper used by all the scripts in the table above -- it is not a standalone
+executor and has no plan JSON shape of its own, which is why it does not
+appear as a table row.
 
 Dry-run by default, `-Execute` plus an operation-specific `-ConfirmToken`
 required for any real write, connection resolved via

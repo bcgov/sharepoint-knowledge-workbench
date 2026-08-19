@@ -107,7 +107,9 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
-        [ordered]@{ content_type_name = $action.content_type_name; action = "Set-PnPContentType -Identity `"$($action.content_type_name)`" -NewName `"$($action.display_name)`" -Description `"$($action.description)`"" }
+        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
+        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
+        [ordered]@{ content_type_name = $action.content_type_name; action = "Set-PnPContentType -Identity `"$($action.content_type_name)`" -NewName `"$displayName`" -Description `"$description`"" }
     }
     $summary = [ordered]@{
         operation           = "update-spo-content-types"

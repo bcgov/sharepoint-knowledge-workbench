@@ -162,9 +162,12 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
+        $displayName = if ($action.PSObject.Properties.Name -contains 'display_name') { $action.display_name } else { $null }
+        $description = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { $null }
+        $required = if ($action.PSObject.Properties.Name -contains 'required') { [bool]$action.required } else { $false }
         [ordered]@{
             internal_name = $action.internal_name
-            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$($action.display_name)`"; Description=`"$($action.description)`"; Required=$([bool]$action.required)}"
+            action        = "Set-PnPField -Identity `"$($action.internal_name)`" -Values @{Title=`"$displayName`"; Description=`"$description`"; Required=$required}"
         }
     }
     $summary = [ordered]@{
