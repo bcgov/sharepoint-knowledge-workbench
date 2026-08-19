@@ -46,21 +46,21 @@ param(
     [string]$ClientId,
     [string]$TenantId,
     [string]$TenantAdminUrl,
-    [string]$ConfigPath,
+    [string]$ConfigPath = (Join-Path $PSScriptRoot "..\..\..\config.psd1"),
 
     [string]$OutputPath
 )
 
+Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-if ($ConfigPath) {
-    $helperPath = Join-Path $PSScriptRoot "Get-WorkbenchConnectionConfig.ps1"
-    $config = & $helperPath -ConfigPath $ConfigPath
-    if (-not $SiteUrl) { $SiteUrl = $config.SiteUrl }
-    if (-not $ClientId) { $ClientId = $config.ClientId }
-    if (-not $TenantId) { $TenantId = $config.TenantId }
-    if (-not $TenantAdminUrl) { $TenantAdminUrl = $config.TenantAdminUrl }
-}
+. (Join-Path $PSScriptRoot "Get-WorkbenchConnectionConfig.ps1")
+
+$connectionConfig = Get-WorkbenchConnectionConfig -Path $ConfigPath
+if (-not $SiteUrl) { $SiteUrl = $connectionConfig.SiteUrl }
+if (-not $ClientId) { $ClientId = $connectionConfig.ClientId }
+if (-not $TenantId) { $TenantId = $connectionConfig.TenantId }
+if (-not $TenantAdminUrl) { $TenantAdminUrl = $connectionConfig.TenantAdminUrl }
 
 if (-not (Test-Path -LiteralPath $PlanPath)) {
     throw "Plan file not found at '$PlanPath'."
