@@ -60,6 +60,12 @@
       "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, component mapping with explicit gap notices, and a human-readable Markdown conversion report. Produces plans, never tenant writes."
     },
     {
+      "name": "sharepoint-page-modernization-execution",
+      "source": "./plugins/sharepoint-page-modernization-execution",
+      "strict": true,
+      "description": "Real PnP.PowerShell page modernization executors: single page conversion, bulk conversion, page copying between sites, and post-conversion validation."
+    },
+    {
       "name": "sharepoint-schema-reconciliation",
       "source": "./plugins/sharepoint-schema-reconciliation",
       "strict": true,
