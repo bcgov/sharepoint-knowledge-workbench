@@ -17,7 +17,7 @@ correct and is not.
 
 ## Routing in this workbench
 
-- **"Is my matrix complete / can I trust it yet?"** — `analyze-sharepoint-dependency-graph`'s
+- **"Is my matrix complete / can I trust it yet?"** — `sharepoint-analyze-sharepoint-dependency-graph`'s
   completeness checks (`run_all_checks`): source coverage, orphan matrix
   entries, unresolved dependency targets, destination-name collisions.
   Run this BEFORE computing any deployment order, not after.

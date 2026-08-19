@@ -8,11 +8,13 @@ platforms:
   - macos
   - windows
 skills:
-  - analyze-aspx-pages
-  - convert-aspx-pages
-  - compose-page-preview
-  - generate-conversion-report
+  - sharepoint-analyze-aspx-pages
+  - sharepoint-compose-page-preview
+  - sharepoint-convert-aspx-pages
+  - sharepoint-generate-conversion-report
 agents:
   - sharepoint-modernization-agent
   - sharepoint-webpart-modernization-analysis-agent
+
+
 

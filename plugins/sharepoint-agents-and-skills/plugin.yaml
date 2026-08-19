@@ -8,19 +8,19 @@ platforms:
   - macos
   - windows
 skills:
-  - review-manual-topics
-  - apply-sharepoint-agent-template
-  - backup-sharepoint-agents
-  - backup-sharepoint-native-skills
-  - configure-sharepoint-agent-knowledge
-  - create-sharepoint-agent
-  - create-sharepoint-agent-template
-  - create-sharepoint-native-skill
-  - deploy-sharepoint-native-skill
-  - inventory-and-validate-agentassets
-  - restore-sharepoint-agents
-  - restore-sharepoint-native-skills
-  - rollback-sharepoint-native-skill
-  - update-sharepoint-agent
-  - verify-sharepoint-native-skill
+  - sharepoint-apply-sharepoint-agent-template
+  - sharepoint-backup-sharepoint-agents
+  - sharepoint-backup-sharepoint-native-skills
+  - sharepoint-configure-sharepoint-agent-knowledge
+  - sharepoint-create-sharepoint-agent
+  - sharepoint-create-sharepoint-agent-template
+  - sharepoint-create-sharepoint-native-skill
+  - sharepoint-deploy-sharepoint-native-skill
+  - sharepoint-inventory-and-validate-agentassets
+  - sharepoint-restore-sharepoint-agents
+  - sharepoint-restore-sharepoint-native-skills
+  - sharepoint-review-manual-topics
+  - sharepoint-rollback-sharepoint-native-skill
+  - sharepoint-update-sharepoint-agent
+  - sharepoint-verify-sharepoint-native-skill
 

@@ -8,11 +8,11 @@ platforms:
   - macos
   - windows
 skills:
-  - render-multipage-markdown
-  - render-sharepoint-aspx
-  - create-markdown-rendering-template
-  - create-aspx-rendering-template
-  - validate-rendering-template
-  - validate-rendered-output
-  - compare-rendered-output
+  - content-compare-rendered-output
+  - content-create-aspx-rendering-template
+  - content-create-markdown-rendering-template
+  - content-render-multipage-markdown
+  - content-render-sharepoint-aspx
+  - content-validate-rendered-output
+  - content-validate-rendering-template
 

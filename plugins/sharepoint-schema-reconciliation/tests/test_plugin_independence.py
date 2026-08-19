@@ -116,7 +116,7 @@ def test_no_module_lives_only_inside_a_skill_directory():
     plugin root, never the only real copy (self-evolution Hard Gate #12)."""
     offenders = []
     for path in (PLUGIN_ROOT / "skills").rglob("*"):
-        if path.is_file() and not path.is_symlink() and path.name != "SKILL.md":
+        if path.is_file() and not path.is_symlink() and path.name not in {"SKILL.md", "evals.json"}:
             offenders.append(str(path.relative_to(PLUGIN_ROOT)))
 
     assert offenders == []

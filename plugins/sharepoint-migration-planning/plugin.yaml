@@ -9,12 +9,14 @@ platforms:
   - macos
   - windows
 skills:
-  - setup-sharepoint-migration-project
-  - discover-sharepoint-site-inventory
-  - analyze-sharepoint-dependency-graph
-  - generate-sharepoint-wave-scripts
-  - plan-sharepoint-deployment-waves
+  - sharepoint-analyze-sharepoint-dependency-graph
+  - sharepoint-discover-sharepoint-site-inventory
+  - sharepoint-generate-sharepoint-wave-scripts
+  - sharepoint-plan-sharepoint-deployment-waves
+  - sharepoint-setup-sharepoint-migration-project
 agents:
   - sharepoint-deployment-planning-agent
   - sharepoint-deployment-sequencing-agent
+
+
 

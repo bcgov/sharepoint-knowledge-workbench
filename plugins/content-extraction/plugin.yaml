@@ -8,5 +8,5 @@ platforms:
   - macos
   - windows
 skills:
-  - extract-docx
+  - content-extract-docx
 
