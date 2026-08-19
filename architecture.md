@@ -41,7 +41,7 @@ sharepoint-knowledge-workbench/
 │   ├── sharepoint-spfx-authoring/
 │   ├── sharepoint-agents-and-skills/
 │   └── workbench-setup/
-├── tools/                    # Phase-specific probes, evidence, test harnesses, and evaluation logs (Phases 3–6)
+├── archive/                  # Historical phase exploration, probes, evidence, and test harnesses (Phases 3–6)
 ├── docs/
 │   ├── vision/               # broader-initiative direction: naming, phases, plugin/agent boundaries
 │   ├── research/              # product research / field notes feeding the broader vision
