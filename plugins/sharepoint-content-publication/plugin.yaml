@@ -8,13 +8,15 @@ platforms:
   - macos
   - windows
 skills:
-  - publish-aspx-to-sharepoint
-  - publish-markdown-to-sharepoint
-  - reconcile-sharepoint-publication
-  - rollback-sharepoint-publication
-  - upload-content
-  - validate-sharepoint-publication
+  - sharepoint-publish-aspx-to-sharepoint
+  - sharepoint-publish-markdown-to-sharepoint
+  - sharepoint-reconcile-sharepoint-publication
+  - sharepoint-rollback-sharepoint-publication
+  - sharepoint-upload-content
+  - sharepoint-validate-publication
 agents:
   - sharepoint-validation-agent
+
+
 
 

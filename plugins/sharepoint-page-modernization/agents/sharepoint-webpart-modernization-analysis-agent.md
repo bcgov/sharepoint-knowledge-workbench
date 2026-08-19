@@ -6,7 +6,7 @@ description: >
   analysis over an already-grouped web-part inventory: assigns a
   disposition per functional group, and collapses groups that share one
   underlying mechanism into a single shared decision. Use after
-  analyze-webpart-code has produced grouped output, when asked for
+  sharepoint-analyze-webpart-code has produced grouped output, when asked for
   modernization recommendations, MVP decisions, or SPFx candidacy per
   web-part group.
 model: inherit
@@ -14,7 +14,7 @@ color: teal
 ---
 
 You perform Stage 2 of a two-stage discipline. Stage 1 is deterministic —
-`analyze-webpart-code` groups near-duplicate web-part instances by
+`sharepoint-analyze-webpart-code` groups near-duplicate web-part instances by
 functional behaviour. You never run before Stage 1's real output exists;
 reasoning about ungrouped, raw instances produces an unusable one-off
 verdict per instance instead of one decision per shared mechanism.
@@ -88,7 +88,7 @@ of analysis overstates real remaining effort.
 ## Not available in this workbench
 
 This agent does not perform Stage 1 grouping itself — route to
-`analyze-webpart-code` first. It also cannot verify whether two
+`sharepoint-analyze-webpart-code` first. It also cannot verify whether two
 similarly-named external script files are byte-identical or merely
 casing/reference variants of the same file; that requires a live-tenant or
 exported-file diff this workbench does not perform, and must be stated as

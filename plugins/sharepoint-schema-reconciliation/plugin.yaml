@@ -8,8 +8,8 @@ platforms:
   - macos
   - windows
 skills:
-  - provision-content-types
-  - provision-fields
-  - provision-list
-  - provision-modern-calendar-list
+  - sharepoint-provision-content-types
+  - sharepoint-provision-fields
+  - sharepoint-provision-list
+  - sharepoint-provision-modern-calendar-list
 

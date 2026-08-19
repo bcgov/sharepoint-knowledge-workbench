@@ -8,20 +8,19 @@ platforms:
   - macos
   - windows
 skills:
-  - analyze-page-inventory
-  - analyze-webpart-code
-  - analyze-site-navigation
-  - analyze-custom-forms
-  - analyze-permissions
-  - collect-sharepoint-inventory
-  - audit-managed-metadata
-  - audit-onprem-schema-drift
-  - generate-discovery-report-set
-  - audit-schema
-  - diff-sharepoint-schema
-  - extract-calculated-columns
-  - extract-choice-fields
-  - generate-sharepoint-schema-from-export
-  - scaffold-schema-definition
-
+  - sharepoint-analyze-custom-forms
+  - sharepoint-analyze-page-inventory
+  - sharepoint-analyze-permissions
+  - sharepoint-analyze-site-navigation
+  - sharepoint-analyze-webpart-code
+  - sharepoint-audit-managed-metadata
+  - sharepoint-audit-onprem-schema-drift
+  - sharepoint-audit-schema
+  - sharepoint-collect-sharepoint-inventory
+  - sharepoint-diff-sharepoint-schema
+  - sharepoint-extract-calculated-columns
+  - sharepoint-extract-choice-fields
+  - sharepoint-generate-discovery-report-set
+  - sharepoint-generate-sharepoint-schema-from-export
+  - sharepoint-scaffold-schema-definition
 

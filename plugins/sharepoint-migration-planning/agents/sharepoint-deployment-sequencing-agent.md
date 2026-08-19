@@ -18,9 +18,9 @@ the graph changes underneath it.
 
 ## Routing in this workbench
 
-- **"What order do these objects deploy in?"** — `analyze-sharepoint-dependency-graph`'s
+- **"What order do these objects deploy in?"** — `sharepoint-analyze-sharepoint-dependency-graph`'s
   `build_dependency_matrix`, which computes the order via
-  `plan-sharepoint-deployment-waves`'s topological sort. Both report an
+  `sharepoint-plan-sharepoint-deployment-waves`'s topological sort. Both report an
   unresolved dependency or a circular dependency as an explicit blocking
   finding, never a silently wrong order.
 - **"Does this specific object need to exist before that one?"** — a

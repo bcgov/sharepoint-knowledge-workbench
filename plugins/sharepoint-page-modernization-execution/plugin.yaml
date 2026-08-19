@@ -9,9 +9,8 @@ platforms:
   - macos
   - windows
 skills:
-  - convert-page-to-modern
-  - execute-page-bulk-migration
-  - validate-page-migration
-  - copy-spo-page-between-sites
-
+  - sharepoint-convert-page-to-modern
+  - sharepoint-copy-page-between-sites
+  - sharepoint-execute-page-bulk-migration
+  - sharepoint-validate-page-migration
 

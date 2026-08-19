@@ -26,17 +26,17 @@ depends on a real destination inventory, not just a rewrite rule.
 
 Pick by WHERE the link lives, not by the word the requester used:
 
-- **Links inside page/HTML body content** — `remediate-links`: extract, apply
+- **Links inside page/HTML body content** — `sharepoint-remediate-links`: extract, apply
   a caller-supplied rewrite ruleset, validate. Blind rule-based rewrite —
   assumes the rewrite target exists.
 - **Links embedded inside Office documents (docx/xlsx/pptx) or PDFs** —
-  `remediate-document-content-links`: same blind rule-based rewrite as
-  `remediate-links`, applied to file content (ZIP/XML for the three Office
+  `sharepoint-remediate-document-content-links`: same blind rule-based rewrite as
+  `sharepoint-remediate-links`, applied to file content (ZIP/XML for the three Office
   formats; PDF requires a caller-injected handler, reported `NOT_SUPPORTED`
   otherwise).
 - **An embedded `<img>` reference inside a rich-text LIST FIELD, where the
   referenced file may or may not have actually migrated** —
-  `remediate-field-image-references`. This one is NOT a blind rewrite: it is
+  `sharepoint-remediate-field-image-references`. This one is NOT a blind rewrite: it is
   inventory-verified, four steps rather than three —
   1. Read the field's stored value (source data) — live-tenant read, out of
      scope for this workbench (see "Not available" below).
@@ -52,21 +52,21 @@ Pick by WHERE the link lives, not by the word the requester used:
      `missing` items are a genuine data-loss finding, never silently
      "fixed" into a wrong reference.
 
-  Use this one instead of `remediate-links` whenever the source data itself
+  Use this one instead of `sharepoint-remediate-links` whenever the source data itself
   might be stale relative to what actually migrated — a blind rewrite is
   wrong precisely when the assumption "the target exists" can fail.
 
 ## Routing in this workbench — validation (step 3)
 
 - Link integrity *inside a structured content package* is validated by
-  `assemble-structured-content`, which fails a canonical package on
+  `content-assemble-structured-content`, which fails a canonical package on
   `broken_local_link` before the package can be promoted.
 - Link integrity *inside a rendered output package* is validated by
-  `validate-rendered-output`, which detects broken links, broken media
+  `content-validate-rendered-output`, which detects broken links, broken media
   references, orphan pages, and path traversal, and is always PASS or FAIL —
   never WARN.
 - Pre-upload validation of an upload package against the target library schema
-  is `validate-sharepoint-publication`. Note its own stated limit: it does
+  is `sharepoint-validate-publication`. Note its own stated limit: it does
   **not** validate links after upload.
 
 ## Not available in this workbench
