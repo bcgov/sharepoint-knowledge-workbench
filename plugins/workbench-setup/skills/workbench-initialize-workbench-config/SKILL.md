@@ -1,7 +1,7 @@
 ---
 name: workbench-initialize-workbench-config
 plugin: workbench-setup
-description: Creates the root, git-ignored config.psd1 from this plugin's canonical config.psd1.example template -- Entra ID app-registration details (TenantId, ClientId, AuthenticationMode) and the target SharePoint site (SiteUrl). Generating the file is the default action and never connects to anything; a separate, explicit connector must be supplied to perform a read-only connection test. Mandatory answers: SiteUrl, TenantId, ClientId, AuthenticationMode.
+description: "Creates the root, git-ignored config.psd1 from this plugin's canonical config.psd1.example template -- Entra ID app-registration details (TenantId, ClientId, AuthenticationMode) and the target SharePoint site (SiteUrl). Generating the file is the default action and never connects to anything; a separate, explicit connector must be supplied to perform a read-only connection test. Mandatory answers: SiteUrl, TenantId, ClientId, AuthenticationMode."
 allowed-tools: Bash, Read
 examples:
   - "python -c \"import config_setup; config_setup.write_config('.', connection={...}, authentication={}, defaults={})\""
