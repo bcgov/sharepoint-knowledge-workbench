@@ -203,23 +203,23 @@
   control metadata versus raw RTE HTML so literal-markup regressions fail offline before tenant
   writes.
 - **Source-repo scripts to consult during promotion**:
-  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\analyze-aspx-webparts.ps1`
+  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\analyze-aspx-webparts.ps1`
     for downloaded-ASPX web part inventory, zones, list bindings, connected web parts, and
     CEWP/SEWP extraction from raw page files.
-  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\scan-webparts.ps1`
+  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\scan-webparts.ps1`
     and `extract-webpart-content.ps1` for live content-database web part discovery via
     `GetLimitedWebPartManager` plus `exportwp.aspx`, including the lesson not to filter by
     author-editable web part Title.
-  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\convert-wiki-page.ps1`
+  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\convert-wiki-page.ps1`
     and `extract-site-navigation.ps1` for content-first extraction, chrome stripping,
     navigation/chrome capture, asset URL rewriting, and local preview package generation.
-  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\page-migration\convert-and-upload-aspx.ps1`
+  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\convert-and-upload-aspx.ps1`
     for the end-to-end legacy ASPX to modern SPO page pipeline, including local intermediate
     artifacts and optional upload.
-  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\upload\upload-modern-page.ps1`
+  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\upload\upload-modern-page.ps1`
     and `upload-modern-page-rest.ps1` for modern page creation/upload patterns, HTML sanitizing
     before PnP injection, overwrite handling, and PnP-version compatibility considerations.
-  - `C:\Users\RICHFREM\source\repos\jag-csb-cmat-sharepoint-online\plugins\sharepoint-migration\scripts\upload\migrate-site-assets.ps1`
+  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\upload\migrate-site-assets.ps1`
     for source SiteAssets enumeration/download/cache/upload so page image and icon URLs resolve
     after migration.
 - **Existing workbench plugin scripts to consult during promotion**:
@@ -266,13 +266,13 @@
   and the skill's `SKILL.md` "Design seam" section (same pattern as `spo-remediate-document-content-
   links.ps1`'s `remediated_content` seam). Follow-up, undone: give `MigrationItem` a native optional
   `dest_id` field if a caller wants the Python plan object itself to represent both passes.
-- **5-source-category audit run, no second gap found**: `skills/sp-content-migration` (thin CMAT
-  wrappers, nothing new), `skills/sp-migrating-content` (entirely CMAT wave-schema-deployment
-  orchestration, out of scope), `agents/sp-migration-agent.md`/`sp-migration-orchestrator.md` (CMAT
+- **5-source-category audit run, no second gap found**: `skills/sp-content-migration` (thin LegacySource
+  wrappers, nothing new), `skills/sp-migrating-content` (entirely LegacySource wave-schema-deployment
+  orchestration, out of scope), `agents/sp-migration-agent.md`/`sp-migration-orchestrator.md` (LegacySource
   wave sequencing — this workbench's own `sharepoint-content-migration-sequencing-agent.md` already
   generalizes the real rule, parent-before-child + self-referential-last, more cleanly),
-  `assets/templates/content-migration-manifest.json` (pure CMAT project data), `references/CONTENT-
-  MIGRATION-GUIDE.md`/`CALENDAR-OVERLAY-MIGRATION-DECISION.md` (pure CMAT runbooks). Confirmed via
+  `assets/templates/content-migration-manifest.json` (pure LegacySource project data), `references/CONTENT-
+  MIGRATION-GUIDE.md`/`CALENDAR-OVERLAY-MIGRATION-DECISION.md` (pure LegacySource runbooks). Confirmed via
   direct reads, not assumed from the audit's own classification labels.
 - **`Get-WorkbenchConnectionConfig.ps1` now has a 4th consuming plugin** (`sharepoint-content-
   migration`, first use — new plugin-root symlink hop created).
@@ -365,7 +365,7 @@
   established convention exactly (`Get-WorkbenchConnectionConfig` from `config.psd1`, dry-run
   default, `-Execute` + a literal `-ConfirmToken`, `Get-Command`-gated PnP cmdlet checks). Real PnP
   cmdlet sequences verified against `Repair-EmbeddedLinks.ps1` in the source repository (proven
-  cmdlets only, none of its CrownNet-specific config/literals ported).
+  cmdlets only, none of its LegacyIntranet-specific config/literals ported).
 - **Reusable design seam, worth remembering for any future document-content-mutation executor**:
   `document_link_remediation.py`'s OOXML zipfile/XML-part rewrite is Python-only logic — it can't be
   reimplemented in PowerShell, and rewritten file bytes aren't JSON-safe to put in a plan file. The
@@ -384,7 +384,7 @@
   factoring into a genuinely shared, symlinked helper if a 4th plugin needs the same
   `config.psd1`-reading logic — not urgent, flagged here so it isn't silently reinvented a 4th time.
 - **Evidence**: all 3 scripts parse-check clean (`[System.Management.Automation.Language.Parser]::ParseFile`),
-  zero project-specific literal leakage (grepped for `CrownNet`/`CMAT`/`ITAU`/`AG-BCPS`/`AG-CSB`),
+  zero project-specific literal leakage (grepped for `LegacyIntranet`/`LegacySource`/`LegacyApp`/`LegacyOrg`/`LegacyOrg`),
   all 6 skill-directory symlinks (3 `.ps1` + pre-existing Python copies) verified real via
   `Get-ChildItem`'s `LinkType: SymbolicLink`, 164/164 real tests passing (1 pre-existing unrelated
   failure, `test_no_module_lives_only_inside_a_skill_directory` re: `evals.json`, confirmed via
@@ -485,7 +485,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   `sharepoint_upload.py` requires an injected `uploader` callable and raises
   `NotImplementedError` without one. Follow-up audit (general-purpose agent, 2026-08-11) found this
   is a **systemic pattern across 6-7 plugins**, not a one-off: Phase 9's extraction from
-  `jag-csb-cmat-sharepoint-online` consistently ported the *planning/logic* half of a capability
+  `legacy-source-repository` consistently ported the *planning/logic* half of a capability
   (a Python module that builds a plan, dict, or diff) but never the *execution* half (the real
   `Connect-PnPOnline`/`Get-PnP*`/`Add-PnP*` `.ps1` that source repo actually had working). Neither
   README nor SKILL.md made this legible as a gap at a glance — each read as if the capability
@@ -580,7 +580,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   manifest + throttle, kept from the source's already-generic design, minus its link-repair step
   which belongs to `sharepoint-link-remediation` not duplicated here), and `validate-page-migration`
   (`spo-validate-page-conversion.ps1`, read-only post-run validator). Two real literal leaks
-  (`"MediaInfo"`, a real CrownNet library name) found and fixed during independent verification,
+  (`"MediaInfo"`, a real LegacyIntranet library name) found and fixed during independent verification,
   in `.EXAMPLE` blocks that would have otherwise passed a cursory review. All 3 scripts parse
   clean, zero remaining project-literal matches, all 5 symlinks confirmed real (`l` mode bit) via
   `Get-ChildItem`, dry-run output verified to produce zero tenant I/O by default, plugin's 38-test
@@ -607,7 +607,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
     the `.ps1`-only audit. It also confirmed the 4 top-level orchestrator agents
     (`sp-deployment-planner`, `sp-migration-agent`, `sp-migration-orchestrator`,
     `sp-wave-orchestrator`) have **no destination equivalent** and were never attempted — the
-    biggest actual gap this pass found, and also the most CMAT-literal-dense files in the whole
+    biggest actual gap this pass found, and also the most LegacySource-literal-dense files in the whole
     source tree (up to 161 project-specific literals in one file). `sp-discovery-agent.md`
     specifically (13-14 step discovery orchestration sequence) also has no destination equivalent —
     `sharepoint-discovery` has zero agents today. Confirmed this does NOT duplicate the
@@ -623,7 +623,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
     (17 assets + 14 references + 3 top-level tests). ~11 are real onboarding candidates (9 reusable
     report templates, 2 methodology docs); 1 (`webpart-migration-rules.json`) confirmed already
     ported (byte-diffed against the destination copy, exit 0 — not just a filename match); 22 are
-    correctly CMAT-specific project data/runbooks/decision records (including actual government
+    correctly LegacySource-specific project data/runbooks/decision records (including actual government
     service-request/denial letters) that should stay in the source repo, not be onboarded.
   - **Implication beyond `sharepoint-discovery`**: the source repo's `skills/`, `agents/`,
     `assets/`, and `references/` span multiple destination plugins (schema, provisioning,
@@ -642,10 +642,10 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   `collect-onprem-sharepoint-aspx-pages.ps1` (on-prem SP2016, NTLM/Kerberos REST, bulk `.aspx`
   downloader) — consolidating 7 source files without silently dropping any (full per-source
   mapping in the new skill's `SKILL.md`). Verified independently (not just trusting the building
-  agent's own report): all 3 scripts parse clean, zero CMAT/ITAU/AG-CSB literals found via grep,
+  agent's own report): all 3 scripts parse clean, zero LegacySource/LegacyApp/LegacyOrg literals found via grep,
   plugin's 63-test suite still passes, symlinks confirmed real (`l` mode bit) via `ls -la`.
   `plugin.yaml` and `.claude-plugin/plugin.json` both updated (skill added, "zero tenant I/O"
-  claim corrected to reflect this plugin now has a real collector). One CMAT-specific list-name
+  claim corrected to reflect this plugin now has a real collector). One LegacySource-specific list-name
   literal (`All_Appearances`) found leaking into a usage example during verification and fixed in
   both the script and SKILL.md.
 - **Update (2026-08-11, same day, later session): `sharepoint-discovery` gap #1 now substantially
@@ -653,9 +653,9 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   agents plus one script built directly by the orchestrating session closed every remaining
   collector gap this plugin had:
   - `audit-managed-metadata` (new skill) — 2 scripts (modern SPO + on-prem SP2016 variants).
-  - `audit-onprem-schema-drift` (new skill) — 1 script, generalized from a heavily CMAT-hardcoded
+  - `audit-onprem-schema-drift` (new skill) — 1 script, generalized from a heavily LegacySource-hardcoded
     source (removed hardcoded `$WatchFields`/`$SourceLists`/`'ITAU_Cal_*'` pattern matching and a
-    CMAT-specific workflow-name search, replaced with `-SourceListNames`/`-DestinationListNames`/
+    LegacySource-specific workflow-name search, replaced with `-SourceListNames`/`-DestinationListNames`/
     `-DestinationListPattern`/`-WatchFieldNames` parameters).
   - `generate-discovery-report-set` (new skill) — 1 script, **a corrective rewrite, not a port**:
     the source script asserted hardcoded conclusions as findings regardless of actual scan data
@@ -681,7 +681,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
     `site-navigation-chrome-summary-template.md` (the other 7 of 9 recommended templates from the
     assets audit belong to other plugins, out of scope here).
   - **Every one of the above was independently re-verified by the orchestrating session, not
-    trusted from agent self-reports**: parse-checked, grepped for zero CMAT/ITAU/AG-CSB literal
+    trusted from agent self-reports**: parse-checked, grepped for zero LegacySource/LegacyApp/LegacyOrg literal
     leakage, symlinks confirmed real (`l` mode bit) via direct `ls -la`, and output field shapes
     checked against real consumer fixtures line-by-line (not just the agent's claim that they
     matched). `plugin.yaml` and `.claude-plugin/plugin.json` updated to list all 4 new skills and
@@ -714,7 +714,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   **`sharepoint-discovery` is now considered fully closed for this porting pass** — the only
   remaining item is the orchestration layer noted above, deliberately deferred, not a gap.
 - **Recommended fix, when resumed**: port the real `.ps1` executors listed above from
-  `jag-csb-cmat-sharepoint-online`, generalizing per this plugin ecosystem's existing conventions
+  `legacy-source-repository`, generalizing per this plugin ecosystem's existing conventions
   (`.agent/rules/sharepoint-ps1-authentication-convention.md` for auth, dry-run-by-default +
   confirm-token pattern already used by `spo-page-copy-plan.ps1`/`test-grant-tier-probe.ps1`).
   Discovery/schema (read-only) are the lowest-risk, highest-leverage starting point since
@@ -733,8 +733,8 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   2. `Add-PnPPage` fails with "already exists" on rerun unless existence check and update logic are implemented.
   3. `& pandoc` output returns a string array in PowerShell, breaking `Add-PnPPageTextPart -Text` unless joined with `-join "`n"`.
   4. `Resolve-PnPFolder` fails with `Access Denied` on custom Document Libraries (must use `Add-PnPFolder -Name "media" -Folder "LibraryName"` instead).
-  5. PnP list binding divergence: SharePoint list Title (`CEIS-Pilot-Knowledge`) vs URL path (`CEISPilotKnowledge`) caused target mismatches until explicit lookup fallback was implemented.
-  6. **BEHAVIORAL FAILURE**: Agent repeatedly rushed broken script iterations to the user without doing full line-by-line file verification, failing to read explicit user instructions regarding target paths (`CEISPilotKnowledge`).
+  5. PnP list binding divergence: SharePoint list Title (`Target-Pilot-Knowledge`) vs URL path (`TargetPilotKnowledge`) caused target mismatches until explicit lookup fallback was implemented.
+  6. **BEHAVIORAL FAILURE**: Agent repeatedly rushed broken script iterations to the user without doing full line-by-line file verification, failing to read explicit user instructions regarding target paths (`TargetPilotKnowledge`).
 - **Prevention Rules (Hard Enforcement)**:
   - **Full-File Audit Gate**: Before asking the user to run any generated script, the agent MUST view the full file content (`view_file`), audit every variable, and verify parameter signatures against authoritative docs.
   - **Instruction Match Verification**: Explicit user inputs (URLs, paths, folder names, library titles) MUST be grep-checked against all script variables before claims of fix completion.
@@ -785,7 +785,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
 ### [2026-08-02] Phase 4/5 — Reusable SharePoint Capability Written Into `tools/phase-N-*` Instead of an Already-Designed Plugin
 
 - **Logged Date**: 2026-08-02
-- **Cycle/Session**: Phase 4 native-skills work (prior session) + Phase 5 CEIS grounding prototype (this session)
+- **Cycle/Session**: Phase 4 native-skills work (prior session) + Phase 5 grounding prototype (this session)
 - **Artifact Affected**: `tools/phase-4-native-sharepoint-skills/skills/review-manual-topics/SKILL.md` (a real skill implementation, not phase evidence); `tools/phase-5-sharepoint-knowledge-agent-pilot/{upload-rendered-markdown.ps1, backup-existing-agents.ps1, backup-skills-and-templates.ps1}` (agent creation/backup, native-skill backup, content upload — all reusable operational capability).
 - **Friction Observed**: `docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md` (lines ~230-269) already proposes a plugin named `sharepoint-knowledge` with skill groups explicitly named `native-skills/`, `agents/`, `deployment/`, `governance/`, `health/` — exactly the destination for this capability. The agent never read this document before or during either phase's execution, and instead (a) let a real skill implementation live inside a `tools/phase-4-*` folder, then (b) repeated the same mistake in Phase 5 by writing three new reusable `.ps1` scripts directly into `tools/phase-5-*` rather than checking the vision's plugin boundary first. When the user first raised it ("why are there skills inside tools/..."), the agent produced an inventory/migration-analysis document but proposed *inventing new plugin names* (`sharepoint-agents`, `sharepoint-native-skills`, `workbench-setup`) rather than checking whether the vision had already named the correct one — confirming the check still hadn't happened even after being directly prompted twice. Only stopped, and the real cause named, on the user's third direct challenge ("do you not understand the purpose of this repo and architecture even now?").
 - **Why it wasn't caught earlier**: no step in this session's (or the referenced prior session's) workflow included "check `docs/vision/` for an existing plugin-boundary decision" before creating a new script or skill file. The `tools/phase-N-*` convention was inherited from earlier sessions and treated as settled precedent rather than re-checked against the vision each time new capability was added.
@@ -825,9 +825,9 @@ lesson, recorded once here instead of re-derived plugin by plugin.
 - **Logged Date**: 2026-08-03
 - **Cycle/Session**: Phase 6 remediation round 2 — native-sharepoint runbook prep (live tenant verification)
 - **Artifact Affected**: `plugins/sharepoint-agents-and-skills/scripts/reconcile-deployed-skill.ps1`
-- **Friction Observed**: ran this existing, previously-untested-live script against the real tenant (`AG-CSB-INTRANET-DEV`) to verify the `review-manual-topics` deployment precondition before running Phase 6's native-runtime evaluation cases. It reported `DISPOSITION: TASK_8_NO_SKILLS_DEPLOYED` — zero skill folders found in `AgentAssets/Skills/`. This was reported to the user as fact. The user pushed back ("you are wrong") and provided a screenshot showing `AgentAssets/Skills/` actually contains two real folders (`ceis-test-skill`, `review-manual-topics`, both modified 3 days prior). The script was wrong, not the tenant — a false-negative live-tenant read that was initially reported as ground truth without the skepticism it deserved for a script that had never actually been run against a live tenant before (only ever exercised, if at all, as inert code).
+- **Friction Observed**: ran this existing, previously-untested-live script against the real tenant (`TargetSite-Dev`) to verify the `review-manual-topics` deployment precondition before running Phase 6's native-runtime evaluation cases. It reported `DISPOSITION: TASK_8_NO_SKILLS_DEPLOYED` — zero skill folders found in `AgentAssets/Skills/`. This was reported to the user as fact. The user pushed back ("you are wrong") and provided a screenshot showing `AgentAssets/Skills/` actually contains two real folders (`sample-test-skill`, `review-manual-topics`, both modified 3 days prior). The script was wrong, not the tenant — a false-negative live-tenant read that was initially reported as ground truth without the skepticism it deserved for a script that had never actually been run against a live tenant before (only ever exercised, if at all, as inert code).
 - **Root causes, three real bugs found by direct cmdlet investigation, not guessing**:
-  1. `Get-PnPFolderInFolder -FolderSiteRelativeUrl` was passed a SERVER-relative path (built from `$agentAssetsLib.RootFolder.ServerRelativeUrl`, e.g. `/sites/AG-CSB-INTRANET-DEV/AgentAssets/Skills`) but that parameter requires a SITE-relative path (e.g. `AgentAssets/Skills`) — silently resolved to zero folders instead of erroring.
+  1. `Get-PnPFolderInFolder -FolderSiteRelativeUrl` was passed a SERVER-relative path (built from `$agentAssetsLib.RootFolder.ServerRelativeUrl`, e.g. `/sites/TargetSite-Dev/AgentAssets/Skills`) but that parameter requires a SITE-relative path (e.g. `AgentAssets/Skills`) — silently resolved to zero folders instead of erroring.
   2. `Get-PnPFile -Url ... -AsFile` (no `-Path`) selected the "Save to local path" parameter set, which requires `-Path`, causing an interactive prompt this session's non-interactive invocation couldn't answer, silently failing that lookup too.
   3. A second `Get-PnPFile ... -Path $tempPath -AsFile` call passed a full file path to `-Path`, but that parameter expects a directory with `-Filename` supplied separately — a second interactive-prompt failure.
 - **Why this wasn't caught in Task 0's original completion**: `reconcile-deployed-skill.ps1` had no automated test coverage (verified: `grep` for its name across `tests/` returns nothing) and, per its own history, had likely never been run against a real live tenant end-to-end before this session — only ever validated by code review / synthetic reasoning. A cmdlet-parameter-set bug like #2/#3 (silently switching to a different parameter set that then prompts interactively) is exactly the kind of defect that only surfaces on a real, live, non-interactive run — never in a mocked or manually-reasoned-through review.
