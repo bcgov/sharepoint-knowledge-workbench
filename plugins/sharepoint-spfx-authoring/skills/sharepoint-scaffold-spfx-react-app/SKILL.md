@@ -42,7 +42,7 @@ This architecture incorporates enterprise patterns:
 ### Step 2: Run Generator
 
 ```bash
-python ../../scripts/scaffold_spfx_react_app.py --spec path/to/app_spec.json --output-dir path/to/spfx-project/src/webparts/documentCatalogue
+python ../scripts/scaffold_spfx_react_app.py --spec path/to/app_spec.json --output-dir path/to/spfx-project/src/webparts/documentCatalogue
 ```
 
 ### Step 3: Setup Tailwind CSS Build
