@@ -86,11 +86,11 @@ it. This section is referenced, not repeated, at each phase's exit gate below.
 ## Phase 1 — Structured Knowledge Conversion & Canonical Content POC
 
 **Disposition:** DONE — formally closed. Human spot-check completed and recorded in
-`runs/ceis-manual-v2/evidence-report.md` (all applicable checklist rows PASS/accepted, footnote row N/A,
+`runs/sample-manual-v2/evidence-report.md` (all applicable checklist rows PASS/accepted, footnote row N/A,
 metadata row dispositioned); `fix-grid-table-rendering-defect` (PR #2) merged to `main`. **Detail level:**
 Implemented.
 
-**Goal:** Prove the content/format separation exists and is genuinely extensible, using the CEIS Manual as
+**Goal:** Prove the content/format separation exists and is genuinely extensible, using the Source Manual as
 the evidence vehicle.
 
 **Entry gate:** (historical) approved Phase 1 design spec.
@@ -107,7 +107,7 @@ the evidence vehicle.
 ### Subphase 1.3 — Formal closure (complete)
 - Stage 1.3.1 — human spot-check: title/front-matter, image-heavy section, deep-hierarchy heading,
   begin/middle/end. **Deliverable:** four filled rows in `evidence-report.md`. **Verification:** a human
-  actually opened `runs/ceis-manual-v2/render/rendered-output/` and recorded what they saw. **Evidence:**
+  actually opened `runs/sample-manual-v2/render/rendered-output/` and recorded what they saw. **Evidence:**
   the filled checklist rows themselves. **DONE.**
 - Stage 1.3.2 — disposition the "plugin/marketplace metadata not verified" acceptance row. **DONE** — no
   `marketplace.json` exists for this plugin; `plugin.json`'s capabilities/description already accurately
@@ -291,7 +291,7 @@ is feasible.
 citing Microsoft's official Copilot-in-SharePoint FAQ):** agent knowledge sources are capped at
 20 source items, but **a folder counts as one item regardless of how many files it contains** —
 Microsoft's own guidance is to "nest the data at a higher level and source the agent to that
-level" once a flat file count would exceed 20. The CEIS pilot alone has ~26 topic pages before
+level" once a flat file count would exceed 20. The pilot project alone has ~26 topic pages before
 counting media, so **the pilot library's folder structure must be planned with this in mind from
 the start** — e.g. grouped by manual section/chapter — rather than left flat and restructured
 later once an agent needs to be scoped to it. This is a structural decision for Stage 3.1.1's
@@ -951,33 +951,33 @@ required policy/legal review completed before any rule is enforced in production
 
 ### Phase 9 — Reusable SharePoint Plugin Extraction
 
-**Disposition:** LATER — selective ecosystem expansion, not a migration of the CMAT replatform repository. **Detail level:** Requirements, evidence gates, and subphase structure only; exact extraction internals remain provisional until a pinned source baseline and one pilot capability are selected. Phase 9 has not started.
+**Disposition:** LATER — selective ecosystem expansion, not a migration of the legacy source repository. **Detail level:** Requirements, evidence gates, and subphase structure only; exact extraction internals remain provisional until a pinned source baseline and one pilot capability are selected. Phase 9 has not started.
 
-**Goal:** Selectively extract proven generic SharePoint capabilities from the existing CMAT replatform repository, refactor them into independently reusable first-party plugins in the SharePoint Knowledge Workbench, and prove that the extracted plugins operate without CMAT, ORDS, JUSTIN, CEIS, tenant, environment, or cross-repository runtime dependencies while leaving the source repository and its plugins intact and independently operable.
+**Goal:** Selectively extract proven generic SharePoint capabilities from the legacy source repository, refactor them into independently reusable first-party plugins in the SharePoint Knowledge Workbench, and prove that the extracted plugins operate without legacy system, proprietary backend, tenant, environment, or cross-repository runtime dependencies while leaving the source repository and its plugins intact and independently operable.
 
-**Source assessment baseline (observed 2026-08-01, not pinned):** `jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` contains 119 directories and 272 files (144 real files + 128 symlinks) across 33 skills spanning discovery, schema, classic-page modernization, link analysis, content migration, provisioning/validation, and reporting. These figures describe the supplied baseline inventory at observation time — not a permanent total, since the source repository continues to evolve independently — and Stage 9.0/9.1 must pin an exact commit before any extraction begins. Full detail: `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md` §3a. **Phase 9 is selective extraction using this baseline as a classification input, not a repository migration** — the 272-file tree is not copied wholesale into the destination repository.
+**Source assessment baseline (observed 2026-08-01, not pinned):** `legacy-source-repository/plugins/sharepoint-migration/skills/` contains 119 directories and 272 files (144 real files + 128 symlinks) across 33 skills spanning discovery, schema, classic-page modernization, link analysis, content migration, provisioning/validation, and reporting. These figures describe the supplied baseline inventory at observation time — not a permanent total, since the source repository continues to evolve independently — and Stage 9.0/9.1 must pin an exact commit before any extraction begins. Full detail: `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md` §3a. **Phase 9 is selective extraction using this baseline as a classification input, not a repository migration** — the 272-file tree is not copied wholesale into the destination repository.
 
 **Long-term workbench scope intent:** Phase 9's eventual outcome is intended to expand this repository beyond knowledge conversion/publication into a broader SharePoint engineering workbench — also covering site migration, page conversion/analysis, and web-part analysis. This is a stated future direction that informs why Phase 4.5's plugin conventions must be general enough for both families; it is not an authorization to begin that expansion.
 
 **Entry gate:**
 - The current SharePoint Knowledge Workbench phases have established stable destination conventions for first-party plugins, tests, evidence, lifecycle, and shared rules. **Phase 4.5 is the source of these conventions** (plugin manifests, domain-native skill ownership, implementation-status metadata, independent semantic versions, contract versions, compatibility matrix, three-tier test/fixture ownership, documentation categories, marketplace registration, dependency rules, lifecycle and removal gates) — Phase 9 must reuse them rather than inventing a second plugin system.
 - Phase 3 has established expected-state, actual-state, reconciliation, permission, and evidence patterns that extracted SharePoint plugins must follow where applicable.
-- A fixed CMAT repository commit or immutable review bundle is selected as the extraction baseline (distinct from the observed-but-unpinned baseline above).
-- At least one source capability demonstrates plausible reuse outside the CMAT project.
+- A fixed legacy repository commit or immutable review bundle is selected as the extraction baseline (distinct from the observed-but-unpinned baseline above).
+- At least one source capability demonstrates plausible reuse outside the legacy project.
 - One pilot capability family is explicitly selected and approved after comparing at least `sharepoint-discovery`, `sharepoint-schema`, and `sharepoint-page-modernization` — **no candidate is pre-selected**. The observed source inventory shows `sp-converting-aspx-pages` (core of page modernization) has a materially richer implementation (27 files: full analyze→classify→map→preview→reconstruct→provision→validate→report pipeline, tests, fixtures, schema, architecture diagram) than most discovery skills (3-10 files, several likely planned-only), which may make page modernization a stronger pilot than originally assumed. Selection requires the full three-axis classification (implementation status, destination disposition, backlog priority) from Phase 9 spec §3b, not a read/write-risk heuristic alone.
-- The original CMAT repository remains the operational source implementation and regression reference. Phase 9 does not rename it, remove its plugins, or make it depend on the workbench.
+- The original legacy repository remains the operational source implementation and regression reference. Phase 9 does not rename it, remove its plugins, or make it depend on the workbench.
 
 **Explicit non-goals:**
-- No CMAT repository rename, migration, dismantling, or cleanup.
+- No legacy repository rename, migration, dismantling, or cleanup.
 - No automatic movement of every source plugin, skill, script, agent, backlog item, or rule.
-- No extraction of the ORDS API/integration framework, JUSTIN/CEIS integration logic, court-appearance routing, courthouse mappings, CMAT wave configuration, or environment-specific operational runbooks.
+- No extraction of legacy backend integrations or domain-specific routing logic.
 - No cross-repository symlinks or runtime imports.
-- No immediate rebinding of CMAT to consume workbench plugins.
+- No immediate rebinding of LegacySource to consume workbench plugins.
 - No general-purpose orchestration agent merely because source sub-agents exist.
 - No write-capable extraction as the first pilot unless separately justified and approved.
 
 #### Subphase 9.1 — Source baseline and inventory
-- Stage 9.1.1 — pin the source baseline. **Deliverable:** source-baseline record naming the CMAT repository commit or immutable bundle, repository role, and evidence location. **Verification:** hash/commit can be independently resolved and the source repository is unchanged. **Evidence:** baseline record plus manifest hashes.
+- Stage 9.1.1 — pin the source baseline. **Deliverable:** source-baseline record naming the legacy repository commit or immutable bundle, repository role, and evidence location. **Verification:** hash/commit can be independently resolved and the source repository is unchanged. **Evidence:** baseline record plus manifest hashes.
 - Stage 9.1.2 — inventory source capabilities. **Deliverable:** inventory of plugins, skills, agents, scripts, tests, references, assets, rules, configuration, symlinks, and known consumers. **Verification:** each item classified active, planned, obsolete, historical, project-specific, or candidate-reusable. **Evidence:** inventory report and completeness check.
 - Stage 9.1.3 — identify source behaviour and test oracles. **Deliverable:** source-behaviour matrix linking each candidate to existing tests, fixtures, acceptance criteria, and proven outcomes. **Verification:** no candidate advances based only on a name or README claim. **Evidence:** matrix with source references.
 
@@ -987,23 +987,23 @@ required policy/legal review completed before any rule is enforced in production
 - Stage 9.2.3 — select one pilot plugin family. **Deliverable:** selection memo comparing at least `sharepoint-discovery`, `sharepoint-schema`, and `sharepoint-page-modernization`. **Verification:** selection considers reuse value, read/write risk, coupling, test maturity, overlap, ownership, and extraction effort. **Evidence:** approved memo. **Recommended initial candidate:** `sharepoint-discovery`.
 
 #### Subphase 9.3 — Coupling and dependency analysis
-- Stage 9.3.1 — map all dependencies for the selected pilot. **Deliverable:** coupling matrix covering CMAT literals, list/field names, tenant URLs and IDs, app registrations, environment names, ORDS dependencies, business rules, shared PowerShell modules, cross-plugin references, symlinks, fixtures, and permissions. **Verification:** each dependency is marked remove, parameterize, replace, retain-as-provenance, or block. **Evidence:** reviewed coupling matrix.
-- Stage 9.3.2 — define the generic capability contract. **Deliverable:** target-neutral input, output, error, permission, dry-run, evidence, and lifecycle contract. **Verification:** no contract field requires CMAT, ORDS, JUSTIN, CEIS, or a specific tenant. **Evidence:** contract document and adversarial review.
+- Stage 9.3.1 — map all dependencies for the selected pilot. **Deliverable:** coupling matrix covering legacy literals, list/field names, tenant URLs and IDs, app registrations, environment names, ORDS dependencies, business rules, shared PowerShell modules, cross-plugin references, symlinks, fixtures, and permissions. **Verification:** each dependency is marked remove, parameterize, replace, retain-as-provenance, or block. **Evidence:** reviewed coupling matrix.
+- Stage 9.3.2 — define the generic capability contract. **Deliverable:** target-neutral input, output, error, permission, dry-run, evidence, and lifecycle contract. **Verification:** no contract field requires legacy systems or a specific tenant. **Evidence:** contract document and adversarial review.
 - Stage 9.3.3 — define source-to-destination provenance. **Deliverable:** provenance manifest connecting extracted files and behaviours to the pinned source baseline. **Verification:** a future maintainer can identify what was adapted, rewritten, omitted, or intentionally diverged. **Evidence:** provenance manifest.
 
 #### Subphase 9.4 — Shared instruction and rule reconciliation
-- Stage 9.4.1 — classify source instructions. **Deliverable:** rule inventory using `GENERIC_ENGINEERING`, `GENERIC_SHAREPOINT`, `PLUGIN_SPECIFIC`, `CMAT_SPECIFIC`, `ENVIRONMENT_FACT`, `DUPLICATE`, or `CONFLICTING`. **Verification:** source `CLAUDE.md`, Copilot instructions, and applicable rule files are accounted for without wholesale copying. **Evidence:** rule-classification report.
-- Stage 9.4.2 — reconcile generic rules into the destination. **Deliverable:** proposed destination rule changes. **Verification:** destination rules remain authoritative; duplicates are consolidated; conflicts are explicitly decided; CMAT and environment facts remain in the source repository. **Evidence:** rule-diff review and decision record.
+- Stage 9.4.1 — classify source instructions. **Deliverable:** rule inventory using `GENERIC_ENGINEERING`, `GENERIC_SHAREPOINT`, `PLUGIN_SPECIFIC`, `LegacySource_SPECIFIC`, `ENVIRONMENT_FACT`, `DUPLICATE`, or `CONFLICTING`. **Verification:** source `CLAUDE.md`, Copilot instructions, and applicable rule files are accounted for without wholesale copying. **Evidence:** rule-classification report.
+- Stage 9.4.2 — reconcile generic rules into the destination. **Deliverable:** proposed destination rule changes. **Verification:** destination rules remain authoritative; duplicates are consolidated; conflicts are explicitly decided; LegacySource and environment facts remain in the source repository. **Evidence:** rule-diff review and decision record.
 - Stage 9.4.3 — establish plugin-local guidance. **Deliverable:** only the selected plugin's genuinely specific technical rules placed in that plugin's documentation. **Verification:** no source-project operational state leaks into root workbench guidance. **Evidence:** documentation review.
 
 #### Subphase 9.5 — Pilot plugin extraction
 - Stage 9.5.1 — create the selected first-party plugin using destination conventions. **Deliverable:** plugin manifest, skills, scripts/modules, references, schemas, fixtures, and tests. **Verification:** follows the workbench's current plugin structure and marketplace metadata rules; exact paths are finalized through the Phase 9 implementation plan, not assumed here. **Evidence:** plugin tree and manifest validation.
-- Stage 9.5.2 — remove or replace project coupling. **Deliverable:** neutral configuration and interfaces. **Verification:** repository scan reports zero live CMAT, ORDS, JUSTIN, CEIS, tenant URL/GUID, environment, or cross-repository runtime dependencies except explicit provenance documentation and negative-control fixtures. **Evidence:** raw scan output and reviewed exceptions.
+- Stage 9.5.2 — remove or replace project coupling. **Deliverable:** neutral configuration and interfaces. **Verification:** repository scan reports zero live legacy project identifiers, proprietary backend systems, tenant URL/GUID, environment, or cross-repository runtime dependencies except explicit provenance documentation and negative-control fixtures. **Evidence:** raw scan output and reviewed exceptions.
 - Stage 9.5.3 — preserve safe defaults. **Deliverable:** read-only-by-default behaviour for discovery candidates; explicit dry-run, confirmation, least-privilege, partial-failure, and evidence handling for any future write-capable capability. **Verification:** safety tests fail if unapproved writes become reachable. **Evidence:** safety test results.
 
 #### Subphase 9.6 — Independent fixtures, tests, and parity proof
-- Stage 9.6.1 — create neutral fixtures. **Deliverable:** sanitized, project-independent SharePoint fixtures and expected outputs. **Verification:** fixtures contain no live tenant identifiers, protected content, CMAT schema, or ORDS data. **Evidence:** fixture audit.
-- Stage 9.6.2 — prove destination independence. **Deliverable:** isolated test run with the CMAT repository, source symlinks, source configuration, and source environment unavailable. **Verification:** all plugin tests and documented user journeys pass. **Evidence:** test report with exact counts.
+- Stage 9.6.1 — create neutral fixtures. **Deliverable:** sanitized, project-independent SharePoint fixtures and expected outputs. **Verification:** fixtures contain no live tenant identifiers, protected content, LegacySource schema, or ORDS data. **Evidence:** fixture audit.
+- Stage 9.6.2 — prove destination independence. **Deliverable:** isolated test run with the legacy repository, source symlinks, source configuration, and source environment unavailable. **Verification:** all plugin tests and documented user journeys pass. **Evidence:** test report with exact counts.
 - Stage 9.6.3 — prove semantic parity for deliberately retained behaviours. **Deliverable:** source-versus-destination comparison. **Verification:** selected generic behaviours match the pinned source oracle or have an explicitly reviewed contract improvement; no test is loosened merely to pass. **Evidence:** parity report and disposition of intentional differences.
 - Stage 9.6.4 — run adversarial and mutation tests. **Deliverable:** tests for project-literal leakage, missing configuration, permission failure, malformed expected state, partial discovery, and silent-success prevention. **Verification:** deliberate defects reach their intended detectors. **Evidence:** mutation matrix.
 
@@ -1014,15 +1014,15 @@ required policy/legal review completed before any rule is enforced in production
 
 #### Subphase 9.8 — Source-repository preservation and non-rebinding proof
 - Stage 9.8.1 — verify source preservation. **Deliverable:** source-repository status report. **Verification:** no source files, plugins, rules, manifests, or runbooks were removed or changed as a side effect of extraction. **Evidence:** pinned-baseline comparison.
-- Stage 9.8.2 — verify independent operation. **Deliverable:** non-rebinding proof. **Verification:** the CMAT repository has no new dependency on the workbench, no cross-repository symlink, and no required import from the extracted plugin. **Evidence:** dependency scan and source test result where safely available.
-- Stage 9.8.3 — record any future consumer-rebind option. **Deliverable:** separate decision note only. **Verification:** explicitly states that rebinding CMAT to the reusable plugin would require its own spec, regression plan, and approval. **Evidence:** decision note.
+- Stage 9.8.2 — verify independent operation. **Deliverable:** non-rebinding proof. **Verification:** the legacy repository has no new dependency on the workbench, no cross-repository symlink, and no required import from the extracted plugin. **Evidence:** dependency scan and source test result where safely available.
+- Stage 9.8.3 — record any future consumer-rebind option. **Deliverable:** separate decision note only. **Verification:** explicitly states that rebinding LegacySource to the reusable plugin would require its own spec, regression plan, and approval. **Evidence:** decision note.
 
 #### Subphase 9.9 — Remaining ecosystem roadmap
 - Stage 9.9.1 — prioritize remaining plugin families. **Deliverable:** ranked roadmap for discovery, schema, page modernization, link analysis, provisioning, content migration, and validation based on evidence from the pilot extraction. **Verification:** no capability is scheduled merely because it existed in the source repository. **Evidence:** prioritization matrix.
 - Stage 9.9.2 — review backlog and planned skills selectively. **Deliverable:** backlog disposition record. **Verification:** planned and incomplete source items are reviewed and prioritized rather than automatically migrated. **Evidence:** backlog decision record.
 - Stage 9.9.3 — retrospective. **Deliverable:** `phase-9-retrospective.md`. **Verification:** cites every stage's evidence and recommends whether the extraction pattern should be repeated, changed, or stopped. **Evidence:** reviewed retrospective.
 
-**Exit gate:** One approved generic SharePoint capability family has been independently extracted from a pinned CMAT source baseline into a first-party SharePoint Knowledge Workbench plugin. The extracted plugin contains no live CMAT, ORDS, JUSTIN, CEIS, tenant, environment, credential, or cross-repository runtime dependency; passes independent, safety, adversarial, and semantic-parity tests using neutral fixtures; follows destination plugin, evidence, security, documentation, and lifecycle conventions; and leaves the original CMAT repository and its plugins unchanged and independently operable. All remaining source capabilities and backlog items are classified and prioritized rather than copied automatically.
+**Exit gate:** One approved generic SharePoint capability family has been independently extracted from a pinned legacy source baseline into a first-party SharePoint Knowledge Workbench plugin. The extracted plugin contains no live legacy project identifiers, proprietary backend systems, tenant, environment, credential, or cross-repository runtime dependency; passes independent, safety, adversarial, and semantic-parity tests using neutral fixtures; follows destination plugin, evidence, security, documentation, and lifecycle conventions; and leaves the original legacy repository and its plugins unchanged and independently operable. All remaining source capabilities and backlog items are classified and prioritized rather than copied automatically.
 
 ---
 
@@ -1065,9 +1065,9 @@ asserted completeness without demonstrating it.
 ---
 
 
-| Reusable SharePoint plugin extraction from the CMAT replatform repository | Phase 9, Subphases 9.1–9.9 | LATER | Pinned source baseline, stable destination conventions, Phase 3 evidence patterns, and one approved pilot capability | Phase 9 exit gate: one independent reusable plugin with neutral fixtures, parity and independence proof, source repository unchanged | Must not interrupt current Phases 3–8 or copy project-specific plugins wholesale. **Updated 2026-08-03:** the CMAT `sharepoint-migration` source inventory (34 skills, directly audited, corrected from earlier 31/33 estimates) has been directly audited — see `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md` §8c–§8e. Phase 9 covers all applicable `sharepoint-migration` capabilities, not only the subset overlapping Phase 6. Phase 9 reuses the final workbench plugin structure (destination-plugin-matching rule, §8e) — existing plugins are preferred over new ones. 5 of 7 candidate new engineering plugins (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-migration`) are provisionally evidence-justified; 2 (`sharepoint-provisioning`, `sharepoint-validation-and-reconciliation`) are not — all remain evidence-gated, none approved. No CMAT migration or extraction has started; the CMAT repository remains intact and unmodified. `ords-integration-migration` remains excluded from Phase 9 by default (`ORDS_SPECIFIC_OUT_OF_SCOPE`). |
+| Reusable SharePoint plugin extraction from the legacy source repository | Phase 9, Subphases 9.1–9.9 | LATER | Pinned source baseline, stable destination conventions, Phase 3 evidence patterns, and one approved pilot capability | Phase 9 exit gate: one independent reusable plugin with neutral fixtures, parity and independence proof, source repository unchanged | Must not interrupt current Phases 3–8 or copy project-specific plugins wholesale. **Updated 2026-08-03:** the LegacySource `sharepoint-migration` source inventory (34 skills, directly audited, corrected from earlier 31/33 estimates) has been directly audited — see `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md` §8c–§8e. Phase 9 covers all applicable `sharepoint-migration` capabilities, not only the subset overlapping Phase 6. Phase 9 reuses the final workbench plugin structure (destination-plugin-matching rule, §8e) — existing plugins are preferred over new ones. 5 of 7 candidate new engineering plugins (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-migration`) are provisionally evidence-justified; 2 (`sharepoint-provisioning`, `sharepoint-validation-and-reconciliation`) are not — all remain evidence-gated, none approved. No LegacySource migration or extraction has started; the legacy repository remains intact and unmodified. `ords-integration-migration` remains excluded from Phase 9 by default (`ORDS_SPECIFIC_OUT_OF_SCOPE`). |
 | Selective reuse of generic skills currently housed under project-specific or ORDS plugins | Phase 9, Stages 9.2.2 and 9.9.2 | LATER | Skill-level responsibility and coupling review | Skill disposition and backlog decision records | ORDS integration framework and court-system business rules are out of scope; only independently generic SharePoint skills may qualify |
-| Shared Claude/Copilot rule reconciliation from the CMAT repository | Phase 9, Subphase 9.4 | LATER | Pinned source rules plus current destination instruction hierarchy | Rule-classification report, reviewed destination diffs, and proof that CMAT/environment overlays remain in the source repository | Wholesale copying would mix reusable engineering rules with project and environment facts |
+| Shared Claude/Copilot rule reconciliation from the legacy repository | Phase 9, Subphase 9.4 | LATER | Pinned source rules plus current destination instruction hierarchy | Rule-classification report, reviewed destination diffs, and proof that LegacySource/environment overlays remain in the source repository | Wholesale copying would mix reusable engineering rules with project and environment facts |
 
 ## Global Gating Rules (carried from architecture review, unchanged)
 

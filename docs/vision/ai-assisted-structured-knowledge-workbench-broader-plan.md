@@ -124,7 +124,7 @@ Phase 1 implementation plugin:
 docx-to-content
 
 Phase 1 pilot content:
-CEIS Manual
+Source Manual
 ```
 
 This preserves the history and bounded purpose of the existing implementation while giving the broader initiative an accurate name.
@@ -552,7 +552,7 @@ structured-knowledge-workbench/
 │   └── field-notes/
 │
 ├── examples/
-│   ├── ceis/
+│   ├── source-manual/
 │   └── native-sharepoint-skills/
 │
 └── evidence/
@@ -611,7 +611,7 @@ Exit gate:
 
 Goal:
 
-- prove that the CEIS Word manual can become maintainable canonical knowledge.
+- prove that the source Word manual can become maintainable canonical knowledge.
 
 Scope:
 
@@ -1086,7 +1086,7 @@ This follows the principle that backlog migration should be reviewed and priorit
 5. Plan one repository with multiple bounded plugins initially.
 6. Do not build all proposed plugins immediately.
 7. Complete repository reconnaissance and Superpowers brainstorming before renaming or restructuring.
-8. Preserve Phase 1 delivery; do not let the broader roadmap interrupt the current CEIS evidence run except where current architecture decisions require it.
+8. Preserve Phase 1 delivery; do not let the broader roadmap interrupt the current pilot evidence run except where current architecture decisions require it.
 9. Use low-cost agents for mechanical work and stronger agents only for architecture, ambiguity, debugging, and acceptance review.
 10. Require a separate reviewed implementation plan for each phase.
 
@@ -1180,7 +1180,7 @@ Phase 1 plugin:
 docx-to-content
 
 Pilot:
-CEIS Manual
+Source Manual
 ```
 
 Use one repository and several bounded plugins initially. Keep `docx-to-content` focused. Add `sharepoint-knowledge` as the next likely plugin only after a reviewed plan defines its contracts and pilot. Treat `knowledge-publication` as a separate boundary when canonical content has a second producer or publication has independent consumers. Keep common evaluation support shared until it earns plugin independence.
