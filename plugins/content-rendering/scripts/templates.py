@@ -2,49 +2,28 @@
 templates.py
 =============
 
-Phase 6 Task 0.16 -- shared module backing the `create-markdown-
-rendering-template` and `create-aspx-rendering-template` skills.
+Shared module backing the `create-markdown-rendering-template` and
+`create-aspx-rendering-template` skills.
 
-These are *rendering* templates: Markdown document/page structure, ASPX
+These are rendering templates: Markdown document/page structure, ASPX
 page structure, navigation, headings/sections, metadata placement, media
-placement, links, human-facing layout -- under
-`plugins/structured-content-rendering/assets/templates/{generic,
-solutions/ceis}/{markdown,aspx}/`. Distinct from Task 0.7/0.8's *agent/
-native-skill* templates (agent instructions, native-skill instructions,
-agent answer formatting) -- do not merge the two template systems (see
-the plan's own "Template-family distinction" note).
+placement, links, and human-facing layout under
+`assets/templates/{generic,solutions/ceis}/{markdown,aspx}/`.
 
 A template is a small placeholder-driven text file plus a JSON sidecar
 recording its `profile`/`format`/`schema_version` (the sidecar is what
 lets `load_rendering_template` recover those without re-parsing the
-template body, and what `validate-rendering-template`, a separate skill,
-checks against). Placeholders are literal `{{name}}` tokens -- no
-templating engine dependency (this plugin's stated policy: nothing
-beyond the Python standard library).
+template body, and what `validate-rendering-template` checks against).
+Placeholders are literal `{{name}}` tokens with zero templating engine
+dependencies beyond the Python standard library.
 
-Canonical starter templates (this module's only content source -- it
-never invents template text) are authored once at the plugin root
-(hub-and-spoke convention -- see CLAUDE.md's "Plugin-Local Resource
-Sharing"):
+Starter templates are authored at the plugin root and packaged within
+`scripts/assets/templates/...`:
 
     assets/templates/generic/markdown/page.template.md
     assets/templates/solutions/ceis/markdown/page.template.md
     assets/templates/generic/aspx/page.template.html
     assets/templates/solutions/ceis/aspx/page.template.html
-
-and read at runtime through this module's own file-level symlinked
-copies under `scripts/assets/templates/...` -- unlike the references/
-symlinked into skill folders (consumed by an agent/skill runner, never
-by imported Python), these starters are read by `templates.py` itself
-at import/call time, so they must live inside this plugin's own
-`scripts/` package boundary to survive a real wheel build (`pyproject.
-toml`'s `package-dir = {"" = "scripts"}` means only `scripts/`'s
-contents are ever packaged) -- a plugin-root-only reference would work
-under `pip install -e` (editable installs point back at the live source
-tree) but silently go missing from an isolated wheel install. Each
-starter's own comment header documents the real evidence its structure
-is derived from (CEIS rendered output for markdown, the Phase 3.0
-Sec.15 tenant experiment for ASPX).
 """
 
 import json
