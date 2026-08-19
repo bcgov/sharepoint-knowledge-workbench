@@ -759,10 +759,8 @@ def _check_content_loss_and_duplication(
 # ---------------------------------------------------------------------------
 
 # See package.py's _IMAGE_REF docstring for why alt text uses
-# `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- this is precisely the
-# check that is supposed to catch a broken/unrewritten media reference,
-# and the naive pattern silently skipped over the one real broken
-# reference found in the CEIS pilot run because its alt text contained a
+# `(?:[^\]\\]|\\.)*` rather than a naive `[^\]]*` -- this check catches
+# broken/unrewritten media references even when alt text contains a
 # markdown-escaped `]`.
 _IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 

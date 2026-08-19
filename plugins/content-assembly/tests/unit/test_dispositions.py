@@ -9,7 +9,7 @@ disposition file format, malformed-file handling, and FAIL-always-blocks
 behavior.
 
 Fixture data is synthetic (contracts.ValidationReport/ValidationIssue
-constructed directly) -- no real CEIS manual content appears here.
+constructed directly).
 """
 
 import json
