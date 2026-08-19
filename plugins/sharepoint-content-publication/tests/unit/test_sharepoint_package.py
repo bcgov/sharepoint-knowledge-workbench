@@ -54,8 +54,7 @@ def test_upload_package_to_dict_has_schema_version_and_entries():
 
 def _write_grouped_fixture(tmp_path):
     """Fabricates a minimal grouped CanonicalPackage + matching rendered
-    render_dir, mirroring runs/ceis-manual-v2/'s real layout (25-topic
-    grouped strategy, topic_id == chunk_id, page file <topic_id>.md)."""
+    render_dir (grouped strategy, topic_id == chunk_id, page file <topic_id>.md)."""
     canonical_dir = tmp_path / "canonical-content"
     render_dir = tmp_path / "render" / "rendered-output"
     (canonical_dir / "chunks").mkdir(parents=True)
