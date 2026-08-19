@@ -26,3 +26,7 @@ py-modules = [
 
 [tool.setuptools.package-dir]
 "" = "scripts"
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]
+testpaths = ["tests"]
