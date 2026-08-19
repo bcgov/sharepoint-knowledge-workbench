@@ -1,9 +1,27 @@
 {
-  "name": "sharepoint-provisioning",
+  "skills": [
+    "sharepoint-add-list-column",
+    "sharepoint-add-list-item",
+    "sharepoint-apply-provisioning-plan",
+    "sharepoint-configure-column-formatting",
+    "sharepoint-configure-library-settings",
+    "sharepoint-create-content-type",
+    "sharepoint-create-document-library",
+    "sharepoint-create-list",
+    "sharepoint-create-list-view",
+    "sharepoint-create-site-column",
+    "sharepoint-detach-content-type",
+    "sharepoint-remove-content-type",
+    "sharepoint-remove-list",
+    "sharepoint-remove-list-column",
+    "sharepoint-remove-site-column",
+    "sharepoint-update-content-type",
+    "sharepoint-update-list-column",
+    "sharepoint-update-list-settings",
+    "sharepoint-update-site-column"
+  ],
+  "author": "SharePoint Knowledge Workbench",
   "version": "1.0.0",
   "description": "Real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions, and taxonomy.",
-  "author": "SharePoint Knowledge Workbench",
-  "skills": [
-    "sharepoint-apply-provisioning-plan"
-  ]
+  "name": "sharepoint-provisioning"
 }

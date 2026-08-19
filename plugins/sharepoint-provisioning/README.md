@@ -14,7 +14,32 @@ This plugin provides the real tenant-facing PowerShell execution layer that appl
 
 ## Skills Included
 
-1. **`sharepoint-apply-provisioning-plan`**: Executes full provisioning plans (`New-PnPList`, `Set-PnPList`, `Add-PnPContentType`, `Add-PnPField`, etc.) against a live SharePoint Online site.
+### 1. Lists & Libraries CRUD
+- `sharepoint-create-list`: Creates a new custom list (Template 100).
+- `sharepoint-create-document-library`: Creates a new document library (Template 101).
+- `sharepoint-update-list-settings`: Updates list/library title, description, or versioning.
+- `sharepoint-configure-library-settings`: Configures major/minor version limits, content approval, and draft policies.
+- `sharepoint-remove-list`: Deletes a list/library with post-deletion verification.
+
+### 2. Columns & Fields CRUD
+- `sharepoint-create-site-column`: Creates site columns (Text, Choice, Lookup, User, Calculated XML).
+- `sharepoint-update-site-column`: Updates site column properties.
+- `sharepoint-remove-site-column`: Safely deletes a site column.
+- `sharepoint-add-list-column`: Adds a column to a specific list/library.
+- `sharepoint-update-list-column`: Updates a list-scoped column.
+- `sharepoint-remove-list-column`: Removes a column from a specific list/library.
+
+### 3. Content Types CRUD
+- `sharepoint-create-content-type`: Creates content types, links fields, and binds to lists.
+- `sharepoint-update-content-type`: Updates content type name, description, group, or hidden flags.
+- `sharepoint-remove-content-type`: Deletes a content type from the site collection.
+- `sharepoint-detach-content-type`: Unlinks a content type from a list/library.
+
+### 4. Views, Items & Whole-Schema Plans
+- `sharepoint-create-list-view`: Creates and configures list views (`Add-PnPView`).
+- `sharepoint-add-list-item`: Creates items with field values (`Add-PnPListItem`).
+- `sharepoint-configure-column-formatting`: Applies JSON column formatting.
+- `sharepoint-apply-provisioning-plan`: Executes whole-schema compiled provisioning plans.
 
 ## Scripts
 

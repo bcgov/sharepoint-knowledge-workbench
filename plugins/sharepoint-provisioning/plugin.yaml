@@ -1,7 +1,6 @@
 name: sharepoint-provisioning
-version: 0.1.0-alpha.1
-status: implemented
-description: "Real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions, and taxonomy. Consumes plan JSON from sharepoint-schema-reconciliation modules or direct plans. Every script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken."
+version: 1.0.0
+description: "Real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions, and taxonomy. Every script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken."
 author: Richard Fremmerlid
 kind: backend
 platforms:
@@ -9,5 +8,22 @@ platforms:
   - macos
   - windows
 skills:
+  - sharepoint-add-list-column
+  - sharepoint-add-list-item
   - sharepoint-apply-provisioning-plan
-
+  - sharepoint-configure-column-formatting
+  - sharepoint-configure-library-settings
+  - sharepoint-create-content-type
+  - sharepoint-create-document-library
+  - sharepoint-create-list
+  - sharepoint-create-list-view
+  - sharepoint-create-site-column
+  - sharepoint-detach-content-type
+  - sharepoint-remove-content-type
+  - sharepoint-remove-list
+  - sharepoint-remove-list-column
+  - sharepoint-remove-site-column
+  - sharepoint-update-content-type
+  - sharepoint-update-list-column
+  - sharepoint-update-list-settings
+  - sharepoint-update-site-column
