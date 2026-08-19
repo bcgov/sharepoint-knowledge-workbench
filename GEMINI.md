@@ -1,6 +1,5 @@
 # GEMINI.md
 
-
 Behavioral guidelines to reduce common LLM coding mistakes, plus project-specific context for this repo.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
@@ -94,19 +93,18 @@ supporting `prior-research-source-ledger.md`, `capability-gap-analysis.md`, and
 `current-source-verification-record.md`) for the full evidence record. Later phases beyond 7 are
 deliberately planned at a structural level only, gated on evidence that doesn't exist yet — see
 the master plan's own detail-level discipline before assuming any later phase is ready to
-implement. **Updated 2026-08-08:** Phase 9 (reusable SharePoint plugin extraction) merged to
-`main` via PR #40 and has continued directly on `main` since. Ten SharePoint-domain plugins now
-exist — `sharepoint-discovery`, `sharepoint-schema`, `sharepoint-provisioning`,
-`sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-publication`,
-`sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning` (Stage 3a
-dependency-graph analysis implemented; setup/discovery/generated-wave-script stages remain design
-scaffolds), sharepoint-content-migration (item-level content migration mechanism), and sharepoint-spfx-authoring - plus 9
-Claude Code routing/analysis agents in `sharepoint-agents-and-skills/agents/`. See
-`temp/phase9-source-audit/file-tracking.json` for the full 505-file source-repository audit this
-ecosystem was built from, and each plugin's own README for scope/provenance.
+implement. **Updated 2026-08-08 (and standardized 2026-08-19):** 16 domain plugins now exist
+across standard taxonomy prefixes: 4 content conversion plugins (`content-extraction`,
+`content-structure-analysis`, `content-assembly`, `content-rendering`), 11 SharePoint domain
+plugins (`sharepoint-discovery`, `sharepoint-schema-reconciliation`, `sharepoint-provisioning`,
+`sharepoint-page-modernization`, `sharepoint-page-modernization-execution`, `sharepoint-link-remediation`,
+`sharepoint-content-migration`, `sharepoint-migration-planning`, `sharepoint-content-publication`,
+`sharepoint-spfx-authoring`, `sharepoint-agents-and-skills`), and `workbench-setup` — plus 8
+Claude Code routing/analysis agents in domain `agents/` folders. See `architecture.md` and main `README.md`
+for the full ecosystem catalog.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
-`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`
+`content-extraction`, `content-structure-analysis`, `content-assembly`, `content-rendering`
 (built from scratch under TDD, see
 `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md`,
 `docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md`, and their
@@ -283,6 +281,7 @@ carries only the key non-negotiables:
 - `test-driven-development.md` — TDD approach where code is involved
 - `symlink-cross-platform.md` — symlink protocol if shared scripts are introduced
 - `github-issue-logging-policy.md` — issue logging conventions, if/when this repo tracks issues on GitHub
+- `sharepoint-ps1-authentication-convention.md` — standard PnP.PowerShell `Connect-PnPOnline` interactive-auth + `TenantAdminUrl` pattern every live-tenant `.ps1` script must follow (except documented Certificate/App-Only scripts)
 
 
 ### Phase 4+ SharePoint Copilot Agent Configuration

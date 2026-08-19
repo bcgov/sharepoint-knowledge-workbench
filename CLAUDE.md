@@ -93,32 +93,18 @@ supporting `prior-research-source-ledger.md`, `capability-gap-analysis.md`, and
 `current-source-verification-record.md`) for the full evidence record. Later phases beyond 7 are
 deliberately planned at a structural level only, gated on evidence that doesn't exist yet — see
 the master plan's own detail-level discipline before assuming any later phase is ready to
-implement. **Updated 2026-08-08:** Phase 9 (reusable SharePoint plugin extraction) merged to
-`main` via PR #40 and has continued directly on `main` since. Ten SharePoint-domain plugins now
-exist — `sharepoint-discovery`, `sharepoint-schema`, `sharepoint-provisioning`,
-`sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-publication`,
-`sharepoint-agents-and-skills`, `workbench-setup`, `sharepoint-migration-planning`,
-`sharepoint-content-migration`, and `sharepoint-spfx-authoring` — plus 9 Claude Code routing/analysis agents in
-`sharepoint-agents-and-skills/agents/`. See `temp/phase9-source-audit/file-tracking.json` for the
-full 505-file source-repository audit this ecosystem was built from, and each plugin's own README
-for scope/provenance.
-
-
-**Updated 2026-08-11:** a follow-on real-executor porting round closed all 10 SharePoint plugins
-above — each plugin's Python planning modules had shipped, but the live-tenant `.ps1` execution
-half (`Connect-PnPOnline`/`Get-PnP*`/`Add-PnP*`) was frequently left unported, indistinguishable
-from an intentional safety gate until someone tried to actually use it. See `start-here.md`'s
-own section on this round for the full plugin-by-plugin record — several plugins turned out to
-have a deliberate zero-tenant-I/O design contract of their own (some enforced by a real test), in
-which case the source-repo audit's originally-named files were confirmed out of scope and the real
-gap closed was something else entirely (a missing report-generation capability, a missing
-cross-plugin export-shape bridge, or — for `sharepoint-provisioning`, whose own test forbids any
-live transport shipping inside it — real executors built in `sharepoint-migration-planning`
-instead). Do not assume any plugin's skill list or implementation status from this paragraph or
-Phase 9 sources alone; read `start-here.md`'s current plugin-status table.
+implement. **Updated 2026-08-08 (and standardized 2026-08-19):** 16 domain plugins now exist
+across standard taxonomy prefixes: 4 content conversion plugins (`content-extraction`,
+`content-structure-analysis`, `content-assembly`, `content-rendering`), 11 SharePoint domain
+plugins (`sharepoint-discovery`, `sharepoint-schema-reconciliation`, `sharepoint-provisioning`,
+`sharepoint-page-modernization`, `sharepoint-page-modernization-execution`, `sharepoint-link-remediation`,
+`sharepoint-content-migration`, `sharepoint-migration-planning`, `sharepoint-content-publication`,
+`sharepoint-spfx-authoring`, `sharepoint-agents-and-skills`), and `workbench-setup` — plus 8
+Claude Code routing/analysis agents in domain `agents/` folders. See `architecture.md` and main `README.md`
+for the full ecosystem catalog.
 
 The active implementation is four independently-installable domain plugins under `plugins/` —
-`source-document-extraction`, `document-structure-analysis`, `structured-content-assembly`, `structured-content-rendering`
+`content-extraction`, `content-structure-analysis`, `content-assembly`, `content-rendering`
 (built from scratch under TDD, see
 `docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md`,
 `docs/superpowers/specs/phase-4-5-core-knowledge-plugin-domain-refactoring-spec.md`, and their
