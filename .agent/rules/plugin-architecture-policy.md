@@ -16,11 +16,18 @@ globs: ["plugins/**/SKILL.md", "plugins/**/scripts/*.py", "plugins/**/*.md"]
 
 ---
 
-## 2. Zero Duplication (Hub-and-Spoke)
+## 2. Zero Duplication & Self-Contained Skill Structure (Hub-and-Spoke)
 
-1. **No Duplication**: Shared scripts, assets, and templates within a plugin must live exactly *once* at the plugin's root (e.g., `plugins/<plugin-name>/scripts/` or `assets/`). Do not duplicate files across skills within the same plugin.
-2. **File-Level Symlinks ONLY**: You must use **file-level symlinks ONLY** to share resources within a skill (e.g., `ln -s ../../../scripts/script.py script.py`). Directory-level symlinks are strictly forbidden because `npx` drops them during installation.
-3. **Canonical Authority**: The copy of a file inside the skill's directory (the symlink target) is the authoritative version at runtime. The source in `plugins/<plugin>/assets/` or `plugins/<plugin>/scripts/` is the origin — changes must propagate to the skill copies via the bridge installer or manual sync.
+1. **Hub Placement (Plugin Root)**: Shared scripts, assets, templates, and references within a plugin must live exactly *once* at the plugin's root (e.g., `plugins/<plugin>/scripts/`, `assets/`, `references/`). Do not author primary files directly inside a skill directory.
+2. **Spoke Subdirectories (Skill Root)**: When authoring or adding any skill (`plugins/<plugin>/skills/<skill-name>/`), you must create matching subdirectories for every required resource category:
+   - `skills/<skill-name>/scripts/`
+   - `skills/<skill-name>/assets/` (if templates/assets are consumed)
+   - `skills/<skill-name>/references/` (if documentation/reference guides are consumed)
+3. **Mandatory `symlink-manager` Creation & Tracking**:
+   - Every resource file needed by the skill must be symlinked into the skill's subfolder using `symlink_manager.py create --src <hub-file> --dst <spoke-file>`.
+   - **File-Level Symlinks ONLY**: Directory-level symlinks are strictly forbidden because package managers and installer hooks drop them during deployment.
+   - All symlinks must be tracked in the repository-wide [`symlinks.json`](file:///C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/symlinks.json) manifest so they can be audited (`symlink_manager.py audit`) and restored across Windows, macOS, and Linux (`symlink_manager.py restore`).
+4. **Canonical Authority**: The copy of a file inside the skill's directory (the symlink target) is the authoritative version at runtime. The source at the plugin root is the origin — changes must propagate to the skill copies via the plugin installer or manual sync.
 
 ---
 
