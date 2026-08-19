@@ -1,0 +1,1 @@
+../../../scripts/spo-update-content-type.ps1

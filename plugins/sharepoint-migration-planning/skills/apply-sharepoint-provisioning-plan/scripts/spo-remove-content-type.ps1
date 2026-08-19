@@ -1,0 +1,1 @@
+../../../scripts/spo-remove-content-type.ps1
