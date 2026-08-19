@@ -5,7 +5,7 @@ Running log of system-level (non-Python) tools required for this project's docum
 | Tool | Purpose | Install (macOS) | Status |
 |---|---|---|---|
 | pandoc | Convert .docx to Markdown | `brew install pandoc` | Installed |
-| LibreOffice (`soffice`) | Convert legacy image formats (.emf/.doc) to .png/.docx/.pdf | `brew install --cask libreoffice` | Installed — brew links the binary as `soffice`, not `libreoffice` (the `libreoffice`/`libraoffice` shell commands do not exist). Used to convert 37 .emf images in CEIS Manual to .png. |
+| LibreOffice (`soffice`) | Convert legacy image formats (.emf/.doc) to .png/.docx/.pdf | `brew install --cask libreoffice` | Installed — brew links the binary as `soffice`, not `libreoffice` (the `libreoffice`/`libraoffice` shell commands do not exist). Used to convert legacy .emf images to .png during extraction. |
 | pdftoppm (Poppler) | Render PDF pages to images for visual verification of generated .docx files | `brew install poppler` | Not yet checked |
 
 ## Notes

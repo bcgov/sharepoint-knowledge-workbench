@@ -1,8 +1,0 @@
-@{
-    ClientId = "<delegated-app-client-id>"
-    TenantId = "<tenant-id-or-domain>"
-    SiteUrl = "https://<tenant-subdomain>.sharepoint.com/sites/<pilot-site>"
-    TargetLibrary = "AgentAssets"
-    TargetSkillFolderPath = "Skills/review-manual-topics"
-    PilotKnowledgeLibrary = "CEISPilotKnowledgePages"
-}

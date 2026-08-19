@@ -1,6 +1,0 @@
->>> LIBRARY-INVENTORY-START <<<
-| Library Name | Item Count | Versioning |
-|---|---|---|
-| <name> | <count> | <Yes/No> |
->>> LIBRARY-INVENTORY-END <<<
-TOTAL-LIBRARIES:: <total count of libraries listed above>

@@ -1,8 +1,0 @@
-{
-  "pandoc_version": "pandoc 3.8.3",
-  "plugin": "docx-to-content",
-  "plugin_version": "0.1.0",
-  "python_version": "3.13.4",
-  "run_timestamp": "2026-07-30T00:20:00.742977+00:00",
-  "soffice_version": "LibreOffice 26.2.5.2 cd7284b4cbbfeb507e630c1aac019f4157393acb"
-}

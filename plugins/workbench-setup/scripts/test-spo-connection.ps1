@@ -10,8 +10,30 @@ Supports both setup-sharepoint-connection's nested `Connection = @{...}`
 schema and a flat top-level ClientId/TenantId/SiteUrl schema.
 #>
 param(
-    [string]$ConfigPath = "$PSScriptRoot\..\..\..\config.psd1"
+    [string]$ConfigPath = ""
 )
+
+if (-not $ConfigPath -or -not (Test-Path $ConfigPath)) {
+    $candidates = @(
+        "$PWD\config.psd1",
+        "$PSScriptRoot\config.psd1",
+        "$PSScriptRoot\..\config.psd1",
+        "$PSScriptRoot\..\..\config.psd1",
+        "$PSScriptRoot\..\..\..\config.psd1",
+        "$PSScriptRoot\..\..\..\..\config.psd1"
+    )
+    foreach ($cand in $candidates) {
+        if (Test-Path $cand) {
+            $ConfigPath = (Resolve-Path $cand).Path
+            break
+        }
+    }
+}
+
+if (-not (Test-Path $ConfigPath)) {
+    Write-Error "Could not locate config.psd1. Please specify -ConfigPath <path> or run from a directory containing config.psd1."
+    exit 1
+}
 
 $raw = Import-PowerShellDataFile $ConfigPath
 $cfg = if ($raw.ContainsKey('Connection')) { $raw.Connection } else { $raw }

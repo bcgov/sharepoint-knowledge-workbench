@@ -1,7 +1,0 @@
-# Copy this file to config.psd1 (same directory) and fill in real values.
-# NEVER commit config.psd1 — it is gitignored (see repo .gitignore) and must stay that way.
-@{
-    ClientId = "00000000-0000-0000-0000-000000000000"
-    TenantId = "00000000-0000-0000-0000-000000000000"
-    SiteUrl  = "https://bcgov.sharepoint.com/sites/AG-CSB-intranet-dev"
-}

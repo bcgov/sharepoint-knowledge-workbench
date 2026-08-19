@@ -1,8 +1,0 @@
-{
-  "pandoc_version": "pandoc 3.8.3",
-  "plugin": "structured-content-rendering",
-  "plugin_version": "0.1.0",
-  "python_version": "3.13.4",
-  "run_timestamp": "2026-08-03T06:40:04.267390+00:00",
-  "soffice_version": "LibreOffice 26.2.5.2 cd7284b4cbbfeb507e630c1aac019f4157393acb"
-}
