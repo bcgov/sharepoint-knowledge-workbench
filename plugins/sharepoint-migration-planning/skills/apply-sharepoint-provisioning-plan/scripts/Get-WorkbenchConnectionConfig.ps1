@@ -1,0 +1,1 @@
+../../../scripts/Get-WorkbenchConnectionConfig.ps1
