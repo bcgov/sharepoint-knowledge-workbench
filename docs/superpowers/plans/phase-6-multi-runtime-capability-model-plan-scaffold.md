@@ -181,10 +181,9 @@ answer-boundary template; answer-format template; native-skill instruction templ
 structured-output template; review findings template; backup manifest templates; evidence/result
 template.
 
-Use `assets/templates/generic/` and `assets/templates/solutions/ceis/`. Do not create speculative
+Use `assets/templates/generic/` and `assets/templates/solutions/standard-manual/`. Do not create speculative
 empty templates. Templates separate required semantic sections, optional sections,
-runtime-specific presentation, placeholders, and validation rules. Do not hard-code CEIS into
-generic templates.
+runtime-specific presentation, placeholders, and validation rules.
 
 ### Task 0.9 — Template validation
 
@@ -331,7 +330,7 @@ Implement and package:
 **Template-family distinction (do not combine):** these are *rendering* templates — Markdown
 document/page structure, ASPX page structure, navigation, headings/sections, metadata placement,
 media placement, links, human-facing layout — under
-`plugins/structured-content-rendering/assets/templates/{generic,solutions/ceis}/{markdown,aspx}/`.
+`plugins/content-rendering/assets/templates/{generic,solutions/standard-manual}/{markdown,aspx}/`.
 Distinct from Task 0.7/0.8's *agent/native-skill* templates (agent instructions, native-skill
 instructions, agent answer formatting, review-result formatting). Do not merge the two template
 systems.
