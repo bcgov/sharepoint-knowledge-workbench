@@ -1,1 +1,0 @@
-../../sharepoint-provisioning/scripts/provisioning_outcomes.py

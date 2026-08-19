@@ -2,1202 +2,1202 @@
   "version": 1,
   "links": [
     {
-      "src": "plugins/source-document-extraction/references/contracts/normalized-source-document.md",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/contracts/normalized-source-document.md",
+      "src": "plugins/content-extraction/references/contracts/normalized-source-document.md",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/contracts/normalized-source-document.md",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of the normalized-source-document contract doc"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/dependencies.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/dependencies.py",
+      "src": "plugins/content-extraction/scripts/dependencies.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/dependencies.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of dependencies.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/emf_convert.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/emf_convert.py",
+      "src": "plugins/content-extraction/scripts/emf_convert.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/emf_convert.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of emf_convert.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/extraction.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/extraction.py",
+      "src": "plugins/content-extraction/scripts/extraction.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/extraction.py",
       "strategy": "symlink",
       "description": "test"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/heading_parsing.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/heading_parsing.py",
+      "src": "plugins/content-extraction/scripts/heading_parsing.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/heading_parsing.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of heading_parsing.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/__init__.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/__init__.py",
+      "src": "plugins/content-extraction/scripts/pandoc/__init__.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/__init__.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/__init__.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/attrs.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/attrs.py",
+      "src": "plugins/content-extraction/scripts/pandoc/attrs.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/attrs.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/attrs.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/footnotes.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/footnotes.py",
+      "src": "plugins/content-extraction/scripts/pandoc/footnotes.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/footnotes.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/footnotes.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/heading_emphasis.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/heading_emphasis.py",
+      "src": "plugins/content-extraction/scripts/pandoc/heading_emphasis.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/heading_emphasis.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/heading_emphasis.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/images.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/images.py",
+      "src": "plugins/content-extraction/scripts/pandoc/images.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/images.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/images.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/tables.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/tables.py",
+      "src": "plugins/content-extraction/scripts/pandoc/tables.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/tables.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/tables.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/toc.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/toc.py",
+      "src": "plugins/content-extraction/scripts/pandoc/toc.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/toc.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/toc.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/validate.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/pandoc/validate.py",
+      "src": "plugins/content-extraction/scripts/pandoc/validate.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/pandoc/validate.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of pandoc/validate.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/path_safety.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/path_safety.py",
+      "src": "plugins/content-extraction/scripts/path_safety.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/path_safety.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of path_safety.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/schema/__init__.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/schema/__init__.py",
+      "src": "plugins/content-extraction/scripts/schema/__init__.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/schema/__init__.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of schema/__init__.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/schema/normalized_source_document.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/schema/normalized_source_document.py",
+      "src": "plugins/content-extraction/scripts/schema/normalized_source_document.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/schema/normalized_source_document.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of schema/normalized_source_document.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/schema/shared.py",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/scripts/schema/shared.py",
+      "src": "plugins/content-extraction/scripts/schema/shared.py",
+      "dst": "plugins/content-extraction/skills/extract-docx/scripts/schema/shared.py",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of schema/shared.py"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/identity.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/identity.py",
+      "src": "plugins/content-structure-analysis/scripts/identity.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/identity.py",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of identity.py"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/plan_hashing.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_hashing.py",
+      "src": "plugins/content-structure-analysis/scripts/plan_hashing.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/plan_hashing.py",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of plan_hashing.py"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/plans.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plans.py",
+      "src": "plugins/content-structure-analysis/scripts/plans.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/plans.py",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of plans.py"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/topic_grouping.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/topic_grouping.py",
+      "src": "plugins/content-structure-analysis/scripts/topic_grouping.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/topic_grouping.py",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of topic_grouping.py"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/plan_schema/__init__.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/__init__.py",
+      "src": "plugins/content-structure-analysis/scripts/plan_schema/__init__.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/__init__.py",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of plan_schema/__init__.py"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/plan_schema/analysis_plan.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/analysis_plan.py",
+      "src": "plugins/content-structure-analysis/scripts/plan_schema/analysis_plan.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/analysis_plan.py",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of plan_schema/analysis_plan.py"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/plan_schema/shared.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/shared.py",
+      "src": "plugins/content-structure-analysis/scripts/plan_schema/shared.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/plan_schema/shared.py",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of plan_schema/shared.py"
     },
     {
-      "src": "plugins/document-structure-analysis/references/contracts/analysis-plan.md",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/contracts/analysis-plan.md",
+      "src": "plugins/content-structure-analysis/references/contracts/analysis-plan.md",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/contracts/analysis-plan.md",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of analysis-plan.md"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/atomic_output.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/atomic_output.py",
+      "src": "plugins/content-assembly/scripts/atomic_output.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/structured_content_assembly.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/structured_content_assembly.py",
+      "src": "plugins/content-assembly/scripts/structured_content_assembly.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/structured_content_assembly.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_package.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_package.py",
+      "src": "plugins/content-assembly/scripts/canonical_package.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/chunking.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/chunking.py",
+      "src": "plugins/content-assembly/scripts/chunking.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/chunking.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/convert.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/convert.py",
+      "src": "plugins/content-assembly/scripts/convert.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/convert.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/dispositions.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/dispositions.py",
+      "src": "plugins/content-assembly/scripts/dispositions.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/dispositions.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/emf_convert.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/emf_convert.py",
+      "src": "plugins/content-assembly/scripts/emf_convert.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/emf_convert.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/hashing.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/hashing.py",
+      "src": "plugins/content-assembly/scripts/hashing.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/hashing.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/media_disposition.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/media_disposition.py",
+      "src": "plugins/content-assembly/scripts/media_disposition.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/media_disposition.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/package.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/package.py",
+      "src": "plugins/content-assembly/scripts/package.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/plan_verification.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/plan_verification.py",
+      "src": "plugins/content-assembly/scripts/plan_verification.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/plan_verification.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/publication_map.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/publication_map.py",
+      "src": "plugins/content-assembly/scripts/publication_map.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/validate_canonical.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/validate_canonical.py",
+      "src": "plugins/content-assembly/scripts/validate_canonical.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/validate_canonical.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/__init__.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/analysis_plan.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/analysis_plan.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/analysis_plan.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/canonical_schema/analysis_plan.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/shared.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/canonical_schema/shared.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/shared.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/__init__.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/__init__.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/__init__.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/attrs.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/attrs.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/attrs.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/attrs.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/footnotes.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/footnotes.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/footnotes.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/footnotes.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/heading_emphasis.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/heading_emphasis.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/heading_emphasis.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/heading_emphasis.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/images.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/images.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/images.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/images.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/tables.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/tables.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/tables.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/tables.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/toc.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/toc.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/toc.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/toc.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/pandoc_cleanup/validate.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/validate.py",
+      "src": "plugins/content-assembly/scripts/pandoc_cleanup/validate.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/pandoc_cleanup/validate.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/references/contracts/canonical-package.md",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/contracts/canonical-package.md",
+      "src": "plugins/content-assembly/references/contracts/canonical-package.md",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/contracts/canonical-package.md",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/references/contracts/publication-map.md",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/contracts/publication-map.md",
+      "src": "plugins/content-assembly/references/contracts/publication-map.md",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/contracts/publication-map.md",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/atomic_output.py",
+      "src": "plugins/content-rendering/scripts/atomic_output.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_package.py",
+      "src": "plugins/content-rendering/scripts/canonical_package.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/dispositions.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/dispositions.py",
+      "src": "plugins/content-rendering/scripts/dispositions.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/dispositions.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/hashing.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/hashing.py",
+      "src": "plugins/content-rendering/scripts/hashing.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/hashing.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/structured_content_rendering.py",
+      "src": "plugins/content-rendering/scripts/structured_content_rendering.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/structured_content_rendering.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/path_safety.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/path_safety.py",
+      "src": "plugins/content-rendering/scripts/path_safety.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/path_safety.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/publication_map.py",
+      "src": "plugins/content-rendering/scripts/publication_map.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/render_result.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/render_result.py",
+      "src": "plugins/content-rendering/scripts/render_result.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/render_result.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/__init__.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/shared.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/shared.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/__init__.py",
+      "src": "plugins/content-rendering/scripts/renderers/__init__.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/renderers/__init__.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/multipage_markdown.py",
+      "src": "plugins/content-rendering/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/renderers/multipage_markdown.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/protocol.py",
+      "src": "plugins/content-rendering/scripts/renderers/protocol.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/renderers/protocol.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/scripts/renderers/validate_rendered.py",
+      "src": "plugins/content-rendering/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/scripts/renderers/validate_rendered.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/contracts/rendered-output-profile.md",
+      "src": "plugins/content-rendering/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/source-document-extraction/scripts/emf_convert.py",
-      "dst": "plugins/structured-content-assembly/scripts/emf_convert.py",
+      "src": "plugins/content-extraction/scripts/emf_convert.py",
+      "dst": "plugins/content-assembly/scripts/emf_convert.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly consumes source-document-extraction's emf_convert.py"
+      "description": "cross-plugin: content-assembly consumes content-extraction's emf_convert.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/path_safety.py",
-      "dst": "plugins/structured-content-rendering/scripts/path_safety.py",
+      "src": "plugins/content-extraction/scripts/path_safety.py",
+      "dst": "plugins/content-rendering/scripts/path_safety.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes source-document-extraction's path_safety.py"
+      "description": "cross-plugin: content-rendering consumes content-extraction's path_safety.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/__init__.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/__init__.py",
+      "src": "plugins/content-extraction/scripts/pandoc/__init__.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/__init__.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/__init__.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/__init__.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/attrs.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/attrs.py",
+      "src": "plugins/content-extraction/scripts/pandoc/attrs.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/attrs.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/attrs.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/attrs.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/footnotes.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/footnotes.py",
+      "src": "plugins/content-extraction/scripts/pandoc/footnotes.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/footnotes.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/footnotes.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/footnotes.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/heading_emphasis.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/heading_emphasis.py",
+      "src": "plugins/content-extraction/scripts/pandoc/heading_emphasis.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/heading_emphasis.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/heading_emphasis.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/heading_emphasis.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/images.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/images.py",
+      "src": "plugins/content-extraction/scripts/pandoc/images.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/images.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/images.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/images.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/tables.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/tables.py",
+      "src": "plugins/content-extraction/scripts/pandoc/tables.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/tables.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/tables.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/tables.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/toc.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/toc.py",
+      "src": "plugins/content-extraction/scripts/pandoc/toc.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/toc.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/toc.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/toc.py"
     },
     {
-      "src": "plugins/source-document-extraction/scripts/pandoc/validate.py",
-      "dst": "plugins/structured-content-assembly/scripts/pandoc_cleanup/validate.py",
+      "src": "plugins/content-extraction/scripts/pandoc/validate.py",
+      "dst": "plugins/content-assembly/scripts/pandoc_cleanup/validate.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's pandoc_cleanup consumes source-document-extraction's pandoc/validate.py"
+      "description": "cross-plugin: content-assembly's pandoc_cleanup consumes content-extraction's pandoc/validate.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/scripts/canonical_package.py",
+      "src": "plugins/content-assembly/scripts/canonical_package.py",
+      "dst": "plugins/content-rendering/scripts/canonical_package.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_package.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's canonical_package.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/dispositions.py",
-      "dst": "plugins/structured-content-rendering/scripts/dispositions.py",
+      "src": "plugins/content-assembly/scripts/dispositions.py",
+      "dst": "plugins/content-rendering/scripts/dispositions.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's dispositions.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's dispositions.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/hashing.py",
-      "dst": "plugins/structured-content-rendering/scripts/hashing.py",
+      "src": "plugins/content-assembly/scripts/hashing.py",
+      "dst": "plugins/content-rendering/scripts/hashing.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's hashing.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's hashing.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/publication_map.py",
-      "dst": "plugins/structured-content-rendering/scripts/publication_map.py",
+      "src": "plugins/content-assembly/scripts/publication_map.py",
+      "dst": "plugins/content-rendering/scripts/publication_map.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's publication_map.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's publication_map.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/content-rendering/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/__init__.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's canonical_schema/__init__.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/shared.py",
-      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/shared.py",
+      "dst": "plugins/content-rendering/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/shared.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's canonical_schema/shared.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/content-rendering/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/canonical_package.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's canonical_schema/canonical_package.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/content-rendering/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's canonical_schema/publication_map.py"
+      "description": "cross-plugin: content-rendering consumes content-assembly's canonical_schema/publication_map.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/atomic_output.py",
-      "dst": "plugins/structured-content-rendering/scripts/atomic_output.py",
+      "src": "plugins/content-assembly/scripts/atomic_output.py",
+      "dst": "plugins/content-rendering/scripts/atomic_output.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-rendering consumes structured-content-assembly's atomic_output.py (domain-neutral staging/promotion primitive; plugin identity now passed as data via build_generator_info/write_generator_info's plugin_name parameter)"
+      "description": "cross-plugin: content-rendering consumes content-assembly's atomic_output.py (domain-neutral staging/promotion primitive; plugin identity now passed as data via build_generator_info/write_generator_info's plugin_name parameter)"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/identity_core.py",
-      "dst": "plugins/structured-content-assembly/scripts/identity_core.py",
+      "src": "plugins/content-structure-analysis/scripts/identity_core.py",
+      "dst": "plugins/content-assembly/scripts/identity_core.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly consumes document-structure-analysis's canonical identity_core.py directly (bare module name kept consistent across both plugins)"
+      "description": "cross-plugin: content-assembly consumes content-structure-analysis's canonical identity_core.py directly (bare module name kept consistent across both plugins)"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/topic_boundary_core.py",
-      "dst": "plugins/structured-content-assembly/scripts/topic_boundary_core.py",
+      "src": "plugins/content-structure-analysis/scripts/topic_boundary_core.py",
+      "dst": "plugins/content-assembly/scripts/topic_boundary_core.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly consumes document-structure-analysis's canonical topic_boundary_core.py directly (bare module name kept consistent across both plugins)"
+      "description": "cross-plugin: content-assembly consumes content-structure-analysis's canonical topic_boundary_core.py directly (bare module name kept consistent across both plugins)"
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/plan_verification_core.py",
-      "dst": "plugins/structured-content-assembly/scripts/plan_verification.py",
+      "src": "plugins/content-structure-analysis/scripts/plan_verification_core.py",
+      "dst": "plugins/content-assembly/scripts/plan_verification.py",
       "strategy": "symlink",
-      "description": "cross-plugin: structured-content-assembly's plan_verification consumes document-structure-analysis's canonical plan_verification_core.py"
+      "description": "cross-plugin: content-assembly's plan_verification consumes content-structure-analysis's canonical plan_verification_core.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/identity_core.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/identity_core.py",
-      "strategy": "symlink",
-      "description": ""
-    },
-    {
-      "src": "plugins/structured-content-assembly/scripts/topic_boundary_core.py",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/scripts/topic_boundary_core.py",
+      "src": "plugins/content-assembly/scripts/identity_core.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/identity_core.py",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/document-structure-analysis/scripts/document_structure_analysis.py",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/scripts/document_structure_analysis.py",
+      "src": "plugins/content-assembly/scripts/topic_boundary_core.py",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/scripts/topic_boundary_core.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/content-structure-analysis/scripts/document_structure_analysis.py",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/scripts/document_structure_analysis.py",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
-      "description": "Visual pipeline diagram for the extraction/analysis stage, shared with document-structure-analysis"
+      "description": "Visual pipeline diagram for the extraction/analysis stage, shared with content-structure-analysis"
     },
     {
       "src": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
-      "description": "Visual pipeline diagram for the extraction/analysis stage, shared with source-document-extraction"
+      "description": "Visual pipeline diagram for the extraction/analysis stage, shared with content-extraction"
     },
     {
       "src": "docs/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
-      "description": "Visual pipeline diagram for the structured-content-assembly stage"
+      "description": "Visual pipeline diagram for the content-assembly stage"
     },
     {
       "src": "docs/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
-      "description": "Visual pipeline diagram for the structured-content-rendering stage"
+      "description": "Visual pipeline diagram for the content-rendering stage"
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/02-analyze-and-confirm.mmd",
+      "src": "plugins/content-extraction/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of the visual pipeline diagram"
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/02-analyze-and-confirm.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of the visual pipeline diagram"
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/03-create-canonical-content.mmd",
+      "src": "plugins/content-assembly/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
       "description": "assemble-structured-content skill's bundled copy of the visual pipeline diagram"
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/04-generate-and-render.mmd",
+      "src": "plugins/content-rendering/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
       "description": "render-multipage-markdown skill's bundled copy of the visual pipeline diagram"
     },
     {
       "src": "docs/diagrams/high-level.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/high-level.mmd",
       "strategy": "symlink",
-      "description": "Overall end-to-end system diagram for context, bundled with source-document-extraction"
+      "description": "Overall end-to-end system diagram for context, bundled with content-extraction"
     },
     {
       "src": "docs/diagrams/high-level.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/high-level.mmd",
       "strategy": "symlink",
-      "description": "Overall end-to-end system diagram for context, bundled with document-structure-analysis"
+      "description": "Overall end-to-end system diagram for context, bundled with content-structure-analysis"
     },
     {
       "src": "docs/diagrams/high-level.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/high-level.mmd",
       "strategy": "symlink",
-      "description": "Overall end-to-end system diagram for context, bundled with structured-content-assembly"
+      "description": "Overall end-to-end system diagram for context, bundled with content-assembly"
     },
     {
       "src": "docs/diagrams/high-level.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/high-level.mmd",
       "strategy": "symlink",
-      "description": "Overall end-to-end system diagram for context, bundled with structured-content-rendering"
+      "description": "Overall end-to-end system diagram for context, bundled with content-rendering"
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/high-level.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/high-level.mmd",
+      "src": "plugins/content-extraction/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/high-level.mmd",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy of the overall system diagram"
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/high-level.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/high-level.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/high-level.mmd",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy of the overall system diagram"
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/high-level.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/high-level.mmd",
+      "src": "plugins/content-assembly/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/high-level.mmd",
       "strategy": "symlink",
       "description": "assemble-structured-content skill's bundled copy of the overall system diagram"
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/high-level.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/high-level.mmd",
+      "src": "plugins/content-rendering/references/diagrams/high-level.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/high-level.mmd",
       "strategy": "symlink",
       "description": "render-multipage-markdown skill's bundled copy of the overall system diagram"
     },
     {
       "src": "docs/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with source-document-extraction"
+      "description": "Full diagram set bundled with content-extraction"
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/01-phase1-overview.mmd",
+      "src": "plugins/content-extraction/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy"
     },
     {
       "src": "docs/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with source-document-extraction"
+      "description": "Full diagram set bundled with content-extraction"
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/03-create-canonical-content.mmd",
+      "src": "plugins/content-extraction/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy"
     },
     {
       "src": "docs/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with source-document-extraction"
+      "description": "Full diagram set bundled with content-extraction"
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/04-generate-and-render.mmd",
+      "src": "plugins/content-extraction/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy"
     },
     {
       "src": "docs/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with source-document-extraction"
+      "description": "Full diagram set bundled with content-extraction"
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/05-validation-and-evidence.mmd",
+      "src": "plugins/content-extraction/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
       "description": "extract-docx skill's bundled copy"
     },
     {
       "src": "docs/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with document-structure-analysis"
+      "description": "Full diagram set bundled with content-structure-analysis"
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/01-phase1-overview.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy"
     },
     {
       "src": "docs/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with document-structure-analysis"
+      "description": "Full diagram set bundled with content-structure-analysis"
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/03-create-canonical-content.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy"
     },
     {
       "src": "docs/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with document-structure-analysis"
+      "description": "Full diagram set bundled with content-structure-analysis"
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/04-generate-and-render.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy"
     },
     {
       "src": "docs/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with document-structure-analysis"
+      "description": "Full diagram set bundled with content-structure-analysis"
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/05-validation-and-evidence.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
       "description": "analyze-document-structure skill's bundled copy"
     },
     {
       "src": "docs/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-assembly"
+      "description": "Full diagram set bundled with content-assembly"
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/01-phase1-overview.mmd",
+      "src": "plugins/content-assembly/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
       "description": "assemble-structured-content skill's bundled copy"
     },
     {
       "src": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-assembly"
+      "description": "Full diagram set bundled with content-assembly"
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/02-analyze-and-confirm.mmd",
+      "src": "plugins/content-assembly/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
       "description": "assemble-structured-content skill's bundled copy"
     },
     {
       "src": "docs/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-assembly"
+      "description": "Full diagram set bundled with content-assembly"
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/04-generate-and-render.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/04-generate-and-render.mmd",
+      "src": "plugins/content-assembly/references/diagrams/04-generate-and-render.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/04-generate-and-render.mmd",
       "strategy": "symlink",
       "description": "assemble-structured-content skill's bundled copy"
     },
     {
       "src": "docs/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-assembly"
+      "description": "Full diagram set bundled with content-assembly"
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/05-validation-and-evidence.mmd",
+      "src": "plugins/content-assembly/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
       "description": "assemble-structured-content skill's bundled copy"
     },
     {
       "src": "docs/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-rendering"
+      "description": "Full diagram set bundled with content-rendering"
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/01-phase1-overview.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/01-phase1-overview.mmd",
+      "src": "plugins/content-rendering/references/diagrams/01-phase1-overview.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/01-phase1-overview.mmd",
       "strategy": "symlink",
       "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-rendering"
+      "description": "Full diagram set bundled with content-rendering"
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/02-analyze-and-confirm.mmd",
+      "src": "plugins/content-rendering/references/diagrams/02-analyze-and-confirm.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/02-analyze-and-confirm.mmd",
       "strategy": "symlink",
       "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-rendering"
+      "description": "Full diagram set bundled with content-rendering"
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/03-create-canonical-content.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/03-create-canonical-content.mmd",
+      "src": "plugins/content-rendering/references/diagrams/03-create-canonical-content.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/03-create-canonical-content.mmd",
       "strategy": "symlink",
       "description": "render-multipage-markdown skill's bundled copy"
     },
     {
       "src": "docs/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
-      "description": "Full diagram set bundled with structured-content-rendering"
+      "description": "Full diagram set bundled with content-rendering"
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/05-validation-and-evidence.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/05-validation-and-evidence.mmd",
+      "src": "plugins/content-rendering/references/diagrams/05-validation-and-evidence.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/05-validation-and-evidence.mmd",
       "strategy": "symlink",
       "description": "render-multipage-markdown skill's bundled copy"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/atomic_output.py",
+      "src": "plugins/content-rendering/scripts/atomic_output.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of atomic_output.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_package.py",
+      "src": "plugins/content-rendering/scripts/canonical_package.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of canonical_package.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/dispositions.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/dispositions.py",
+      "src": "plugins/content-rendering/scripts/dispositions.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/dispositions.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of dispositions.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/hashing.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/hashing.py",
+      "src": "plugins/content-rendering/scripts/hashing.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/hashing.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of hashing.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/path_safety.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/path_safety.py",
+      "src": "plugins/content-rendering/scripts/path_safety.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/path_safety.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of path_safety.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/publication_map.py",
+      "src": "plugins/content-rendering/scripts/publication_map.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/publication_map.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of publication_map.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/render_result.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/render_result.py",
+      "src": "plugins/content-rendering/scripts/render_result.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/render_result.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of render_result.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/structured_content_rendering.py",
+      "src": "plugins/content-rendering/scripts/structured_content_rendering.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/structured_content_rendering.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of structured_content_rendering.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/__init__.py",
+      "src": "plugins/content-rendering/scripts/renderers/__init__.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/renderers/__init__.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of renderers/__init__.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/multipage_markdown.py",
+      "src": "plugins/content-rendering/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/renderers/multipage_markdown.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of renderers/multipage_markdown.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/sharepoint_aspx.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/sharepoint_aspx.py",
+      "src": "plugins/content-rendering/scripts/renderers/sharepoint_aspx.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/renderers/sharepoint_aspx.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of renderers/sharepoint_aspx.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/protocol.py",
+      "src": "plugins/content-rendering/scripts/renderers/protocol.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/renderers/protocol.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of renderers/protocol.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/renderers/validate_rendered.py",
+      "src": "plugins/content-rendering/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/renderers/validate_rendered.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of renderers/validate_rendered.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/__init__.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/__init__.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/canonical_package.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/publication_map.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/shared.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/shared.py",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of canonical_schema/shared.py"
     },
     {
-      "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
-      "dst": "plugins/structured-content-rendering/skills/render-sharepoint-aspx/references/contracts/rendered-output-profile.md",
+      "src": "plugins/content-rendering/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/content-rendering/skills/render-sharepoint-aspx/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": "render-sharepoint-aspx skill's bundled copy of the rendered-output-profile contract doc"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/templates.py",
-      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/templates.py",
+      "src": "plugins/content-rendering/scripts/templates.py",
+      "dst": "plugins/content-rendering/skills/create-markdown-rendering-template/scripts/templates.py",
       "strategy": "symlink",
       "description": "create-markdown-rendering-template skill's bundled copy of templates.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/templates.py",
-      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/templates.py",
+      "src": "plugins/content-rendering/scripts/templates.py",
+      "dst": "plugins/content-rendering/skills/create-aspx-rendering-template/scripts/templates.py",
       "strategy": "symlink",
       "description": "create-aspx-rendering-template skill's bundled copy of templates.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/templates.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/templates.py",
+      "src": "plugins/content-rendering/scripts/templates.py",
+      "dst": "plugins/content-rendering/skills/validate-rendering-template/scripts/templates.py",
       "strategy": "symlink",
       "description": "validate-rendering-template skill's bundled copy of templates.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/template_validation.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/template_validation.py",
+      "src": "plugins/content-rendering/scripts/template_validation.py",
+      "dst": "plugins/content-rendering/skills/validate-rendering-template/scripts/template_validation.py",
       "strategy": "symlink",
       "description": "validate-rendering-template skill's bundled copy of template_validation.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/atomic_output.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/atomic_output.py",
+      "src": "plugins/content-rendering/scripts/atomic_output.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/atomic_output.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of atomic_output.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_package.py",
+      "src": "plugins/content-rendering/scripts/canonical_package.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/canonical_package.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of canonical_package.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/dispositions.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/dispositions.py",
+      "src": "plugins/content-rendering/scripts/dispositions.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/dispositions.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of dispositions.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/hashing.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/hashing.py",
+      "src": "plugins/content-rendering/scripts/hashing.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/hashing.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of hashing.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/path_safety.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/path_safety.py",
+      "src": "plugins/content-rendering/scripts/path_safety.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/path_safety.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of path_safety.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/publication_map.py",
+      "src": "plugins/content-rendering/scripts/publication_map.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/publication_map.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of publication_map.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/render_result.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/render_result.py",
+      "src": "plugins/content-rendering/scripts/render_result.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/render_result.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of render_result.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/structured_content_rendering.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/structured_content_rendering.py",
+      "src": "plugins/content-rendering/scripts/structured_content_rendering.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/structured_content_rendering.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of structured_content_rendering.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/__init__.py",
+      "src": "plugins/content-rendering/scripts/renderers/__init__.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/renderers/__init__.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of renderers/__init__.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/multipage_markdown.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/multipage_markdown.py",
+      "src": "plugins/content-rendering/scripts/renderers/multipage_markdown.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/renderers/multipage_markdown.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of renderers/multipage_markdown.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/sharepoint_aspx.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/sharepoint_aspx.py",
+      "src": "plugins/content-rendering/scripts/renderers/sharepoint_aspx.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/renderers/sharepoint_aspx.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of renderers/sharepoint_aspx.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/protocol.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/protocol.py",
+      "src": "plugins/content-rendering/scripts/renderers/protocol.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/renderers/protocol.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of renderers/protocol.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/renderers/validate_rendered.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/renderers/validate_rendered.py",
+      "src": "plugins/content-rendering/scripts/renderers/validate_rendered.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/renderers/validate_rendered.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of renderers/validate_rendered.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/__init__.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/__init__.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/__init__.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of canonical_schema/__init__.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/canonical_package.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/canonical_package.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of canonical_schema/canonical_package.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/publication_map.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/publication_map.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of canonical_schema/publication_map.py"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/canonical_schema/shared.py",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/scripts/canonical_schema/shared.py",
+      "src": "plugins/content-rendering/scripts/canonical_schema/shared.py",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of canonical_schema/shared.py"
     },
     {
-      "src": "plugins/structured-content-rendering/references/contracts/rendered-output-profile.md",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendered-output/references/contracts/rendered-output-profile.md",
+      "src": "plugins/content-rendering/references/contracts/rendered-output-profile.md",
+      "dst": "plugins/content-rendering/skills/validate-rendered-output/references/contracts/rendered-output-profile.md",
       "strategy": "symlink",
       "description": "validate-rendered-output skill's bundled copy of the rendered-output-profile contract doc"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/scripts/assets/templates/generic/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/content-rendering/scripts/assets/templates/generic/markdown/page.template.md",
       "strategy": "symlink",
-      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/generic/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
+      "description": "content-rendering package's own scripts/ copy of assets/templates/generic/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/scripts/assets/templates/generic/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/content-rendering/scripts/assets/templates/generic/aspx/page.template.html",
       "strategy": "symlink",
-      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/generic/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
+      "description": "content-rendering package's own scripts/ copy of assets/templates/generic/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/content-rendering/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
       "strategy": "symlink",
-      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
+      "description": "content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/markdown/page.template.md (required inside the scripts/ package boundary to survive a real wheel build)"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/content-rendering/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
       "strategy": "symlink",
-      "description": "structured-content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
+      "description": "content-rendering package's own scripts/ copy of assets/templates/solutions/ceis/aspx/page.template.html (required inside the scripts/ package boundary to survive a real wheel build)"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
       "strategy": "symlink",
       "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
       "strategy": "symlink",
       "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
       "strategy": "symlink",
       "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/content-rendering/skills/create-markdown-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
       "strategy": "symlink",
       "description": "create-markdown-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
       "strategy": "symlink",
       "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
       "strategy": "symlink",
       "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
       "strategy": "symlink",
       "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/content-rendering/skills/create-aspx-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
       "strategy": "symlink",
       "description": "create-aspx-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/generic/markdown/page.template.md",
+      "dst": "plugins/content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/markdown/page.template.md",
       "strategy": "symlink",
       "description": "validate-rendering-template skill's bundled copy of assets/templates/generic/markdown/page.template.md"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/generic/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/generic/aspx/page.template.html",
+      "dst": "plugins/content-rendering/skills/validate-rendering-template/scripts/assets/templates/generic/aspx/page.template.html",
       "strategy": "symlink",
       "description": "validate-rendering-template skill's bundled copy of assets/templates/generic/aspx/page.template.html"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/markdown/page.template.md",
+      "dst": "plugins/content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/markdown/page.template.md",
       "strategy": "symlink",
       "description": "validate-rendering-template skill's bundled copy of assets/templates/solutions/ceis/markdown/page.template.md"
     },
     {
-      "src": "plugins/structured-content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
-      "dst": "plugins/structured-content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
+      "src": "plugins/content-rendering/assets/templates/solutions/ceis/aspx/page.template.html",
+      "dst": "plugins/content-rendering/skills/validate-rendering-template/scripts/assets/templates/solutions/ceis/aspx/page.template.html",
       "strategy": "symlink",
       "description": "validate-rendering-template skill's bundled copy of assets/templates/solutions/ceis/aspx/page.template.html"
     },
     {
-      "src": "plugins/structured-content-rendering/scripts/compare_rendered_output.py",
-      "dst": "plugins/structured-content-rendering/skills/compare-rendered-output/scripts/compare_rendered_output.py",
+      "src": "plugins/content-rendering/scripts/compare_rendered_output.py",
+      "dst": "plugins/content-rendering/skills/compare-rendered-output/scripts/compare_rendered_output.py",
       "strategy": "symlink",
       "description": "compare-rendered-output skill's bundled copy of compare_rendered_output.py"
     },
@@ -1268,49 +1268,49 @@
       "description": "validate-workbench-environment skill's bundled copy of psd1_writer.py"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_package.py",
+      "src": "plugins/content-assembly/scripts/canonical_package.py",
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_package.py",
       "strategy": "symlink",
-      "description": "sharepoint-content-publication's copy of canonical_package.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+      "description": "sharepoint-content-publication's copy of canonical_package.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching content-rendering's existing pattern for the same module)"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/dispositions.py",
+      "src": "plugins/content-assembly/scripts/dispositions.py",
       "dst": "plugins/sharepoint-content-publication/scripts/dispositions.py",
       "strategy": "symlink",
-      "description": "sharepoint-content-publication's copy of dispositions.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+      "description": "sharepoint-content-publication's copy of dispositions.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching content-rendering's existing pattern for the same module)"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/hashing.py",
+      "src": "plugins/content-assembly/scripts/hashing.py",
       "dst": "plugins/sharepoint-content-publication/scripts/hashing.py",
       "strategy": "symlink",
-      "description": "sharepoint-content-publication's copy of hashing.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+      "description": "sharepoint-content-publication's copy of hashing.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching content-rendering's existing pattern for the same module)"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/publication_map.py",
+      "src": "plugins/content-assembly/scripts/publication_map.py",
       "dst": "plugins/sharepoint-content-publication/scripts/publication_map.py",
       "strategy": "symlink",
-      "description": "sharepoint-content-publication's copy of publication_map.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching structured-content-rendering's existing pattern for the same module)"
+      "description": "sharepoint-content-publication's copy of publication_map.py, needed by sharepoint_package.py's CanonicalPackage.load() (Phase 6 remediation, 2026-08-03 -- was an undeclared runtime dependency, now a managed hub-and-spoke symlink matching content-rendering's existing pattern for the same module)"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/__init__.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/__init__.py",
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/__init__.py",
       "strategy": "symlink",
       "description": "sharepoint-content-publication's copy of canonical_schema/__init__.py (Phase 6 remediation, 2026-08-03)"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/canonical_package.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/canonical_package.py",
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/canonical_package.py",
       "strategy": "symlink",
       "description": "sharepoint-content-publication's copy of canonical_schema/canonical_package.py (Phase 6 remediation, 2026-08-03)"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/publication_map.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/publication_map.py",
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/publication_map.py",
       "strategy": "symlink",
       "description": "sharepoint-content-publication's copy of canonical_schema/publication_map.py (Phase 6 remediation, 2026-08-03)"
     },
     {
-      "src": "plugins/structured-content-assembly/scripts/canonical_schema/shared.py",
+      "src": "plugins/content-assembly/scripts/canonical_schema/shared.py",
       "dst": "plugins/sharepoint-content-publication/scripts/canonical_schema/shared.py",
       "strategy": "symlink",
       "description": "sharepoint-content-publication's copy of canonical_schema/shared.py (Phase 6 remediation, 2026-08-03)"
@@ -1406,32 +1406,32 @@
       "description": "analyze-webpart-code skill's bundled copy of discovery_inputs.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
-      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/schema_export.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-discovery/skills/audit-schema/scripts/schema_export.py",
       "strategy": "symlink",
       "description": "audit-schema skill's bundled copy of schema_export.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_diff.py",
-      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/schema_diff.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_diff.py",
+      "dst": "plugins/sharepoint-discovery/skills/audit-schema/scripts/schema_diff.py",
       "strategy": "symlink",
       "description": "audit-schema skill's bundled copy of schema_diff.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/duplicate_fields.py",
-      "dst": "plugins/sharepoint-schema/skills/audit-schema/scripts/duplicate_fields.py",
+      "src": "plugins/sharepoint-discovery/scripts/duplicate_fields.py",
+      "dst": "plugins/sharepoint-discovery/skills/audit-schema/scripts/duplicate_fields.py",
       "strategy": "symlink",
       "description": "audit-schema skill's bundled copy of duplicate_fields.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/choice_fields.py",
-      "dst": "plugins/sharepoint-schema/skills/extract-choice-fields/scripts/choice_fields.py",
+      "src": "plugins/sharepoint-discovery/scripts/choice_fields.py",
+      "dst": "plugins/sharepoint-discovery/skills/extract-choice-fields/scripts/choice_fields.py",
       "strategy": "symlink",
       "description": "extract-choice-fields skill's bundled copy of choice_fields.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
-      "dst": "plugins/sharepoint-schema/skills/extract-choice-fields/scripts/schema_export.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-discovery/skills/extract-choice-fields/scripts/schema_export.py",
       "strategy": "symlink",
       "description": "extract-choice-fields skill's bundled copy of schema_export.py"
     },
@@ -1550,32 +1550,32 @@
       "description": "convert-aspx-pages skill's bundled copy of webpart-mapping.json"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_definition.py",
-      "dst": "plugins/sharepoint-schema/skills/generate-sharepoint-schema-from-export/scripts/schema_definition.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-discovery/skills/generate-sharepoint-schema-from-export/scripts/schema_definition.py",
       "strategy": "symlink",
       "description": "generate-sharepoint-schema-from-export skill's bundled copy of schema_definition.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
-      "dst": "plugins/sharepoint-schema/skills/generate-sharepoint-schema-from-export/scripts/schema_export.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-discovery/skills/generate-sharepoint-schema-from-export/scripts/schema_export.py",
       "strategy": "symlink",
       "description": "generate-sharepoint-schema-from-export skill's bundled copy of schema_export.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_diff.py",
-      "dst": "plugins/sharepoint-schema/skills/diff-sharepoint-schema/scripts/schema_diff.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_diff.py",
+      "dst": "plugins/sharepoint-discovery/skills/diff-sharepoint-discovery/scripts/schema_diff.py",
       "strategy": "symlink",
       "description": "diff-sharepoint-schema skill's bundled copy of schema_diff.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_definition.py",
-      "dst": "plugins/sharepoint-schema/skills/diff-sharepoint-schema/scripts/schema_definition.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-discovery/skills/diff-sharepoint-discovery/scripts/schema_definition.py",
       "strategy": "symlink",
       "description": "diff-sharepoint-schema skill's bundled copy of schema_definition.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
-      "dst": "plugins/sharepoint-schema/skills/diff-sharepoint-schema/scripts/schema_export.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-discovery/skills/diff-sharepoint-discovery/scripts/schema_export.py",
       "strategy": "symlink",
       "description": "diff-sharepoint-schema skill's bundled copy of schema_export.py"
     },
@@ -1743,7 +1743,7 @@
     },
     {
       "src": "plugins/sharepoint-agents-and-skills/tests/unit/test_agent_definitions.py",
-      "dst": "plugins/sharepoint-schema/tests/test_agent_definitions.py",
+      "dst": "plugins/sharepoint-discovery/tests/test_agent_definitions.py",
       "strategy": "symlink",
       "description": "Canonical agent-contract test (owned by sharepoint-agents-and-skills), symlinked into every plugin with its own domain-routing agents"
     },
@@ -1773,145 +1773,145 @@
     },
     {
       "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-structure-analysis/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-rendering/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-assembly/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
       "src": "docs/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/source-document-extraction/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-extraction/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/document-structure-analysis/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/document-structure-analysis/skills/analyze-document-structure/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "src": "plugins/content-structure-analysis/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-structure-analysis/skills/analyze-document-structure/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "src": "plugins/content-assembly/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "src": "plugins/content-assembly/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-assembly/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-assembly/skills/assemble-structured-content/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "src": "plugins/content-assembly/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-assembly/skills/assemble-structured-content/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "src": "plugins/content-extraction/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "src": "plugins/content-extraction/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/source-document-extraction/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/source-document-extraction/skills/extract-docx/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "src": "plugins/content-extraction/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-extraction/skills/extract-docx/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "src": "plugins/content-rendering/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/06-phase3-editing-workflow-hybrid-candidate.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "src": "plugins/content-rendering/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/07-phase3-publisher-triggered-render-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
     {
-      "src": "plugins/structured-content-rendering/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
-      "dst": "plugins/structured-content-rendering/skills/render-multipage-markdown/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "src": "plugins/content-rendering/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
+      "dst": "plugins/content-rendering/skills/render-multipage-markdown/references/diagrams/08-phase3-editor-submission-and-approval-workflow.mmd",
       "strategy": "symlink",
       "description": ""
     },
@@ -2222,14 +2222,14 @@
       "description": "collect-sharepoint-inventory skill's bundled copy of collect-sharepoint-schema-export.ps1"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/calculated_columns.py",
-      "dst": "plugins/sharepoint-schema/skills/extract-calculated-columns/scripts/calculated_columns.py",
+      "src": "plugins/sharepoint-discovery/scripts/calculated_columns.py",
+      "dst": "plugins/sharepoint-discovery/skills/extract-calculated-columns/scripts/calculated_columns.py",
       "strategy": "symlink",
       "description": "extract-calculated-columns skill's bundled copy of calculated_columns.py"
     },
     {
-      "src": "plugins/sharepoint-schema/scripts/schema_export.py",
-      "dst": "plugins/sharepoint-schema/skills/extract-calculated-columns/scripts/schema_export.py",
+      "src": "plugins/sharepoint-discovery/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-discovery/skills/extract-calculated-columns/scripts/schema_export.py",
       "strategy": "symlink",
       "description": "extract-calculated-columns skill's bundled copy of schema_export.py"
     },
@@ -2300,62 +2300,62 @@
       "description": "Production build/package/verify helper for package-spfx-solution's Steps 2-3 (heft test/package-solution + .sppkg artifact check), 2026-08-18"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of the connection helper"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-provision-list.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-list.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-list.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-provision-list.ps1"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-provision-content-types.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-content-types.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-content-types.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-content-types.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-provision-content-types.ps1"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-provision-site-columns.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-site-columns.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-provision-site-columns.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-site-columns.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-provision-site-columns.ps1"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-update-site-column.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-update-site-column.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-site-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-update-site-column.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-update-site-column.ps1"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-remove-site-column.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-remove-site-column.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-site-column.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-remove-site-column.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-remove-site-column.ps1"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-update-content-type.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-update-content-type.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-update-content-type.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-update-content-type.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-update-content-type.ps1"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-remove-content-type.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-remove-content-type.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-remove-content-type.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-remove-content-type.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-remove-content-type.ps1"
     },
     {
-      "src": "plugins/sharepoint-provisioning-execution/scripts/spo-detach-content-type-from-list.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/skills/apply-sharepoint-provisioning-plan/scripts/spo-detach-content-type-from-list.ps1",
+      "src": "plugins/sharepoint-provisioning/scripts/spo-detach-content-type-from-list.ps1",
+      "dst": "plugins/sharepoint-provisioning/skills/apply-sharepoint-provisioning-plan/scripts/spo-detach-content-type-from-list.ps1",
       "strategy": "symlink",
       "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-detach-content-type-from-list.ps1"
     },
     {
       "src": "plugins/workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
-      "dst": "plugins/sharepoint-provisioning-execution/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-provisioning/scripts/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
       "description": "sharepoint-provisioning-execution's shared copy of the connection helper (reused from workbench-setup)"
     }

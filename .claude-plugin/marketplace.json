@@ -6,23 +6,23 @@
   },
   "plugins": [
     {
-      "name": "source-document-extraction",
-      "source": "./plugins/source-document-extraction",
+      "name": "content-extraction",
+      "source": "./plugins/content-extraction",
       "strict": true
     },
     {
-      "name": "document-structure-analysis",
-      "source": "./plugins/document-structure-analysis",
+      "name": "content-structure-analysis",
+      "source": "./plugins/content-structure-analysis",
       "strict": true
     },
     {
-      "name": "structured-content-assembly",
-      "source": "./plugins/structured-content-assembly",
+      "name": "content-assembly",
+      "source": "./plugins/content-assembly",
       "strict": true
     },
     {
-      "name": "structured-content-rendering",
-      "source": "./plugins/structured-content-rendering",
+      "name": "content-rendering",
+      "source": "./plugins/content-rendering",
       "strict": true
     },
     {
