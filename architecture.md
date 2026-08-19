@@ -1,29 +1,13 @@
 # Architecture Overview
 
-This is a proof-of-concept repo, not a running application — there is no frontend, backend,
-database, or deployed service. It is **Phase 1** ("Structured Knowledge Conversion and Canonical
-Content POC") of a broader initiative, the **AI-Assisted Structured Knowledge Workbench**: pulling
-content out of Word documents (where content and formatting are baked together) into structured
-content that can be rendered into many outputs and eventually ground knowledge-access agents. The
-**CEIS Manual** is the Phase 1 pilot document. Phase 1's scope is deliberately narrow — the full
-initiative's direction (repository/plugin boundaries beyond Phase 1, SharePoint delivery, native
-skills, agents, publication, evaluation) is described in `docs/vision/`, not here. Update this file
-as the repo's actual shape changes — don't let it drift into describing a system that isn't here.
+This repository contains the core toolset for the **AI-Assisted Structured Knowledge Workbench**: pulling content out of Word/PDF documents (where content and formatting are baked together) into structured content that can be rendered into many outputs and ground SharePoint knowledge-access agents, alongside comprehensive SharePoint discovery, migration, and provisioning tooling. Update this file as the repo's actual shape changes — don't let it drift into describing a system that isn't here.
 
-**Phase 4.5 is complete** (2026-08-02): the original combined `docx-to-content` plugin has been
-decomposed into four independently-installable domain plugins (§3 below), each installing and
-running standalone with zero editable-source duplication between them. See `start-here.md` for
-current branch/merge status.
+**Decomposed Plugin Architecture:** The ecosystem is modularized into 16 independently-installable domain plugins (§3 below), each installing and running standalone with zero editable-source duplication between them. See `INSTALL.md` for installation and integration options.
 
 ## 1. Project Structure
 
 ```
 sharepoint-knowledge-workbench/
-├── intake/                  # Source .docx files awaiting/pending conversion (read-only inputs)
-│   └── CEIS MANUAL - working version.docx   # Phase 1 pilot document
-├── runs/                    # Per-document-run conversion output
-│   ├── ceis-manual/          # pre-plugin, known-broken first-pass conversion — retained as historical evidence
-│   └── ceis-manual-v2/       # plugin-produced, validated PASS output (canonical-content/, render/, evidence)
 ├── plugins/                  # 16 independently-installable domain plugins — see §3
 │   ├── content-extraction/
 │   ├── content-structure-analysis/

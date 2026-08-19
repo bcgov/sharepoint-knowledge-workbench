@@ -24,7 +24,7 @@
       ]
     },
     {
-      "source": "C:\\Users\\RICHFREM\\source\\repos\\sharepoint-knowledge-workbench\\plugins",
+      "source": "./plugins",
       "plugins": [
         "content-assembly",
         "content-extraction",

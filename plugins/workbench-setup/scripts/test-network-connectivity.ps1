@@ -69,7 +69,7 @@ pwsh -File ./test-network-connectivity.ps1 -DeviceLogin
 
 param(
     [string]$SiteUrl    = "",
-    [string]$ConfigPath = "$PSScriptRoot\..\..\..\config.psd1",
+    [string]$ConfigPath = "",
     [switch]$DeviceLogin,
     [switch]$SkipAuthTest
 )
@@ -84,6 +84,23 @@ $ErrorActionPreference = "Stop"
 # targets.
 # ============================================================
 $cfg = $null
+if (-not $ConfigPath -or -not (Test-Path $ConfigPath)) {
+    $candidates = @(
+        "$PWD\config.psd1",
+        "$PSScriptRoot\config.psd1",
+        "$PSScriptRoot\..\config.psd1",
+        "$PSScriptRoot\..\..\config.psd1",
+        "$PSScriptRoot\..\..\..\config.psd1",
+        "$PSScriptRoot\..\..\..\..\config.psd1"
+    )
+    foreach ($cand in $candidates) {
+        if (Test-Path $cand) {
+            $ConfigPath = (Resolve-Path $cand).Path
+            break
+        }
+    }
+}
+
 if (Test-Path $ConfigPath) {
     $raw = Import-PowerShellDataFile $ConfigPath
     # Support both this plugin's nested `Connection = @{...}` schema

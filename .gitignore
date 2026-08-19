@@ -12,21 +12,21 @@
 
 # Local scratch/session context, not part of the demonstrated setup.
 context/
-
 temp/
-#docs/superpowers/
 
-# Real tenant credentials for the Phase 3.0 SharePoint discovery tool — never commit.
-# config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
-tools/phase-3-sharepoint-discovery/config.psd1
+# Consumer project instances, intake documents, run outputs, and project trackers
+intake/
+runs/
+actual-state.csv
+start-here.md
+JOURNAL.md
+archive/
 
-# Real tenant credentials for the Phase 4.0 SharePoint native skills pilot tool — never commit.
+# Real tenant credentials — never commit.
 # config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
-tools/phase-4-native-sharepoint-skills/config.psd1
-
-# Real tenant credentials for the Phase 5 CEIS grounding prototype — never commit.
-# config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
-tools/phase-5-sharepoint-knowledge-agent-pilot/config.psd1
+/config.psd1
+tools/**/config.psd1
+plugins/**/config.psd1
 
 # Real tenant credentials — root Layer 1 connection config (workbench-setup's
 # setup-sharepoint-connection skill) and the sharepoint-agents-and-skills plugin-local config —
