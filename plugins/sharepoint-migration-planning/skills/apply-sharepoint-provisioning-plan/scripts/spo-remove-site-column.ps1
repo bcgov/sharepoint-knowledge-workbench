@@ -1,0 +1,1 @@
+../../../scripts/spo-remove-site-column.ps1

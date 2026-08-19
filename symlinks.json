@@ -2298,6 +2298,60 @@
       "dst": "C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-spfx-authoring/skills/package-spfx-solution/scripts/package-spfx-solution.ps1",
       "strategy": "symlink",
       "description": "Production build/package/verify helper for package-spfx-solution's Steps 2-3 (heft test/package-solution + .sppkg artifact check), 2026-08-18"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of Get-WorkbenchConnectionConfig.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-provision-list.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-list.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-provision-list.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-provision-content-types.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-content-types.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-provision-content-types.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-provision-site-columns.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-provision-site-columns.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-provision-site-columns.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-update-site-column.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-update-site-column.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-update-site-column.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-remove-site-column.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-remove-site-column.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-remove-site-column.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-update-content-type.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-update-content-type.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-update-content-type.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-remove-content-type.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-remove-content-type.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-remove-content-type.ps1"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-detach-content-type-from-list.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/apply-sharepoint-provisioning-plan/scripts/spo-detach-content-type-from-list.ps1",
+      "strategy": "symlink",
+      "description": "apply-sharepoint-provisioning-plan skill's bundled copy of spo-detach-content-type-from-list.ps1"
     }
   ]
 }

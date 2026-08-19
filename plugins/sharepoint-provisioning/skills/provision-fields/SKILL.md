@@ -40,6 +40,16 @@ both visible and writable. Nothing is deployed silently by default —
 hidden and read-only fields are excluded unless the caller opts them in by
 name.
 
+## Where the "injected executor" actually lives
+
+This skill's Python planning functions ship no tenant transport of their own
+-- by design. The real, tested PnP.PowerShell executor that these field plans
+are meant to be submitted to is `sharepoint-migration-planning`'s
+`apply-sharepoint-provisioning-plan` skill, which runs
+`spo-provision-site-columns.ps1`, `spo-update-site-column.ps1`, and
+`spo-remove-site-column.ps1` (all of which consume outputs from this module
+verbatim). This skill produces the plan; that skill is the executor you inject.
+
 ## Usage
 
 ```bash

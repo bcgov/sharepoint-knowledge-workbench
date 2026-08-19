@@ -21,6 +21,16 @@ that) and does not provision or write anything to a tenant; it only
 transforms one export it is given into a declarative description of what
 that export contains.
 
+## Where the exported schema comes from
+
+This skill consumes an already-exported schema directory tree
+(`<dir>/summary/lists.json`, `<dir>/lists/<listname>/fields.json`, etc. — see
+`schema_export.py`'s `ExportLayout`). That tree is produced by
+`sharepoint-discovery`'s `collect-sharepoint-inventory` skill running
+`collect-sharepoint-schema-export.ps1` against a live tenant — this plugin
+never connects to a tenant itself. Run that script first if you don't
+already have an export directory.
+
 ## Honest outcomes -- a degraded export never produces a clean-looking definition
 
 `generate_schema_definition` reuses `schema_export.SectionStatus` rather than

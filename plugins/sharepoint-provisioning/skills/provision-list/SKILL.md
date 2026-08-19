@@ -41,6 +41,17 @@ this mirrors `sharepoint-link-remediation`'s `remediate-links` exactly:
    real incident in the source material (a stray duplicate list silently
    resolved to the wrong one) is why this gate exists.
 
+## Where the "injected executor" actually lives
+
+This skill's Python `apply_provisioning(plan, executor=...)` ships no tenant
+transport of its own -- by design (see Write safety above). The real,
+tested PnP.PowerShell executor that plan JSON is meant to be submitted to is
+`sharepoint-migration-planning`'s `apply-sharepoint-provisioning-plan` skill
+(`spo-provision-list.ps1` specifically, which consumes this module's
+`ProvisioningPlan.to_dict()` output verbatim -- see that script's own
+docstring for the exact field-name match). This skill produces the plan;
+that skill is the executor you inject.
+
 ## Honest outcomes
 
 | Outcome | Meaning |
