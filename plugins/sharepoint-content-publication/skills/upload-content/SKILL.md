@@ -43,8 +43,8 @@ pwsh -File scripts/spo-upload-plan.ps1 -PlanPath plan.json -SiteUrl "https://ten
 **Scope:** page creation from pre-rendered HTML only (`source_path` should
 point at an HTML fragment file, matching `structured-content-rendering`'s
 `render-sharepoint-aspx` output). Raw file/asset upload to a document
-library (`Add-PnPFile`, no page creation) is a separate, not-yet-built
-capability.
+library (`Add-PnPFile`, with checkout/checkin discipline) is provided by
+`spo-publish-markdown-plan.ps1` (see line 118).
 
 It is not wired in as `sharepoint_upload.py`'s injected `uploader`
 automatically -- Python cannot call a PowerShell script as an in-process
