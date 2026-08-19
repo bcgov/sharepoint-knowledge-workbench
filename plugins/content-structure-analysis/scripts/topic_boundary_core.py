@@ -3,28 +3,15 @@ topic_boundary_core.py
 ========================
 
 Deterministic topic-boundary computation for the "grouped" chunking
-strategy (Task 17-topic-grouping, refined for Task 18's mixed-level
-logical-root detection).
+strategy (including mixed-level logical-root detection).
 
-This is the single canonical implementation of topic-boundary
-computation, shared by `document-structure-analysis` (via `topic_grouping.py`, a
-thin local re-export) and `structured-content-assembly` (via a managed
-cross-plugin symlink at this exact module name, `topic_boundary_core.py`
--- both plugins need the exact same boundary-classification behavior:
-`structured-content-assembly`'s convert-time `compute_topic_boundaries_from_roots`
-must never independently re-derive a classification the human never saw,
-and `compute_topic_boundaries`'s own fallback path depends on
-`classify_headings` matching exactly). See
-docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md.
+This is the canonical implementation of topic-boundary computation,
+shared across content-structure-analysis and content-assembly.
 
-The original rule ("every level-1 heading starts a topic") assumed every
-source document consistently authors its top-level sections at heading
-level 1. The real CEIS pilot document disproved that: its first 14
-top-level sections are styled Heading 2, the remaining 11 Heading 1 --
-never mixed within a section (children are always exactly one level
-deeper than their section's root, and no Heading 2 is ever used as a
-genuine child beneath a Heading 1 in that document). See
-docs/reports/ for the diagnostic evidence.
+Many source documents do not author all top-level sections strictly
+at Heading level 1 (for instance, initial chapters styled at Heading 2,
+subsequent chapters at Heading 1, while preserving consistent relative
+nesting depths).
 
 `classify_headings` detects this pattern deterministically: it tracks the
 current topic-root level and treats any heading at or above that level

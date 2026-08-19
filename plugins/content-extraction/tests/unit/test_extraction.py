@@ -124,7 +124,7 @@ def test_raw_toc_evidence_detected_when_present():
 
 
 def test_raw_toc_evidence_detected_for_slug_anchor_shape():
-    # Real-world shape (CEIS Manual): nested slug-anchor TOC links, not
+    # Real-world shape: nested slug-anchor TOC links, not
     # `_Toc`-bookmark links.
     text = (
         "**Table of Contents**\n\n"
@@ -143,9 +143,8 @@ def test_known_defect_signal_glued_image_detected():
 
 
 def test_known_defect_signal_leading_glued_image_detected():
-    # Real-world shape (CEIS Manual): image glued to the START of the
-    # heading text.
-    text = "### ![](media/image12.png){width=\"5.45in\"}**Central Divorce**\n"
+    # Real-world shape: image glued to the START of the heading text.
+    text = "### ![](media/image12.png){width=\"5.45in\"}**Sample Section**\n"
     assert detect_defect_signals(text)["glued_images"] is True
 
 

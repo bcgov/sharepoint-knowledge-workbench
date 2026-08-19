@@ -55,7 +55,7 @@ class TestStripRawToc:
         assert strip_raw_toc(text) == expected
 
     def test_strips_slug_anchor_toc_block(self):
-        # Real-world shape (CEIS Manual): pandoc converts a Word-generated
+        # Real-world shape: pandoc converts a Word-generated
         # TOC field into nested markdown links -- an outer bracket-link
         # wrapping an inner bracket-link (the page number), both targeting
         # the same slugified-heading `#anchor`, repeated per TOC entry,

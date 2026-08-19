@@ -34,7 +34,7 @@ def make_plan_dict(confirmed_at="2026-07-25T00:00:00Z"):
         "schema_version": "1.0",
         "plan_id": "sha256:" + "0" * 64,
         "source": {
-            "path": "sourcedocuments/CEIS MANUAL - working version.docx",
+            "path": "sourcedocuments/sample-manual.docx",
             "sha256": "a" * 64,
             "size_bytes": 12345,
         },

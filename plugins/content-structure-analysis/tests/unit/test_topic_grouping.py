@@ -3,16 +3,13 @@ test_topic_grouping.py
 =======================
 
 Tests for scripts/topic_grouping.py — deterministic topic-boundary
-computation for the "grouped" chunking strategy (Task 17-topic-grouping),
-refined by Task 18's mixed-level logical-root detection: the first
-heading establishes the document's opening topic-root level; any later
-heading at or above (i.e. equally or less deep than) the current root
-level also starts a new topic, even if its level differs from the
-opening level (a "promoted" root) -- this is what the real CEIS pilot
-document requires (14 top-level sections styled Heading 2, 11 styled
-Heading 1, never mixed within a section). A heading deeper than the
-current root but matching a root level used earlier ("bidirectional"
-inconsistency) is never silently resolved either way.
+computation for the "grouped" chunking strategy, including mixed-level
+logical-root detection: the first heading establishes the document's opening
+topic-root level; any later heading at or above (i.e. equally or less deep than)
+the current root level also starts a new topic, even if its level differs from the
+opening level (a "promoted" root). A heading deeper than the current root but
+matching a root level used earlier ("bidirectional" inconsistency) is never silently
+resolved either way.
 """
 
 import pytest
@@ -121,8 +118,8 @@ def test_document_beginning_with_heading_2_roots_identifies_them_as_roots():
     assert classifications[0]["source_level"] == 2
 
 
-def test_ceis_style_heading2_roots_then_heading1_roots_produces_expected_sequence():
-    # Case 3: the real CEIS pattern -- Heading-2 roots first, later
+def test_mixed_heading2_roots_then_heading1_roots_produces_expected_sequence():
+    # Case 3: Mixed hierarchy pattern -- Heading-2 roots first, later
     # Heading-1 roots, each followed by Heading-3 children only.
     headings = [
         _heading(2, "DATA CAPTURE STANDARDS", ["DATA CAPTURE STANDARDS"]),
@@ -259,7 +256,7 @@ def test_bidirectional_inconsistency_is_not_silently_misclassified():
 def test_first_heading_below_top_level_is_treated_as_the_opening_root():
     # A lone, non-level-1 heading no longer raises -- it establishes the
     # document's opening root level (superseding the old hardcoded
-    # level==1-only assumption, disproven by the real CEIS document).
+    # level==1-only assumption).
     headings = [_heading(2, "Opening Section", ["Opening Section"])]
     boundaries = compute_topic_boundaries(headings)
     assert [b.title for b in boundaries] == ["Opening Section"]

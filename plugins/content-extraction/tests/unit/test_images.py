@@ -43,15 +43,14 @@ class TestFixGluedImages:
         assert fix_glued_images(text) == text
 
     def test_separates_image_glued_to_start_of_heading(self):
-        # Real-world shape (CEIS Manual): the image is glued to the START
-        # of the heading text, with (often bold) text following on the
-        # same line, no separating space.
+        # Real-world shape: the image is glued to the START of the heading
+        # text, with (often bold) text following on the same line.
         text = (
             "### ![](media/image12.png){width=\"5.45in\" height=\"2.2in\"}"
-            "**Central Divorce** (Supreme Court Divorce Files only*)*\n"
+            "**Primary Module** (Technical Overview)\n"
         )
         expected = (
-            "### **Central Divorce** (Supreme Court Divorce Files only*)*\n\n"
+            "### **Primary Module** (Technical Overview)\n\n"
             "![](media/image12.png){width=\"5.45in\" height=\"2.2in\"}\n"
         )
         assert fix_glued_images(text) == expected
