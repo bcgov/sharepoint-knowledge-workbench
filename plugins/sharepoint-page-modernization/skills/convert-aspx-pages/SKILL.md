@@ -42,7 +42,14 @@ Unsupported web-part types are surfaced explicitly, never silently discarded.
 
 This skill produces a manifest describing the intended modern page. It does not
 create, publish, or modify anything in SharePoint. Deployment is a separate,
-explicitly-authorized concern owned elsewhere in the workbench.
+explicitly-authorized concern: once you have a reviewed conversion manifest,
+hand the source page name/library/target metadata to
+`sharepoint-content-publication`'s `convert-page-to-modern` skill
+(`spo-convert-page-to-modern.ps1`, real `ConvertTo-PnPPage` executor,
+dry-run by default, gated behind `-Execute -ConfirmToken`). That skill does
+not read this plugin's manifest format directly -- you supply its
+`-PageName`/`-SourceLibrary`/field-mapping parameters yourself from the
+manifest's contents.
 
 ## Usage
 

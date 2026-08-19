@@ -40,7 +40,9 @@ analyze-aspx-pages           convert-aspx-pages
 
 The pipeline produces a conversion *manifest* conforming to
 `assets/manifest-schema.json`. It does not create, publish, or modify
-anything in SharePoint.
+anything in SharePoint. Deployment is a separate, explicitly-authorized concern:
+hand your reviewed manifest to `sharepoint-content-publication`'s `convert-page-to-modern`
+skill for real execution.
 
 ## Security hardening beyond the source
 
