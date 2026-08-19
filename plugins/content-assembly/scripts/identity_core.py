@@ -1,0 +1,1 @@
+../../content-structure-analysis/scripts/identity_core.py

@@ -1,1 +1,0 @@
-../../structured-content-assembly/scripts/hashing.py

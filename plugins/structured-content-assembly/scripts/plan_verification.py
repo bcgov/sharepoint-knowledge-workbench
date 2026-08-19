@@ -1,1 +1,0 @@
-../../document-structure-analysis/scripts/plan_verification_core.py

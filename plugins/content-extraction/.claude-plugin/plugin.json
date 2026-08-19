@@ -1,0 +1,21 @@
+{
+    "name": "content-extraction",
+    "version": "0.1.0-alpha.1",
+    "description": "Source-format inspection and extraction for the SharePoint Knowledge Workbench: runs pandoc against a source .docx and produces a normalized-source-document contract (markdown text, heading structure, statistics, defect signals).",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "docx",
+        "pandoc",
+        "source-extraction",
+        "document-parsing"
+    ],
+    "capabilities": [
+        "document-parsing",
+        "structure-extraction",
+        "defect-detection"
+    ]
+}
