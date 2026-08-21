@@ -102,9 +102,16 @@ npm run build
 
 Confirm the build exits 0 and produces `sharepoint/solution/<solution-name>.sppkg`.
 
-### Step 6: Next Steps
+### Step 6: SPFx Naming Architecture (Solution vs. Web Part Selector)
+
+Ensure clarity across the three naming levels:
+- **Package / Solution Name** (`config/package-solution.json` -> `solution.name`): Displayed in the App Catalog and Site Contents.
+- **Web Part UI Selector Title** (`src/webparts/<name>/<Name>WebPart.manifest.json` -> `preconfiguredEntries[0].title.default`): 🌟 This is the exact name authors see when clicking `+` in the SharePoint page editor.
+- **Toolbox Category** (`preconfiguredEntries[0].group.default`): Defaults to `Advanced` or custom category.
+
+### Step 7: Next Steps
 
 Proceed to `package-spfx-solution` (if not already covered by Step 5's `npm run build`) and then
-`deploy-spfx-solution` to upload and enable the package in a Site Collection or Tenant App
+`deploy-spfx-solution` / `publish-spfx-package` to upload and enable the package in a Site Collection or Tenant App
 Catalog.
 

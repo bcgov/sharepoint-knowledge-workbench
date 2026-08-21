@@ -1,40 +1,57 @@
 <#
 .SYNOPSIS
-    Deploys a compiled .sppkg package to a Site Collection App Catalog using PnP PowerShell.
+    Publishes an SPFx .sppkg package to either a Site Collection App Catalog
+    or Tenant App Catalog using config.psd1 (nested or flat schema).
 
 .DESCRIPTION
-    Automates uploading, overwriting, publishing, and enabling an SPFx solution (.sppkg)
-    in a target site's App Catalog. Supports config.psd1 resolution and explicit parameter overrides.
+    This script supports trial-tenancy style deployment where the operator can
+    choose scope:
+      - Site:   Connect to SiteUrl and publish with -Scope Site
+      - Tenant: Connect to TenantAdminUrl and publish with -Scope Tenant
+
+    It validates package existence, resolves connection settings from
+    config.psd1, uploads/publishes with overwrite, and performs a basic
+    verification readback via Get-PnPApp.
+
+    Key Input Dependencies:
+      - config.psd1 (nested Connection/Authentication schema or flat schema)
+      - PnP.PowerShell module
+      - Existing .sppkg package file
+
+    Procedure Index:
+      - Resolve-ConfigPath
+      - Main publish execution flow (connect -> publish -> verify)
 
 .PARAMETER PackagePath
-    Local path to the .sppkg file.
+    Path to the .sppkg package file.
 
 .PARAMETER Scope
     Publish scope: Site or Tenant. Default: Site.
 
+.PARAMETER ConfigPath
+    Path to config.psd1. Defaults to repository root config.psd1 if found.
+
 .PARAMETER SiteUrl
-    The target site collection URL (e.g. https://<tenant>.sharepoint.com/sites/<SiteName>).
+    Optional override for Site scope target URL.
+
+.PARAMETER TenantAdminUrl
+    Optional override for Tenant scope target URL.
 
 .PARAMETER ClientId
-    Optional Azure AD App Registration Client ID for interactive authentication.
+    Optional override for ClientId.
 
 .PARAMETER TenantId
-    Optional Azure AD Tenant ID.
-
-.PARAMETER ConfigPath
-    Path to config.psd1.
-
-.PARAMETER Install
-    Switch to automatically install/activate the app on the site.
-
-.PARAMETER EnsureSiteAppCatalog
-    Switch to ensure the Site Collection App Catalog is provisioned.
-
-.PARAMETER SkipFeatureDeployment
-    Switch for tenant-wide deployment.
+    Optional override for TenantId.
 
 .EXAMPLE
-    pwsh -File ./deploy-spfx-package.ps1 -PackagePath "../sharepoint/solution/spfx-selectedid-filter.sppkg" -Install
+    pwsh -File scripts/publish-spfx-package.ps1 `
+      -PackagePath "temp\bcps-webparts\Technical Documentation\crownnet-my-fav-apps\crownnet-my-fav-apps\sharepoint\solution\my-fav-apps-dev.sppkg" `
+      -Scope Site
+
+.EXAMPLE
+    pwsh -File scripts/publish-spfx-package.ps1 `
+      -PackagePath ".\sharepoint\solution\my-fav-apps-dev.sppkg" `
+      -Scope Tenant
 #>
 
 [CmdletBinding()]
@@ -144,7 +161,7 @@ if ($Scope -eq "Tenant" -and -not $finalTenantAdminUrl) {
 $targetUrl = if ($Scope -eq "Site") { $finalSiteUrl } else { $finalTenantAdminUrl }
 
 Write-Host "==================================================================" -ForegroundColor Cyan
-Write-Host " Deploy SPFx Package" -ForegroundColor Cyan
+Write-Host " Publish SPFx Package" -ForegroundColor Cyan
 Write-Host "==================================================================" -ForegroundColor Cyan
 Write-Host "Scope      : $Scope" -ForegroundColor Gray
 Write-Host "Target URL : $targetUrl" -ForegroundColor Gray
@@ -165,10 +182,10 @@ try {
     }
 
     $addParams = @{
-        Path        = $resolvedPackagePath
-        Scope       = $Scope
-        Publish     = $true
-        Overwrite   = $true
+        Path      = $resolvedPackagePath
+        Scope     = $Scope
+        Publish   = $true
+        Overwrite = $true
         ErrorAction = "Stop"
     }
     if ($SkipFeatureDeployment) {
@@ -197,9 +214,11 @@ try {
             Write-Host "App installation note: $($_.Exception.Message)" -ForegroundColor Yellow
         }
     }
-} catch {
-    Write-Host " FAIL: $($_.Exception.Message)" -ForegroundColor Red
+}
+catch {
+    Write-Host "FAIL: $($_.Exception.Message)" -ForegroundColor Red
     exit 1
-} finally {
+}
+finally {
     Disconnect-PnPOnline -ErrorAction SilentlyContinue
 }

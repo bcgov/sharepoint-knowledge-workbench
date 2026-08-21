@@ -36,16 +36,18 @@ Write-Host "==================================================================" 
 
 Push-Location $resolvedPath
 try {
-    Write-Host "Running production test/build (npx heft test --clean --production)..." -ForegroundColor Cyan
-    npx heft test --clean --production
-    if ($LASTEXITCODE -ne 0) {
-        throw "heft test --clean --production failed with exit code $LASTEXITCODE"
+    if (-not (Test-Path "node_modules")) {
+        Write-Host "node_modules not found. Running npm install..." -ForegroundColor Yellow
+        npm install
+        if ($LASTEXITCODE -ne 0) {
+            throw "npm install failed with exit code $LASTEXITCODE"
+        }
     }
 
-    Write-Host "Running production package-solution (npx heft package-solution --production)..." -ForegroundColor Cyan
-    npx heft package-solution --production
+    Write-Host "Running production test & packaging (npm run build)..." -ForegroundColor Cyan
+    npm run build
     if ($LASTEXITCODE -ne 0) {
-        throw "heft package-solution --production failed with exit code $LASTEXITCODE"
+        throw "SPFx build failed with exit code $LASTEXITCODE"
     }
 
     $sppkgFiles = Get-ChildItem -Path "sharepoint/solution" -Filter "*.sppkg" -ErrorAction SilentlyContinue

@@ -111,33 +111,37 @@ if ($Execute) {
     if ($TenantAdminUrl) { $connectParameters["TenantAdminUrl"] = $TenantAdminUrl }
     Connect-PnPOnline @connectParameters
 
-    $results = foreach ($action in $plan.actions) {
-        $pageName = Get-PageNameFromFileName -FileName $action.target_filename
-        if (-not (Test-Path -LiteralPath $action.source_path)) {
-            throw "source_path '$($action.source_path)' does not exist -- refusing to create an empty page."
-        }
-
-        $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
-        if ($existingPage) {
-            if (-not $Overwrite) {
-                throw "Page '$pageName' already exists. Re-run with -Overwrite to replace it."
+    try {
+        $results = foreach ($action in $plan.actions) {
+            $pageName = Get-PageNameFromFileName -FileName $action.target_filename
+            if (-not (Test-Path -LiteralPath $action.source_path)) {
+                throw "source_path '$($action.source_path)' does not exist -- refusing to create an empty page."
             }
-            Remove-PnPPage -Identity $pageName -Force
+
+            $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
+            if ($existingPage) {
+                if (-not $Overwrite) {
+                    throw "Page '$pageName' already exists. Re-run with -Overwrite to replace it."
+                }
+                Remove-PnPPage -Identity $pageName -Force
+            }
+
+            $content = Get-Content -LiteralPath $action.source_path -Raw
+            Add-PnPPage -Name $pageName -LayoutType Article | Out-Null
+            Add-PnPPageTextPart -Page $pageName -Text $content | Out-Null
+            Set-PnPPage -Identity $pageName -Publish | Out-Null
+
+            [pscustomobject]@{
+                source_path = $action.source_path
+                page_name   = $pageName
+                success     = $true
+            }
         }
 
-        $content = Get-Content -LiteralPath $action.source_path -Raw
-        Add-PnPPage -Name $pageName -LayoutType Article | Out-Null
-        Add-PnPPageTextPart -Page $pageName -Text $content | Out-Null
-        Publish-PnPPage -Identity $pageName | Out-Null
-
-        [pscustomobject]@{
-            source_path = $action.source_path
-            page_name   = $pageName
-            success     = $true
-        }
+        $results | ConvertTo-Json -Depth 8
+    } finally {
+        Disconnect-PnPOnline -ErrorAction SilentlyContinue
     }
-
-    $results | ConvertTo-Json -Depth 8
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
@@ -149,7 +153,7 @@ else {
             page_name = $pageName
             create_page = "Add-PnPPage -Name `"$pageName`" -LayoutType Article"
             inject_content = "Add-PnPPageTextPart -Page `"$pageName`" -Text (Get-Content -Raw `"$($action.source_path)`")"
-            publish_page = "Publish-PnPPage -Identity `"$pageName`""
+            publish_page = "Set-PnPPage -Identity `"$pageName`" -Publish"
         }
     }
 

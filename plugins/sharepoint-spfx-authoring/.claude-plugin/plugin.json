@@ -1,5 +1,5 @@
 {
-  "description": "SPFx solution scaffolding, Master-Detail component generation, package building, and deployment skills for SharePoint Online.",
+  "description": "SPFx solution scaffolding (React 17/18 Fluent UI, Master-Detail dossier), Heft/Webpack packaging, App Catalog provisioning guidance, and PnP-based package publication/deployment to Site or Tenant App Catalogs.",
   "author": {
     "name": "Richard Fremmerlid"
   },

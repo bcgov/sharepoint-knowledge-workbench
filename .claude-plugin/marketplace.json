@@ -93,7 +93,7 @@
       "name": "sharepoint-spfx-authoring",
       "source": "./plugins/sharepoint-spfx-authoring",
       "strict": true,
-      "description": "Authors, packages, and deploys custom SPFx web parts for SharePoint Online: a Master-Detail dossier scaffolder plus a generic, interactive scaffolding skill for any new web part (toolchain check, requirements Q&A, Yeoman generator run, customization guidance), production build/packaging into a verified .sppkg, Site Collection App Catalog provisioning guidance (BC Gov ServiceNow ticket path vs. direct trial-tenancy PnP path), and PnP-based deployment/verification of the packaged solution."
+      "description": "Authors, packages, publishes, and deploys custom SPFx web parts for SharePoint Online: a Master-Detail dossier scaffolder, React 17/18 Fluent UI scaffolding with Tailwind and self-healing GUID recovery, generic interactive scaffolding for new web parts, production Heft/Webpack packaging into a verified .sppkg, Site Collection App Catalog provisioning guidance (BC Gov ServiceNow ticket path vs. direct trial-tenancy PnP path), and automated config-driven PnP publication and verification to Site or Tenant App Catalogs."
     }
   ]
 }

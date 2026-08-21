@@ -98,8 +98,8 @@ if ($Execute) {
     if (-not $SiteUrl -or -not $ClientId -or -not $TenantId) {
         throw "SiteUrl/ClientId/TenantId not resolved. Provide -SiteUrl/-ClientId/-TenantId or a valid -ConfigPath."
     }
-    if (-not (Get-Command Set-PnPField -ErrorAction SilentlyContinue)) {
-        throw "PnP.PowerShell with Set-PnPField is required. Install/import PnP.PowerShell before executing."
+    if (-not (Get-Command Add-PnPView -ErrorAction SilentlyContinue)) {
+        throw "PnP.PowerShell with Add-PnPView is required. Install/import PnP.PowerShell before executing."
     }
 
     $connectParameters = @{
@@ -114,17 +114,38 @@ if ($Execute) {
     $updated = @()
     $failed = @()
 
-    foreach ($action in $plan.actions) {
-        try {
-            $viewParams = @{ List = $action.list_title; Title = $action.view_title; Fields = $action.fields; SetAsDefault = [bool]$action.set_as_default; ErrorAction = "Stop" }
-            if ($action.query) { $viewParams["Query"] = $action.query }
-            if ($action.row_limit) { $viewParams["RowLimit"] = [uint32]$action.row_limit }
-            Add-PnPView @viewParams | Out-Null
-            $updated += [ordered]@{ view_title = $action.view_title }
+    try {
+        foreach ($action in $plan.actions) {
+            try {
+                $existingView = Get-PnPView -List $action.list_title -Identity $action.view_title -ErrorAction SilentlyContinue
+                if ($existingView) {
+                    if ($action.fields) {
+                        Set-PnPView -List $action.list_title -Identity $action.view_title -Fields $action.fields -ErrorAction Stop | Out-Null
+                    }
+                    if ($action.query) {
+                        $existingView.ViewQuery = $action.query
+                        $existingView.Update()
+                        Invoke-PnPQuery
+                    }
+                    if ($action.set_as_default) {
+                        Set-PnPView -List $action.list_title -Identity $action.view_title -SetAsDefault -ErrorAction Stop | Out-Null
+                    }
+                    $updated += [ordered]@{ view_title = $action.view_title; action = "updated" }
+                } else {
+                    $viewParams = @{ List = $action.list_title; Title = $action.view_title; SetAsDefault = [bool]$action.set_as_default; ErrorAction = "Stop" }
+                    if ($action.fields) { $viewParams["Fields"] = $action.fields }
+                    if ($action.query) { $viewParams["Query"] = $action.query }
+                    if ($action.row_limit) { $viewParams["RowLimit"] = [uint32]$action.row_limit }
+                    Add-PnPView @viewParams | Out-Null
+                    $updated += [ordered]@{ view_title = $action.view_title; action = "created" }
+                }
+            }
+            catch {
+                $failed += [ordered]@{ list_title = $action.list_title; view_title = $action.view_title; error = $_.Exception.Message }
+            }
         }
-        catch {
-            $failed += [ordered]@{ list_title = $action.list_title; view_title = $action.view_title; error = $_.Exception.Message }
-        }
+    } finally {
+        Disconnect-PnPOnline -ErrorAction SilentlyContinue
     }
 
     $outcome = if ($updated.Count -eq 0 -and $failed.Count -gt 0) { "FAILED" }
