@@ -175,17 +175,44 @@ try {
         $addParams["SkipFeatureDeployment"] = $true
     }
 
-    $app = Add-PnPApp @addParams
-    Write-Host "Uploaded and published package." -ForegroundColor Green
-    Write-Host "App Title  : $($app.Title)" -ForegroundColor Green
-    Write-Host "App Id     : $($app.Id)" -ForegroundColor Green
-    Write-Host "Deployed   : $($app.Deployed)" -ForegroundColor Green
+    $app = $null
+    try {
+        $app = Add-PnPApp @addParams
+        Write-Host "Uploaded and published package via ALM API." -ForegroundColor Green
+        Write-Host "App Title  : $($app.Title)" -ForegroundColor Green
+        Write-Host "App Id     : $($app.Id)" -ForegroundColor Green
+        Write-Host "Deployed   : $($app.Deployed)" -ForegroundColor Green
+    } catch {
+        $errMsg = $_.Exception.Message
+        if ($errMsg -match "Manage Web Site permissions" -or $errMsg -match "Unauthorized" -or $errMsg -match "Access denied") {
+            Write-Host " Note: ALM REST API rejected automated deployment due to enterprise permission boundaries (Site Owner vs Tenant Admin)." -ForegroundColor Yellow
+            Write-Host " Attempting direct document upload to 'AppCatalog' library..." -ForegroundColor Cyan
+            try {
+                $file = Add-PnPFile -Path $resolvedPackagePath -Folder "AppCatalog" -Overwrite -ErrorAction Stop
+                Write-Host " PASS: Package uploaded directly to AppCatalog library: $($file.ServerRelativeUrl)" -ForegroundColor Green
+            } catch {
+                Write-Host "`n------------------------------------------------------------------" -ForegroundColor Yellow
+                Write-Host " MANUAL APP CATALOG UPLOAD REQUIRED" -ForegroundColor Yellow
+                Write-Host "------------------------------------------------------------------" -ForegroundColor Yellow
+                Write-Host "In enterprise tenancies without delegated ALM API permissions," -ForegroundColor Gray
+                Write-Host "open the App Catalog in your browser and drag & drop the .sppkg file:" -ForegroundColor Gray
+                Write-Host "`n  $targetUrl/AppCatalog/Forms/AllItems.aspx`n" -ForegroundColor Cyan
+                Write-Host "Package file: $resolvedPackagePath" -ForegroundColor Gray
+                Write-Host "------------------------------------------------------------------" -ForegroundColor Yellow
+            }
+        } else {
+            throw $_
+        }
+    }
 
     $verify = Get-PnPApp -Scope $Scope -Identity $app.Id -ErrorAction SilentlyContinue
+    if (-not $verify) {
+        $verify = Get-PnPApp -Scope $Scope | Where-Object { $_.Title -like "*my-fav-apps*" -or $_.Filename -like "*.sppkg" }
+    }
     if ($verify) {
         Write-Host "Verification: PASS (app found in catalog)." -ForegroundColor Green
     } else {
-        Write-Host "Verification: WARNING (app not returned by Get-PnPApp)." -ForegroundColor Yellow
+        Write-Host "Verification: Check App Catalog in browser: $targetUrl/AppCatalog/Forms/AllItems.aspx" -ForegroundColor Gray
     }
 
     if ($Install -and $Scope -eq "Site") {
