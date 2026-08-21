@@ -1,5 +1,6 @@
 # AGENTS.md / CLAUDE.md / GEMINI.md
 
+
 Behavioral guidelines to reduce common LLM coding mistakes, plus project-specific context for this repository.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
@@ -92,6 +93,18 @@ Consumer documents, intake files, run outputs, and project-specific tests are ma
   - **The user runs interactive/tenant-facing scripts** in their own terminal session (especially those requiring browser-based authentication or tenant writes). Agents must output the exact commands for the user to run rather than launching interactive scripts asynchronously in the background.
 - **Connectivity Check Requirement**:
   - Always verify connection first using `plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-spo-connection.ps1` after switching profiles or before starting a sequence of tenant operations.
+
+### Canonical Skills Over Custom Scripts (Do Not Recreate Ad-Hoc Scripts)
+
+- **Mandatory Policy**: Never write throwaway, ad-hoc `.ps1` scripts in `temp/` or project roots for standard SharePoint tasks (e.g. provisioning lists, creating views, packaging SPFx solutions, deploying packages, or uploading content).
+- **Use Canonical Skills with Parameters**: Always invoke the existing parameterized scripts in `plugins/` (and mirrored in `.agents/skills/`):
+  - **Build & Package SPFx**: `pwsh -File plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/scripts/package-spfx-solution.ps1 -SolutionPath <path>`
+  - **Deploy SPFx Package**: `pwsh -File plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/scripts/deploy-spfx-package.ps1 -PackagePath <path> [-Scope Site|Tenant] [-Install]`
+  - **Publish SPFx Directly**: `pwsh -File plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/scripts/publish-spfx-package.ps1 -PackagePath <path>`
+  - **List Provisioning**: `pwsh -File plugins/sharepoint-provisioning/skills/sharepoint-create-list/scripts/spo-provision-list.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PROVISION-SPO-LIST`
+  - **View Configuration**: `pwsh -File plugins/sharepoint-provisioning/skills/sharepoint-create-list-view/scripts/spo-provision-list-view.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PROVISION-SPO-LIST-VIEW`
+  - **Markdown Publishing**: `pwsh -File plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/scripts/spo-publish-markdown-plan.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`
+- All canonical scripts feature multi-tier `config.psd1` discovery and support direct CLI overrides (`-SiteUrl`, `-ClientId`, `-TenantId`, `-ConfigPath`).
 
 ### Sub-agent usage
 Use the cheapest models possible where possible. If the job doesn't require spawning sub-agents, don't do so.
