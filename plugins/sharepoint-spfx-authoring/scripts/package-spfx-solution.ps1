@@ -44,6 +44,26 @@ try {
         }
     }
 
+    # Check if package.json has build:tailwind or CSS compilation step
+    $pkgJson = Get-Content "package.json" -Raw | ConvertFrom-Json
+    if ($pkgJson.scripts.'build:tailwind') {
+        Write-Host "Running CSS pre-build (npm run build:tailwind)..." -ForegroundColor Cyan
+        npm run build:tailwind
+        if ($LASTEXITCODE -ne 0) {
+            throw "npm run build:tailwind failed with exit code $LASTEXITCODE"
+        }
+    }
+
+    # Check if package.json has build:tailwind or CSS compilation step
+    $pkgJson = Get-Content "package.json" -Raw | ConvertFrom-Json
+    if ($pkgJson.scripts.'build:tailwind') {
+        Write-Host "Running CSS pre-build (npm run build:tailwind)..." -ForegroundColor Cyan
+        npm run build:tailwind
+        if ($LASTEXITCODE -ne 0) {
+            throw "npm run build:tailwind failed with exit code $LASTEXITCODE"
+        }
+    }
+
     Write-Host "Running production test & packaging (npm run build)..." -ForegroundColor Cyan
     npm run build
     if ($LASTEXITCODE -ne 0) {
