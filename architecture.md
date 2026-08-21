@@ -94,7 +94,7 @@ The workbench is organized into 16 plugins across standard functional prefixes (
 11. **`sharepoint-content-migration`** (1 skill, 1 agent) — Item-level list item and document library file migration with two-pass lookup-ID resolution.
 12. **`sharepoint-migration-planning`** (5 skills, 2 agents) — Migration project setup, site inventory validation, dependency-graph analysis, deployment wave sequencing, and wave script generation.
 13. **`sharepoint-content-publication`** (6 skills, 1 agent) — SharePoint tenant publication: package upload, markdown/ASPX publishing, validation, state reconciliation, and rollback.
-14. **`sharepoint-spfx-authoring`** (6 skills) — Custom SPFx React web part, Master-Detail dossier scaffolding, solution packaging (`.sppkg`), App Catalog provisioning guidance, and PnP deployment.
+14. **`sharepoint-spfx-authoring`** (7 skills) — Custom SPFx React web part, Master-Detail dossier scaffolding, solution packaging (`.sppkg`), App Catalog provisioning guidance, direct publishing, and PnP deployment.
 15. **`sharepoint-agents-and-skills`** (15 skills) — Lifecycle management (create, update, deploy, verify, rollback, backup, restore) for SharePoint Copilot agents and native AgentAssets skills.
 
 ### Workbench Setup & Environment
@@ -108,3 +108,17 @@ Every write-capable module across all plugins enforces a strict three-gate safet
 1. **Planning is Pure**: Generators, analysis tools, and conversion planners perform zero tenant network I/O and produce reviewable artifacts on disk.
 2. **Dry-Run by Default**: Applying any plan defaults to a non-destructive dry-run preview.
 3. **Explicit Execution Gate**: Actual tenant writes require an explicit execution flag (`-Execute`) and an operation-specific confirmation token.
+
+---
+
+## 5. Canonical Skills Execution & Universal Parameter Interface
+
+To eliminate ad-hoc script generation and ensure full repeatability across tenancies:
+1. **No Throwaway Scripts**: All SharePoint operations (schema provisioning, view creation, SPFx packaging, app deployment, publishing) MUST be executed through the parameterized canonical scripts under `plugins/`.
+2. **Universal Parameter Resolution (`Get-WorkbenchConnectionConfig`)**: Every `.ps1` script supports:
+   - Multi-tier `config.psd1` probing (searches `$PWD` and parent directories up to 4 levels).
+   - Direct CLI overrides (`-SiteUrl`, `-ClientId`, `-TenantId`, `-TenantAdminUrl`, `-ConfigPath`) to target any environment without modifying active configuration files.
+3. **Enterprise ALM & Relational Integrity Contracts**:
+   - SPFx packaging automatically executes CSS pre-compilation (`build:tailwind`) and invokes local project build rigs (`@rushstack/heft`).
+   - App deployment automatically catches enterprise permission boundaries and provides 1-click App Catalog browser fallbacks.
+   - User join and preference lists enforce `FieldLookup` with `RelationshipDeleteBehavior = Restrict` and set default `Title` columns to `Required = $false`.
