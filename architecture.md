@@ -1,16 +1,18 @@
 # Architecture Overview
 
-This repository is the central public toolkit for the **AI-Assisted Structured Knowledge Workbench**, providing a modular, governed knowledge architecture (**Content + Template + Renderer = Published Output**) and a comprehensive suite of SharePoint discovery, migration, and provisioning tooling.
+The **SharePoint Knowledge Workbench** is a public toolkit designed to convert traditional documents (Word/PDF) into structured, modern web pages and AI-ready knowledge. It follows a simple, repeatable formula:
 
-The ecosystem is composed of **16 independently-installable domain plugins** organized under `plugins/`. Each plugin is self-contained with its own tests, packaging, and skill definitions.
+$$\text{Content} + \text{Template} + \text{Renderer} = \text{Published Output}$$
+
+The repository is organized into **16 self-contained plugins** under `plugins/`. Each plugin has its own automated tests, tools, and skill definitions.
 
 ---
 
-## 1. Project Structure
+## 1. Project Directory Structure
 
 ```
 sharepoint-knowledge-workbench/
-├── plugins/                  # 16 independently-installable domain plugins (see §3)
+├── plugins/                  # 16 standard plugins (see Section 3)
 │   ├── content-extraction/
 │   ├── content-structure-analysis/
 │   ├── content-assembly/
@@ -27,98 +29,92 @@ sharepoint-knowledge-workbench/
 │   ├── sharepoint-spfx-authoring/
 │   ├── sharepoint-agents-and-skills/
 │   └── workbench-setup/
-├── docs/
-│   ├── vision/               # Architecture specs and vision roadmap
-│   ├── use-cases/            # Operational overview of workbench capabilities
-│   └── superpowers/          # Core technical designs and reference specifications
-├── architecture.md           # This architecture summary
-├── INSTALL.md                # Installation and consumer bootstrapping guide
-├── DEPENDENCIES.md           # Log of system-level CLI dependencies (pandoc, LibreOffice, PnP.PowerShell)
-├── CLAUDE.md / GEMINI.md / AGENTS.md # Behavioral rules and repository engineering policies
-├── .claude-plugin/marketplace.json   # Claude Code marketplace catalog
-├── symlinks.json             # Symlink tracking manifest
-└── skills-lock.json          # Skills installation lockfile
+├── docs/                     # Guides, design specs, and use cases
+├── architecture.md           # This plain-language system overview
+├── START-HERE.md             # Quick-start roadmap and status tracker
+├── INSTALL.md                # Installation and setup guide
+├── DEPENDENCIES.md           # External tools (pandoc, LibreOffice, PowerShell)
+└── CLAUDE.md / GEMINI.md / AGENTS.md # Instructions and safety rules for AI agents
 ```
-
-Consumer documents, intake files, run outputs, and project-specific tests are managed in separate consumer repositories (e.g. project POC repositories).
 
 ---
 
-## 2. High-Level Flow (Content Conversion Pipeline)
+## 2. How the Document Conversion Pipeline Works
 
-The content conversion pipeline runs across four chained domain plugins, gated by explicit human plan confirmation:
+The core conversion workflow turns raw documents into modern web pages and AI knowledge packages through four clear steps, gated by human review:
 
 ```text
-Intake Source (.docx / PDF)
-        │
-        ▼  content-extraction: extract_and_normalize()
-        │  Pandoc AST extraction, structural analysis, defect-signal detection
-        ▼
-Normalized Source Document Contract
-        │
-        ▼  content-structure-analysis: recommend_from_normalized()
-        │  Semantic structure analysis, topic-boundary reasoning, chunking recommendation
-        ▼
-Draft Conversion Plan ── Requires explicit human confirmation
-        │
-        ▼  content-assembly: build_canonical_package()
-        │  Cleanup pipeline -> structural-anchor reconciliation -> canonical package validation
-        ▼
-Structured Content Package (manifest.json, validated chunks + sidecars, media/, publication-map.json)
-        │
-        ▼  content-rendering: render()
-        │  Format-specific rendering (multipage-markdown, sharepoint-aspx) with validation
-        ▼
-Published Output (Human-facing modern pages / ASPX + token-dense agent-optimized digests)
+1. Intake Document (.docx / PDF)
+   │
+   ▼  [content-extraction] Extract text, tables, images, and outline
+   │
+2. Clean Source Document
+   │
+   ▼  [content-structure-analysis] Analyze headings and recommend page boundaries
+   │
+3. Draft Conversion Plan (Requires Human Approval Before Continuing)
+   │
+   ▼  [content-assembly] Clean formatting, organize media, and create content package
+   │
+4. Structured Content Package (Standard JSON manifest, clean Markdown chunks, images)
+   │
+   ▼  [content-rendering] Format into final output
+   │
+5. Published Output
+   ├── A. Human Readers: Modern SharePoint Pages (ASPX / Web)
+   └── B. AI Agents: High-density knowledge summaries for Microsoft Copilot & Search
 ```
 
 ---
 
-## 3. Domain Plugins Overview
+## 3. What the 16 Plugins Do
 
-The workbench is organized into 16 plugins across standard functional prefixes (`content-*`, `sharepoint-*`, `workbench-*`):
+The tools are grouped into three main areas:
 
-### Content Conversion Workstream
-1. **`content-extraction`** (1 skill) — Pandoc AST extraction, defect detection, and normalized source document generation.
-2. **`content-structure-analysis`** (1 skill) — Semantic structure analysis, topic boundary reasoning, and chunking strategy recommendation.
-3. **`content-assembly`** (1 skill) — Cleanup pipeline, chunking, canonical package building, validation, and atomic staging promotion.
-4. **`content-rendering`** (7 skills) — Multi-format rendering engine supporting multipage Markdown, SharePoint modern ASPX, and custom rendering templates.
+### Area A: Document Conversion (4 Plugins)
+1. **`content-extraction`** (1 skill) — Reads `.docx` and PDF files, extracts images/tables, and creates a clean text outline.
+2. **`content-structure-analysis`** (1 skill) — Evaluates document sections and recommends how to split large documents into logical web topics.
+3. **`content-assembly`** (1 skill) — Cleans up formatting quirks, organizes media files, and bundles content into a structured package.
+4. **`content-rendering`** (7 skills) — Converts structured packages into modern SharePoint pages, multipage Markdown, or custom web templates.
 
-### SharePoint Engineering Workstream
-5. **`sharepoint-discovery`** (15 skills) — Read-only analysis and schema auditing of exported classic SharePoint site inventories (navigation, permissions, webpart code, custom forms, calculated columns, choice fields, and schema drift).
-6. **`sharepoint-schema-reconciliation`** (4 skills) — Declarative, JSON-schema-driven planning for site columns, content types, lists, and modern calendar provisioning (pure planning, zero tenant I/O).
-7. **`sharepoint-provisioning`** (19 skills) — 27 real PnP.PowerShell executors for applying direct CRUD and declarative site-column, list-column, content-type, view, item, list, library, site, branding, hub, navigation, permissions, and taxonomy provisioning plans.
-8. **`sharepoint-page-modernization`** (4 skills, 2 agents) — Classic ASPX page analysis, component classification, layout mapping, and modern conversion manifest generation.
-9. **`sharepoint-page-modernization-execution`** (4 skills) — PnP.PowerShell executors for single-page conversion, bulk page conversion, cross-site page copying, and post-conversion validation.
-10. **`sharepoint-link-remediation`** (5 skills, 2 agents) — Page, document, and field image link extraction, rule-based rewrite remediation, and link-integrity verification.
-11. **`sharepoint-content-migration`** (1 skill, 1 agent) — Item-level list item and document library file migration with two-pass lookup-ID resolution.
-12. **`sharepoint-migration-planning`** (5 skills, 2 agents) — Migration project setup, site inventory validation, dependency-graph analysis, deployment wave sequencing, and wave script generation.
-13. **`sharepoint-content-publication`** (6 skills, 1 agent) — SharePoint tenant publication: package upload, markdown/ASPX publishing, validation, state reconciliation, and rollback.
-14. **`sharepoint-spfx-authoring`** (7 skills) — Custom SPFx React web part, Master-Detail dossier scaffolding, solution packaging (`.sppkg`), App Catalog provisioning guidance, direct publishing, and PnP deployment.
-15. **`sharepoint-agents-and-skills`** (15 skills) — Lifecycle management (create, update, deploy, verify, rollback, backup, restore) for SharePoint Copilot agents and native AgentAssets skills.
+### Area B: SharePoint Engineering & Modernization (11 Plugins)
+5. **`sharepoint-discovery`** (15 skills) — Safely inspects existing SharePoint sites to discover lists, columns, navigation, permissions, and custom forms.
+6. **`sharepoint-schema-reconciliation`** (4 skills) — Creates plans for creating or updating lists, site columns, and content types without touching the live server.
+7. **`sharepoint-provisioning`** (19 skills) — Creates and updates SharePoint lists, document libraries, views, site columns, and branding using PowerShell.
+8. **`sharepoint-page-modernization`** (4 skills, 2 agents) — Analyzes classic SharePoint pages and plans their conversion to modern layouts.
+9. **`sharepoint-page-modernization-execution`** (4 skills) — Converts classic pages to modern SharePoint pages individually or in bulk.
+10. **`sharepoint-link-remediation`** (5 skills, 2 agents) — Finds and updates old intranet hyperlinks and image URLs to point to modern destinations.
+11. **`sharepoint-content-migration`** (1 skill, 1 agent) — Migrates list items and documents while preserving lookup relationships and attachments.
+12. **`sharepoint-migration-planning`** (5 skills, 2 agents) — Calculates dependencies between lists and schedules migration in the correct sequence.
+13. **`sharepoint-content-publication`** (6 skills, 1 agent) — Publishes rendered modern pages and Markdown files to SharePoint libraries, with rollback support.
+14. **`sharepoint-spfx-authoring`** (7 skills) — Builds, packages, and deploys custom React SPFx web parts (such as the *My Applications* dashboard).
+15. **`sharepoint-agents-and-skills`** (15 skills) — Creates, deploys, and manages SharePoint Copilot agents and native AI skills.
 
-### Workbench Setup & Environment
-16. **`workbench-setup`** (5 skills) — Configuration initialization, document workflow setup, environment/network validation, and app registration helpers.
-
----
-
-## 4. Safety & Execution Contract
-
-Every write-capable module across all plugins enforces a strict three-gate safety model:
-1. **Planning is Pure**: Generators, analysis tools, and conversion planners perform zero tenant network I/O and produce reviewable artifacts on disk.
-2. **Dry-Run by Default**: Applying any plan defaults to a non-destructive dry-run preview.
-3. **Explicit Execution Gate**: Actual tenant writes require an explicit execution flag (`-Execute`) and an operation-specific confirmation token.
+### Area C: Setup & Configuration (1 Plugin)
+16. **`workbench-setup`** (5 skills) — Configures connection profiles (`config.psd1`), checks network connectivity, and validates permissions.
 
 ---
 
-## 5. Canonical Skills Execution & Universal Parameter Interface
+## 4. Safety Rules for Live SharePoint Changes
 
-To eliminate ad-hoc script generation and ensure full repeatability across tenancies:
-1. **No Throwaway Scripts**: All SharePoint operations (schema provisioning, view creation, SPFx packaging, app deployment, publishing) MUST be executed through the parameterized canonical scripts under `plugins/`.
-2. **Universal Parameter Resolution (`Get-WorkbenchConnectionConfig`)**: Every `.ps1` script supports:
-   - Multi-tier `config.psd1` probing (searches `$PWD` and parent directories up to 4 levels).
-   - Direct CLI overrides (`-SiteUrl`, `-ClientId`, `-TenantId`, `-TenantAdminUrl`, `-ConfigPath`) to target any environment without modifying active configuration files.
-3. **Enterprise ALM & Relational Integrity Contracts**:
-   - SPFx packaging automatically executes CSS pre-compilation (`build:tailwind`) and invokes local project build rigs (`@rushstack/heft`).
-   - App deployment automatically catches enterprise permission boundaries and provides 1-click App Catalog browser fallbacks.
-   - User join and preference lists enforce `FieldLookup` with `RelationshipDeleteBehavior = Restrict` and set default `Title` columns to `Required = $false`.
+To protect production and DEV environments from accidental changes, every tool follows three strict safety gates:
+
+1. **Planning is Safe (Read-Only)**: Planning tools only read data and create local plan files on disk. They never modify a live site.
+2. **Dry-Run by Default**: Running a script previews what actions would take place without applying them.
+3. **Explicit Confirmation Required**: Real changes require the `-Execute` switch and a specific confirmation token (e.g. `-ConfirmToken PROVISION-SPO-LIST`).
+
+---
+
+## 5. Built-In Common Skills vs. One-Off Scripts
+
+To keep the codebase clean, consistent, and easy to maintain across multiple projects:
+
+1. **Use Built-In Skills (Avoid Throwaway Scripts)**:
+   - Always run the existing parameterized scripts in `plugins/` rather than writing one-off `.ps1` scripts for standard tasks (like creating lists, packaging web parts, or uploading content).
+2. **Flexible Parameters & Automatic Configuration**:
+   - Every script automatically finds the active `config.psd1` file.
+   - You can also pass direct command-line overrides (such as `-SiteUrl "https://..."` or `-ClientId "..."`) to target any site without changing configuration files.
+3. **Common Standards Built In**:
+   - **SPFx Web Part Packaging**: Automatically compiles CSS (`build:tailwind`) and builds production `.sppkg` packages using local tools.
+   - **App Deployment**: Handles site vs. tenant permissions and provides direct 1-click links if manual approval is needed.
+   - **List Relationships**: Automatically handles lookup columns (`ApplicationIdId`) and ensures default `Title` fields do not block automated writes.
