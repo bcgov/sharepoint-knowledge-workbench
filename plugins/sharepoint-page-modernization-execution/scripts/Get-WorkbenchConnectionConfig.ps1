@@ -21,13 +21,33 @@ Path to config.psd1.
 
 function Get-WorkbenchConnectionConfig {
     [CmdletBinding()]
-    param([Parameter(Mandatory = $true)][string]$Path)
+    param([Parameter(Mandatory = $false)][string]$Path)
 
-    if (-not (Test-Path -LiteralPath $Path)) {
-        return [pscustomobject]@{ SiteUrl = $null; ClientId = $null; TenantId = $null; TenantAdminUrl = $null }
+    $resolvedPath = $null
+    if ($Path -and (Test-Path -LiteralPath $Path)) {
+        $resolvedPath = (Resolve-Path -LiteralPath $Path).Path
+    } else {
+        $candidates = @(
+            "$PWD\config.psd1",
+            "$PSScriptRoot\..\..\..\..\config.psd1",
+            "$PSScriptRoot\..\..\..\config.psd1",
+            "$PSScriptRoot\..\..\config.psd1",
+            "$PSScriptRoot\..\config.psd1",
+            "$PSScriptRoot\config.psd1"
+        )
+        foreach ($cand in $candidates) {
+            if (Test-Path -LiteralPath $cand) {
+                $resolvedPath = (Resolve-Path -LiteralPath $cand).Path
+                break
+            }
+        }
     }
 
-    $rawConfig = Import-PowerShellDataFile -LiteralPath $Path
+    if (-not $resolvedPath -or -not (Test-Path -LiteralPath $resolvedPath)) {
+        return [pscustomobject]@{ SiteUrl = $null; ClientId = $null; TenantId = $null; TenantAdminUrl = $null; ConfigPath = $null }
+    }
+
+    $rawConfig = Import-PowerShellDataFile -LiteralPath $resolvedPath
     $cfg = if ($rawConfig.Connection) { $rawConfig.Connection } else { $rawConfig }
     $tenantAdminUrl = if ($rawConfig.Authentication) { $rawConfig.Authentication.TenantAdminUrl } else { $rawConfig.TenantAdminUrl }
 
@@ -36,5 +56,7 @@ function Get-WorkbenchConnectionConfig {
         ClientId       = $cfg.ClientId
         TenantId       = $cfg.TenantId
         TenantAdminUrl = $tenantAdminUrl
+        ConfigPath     = $resolvedPath
     }
 }
+
