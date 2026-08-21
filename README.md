@@ -126,7 +126,7 @@ preview without writing anything, or drop `--all` to pick plugins interactively.
 
 ### 🚀 Getting Started & Execution Status
 
-- [start-here.md](start-here.md) — **Authoritative Resume & Status Document**. Read this first for active state, phase gates, and workflow guidelines.
+- [start-here.md](start-here.md) — **Primary Quick-Start & Status Guide**. Read this first for active state, phase gates, and workflow guidelines.
 - [docs/use-cases/](docs/use-cases/README.md) — **All 12 use cases this repository serves (11 built, 1 target-state vision), one overview doc each.** Start here if you're looking for "how do I do X" rather than architecture/status.
 - [architecture.md](architecture.md) — System structure, directory maps, and technical component flow.
 - [CLAUDE.md](CLAUDE.md) / [GEMINI.md](GEMINI.md) / [AGENTS.md](AGENTS.md) — Agent coding conventions, TDD rules, and project guidelines.
@@ -134,7 +134,7 @@ preview without writing anything, or drop `--all` to pick plugins interactively.
 
 ### 🏛️ Vision & Master Initiative Roadmap
 
-- [Master Initiative Plan and Traceability Matrix](docs/vision/master-initiative-plan-workstreams-and-phases.md) — Authoritative master plan, workstreams, phases, and traceability.
+- [Master Initiative Plan and Traceability Matrix](docs/vision/master-initiative-plan-workstreams-and-phases.md) — Master plan, workstreams, phases, and traceability.
 - [Vision Overview](docs/vision/README.md) — Vision overview and change-control rules.
 - [Future-Phase Planning Index](docs/superpowers/FUTURE-PHASE-PLANNING-INDEX.md) — Forward-phase specifications and plan scaffolds.
 

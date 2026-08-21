@@ -61,7 +61,7 @@ Each plugin is self-contained with its own tests, packaging, and skill definitio
 ```
 plugins/                 ← The 16 domain plugins & skill packages
 docs/                    ← Initiative architecture, design specs, and reference catalog
-.agent/rules/            ← Authoritative engineering rules and policies
+.agent/rules/            ← Official engineering rules and policies
 .claude-plugin/          ← Marketplace definition (marketplace.json)
 INSTALL.md               ← Complete installation and bootstrapping guide
 ```
@@ -76,7 +76,7 @@ Consumer documents, intake files, run outputs, and project-specific tests are ma
 
 ### Architecture Context Awareness (`architecture.md`)
 
-- Treat `architecture.md` at the repository root as an authoritative architecture reference for this project.
+- Treat `architecture.md` at the repository root as the primary architecture reference for this project.
 - Read and follow `architecture.md` before making architecture-impacting changes, unless the user explicitly overrides it.
 
 ### Tenant Usage Context (Trial vs CSB Intranet)
