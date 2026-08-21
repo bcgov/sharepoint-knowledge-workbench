@@ -9,6 +9,7 @@
     "scaffold-spfx-webpart",
     "package-spfx-solution",
     "deploy-spfx-solution",
+    "publish-spfx-package",
     "request-site-collection-app-catalog"
   ]
 }

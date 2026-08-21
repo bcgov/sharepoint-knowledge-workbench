@@ -10,6 +10,7 @@ platforms:
 skills:
   - sharepoint-scaffold-spfx-react-app
   - sharepoint-deploy-spfx-solution
+  - sharepoint-publish-spfx-package
   - sharepoint-package-spfx-solution
   - sharepoint-request-site-collection-app-catalog
   - sharepoint-scaffold-spfx-master-detail

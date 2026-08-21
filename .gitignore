@@ -18,7 +18,6 @@ temp/
 intake/
 runs/
 actual-state.csv
-start-here.md
 JOURNAL.md
 archive/
 audit/
@@ -29,6 +28,11 @@ reports/
 # Real tenant credentials — never commit.
 # config.psd1.example (the template) IS committed; only the real, filled-in file is ignored.
 /config.psd1
+/config-csb-intranet-dev.psd1
+/config-trial-tenancy.psd1
+config.psd1
+config-csb-intranet-dev.psd1
+config-trial-tenancy.psd1
 tools/**/config.psd1
 plugins/**/config.psd1
 

@@ -61,3 +61,45 @@ sharepoint/solution/<solution-name>.sppkg
 
 Check that the generated package size is >0 KB and contains no build or linting errors.
 
+## SPFx Naming & Versioning Architecture
+
+Before building and packaging, verify that all three naming levels and versions are aligned:
+
+| Layer | Configuration File | Purpose & Impact |
+| :--- | :--- | :--- |
+| **Package File** | `config/package-solution.json` (`paths.zippedPackage`) | Physical `.sppkg` file name generated in `sharepoint/solution/`. |
+| **Solution Name** | `config/package-solution.json` (`solution.name`) | Display title in **App Catalog** and **Site Contents > Add an App**. |
+| **Solution Version** | `config/package-solution.json` (`solution.version`) | Increment version (e.g. `1.0.6.0` -> `1.0.7.0`) whenever updating code or manifests so SharePoint prompts for upgrade. |
+| **Web Part Title** | `src/webparts/<name>/<Name>WebPart.manifest.json` (`preconfiguredEntries[0].title.default`) | 🌟 **The actual name displayed to authors in the SharePoint page `+` toolbox selector.** |
+| **Web Part Description** | `src/webparts/<name>/<Name>WebPart.manifest.json` (`preconfiguredEntries[0].description.default`) | Subtitle/tooltip shown under the title in the toolbox. |
+| **Toolbox Category** | `src/webparts/<name>/<Name>WebPart.manifest.json` (`preconfiguredEntries[0].group.default`) | Group header in the toolbox (e.g., `Advanced`). |
+
+## Pre-Packaging Code & Configurability Pre-Flight Checklist
+
+Because SPFx production compilation and bundling is a compute-intensive operation (typically taking 4–6 minutes), **always perform a pre-flight code and configuration audit before initiating a build** to avoid costly rebuild cycles:
+
+### 1. Dynamic Site Path Resolution (No Hardcoded URLs)
+- Audit `*WebPart.ts` and `*Props.ts` for hardcoded site relative URLs (e.g. `/sites/AG-BCPS-CrownNET`).
+- **Standard**: Site paths must default dynamically to the current hosting web (`this.context.pageContext.web.serverRelativeUrl`) or be fully configurable via property pane fields.
+
+### 2. Unlocked Property Pane Configuration
+- Verify that configuration fields in `getPropertyPaneConfiguration()` (such as `sourceSiteUrl`, list dropdowns, view filters) are **editable** and not permanently set to `disabled: true`.
+- Implement `onPropertyPaneFieldChanged` handlers to reload dynamic dropdowns whenever site path or list sources are modified.
+
+### 3. Self-Healing Auto-Binding
+- Ensure web parts implement auto-binding fallbacks on mount/initialization:
+  - If a required list GUID property (`applicationsListId`, `libraryId`, etc.) is empty or invalid, query the target site's lists and automatically bind to matching default list names (`Applications`, `Documents`, etc.).
+
+### 4. Semantic Version Bump
+- Always increment `solution.version` in `config/package-solution.json` (e.g. `1.0.8.0` -> `1.0.9.0`) so SharePoint recognizes and prompts for the updated package immediately upon deployment.
+
+### 5. Web Part UI Selector Title Check
+- Confirm that `preconfiguredEntries[0].title.default` in `<WebPart>.manifest.json` matches the intended user-facing title (what authors see when clicking `+` in SharePoint).
+
+### 6. Relational Lookup & PnPjs Schema Alignment
+- When web parts read/write to SharePoint **Lookup Columns** (such as join tables like `My Favourite Apps -> ApplicationId`):
+  - **Write discipline**: SharePoint REST API / PnPjs requires writing to `<LookupInternalName>Id` (e.g. `ApplicationIdId: 100`). Always implement dual-mode write (`ApplicationIdId` first, fallback to `ApplicationId` for numeric schemas).
+  - **Read discipline**: Ensure expand queries select both ID and text fields (`items.select('Id', 'ApplicationId/ID', 'ApplicationId/Title', 'ApplicationIdId').expand('ApplicationId')`).
+  - **Relational Integrity**: Enforce `RelationshipDeleteBehavior = Restrict` and `Indexed = $true` on lookup column definitions to protect catalog integrity.
+
+
