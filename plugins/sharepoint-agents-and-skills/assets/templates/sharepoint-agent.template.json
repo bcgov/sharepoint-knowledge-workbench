@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "0.2.0",
+  "customCopilotConfig": {
+    "conversationStarters": {
+      "conversationStarterList": [
+        {
+          "text": "Summarize recent items"
+        },
+        {
+          "text": "Tell me more about..."
+        },
+        {
+          "text": "How can you help me?"
+        }
+      ],
+      "welcomeMessage": {
+        "text": "Ask a question or get started with one of these prompts:"
+      }
+    },
+    "gptDefinition": {
+      "name": "Template SharePoint Agent",
+      "description": "Template agent description.",
+      "instructions": "You are a SharePoint knowledge assistant grounded on designated knowledge sources.",
+      "capabilities": [
+        {
+          "name": "OneDriveAndSharePoint",
+          "items_by_sharepoint_ids": [],
+          "items_by_url": []
+        }
+      ],
+      "behavior_overrides": {
+        "special_instructions": {
+          "discourage_model_knowledge": true
+        }
+      }
+    },
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANgSURBVHhe7dq9jeMwFATgq8sFuYYrQ2WoAoWuQhkzh8oUOeRBvttdkkNJjxQ5Bg5D4EsGkr3mz6N+9tev37OXD4JAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsClnH1YZvGzDHVnL+Ni5/ml3dL9DXv5paXnx6Lvw/peR8AAcl9TnplfsIx5Zy/z6/kg0/asn52ICBgGBbv0o7wq7+nx5XIfmbQluOBcQ+Hn8kAAcHt8dMZWzm43AlJOXu3ZfXD6PwtPXb7/uHph8xKcU1WYSEIunN++K7LLz+MwcxdlmyHHYKZ//LTaBzIbSCSPaJ6EtSCoLeww94dngxIUT1++um762rO34TfX/sZF0DQWVR+/s22XGYRnre1+iupZCBrVmItCLoKf2iw6UZlxLoZJ512tX5H+whxFUDQU/gjow6Ly4BpJjfvsMYDagVBR+G1f9rJUTkx/PjoPqJRyejxmacg6Gan/HwpKkPxiinZNw5Fq+rsb2gEgk7OZ3hJp8blIl1N1aJJ0KKsGUDQha3GR4N0VAK6dVSngT0CQQ/m8hJ2wEHHagDKnJefH+FGuFuGNAAlCn+UZSPUABSwdGjE0AnJ85/sMTW6DewBCBqD5/6lLVuy4kHaLVWliidLAxA0lT4sq2m5jkgeoGUHqdz/dyOWPKffnv1bRedlZnj8IK5Fuei0qs5A0EzJjRU6nY3pe4Crq6D5syUjCFq5uqEZOiTeX/LH2HzoQdwGgkbMd7W7LCso3WNqXrCnL2Rye05HEDRh6bxzpkGE98Hba07j9w1PPyWvJJtd0lpB0IKhfJgYr/fTN2Nbc+9/N8kPxO5L+cqJcgkEDZxuoGb2y83buCYv5+OWXlnFreBFfmsQXNb2ci6e3Sf1eWdmHzU3f/g/5CC4qlX5+WIsQzHn74/VT9s9RXDu37bdZ6x+eDwvrMyGIBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAqP4AV3GK2i9B/WUAAAAASUVORK5CYII="
+  }
+}

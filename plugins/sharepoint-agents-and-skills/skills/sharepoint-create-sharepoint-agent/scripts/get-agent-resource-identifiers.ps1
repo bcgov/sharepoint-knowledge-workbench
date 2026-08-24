@@ -1,0 +1,1 @@
+../../../scripts/get-agent-resource-identifiers.ps1

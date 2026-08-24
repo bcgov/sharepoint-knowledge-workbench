@@ -41,25 +41,62 @@ $inventoryResult = [PSCustomObject]@{
     LibraryStatuses       = @{}
 }
 
-# 1. Target Library (AgentAssets)
+$targetLibraryName = if ($config.TargetLibrary) { 
+    $config.TargetLibrary 
+} elseif ($rawConfig.Defaults -and $rawConfig.Defaults.DefaultAgentAssetsLibrary) { 
+    $rawConfig.Defaults.DefaultAgentAssetsLibrary 
+} else { 
+    "AgentAssets" 
+}
+
+# 1. Target Library (e.g. AgentAssets / Site Assets)
 try {
-    $targetItems = Get-PnPListItem -List $config.TargetLibrary -PageSize 500
-    $inventoryResult.LibraryStatuses[$config.TargetLibrary] = "EXISTS"
-    Write-Host "Found $($targetItems.Count) items in $($config.TargetLibrary)."
-    foreach ($item in $targetItems) {
-        $fileName = $item["FileLeafRef"]
-        if ($fileName -like "*SKILL*.md" -or $fileName -like "TEST-DO-NOT-USE-*" -or $fileName -like "*.md") {
-            Write-Host "Skill asset: $fileName (ID: $($item.Id), Path: $($item['FileRef']))"
-            $inventoryResult.SkillAssetsFound += [PSCustomObject]@{
-                Id          = $item.Id
-                FileLeafRef = $fileName
-                FileRef     = $item["FileRef"]
+    $targetList = Get-PnPList -Identity $targetLibraryName -ErrorAction SilentlyContinue
+    if ($targetList) {
+        $targetItems = Get-PnPListItem -List $targetList -PageSize 500
+        $inventoryResult.LibraryStatuses[$targetLibraryName] = "EXISTS"
+        Write-Host "Found $($targetItems.Count) item(s) in $targetLibraryName library."
+        foreach ($item in $targetItems) {
+            $fileName = $item["FileLeafRef"]
+            if ($fileName -like "*SKILL*.md" -or $fileName -like "*.md" -or $fileName -like "*.agent") {
+                Write-Host "  Found asset: $fileName (ID: $($item.Id), Path: $($item['FileRef']))" -ForegroundColor Green
+                $inventoryResult.SkillAssetsFound += [PSCustomObject]@{
+                    Id          = $item.Id
+                    FileLeafRef = $fileName
+                    FileRef     = $item["FileRef"]
+                }
             }
         }
+    } else {
+        Write-Host "Target library '$targetLibraryName' does not exist on site." -ForegroundColor Yellow
+        $inventoryResult.LibraryStatuses[$targetLibraryName] = "NOT_FOUND"
     }
 } catch {
-    Write-Host "Target library '$($config.TargetLibrary)' does not exist on site yet." -ForegroundColor Yellow
-    $inventoryResult.LibraryStatuses[$config.TargetLibrary] = "NOT_FOUND"
+    Write-Host "Could not query '$targetLibraryName': $_" -ForegroundColor Yellow
+    $inventoryResult.LibraryStatuses[$targetLibraryName] = "ERROR"
+}
+
+# Also check Site Assets if different
+if ($targetLibraryName -ne "Site Assets") {
+    try {
+        $siteAssetsList = Get-PnPList -Identity "Site Assets" -ErrorAction SilentlyContinue
+        if ($siteAssetsList) {
+            $saItems = Get-PnPListItem -List $siteAssetsList -PageSize 500
+            foreach ($item in $saItems) {
+                $fileName = $item["FileLeafRef"]
+                if ($fileName -like "*SKILL*.md" -or $fileName -like "*.md" -or $fileName -like "*.agent") {
+                    Write-Host "  Found asset in Site Assets: $fileName (Path: $($item['FileRef']))" -ForegroundColor Green
+                    $inventoryResult.SkillAssetsFound += [PSCustomObject]@{
+                        Id          = $item.Id
+                        FileLeafRef = $fileName
+                        FileRef     = $item["FileRef"]
+                    }
+                }
+            }
+        }
+    } catch {
+        # ignore optional scan
+    }
 }
 
 # 2. Pilot Knowledge / Site Pages
@@ -80,15 +117,24 @@ try {
 }
 
 # 3. Media Assets
-try {
-    $mediaLibrary = $config.PilotKnowledgeLibrary
-    $mediaItems = Get-PnPListItem -List $mediaLibrary -PageSize 500
-    $images = $mediaItems | Where-Object { $ext = $_["FileLeafRef"]; $MediaFileExtensions | Where-Object { $ext -like $_ } }
-    $inventoryResult.MediaAssetsCount = $images.Count
-    $inventoryResult.LibraryStatuses[$mediaLibrary] = "EXISTS"
-    Write-Host "Found $($images.Count) media assets in $mediaLibrary."
-} catch {
-    $inventoryResult.LibraryStatuses[$config.PilotKnowledgeLibrary] = "NOT_FOUND"
+$mediaLibrary = if ($config.PilotKnowledgeLibrary) {
+    $config.PilotKnowledgeLibrary
+} elseif ($rawConfig.Defaults -and $rawConfig.Defaults.DefaultHumanPublicationLibrary) {
+    $rawConfig.Defaults.DefaultHumanPublicationLibrary
+} else {
+    $null
+}
+
+if ($mediaLibrary) {
+    try {
+        $mediaItems = Get-PnPListItem -List $mediaLibrary -PageSize 500 -ErrorAction Stop
+        $images = $mediaItems | Where-Object { $ext = $_["FileLeafRef"]; $MediaFileExtensions | Where-Object { $ext -like $_ } }
+        $inventoryResult.MediaAssetsCount = $images.Count
+        $inventoryResult.LibraryStatuses[$mediaLibrary] = "EXISTS"
+        Write-Host "Found $($images.Count) media assets in $mediaLibrary."
+    } catch {
+        $inventoryResult.LibraryStatuses[$mediaLibrary] = "NOT_FOUND"
+    }
 }
 
 if ($JsonOutputPath) {
