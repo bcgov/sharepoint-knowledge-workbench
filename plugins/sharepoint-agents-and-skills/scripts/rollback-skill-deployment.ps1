@@ -33,7 +33,8 @@ if (-not (Test-Path $ConfigFile)) {
     exit 1
 }
 
-$config = Import-PowerShellDataFile -Path $ConfigFile
+$rawConfig = Import-PowerShellDataFile -Path $ConfigFile
+$config = if ($rawConfig.ContainsKey('Connection')) { $rawConfig.Connection } else { $rawConfig }
 
 $targetLibraryTitle = "Site Assets"
 $targetRelativeFolder = "Skills/review-manual-topics"

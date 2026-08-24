@@ -7,6 +7,7 @@
     "scaffold-spfx-react-app",
     "scaffold-spfx-master-detail",
     "scaffold-spfx-webpart",
+    "setup-spfx-workbench",
     "package-spfx-solution",
     "deploy-spfx-solution",
     "publish-spfx-package",
