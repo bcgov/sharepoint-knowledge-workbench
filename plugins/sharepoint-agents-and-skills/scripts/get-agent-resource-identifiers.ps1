@@ -36,7 +36,8 @@ if (-not (Test-Path $ConfigFile)) {
     exit 1
 }
 
-$config = Import-PowerShellDataFile -Path $ConfigFile
+$rawConfig = Import-PowerShellDataFile -Path $ConfigFile
+$config = if ($rawConfig.ContainsKey('Connection')) { $rawConfig.Connection } else { $rawConfig }
 Import-Module PnP.PowerShell -ErrorAction Stop
 Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ErrorAction Stop
 Write-Host "Connected to: $($config.SiteUrl)" -ForegroundColor Green
