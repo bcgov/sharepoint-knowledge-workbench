@@ -1,0 +1,1 @@
+../../../../assets/templates/ceis-workflow-diagram-agent.agent.md

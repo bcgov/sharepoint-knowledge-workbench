@@ -432,6 +432,60 @@
       "dst": ".agents/skills/sharepoint-publish-spfx-package/scripts/publish-spfx-package.ps1",
       "strategy": "symlink",
       "description": "SPFx publish script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-agent.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/scripts/create-sharepoint-agent.ps1",
+      "strategy": "symlink",
+      "description": "create-sharepoint-agent script link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/sharepoint-agent.template.json",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/sharepoint-agent.template.json",
+      "strategy": "symlink",
+      "description": "sharepoint-agent template json link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/sharepoint-agent.template.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/sharepoint-agent.template.md",
+      "strategy": "symlink",
+      "description": "sharepoint-agent template md link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/qa-test-list-agent.agent.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/qa-test-list-agent.agent.md",
+      "strategy": "symlink",
+      "description": "qa-test-list agent md link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/get-agent-resource-identifiers.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/scripts/get-agent-resource-identifiers.ps1",
+      "strategy": "symlink",
+      "description": "get-agent-resource-identifiers script link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/ceis-workflow-diagram-agent.agent.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/ceis-workflow-diagram-agent.agent.md",
+      "strategy": "symlink",
+      "description": "ceis-workflow-diagram-agent markdown template link"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/spo-publish-markdown-plan.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/scripts/spo-publish-markdown-plan.ps1",
+      "strategy": "symlink",
+      "description": "spo-publish-markdown-plan script link"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Get-WorkbenchConnectionConfig link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/deploy-and-verify-skill.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/scripts/deploy-and-verify-skill.ps1",
+      "strategy": "symlink",
+      "description": "deploy-and-verify-skill script link"
     }
   ]
 }

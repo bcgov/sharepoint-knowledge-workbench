@@ -1,0 +1,1 @@
+../../../scripts/spo-publish-markdown-plan.ps1

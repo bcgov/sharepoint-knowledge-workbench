@@ -15,8 +15,9 @@
 [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess = $true)]
 param(
     [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
-    [Parameter(Mandatory = $true)]
-    [hashtable[]]$Items,
+    [object[]]$Items,
+    [string]$LocalPath,
+    [string]$Url,
     [switch]$Execute,
     [string]$ConfirmExactTarget,
     [string]$JsonOutputPath
@@ -29,12 +30,55 @@ if (-not (Test-Path $ConfigFile)) {
     exit 1
 }
 
+# Allow passing single file via -LocalPath and -Url directly
+if ($LocalPath -and $Url) {
+    $Items = @( [PSCustomObject]@{ LocalPath = $LocalPath; Url = $Url } )
+}
+
+if (-not $Items -or $Items.Count -eq 0) {
+    Write-Error "Either -Items @( @{ LocalPath='...'; Url='...' } ) or both -LocalPath and -Url are required."
+    exit 1
+}
+
+$normalizedItems = @()
 foreach ($item in $Items) {
-    if (-not (Test-Path $item.LocalPath)) {
-        Write-Error "Backup file not found: $($item.LocalPath). Cannot restore from a missing source."
+    $loc = $null
+    $targetUrl = $null
+
+    if ($null -ne $item) {
+        if ($item -is [System.Collections.IDictionary] -or $item -is [hashtable]) {
+            $loc = if ($item.ContainsKey('LocalPath')) { $item['LocalPath'] } else { $item.LocalPath }
+            $targetUrl = if ($item.ContainsKey('Url')) { $item['Url'] } else { $item.Url }
+        } elseif ($item -is [PSCustomObject]) {
+            $loc = $item.LocalPath
+            $targetUrl = $item.Url
+        } else {
+            # Try reflection/properties first
+            try {
+                $loc = $item.LocalPath
+                $targetUrl = $item.Url
+            } catch {}
+            
+            # String fallback
+            if (-not $loc) {
+                $itemStr = "$item"
+                if ($itemStr -match "LocalPath=['""]?([^;'""}]+)['""]?") { $loc = $matches[1].Trim() }
+                if ($itemStr -match "Url=['""]?([^;'""}]+)['""]?") { $targetUrl = $matches[1].Trim() }
+                if (-not $loc -and (Test-Path $itemStr)) { $loc = $itemStr }
+            }
+        }
+    }
+
+    if (-not $loc -or -not (Test-Path $loc)) {
+        Write-Error "Backup file not found: '$loc'. Cannot restore from a missing source."
         exit 1
     }
+    $normalizedItems += [PSCustomObject]@{
+        LocalPath = $loc
+        Url       = $targetUrl
+    }
 }
+$Items = $normalizedItems
 
 Write-Host "=== Restore Preflight Check ===" -ForegroundColor Cyan
 foreach ($item in $Items) {
