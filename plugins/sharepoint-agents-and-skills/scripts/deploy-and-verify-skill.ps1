@@ -48,7 +48,8 @@ if (-not (Test-Path $sourcePath)) {
     exit 1
 }
 
-$config = Import-PowerShellDataFile -Path $ConfigFile
+$rawConfig = Import-PowerShellDataFile -Path $ConfigFile
+$config = if ($rawConfig.ContainsKey('Connection')) { $rawConfig.Connection } else { $rawConfig }
 
 # 2. Calculate local SHA-256 file hash before any network operations
 $hasher = [System.Security.Cryptography.SHA256]::Create()

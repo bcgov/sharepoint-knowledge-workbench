@@ -18,7 +18,8 @@ if (-not (Test-Path $ConfigFile)) {
     exit 1
 }
 
-$config = Import-PowerShellDataFile $ConfigFile
+$rawConfig = Import-PowerShellDataFile $ConfigFile
+$config = if ($rawConfig.ContainsKey('Connection')) { $rawConfig.Connection } else { $rawConfig }
 Import-Module PnP.PowerShell -ErrorAction Stop
 
 # Proven PnP Connection Pattern
