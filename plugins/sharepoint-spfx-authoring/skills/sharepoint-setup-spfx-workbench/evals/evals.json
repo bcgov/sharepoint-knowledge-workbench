@@ -1,0 +1,26 @@
+[
+  {
+    "id": "eval-1-positive",
+    "type": "positive",
+    "prompt": "set up spfx workbench for a web part so I can test it in sharepoint online workbench.aspx",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-2-positive",
+    "type": "positive",
+    "prompt": "configure sharepoint online workbench.aspx debug URL for my local spfx project",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-3-negative",
+    "type": "negative",
+    "prompt": "package this spfx solution into a sppkg for app catalog deployment",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-4-negative",
+    "type": "negative",
+    "prompt": "create a new sharepoint list view with grouped columns",
+    "should_trigger": false
+  }
+]

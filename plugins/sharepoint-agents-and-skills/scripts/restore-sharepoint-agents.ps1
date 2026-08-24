@@ -59,7 +59,8 @@ if ($ConfirmExactTarget -cne "CONFIRM-RESTORE") {
     exit 1
 }
 
-$config = Import-PowerShellDataFile -Path $ConfigFile
+$rawConfig = Import-PowerShellDataFile -Path $ConfigFile
+$config = if ($rawConfig.ContainsKey('Connection')) { $rawConfig.Connection } else { $rawConfig }
 Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
 Write-Host "Connected successfully!" -ForegroundColor Green
 

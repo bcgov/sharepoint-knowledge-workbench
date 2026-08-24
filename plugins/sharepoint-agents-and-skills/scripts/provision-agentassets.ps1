@@ -28,7 +28,8 @@ if (-not (Test-Path $ConfigPath)) {
     exit 1
 }
 
-$config = Import-PowerShellDataFile $ConfigPath
+$rawConfig = Import-PowerShellDataFile $ConfigPath
+$config = if ($rawConfig.ContainsKey('Connection')) { $rawConfig.Connection } else { $rawConfig }
 Import-Module PnP.PowerShell -ErrorAction Stop
 
 Write-Host "Connecting to $($config.SiteUrl)..." -ForegroundColor Cyan
