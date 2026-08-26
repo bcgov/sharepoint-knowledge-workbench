@@ -15,6 +15,9 @@ Unlike page web parts (which reside in canvas zones on modern pages), a Form Cus
 
 This skill guides an agent through the complete lifecycle: determining architectural suitability, validating prerequisites, running Yeoman scaffolding, implementing accessible React/Fluent UI components, parsing URL parameters (`?SelectedID=...`) for parent-child relationships, packaging, deploying, associating with content types, validating live on-tenant, and safely rolling back.
 
+> [!CAUTION]
+> **HARD GATE — packaging/deploying is NOT completion.** A `.sppkg` build succeeding, or a user confirming "uploaded and added app," does **not** mean the custom form is active. SharePoint will silently continue rendering the out-of-the-box classic/default form until the component GUID is associated with the list's content type (Step 9). An agent MUST NOT report this workflow as done, nor stay silent, after a successful package/deploy step. Immediately after confirming deployment, the agent MUST explicitly prompt the user to run Step 9 (association) — do not wait for the user to notice a missing custom header/styling and ask "why isn't it working?" first. Treat "deployed" and "associated" as two separate, both-required checkpoints, and state which one is outstanding at every status update.
+
 ---
 
 ## Architectural Suitability Decision
@@ -360,6 +363,9 @@ export function navigateToSafeSource(webUrl: string, fallbackUrl?: string): void
      -Scope Site `
      -Install
    ```
+
+> [!CAUTION]
+> **Do not stop here.** Deploying/installing the app package makes the extension available on the site, but the content type still points at the default SharePoint form. The custom form will NOT render — SharePoint will silently keep serving the classic/default form with no error — until Step 9 (association) is completed. Proceed directly to Step 9 in the same turn/response; do not end the task or wait for user confirmation that "it worked" before doing so.
 
 ---
 

@@ -28,31 +28,40 @@
     Switch to execute the live content type update. Omit for dry-run analysis.
 
 .PARAMETER ConfigPath
-    Optional path to config.psd1.
+    Path to a project config.psd1 supplying ClientId/TenantId/SiteUrl (same file format used by
+    Connect-Spo in this repo's other SPO-connecting scripts, e.g.
+    plugins\sharepoint-migration\config\config-prod.psd1). Required unless -ClientId/-TenantId/
+    -SiteUrl are all supplied explicitly.
 
 .PARAMETER SiteUrl
-    Optional override for SharePoint site collection URL.
+    Optional override for SharePoint site collection URL. Overrides the value from -ConfigPath.
 
 .PARAMETER ClientId
-    Optional override for Azure AD App Registration Client ID.
+    Optional override for the Azure AD App Registration Client ID (delegated/interactive app,
+    e.g. ag.csb.cmat.interactive). Overrides the value from -ConfigPath. Required (directly or
+    via -ConfigPath) — Connect-PnPOnline -Interactive fails with "Specified method is not
+    supported" if no ClientId is resolved.
 
 .PARAMETER TenantId
-    Optional override for Azure AD Tenant ID.
+    Optional override for the Azure AD Tenant ID. Overrides the value from -ConfigPath. Required
+    (directly or via -ConfigPath).
 
 .PARAMETER TenantAdminUrl
     Optional override for SharePoint Tenant Admin URL.
 
 .EXAMPLE
     pwsh -File scripts/associate-form-customizer.ps1 `
-      -ListName "Narratives" `
+      -ListName "PIO_Narratives" `
       -ContentTypeName "Item" `
-      -ComponentId "e672956c-38d7-4c8d-b778-9e55b4fa3977"
+      -ComponentId "e672956c-38d7-4c8d-b778-9e55b4fa3977" `
+      -ConfigPath "plugins\sharepoint-migration\config\config-prod.psd1"
 
 .EXAMPLE
     pwsh -File scripts/associate-form-customizer.ps1 `
-      -ListName "Narratives" `
+      -ListName "PIO_Narratives" `
       -ContentTypeName "Item" `
       -ComponentId "e672956c-38d7-4c8d-b778-9e55b4fa3977" `
+      -ConfigPath "plugins\sharepoint-migration\config\config-prod.psd1" `
       -Modes @("New") `
       -Execute
 #>
@@ -164,10 +173,17 @@ $targetTenantId = if ($TenantId) { $TenantId } else { $cfgTenantId }
 $targetTenantAdminUrl = if ($TenantAdminUrl) { $TenantAdminUrl } else { $cfgTenantAdminUrl }
 
 if (-not $targetSiteUrl) {
-    Write-Error "SiteUrl not resolved. Provide -SiteUrl or configure config.psd1."
+    Write-Error "SiteUrl not resolved. Provide -SiteUrl or -ConfigPath pointing to a config.psd1 with a SiteUrl entry."
     exit 1
 }
-
+if (-not $targetClientId) {
+    Write-Error "ClientId not resolved. Provide -ClientId or -ConfigPath pointing to a config.psd1 with a ClientId entry (e.g. plugins\sharepoint-migration\config\config-prod.psd1). Connect-PnPOnline -Interactive requires a ClientId — omitting it causes 'Specified method is not supported.'"
+    exit 1
+}
+if (-not $targetTenantId) {
+    Write-Error "TenantId not resolved. Provide -TenantId or -ConfigPath pointing to a config.psd1 with a TenantId entry."
+    exit 1
+}
 Write-Host "========================================================" -ForegroundColor Cyan
 Write-Host "SPFx Form Customizer Association Plan" -ForegroundColor Cyan
 Write-Host "========================================================" -ForegroundColor Cyan
