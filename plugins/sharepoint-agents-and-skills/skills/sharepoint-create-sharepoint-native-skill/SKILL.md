@@ -21,14 +21,18 @@ never connects to a tenant.
 - `-InputBoundary`, `-ProhibitedScope` (optional) — appended as their own sections when supplied.
 - `-OutputPath` (required) — local file path; `-Overwrite` required to replace an existing file.
 
-## Prohibited scope
-
-- Performs zero tenant I/O — no `Connect-PnPOnline` call anywhere in this script.
-- Does not deploy the produced package — use `deploy-sharepoint-native-skill` separately, as a
-  distinct, explicitly invoked step.
-- Does not use `create-test-skill.ps1`  as
-  a runtime dependency — that script's content was reviewed as experimental evidence only, not
-  extracted from.
+## Prohibited scope & Chat Runtime Boundaries
+ 
+ - Performs zero tenant I/O — no `Connect-PnPOnline` call anywhere in this script.
+ - Does not deploy the produced package — use `deploy-sharepoint-native-skill` separately, as a
+   distinct, explicitly invoked step.
+ - Does not use `create-test-skill.ps1` as a runtime dependency.
+ 
+ > [!IMPORTANT]
+ > **SharePoint Copilot Chat Web Runtime Boundary**:
+ > Native skills executed by SharePoint Copilot chat agents running in the web interface do **NOT** have direct write/create-file capabilities to create new files in document libraries. 
+ > - When designing skill instructions (e.g. diagram generators, report builders), author the skill to produce **copy-paste-ready structured content** (Markdown, Mermaid, JSON).
+ > - If the skill includes a saving/persistence step, instruct the agent to provide the full content and suggested filename in chat and state that file upload requires external execution (e.g. workbench publish scripts) if automated creation tools are not available.
 
 ## Scripts
 

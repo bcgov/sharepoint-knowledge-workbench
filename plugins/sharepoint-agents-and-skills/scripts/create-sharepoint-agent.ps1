@@ -46,19 +46,17 @@
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory = $true)]
     [string]$AgentName,
-
-    [Parameter(Mandatory = $true)]
     [string]$AgentDescription,
 
     [string]$AgentInstructionsPath,
     [string]$AgentInstructions,
 
-    [Parameter(Mandatory = $true)]
     [string[]]$KnowledgeSourcePaths,
 
-    [string]$AgentTemplatePath,
+    [string]$AgentTemplatePath = (Join-Path $PSScriptRoot '../assets/templates/sharepoint-agent.template.json'),
+    [string]$AgentMarkdownTemplatePath,
+    [string]$ConfigFile,
 
     [Parameter(Mandatory = $true)]
     [string]$OutputPath,
@@ -68,16 +66,35 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-if ($AgentInstructionsPath -and $AgentInstructions) {
+# Support direct Markdown template as input
+if ($AgentMarkdownTemplatePath -and (Test-Path $AgentMarkdownTemplatePath)) {
+    $mdContent = Get-Content -Path $AgentMarkdownTemplatePath -Raw
+    if (-not $AgentInstructions -and -not $AgentInstructionsPath) {
+        $AgentInstructions = $mdContent.Trim()
+    }
+    if (-not $AgentName -and ($mdContent -match "^#\s+(.+)")) {
+        $AgentName = $matches[1].Trim()
+    }
+    if (-not $AgentDescription -and ($mdContent -match "(?ms)## Purpose\s*\r?\n([^\r\n#]+)")) {
+        $AgentDescription = $matches[1].Trim()
+    }
+}
+
+if (-not $AgentName) {
+    Write-Error "-AgentName is required or must be defined in # Title of -AgentMarkdownTemplatePath."
+    exit 1
+}
+if (-not $AgentDescription) {
+    Write-Error "-AgentDescription is required or must be defined in ## Purpose of -AgentMarkdownTemplatePath."
+    exit 1
+}
+
+if ($AgentInstructionsPath -and $AgentInstructions -and -not $AgentMarkdownTemplatePath) {
     Write-Error "Provide either -AgentInstructionsPath or -AgentInstructions, not both."
     exit 1
 }
 if (-not $AgentInstructionsPath -and -not $AgentInstructions) {
-    Write-Error "One of -AgentInstructionsPath or -AgentInstructions is required -- no default instruction content is provided."
-    exit 1
-}
-if ($KnowledgeSourcePaths.Count -eq 0) {
-    Write-Error "-KnowledgeSourcePaths must contain at least one URL. No default knowledge source is provided."
+    Write-Error "One of -AgentInstructionsPath, -AgentInstructions, or -AgentMarkdownTemplatePath is required."
     exit 1
 }
 
@@ -96,21 +113,91 @@ if ((Test-Path $OutputPath) -and -not $Overwrite) {
     exit 1
 }
 
-$itemsByUrl = $KnowledgeSourcePaths | ForEach-Object { [PSCustomObject]@{ url = $_ } }
+if ((-not $KnowledgeSourcePaths -or $KnowledgeSourcePaths.Count -eq 0) -and $AgentMarkdownTemplatePath) {
+    $mdContent = Get-Content -Path $AgentMarkdownTemplatePath -Raw
+    $extractedUrls = @()
+    foreach ($line in ($mdContent -split "\r?\n")) {
+        if ($line -match "https://[^\s""'\)]+") {
+            $extractedUrl = $matches[0].Trim().TrimEnd('`', '"', "'", '.', ',')
+            $extractedUrls += $extractedUrl
+        }
+    }
+    if ($extractedUrls.Count -gt 0) {
+        $KnowledgeSourcePaths = $extractedUrls | Select-Object -Unique
+    }
+}
+
+if (-not $KnowledgeSourcePaths -or $KnowledgeSourcePaths.Count -eq 0) {
+    Write-Error "-KnowledgeSourcePaths must contain at least one URL (or be present in -AgentMarkdownTemplatePath)."
+    exit 1
+}
+
+$itemsByUrl = @()
+$resolverScript = Join-Path $PSScriptRoot "get-agent-resource-identifiers.ps1"
+
+foreach ($ks in $KnowledgeSourcePaths) {
+    if ($ks -is [PSCustomObject] -or $ks -is [System.Collections.IDictionary]) {
+        $itemsByUrl += $ks
+    } else {
+        $urlStr = "$ks".Trim()
+        $leafName = Split-Path -Path $urlStr -Leaf
+        if (-not $leafName) { $leafName = ($urlStr -split '/')[-1] }
+        
+        $resolvedObject = $null
+        if ($ConfigFile -and (Test-Path $ConfigFile) -and (Test-Path $resolverScript)) {
+            try {
+                $rawCfg = Import-PowerShellDataFile -Path $ConfigFile
+                $cfg = if ($rawCfg.ContainsKey('Connection')) { $rawCfg.Connection } else { $rawCfg }
+                if ($urlStr.StartsWith($cfg.SiteUrl, [System.StringComparison]::OrdinalIgnoreCase)) {
+                    $rel = $urlStr.Substring($cfg.SiteUrl.Length).TrimStart('/')
+                    if ($rel) {
+                        Write-Host "Dynamically resolving GUIDs for '$rel'..." -ForegroundColor Cyan
+                        $resolved = & $resolverScript -ConfigFile $ConfigFile -FolderSiteRelativePath $rel
+                        if ($resolved -and $resolved.site_id) {
+                            $resolvedObject = $resolved
+                        }
+                    }
+                }
+            } catch {
+                Write-Warning "Could not dynamically resolve identifiers for $urlStr : $_"
+            }
+        }
+
+        if ($resolvedObject) {
+            $itemsByUrl += $resolvedObject
+        } else {
+            $isList = $urlStr -match "/Lists/"
+            $typeStr = if ($isList) { "List" } else { "Folder" }
+            
+            $itemsByUrl += [PSCustomObject]@{
+                url       = $urlStr
+                name      = [System.Uri]::UnescapeDataString($leafName)
+                site_id   = "00000000-0000-0000-0000-000000000000"
+                web_id    = "00000000-0000-0000-0000-000000000000"
+                list_id   = "00000000-0000-0000-0000-000000000000"
+                unique_id = "00000000-0000-0000-0000-000000000000"
+                type      = $typeStr
+            }
+        }
+    }
+}
 
 $conversationStarters = @(
-    [PSCustomObject]@{ text = "What can you help me with?" },
-    [PSCustomObject]@{ text = "Summarize the key information here." },
-    [PSCustomObject]@{ text = "What topics are covered?" }
+    [PSCustomObject]@{ text = "Summarize recent items" },
+    [PSCustomObject]@{ text = "Tell me more about..." },
+    [PSCustomObject]@{ text = "How can you help me?" }
 )
 
-if ($AgentTemplatePath) {
-    if (-not (Test-Path $AgentTemplatePath)) {
-        Write-Error "AgentTemplatePath '$AgentTemplatePath' not found."
-        exit 1
-    }
+$icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANgSURBVHhe7dq9jeMwFATgq8sFuYYrQ2WoAoWuQhkzh8oUOeRBvttdkkNJjxQ5Bg5D4EsGkr3mz6N+9tev37OXD4JAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsClnH1YZvGzDHVnL+Ni5/ml3dL9DXv5paXnx6Lvw/peR8AAcl9TnplfsIx5Zy/z6/kg0/asn52ICBgGBbv0o7wq7+nx5XIfmbQluOBcQ+Hn8kAAcHt8dMZWzm43AlJOXu3ZfXD6PwtPXb7/uHph8xKcU1WYSEIunN++K7LLz+MwcxdlmyHHYKZ//LTaBzIbSCSPaJ6EtSCoLeww94dngxIUT1++um762rO34TfX/sZF0DQWVR+/s22XGYRnre1+iupZCBrVmItCLoKf2iw6UZlxLoZJ512tX5H+whxFUDQU/gjow6Ly4BpJjfvsMYDagVBR+G1f9rJUTkx/PjoPqJRyejxmacg6Gan/HwpKkPxiinZNw5Fq+rsb2gEgk7OZ3hJp8blIl1N1aJJ0KKsGUDQha3GR4N0VAK6dVSngT0CQQ/m8hJ2wEHHagDKnJefH+FGuFuGNAAlCn+UZSPUABSwdGjE0AnJ85/sMTW6DewBCBqD5/6lLVuy4kHaLVWliidLAxA0lT4sq2m5jkgeoGUHqdz/dyOWPKffnv1bRedlZnj8IK5Fuei0qs5A0EzJjRU6nY3pe4Crq6D5syUjCFq5uqEZOiTeX/LH2HzoQdwGgkbMd7W7LCso3WNqXrCnL2Rye05HEDRh6bxzpkGE98Hba07j9w1PPyWvJJtd0lpB0IKhfJgYr/fTN2Nbc+9/N8kPxO5L+cqJcgkEDZxuoGb2y83buCYv5+OWXlnFreBFfmsQXNb2ci6e3Sf1eWdmHzU3f/g/5CC4qlX5+WIsQzHn74/VT9s9RXDu37bdZ6x+eDwvrMyGIBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAuCAQLgiECwLhgkC4IBAuCIQLAuGCQLggEC4IhAsC4YJAqP4AV3GK2i9B/WUAAAAASUVORK5CYII="
+
+if ($AgentTemplatePath -and (Test-Path $AgentTemplatePath)) {
     $template = Get-Content -Path $AgentTemplatePath -Raw | ConvertFrom-Json
-    Write-Host "Cloning structure from template: $AgentTemplatePath (knowledge sources overridden by -KnowledgeSourcePaths)" -ForegroundColor Cyan
+    if ($template.customCopilotConfig.conversationStarters) {
+        $conversationStarters = $template.customCopilotConfig.conversationStarters.conversationStarterList
+    }
+    if ($template.customCopilotConfig.icon) {
+        $icon = $template.customCopilotConfig.icon
+    }
 }
 
 $agentObject = [PSCustomObject]@{
@@ -130,9 +217,7 @@ $agentObject = [PSCustomObject]@{
                     items_by_sharepoint_ids = @()
                     # [System.Object[]] cast forces array serialization even with exactly 1
                     # item -- ConvertTo-Json otherwise silently unwraps single-element PowerShell
-                    # arrays into a bare object (confirmed via direct test; a real, non-obvious
-                    # quirk, not a hypothetical edge case -- the unary-comma trick alone did not
-                    # fix it, only this explicit type cast did).
+                    # arrays into a bare object
                     items_by_url           = [System.Object[]]$itemsByUrl
                 }
             )
@@ -140,6 +225,7 @@ $agentObject = [PSCustomObject]@{
                 special_instructions = [PSCustomObject]@{ discourage_model_knowledge = $true }
             }
         }
+        icon = $icon
     }
 }
 

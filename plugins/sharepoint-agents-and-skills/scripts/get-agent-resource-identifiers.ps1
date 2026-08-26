@@ -52,26 +52,51 @@ try {
     Write-Host "  web_id:  $webId" -ForegroundColor Cyan
 
     $listId = $null
-    $uniqueId = $null
-    try {
-        $folder = Get-PnPFolder -Url $FolderSiteRelativePath -ErrorAction Stop -Includes ListItemAllFields, UniqueId
-        $uniqueId = $folder.UniqueId.Guid
+    $uniqueId = "00000000-0000-0000-0000-000000000000"
+    $type = "Folder"
+
+    # Check if target is a Custom List
+    if ($FolderSiteRelativePath -match "^Lists/([^/]+)") {
+        $listName = $matches[1]
+        $type = "List"
+        try {
+            $list = Get-PnPList -Identity $listName -ErrorAction Stop
+            $listId = $list.Id.Guid
+            Write-Host "  list_id (List): $listId" -ForegroundColor Cyan
+        } catch {
+            Write-Warning "Could not resolve list_id for List '$listName': $_"
+        }
+    } else {
+        # Target is a Document Library or subfolder
+        $type = "Folder"
         $libraryName = ($FolderSiteRelativePath -split '/')[0]
-        $list = Get-PnPList -Identity $libraryName -ErrorAction Stop
-        $listId = $list.Id.Guid
-        Write-Host "  list_id:   $listId" -ForegroundColor Cyan
-        Write-Host "  unique_id: $uniqueId" -ForegroundColor Cyan
-    } catch {
-        Write-Warning "Could not resolve list_id/unique_id for '$FolderSiteRelativePath': $_"
+        try {
+            $list = Get-PnPList -Identity $libraryName -ErrorAction Stop
+            $listId = $list.Id.Guid
+            Write-Host "  list_id:   $listId" -ForegroundColor Cyan
+        } catch {
+            Write-Warning "Could not resolve list_id for Library '$libraryName': $_"
+        }
+
+        try {
+            $folder = Get-PnPFolder -Url $FolderSiteRelativePath -ErrorAction Stop -Includes ListItemAllFields, UniqueId
+            if ($folder.UniqueId) {
+                $uniqueId = $folder.UniqueId.Guid
+                Write-Host "  unique_id: $uniqueId" -ForegroundColor Cyan
+            }
+        } catch {
+            Write-Warning "Could not resolve unique_id for folder '$FolderSiteRelativePath' (defaulting to zero GUID): $_"
+        }
     }
 
     $result = [PSCustomObject]@{
         url         = "$($config.SiteUrl)/$FolderSiteRelativePath"
+        name        = Split-Path -Path $FolderSiteRelativePath -Leaf
         site_id     = $siteId
         web_id      = $webId
-        list_id     = $listId
+        list_id     = $(if ($listId) { $listId } else { "00000000-0000-0000-0000-000000000000" })
         unique_id   = $uniqueId
-        type        = "Folder"
+        type        = $type
     }
 
     if ($JsonOutputPath) {

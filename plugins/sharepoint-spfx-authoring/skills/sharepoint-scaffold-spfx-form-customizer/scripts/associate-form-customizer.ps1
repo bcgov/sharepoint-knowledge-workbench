@@ -1,0 +1,1 @@
+../../../scripts/associate-form-customizer.ps1

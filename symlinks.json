@@ -432,6 +432,138 @@
       "dst": ".agents/skills/sharepoint-publish-spfx-package/scripts/publish-spfx-package.ps1",
       "strategy": "symlink",
       "description": "SPFx publish script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-agent.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/scripts/create-sharepoint-agent.ps1",
+      "strategy": "symlink",
+      "description": "create-sharepoint-agent script link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/sharepoint-agent.template.json",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/sharepoint-agent.template.json",
+      "strategy": "symlink",
+      "description": "sharepoint-agent template json link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/sharepoint-agent.template.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/sharepoint-agent.template.md",
+      "strategy": "symlink",
+      "description": "sharepoint-agent template md link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/qa-test-list-agent.agent.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/qa-test-list-agent.agent.md",
+      "strategy": "symlink",
+      "description": "qa-test-list agent md link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/get-agent-resource-identifiers.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/scripts/get-agent-resource-identifiers.ps1",
+      "strategy": "symlink",
+      "description": "get-agent-resource-identifiers script link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/assets/templates/ceis-workflow-diagram-agent.agent.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/assets/templates/ceis-workflow-diagram-agent.agent.md",
+      "strategy": "symlink",
+      "description": "ceis-workflow-diagram-agent markdown template link"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/spo-publish-markdown-plan.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/scripts/spo-publish-markdown-plan.ps1",
+      "strategy": "symlink",
+      "description": "spo-publish-markdown-plan script link"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Get-WorkbenchConnectionConfig link"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/deploy-and-verify-skill.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/scripts/deploy-and-verify-skill.ps1",
+      "strategy": "symlink",
+      "description": "deploy-and-verify-skill script link"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/associate-form-customizer.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/associate-form-customizer.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/remove-form-customizer-association.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/remove-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/validate-form-customizer-association.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/validate-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-lifecycle.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-lifecycle.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/content-type-association.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/content-type-association.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/url-driven-related-item-pattern.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/url-driven-related-item-pattern.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/validation-checklist.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/validation-checklist.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/associate-form-customizer.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/associate-form-customizer.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/remove-form-customizer-association.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/remove-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/validate-form-customizer-association.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/validate-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/acceptance-criteria-form-customizer.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

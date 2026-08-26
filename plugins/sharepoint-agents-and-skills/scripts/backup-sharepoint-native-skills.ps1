@@ -16,8 +16,8 @@
 [CmdletBinding()]
 param(
     [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
-    [Parameter(Mandatory = $true)]
-    [hashtable[]]$Items,
+    [object[]]$Items,
+    [switch]$All,
     [string]$OutputDir = "plugins/sharepoint-agents-and-skills/backups/native-skills"
 )
 
@@ -33,18 +33,57 @@ $config = if ($rawConfig.ContainsKey('Connection')) { $rawConfig.Connection } el
 Connect-PnPOnline -Url $config.SiteUrl -ClientId $config.ClientId -Tenant $config.TenantId -Interactive -ForceAuthentication -ErrorAction Stop
 Write-Host "Connected successfully!" -ForegroundColor Green
 
+if ($All -or (-not $Items -or $Items.Count -eq 0)) {
+    $agentAssetsLib = if ($rawConfig.Defaults -and $rawConfig.Defaults.DefaultAgentAssetsLibrary) {
+        $rawConfig.Defaults.DefaultAgentAssetsLibrary
+    } else {
+        "AgentAssets"
+    }
+    
+    Write-Host "Discovering all skill and template files in '$agentAssetsLib'..." -ForegroundColor Cyan
+    $discoveredItems = @()
+    try {
+        $found = Get-PnPListItem -List $agentAssetsLib -PageSize 500 -Fields "FileLeafRef", "FileRef" -ErrorAction Stop |
+            Where-Object { $_.FieldValues.FileLeafRef -like "*.md" }
+        
+        foreach ($f in $found) {
+            $ref = $f.FieldValues.FileRef
+            # Calculate destination relative path under AgentAssets
+            $match = [regex]::Match($ref, "(?i)/$agentAssetsLib/(.+)$")
+            $relPath = if ($match.Success) { $match.Groups[1].Value } else { $f.FieldValues.FileLeafRef }
+            $discoveredItems += [PSCustomObject]@{
+                Url  = $ref
+                Dest = $relPath
+            }
+        }
+    } catch {
+        Write-Warning "Could not query $($agentAssetsLib): $_"
+    }
+
+    $Items = $discoveredItems
+    Write-Host "Found $($Items.Count) skill/template file(s) to back up." -ForegroundColor Cyan
+}
+
+if (-not $Items -or $Items.Count -eq 0) {
+    Write-Host "No items found or specified to back up." -ForegroundColor Yellow
+    exit 0
+}
+
 foreach ($item in $Items) {
-    $destPath = Join-Path $OutputDir $item.Dest
+    $url = if ($item -is [hashtable]) { $item.Url } elseif ($item.Url) { $item.Url } else { "$item" }
+    $dest = if ($item -is [hashtable]) { $item.Dest } elseif ($item.Dest) { $item.Dest } else { (Split-Path $url -Leaf) }
+
+    $destPath = Join-Path $OutputDir $dest
     $destDir = Split-Path -Path $destPath -Parent
     if ($destDir -and -not (Test-Path $destDir)) {
         New-Item -ItemType Directory -Path $destDir -Force | Out-Null
     }
     try {
-        $content = Get-PnPFile -Url $item.Url -AsString
+        $content = Get-PnPFile -Url $url -AsString
         Set-Content -Path $destPath -Value $content -Encoding UTF8
-        Write-Host "  Backed up: $($item.Url)" -ForegroundColor Green
+        Write-Host "  Backed up: $url -> $destPath" -ForegroundColor Green
     } catch {
-        Write-Warning "Could not back up $($item.Url): $_"
+        Write-Warning "Could not back up $url : $_"
     }
 }
 

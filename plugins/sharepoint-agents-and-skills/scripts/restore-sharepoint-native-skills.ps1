@@ -18,7 +18,7 @@
 param(
     [string]$ConfigFile = (Join-Path $PSScriptRoot '../../../config.psd1'),
     [Parameter(Mandatory = $true)]
-    [hashtable[]]$Items,
+    [object[]]$Items,
     [switch]$Execute,
     [string]$ConfirmExactTarget,
     [string]$JsonOutputPath

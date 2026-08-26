@@ -23,9 +23,14 @@ Modern SharePoint Online out-of-the-box List Web Parts do not support query para
 6. **`publish-spfx-package`**: Publishes a `.sppkg` package directly to Site or Tenant App Catalog using config-driven PnP PowerShell automation and catalog verification.
 7. **`request-site-collection-app-catalog`**: Guides the setup and provisioning of Site Collection App Catalogs via ServiceNow ticket requests in BC Gov enterprise tenancy or direct Admin GUI/PnP PowerShell execution in trial/sandbox environments.
 8. **`setup-spfx-workbench`**: Prepares and validates a local SPFx project for hosted SharePoint Online `/_layouts/15/workbench.aspx` testing, including toolchain verification, dev certificate trust, and canonical hosted debug URL generation.
+9. **`scaffold-spfx-form-customizer`**: Scaffolds, implements, tests, packages, deploys, associates, validates, and rolls back an SPFx Form Customizer extension for custom New/Edit/Display forms with URL-driven related-item lookups (`?SelectedID=...`).
 
 ## Reference Documentation
 
+- `references/form-customizer-lifecycle.md` — Complete lifecycle, context APIs, and base class architecture for Form Customizers.
+- `references/content-type-association.md` — Content type client-side component properties and PnP PowerShell association mechanics.
+- `references/url-driven-related-item-pattern.md` — Parent/child state management, integer lookup ID handling, and OData queries.
+- `references/validation-checklist.md` — Comprehensive automated unit and live tenant integration testing checklist.
 - `references/SPFX-TAILWIND-INTEGRATION-GUIDE.md` — Tailwind CSS v3/v4 CLI compilation with Heft.
 - `references/SPFX-PNPJS-V4-CROSS-SITE-ARCHITECTURE.md` — Hub-and-Spoke data patterns and per-user state isolation.
 - `references/SPFX-SELF-HEALING-MIGRATION-GUIDE.md` — Self-healing list title and GUID recovery algorithms.
