@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eval-1-positive",
+    "type": "positive",
+    "prompt": "Create an SPFx Form Customizer for a SharePoint Online list to replace the New and Edit forms with a custom React form",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-2-positive",
+    "type": "positive",
+    "prompt": "Build a custom SharePoint form that reads SelectedID from the URL query string to pre-populate a lookup field on NewForm.aspx",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-3-positive",
+    "type": "positive",
+    "prompt": "Associate an SPFx Form Customizer component ID with a list content type using PnP PowerShell",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-4-negative",
+    "type": "negative",
+    "prompt": "Scaffold a Master-Detail dossier web part to place on a modern page canvas",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-5-negative",
+    "type": "negative",
+    "prompt": "Create an SPFx ListView Command Set button for bulk approval",
+    "should_trigger": false
+  }
+]

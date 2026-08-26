@@ -1,0 +1,1 @@
+../../../scripts/validate-form-customizer-association.ps1
