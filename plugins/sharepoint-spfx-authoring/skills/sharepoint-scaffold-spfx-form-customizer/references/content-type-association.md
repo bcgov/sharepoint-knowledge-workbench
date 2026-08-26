@@ -1,0 +1,1 @@
+../../../references/content-type-association.md

@@ -486,6 +486,84 @@
       "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/scripts/deploy-and-verify-skill.ps1",
       "strategy": "symlink",
       "description": "deploy-and-verify-skill script link"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/associate-form-customizer.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/associate-form-customizer.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/remove-form-customizer-association.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/remove-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/validate-form-customizer-association.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/validate-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-lifecycle.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-lifecycle.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/content-type-association.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/content-type-association.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/url-driven-related-item-pattern.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/url-driven-related-item-pattern.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/validation-checklist.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/validation-checklist.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/associate-form-customizer.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/associate-form-customizer.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/remove-form-customizer-association.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/remove-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/validate-form-customizer-association.ps1",
+      "dst": ".agents/skills/sharepoint-scaffold-spfx-form-customizer/scripts/validate-form-customizer-association.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/acceptance-criteria-form-customizer.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }
