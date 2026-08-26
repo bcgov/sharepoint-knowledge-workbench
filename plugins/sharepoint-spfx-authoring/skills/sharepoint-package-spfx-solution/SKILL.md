@@ -9,7 +9,11 @@ allowed-tools: Bash, Read, Write
 
 ## Overview
 
-This skill provides step-by-step instructions for compiling, testing, and packaging an SPFx web part solution into a production `.sppkg` package ready for deployment to a SharePoint App Catalog.
+This skill provides step-by-step instructions for compiling, testing, and packaging an SPFx solution into a production `.sppkg` package ready for deployment to a SharePoint App Catalog.
+
+It applies to both:
+- SPFx web parts
+- SPFx Form Customizers (including the form customizer package we just built successfully)
 
 ## Prerequisites
 
@@ -31,6 +35,14 @@ cd path/to/spfx-solution-root
 ### Step 2: Execute Production Build, Package & Verify
 
 Run the bundled helper script, pointing it at the SPFx solution root:
+
+Use the same flow for a web part or a Form Customizer solution. The packaging command is the same:
+
+```powershell
+pwsh -File scripts/package-spfx-solution.ps1 -SolutionPath path/to/spfx-solution-root
+```
+
+The script runs the same Heft/Webpack production build and package steps for both component types.
 
 ```powershell
 pwsh -File scripts/package-spfx-solution.ps1 -SolutionPath path/to/spfx-solution-root
@@ -63,7 +75,12 @@ Check that the generated package size is >0 KB and contains no build or linting 
 
 ## SPFx Naming & Versioning Architecture
 
-Before building and packaging, verify that all three naming levels and versions are aligned:
+Before building and packaging, verify that all three naming levels and versions are aligned.
+
+This applies equally to web parts and Form Customizers; the only difference is the manifest location and component type:
+- Web part: `src/webparts/<name>/<Name>WebPart.manifest.json`
+- Form Customizer: `src/extensions/<name>/<Name>.manifest.json`
+
 
 | Layer | Configuration File | Purpose & Impact |
 | :--- | :--- | :--- |
