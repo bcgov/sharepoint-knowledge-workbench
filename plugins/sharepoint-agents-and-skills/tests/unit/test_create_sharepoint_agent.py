@@ -75,3 +75,22 @@ def test_both_instruction_sources_rejected(tmp_path):
     ])
     assert result.returncode != 0
     assert not out.exists()
+
+
+def test_custom_list_and_folder_capability_types(tmp_path):
+    out = tmp_path / "list-test.agent"
+    result = run_script([
+        "-AgentName", "List Agent",
+        "-AgentDescription", "Helps with list content.",
+        "-AgentInstructions", "Answer questions from list.",
+        "-KnowledgeSourcePaths", "https://example.sharepoint.com/sites/test/Lists/CustomList",
+        "-OutputPath", str(out),
+    ])
+    assert result.returncode == 0, result.stderr
+    data = json.loads(out.read_text())
+    item = data["customCopilotConfig"]["gptDefinition"]["capabilities"][0]["items_by_url"][0]
+    assert item["type"] == "List"
+    assert item["unique_id"] == "00000000-0000-0000-0000-000000000000"
+    assert item["list_id"] == "00000000-0000-0000-0000-000000000000"
+    assert item["name"] == "CustomList"
+

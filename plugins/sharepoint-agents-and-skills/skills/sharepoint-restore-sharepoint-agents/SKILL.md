@@ -24,6 +24,12 @@ New build — no prior implementation existed in this repository.
 - No write without exact two-part confirmation, matching `rollback-sharepoint-native-skill`'s
   and `restore-sharepoint-native-skills`'s safety-gate pattern.
 
+## Troubleshooting & Permissions Note
+
+> [!IMPORTANT]
+> **SharePoint Copilot UI Permissions**:
+> Even if PnP PowerShell restores and writes the `.agent` file successfully using Site Collection Admin credentials, running/launching the `.agent` inside SharePoint Copilot UI requires the user to be an explicit member of the **Site Owners** group. Without explicit Site Owner permissions, the Copilot panel will fail with *"Something went wrong with this agent. Please try again later or select a different agent"*.
+
 ## Scripts
 
 - `../../scripts/restore-sharepoint-agents.ps1`
