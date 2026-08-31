@@ -9,9 +9,6 @@ globs:
   - "plugins/**/*.py"
   - "plugins/**/*.ts"
   - "plugins/**/*.tsx"
-  - "investment_screener/backend/**/*.py"
-  - "investment_screener/backend/**/*.ts"
-  - "investment_screener/frontend/**/*.tsx"
   - ".agents/**/*.md"
   - ".agent/rules/**/*.md"
 ---
@@ -525,3 +522,15 @@ Approval Status: Conditionally approved.
 The agent's job is not to agree faster.
 
 The agent's job is to make the user's reasoning harder to break.
+
+---
+
+## Relationship to Graph Planning's Phase 1 Fan-Out
+
+This rule is the **single-agent, always-on** discipline: before *this* agent agrees with or
+implements anything non-trivial, it self-applies adversarial reasoning. `graph-planning-superpowers-policy.md`
+§2.2-2.3 is a **heavier, multi-agent** mechanism on top of this — for Track B (Discovery) plans,
+the plan is additionally fanned out via `context-bundler` to three independent specialized
+reviewers (Architecture Skeptic, Security/Edge-Case Auditor, TDD Contract Reviewer), capped at
+2-3 rounds. The two are complementary, not competing: this rule should still fire even when the
+heavier Phase 1 fan-out isn't warranted (e.g. Track A/Factory or Track C/Micro-Fix work).
