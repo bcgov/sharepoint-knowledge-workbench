@@ -1,4 +1,4 @@
-# AGENTS.md / CLAUDE.md / GEMINI.md
+# GEMINI.md
 
 
 Behavioral guidelines to reduce common LLM coding mistakes, plus project-specific context for this repository.
@@ -111,3 +111,15 @@ Use the cheapest models possible where possible. If the job doesn't require spaw
 
 ### Scratch Output
 Write temporary files and intermediate analysis output to a `temp/` directory (git-ignored) — never to the project root directly.
+
+
+## Gemini CLI Tool Mapping
+| Claude Code Tool | Gemini CLI Equivalent |
+|---|---|
+| View | view_file |
+| Edit | replace_file_content |
+| Write | write_to_file |
+| Bash | run_command |
+| Grep | grep_search |
+| Glob | find_by_name |
+| Agent | invoke_subagent |

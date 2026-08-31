@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "create-markdown-rendering-template",
-  "plugin": "structured-content-rendering",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Instantiates a new Markdown rendering (page-structure) template file from this plugin's canonical generic or standard-manual starter -- headings, body, and media placeholders, backed by real standard manual rendered-output evidence. Not an agent/native-skill instruction template (that is Task 0.7/0.8's separate template system).",
-      "prompt": "Use the create-markdown-rendering-template skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Instantiates a new Markdown rendering (page-structure) template file from this plugin's canonical generic or standard-manual starter -- headings, body, and media placeholders, backed by real standard manual rendered-output evidence. Not an agent/native-skill instruction template (that is Task 0.7/0.8's separate template system).",
+    "prompt": "Use the create-markdown-rendering-template skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]
