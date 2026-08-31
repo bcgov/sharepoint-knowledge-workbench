@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "assemble-structured-content",
-  "plugin": "structured-content-assembly",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Uses normalized extracted content and a human-confirmed conversion plan to assemble a validated structured content package with stable identities, source lineage, hashes, manifests, and publication mappings. Does not extract source documents, make unconfirmed topic decisions, render output formats, or publish to SharePoint.",
-      "prompt": "Use the assemble-structured-content skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Uses normalized extracted content and a human-confirmed conversion plan to assemble a validated structured content package with stable identities, source lineage, hashes, manifests, and publication mappings. Does not extract source documents, make unconfirmed topic decisions, render output formats, or publish to SharePoint.",
+    "prompt": "Use the assemble-structured-content skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

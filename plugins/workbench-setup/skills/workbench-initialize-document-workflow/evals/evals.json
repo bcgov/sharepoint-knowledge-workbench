@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "initialize-document-workflow",
-  "plugin": "workbench-setup",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Interactive intake wizard covering source-document identity, requested processing stages, requested output formats (only implemented renderer profiles offered as executable choices), publication locations, agent-grounding representations, and governance/evidence settings. Produces document-workflows/<DocumentId>.workflow.psd1 and publication-profiles/<DocumentId>.publication.psd1. Execution boundary: ask -> propose defaults -> validate -> display resolved configuration -> write profile files -> stop. Never extracts documents, renders content, or connects to/modifies SharePoint.",
-      "prompt": "Use the initialize-document-workflow skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Interactive intake wizard covering source-document identity, requested processing stages, requested output formats (only implemented renderer profiles offered as executable choices), publication locations, agent-grounding representations, and governance/evidence settings. Produces document-workflows/<DocumentId>.workflow.psd1 and publication-profiles/<DocumentId>.publication.psd1. Execution boundary: ask -> propose defaults -> validate -> display resolved configuration -> write profile files -> stop. Never extracts documents, renders content, or connects to/modifies SharePoint.",
+    "prompt": "Use the initialize-document-workflow skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "create-sharepoint-agent-template",
-  "plugin": "sharepoint-agents-and-skills",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Authors a reusable SharePoint agent template (purpose, instruction structure, boundaries, refusal behavior, citation expectations, knowledge-source placeholders, governance metadata) distinct from a concrete .agent package.",
-      "prompt": "Use the create-sharepoint-agent-template skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Authors a reusable SharePoint agent template (purpose, instruction structure, boundaries, refusal behavior, citation expectations, knowledge-source placeholders, governance metadata) distinct from a concrete .agent package.",
+    "prompt": "Use the create-sharepoint-agent-template skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

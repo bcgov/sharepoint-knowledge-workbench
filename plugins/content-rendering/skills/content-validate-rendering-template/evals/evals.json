@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "validate-rendering-template",
-  "plugin": "structured-content-rendering",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Validates a RenderingTemplate (from create-markdown-rendering-template or create-aspx-rendering-template) for schema/placeholder/required-section/format-profile-compatibility correctness -- known profile/format, required placeholders present, no unknown placeholder tokens, title placed inside an actual heading construct, and (ASPX only) no full-page wrapper tags. Validates the template definition itself, not rendered output (that is validate-rendered-output's job).",
-      "prompt": "Use the validate-rendering-template skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Validates a RenderingTemplate (from create-markdown-rendering-template or create-aspx-rendering-template) for schema/placeholder/required-section/format-profile-compatibility correctness -- known profile/format, required placeholders present, no unknown placeholder tokens, title placed inside an actual heading construct, and (ASPX only) no full-page wrapper tags. Validates the template definition itself, not rendered output (that is validate-rendered-output's job).",
+    "prompt": "Use the validate-rendering-template skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

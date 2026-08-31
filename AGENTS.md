@@ -1,4 +1,4 @@
-# AGENTS.md / CLAUDE.md / GEMINI.md
+# AGENTS.md
 
 
 Behavioral guidelines to reduce common LLM coding mistakes, plus project-specific context for this repository.

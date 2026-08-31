@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "render-multipage-markdown",
-  "plugin": "structured-content-rendering",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Renders a validated structured content package and publication map into supported consumer output formats. Currently supports the implemented multipage Markdown profile. Does not extract source documents, determine topic boundaries, assemble the source package, or publish to SharePoint.",
-      "prompt": "Use the render-multipage-markdown skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Renders a validated structured content package and publication map into supported consumer output formats. Currently supports the implemented multipage Markdown profile. Does not extract source documents, determine topic boundaries, assemble the source package, or publish to SharePoint.",
+    "prompt": "Use the render-multipage-markdown skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]
