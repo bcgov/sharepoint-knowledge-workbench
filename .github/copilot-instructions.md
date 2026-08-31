@@ -1,5 +1,6 @@
-# AGENTS.md / CLAUDE.md / GEMINI.md
+# Copilot Instructions for sharepoint-knowledge-workbench
 
+> Authoritative repository instructions for GitHub Copilot. Mirrors CLAUDE.md.
 
 Behavioral guidelines to reduce common LLM coding mistakes, plus project-specific context for this repository.
 

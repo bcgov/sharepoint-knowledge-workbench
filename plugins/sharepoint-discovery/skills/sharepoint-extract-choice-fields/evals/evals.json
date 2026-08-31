@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "extract-choice-fields",
-  "plugin": "sharepoint-schema",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Inventories Choice and MultiChoice fields from an exported SharePoint schema and renders them as a list/internal-name keyed overrides mapping. Distinguishes \"no options defined\" from \"options unknown\". Read-only, group filter is opt-in with no default.",
-      "prompt": "Use the extract-choice-fields skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Inventories Choice and MultiChoice fields from an exported SharePoint schema and renders them as a list/internal-name keyed overrides mapping. Distinguishes \"no options defined\" from \"options unknown\". Read-only, group filter is opt-in with no default.",
+    "prompt": "Use the extract-choice-fields skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

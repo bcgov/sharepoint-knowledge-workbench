@@ -1,19 +1,15 @@
-{
-  "version": 1,
-  "skill": "compare-rendered-output",
-  "plugin": "structured-content-rendering",
-  "evals": [
-    {
-      "name": "documented-skill-contract",
-      "description": "Compares a freshly-produced rendered-output tree (Markdown or ASPX) against a recorded golden-master baseline for byte-identical fidelity -- file-set completeness (nothing missing, nothing extra) plus byte-for-byte content match, excluding run-specific files (generator-info.json, render-result.json). Packages the golden-master comparison pattern from Phase 2 Subphase 2.5.4 as a standalone, reusable primitive.",
-      "prompt": "Use the compare-rendered-output skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
-      "expected": [
-        "Uses the skill documented in SKILL.md",
-        "Identifies the required input artifacts or parameters",
-        "Identifies the expected output or report artifact",
-        "Respects the documented plugin boundaries and non-responsibilities",
-        "Does not invent destructive tenant writes or bypass required confirmation gates"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Compares a freshly-produced rendered-output tree (Markdown or ASPX) against a recorded golden-master baseline for byte-identical fidelity -- file-set completeness (nothing missing, nothing extra) plus byte-for-byte content match, excluding run-specific files (generator-info.json, render-result.json). Packages the golden-master comparison pattern from Phase 2 Subphase 2.5.4 as a standalone, reusable primitive.",
+    "prompt": "Use the compare-rendered-output skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

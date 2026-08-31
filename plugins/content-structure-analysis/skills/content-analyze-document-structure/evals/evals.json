@@ -1,32 +1,29 @@
-{
-  "version": 1,
-  "skill": "analyze-document-structure",
-  "plugin": "document-structure-analysis",
-  "evals": [
-    {
-      "name": "produces-draft-analysis-plan-from-normalized-document",
-      "description": "Verifies that the skill uses the document-structure-analysis public interface to analyze an existing normalized-source-document and produce a draft analysis-plan for human review.",
-      "prompt": "Use the analyze-document-structure skill on a normalized-source-document v1 dict produced by extraction. Describe what the skill should call and what output contract it should return.",
-      "expected": [
-        "Calls recommend_from_normalized",
-        "Consumes an existing normalized-source-document v1 dict",
-        "Returns an analysis-plan v1 dict",
-        "Leaves confirmation.status as draft for human review",
-        "Does not parse DOCX files or render output"
-      ]
-    },
-    {
-      "name": "keeps-analysis-boundaries-distinct",
-      "description": "Verifies that the skill respects plugin boundaries: it reasons over extracted observations, recommends topic/chunking structure, and does not assemble, publish, or mutate content.",
-      "prompt": "Use the analyze-document-structure skill after source extraction. Explain what responsibilities stay inside this skill and what must be handled by downstream plugins.",
-      "expected": [
-        "Identifies heading hierarchy and topic boundaries from extracted observations",
-        "Identifies cross-references and structural deficiencies",
-        "Proposes chunking strategy and stable structural anchors",
-        "Does not assemble the structured content package",
-        "Does not publish to SharePoint",
-        "Does not mutate the input document"
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "produces-draft-analysis-plan-from-normalized-document",
+    "description": "Verifies that the skill uses the document-structure-analysis public interface to analyze an existing normalized-source-document and produce a draft analysis-plan for human review.",
+    "prompt": "Use the analyze-document-structure skill on a normalized-source-document v1 dict produced by extraction. Describe what the skill should call and what output contract it should return.",
+    "expected": [
+      "Calls recommend_from_normalized",
+      "Consumes an existing normalized-source-document v1 dict",
+      "Returns an analysis-plan v1 dict",
+      "Leaves confirmation.status as draft for human review",
+      "Does not parse DOCX files or render output"
+    ],
+    "should_trigger": true
+  },
+  {
+    "name": "keeps-analysis-boundaries-distinct",
+    "description": "Verifies that the skill respects plugin boundaries: it reasons over extracted observations, recommends topic/chunking structure, and does not assemble, publish, or mutate content.",
+    "prompt": "Use the analyze-document-structure skill after source extraction. Explain what responsibilities stay inside this skill and what must be handled by downstream plugins.",
+    "expected": [
+      "Identifies heading hierarchy and topic boundaries from extracted observations",
+      "Identifies cross-references and structural deficiencies",
+      "Proposes chunking strategy and stable structural anchors",
+      "Does not assemble the structured content package",
+      "Does not publish to SharePoint",
+      "Does not mutate the input document"
+    ],
+    "should_trigger": true
+  }
+]

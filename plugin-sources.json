@@ -10,10 +10,14 @@
       "source": "richfrem/agent-plugins-skills",
       "plugins": [
         "agent-agentic-os",
+        "agent-memory",
+        "agent-orchestration",
         "agent-scaffolders",
         "cli-agents",
         "dependency-management",
         "dev-utils",
+        "exploration-cycle-plugin",
+        "obsidian-wiki-engine",
         "plugin-manager"
       ]
     },
@@ -21,16 +25,6 @@
       "source": "richfrem/claude-design-bc-gov-design-system",
       "plugins": [
         "bc-gov-design-system"
-      ]
-    },
-    {
-      "source": "./plugins",
-      "plugins": [
-        "document-structure-analysis",
-        "sharepoint-schema",
-        "source-document-extraction",
-        "structured-content-assembly",
-        "structured-content-rendering"
       ]
     },
     {
