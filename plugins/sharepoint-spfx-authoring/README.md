@@ -1,6 +1,8 @@
 # sharepoint-spfx-authoring
 
-SPFx solution scaffolding, Master-Detail component templating, Heft/Webpack build packaging, and App Catalog deployment helpers for SharePoint Online modern replatforming.
+SPFx solution scaffolding, Master-Detail component templating, Heft/Webpack build
+packaging, App Catalog deployment, Form Customizer association, and list-scoped
+ListView Command Set registration for SharePoint Online modern replatforming.
 
 ## Overview
 
@@ -24,6 +26,7 @@ Modern SharePoint Online out-of-the-box List Web Parts do not support query para
 7. **`request-site-collection-app-catalog`**: Guides the setup and provisioning of Site Collection App Catalogs via ServiceNow ticket requests in BC Gov enterprise tenancy or direct Admin GUI/PnP PowerShell execution in trial/sandbox environments.
 8. **`setup-spfx-workbench`**: Prepares and validates a local SPFx project for hosted SharePoint Online `/_layouts/15/workbench.aspx` testing, including toolchain verification, dev certificate trust, and canonical hosted debug URL generation.
 9. **`scaffold-spfx-form-customizer`**: Scaffolds, implements, tests, packages, deploys, associates, validates, and rolls back an SPFx Form Customizer extension for custom New/Edit/Display forms with URL-driven related-item lookups (`?SelectedID=...`).
+10. **`scaffold-spfx-listview-command-set`**: Scaffolds command-bar extensions that open URLs, act on selected rows, or host SPFx-owned React dialogs and panels; includes list-scoped registration, validation, and rollback.
 
 ## Reference Documentation
 
