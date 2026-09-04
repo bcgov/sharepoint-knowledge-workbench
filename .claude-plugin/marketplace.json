@@ -87,13 +87,13 @@
       "name": "sharepoint-content-migration",
       "source": "./plugins/sharepoint-content-migration",
       "strict": true,
-      "description": "Item-level SharePoint content (list-item data) migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique (record source-to-destination IDs during a content pass, resolve lookup fields against that mapping once target lists exist). Distinct from sharepoint-provisioning (schema/list/field structure, not row data). Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token -- a real PnP executor (non-batched item create plus identity-based backfill update) is implemented."
+      "description": "Item-level SharePoint content migration and fidelity auditing: batched migration with retry, two-pass lookup-ID relinking, and SP2016-to-SPO list-content and lookup reconciliation. Distinct from schema provisioning. Migration writes remain explicitly gated; audit outputs separate protected source data from zero-PII reports."
     },
     {
       "name": "sharepoint-spfx-authoring",
       "source": "./plugins/sharepoint-spfx-authoring",
       "strict": true,
-      "description": "Authors, packages, publishes, and deploys custom SPFx web parts and Form Customizer extensions for SharePoint Online: a Master-Detail dossier scaffolder, React 17/18 Fluent UI scaffolding with Tailwind and self-healing GUID recovery, SPFx Form Customizers for URL-driven related-item forms (?SelectedID=...), generic interactive scaffolding for new components, production Heft/Webpack packaging into a verified .sppkg, Site Collection App Catalog provisioning guidance (BC Gov ServiceNow ticket path vs. direct trial-tenancy PnP path), and automated config-driven PnP publication, content type association, and verification."
+      "description": "Authors, packages, publishes, and deploys custom SPFx web parts, Form Customizers, and ListView Command Sets for SharePoint Online, including URL-driven related-item forms and React dialog/panel commands. Covers production packaging, App Catalog deployment, content-type association where applicable, and list-scoped command registration and rollback."
     }
   ]
 }

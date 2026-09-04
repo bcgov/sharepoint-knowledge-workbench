@@ -1,7 +1,7 @@
 {
     "name": "sharepoint-content-migration",
     "version": "0.1.0-alpha.1",
-    "description": "Item-level SharePoint content migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token.",
+    "description": "Item-level SharePoint content migration and fidelity auditing: batched migration with retry, two-pass lookup-ID relinking, and SP2016-to-SPO list-content and lookup reconciliation. Planning and auditing are read-oriented; real writes remain explicitly gated.",
     "author": {
         "name": "Richard Fremmerlid"
     },

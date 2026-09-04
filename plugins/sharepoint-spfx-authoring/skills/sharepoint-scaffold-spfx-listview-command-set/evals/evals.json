@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eval-1-positive",
+    "type": "positive",
+    "prompt": "Create an SPFx ListView Command Set button on a document library that opens a React upload panel",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-2-positive",
+    "type": "positive",
+    "prompt": "Register a ListView Command Set component GUID as a list-scoped command-bar custom action",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-3-positive",
+    "type": "positive",
+    "prompt": "Add a SharePoint library command that reads SelectedID from the URL and launches an SPFx dialog",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-4-negative",
+    "type": "negative",
+    "prompt": "Associate an SPFx Form Customizer with the New and Edit forms of a content type",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-5-negative",
+    "type": "negative",
+    "prompt": "Create a web part for a modern SharePoint page canvas",
+    "should_trigger": false
+  }
+]

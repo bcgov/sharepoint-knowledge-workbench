@@ -64,6 +64,10 @@ injected `executor` callable and the plan's own confirmation token.
 - `migrate-sharepoint-list-content` — wraps both modules; documents the
   two-pass sequencing rule (content pass, then lookup-backfill pass,
   self-referential lookups last) as the skill's core contract.
+- `sharepoint-audit-list-content` — audits SP2016-to-SPO list-item and lookup
+  fidelity using case-keyed ground truth, verified Person ID mappings, zero-PII
+  reports, and a separate interpretive variance-analysis phase. Canonical
+  resources live under `scripts/content-audit/` and are symlinked into the skill.
 
 ## Installation
 
