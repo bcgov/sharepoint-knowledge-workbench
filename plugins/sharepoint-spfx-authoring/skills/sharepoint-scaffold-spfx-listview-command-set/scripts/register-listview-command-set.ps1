@@ -1,0 +1,1 @@
+../../../scripts/register-listview-command-set.ps1
