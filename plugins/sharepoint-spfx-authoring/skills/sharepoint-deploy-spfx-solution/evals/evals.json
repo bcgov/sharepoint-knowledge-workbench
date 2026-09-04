@@ -1,0 +1,8 @@
+[
+  {"id":"positive-1","type":"positive","prompt":"Deploy this compiled SPFx sppkg to a site collection App Catalog","should_trigger":true},
+  {"id":"positive-2","type":"positive","prompt":"Upload and enable an SPFx solution package in the tenant App Catalog","should_trigger":true},
+  {"id":"positive-3","type":"positive","prompt":"Verify that my deployed SharePoint Framework package is available on the site","should_trigger":true},
+  {"id":"negative-1","type":"negative","prompt":"Build an SPFx project and generate its sppkg file","should_trigger":false},
+  {"id":"negative-2","type":"negative","prompt":"Create a ListView Command Set extension","should_trigger":false},
+  {"id":"negative-3","type":"negative","prompt":"Request a new site collection App Catalog from the administrator","should_trigger":false}
+]
