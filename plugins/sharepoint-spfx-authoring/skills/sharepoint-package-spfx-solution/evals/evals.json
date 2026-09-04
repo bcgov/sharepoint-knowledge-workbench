@@ -1,0 +1,8 @@
+[
+  {"id":"positive-1","type":"positive","prompt":"Build and package this SPFx solution into a production sppkg","should_trigger":true},
+  {"id":"positive-2","type":"positive","prompt":"Run the Heft production build and verify the SharePoint solution package","should_trigger":true},
+  {"id":"positive-3","type":"positive","prompt":"Check that this generated sppkg contains the expected manifests","should_trigger":true},
+  {"id":"negative-1","type":"negative","prompt":"Upload an existing sppkg to the tenant App Catalog","should_trigger":false},
+  {"id":"negative-2","type":"negative","prompt":"Scaffold a new React SPFx web part","should_trigger":false},
+  {"id":"negative-3","type":"negative","prompt":"Register a command set on a document library","should_trigger":false}
+]

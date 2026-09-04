@@ -1,0 +1,8 @@
+[
+  {"id":"positive-1","type":"positive","prompt":"Scaffold a new generic SPFx web part and ask me for its requirements","should_trigger":true},
+  {"id":"positive-2","type":"positive","prompt":"Run the SharePoint Yeoman generator for a simple modern page web part","should_trigger":true},
+  {"id":"positive-3","type":"positive","prompt":"Create a basic configurable SPFx web part from scratch","should_trigger":true},
+  {"id":"negative-1","type":"negative","prompt":"Build a specialized master-detail dossier from a list layout specification","should_trigger":false},
+  {"id":"negative-2","type":"negative","prompt":"Create an SPFx ListView Command Set","should_trigger":false},
+  {"id":"negative-3","type":"negative","prompt":"Deploy an existing sppkg to the App Catalog","should_trigger":false}
+]

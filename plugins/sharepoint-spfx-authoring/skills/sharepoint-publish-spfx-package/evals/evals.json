@@ -1,0 +1,8 @@
+[
+  {"id":"positive-1","type":"positive","prompt":"Publish this sppkg to the site App Catalog using config.psd1","should_trigger":true},
+  {"id":"positive-2","type":"positive","prompt":"Use PnP PowerShell to upload and deploy an SPFx package","should_trigger":true},
+  {"id":"positive-3","type":"positive","prompt":"Automate App Catalog publication of this already-built SharePoint package","should_trigger":true},
+  {"id":"negative-1","type":"negative","prompt":"Compile my SPFx TypeScript and create an sppkg","should_trigger":false},
+  {"id":"negative-2","type":"negative","prompt":"Manually add an already deployed app to Site contents","should_trigger":false},
+  {"id":"negative-3","type":"negative","prompt":"Associate a Form Customizer with a content type","should_trigger":false}
+]
