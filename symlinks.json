@@ -564,6 +564,78 @@
       "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/acceptance-criteria.md",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/register-listview-command-set.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/scripts/register-listview-command-set.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/analyze-all-variances.py",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/analyze-all-variances.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/analyze-lookup-variances.py",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/analyze-lookup-variances.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/analyze-persons-mapping-assurance.py",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/analyze-persons-mapping-assurance.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/audit-list-lookup-reconciliation.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/audit-list-lookup-reconciliation.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/backfill-itau-cases-person-lookups.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/backfill-itau-cases-person-lookups.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/check-list-id-suffix-skew.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/check-list-id-suffix-skew.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/export-list-content-pairs.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/export-list-content-pairs.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/export-persons-sp2016-to-csv.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/export-persons-sp2016-to-csv.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/export-persons-spo-to-csv.ps1",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/export-persons-spo-to-csv.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/content-audit/known-issues.json",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/scripts/known-issues.json",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

@@ -10,8 +10,8 @@ platforms:
   - windows
 skills:
   - sharepoint-migrate-sharepoint-list-content
+  - sharepoint-audit-list-content
 agents:
   - sharepoint-content-migration-sequencing-agent
-
 
 
