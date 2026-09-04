@@ -1,0 +1,8 @@
+[
+  {"id":"positive-1","type":"positive","prompt":"Scaffold a master-detail SPFx dossier that filters child lists using SelectedID","should_trigger":true},
+  {"id":"positive-2","type":"positive","prompt":"Replace several connected classic list web parts with one modern master-detail component","should_trigger":true},
+  {"id":"positive-3","type":"positive","prompt":"Generate an SPFx briefing dashboard from my JSON list layout specification","should_trigger":true},
+  {"id":"negative-1","type":"negative","prompt":"Create a generic single-purpose SPFx web part","should_trigger":false},
+  {"id":"negative-2","type":"negative","prompt":"Build a custom New form for a SharePoint content type","should_trigger":false},
+  {"id":"negative-3","type":"negative","prompt":"Add a command-bar upload button to a document library","should_trigger":false}
+]

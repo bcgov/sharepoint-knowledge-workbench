@@ -1,0 +1,8 @@
+[
+  {"id":"positive-1","type":"positive","prompt":"Scaffold an enterprise React SPFx app using Fluent UI and PnPjs","should_trigger":true},
+  {"id":"positive-2","type":"positive","prompt":"Create an SPFx React web part with cross-site list access and resilient GUID recovery","should_trigger":true},
+  {"id":"positive-3","type":"positive","prompt":"Set up a complex interactive SharePoint component with React state and Tailwind","should_trigger":true},
+  {"id":"negative-1","type":"negative","prompt":"Generate a minimal SPFx web part without a JavaScript framework","should_trigger":false},
+  {"id":"negative-2","type":"negative","prompt":"Package an existing SPFx solution for production","should_trigger":false},
+  {"id":"negative-3","type":"negative","prompt":"Create a Form Customizer for NewForm.aspx","should_trigger":false}
+]
