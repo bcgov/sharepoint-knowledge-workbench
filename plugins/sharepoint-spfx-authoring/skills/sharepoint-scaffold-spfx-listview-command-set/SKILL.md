@@ -41,6 +41,9 @@ pwsh -File scripts/register-listview-command-set.ps1 `
   -ComponentId "<manifest-guid>" -Sequence 10 -ConfigPath "<config.psd1>"
 ```
 
+   Persist custom-action changes with `Invoke-PnPQuery`, then re-query the list's
+   `UserCustomActions` and confirm the stable name and component ID are present.
+   Do not treat a success message alone as proof that registration persisted.
 9. Wait for propagation, hard-refresh, and verify the command, dialog/panel,
    permissions, metadata, URL preselection, keyboard flow, and error behavior.
 10. Roll back the list registration without removing documents or the package:
