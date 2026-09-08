@@ -1,7 +1,7 @@
 ---
 description: >
   Prevent sycophantic, agreeable, or premature agent responses by requiring adversarial reasoning,
-  assumption checks, counterarguments, and explicit approval gates before recommendations are accepted.
+  assumption checks, counterarguments, and explicit risk evaluation before recommendations are accepted.
 globs:
   - "*.md"
   - "docs/**/*.md"
