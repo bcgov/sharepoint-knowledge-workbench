@@ -49,7 +49,13 @@ function Get-WorkbenchConnectionConfig {
 
     $rawConfig = Import-PowerShellDataFile -LiteralPath $resolvedPath
     $cfg = if ($rawConfig.Connection) { $rawConfig.Connection } else { $rawConfig }
-    $tenantAdminUrl = if ($rawConfig.Authentication) { $rawConfig.Authentication.TenantAdminUrl } else { $rawConfig.TenantAdminUrl }
+    $tenantAdminUrl = if ($rawConfig.Authentication -and $rawConfig.Authentication.Contains('TenantAdminUrl')) {
+        $rawConfig.Authentication['TenantAdminUrl']
+    } elseif ($rawConfig.Contains('TenantAdminUrl')) {
+        $rawConfig['TenantAdminUrl']
+    } else {
+        $null
+    }
 
     [pscustomobject]@{
         SiteUrl        = $cfg.SiteUrl
