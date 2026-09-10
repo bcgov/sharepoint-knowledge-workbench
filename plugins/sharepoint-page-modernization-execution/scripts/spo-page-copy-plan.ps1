@@ -10,7 +10,28 @@ PnP.PowerShell flow, treating the page as a file in the Site Pages library
 rather than a special "page copy" operation (Copy-PnPPage's -SourceSite/
 -DestinationSite parameter set does not exist in current PnP.PowerShell and
 its cross-site-collection copy also requires SharePoint Administrator/admin-
-center access that Copy-PnPFile does not):
+center access that Copy-PnPFile does not). Two distinct flows depending on
+whether source and target resolve to the same site:
+
+SAME-SITE (source.SiteUrl -eq target.SiteUrl), e.g. duplicating a page under
+a new name for safe iteration without touching the original:
+  1. If the final target path already exists: fail unless -Overwrite; with
+     -Overwrite, recycle the existing target file first.
+  2. Copy-PnPFile -SourceUrl <source server-relative file path> -TargetUrl
+     <target server-relative file path, INCLUDING filename> in one step --
+     confirmed via `Get-Help Copy-PnPFile -Full` Example 5: a same-site/
+     same-library copy accepts a full destination file path directly. No
+     Rename-PnPFile step is needed or run.
+     CONFIRMED REAL BUG (2026-09-08): an earlier version of this script
+     always used the cross-site two-step flow (copy under source name, then
+     rename) even for same-site copies. For a same-site copy this fails
+     immediately with "A file or folder with the name '<source page>.aspx'
+     already exists at the destination" -- the intermediate "land under the
+     source name" step collides with the source file itself, since source
+     and target are the same folder. Do not reintroduce the two-step flow
+     for the same-site case.
+
+CROSS-SITE (source.SiteUrl -ne target.SiteUrl), e.g. TEST-to-PROD promotion:
   1. If the final target path already exists: fail unless -Overwrite; with
      -Overwrite, recycle the existing target file first.
   2. Copy-PnPFile -SourceUrl <source server-relative file path> -TargetUrl
@@ -155,13 +176,19 @@ if (-not $ClientId) { $ClientId = $connectionConfig.ClientId }
 if (-not $TenantId) { $TenantId = $connectionConfig.TenantId }
 if (-not $TenantAdminUrl) { $TenantAdminUrl = $connectionConfig.TenantAdminUrl }
 
+$isSameSite = $source.SiteUrl -ieq $target.SiteUrl
+
 # Copy-PnPFile's -TargetUrl must be a FOLDER (no filename) for a cross-site-
 # collection copy -- confirmed via `Get-Help Copy-PnPFile -Full`: "Notice that
 # if copying between sites or to a subsite you cannot specify a target
 # filename, only a folder name." The copy lands under the SOURCE page name; a
 # separate Rename-PnPFile step (below) renames it to the target page name.
+# Same-site copies do not have this restriction (Example 5 in the same help
+# topic copies directly to a full target file path) -- and MUST use the
+# direct form, since landing under the source name in the SAME folder would
+# collide with the source file itself.
 $targetSitePagesFolderUrl = "$($target.ServerRelativeSitePath)/SitePages"
-$copiedFileServerRelativeUrl = "$targetSitePagesFolderUrl/$($source.PageName)"
+$copiedFileServerRelativeUrl = if ($isSameSite) { $target.ServerRelativeFileUrl } else { "$targetSitePagesFolderUrl/$($source.PageName)" }
 
 $plan = [ordered]@{
     operation = "copy-spo-page"
@@ -190,17 +217,30 @@ $plan = [ordered]@{
         raw_aspx_upload = "avoid"
         execute_requires_confirm_token = "COPY-SPO-PAGE"
     }
-    pnp_commands = [ordered]@{
-        connect_target_for_precheck = Format-ConnectPnPOnlineCommand -SiteUrl $target.SiteUrl -ClientId $ClientId -TenantId $TenantId -TenantAdminUrl $TenantAdminUrl
-        remove_existing_target_if_overwrite = "Remove-PnPFile -ServerRelativeUrl `"$($target.ServerRelativeFileUrl)`" -Recycle -Force   # only if the target already exists and -Overwrite was supplied"
-        connect_source_for_copy = Format-ConnectPnPOnlineCommand -SiteUrl $source.SiteUrl -ClientId $ClientId -TenantId $TenantId -TenantAdminUrl $TenantAdminUrl
-        copy_file = "Copy-PnPFile -SourceUrl `"$($source.ServerRelativeFileUrl)`" -TargetUrl `"$targetSitePagesFolderUrl`" -Force$(if ($Overwrite) { ' -Overwrite' })"
-        connect_target_for_rename = $(if ($source.PageName -ne $target.PageName) { Format-ConnectPnPOnlineCommand -SiteUrl $target.SiteUrl -ClientId $ClientId -TenantId $TenantId -TenantAdminUrl $TenantAdminUrl } else { $null })
-        rename_target_page = $(if ($source.PageName -ne $target.PageName) {
-            "Rename-PnPFile -ServerRelativeUrl `"$copiedFileServerRelativeUrl`" -TargetFileName `"$($target.PageName)`" -Force$(if ($Overwrite) { ' -OverwriteIfAlreadyExists' })"
-        } else { $null })
+    pnp_commands = if ($isSameSite) {
+        [ordered]@{
+            connect_for_precheck_and_copy = Format-ConnectPnPOnlineCommand -SiteUrl $target.SiteUrl -ClientId $ClientId -TenantId $TenantId -TenantAdminUrl $TenantAdminUrl
+            remove_existing_target_if_overwrite = "Remove-PnPFile -ServerRelativeUrl `"$($target.ServerRelativeFileUrl)`" -Recycle -Force   # only if the target already exists and -Overwrite was supplied"
+            copy_file = "Copy-PnPFile -SourceUrl `"$($source.ServerRelativeFileUrl)`" -TargetUrl `"$($target.ServerRelativeFileUrl)`" -Force$(if ($Overwrite) { ' -Overwrite' })"
+            rename_target_page = $null
+        }
+    } else {
+        [ordered]@{
+            connect_target_for_precheck = Format-ConnectPnPOnlineCommand -SiteUrl $target.SiteUrl -ClientId $ClientId -TenantId $TenantId -TenantAdminUrl $TenantAdminUrl
+            remove_existing_target_if_overwrite = "Remove-PnPFile -ServerRelativeUrl `"$($target.ServerRelativeFileUrl)`" -Recycle -Force   # only if the target already exists and -Overwrite was supplied"
+            connect_source_for_copy = Format-ConnectPnPOnlineCommand -SiteUrl $source.SiteUrl -ClientId $ClientId -TenantId $TenantId -TenantAdminUrl $TenantAdminUrl
+            copy_file = "Copy-PnPFile -SourceUrl `"$($source.ServerRelativeFileUrl)`" -TargetUrl `"$targetSitePagesFolderUrl`" -Force$(if ($Overwrite) { ' -Overwrite' })"
+            connect_target_for_rename = $(if ($source.PageName -ne $target.PageName) { Format-ConnectPnPOnlineCommand -SiteUrl $target.SiteUrl -ClientId $ClientId -TenantId $TenantId -TenantAdminUrl $TenantAdminUrl } else { $null })
+            rename_target_page = $(if ($source.PageName -ne $target.PageName) {
+                "Rename-PnPFile -ServerRelativeUrl `"$copiedFileServerRelativeUrl`" -TargetFileName `"$($target.PageName)`" -Force$(if ($Overwrite) { ' -OverwriteIfAlreadyExists' })"
+            } else { $null })
+        }
     }
-    recommended_execution = "Treat the page as a Site Pages library file, not a special page-copy operation: pre-check/clear the final target path, Copy-PnPFile from the source server-relative path to the target site's SitePages FOLDER (no filename -- cross-site Copy-PnPFile requires a folder target; it lands under the source page name), then Rename-PnPFile (-ServerRelativeUrl, -OverwriteIfAlreadyExists) to the target page name if it differs. Do not use Copy-PnPPage (its -SourceSite/-DestinationSite parameter set does not exist in current PnP.PowerShell) and do not use raw Add-PnPFile .aspx upload."
+    recommended_execution = if ($isSameSite) {
+        "Same-site copy: pre-check/clear the final target path, then Copy-PnPFile directly from the source server-relative path to the target's full server-relative file path (same-site/same-library copies accept a full destination file path -- no folder-only restriction, no rename step). Do not use the cross-site folder+rename flow here -- it collides with the source file since both live in the same folder."
+    } else {
+        "Cross-site copy: treat the page as a Site Pages library file, not a special page-copy operation: pre-check/clear the final target path, Copy-PnPFile from the source server-relative path to the target site's SitePages FOLDER (no filename -- cross-site Copy-PnPFile requires a folder target; it lands under the source page name), then Rename-PnPFile (-ServerRelativeUrl, -OverwriteIfAlreadyExists) to the target page name if it differs. Do not use Copy-PnPPage (its -SourceSite/-DestinationSite parameter set does not exist in current PnP.PowerShell) and do not use raw Add-PnPFile .aspx upload."
+    }
 }
 
 if ($Execute) {
@@ -232,33 +272,47 @@ if ($Execute) {
         Remove-PnPFile -ServerRelativeUrl $target.ServerRelativeFileUrl -Recycle -Force
     }
 
-    # 2. Copy the file from the source site to the target site's SitePages FOLDER
-    #    (Copy-PnPFile requires a folder -- not a filename -- as -TargetUrl for a
-    #    cross-site-collection copy; it lands under the source page name).
-    $connectParameters["Url"] = $source.SiteUrl
-    Connect-PnPOnline @connectParameters
-    $copyParameters = @{
-        SourceUrl = $source.ServerRelativeFileUrl
-        TargetUrl = $targetSitePagesFolderUrl
-        Force     = $true   # suppresses the interactive confirm prompt only -- does not overwrite (that's -Overwrite, set below)
-    }
-    if ($Overwrite) { $copyParameters["Overwrite"] = $true }
-    Copy-PnPFile @copyParameters
-
-    # 3. Rename to the target page name if it differs from the source page name.
-    if ($SkipRename) {
-        Write-Host "SkipRename set -- leaving copied file at $copiedFileServerRelativeUrl (not renamed)." -ForegroundColor Yellow
-    }
-    elseif ($source.PageName -ne $target.PageName) {
-        $connectParameters["Url"] = $target.SiteUrl
-        Connect-PnPOnline @connectParameters
-        $renameParameters = @{
-            ServerRelativeUrl = $copiedFileServerRelativeUrl
-            TargetFileName = $target.PageName
-            Force = $true   # suppresses the interactive confirm prompt only -- does not overwrite (that's -OverwriteIfAlreadyExists, set below)
+    if ($isSameSite) {
+        # 2. Same-site: Copy-PnPFile directly to the full target file path.
+        #    No folder-only restriction, no rename step -- see .DESCRIPTION.
+        $copyParameters = @{
+            SourceUrl = $source.ServerRelativeFileUrl
+            TargetUrl = $target.ServerRelativeFileUrl
+            Force     = $true   # suppresses the interactive confirm prompt only -- does not overwrite (that's -Overwrite, set below)
         }
-        if ($Overwrite) { $renameParameters["OverwriteIfAlreadyExists"] = $true }
-        Rename-PnPFile @renameParameters
+        if ($Overwrite) { $copyParameters["Overwrite"] = $true }
+        Copy-PnPFile @copyParameters
+    }
+    else {
+        # 2. Cross-site: copy the file from the source site to the target site's
+        #    SitePages FOLDER (Copy-PnPFile requires a folder -- not a filename --
+        #    as -TargetUrl for a cross-site-collection copy; it lands under the
+        #    source page name).
+        $connectParameters["Url"] = $source.SiteUrl
+        Connect-PnPOnline @connectParameters
+        $copyParameters = @{
+            SourceUrl = $source.ServerRelativeFileUrl
+            TargetUrl = $targetSitePagesFolderUrl
+            Force     = $true   # suppresses the interactive confirm prompt only -- does not overwrite (that's -Overwrite, set below)
+        }
+        if ($Overwrite) { $copyParameters["Overwrite"] = $true }
+        Copy-PnPFile @copyParameters
+
+        # 3. Rename to the target page name if it differs from the source page name.
+        if ($SkipRename) {
+            Write-Host "SkipRename set -- leaving copied file at $copiedFileServerRelativeUrl (not renamed)." -ForegroundColor Yellow
+        }
+        elseif ($source.PageName -ne $target.PageName) {
+            $connectParameters["Url"] = $target.SiteUrl
+            Connect-PnPOnline @connectParameters
+            $renameParameters = @{
+                ServerRelativeUrl = $copiedFileServerRelativeUrl
+                TargetFileName = $target.PageName
+                Force = $true   # suppresses the interactive confirm prompt only -- does not overwrite (that's -OverwriteIfAlreadyExists, set below)
+            }
+            if ($Overwrite) { $renameParameters["OverwriteIfAlreadyExists"] = $true }
+            Rename-PnPFile @renameParameters
+        }
     }
 }
 
