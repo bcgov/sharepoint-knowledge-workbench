@@ -1329,3 +1329,195 @@ rest of this phase and into Phase 1:
   2. `local-patch-and-issue`: Apply immediate fix directly in `.agents/skills/` and log an issue in `richfrem/agent-plugins-skills` with reproduction details.
   3. `domain-override`: Keep upstream shared skills unmodified; put project customizations in `.agent/rules/local-*` or local `plugins/`.
 - Never make silent undocumented edits to shared skills without either opening an upstream PR or logging an issue.
+
+<!-- plugin: sharepoint-migration-planning / deployment-decision-principles -->
+---
+description: >
+  Three decision principles for choosing whether a migration stage needs
+  full automation, a generated wave script, or manual/simpler handling --
+  found during the Phase 9 exhaustive source audit as already-generic
+  guidance with no project-specific content.
+globs:
+  - "plugins/sharepoint-migration-planning/**/*"
+---
+
+# Rule: Deployment Decision Principles
+
+Apply these three principles when deciding whether a dependency-graph
+finding warrants a generated wave script, or a simpler/manual response.
+
+## "Like for like" is a principle, not a hard rule
+
+The goal is to preserve *what the source object does*, not *how it was
+originally built*. Before generating a wave script to recreate a legacy
+construct exactly, ask: does a modern SharePoint Online capability already
+make the original construct unnecessary? Migrate the data; don't rebuild
+the mechanism if the platform already covers the outcome natively.
+
+## "Quantity ≠ effort"
+
+A dependency graph with many nodes of the same object type does not
+automatically mean many nodes of work. Several similarly-shaped objects can
+often collapse into one generated wave script with a parameter, or one
+platform capability with a filtered view, rather than one script per
+object. Assess the actual distinct implementation work, not the object
+count.
+
+## "Manual recreation beats complex automation" for one-off, low-complexity cases
+
+If an object's entire migration logic is simple and low-volume, a person
+configuring it directly in SharePoint Online may take less time and carry
+less risk than a developer building and testing a generated script for it.
+`generate-sharepoint-wave-scripts` should recommend manual handling for
+these cases rather than generating a script anyway "for completeness."
+
+## Applying these principles to stage sequencing
+
+- If a completeness check (`completeness_checks.py`) reports a source
+  object as `NEEDS_ONBOARDING`-equivalent (present at the source, no
+  generic capability covers it, and it is low-complexity), recommend
+  manual handling and say so explicitly — never generate an in-flight
+  script for a capability that has not actually been designed or tested.
+- If a source object maps 1:1 to an existing `sharepoint-provisioning`
+  capability (a list, a field, a content type, a calendar), the generated
+  wave script should call that capability directly — never reimplement
+  provisioning logic that already exists.
+- If a source object has no 1:1 equivalent (arbitrary custom code, complex
+  branching logic), the generated wave guide must say so and describe the
+  requirement, not attempt a mechanical translation of the original
+  artifact's implementation.
+
+
+<!-- plugin: sharepoint-migration-planning / schema-driven-sharepoint-deployment -->
+---
+description: >
+  Schema/dependency definitions for a SharePoint migration must live in JSON,
+  never hardcoded inside generated or hand-written deployment scripts.
+globs:
+  - "plugins/sharepoint-migration-planning/**/*.py"
+  - "plugins/sharepoint-migration-planning/assets/*.json"
+---
+
+# Rule: Schema-Driven SharePoint Deployment
+
+Same principle already established in `plugins/sharepoint-provisioning/rules/
+schema-driven-sharepoint-deployment.md` — kept as a plugin-local copy here because this plugin is
+the one that actually authors deployment scripts. If the two drift, treat that as a defect to
+reconcile, not two independent rules.
+
+## Why this rule exists
+
+A hand-maintained deployment step list can silently drift from reality — a script gets renamed,
+split, or consolidated, and nothing tells you the orchestrator's hardcoded reference is now wrong.
+It stays broken until someone actually runs the stale path, which may be a long time if the
+operator's own discipline (testing one stage at a time, not running the "run everything" path) is
+what's actually protecting production.
+
+## Iron laws
+
+1. **No hardcoded object definitions inside a generated wave script.** Every list/field/
+   content-type name a generated script touches must come from `dependency-matrix.json`, never be
+   typed into the script by the generation step as a literal.
+2. **The deploy script and its validation/test companion must read the same JSON.** If a script
+   and its test derive their expectations from different sources, they can drift from each other
+   silently — this was the specific failure mode `dependency-matrix.json`'s design is meant to
+   prevent.
+3. **Wave order is computed, never hand-assigned.** `analyze-sharepoint-dependency-graph` derives
+   order via topological sort (`sharepoint-migration-planning`'s own `wave_planning.py`) from
+   declared dependencies — it is never a human-maintained sequence of stage numbers.
+4. **A dependency is declared by name, not by wave number.** Referring to "whatever ran in an
+   earlier stage" instead of a specific named object is exactly the kind of coupling that goes
+   stale when stages are renumbered, split, or reordered.
+
+
+<!-- plugin: sharepoint-migration-planning / test-driven-wave-deployment -->
+---
+description: >
+  The wave-by-wave test -> deploy -> retest discipline this plugin automates
+  is this repository's own TDD rule applied to infrastructure provisioning,
+  not a separate convention invented for SharePoint deployment.
+globs:
+  - "plugins/sharepoint-migration-planning/**/*"
+---
+
+# Rule: Test-Driven Wave Deployment
+
+**This rule specializes `.agent/rules/test-driven-development.md` — read that rule first.** It is
+not a competing convention; it is TDD's Red-Green-Refactor cycle applied to infrastructure
+deployment instead of application code.
+
+## The parallel, stated explicitly
+
+| TDD (code) | Wave deployment (infrastructure) |
+|---|---|
+| Write a failing test first | Run the wave's validation script before deploying — it should fail (the objects don't exist yet) |
+| Write the minimum code to pass | Deploy the wave's objects |
+| Re-run the test, confirm green | Re-run the same validation script, confirm it now passes |
+| Never trust a change without its test passing | Never treat a wave as done because the deploy script ran without error — the validation script passing is the actual gate |
+
+## Why this matters for generated wave scripts
+
+`generate-sharepoint-wave-scripts` produces a deploy script **and** must produce (or reference) a
+matching validation step for every wave — a generated wave script with no way to independently
+verify it worked is not a complete deliverable, the same way implementation code with no test is
+not complete under this repository's TDD rule.
+
+## Why one wave at a time, not "deploy everything"
+
+A single script that runs every wave in sequence without a human confirming each stage's
+validation first reintroduces exactly the risk TDD's discipline exists to prevent: a failure in an
+early stage can be masked or compounded by later stages running anyway. The generated wave guide
+must present waves as discrete, individually-gated steps — never as one script a human runs
+unattended end-to-end.
+
+
+<!-- plugin: sharepoint-schema-reconciliation / schema-driven-sharepoint-deployment -->
+# Schema-Driven SharePoint Deployment
+
+## Core principle
+
+Every schema/deployment-object definition (site columns, content types,
+lists, or any other deployable object type) lives in a caller-supplied JSON
+structure -- never hardcoded inline in a deployment script or an
+orchestrator. Deploy logic and validation logic both read the SAME
+structure, so they cannot drift from each other: if a field, content type,
+or list is renamed, added, or removed in the schema, both the code that
+deploys it and the code that verifies it see the change on the very next
+run, not on a separately-maintained copy someone forgot to update.
+
+## The dependency-annotation standard
+
+Any object that needs ordered deployment relative to other objects
+declares its dependencies **by name**, in the same shared schema structure
+used for planning and validation (this plugin's generalized
+`DeploymentObject.depends_on`, see `scripts/wave_planning.py`) -- never by
+having its position hand-encoded into a separate, fixed-order orchestrator
+step list. A dependency is "this object depends on that named object," not
+"this object belongs in stage N" -- the latter requires a human to keep the
+stage number in sync with reality every time the object set changes, which
+is exactly the kind of coupling this rule exists to eliminate.
+
+## Why this rule exists
+
+A hand-maintained deployment step list is a duplicate source of truth: it
+encodes, by hand, an ordering that a dependency graph could instead compute.
+The moment the underlying set of deployable objects changes -- one is
+renamed, several are consolidated into a single script, or a new one is
+introduced -- the hand-maintained list can silently fall out of sync with
+that reality. Nothing catches the drift until the orchestrator is actually
+run: it may reference an object or script that no longer exists, or it may
+run everything in an order that no longer reflects real dependencies. A
+schema-driven, dependency-annotated approach -- where deployment order is
+computed via topological sort over declared dependencies, not typed out by
+a human -- turns that class of bug into a planning-time failure (an
+unresolved dependency or a cycle, reported honestly) rather than a
+run-time surprise against a live tenant.
+
+## Deliberately out of scope for this rule
+
+This rule governs *schema/dependency structure and where it lives*, not any
+project-specific field-naming convention, migration-source-vs-destination
+naming scheme, or incident-specific war story from any one deployment
+target. Those remain specific to whatever project encounters them and are
+not generalized here.
+
