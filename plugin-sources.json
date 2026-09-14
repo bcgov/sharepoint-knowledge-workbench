@@ -7,7 +7,13 @@
       ]
     },
     {
-      "source": "richfrem/agent-plugins-skills",
+      "source": "richfrem/claude-design-bc-gov-design-system",
+      "plugins": [
+        "bc-gov-design-system"
+      ]
+    },
+    {
+      "source": "C:\\Users\\RICHFREM\\source\\repos\\agent-plugins-skills",
       "plugins": [
         "agent-agentic-os",
         "agent-memory",
@@ -22,13 +28,7 @@
       ]
     },
     {
-      "source": "richfrem/claude-design-bc-gov-design-system",
-      "plugins": [
-        "bc-gov-design-system"
-      ]
-    },
-    {
-      "source": "C:\\Users\\RICHFREM\\source\\repos\\sharepoint-knowledge-workbench",
+      "source": "C:\\Users\\RICHFREM\\source\\repos\\sharepoint-knowledge-workbench\\plugins",
       "plugins": [
         "content-assembly",
         "content-extraction",
