@@ -1520,6 +1520,17 @@ naming scheme, or incident-specific war story from any one deployment
 target. Those remain specific to whatever project encounters them and are
 not generalized here.
 
+
+
+## Phase 0 Intake & Socratic Gate (Mandatory)
+> Every engineering task, feature proposal, bugfix, or improvement MUST trigger `work-intake` first.
+- Register the task in `context/control_plane.db` via `python3 scripts/agent_control.py init`.
+- Enforce host-native Plan Mode (strictly read-only discovery).
+- Socratic Pacing: Interrogate ONE question per turn with structured options and explicit `[Recommended]` default.
+- Compile draft 4-Pillar Spec (`TASK_SPEC.md`) and implementation plan in state `DRAFT_PLAN`.
+- User Stage Gate: Ask user whether to run Multi-Agent Review (generate bundle in `temp/` via `context-bundler`) or proceed directly.
+- Obtain explicit human authorization ("Proceed", "Go", or "Execute") before creating a worktree or modifying code.
+
 ## Gemini CLI Tool Mapping
 | Claude Code Tool | Gemini CLI Equivalent |
 |---|---|
