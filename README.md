@@ -1,16 +1,22 @@
 # AI-Assisted Structured Knowledge Workbench
 
-Moving document-centric manuals (Word/PDF) into a content-centric, governed knowledge architecture (**Content + Template + Renderer = Published Output**).
+A public toolkit of reusable skills, tools, and scripts for SharePoint engineering, modernization, and knowledge transformation:
+
+1. **SharePoint Site Migration**: End-to-end site discovery, dependency wave sequencing, link remediation, and content migration.
+2. **SharePoint Object Creation**: Automated, declarative provisioning of lists, document libraries, views, site columns, content types, and permissions.
+3. **Publishing & Modifying Content**: Modernizing classic ASPX pages, authoring/updating modern SharePoint pages, and publishing Markdown/assets.
+4. **Creating & Publishing Copilot Agents & Skills**: Authoring, validating, deploying, and managing SharePoint Copilot agents (`.agent` packages) and native Copilot Studio skills in SharePoint.
+5. **Content Maintenance, Continuous Improvement & Document Decomposition**: Breaking huge documents and legacy manuals (Word/PDF) into modular, maintainable subpages in SharePoint, continuously improved and supported by Copilot agents and skills (**Content + Template + Renderer = Published Output**).
 
 ---
 
 ## 🎯 Overview
 
-The **AI-Assisted Structured Knowledge Workbench** is a multi-phase initiative designed to transform legacy enterprise manuals into modular, version-controlled, structured Markdown assets. This enables multi-target publishing to human readers (SharePoint/ASPX/Web) and grounded AI RAG agents (Microsoft Copilot, custom SharePoint Agents).
+The **SharePoint Knowledge Workbench** provides a modular ecosystem of **16 independently-installable domain plugins** and associated agent skills/scripts designed to bridge SharePoint site modernization, automated object provisioning, and intelligent knowledge management.
 
-Phase 1 and Phase 2 are **engineering-complete**, demonstrating automated `.docx` analysis, human plan confirmation, structured content chunking, TDD validation, and multipage Markdown/ASPX rendering on enterprise technical manuals. Phase 3.0 completed tenant discovery across real SharePoint Online environments. Phase 4.5 decomposed the core conversion pipeline into four independently installable domain plugins (`content-extraction`, `content-structure-analysis`, `content-assembly`, `content-rendering`), each installable and testable standalone. See [INSTALL.md](INSTALL.md) for installation and consumer integration options.
+Rather than maintaining monolithic Word/PDF manuals or writing one-off migration scripts, the workbench enables teams to decompose massive documents into structured subpages maintainable directly in SharePoint, while providing enterprise-grade tooling to plan and execute SharePoint migrations, provision schema and objects, deploy Copilot Studio agents/skills, and maintain high-fidelity intranet portals.
 
-**This document-conversion pipeline is the founding use case and reference architecture for the Content Conversion workstream below — but it is not the only workstream this repository serves.** Phase 9 built out a second, independently real cluster of capability: general-purpose SharePoint migration and modernization engineering tooling (site discovery, schema reconciliation, tenant provisioning, page modernization, link/reference remediation, content migration, wave planning, tenant publication, SPFx development, and agent/skill lifecycle management) — 11 additional plugins, each its own use case — plus one documented but not-yet-built target-state use case (an AI-assisted knowledge management pipeline). See **[docs/use-cases/](docs/use-cases/README.md)** for a one-page overview of all 12, or jump straight to the **[Additional Use Cases](#-additional-use-cases-sharepoint-migration--modernization-engineering)** or **[Target-State Vision](#-target-state-vision-ai-assisted-knowledge-management-pipeline-not-yet-built)** sections below.
+See [INSTALL.md](INSTALL.md) for installation and consumer integration options, or browse **[docs/use-cases/](docs/use-cases/README.md)** for detailed guides across all functional areas.
 
 ---
 
