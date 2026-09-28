@@ -1,8 +1,12 @@
 # Architecture Overview
 
-The **SharePoint Knowledge Workbench** is a public toolkit designed to convert traditional documents (Word/PDF) into structured, modern web pages and AI-ready knowledge. It follows a simple, repeatable formula:
+The **SharePoint Knowledge Workbench** is a public toolkit of reusable skills, tools, and scripts designed for SharePoint engineering, modernization, and knowledge transformation:
 
-$$\text{Content} + \text{Template} + \text{Renderer} = \text{Published Output}$$
+1. **SharePoint Site Migration**: Comprehensive discovery, dependency wave planning, link/reference remediation, and content migration.
+2. **SharePoint Object Creation**: Automated, declarative provisioning of SharePoint objects (lists, libraries, views, site columns, content types, branding, and permissions).
+3. **Publishing & Modifying Content**: Converting classic ASPX pages, authoring/updating modern ASPX pages, publishing Markdown, and managing assets.
+4. **Creating & Publishing Copilot Agents & Skills**: Authoring, validating, deploying, and managing SharePoint Copilot agents (`.agent` packages) and native Copilot Studio skills in SharePoint.
+5. **Content Maintenance, Continuous Improvement & Document Decomposition**: Breaking huge documents and legacy manuals (Word/PDF) into modular, maintainable subpages in SharePoint, continuously improved and supported by Copilot agents and skills (**Content + Template + Renderer = Published Output**).
 
 The repository is organized into **16 self-contained plugins** under `plugins/`. Each plugin has its own automated tests, tools, and skill definitions.
 
@@ -39,9 +43,9 @@ sharepoint-knowledge-workbench/
 
 ---
 
-## 2. How the Document Conversion Pipeline Works
+## 2. Document Decomposition & Content Maintenance Pipeline
 
-The core conversion workflow turns raw documents into modern web pages and AI knowledge packages through four clear steps, gated by human review:
+The core decomposition pipeline breaks huge documents (Word/PDF manuals) into modular, easily maintained SharePoint subpages and AI-ready knowledge packages through four clear steps, gated by human review:
 
 ```text
 1. Intake Document (.docx / PDF)

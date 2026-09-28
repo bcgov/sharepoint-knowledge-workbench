@@ -47,12 +47,17 @@ For multi-step tasks, state a brief plan and verify each step before saying it's
 
 ### Purpose & Architecture
 
-This repository is the central public toolkit for the **AI-Assisted Structured Knowledge Workbench**, moving document-centric manuals (Word/PDF) into a content-centric model (**Content + Template + Renderer = Published Output**), and providing complete SharePoint discovery, schema reconciliation, tenant provisioning, and migration tooling.
+This repository is the central public toolkit of reusable skills and scripts for SharePoint engineering, modernization, and knowledge management:
+1. **SharePoint Site Migration**: End-to-end migration tooling (discovery, dependency wave planning, link/reference remediation, and content migration).
+2. **SharePoint Object Creation**: Automated, declarative provisioning of SharePoint objects (lists, document libraries, views, site columns, content types, branding, and permissions).
+3. **Publishing & Modifying Content**: Modernizing and publishing content (converting classic ASPX pages, publishing and updating modern ASPX pages, Markdown, and media assets).
+4. **Creating & Publishing Copilot Agents & Skills**: Authoring, validating, deploying, and managing SharePoint Copilot agents (`.agent` packages) and native Copilot Studio skills in SharePoint.
+5. **Content Maintenance, Continuous Improvement & Document Decomposition**: Transforming how unstructured content is maintained and continuously improved—breaking huge documents/manuals (Word/PDF) into modular, maintainable subpages and topics in SharePoint, governed and supported by Copilot agents and skills (**Content + Template + Renderer = Published Output**).
 
 The ecosystem is composed of **16 independently-installable domain plugins** located under `plugins/`:
-- **Content Conversion (4 plugins):** `content-extraction`, `content-structure-analysis`, `content-assembly`, `content-rendering`
-- **SharePoint Engineering (11 plugins):** `sharepoint-discovery`, `sharepoint-schema-reconciliation`, `sharepoint-provisioning`, `sharepoint-page-modernization`, `sharepoint-page-modernization-execution`, `sharepoint-link-remediation`, `sharepoint-content-migration`, `sharepoint-migration-planning`, `sharepoint-content-publication`, `sharepoint-spfx-authoring`, `sharepoint-agents-and-skills`
-- **Environment & Setup:** `workbench-setup`
+- **Content Conversion & Decomposition (4 plugins):** `content-extraction`, `content-structure-analysis`, `content-assembly`, `content-rendering`
+- **SharePoint Engineering & Migration (11 plugins):** `sharepoint-discovery`, `sharepoint-schema-reconciliation`, `sharepoint-provisioning`, `sharepoint-page-modernization`, `sharepoint-page-modernization-execution`, `sharepoint-link-remediation`, `sharepoint-content-migration`, `sharepoint-migration-planning`, `sharepoint-content-publication`, `sharepoint-spfx-authoring`, `sharepoint-agents-and-skills`
+- **Environment & Setup (1 plugin):** `workbench-setup` (5 foundational skills: `workbench-initialize-workbench-config`, `workbench-initialize-document-workflow`, `workbench-validate-workbench-environment`, `workbench-request-app-registration`, `workbench-resolve-workbench-paths`)
 
 Each plugin is self-contained with its own tests, packaging, and skill definitions.
 
@@ -79,25 +84,30 @@ Consumer documents, intake files, run outputs, and project-specific tests are ma
 - Treat `architecture.md` at the repository root as the primary architecture reference for this project.
 - Read and follow `architecture.md` before making architecture-impacting changes, unless the user explicitly overrides it.
 
-### Tenant Usage Context (Trial vs CSB Intranet)
+### Tenant Usage & Workbench Setup Context (`workbench-setup`)
 
 - Two working tenants are used:
   - **Trial tenancy**: user has **Tenant Admin**; use this first for full-capability experiments and proof-of-concept runs.
   - **CSB Intranet DEV** (`AG-CSB-intRANET-DEV`): user is **Site Owner / Site Collection Admin**; use for real-site validation after trial confirmation.
 - Prefer the trial tenancy for first-run/high-impact operations, then repeat validated steps on CSB Intranet DEV.
-- **Connection Configuration Switching**:
-  - `config.psd1` at the repository root is the active configuration file.
+- **Connection Configuration & Switching**:
+  - `config.psd1` at the repository root is the active configuration file (git-ignored).
   - Profile templates: `config-trial-tenancy.psd1` (Trial Tenancy) and `config-csb-intranet-dev.psd1` (CSB Intranet DEV).
+  - Use `workbench-initialize-workbench-config` to generate or update `config.psd1`.
   - When switching tenants, update/swap `config.psd1` to the desired profile.
+- **App Registrations & Entra Permissions**:
+  - Use `workbench-request-app-registration` for guidance and fillable service-request templates (interactive delegated vs. app-only `Sites.Selected`).
 - **Interactive Scripts & Tenant Writes**:
   - **The user runs interactive/tenant-facing scripts** in their own terminal session (especially those requiring browser-based authentication or tenant writes). Agents must output the exact commands for the user to run rather than launching interactive scripts asynchronously in the background.
-- **Connectivity Check Requirement**:
-  - Always verify connection first using `plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-spo-connection.ps1` after switching profiles or before starting a sequence of tenant operations.
+- **Connectivity & Environment Validation Requirement**:
+  - Always verify connection first using `plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-spo-connection.ps1` or `test-network-connectivity.ps1` after switching profiles or before starting a sequence of tenant operations.
 
 ### Canonical Skills Over Custom Scripts (Do Not Recreate Ad-Hoc Scripts)
 
 - **Mandatory Policy**: Never write throwaway, ad-hoc `.ps1` scripts in `temp/` or project roots for standard SharePoint tasks (e.g. provisioning lists, creating views, packaging SPFx solutions, deploying packages, or uploading content).
 - **Use Canonical Skills with Parameters**: Always invoke the existing parameterized scripts in `plugins/` (and mirrored in `.agents/skills/`):
+  - **Environment Connectivity Check**: `pwsh -File plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-spo-connection.ps1`
+  - **Network & Auth Connectivity Check**: `pwsh -File plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-network-connectivity.ps1`
   - **Build & Package SPFx**: `pwsh -File plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/scripts/package-spfx-solution.ps1 -SolutionPath <path>`
   - **Deploy SPFx Package**: `pwsh -File plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/scripts/deploy-spfx-package.ps1 -PackagePath <path> [-Scope Site|Tenant] [-Install]`
   - **Publish SPFx Directly**: `pwsh -File plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/scripts/publish-spfx-package.ps1 -PackagePath <path>`
