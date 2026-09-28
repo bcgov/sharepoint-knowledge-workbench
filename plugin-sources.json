@@ -15,16 +15,10 @@
     {
       "source": "C:\\Users\\RICHFREM\\source\\repos\\agent-plugins-skills",
       "plugins": [
-        "agent-agentic-os",
         "agent-memory",
-        "agent-orchestration",
         "agent-scaffolders",
-        "cli-agents",
-        "dependency-management",
-        "dev-utils",
         "exploration-cycle-plugin",
-        "obsidian-wiki-engine",
-        "plugin-manager"
+        "obsidian-wiki-engine"
       ]
     },
     {
@@ -46,6 +40,17 @@
         "sharepoint-schema-reconciliation",
         "sharepoint-spfx-authoring",
         "workbench-setup"
+      ]
+    },
+    {
+      "source": "richfrem/agent-plugins-skills",
+      "plugins": [
+        "agent-agentic-os",
+        "agent-orchestration",
+        "cli-agents",
+        "dependency-management",
+        "dev-utils",
+        "plugin-manager"
       ]
     }
   ]
