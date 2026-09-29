@@ -125,3 +125,24 @@ current migration plan.
 
 Historical CMAT paths, tenant URLs, generated outputs, and report counts are
 not valid workbench defaults.
+
+## Compatibility analysis scripts
+
+The source repository also contained deeper report generators that are not
+replaced by the compact workbench analyzers. They are retained under
+`scripts/discovery-lineage/` for reproducibility:
+
+- `generate-deep-webpart-analysis.py`
+- `generate-deep-link-analysis.py`
+- `generate-deep-forms-analysis.py`
+- `generate-deep-nav-analysis.py`
+- `generate-deep-permissions-analysis.py`
+- `generate-master-discovery-meta-review.py`
+- `analyse_aspx_content.py`
+- `analyze-aspx-webparts.ps1`
+- `diagnose-page.ps1`
+- `sample-webpart-content.ps1`
+
+Run these only against explicit local exports, inspect their outputs, and
+record their input/output paths. They are compatibility evidence generators,
+not tenant mutation tools and not substitutes for the generalized collectors.

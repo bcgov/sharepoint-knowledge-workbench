@@ -1,0 +1,265 @@
+{
+  "mappingVersion": "0.2.0",
+  "_meta": {
+    "description": "Rules-based mapping from SharePoint 2016 on-prem web part types to SharePoint Online modern equivalents.",
+    "version": "0.1.0",
+    "mappingVersion": "0.2.0",
+    "lastUpdated": "2026-06-03",
+    "evidenceSources": [
+      "portal.aspx prototype (Session 3)",
+      "My_PIO_Cases.aspx prototype (Session 4)",
+      "My_PIO_Cases.aspx prototype"
+    ],
+    "statusValues": [
+      "MAPPED",
+      "PARTIAL",
+      "GAP",
+      "UNKNOWN"
+    ],
+    "notes": "Grow this file with each prototype run. Each entry feeds the pipeline mapper."
+  },
+  "webPartTypes": [
+    {
+      "spType": "Microsoft.SharePoint.WebPartPages.ContentEditorWebPart",
+      "spTypeFriendly": "Content Editor Web Part",
+      "spTypeShort": "ContentEditor",
+      "detectionHints": [
+        "class=\"ms-rtestate-field\"",
+        "WebPartWPQ"
+      ],
+      "spoTarget": "TextWebPart",
+      "spoComponent": "Add-PnPPageTextPart",
+      "status": "MAPPED",
+      "fidelity": "HIGH",
+      "notes": "HTML content preserved. SPO strips inline CSS on a/li/span \u00e2\u20ac\u201d use div/table/h2 for styling.",
+      "knownLimitations": [
+        "Inline styles on <a>, <li>, <span> stripped by SPO",
+        "Zero-width spaces must be stripped from source HTML"
+      ],
+      "evidencePage": "portal.aspx"
+    },
+    {
+      "spType": "Microsoft.SharePoint.WebPartPages.XsltListViewWebPart",
+      "spTypeFriendly": "List View Web Part (XSLT)",
+      "spTypeShort": "XsltListView",
+      "detectionHints": [
+        "class=\"ms-listviewtable\"",
+        "WPQ2",
+        "s4-wpActive"
+      ],
+      "architecturalNote": "CAML lives in the view definition, NOT in the page. Classic: page owns CAML. Modern: list owns view (CAML), page references view by ID. Conversion must provision the view first, then wire the page web part to it.",
+      "variants": [
+        {
+          "variant": "standalone",
+          "description": "List view with no web part connection. Role: Primary or Secondary.",
+          "spoTarget": "ListWebPart (modern)",
+          "spoComponent": "Add-PnPPageComponent (List web part, references provisioned view)",
+          "viewProvisioning": "Ensure-SpoListView \u00e2\u20ac\u201d creates CMAT_Migration_* view on target list with CAML from source. Page web part references this view by ID.",
+          "status": "MAPPED",
+          "fidelity": "HIGH",
+          "notes": "CurrentUser token (<UserID Type='Integer'/>) works in SPO list views. Validate: claims identity differs between SP2016 NTLM and SPO Entra \u00e2\u20ac\u201d token resolves correctly but resolved user will differ in test vs prod.",
+          "knownLimitations": [
+            "CAML must be extracted from rendered HTML or views.json \u00e2\u20ac\u201d not from page XML",
+            "View provisioning step required before page build",
+            "CMAT_Migration_ prefix used to distinguish pipeline-created views"
+          ]
+        },
+        {
+          "variant": "connected-provider",
+          "description": "List view that sends selected row value to connected consumer web parts.",
+          "spoTarget": "ListWebPart (modern) \u00e2\u20ac\u201d connection behavior LOST",
+          "spoComponent": "Add-PnPPageComponent (List web part, standalone view only)",
+          "status": "PARTIAL",
+          "fidelity": "MEDIUM",
+          "notes": "SPO modern pages do not support classic Web Part Connection framework. Provider list view migrates as a standalone list web part \u00e2\u20ac\u201d data displays but row-selection no longer triggers child filtering.",
+          "gap": "GAP-001-CRITICAL",
+          "futurePattern": "MasterDetailPattern",
+          "enhancementHook": {
+            "type": "SPFx",
+            "description": "SPFx component with row-click event + filtered child queries"
+          },
+          "adr": "ADR-001"
+        },
+        {
+          "variant": "connected-consumer",
+          "description": "List view that receives filter from a connected provider. Role: Child. Captures relationship intent for future redesign.",
+          "spoTarget": "NOT_MIGRATED",
+          "spoComponent": null,
+          "status": "GAP",
+          "severity": "CRITICAL",
+          "fidelity": "NONE",
+          "notes": "Functional regression. Child panels (Tasks, Narratives, Log Entries) on case dashboard pages. Must capture relationship metadata even though not migrated \u00e2\u20ac\u201d feeds SPFx/Power Apps redesign.",
+          "relationshipCapture": "Parent(ListName).ID -> ChildList.LookupFieldName",
+          "gap": "GAP-001-CRITICAL",
+          "futurePattern": "MasterDetailPattern",
+          "enhancementHook": {
+            "type": "SPFx",
+            "description": "SPFx MasterDetail component; or Power Apps canvas embed pending Protected B data classification confirmation"
+          },
+          "adr": "ADR-001"
+        }
+      ],
+      "evidencePage": "My_PIO_Cases.aspx"
+    },
+    {
+      "spType": "Microsoft.SharePoint.Portal.WebControls.SummaryLinkWebPart",
+      "spTypeFriendly": "Summary Links Web Part",
+      "spTypeShort": "SummaryLinks",
+      "detectionHints": [
+        "class=\"dfwp-column\"",
+        "class=\"groupheader\"",
+        "class=\"link-item\""
+      ],
+      "spoTarget": "TextWebPart",
+      "spoComponent": "Add-PnPPageTextPart (with HTML table)",
+      "status": "MAPPED",
+      "fidelity": "MEDIUM",
+      "notes": "Parsed into 4-column HTML table. Icons mapped to SPO SiteAssets URLs. Native SPO section max is 3 columns \u00e2\u20ac\u201d use OneColumn section + <table> for 4-column layouts.",
+      "knownLimitations": [
+        "Click-to-expand grouping not available in static HTML",
+        "Icon images require migrate-site-assets.ps1 to run first"
+      ],
+      "evidencePage": "portal.aspx"
+    },
+    {
+      "spType": "Microsoft.SharePoint.WebPartPages.ScriptEditorWebPart",
+      "spTypeFriendly": "Script Editor Web Part",
+      "spTypeShort": "ScriptEditor",
+      "detectionHints": [
+        "id=\"ScriptEditor\"",
+        "SEWPCTL"
+      ],
+      "spoTarget": "UNKNOWN",
+      "spoComponent": null,
+      "status": "UNKNOWN",
+      "fidelity": "UNKNOWN",
+      "notes": "Not yet encountered in prototype runs. SPO blocks arbitrary script injection. Will need SPFx or embed approach.",
+      "evidencePage": null
+    },
+    {
+      "spType": "Microsoft.SharePoint.WebPartPages.PageViewerWebPart",
+      "spTypeFriendly": "Page Viewer Web Part",
+      "spTypeShort": "PageViewer",
+      "detectionHints": [
+        "iframe",
+        "PageViewer"
+      ],
+      "spoTarget": "EmbedWebPart",
+      "spoComponent": "Add-PnPPageComponent (Embed)",
+      "status": "PARTIAL",
+      "fidelity": "MEDIUM",
+      "notes": "SPO has a native Embed web part for iframes. Works if source URL is HTTPS and allows embedding. On-prem URLs behind VPN will not render.",
+      "evidencePage": null
+    },
+    {
+      "spType": "Microsoft.SharePoint.WebPartPages.ImageWebPart",
+      "spTypeFriendly": "Image Web Part",
+      "spTypeShort": "Image",
+      "detectionHints": [
+        "class=\"ms-rtestate-field\"",
+        "<img"
+      ],
+      "spoTarget": "ImageWebPart",
+      "spoComponent": "Add-PnPPageComponent (Image)",
+      "status": "PARTIAL",
+      "fidelity": "MEDIUM",
+      "notes": "Image URLs must be repointed to SPO SiteAssets after asset migration.",
+      "evidencePage": null
+    }
+  ],
+  "architecturalRules": [
+    {
+      "id": "ARCH-001",
+      "rule": "CAML lives in the view, not the page",
+      "detail": "Classic SP2016: CAML filter is embedded in the XsltListViewWebPart on the page. Modern SPO: CAML lives in a List View definition. Conversion pipeline must provision the view (Ensure-SpoListView) before building the page, then wire the List web part to the provisioned view by ID.",
+      "affectedTypes": [
+        "XsltListView"
+      ]
+    },
+    {
+      "id": "ARCH-002",
+      "rule": "Detect role before mapping: Primary / Child / Secondary",
+      "detail": "First unconnected list view = Primary. Connected consumer = Child. Additional standalone views = Secondary. Role determines section placement and gap handling.",
+      "affectedTypes": [
+        "XsltListView"
+      ]
+    },
+    {
+      "id": "ARCH-003",
+      "rule": "Capture relationship intent even for unmigrated web parts",
+      "detail": "Connected consumer web parts must record Parent.ID -> ChildList.LookupField even though they are not migrated. This metadata feeds the SPFx/Power Apps MasterDetail redesign in Opportunity 4.",
+      "affectedTypes": [
+        "XsltListView (connected-consumer)"
+      ]
+    },
+    {
+      "id": "ARCH-004",
+      "rule": "Layout decision is data-driven, not always OneColumn",
+      "detail": "1 primary list + \u00e2\u2030\u00a42 secondary elements \u00e2\u2020\u2019 OneColumn. 1 primary list + >2 secondary/child elements \u00e2\u2020\u2019 TwoColumn (70/30). Pure content pages \u00e2\u2020\u2019 Article layout.",
+      "affectedTypes": [
+        "layout"
+      ]
+    },
+    {
+      "id": "ARCH-005",
+      "rule": "Detection hierarchy: WebPart XML > Rendered HTML > views.json",
+      "detail": "Prefer WebPart XML export if accessible. Fall back to rendered HTML regex. Fall back to known views.json from 01_source_sharepoint data library. Record which method was used in manifest detectionMethod field.",
+      "affectedTypes": [
+        "all"
+      ]
+    }
+  ],
+  "layoutMappings": [
+    {
+      "spLayout": "BlankWebPartPage",
+      "spLayoutFriendly": "Blank Web Part Page",
+      "detectionHints": [
+        "BlankWebPartPage.aspx"
+      ],
+      "spoLayout": "Home",
+      "spoLayoutFlag": "-LayoutType Home",
+      "status": "MAPPED",
+      "notes": "Use Home not Article \u00e2\u20ac\u201d Article adds unwanted gray hero banner.",
+      "evidencePage": "portal.aspx"
+    },
+    {
+      "spLayout": "PublishingPage-SingleColumn",
+      "spLayoutFriendly": "Publishing Page (single column content area)",
+      "detectionHints": [
+        "PublishingPageLayout",
+        "SingleColumn"
+      ],
+      "spoLayout": "Article",
+      "spoLayoutFlag": "-LayoutType Article",
+      "status": "PARTIAL",
+      "notes": "Article works for content pages but adds hero section. May need hero removal post-create.",
+      "evidencePage": null
+    }
+  ],
+  "sectionMappings": [
+    {
+      "spZonePattern": "full-width single zone",
+      "spoSectionTemplate": "OneColumn",
+      "pnpFlag": "-SectionTemplate OneColumn",
+      "notes": "Default for most CMAT pages."
+    },
+    {
+      "spZonePattern": "two-column zone",
+      "spoSectionTemplate": "TwoColumn",
+      "pnpFlag": "-SectionTemplate TwoColumn",
+      "notes": null
+    },
+    {
+      "spZonePattern": "three-column zone",
+      "spoSectionTemplate": "ThreeColumn",
+      "pnpFlag": "-SectionTemplate ThreeColumn",
+      "notes": "SPO maximum native columns."
+    },
+    {
+      "spZonePattern": "four-column zone (Summary Links)",
+      "spoSectionTemplate": "OneColumn + HTML table",
+      "pnpFlag": "-SectionTemplate OneColumn",
+      "notes": "Use HTML <table> with 4 <td> cells inside a Text web part. SPO native max is 3 columns."
+    }
+  ]
+}
