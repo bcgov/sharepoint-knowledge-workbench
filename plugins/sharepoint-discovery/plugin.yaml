@@ -7,6 +7,8 @@ platforms:
   - linux
   - macos
   - windows
+agents:
+  - sharepoint-discovery-agent
 skills:
   - sharepoint-analyze-custom-forms
   - sharepoint-analyze-page-inventory
@@ -23,4 +25,3 @@ skills:
   - sharepoint-generate-discovery-report-set
   - sharepoint-generate-sharepoint-schema-from-export
   - sharepoint-scaffold-schema-definition
-
