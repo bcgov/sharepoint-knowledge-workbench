@@ -1,0 +1,1 @@
+../../../scripts/discovery-lineage/sample-webpart-content.ps1

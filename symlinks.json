@@ -648,6 +648,78 @@
       "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/scripts/spo-add-page-section.ps1",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/analyse_aspx_content.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/scripts/analyse_aspx_content.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/analyze-aspx-webparts.ps1",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/scripts/analyze-aspx-webparts.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/diagnose-page.ps1",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/scripts/diagnose-page.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/generate-deep-forms-analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/scripts/generate-deep-forms-analysis.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/generate-deep-nav-analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/scripts/generate-deep-nav-analysis.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/generate-deep-permissions-analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/scripts/generate-deep-permissions-analysis.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/generate-deep-webpart-analysis.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/scripts/generate-deep-webpart-analysis.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/sample-webpart-content.ps1",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/scripts/sample-webpart-content.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/discovery-lineage/generate-master-discovery-meta-review.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-generate-discovery-report-set/scripts/generate-master-discovery-meta-review.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/webpart-analysis-runbook.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/references/webpart-analysis-runbook.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/historical-cmat/ALL-UNIQUE-WEBPART-CODE-FOR-REVIEW-template.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/assets/ALL-UNIQUE-WEBPART-CODE-FOR-REVIEW-template.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/historical-cmat/webpart-migration-rules.json",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/assets/webpart-migration-rules.json",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }
