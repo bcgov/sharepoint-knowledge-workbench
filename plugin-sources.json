@@ -13,16 +13,22 @@
       ]
     },
     {
-      "source": "C:\\Users\\RICHFREM\\source\\repos\\agent-plugins-skills",
+      "source": "richfrem/agent-plugins-skills",
       "plugins": [
+        "agent-agentic-os",
         "agent-memory",
+        "agent-orchestration",
         "agent-scaffolders",
+        "cli-agents",
+        "dependency-management",
+        "dev-utils",
         "exploration-cycle-plugin",
-        "obsidian-wiki-engine"
+        "obsidian-wiki-engine",
+        "plugin-manager"
       ]
     },
     {
-      "source": "C:\\Users\\RICHFREM\\source\\repos\\sharepoint-knowledge-workbench\\plugins",
+      "source": "richfrem/sharepoint-knowledge-workbench",
       "plugins": [
         "content-assembly",
         "content-extraction",
@@ -40,17 +46,6 @@
         "sharepoint-schema-reconciliation",
         "sharepoint-spfx-authoring",
         "workbench-setup"
-      ]
-    },
-    {
-      "source": "richfrem/agent-plugins-skills",
-      "plugins": [
-        "agent-agentic-os",
-        "agent-orchestration",
-        "cli-agents",
-        "dependency-management",
-        "dev-utils",
-        "plugin-manager"
       ]
     }
   ]

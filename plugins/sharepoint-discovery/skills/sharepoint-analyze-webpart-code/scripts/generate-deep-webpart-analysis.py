@@ -1,0 +1,1 @@
+../../../scripts/discovery-lineage/generate-deep-webpart-analysis.py
