@@ -1,1 +1,1 @@
-C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1
+../../../scripts/Get-WorkbenchConnectionConfig.ps1

@@ -1,1 +1,1 @@
-C:/Users/RICHFREM/source/repos/sharepoint-knowledge-workbench/plugins/sharepoint-content-migration/scripts/spo-migrate-list-items.ps1
+../../../scripts/spo-migrate-list-items.ps1
