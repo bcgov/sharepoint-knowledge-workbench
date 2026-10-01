@@ -3,7 +3,7 @@
 ## Overview
 Based on the successful POC in `trial-tenancy-testing/books-authors-spfx-poc/`, modern SharePoint Online lacks out-of-the-box support for URL query parameter filtering (`?SelectedID=...`) across native List Web Parts.
 
-This document outlines the design and scaffolding for a reusable **SPFx Master-Detail Modernization Skill** located in the `sharepoint-spfx-authoring` plugin (`C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-spfx-authoring`).
+This document outlines the design and scaffolding for a reusable **SPFx Master-Detail Modernization Skill** located in the `sharepoint-spfx-authoring` plugin (`plugins/sharepoint-spfx-authoring`).
 
 ---
 
@@ -18,7 +18,7 @@ When modernizing legacy SharePoint 2013/2016/2019 applications to SharePoint Onl
 ## 2. Skill Architecture
 
 ### Skill Name: `scaffold-spfx-master-detail`
-### Target Location: `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-spfx-authoring\skills\scaffold-spfx-master-detail\`
+### Target Location: `plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/`
 
 ### Key Components Included in the Plugin:
 1. **`SKILL.md`**:
