@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Publish ./dist/my-app.sppkg to the site's App Catalog and install it.",
+    "expected_behavior": [
+      "Hands over scripts/publish-spfx-package.ps1 -PackagePath ./dist/my-app.sppkg -Scope Site -Install",
+      "States the script has no dry-run gate, so the package, scope and target are confirmed first and the user runs it",
+      "Describes the output to check: publish status, app metadata, catalog readback and install verification"
+    ]
+  },
+  {
+    "query": "I published to the site catalog but the web part is not in the + toolbox.",
+    "expected_behavior": [
+      "Explains a Site Collection catalog app with 'Added to all sites' = No must also be installed into the site",
+      "Suggests rerunning with -Install or running Install-PnPApp -Identity <AppId> -Scope Site",
+      "Does not conclude the package is broken"
+    ]
+  },
+  {
+    "query": "Publish to the tenant catalog now, skip any dry run.",
+    "expected_behavior": [
+      "Says there is no dry run to skip because the script writes immediately",
+      "Confirms tenant scope is intended, needs Authentication.TenantAdminUrl, and whether to use -SkipFeatureDeployment",
+      "Leaves running it to the user"
+    ]
+  }
+]

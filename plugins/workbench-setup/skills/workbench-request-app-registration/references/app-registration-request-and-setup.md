@@ -1,0 +1,1 @@
+../../../references/app-registration-request-and-setup.md

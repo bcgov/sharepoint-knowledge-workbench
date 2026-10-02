@@ -1,0 +1,1 @@
+../../../scripts/verify-agentassets-artifact.ps1

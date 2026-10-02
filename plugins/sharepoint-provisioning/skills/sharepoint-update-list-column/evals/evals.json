@@ -1,0 +1,10 @@
+[
+  {"query": "Make the Status column required on the Projects list", "should_trigger": true},
+  {"query": "Change the display name of a list-scoped column", "should_trigger": true},
+  {"query": "Update the description of a column on this list", "should_trigger": true},
+  {"query": "Edit the choices of a list column", "should_trigger": true},
+  {"query": "Add a new column to the list", "should_trigger": false},
+  {"query": "Remove a column from the list", "should_trigger": false},
+  {"query": "Update a site column used across the site", "should_trigger": false},
+  {"query": "Change the list title", "should_trigger": false}
+]

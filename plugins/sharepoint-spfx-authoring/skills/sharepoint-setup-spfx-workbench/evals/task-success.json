@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Set me up to debug my web part in the hosted workbench on https://contoso.sharepoint.com/sites/test-site.",
+    "expected_behavior": [
+      "Confirms the tenant profile and connectivity, then validates the toolchain",
+      "Runs scripts/setup-spfx-workbench.ps1 -ProjectPath ... -SiteUrl ... and relays the local, hosted and hosted debug URLs",
+      "Starts npx gulp serve --nobrowser and states the script writes nothing to the tenant"
+    ]
+  },
+  {
+    "query": "The browser shows ERR_CERT_AUTHORITY_INVALID on localhost.",
+    "expected_behavior": [
+      "Reruns setup-spfx-workbench.ps1 without -SkipCertInstall so the dev certificate is trusted",
+      "Does not tell the user to bypass the certificate warning",
+      "Rechecks the hosted debug URL"
+    ]
+  },
+  {
+    "query": "My web part does not show up in the hosted workbench.",
+    "expected_behavior": [
+      "Checks gulp serve is still running",
+      "Checks the URL includes debugManifestsFile=https://localhost:4321/temp/manifests.js",
+      "Treats 401 or 403 as a tenant or site URL problem and reruns the connection check"
+    ]
+  }
+]

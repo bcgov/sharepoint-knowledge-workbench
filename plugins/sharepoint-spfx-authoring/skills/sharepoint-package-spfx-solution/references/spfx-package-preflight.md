@@ -1,0 +1,1 @@
+../../../references/spfx-package-preflight.md

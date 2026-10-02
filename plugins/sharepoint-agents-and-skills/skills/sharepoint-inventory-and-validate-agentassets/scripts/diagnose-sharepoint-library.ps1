@@ -1,0 +1,1 @@
+../../../scripts/diagnose-sharepoint-library.ps1

@@ -1,0 +1,15 @@
+[
+  {
+    "query": "Change the description of policy-helper.agent only.",
+    "expected_behavior": [
+      "Runs scripts/update-sharepoint-agent.ps1 with only -AgentDescription",
+      "Other fields stay unchanged; zero tenant I/O"
+    ]
+  },
+  {
+    "query": "Remove all knowledge sources from the agent.",
+    "expected_behavior": [
+      "Requires -AllowEmptyKnowledgeSources; will not clear grounding silently"
+    ]
+  }
+]

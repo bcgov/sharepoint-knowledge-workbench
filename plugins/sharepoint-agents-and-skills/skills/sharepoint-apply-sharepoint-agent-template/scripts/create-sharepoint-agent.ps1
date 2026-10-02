@@ -1,0 +1,1 @@
+../../../scripts/create-sharepoint-agent.ps1

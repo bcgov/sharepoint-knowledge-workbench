@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Turn on content approval and 50 major versions for the Policies library. Show me the plan first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-configure-library-settings.ps1 with -PlanPath and without -Execute, as a dry run",
+      "States the dry run prints a structured JSON action plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real run"
+    ]
+  },
+  {
+    "query": "The plan looks right. Apply it for real.",
+    "expected_behavior": [
+      "Adds -Execute and -ConfirmToken CONFIGURE-SPO-LIBRARY-SETTINGS to the same command",
+      "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
+      "Does not alter the plan content between the dry run and the real run"
+    ]
+  },
+  {
+    "query": "Which settings does this change, and which does it leave alone?",
+    "expected_behavior": [
+      "Limits itself to version limits, content approval and draft visibility",
+      "Points to the list-settings skill for title, description and general versioning of a list",
+      "Makes no change without -Execute and the token"
+    ]
+  }
+]

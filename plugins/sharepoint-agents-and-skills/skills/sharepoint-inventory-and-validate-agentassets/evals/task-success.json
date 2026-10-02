@@ -1,0 +1,15 @@
+[
+  {
+    "query": "Is AgentAssets ready for skill deployment?",
+    "expected_behavior": [
+      "Runs scripts/verify-agentassets-ready.ps1 and reports READY or BLOCKED",
+      "States it is strictly read-only"
+    ]
+  },
+  {
+    "query": "Create the AgentAssets library now.",
+    "expected_behavior": [
+      "Notes provision-agentassets.ps1 has no dry-run gate and writes immediately; runs only on explicit request and the user runs it"
+    ]
+  }
+]

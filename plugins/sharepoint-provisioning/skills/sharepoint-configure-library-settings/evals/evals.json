@@ -1,0 +1,10 @@
+[
+  {"query": "Set the document library to keep 50 major versions", "should_trigger": true},
+  {"query": "Turn on content approval for the Policies library", "should_trigger": true},
+  {"query": "Hide draft items from users who cannot edit them", "should_trigger": true},
+  {"query": "Configure library version limits and draft visibility", "should_trigger": true},
+  {"query": "Change the list title and description", "should_trigger": false},
+  {"query": "Create a new document library", "should_trigger": false},
+  {"query": "Add a column to the library", "should_trigger": false},
+  {"query": "Create a custom view for the library", "should_trigger": false}
+]

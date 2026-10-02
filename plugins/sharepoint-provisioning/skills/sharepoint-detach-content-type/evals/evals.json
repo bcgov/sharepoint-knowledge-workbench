@@ -1,0 +1,10 @@
+[
+  {"query": "Detach the Contract content type from the Contracts library", "should_trigger": true},
+  {"query": "Unlink a content type from this list", "should_trigger": true},
+  {"query": "Remove the Invoice content type from the Invoices list without deleting it", "should_trigger": true},
+  {"query": "Stop the list using a content type", "should_trigger": true},
+  {"query": "Delete the Contract content type from the site", "should_trigger": false},
+  {"query": "Create a new content type", "should_trigger": false},
+  {"query": "Rename a content type", "should_trigger": false},
+  {"query": "Remove a column from a list", "should_trigger": false}
+]

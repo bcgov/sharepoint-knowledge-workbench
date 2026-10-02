@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Audit list content parity between our SP2016 source and SharePoint Online.",
+    "expected_behavior": [
+      "Runs Phase 1 then Phase 2, not Phase 1 alone, and says both must run every time",
+      "Uses python -B scripts/analyze-lookup-variances.py --list-name ALL for the real run, with commands relative to the skill root",
+      "Treats the Phase 1 tables as data and writes or refreshes the Phase 2 narrative analysis"
+    ]
+  },
+  {
+    "query": "Just smoke-test the CMATConfig list quickly with --list-name CMATConfig.",
+    "expected_behavior": [
+      "Warns the default output paths would overwrite the canonical site-wide report",
+      "Overrides --output-md and --output-csv to a scratch path for the smoke test",
+      "Still uses --list-name ALL for the real run"
+    ]
+  },
+  {
+    "query": "The report shows 100% parity for a list but far fewer co-existing rows than source rows. Is it clean?",
+    "expected_behavior": [
+      "Says it is not clean: rows missing entirely from SPO are excluded from the parity denominator, a known blind spot",
+      "Calls it out in the Phase 2 roster of 100% matches",
+      "Does not report the list as fully migrated"
+    ]
+  }
+]

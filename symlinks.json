@@ -2886,6 +2886,1566 @@
       "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/workflow_validation.py",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/document-workflow-intake-scope.md",
+      "dst": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/references/document-workflow-intake-scope.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-initialize-document-workflow"
+    },
+    {
+      "src": "plugins/workbench-setup/references/document-workflow-api.md",
+      "dst": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/references/document-workflow-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-initialize-document-workflow"
+    },
+    {
+      "src": "plugins/workbench-setup/references/config-setup-api.md",
+      "dst": "plugins/workbench-setup/skills/workbench-initialize-workbench-config/references/config-setup-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-initialize-workbench-config"
+    },
+    {
+      "src": "plugins/workbench-setup/references/path-resolution-api.md",
+      "dst": "plugins/workbench-setup/skills/workbench-resolve-workbench-paths/references/path-resolution-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-resolve-workbench-paths"
+    },
+    {
+      "src": "plugins/workbench-setup/references/path-resolution-design.md",
+      "dst": "plugins/workbench-setup/skills/workbench-resolve-workbench-paths/references/path-resolution-design.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-resolve-workbench-paths"
+    },
+    {
+      "src": "plugins/workbench-setup/references/validation-config-and-profiles.md",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/validation-config-and-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-validate-workbench-environment"
+    },
+    {
+      "src": "plugins/workbench-setup/references/validation-app-registration.md",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/validation-app-registration.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-validate-workbench-environment"
+    },
+    {
+      "src": "plugins/workbench-setup/references/validation-live-tenant-tools.md",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/validation-live-tenant-tools.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-validate-workbench-environment"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/test-network-connectivity.ps1",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-network-connectivity.ps1",
+      "strategy": "symlink",
+      "description": "Live network + sign-in tool documented by this skill"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-capability-caution.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-capability-caution.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-types.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-types.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-request-and-setup.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-request-and-setup.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-provenance.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-provenance.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/form-classification-rules.json",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/assets/form-classification-rules.json",
+      "strategy": "symlink",
+      "description": "Neutral default rules for sharepoint-analyze-custom-forms"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/custom-forms-collection-and-scripts.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/references/custom-forms-collection-and-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-custom-forms"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for discovery skills"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/site-navigation-collection.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/references/site-navigation-collection.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for discovery skills"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/site-navigation-chrome-summary-template.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/assets/site-navigation-chrome-summary-template.md",
+      "strategy": "symlink",
+      "description": "Navigation summary template"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/page-inventory-collection-and-scripts.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/references/page-inventory-collection-and-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-page-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-page-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/permissions-collection-and-shapes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/references/permissions-collection-and-shapes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-permissions"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-permissions"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/webpart-code-categories-collection-stage2.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/references/webpart-code-categories-collection-stage2.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-webpart-code"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-webpart-code"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/managed-metadata-audit-provenance.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-managed-metadata/references/managed-metadata-audit-provenance.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-managed-metadata"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-drift-usage-and-output.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-onprem-schema-drift/references/schema-drift-usage-and-output.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-onprem-schema-drift"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/master-discovery-meta-review-template.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-onprem-schema-drift/assets/master-discovery-meta-review-template.md",
+      "strategy": "symlink",
+      "description": "Standalone meta-review catalog template"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-audit-details.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/references/schema-audit-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-diff-modes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-diff-sharepoint-schema/references/schema-diff-modes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-diff-sharepoint-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-diff-sharepoint-schema/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-diff-sharepoint-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/inventory-collectors.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-collect-sharepoint-inventory/references/inventory-collectors.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-collect-sharepoint-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-calculated-columns/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-calculated-columns"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/calculated-columns-details.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-calculated-columns/references/calculated-columns-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-calculated-columns"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-choice-fields/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-choice-fields"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/choice-fields-details.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-choice-fields/references/choice-fields-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-choice-fields"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-report-set-integrity.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-generate-discovery-report-set/references/discovery-report-set-integrity.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-generate-discovery-report-set"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-scaffold-schema-definition/scripts/schema_definition.py",
+      "strategy": "symlink",
+      "description": "Imported by schema_scaffold.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-scaffold-schema-definition/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "Imported by schema_scaffold.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-generate-sharepoint-schema-from-export/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-generate-sharepoint-schema-from-export"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-definition-generation.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-generate-sharepoint-schema-from-export/references/schema-definition-generation.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-generate-sharepoint-schema-from-export"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/scripts/schema_definition.py",
+      "strategy": "symlink",
+      "description": "Imported by schema_diff.py"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/sharepoint-audit-list-content-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-audit-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/sharepoint-copy-page-between-sites-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-copy-page-between-sites"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-scaffold-spfx-listview-command-set-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-scaffold-spfx-listview-command-set-validation-checklist.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/validation-checklist.md",
+      "strategy": "symlink",
+      "description": "Canonical validation-checklist.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-scaffold-spfx-listview-command-set-list-scoped-registration.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/list-scoped-registration.md",
+      "strategy": "symlink",
+      "description": "Canonical list-scoped-registration.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-setup-spfx-workbench-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/SPFX-TAILWIND-INTEGRATION-GUIDE.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/SPFX-TAILWIND-INTEGRATION-GUIDE.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/SPFX-PNPJS-V4-CROSS-SITE-ARCHITECTURE.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/SPFX-PNPJS-V4-CROSS-SITE-ARCHITECTURE.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/SPFX-SELF-HEALING-MIGRATION-GUIDE.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/SPFX-SELF-HEALING-MIGRATION-GUIDE.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/gap-notice.template.html",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/assets/gap-notice.template.html",
+      "strategy": "symlink",
+      "description": "Packaged asset"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/manifest-schema.json",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/assets/manifest-schema.json",
+      "strategy": "symlink",
+      "description": "Packaged asset"
+    },
+    {
+      "src": "plugins/content-assembly/references/assembly-interface.md",
+      "dst": "plugins/content-assembly/skills/content-assemble-structured-content/references/assembly-interface.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-assemble-structured-content"
+    },
+    {
+      "src": "plugins/content-extraction/references/extraction-interface.md",
+      "dst": "plugins/content-extraction/skills/content-extract-docx/references/extraction-interface.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-extract-docx"
+    },
+    {
+      "src": "plugins/content-rendering/references/render-aspx-details.md",
+      "dst": "plugins/content-rendering/skills/content-render-sharepoint-aspx/references/render-aspx-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-render-sharepoint-aspx"
+    },
+    {
+      "src": "plugins/content-rendering/references/validate-rendered-output-details.md",
+      "dst": "plugins/content-rendering/skills/content-validate-rendered-output/references/validate-rendered-output-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-validate-rendered-output"
+    },
+    {
+      "src": "plugins/content-rendering/references/rendering-template-profiles.md",
+      "dst": "plugins/content-rendering/skills/content-create-markdown-rendering-template/references/rendering-template-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-create-markdown-rendering-template"
+    },
+    {
+      "src": "plugins/content-rendering/references/rendering-template-profiles.md",
+      "dst": "plugins/content-rendering/skills/content-create-aspx-rendering-template/references/rendering-template-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-create-aspx-rendering-template"
+    },
+    {
+      "src": "plugins/content-rendering/references/rendering-template-profiles.md",
+      "dst": "plugins/content-rendering/skills/content-validate-rendering-template/references/rendering-template-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-validate-rendering-template"
+    },
+    {
+      "src": "plugins/content-rendering/scripts/renderers/sharepoint_aspx.py",
+      "dst": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/renderers/sharepoint_aspx.py",
+      "strategy": "symlink",
+      "description": "Imported by renderers.validate_rendered"
+    },
+    {
+      "src": "plugins/content-structure-analysis/references/analysis-interface.md",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/analysis-interface.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-analyze-document-structure"
+    },
+    {
+      "src": "plugins/content-structure-analysis/scripts/identity_core.py",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/identity_core.py",
+      "strategy": "symlink",
+      "description": "Imported by identity/plans/topic_grouping"
+    },
+    {
+      "src": "plugins/content-structure-analysis/scripts/plan_verification_core.py",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/plan_verification_core.py",
+      "strategy": "symlink",
+      "description": "Imported by identity/plans/topic_grouping"
+    },
+    {
+      "src": "plugins/content-structure-analysis/scripts/topic_boundary_core.py",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/topic_boundary_core.py",
+      "strategy": "symlink",
+      "description": "Imported by identity/plans/topic_grouping"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-audit-workflow.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/references/list-content-audit-workflow.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-audit-scripts.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/references/list-content-audit-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-migration-api.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/references/list-content-migration-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-migrate-sharepoint-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-migration-executor.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/references/list-content-migration-executor.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-migrate-sharepoint-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Imported by item_migration.py"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-aspx-to-sharepoint/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-publish-aspx-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-publish-markdown-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-reconcile-sharepoint-publication/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-reconcile-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-aspx-to-sharepoint/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-publish-aspx-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-publish-markdown-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_reconcile.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-reconcile-sharepoint-publication/scripts/sharepoint_reconcile.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_reconcile.py for sharepoint-reconcile-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/docs/sharepoint-actual-state-csv-format.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-reconcile-sharepoint-publication/references/sharepoint-actual-state-csv-format.md",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint-actual-state-csv-format.md for sharepoint-reconcile-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/spo-rollback-publication.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/scripts/spo-rollback-publication.ps1",
+      "strategy": "symlink",
+      "description": "Canonical spo-rollback-publication.ps1 for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_upload.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/scripts/sharepoint_upload.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_upload.py for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/upload-content-details.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/references/upload-content-details.md",
+      "strategy": "symlink",
+      "description": "Canonical upload-content-details.md for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_dry_run.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/scripts/sharepoint_dry_run.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_dry_run.py for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/spo-validate-publication-deployment.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/scripts/spo-validate-publication-deployment.ps1",
+      "strategy": "symlink",
+      "description": "Canonical spo-validate-publication-deployment.ps1 for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-extract-links/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-document-content-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-field-image-references"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-validate-link-integrity"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/extract-links-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-extract-links/references/extract-links-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/remediate-links-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/references/remediate-links-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/document-link-remediation-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/references/document-link-remediation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-document-content-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/field-image-remediation-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/references/field-image-remediation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-field-image-references"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-integrity-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/references/link-integrity-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-validate-link-integrity"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/scripts/link_rules.py",
+      "strategy": "symlink",
+      "description": "Imported by link_integrity.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-plan-sharepoint-deployment-waves/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-plan-sharepoint-deployment-waves"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/migration-project-setup-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/references/migration-project-setup-details.md",
+      "strategy": "symlink",
+      "description": "Canonical migration-project-setup-details.md for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/migration-pipeline-and-outcomes.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/references/migration-pipeline-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical migration-pipeline-and-outcomes.md for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/pipeline-overview.mmd",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/references/pipeline-overview.mmd",
+      "strategy": "symlink",
+      "description": "Canonical pipeline-overview.mmd for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/site-inventory-validation-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/references/site-inventory-validation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical site-inventory-validation-details.md for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/migration-pipeline-and-outcomes.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/references/migration-pipeline-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical migration-pipeline-and-outcomes.md for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/site-inventory-export-schema.json",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/assets/site-inventory-export-schema.json",
+      "strategy": "symlink",
+      "description": "Canonical site-inventory-export-schema.json for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/dependency-graph-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/references/dependency-graph-details.md",
+      "strategy": "symlink",
+      "description": "Canonical dependency-graph-details.md for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/rules/deployment-decision-principles.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/references/deployment-decision-principles.md",
+      "strategy": "symlink",
+      "description": "Canonical deployment-decision-principles.md for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/rules/test-driven-wave-deployment.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/references/test-driven-wave-deployment.md",
+      "strategy": "symlink",
+      "description": "Canonical test-driven-wave-deployment.md for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/dependency-matrix-schema.json",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/assets/dependency-matrix-schema.json",
+      "strategy": "symlink",
+      "description": "Canonical dependency-matrix-schema.json for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/deployment-wave-planning-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-plan-sharepoint-deployment-waves/references/deployment-wave-planning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical deployment-wave-planning-details.md for sharepoint-plan-sharepoint-deployment-waves"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-provision-calendar.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/scripts/spo-provision-calendar.ps1",
+      "strategy": "symlink",
+      "description": "Canonical spo-provision-calendar.ps1 for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/wave-script-generation-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/references/wave-script-generation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical wave-script-generation-details.md for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/rules/test-driven-wave-deployment.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/references/test-driven-wave-deployment.md",
+      "strategy": "symlink",
+      "description": "Canonical test-driven-wave-deployment.md for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/wave-script-template.example.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/assets/wave-script-template.example.py",
+      "strategy": "symlink",
+      "description": "Canonical wave-script-template.example.py for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/wave-guide-template.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/assets/wave-guide-template.md",
+      "strategy": "symlink",
+      "description": "Canonical wave-guide-template.md for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-analyze-aspx-pages/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-analyze-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-convert-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-compose-page-preview/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-compose-page-preview"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-generate-conversion-report"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/aspx-analysis-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-analyze-aspx-pages/references/aspx-analysis-details.md",
+      "strategy": "symlink",
+      "description": "Canonical aspx-analysis-details.md for sharepoint-analyze-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/aspx-conversion-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/references/aspx-conversion-details.md",
+      "strategy": "symlink",
+      "description": "Canonical aspx-conversion-details.md for sharepoint-convert-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-preview-composition-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-compose-page-preview/references/page-preview-composition-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-preview-composition-details.md for sharepoint-compose-page-preview"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/conversion-report-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/references/conversion-report-details.md",
+      "strategy": "symlink",
+      "description": "Canonical conversion-report-details.md for sharepoint-generate-conversion-report"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "Imported by conversion_report.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-convert-page-to-modern/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-convert-page-to-modern"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-execute-page-bulk-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-validate-page-migration/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-validate-page-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-copy-page-between-sites"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-conversion-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-convert-page-to-modern/references/page-conversion-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-conversion-details.md for sharepoint-convert-page-to-modern"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/bulk-page-migration-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/references/bulk-page-migration-details.md",
+      "strategy": "symlink",
+      "description": "Canonical bulk-page-migration-details.md for sharepoint-execute-page-bulk-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-migration-validation-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-validate-page-migration/references/page-migration-validation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-migration-validation-details.md for sharepoint-validate-page-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-copy-plan-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/references/page-copy-plan-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-copy-plan-details.md for sharepoint-copy-page-between-sites"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-add-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-item/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-add-list-item"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-apply-provisioning-plan"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-column-formatting/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-configure-column-formatting"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-library-settings/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-configure-library-settings"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-document-library/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-document-library"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-list"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list-view/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-list-view"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-site-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-detach-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-detach-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-list"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-site-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-settings/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-list-settings"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-site-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-modern-calendar-list/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-modern-calendar-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/field_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/scripts/field_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical field_provisioning.py for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/field-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/references/field-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical field-provisioning-details.md for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/content_type_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/scripts/content_type_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical content_type_provisioning.py for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/content-type-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/references/content-type-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical content-type-provisioning-details.md for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/list_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/list_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical list_provisioning.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/field_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/field_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical field_provisioning.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/content_type_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/content_type_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical content_type_provisioning.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/list-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/references/list-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical list-provisioning-details.md for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/calendar-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-modern-calendar-list/references/calendar-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical calendar-provisioning-details.md for sharepoint-provision-modern-calendar-list"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-deploy-runbook.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/references/spfx-deploy-runbook.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-deploy-runbook.md for sharepoint-deploy-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-live-write-scripts.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/references/spfx-live-write-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-live-write-scripts.md for sharepoint-deploy-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-package-preflight.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/references/spfx-package-preflight.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-package-preflight.md for sharepoint-package-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-naming-and-versioning.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/references/spfx-naming-and-versioning.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-naming-and-versioning.md for sharepoint-package-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-publish-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/references/spfx-publish-details.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-publish-details.md for sharepoint-publish-spfx-package"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-naming-and-versioning.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/references/spfx-naming-and-versioning.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-naming-and-versioning.md for sharepoint-publish-spfx-package"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-live-write-scripts.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/references/spfx-live-write-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-live-write-scripts.md for sharepoint-publish-spfx-package"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/app-catalog-request-runbook.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-request-site-collection-app-catalog/references/app-catalog-request-runbook.md",
+      "strategy": "symlink",
+      "description": "Canonical app-catalog-request-runbook.md for sharepoint-request-site-collection-app-catalog"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-suitability-and-setup.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-suitability-and-setup.md",
+      "strategy": "symlink",
+      "description": "Canonical form-customizer-suitability-and-setup.md for sharepoint-scaffold-spfx-form-customizer"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-implementation-patterns.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-implementation-patterns.md",
+      "strategy": "symlink",
+      "description": "Canonical form-customizer-implementation-patterns.md for sharepoint-scaffold-spfx-form-customizer"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-deploy-associate-validate.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-deploy-associate-validate.md",
+      "strategy": "symlink",
+      "description": "Canonical form-customizer-deploy-associate-validate.md for sharepoint-scaffold-spfx-form-customizer"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/listview-command-set-workflow.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/listview-command-set-workflow.md",
+      "strategy": "symlink",
+      "description": "Canonical listview-command-set-workflow.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/master-detail-scaffold-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/references/master-detail-scaffold-details.md",
+      "strategy": "symlink",
+      "description": "Canonical master-detail-scaffold-details.md for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/react-app-scaffold-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/react-app-scaffold-details.md",
+      "strategy": "symlink",
+      "description": "Canonical react-app-scaffold-details.md for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/webpart-scaffold-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-webpart/references/webpart-scaffold-details.md",
+      "strategy": "symlink",
+      "description": "Canonical webpart-scaffold-details.md for sharepoint-scaffold-spfx-webpart"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-naming-and-versioning.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-webpart/references/spfx-naming-and-versioning.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-naming-and-versioning.md for sharepoint-scaffold-spfx-webpart"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-workbench-setup-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/references/spfx-workbench-setup-details.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-workbench-setup-details.md for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": "Canonical check-spfx-toolchain.ps1 for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/setup-spfx-workbench.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/scripts/setup-spfx-workbench.ps1",
+      "strategy": "symlink",
+      "description": "Canonical setup-spfx-workbench.ps1 for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/MasterDetailWebPart.ts.template",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/MasterDetailWebPart.ts.template",
+      "strategy": "symlink",
+      "description": "Canonical MasterDetailWebPart.ts.template for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/MasterDetailWebPart.module.scss.template",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/MasterDetailWebPart.module.scss.template",
+      "strategy": "symlink",
+      "description": "Canonical MasterDetailWebPart.module.scss.template for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/.yo-rc.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/.yo-rc.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/package.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/package.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/tsconfig.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/tsconfig.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/eslint.config.js",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/eslint.config.js",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/rig.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/rig.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/serve.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/serve.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/package-solution.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/package-solution.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/config.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/config.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/deploy-azure-storage.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/deploy-azure-storage.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/write-manifests.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/write-manifests.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/typescript.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/typescript.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/sass.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/sass.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.manifest.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.manifest.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.module.scss",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.module.scss",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.ts",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.ts",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/en-us.js",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/en-us.js",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/mystrings.d.ts",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/mystrings.d.ts",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-agents/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-native-skills/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent-template/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-agents/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-native-skills/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-rollback-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-update-sharepoint-agent/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent-template/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-update-sharepoint-agent/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-rollback-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-agents/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-native-skills/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-agents/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-native-skills/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-knowledge-binding-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/references/agent-knowledge-binding-details.md",
+      "strategy": "symlink",
+      "description": "knowledge binding reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/apply-sharepoint-agent-template.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/scripts/apply-sharepoint-agent-template.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-agent.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/scripts/create-sharepoint-agent.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/backup-sharepoint-agents.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-agents/scripts/backup-sharepoint-agents.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/backup-sharepoint-native-skills.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-native-skills/scripts/backup-sharepoint-native-skills.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/configure-sharepoint-agent-knowledge.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/scripts/configure-sharepoint-agent-knowledge.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/get-agent-resource-identifiers.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/scripts/get-agent-resource-identifiers.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-agent-template.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent-template/scripts/create-sharepoint-agent-template.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-native-skill.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-native-skill/scripts/create-sharepoint-native-skill.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/inventory-skills.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/scripts/inventory-skills.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/provision-agentassets.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/scripts/provision-agentassets.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/verify-agentassets-ready.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/scripts/verify-agentassets-ready.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/diagnose-sharepoint-library.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/scripts/diagnose-sharepoint-library.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/restore-sharepoint-agents.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-agents/scripts/restore-sharepoint-agents.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/restore-sharepoint-native-skills.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-native-skills/scripts/restore-sharepoint-native-skills.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/rollback-skill-deployment.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-rollback-sharepoint-native-skill/scripts/rollback-skill-deployment.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/update-sharepoint-agent.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-update-sharepoint-agent/scripts/update-sharepoint-agent.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/verify-agentassets-artifact.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/scripts/verify-agentassets-artifact.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/reconcile-deployed-skill.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/scripts/reconcile-deployed-skill.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/review_manual_topics.py",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-review-manual-topics/scripts/review_manual_topics.py",
+      "strategy": "symlink",
+      "description": "skill script"
     }
   ]
 }

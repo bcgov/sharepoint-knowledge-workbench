@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Make a readable report from manifest.json.",
+    "expected_behavior": [
+      "Runs conversion_report.py --manifest manifest.json --output conversion-report.md",
+      "Reports Observed for no gaps or Partial with the gap count, and that the report was written",
+      "Makes no tenant call"
+    ]
+  },
+  {
+    "query": "The manifest has no gaps field. Fill in an empty list and render it.",
+    "expected_behavior": [
+      "Reports Unavailable for a manifest missing a required field and writes no report",
+      "Does not patch the manifest to make it render",
+      "Names the missing field"
+    ]
+  },
+  {
+    "query": "Make me a manifest from the mapping and views outputs, then a report.",
+    "expected_behavior": [
+      "Explains this skill only renders a manifest and no script in the plugin assembles one from the stage outputs",
+      "Says the caller or the modernization agent assembles the manifest per the schema",
+      "Offers to render the report once a conforming manifest exists"
+    ]
+  }
+]

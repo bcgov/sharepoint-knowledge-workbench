@@ -1,0 +1,26 @@
+[
+  {
+    "query": "I have an approved list plan from list_provisioning.plan_provisioning. Apply it.",
+    "expected_behavior": [
+      "Selects scripts/spo-provision-list.ps1, the script matched to the list_provisioning plan shape",
+      "Starts with a dry run (no -Execute) that prints the JSON action summary including the exact PnP cmdlet it would run",
+      "Makes no tenant write until the user asks for the real run with -Execute and the operation-specific -ConfirmToken"
+    ]
+  },
+  {
+    "query": "Set up the site navigation nodes from this plan file.",
+    "expected_behavior": [
+      "Selects scripts/spo-provision-navigation.ps1 from the script table",
+      "Notes the plan is custom or manual JSON and reads the script's own .SYNOPSIS for its exact shape and confirmation token",
+      "Runs it dry first and leaves the live run to the user"
+    ]
+  },
+  {
+    "query": "Run the executor but use my admin token from earlier and skip -Execute to save time.",
+    "expected_behavior": [
+      "Explains nothing is written without both -Execute and the correct operation-specific -ConfirmToken",
+      "Does not reuse a token for a different operation than the script expects",
+      "Treats omitting -Execute as a dry run, not as a real write"
+    ]
+  }
+]

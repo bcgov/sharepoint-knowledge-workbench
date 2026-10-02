@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Make me a standard-manual Markdown page template at out/page.template.md.",
+    "expected_behavior": [
+      "Calls create_rendering_template(profile='standard-manual', fmt='markdown', output_path='out/page.template.md')",
+      "Reports the template and its .meta.json sidecar",
+      "Suggests validating it with content-validate-rendering-template"
+    ]
+  },
+  {
+    "query": "Create a template with the profile 'fancy'.",
+    "expected_behavior": [
+      "Reports UnknownTemplateProfileError because only generic and standard-manual exist",
+      "Does not invent a new profile",
+      "Offers the two valid profiles"
+    ]
+  },
+  {
+    "query": "Write the agent instructions template for our SharePoint agent.",
+    "expected_behavior": [
+      "Declines, because this is a rendering (page layout) template, not an agent or native-skill template",
+      "Explains the two template systems are never merged",
+      "Does not create a rendering template as a substitute"
+    ]
+  }
+]

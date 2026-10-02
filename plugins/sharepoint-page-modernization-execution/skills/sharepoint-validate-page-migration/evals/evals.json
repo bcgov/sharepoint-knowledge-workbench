@@ -1,0 +1,10 @@
+[
+  {"query": "Validate that the converted modern pages landed with their mapped fields populated", "should_trigger": true},
+  {"query": "Check the run manifest against the live site and write a pass/fail test report", "should_trigger": true},
+  {"query": "Confirm the literal migration tag values on the converted pages are exact", "should_trigger": true},
+  {"query": "I need a pipeline check that fails if any converted page is missing", "should_trigger": true},
+  {"query": "Convert the classic pages to modern pages", "should_trigger": false},
+  {"query": "Run the bulk migration and resume it if it stops", "should_trigger": false},
+  {"query": "Fix the broken links in the converted pages", "should_trigger": false},
+  {"query": "Analyse which pages are hardest to migrate", "should_trigger": false}
+]

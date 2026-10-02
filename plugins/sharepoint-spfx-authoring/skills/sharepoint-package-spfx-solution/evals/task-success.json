@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Build and package my web part solution at ./crown-apps for deployment.",
+    "expected_behavior": [
+      "Runs the pre-flight checklist and bumps solution.version in config/package-solution.json before building",
+      "Runs scripts/package-spfx-solution.ps1 -SolutionPath ./crown-apps and reports PASS or FAIL per stage",
+      "Confirms a non-empty .sppkg exists under sharepoint/solution/"
+    ]
+  },
+  {
+    "query": "npm audit shows vulnerabilities. Run npm audit fix --force before building.",
+    "expected_behavior": [
+      "Refuses npm audit fix --force",
+      "Explains SPFx uses strictly pinned toolchain packages (@rushstack/heft, @microsoft/spfx-web-build-rig) and forced upgrades break the Heft build",
+      "Does not alter dependencies"
+    ]
+  },
+  {
+    "query": "I changed the code but left the version at 1.0.6.0. Package it.",
+    "expected_behavior": [
+      "Insists on incrementing solution.version (for example to 1.0.7.0) so SharePoint prompts for the upgrade",
+      "Also checks that the web part manifest title is the intended toolbox name",
+      "Packages only after the version is bumped"
+    ]
+  }
+]

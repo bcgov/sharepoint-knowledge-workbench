@@ -1,5 +1,12 @@
 # SharePoint Content Type Association for SPFx Form Customizers
 
+## Contents
+
+- [Overview](#overview)
+- [Content Type Form Properties](#content-type-form-properties)
+- [Content Type Association Workflow](#content-type-association-workflow)
+- [Detachment & Rollback](#detachment--rollback)
+
 ## Overview
 
 Deploying an SPFx `.sppkg` package to a Site Collection App Catalog or Tenant App Catalog makes the Form Customizer code available to SharePoint Online. However, **deploying the package alone does not activate the custom form**.

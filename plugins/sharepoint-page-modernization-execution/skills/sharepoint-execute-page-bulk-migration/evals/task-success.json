@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Migrate all pages in the ClassicPages library to modern pages.",
+    "expected_behavior": [
+      "Starts with a dry run of scripts/spo-convert-pages-bulk.ps1 -SourceLibrary \"ClassicPages\", spawning no subprocesses and making no writes",
+      "Recommends trying a single page with -PageName before the full run",
+      "Requires -Execute -ConfirmToken CONVERT-SPO-PAGES-BULK for real writes and leaves running it to the user"
+    ]
+  },
+  {
+    "query": "The run stopped after 40 pages. How do I carry on?",
+    "expected_behavior": [
+      "Uses -ResumeFromManifest so pages already recorded as Succeeded are skipped",
+      "Explains each page's result was appended to -ManifestPath as the run progressed",
+      "Keeps the throttle delay (-ThrottleDelaySeconds, default 2) in mind for SharePoint Online rate limits"
+    ]
+  },
+  {
+    "query": "Does the bulk run also fix the links in the converted pages?",
+    "expected_behavior": [
+      "Says it does not rewrite embedded links, because same-site conversion does not do that",
+      "Points to sharepoint-link-remediation for a separate pass",
+      "Notes validation runs automatically afterwards unless -SkipValidation is set, and the run exits non-zero if any page fails"
+    ]
+  }
+]

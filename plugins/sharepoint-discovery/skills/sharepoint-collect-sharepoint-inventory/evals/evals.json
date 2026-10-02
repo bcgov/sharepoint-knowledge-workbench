@@ -1,0 +1,10 @@
+[
+  {"query": "Export a list and library inventory from https://tenant.sharepoint.com/sites/Test", "should_trigger": true},
+  {"query": "Crawl the on-prem SP2016 site and get item counts and storage per list", "should_trigger": true},
+  {"query": "Download all the .aspx pages from the legacy SharePoint site", "should_trigger": true},
+  {"query": "Build the schema-export directory tree for this site so we can compare it later", "should_trigger": true},
+  {"query": "Analyse this page-inventory.json for migration complexity", "should_trigger": false},
+  {"query": "Compare two exported schema snapshots", "should_trigger": false},
+  {"query": "Migrate these lists and their items to the new site", "should_trigger": false},
+  {"query": "How do I boil an egg?", "should_trigger": false}
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Rename the Projects list to Active Projects and turn on versioning. Show me the plan first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-update-list.ps1 with -PlanPath and without -Execute, as a dry run",
+      "States the dry run prints a structured JSON action plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real run"
+    ]
+  },
+  {
+    "query": "The plan looks right. Apply it for real.",
+    "expected_behavior": [
+      "Adds -Execute and -ConfirmToken UPDATE-SPO-LIST to the same command",
+      "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
+      "Does not alter the plan content between the dry run and the real run"
+    ]
+  },
+  {
+    "query": "Delete the list and recreate it with a new name.",
+    "expected_behavior": [
+      "Declines to delete and recreate, and offers renaming with this skill instead",
+      "Points to the remove-list and create-list skills if the user truly wants that",
+      "Makes no change without -Execute and the token"
+    ]
+  }
+]

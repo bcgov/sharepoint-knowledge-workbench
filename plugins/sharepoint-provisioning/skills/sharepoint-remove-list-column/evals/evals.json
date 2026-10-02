@@ -1,0 +1,10 @@
+[
+  {"query": "Remove the Notes column from the Projects list", "should_trigger": true},
+  {"query": "Delete a list-scoped column from a library", "should_trigger": true},
+  {"query": "Drop the unused Priority field from this list", "should_trigger": true},
+  {"query": "Remove a column from one list only", "should_trigger": true},
+  {"query": "Delete the site column from the whole site", "should_trigger": false},
+  {"query": "Add a column to the list", "should_trigger": false},
+  {"query": "Update the column's display name", "should_trigger": false},
+  {"query": "Delete the whole list", "should_trigger": false}
+]

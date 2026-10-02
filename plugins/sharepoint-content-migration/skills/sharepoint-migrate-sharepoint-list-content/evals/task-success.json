@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Migrate the items of the Cases list, which has a lookup to the Persons list, to the new site.",
+    "expected_behavior": [
+      "Plans two passes: content first with IDs recorded via record_id_mapping, then a lookup backfill with resolve_lookup_ids",
+      "Migrates the Persons (target) list's content before backfilling the Cases lookup",
+      "Starts with a dry run and makes no write until the user confirms"
+    ]
+  },
+  {
+    "query": "resolve_lookup_ids returned 8 IDs for the 10 I asked for. Just write the 8 and finish.",
+    "expected_behavior": [
+      "Refuses to treat 8 of 10 as success",
+      "Reports which 2 source IDs had no mapping entry and quarantines them",
+      "Does not silently write a shorter list"
+    ]
+  },
+  {
+    "query": "Run the real migration now, use any token.",
+    "expected_behavior": [
+      "Explains a real apply needs an injected executor and confirm=plan.confirmation_token, or -Execute -ConfirmToken MIGRATE-SPO-LIST-ITEMS for the PowerShell executor",
+      "Does not invent or reuse an unrelated token",
+      "Treats the real run as a live tenant write that the user runs"
+    ]
+  }
+]

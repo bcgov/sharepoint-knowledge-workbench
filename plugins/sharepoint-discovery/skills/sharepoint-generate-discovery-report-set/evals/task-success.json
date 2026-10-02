@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Generate the discovery reports for 'Contoso Intranet' from .\\contoso\\analysis. I do not have permissions data.",
+    "expected_behavior": [
+      "Runs or hands over scripts/generate-sharepoint-discovery-report-set.ps1 with -AnalysisDir and -SiteName and no -PermissionsJson",
+      "Explains the security and permissions report is skipped with a Write-Warning because no permissions data was supplied",
+      "Does not invent a security narrative"
+    ]
+  },
+  {
+    "query": "webpart_content_extract.json is missing from the analysis folder. Will the reports still be complete?",
+    "expected_behavior": [
+      "Says the affected sections report 'Unavailable -- no <file> input was found at <path>' instead of a default conclusion",
+      "Treats the report set as partial, not complete",
+      "Does not assert that no Script Editor web parts exist"
+    ]
+  },
+  {
+    "query": "The report says Modern Script Editor web parts are 'Conditional -- requires manual review'. Why?",
+    "expected_behavior": [
+      "Explains the verdict is computed from the real Script Editor count, with 'No.' only when the count is zero",
+      "Says each detected Script Editor web part must be reviewed individually",
+      "Does not change the verdict to 'No.'"
+    ]
+  }
+]

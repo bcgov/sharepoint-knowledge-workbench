@@ -1,0 +1,1 @@
+../../../scripts/apply-sharepoint-agent-template.ps1

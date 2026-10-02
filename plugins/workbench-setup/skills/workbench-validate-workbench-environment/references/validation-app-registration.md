@@ -1,0 +1,1 @@
+../../../references/validation-app-registration.md

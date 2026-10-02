@@ -1,5 +1,18 @@
 # SharePoint Web-Part Discovery and Analysis Runbook
 
+## Contents
+
+- [Pipeline](#pipeline)
+- [1. Collect source pages](#1-collect-source-pages)
+- [2. Scan web parts](#2-scan-web-parts)
+- [3. Extract payloads](#3-extract-payloads)
+- [4. Group by functional behavior](#4-group-by-functional-behavior)
+- [5. Assemble reports](#5-assemble-reports)
+- [6. Modernization handoff](#6-modernization-handoff)
+- [Historical evidence and count reconciliation](#historical-evidence-and-count-reconciliation)
+- [Source-to-workbench mapping](#source-to-workbench-mapping)
+- [Compatibility analysis scripts](#compatibility-analysis-scripts)
+
 This runbook preserves the discovery lineage from the CMAT migration
 repository while using the generalized `sharepoint-discovery` workbench
 capabilities. It is read-only against SharePoint and produces local evidence.

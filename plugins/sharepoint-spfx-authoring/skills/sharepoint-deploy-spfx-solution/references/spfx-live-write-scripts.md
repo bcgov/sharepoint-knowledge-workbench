@@ -1,0 +1,1 @@
+../../../references/spfx-live-write-scripts.md

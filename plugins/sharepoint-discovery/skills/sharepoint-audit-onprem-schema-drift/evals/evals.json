@@ -1,0 +1,10 @@
+[
+  {"query": "Why did the copy from the Requests list to Archive_2024 fail? Compare their field schemas on the SP2016 site", "should_trigger": true},
+  {"query": "Check for schema drift between the Matches_Received source list and the Cal_* destination lists", "should_trigger": true},
+  {"query": "Validate lookup field references and workflow associations across the legacy site before migration", "should_trigger": true},
+  {"query": "Are required-field mismatches between source and destination lists breaking our workflow?", "should_trigger": true},
+  {"query": "Compare two exported schema JSON snapshots and report what changed", "should_trigger": false},
+  {"query": "Audit managed metadata and term sets on the site", "should_trigger": false},
+  {"query": "Delete the duplicate fields on the destination lists to fix the mismatch", "should_trigger": false},
+  {"query": "Inventory all the pages in the Site Pages library", "should_trigger": false}
+]

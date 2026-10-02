@@ -1,0 +1,10 @@
+[
+  {"query": "Delete the Contract content type from the site collection", "should_trigger": true},
+  {"query": "Safely remove an unused content type", "should_trigger": true},
+  {"query": "Remove the obsolete Invoice content type", "should_trigger": true},
+  {"query": "Clean up a content type nobody uses", "should_trigger": true},
+  {"query": "Detach a content type from a single list", "should_trigger": false},
+  {"query": "Rename a content type", "should_trigger": false},
+  {"query": "Create a content type", "should_trigger": false},
+  {"query": "Delete a site column", "should_trigger": false}
+]

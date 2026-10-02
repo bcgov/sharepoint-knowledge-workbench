@@ -1,0 +1,1 @@
+../../../references/spfx-workbench-setup-details.md
