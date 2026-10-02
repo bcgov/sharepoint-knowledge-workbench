@@ -3672,6 +3672,54 @@
       "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/scripts/outcomes.py",
       "strategy": "symlink",
       "description": "Imported by conversion_report.py"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-convert-page-to-modern/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-convert-page-to-modern"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-execute-page-bulk-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-validate-page-migration/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-validate-page-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-execution-gates-and-config.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/references/page-execution-gates-and-config.md",
+      "strategy": "symlink",
+      "description": "Canonical page-execution-gates-and-config.md for sharepoint-copy-page-between-sites"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-conversion-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-convert-page-to-modern/references/page-conversion-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-conversion-details.md for sharepoint-convert-page-to-modern"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/bulk-page-migration-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-execute-page-bulk-migration/references/bulk-page-migration-details.md",
+      "strategy": "symlink",
+      "description": "Canonical bulk-page-migration-details.md for sharepoint-execute-page-bulk-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-migration-validation-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-validate-page-migration/references/page-migration-validation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-migration-validation-details.md for sharepoint-validate-page-migration"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/page-copy-plan-details.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/references/page-copy-plan-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-copy-plan-details.md for sharepoint-copy-page-between-sites"
     }
   ]
 }
