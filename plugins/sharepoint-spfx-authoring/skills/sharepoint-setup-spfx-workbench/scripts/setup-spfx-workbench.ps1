@@ -1,0 +1,1 @@
+../../../scripts/setup-spfx-workbench.ps1

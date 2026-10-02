@@ -1,5 +1,13 @@
 # PnPjs v4 Cross-Site Collection & State Isolation Architecture
 
+## Contents
+
+- [Overview](#overview)
+- [1. Centralized PnPjs v4 Singleton: `pnpjsConfig.ts`](#1-centralized-pnpjs-v4-singleton-pnpjsconfigts)
+- [2. Hub-and-Spoke Data Topology](#2-hub-and-spoke-data-topology)
+- [3. Per-User State Isolation Pattern](#3-per-user-state-isolation-pattern)
+- [4. Robust Permission & Error Handling](#4-robust-permission--error-handling)
+
 ## Overview
 
 In enterprise SharePoint Online architectures (e.g. Hub-and-Spoke navigation topologies), web parts deployed on child or spoke sites often need to read or write centralized data stored on a parent Hub site (such as user favourites, organizational quick links, or shared document taxonomies) while querying local site-specific document libraries.

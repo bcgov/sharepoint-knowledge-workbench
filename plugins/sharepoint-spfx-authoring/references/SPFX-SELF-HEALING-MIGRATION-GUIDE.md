@@ -1,5 +1,13 @@
 # Self-Healing GUID Migration & Resilient Property Resolution in SPFx
 
+## Contents
+
+- [Overview](#overview)
+- [1. Dual-Key Property Storage Pattern](#1-dual-key-property-storage-pattern)
+- [2. Dynamic Recovery Algorithm](#2-dynamic-recovery-algorithm)
+- [3. Implementation in TypeScript / SPFx](#3-implementation-in-typescript--spfx)
+- [4. Property Pane Synchronization](#4-property-pane-synchronization)
+
 ## Overview
 
 When promoting modern SharePoint sites across environments (e.g. `DEV` -> `TEST` -> `PROD`) or migrating lists between sites, SharePoint generates new unique identifiers (`GUIDs`) for lists and libraries. 

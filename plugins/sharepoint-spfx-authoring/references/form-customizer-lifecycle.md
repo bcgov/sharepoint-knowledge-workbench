@@ -1,5 +1,13 @@
 # SPFx Form Customizer Lifecycle and Architecture
 
+## Contents
+
+- [Overview](#overview)
+- [Component Comparison Matrix](#component-comparison-matrix)
+- [Core Lifecycle and Base Class](#core-lifecycle-and-base-class)
+- [Essential Context APIs](#essential-context-apis)
+- [Component Manifest Configuration](#component-manifest-configuration)
+
 ## Overview
 
 An **SPFx Form Customizer** is a SharePoint Framework Extension (introduced in SPFx 1.15) that overrides the default New, Edit, or Display form experience for items in a SharePoint Online list or document library.
