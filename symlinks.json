@@ -4064,12 +4064,6 @@
       "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
     },
     {
-      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/.gitignore",
-      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/.gitignore",
-      "strategy": "symlink",
-      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
-    },
-    {
       "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/package.json",
       "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/package.json",
       "strategy": "symlink",

@@ -192,6 +192,8 @@ Take one plugin at a time, in the order listed in `PROGRESS.md`.
   skill root and errors if missing. Either link/symlink the file or reword to "a plugin-level asset".
 - **Linked references need an early `## Contents`** when > 100 lines (warning `navigation.reference-toc`). Add it to the
   canonical file at the plugin root.
+- **Never symlink a file named `.gitignore`** into a skill: git refuses to follow it and prints `unable to access ... Too many levels of symbolic links` on every command. Omit it and document the omission
+  (done for the master-detail reference project in `sharepoint-spfx-authoring`).
 - **Unique plugin-root names**: several skills used to ship a real `acceptance-criteria.md`; they were moved to
   `<skill>-acceptance-criteria.md` at the plugin root and symlinked back under the original name.
 - **`scripts/assets/` convention** in `sharepoint-page-modernization`: its skills symlink assets to `scripts/assets/` (packaged
