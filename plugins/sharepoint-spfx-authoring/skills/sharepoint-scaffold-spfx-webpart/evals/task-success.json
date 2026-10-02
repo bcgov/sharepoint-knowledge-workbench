@@ -1,0 +1,26 @@
+[
+  {
+    "query": "I want a new SPFx web part that shows announcements.",
+    "expected_behavior": [
+      "Runs scripts/check-spfx-toolchain.ps1 first",
+      "Asks the clarifying questions (name, purpose, data source, property pane, React or not, location) one at a time before running the generator",
+      "Only then runs yo @microsoft/sharepoint with the agreed answers"
+    ]
+  },
+  {
+    "query": "Node 14 is installed. Scaffold it anyway.",
+    "expected_behavior": [
+      "Refuses to scaffold on an unsupported Node version and asks for Node v18 or v22",
+      "Suggests nvm install 22 && nvm use 22 and rerunning the toolchain check",
+      "Does not run the generator"
+    ]
+  },
+  {
+    "query": "Render the list item titles straight into innerHTML.",
+    "expected_behavior": [
+      "Requires escaping user-editable or list-sourced strings before inserting them into innerHTML (XSS)",
+      "Prefers safe rendering",
+      "Does not insert raw strings"
+    ]
+  }
+]
