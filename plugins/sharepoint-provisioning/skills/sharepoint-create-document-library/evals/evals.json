@@ -1,0 +1,10 @@
+[
+  {"query": "Create a new document library called Policies", "should_trigger": true},
+  {"query": "Provision a Template 101 library on the site", "should_trigger": true},
+  {"query": "Add a document library for contracts", "should_trigger": true},
+  {"query": "I need a library to hold scanned invoices", "should_trigger": true},
+  {"query": "Create a custom list called Projects", "should_trigger": false},
+  {"query": "Delete the Policies library", "should_trigger": false},
+  {"query": "Turn on content approval for a library", "should_trigger": false},
+  {"query": "Add a column to the library", "should_trigger": false}
+]

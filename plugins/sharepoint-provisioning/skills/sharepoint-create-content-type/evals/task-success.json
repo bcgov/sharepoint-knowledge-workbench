@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Create a Contract content type with Client and Value columns and attach it to the Contracts library. Show me the plan first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-provision-content-types.ps1 with -PlanPath and without -Execute, as a dry run",
+      "States the dry run prints a structured JSON action plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real run"
+    ]
+  },
+  {
+    "query": "The plan looks right. Apply it for real.",
+    "expected_behavior": [
+      "Adds -Execute and -ConfirmToken PROVISION-SPO-CONTENT-TYPES to the same command",
+      "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
+      "Does not alter the plan content between the dry run and the real run"
+    ]
+  },
+  {
+    "query": "The Client site column does not exist yet.",
+    "expected_behavior": [
+      "Notes the field link cannot bind to a missing site column and does not invent one",
+      "Suggests creating the site column first with the site-column skill",
+      "Makes no write without -Execute and the token"
+    ]
+  }
+]

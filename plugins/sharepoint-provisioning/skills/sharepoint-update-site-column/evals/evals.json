@@ -1,0 +1,10 @@
+[
+  {"query": "Change the choices of the Region site column", "should_trigger": true},
+  {"query": "Update a site column's display name and description", "should_trigger": true},
+  {"query": "Make a site column required", "should_trigger": true},
+  {"query": "Edit the Region site column with Set-PnPField", "should_trigger": true},
+  {"query": "Create a new site column", "should_trigger": false},
+  {"query": "Delete the Region site column", "should_trigger": false},
+  {"query": "Update a column on one list only", "should_trigger": false},
+  {"query": "Rename a content type", "should_trigger": false}
+]

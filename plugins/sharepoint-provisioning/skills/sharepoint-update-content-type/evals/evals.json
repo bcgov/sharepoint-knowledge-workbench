@@ -1,0 +1,10 @@
+[
+  {"query": "Rename the Contract content type to Agreement", "should_trigger": true},
+  {"query": "Change the group of a content type", "should_trigger": true},
+  {"query": "Update a content type description", "should_trigger": true},
+  {"query": "Hide a content type from the New menu", "should_trigger": true},
+  {"query": "Delete the content type", "should_trigger": false},
+  {"query": "Create a new content type", "should_trigger": false},
+  {"query": "Detach the content type from a list", "should_trigger": false},
+  {"query": "Update a site column's choices", "should_trigger": false}
+]

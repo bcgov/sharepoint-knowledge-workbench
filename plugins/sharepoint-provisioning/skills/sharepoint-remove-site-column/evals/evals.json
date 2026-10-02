@@ -1,0 +1,10 @@
+[
+  {"query": "Delete the Region site column", "should_trigger": true},
+  {"query": "Safely remove an unused site column and verify it", "should_trigger": true},
+  {"query": "Remove the obsolete Client site column", "should_trigger": true},
+  {"query": "Clean up a site column that no content type uses", "should_trigger": true},
+  {"query": "Remove a column from one list only", "should_trigger": false},
+  {"query": "Create a site column", "should_trigger": false},
+  {"query": "Update the choices of a site column", "should_trigger": false},
+  {"query": "Delete a content type", "should_trigger": false}
+]

@@ -1,0 +1,10 @@
+[
+  {"query": "Change the Projects list title and description", "should_trigger": true},
+  {"query": "Turn on versioning for the list", "should_trigger": true},
+  {"query": "Update list settings with Set-PnPList", "should_trigger": true},
+  {"query": "Rename a document library", "should_trigger": true},
+  {"query": "Create a new list", "should_trigger": false},
+  {"query": "Delete the list", "should_trigger": false},
+  {"query": "Set library content approval and draft visibility", "should_trigger": false},
+  {"query": "Add a column to the list", "should_trigger": false}
+]

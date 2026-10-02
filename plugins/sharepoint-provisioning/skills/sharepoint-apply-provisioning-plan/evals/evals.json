@@ -1,0 +1,10 @@
+[
+  {"query": "Apply the approved provisioning plan JSON to the tenant with the PnP executor", "should_trigger": true},
+  {"query": "The list_provisioning module produced a plan with a confirmation token. Run it for real", "should_trigger": true},
+  {"query": "Execute the content-type plan with the matching spo script, dry run first", "should_trigger": true},
+  {"query": "Which script handles a navigation or hub-site plan JSON?", "should_trigger": true},
+  {"query": "Work out what lists and columns the site needs from this requirements document", "should_trigger": false},
+  {"query": "Compare the baseline and target schema definitions", "should_trigger": false},
+  {"query": "Inventory the permissions on the legacy site", "should_trigger": false},
+  {"query": "Convert these classic pages to modern pages", "should_trigger": false}
+]

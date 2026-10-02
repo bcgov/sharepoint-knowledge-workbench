@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Detach the Contract content type from the Contracts library. Show me the plan first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-detach-content-type-from-list.ps1 with -PlanPath and without -Execute, as a dry run",
+      "States the dry run prints a structured JSON action plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real run"
+    ]
+  },
+  {
+    "query": "The plan looks right. Apply it for real.",
+    "expected_behavior": [
+      "Adds -Execute and -ConfirmToken DETACH-SPO-CONTENT-TYPE-FROM-LIST to the same command",
+      "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
+      "Does not alter the plan content between the dry run and the real run"
+    ]
+  },
+  {
+    "query": "Will this delete the content type from the site?",
+    "expected_behavior": [
+      "Says detaching unlinks the content type from that list only and leaves the site content type in place",
+      "Points to the remove-content-type skill for deleting it from the site collection",
+      "Makes no write without -Execute and the token"
+    ]
+  }
+]

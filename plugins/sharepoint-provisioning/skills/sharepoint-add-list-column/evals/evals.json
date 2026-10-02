@@ -1,0 +1,10 @@
+[
+  {"query": "Add a Status choice column to the Projects list", "should_trigger": true},
+  {"query": "Add a column directly to an existing document library", "should_trigger": true},
+  {"query": "I need a new Due Date field on the Tasks list only", "should_trigger": true},
+  {"query": "Append a column to this list from a plan file", "should_trigger": true},
+  {"query": "Create a site column every list can reuse", "should_trigger": false},
+  {"query": "Remove the Status column from the Projects list", "should_trigger": false},
+  {"query": "Make the Status column required on the Projects list", "should_trigger": false},
+  {"query": "Add a new item to the Projects list", "should_trigger": false}
+]

@@ -1,0 +1,10 @@
+[
+  {"query": "Create a view of the Projects list showing only open items", "should_trigger": true},
+  {"query": "Add a custom view with Title and Status columns to the library", "should_trigger": true},
+  {"query": "Make a view grouped by Owner", "should_trigger": true},
+  {"query": "Configure a new view for this list", "should_trigger": true},
+  {"query": "Change how the Status column is displayed with column formatting", "should_trigger": false},
+  {"query": "Add a column to the list", "should_trigger": false},
+  {"query": "Update the list title", "should_trigger": false},
+  {"query": "Delete the list", "should_trigger": false}
+]
