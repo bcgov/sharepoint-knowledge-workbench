@@ -2886,6 +2886,426 @@
       "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/workflow_validation.py",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/workbench-setup/references/document-workflow-intake-scope.md",
+      "dst": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/references/document-workflow-intake-scope.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-initialize-document-workflow"
+    },
+    {
+      "src": "plugins/workbench-setup/references/document-workflow-api.md",
+      "dst": "plugins/workbench-setup/skills/workbench-initialize-document-workflow/references/document-workflow-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-initialize-document-workflow"
+    },
+    {
+      "src": "plugins/workbench-setup/references/config-setup-api.md",
+      "dst": "plugins/workbench-setup/skills/workbench-initialize-workbench-config/references/config-setup-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-initialize-workbench-config"
+    },
+    {
+      "src": "plugins/workbench-setup/references/path-resolution-api.md",
+      "dst": "plugins/workbench-setup/skills/workbench-resolve-workbench-paths/references/path-resolution-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-resolve-workbench-paths"
+    },
+    {
+      "src": "plugins/workbench-setup/references/path-resolution-design.md",
+      "dst": "plugins/workbench-setup/skills/workbench-resolve-workbench-paths/references/path-resolution-design.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-resolve-workbench-paths"
+    },
+    {
+      "src": "plugins/workbench-setup/references/validation-config-and-profiles.md",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/validation-config-and-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-validate-workbench-environment"
+    },
+    {
+      "src": "plugins/workbench-setup/references/validation-app-registration.md",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/validation-app-registration.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-validate-workbench-environment"
+    },
+    {
+      "src": "plugins/workbench-setup/references/validation-live-tenant-tools.md",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/references/validation-live-tenant-tools.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-validate-workbench-environment"
+    },
+    {
+      "src": "plugins/workbench-setup/scripts/test-network-connectivity.ps1",
+      "dst": "plugins/workbench-setup/skills/workbench-validate-workbench-environment/scripts/test-network-connectivity.ps1",
+      "strategy": "symlink",
+      "description": "Live network + sign-in tool documented by this skill"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-capability-caution.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-capability-caution.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-types.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-types.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-request-and-setup.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-request-and-setup.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/workbench-setup/references/app-registration-provenance.md",
+      "dst": "plugins/workbench-setup/skills/workbench-request-app-registration/references/app-registration-provenance.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/form-classification-rules.json",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/assets/form-classification-rules.json",
+      "strategy": "symlink",
+      "description": "Neutral default rules for sharepoint-analyze-custom-forms"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/custom-forms-collection-and-scripts.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-custom-forms/references/custom-forms-collection-and-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-custom-forms"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for discovery skills"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/site-navigation-collection.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/references/site-navigation-collection.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for discovery skills"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/site-navigation-chrome-summary-template.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-site-navigation/assets/site-navigation-chrome-summary-template.md",
+      "strategy": "symlink",
+      "description": "Navigation summary template"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/page-inventory-collection-and-scripts.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/references/page-inventory-collection-and-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-page-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-page-inventory/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-page-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/permissions-collection-and-shapes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/references/permissions-collection-and-shapes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-permissions"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-permissions/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-permissions"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/webpart-code-categories-collection-stage2.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/references/webpart-code-categories-collection-stage2.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-webpart-code"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-analyze-webpart-code/references/discovery-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-analyze-webpart-code"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/managed-metadata-audit-provenance.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-managed-metadata/references/managed-metadata-audit-provenance.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-managed-metadata"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-drift-usage-and-output.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-onprem-schema-drift/references/schema-drift-usage-and-output.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-onprem-schema-drift"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/assets/master-discovery-meta-review-template.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-onprem-schema-drift/assets/master-discovery-meta-review-template.md",
+      "strategy": "symlink",
+      "description": "Standalone meta-review catalog template"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-audit-details.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/references/schema-audit-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-diff-modes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-diff-sharepoint-schema/references/schema-diff-modes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-diff-sharepoint-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-diff-sharepoint-schema/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-diff-sharepoint-schema"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/inventory-collectors.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-collect-sharepoint-inventory/references/inventory-collectors.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-collect-sharepoint-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-calculated-columns/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-calculated-columns"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/calculated-columns-details.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-calculated-columns/references/calculated-columns-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-calculated-columns"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-choice-fields/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-choice-fields"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/choice-fields-details.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-extract-choice-fields/references/choice-fields-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-choice-fields"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/discovery-report-set-integrity.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-generate-discovery-report-set/references/discovery-report-set-integrity.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-generate-discovery-report-set"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-scaffold-schema-definition/scripts/schema_definition.py",
+      "strategy": "symlink",
+      "description": "Imported by schema_scaffold.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/schema_export.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-scaffold-schema-definition/scripts/schema_export.py",
+      "strategy": "symlink",
+      "description": "Imported by schema_scaffold.py"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-export-sources-and-outcomes.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-generate-sharepoint-schema-from-export/references/schema-export-sources-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-generate-sharepoint-schema-from-export"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/references/schema-definition-generation.md",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-generate-sharepoint-schema-from-export/references/schema-definition-generation.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-generate-sharepoint-schema-from-export"
+    },
+    {
+      "src": "plugins/sharepoint-discovery/scripts/schema_definition.py",
+      "dst": "plugins/sharepoint-discovery/skills/sharepoint-audit-schema/scripts/schema_definition.py",
+      "strategy": "symlink",
+      "description": "Imported by schema_diff.py"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/sharepoint-audit-list-content-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-audit-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization-execution/references/sharepoint-copy-page-between-sites-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-copy-page-between-sites"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-scaffold-spfx-listview-command-set-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-scaffold-spfx-listview-command-set-validation-checklist.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/validation-checklist.md",
+      "strategy": "symlink",
+      "description": "Canonical validation-checklist.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-scaffold-spfx-listview-command-set-list-scoped-registration.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/list-scoped-registration.md",
+      "strategy": "symlink",
+      "description": "Canonical list-scoped-registration.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/sharepoint-setup-spfx-workbench-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance-criteria.md for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/SPFX-TAILWIND-INTEGRATION-GUIDE.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/SPFX-TAILWIND-INTEGRATION-GUIDE.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/SPFX-PNPJS-V4-CROSS-SITE-ARCHITECTURE.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/SPFX-PNPJS-V4-CROSS-SITE-ARCHITECTURE.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/SPFX-SELF-HEALING-MIGRATION-GUIDE.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/SPFX-SELF-HEALING-MIGRATION-GUIDE.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/gap-notice.template.html",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/assets/gap-notice.template.html",
+      "strategy": "symlink",
+      "description": "Packaged asset"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/assets/manifest-schema.json",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/assets/manifest-schema.json",
+      "strategy": "symlink",
+      "description": "Packaged asset"
+    },
+    {
+      "src": "plugins/content-assembly/references/assembly-interface.md",
+      "dst": "plugins/content-assembly/skills/content-assemble-structured-content/references/assembly-interface.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-assemble-structured-content"
+    },
+    {
+      "src": "plugins/content-extraction/references/extraction-interface.md",
+      "dst": "plugins/content-extraction/skills/content-extract-docx/references/extraction-interface.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-extract-docx"
+    },
+    {
+      "src": "plugins/content-rendering/references/render-aspx-details.md",
+      "dst": "plugins/content-rendering/skills/content-render-sharepoint-aspx/references/render-aspx-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-render-sharepoint-aspx"
+    },
+    {
+      "src": "plugins/content-rendering/references/validate-rendered-output-details.md",
+      "dst": "plugins/content-rendering/skills/content-validate-rendered-output/references/validate-rendered-output-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-validate-rendered-output"
+    },
+    {
+      "src": "plugins/content-rendering/references/rendering-template-profiles.md",
+      "dst": "plugins/content-rendering/skills/content-create-markdown-rendering-template/references/rendering-template-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-create-markdown-rendering-template"
+    },
+    {
+      "src": "plugins/content-rendering/references/rendering-template-profiles.md",
+      "dst": "plugins/content-rendering/skills/content-create-aspx-rendering-template/references/rendering-template-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-create-aspx-rendering-template"
+    },
+    {
+      "src": "plugins/content-rendering/references/rendering-template-profiles.md",
+      "dst": "plugins/content-rendering/skills/content-validate-rendering-template/references/rendering-template-profiles.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-validate-rendering-template"
+    },
+    {
+      "src": "plugins/content-rendering/scripts/renderers/sharepoint_aspx.py",
+      "dst": "plugins/content-rendering/skills/content-render-multipage-markdown/scripts/renderers/sharepoint_aspx.py",
+      "strategy": "symlink",
+      "description": "Imported by renderers.validate_rendered"
+    },
+    {
+      "src": "plugins/content-structure-analysis/references/analysis-interface.md",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/references/analysis-interface.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for content-analyze-document-structure"
+    },
+    {
+      "src": "plugins/content-structure-analysis/scripts/identity_core.py",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/identity_core.py",
+      "strategy": "symlink",
+      "description": "Imported by identity/plans/topic_grouping"
+    },
+    {
+      "src": "plugins/content-structure-analysis/scripts/plan_verification_core.py",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/plan_verification_core.py",
+      "strategy": "symlink",
+      "description": "Imported by identity/plans/topic_grouping"
+    },
+    {
+      "src": "plugins/content-structure-analysis/scripts/topic_boundary_core.py",
+      "dst": "plugins/content-structure-analysis/skills/content-analyze-document-structure/scripts/topic_boundary_core.py",
+      "strategy": "symlink",
+      "description": "Imported by identity/plans/topic_grouping"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-audit-workflow.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/references/list-content-audit-workflow.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-audit-scripts.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-audit-list-content/references/list-content-audit-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-audit-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-migration-api.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/references/list-content-migration-api.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-migrate-sharepoint-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/references/list-content-migration-executor.md",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/references/list-content-migration-executor.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-migrate-sharepoint-list-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-migration/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Imported by item_migration.py"
     }
   ]
 }

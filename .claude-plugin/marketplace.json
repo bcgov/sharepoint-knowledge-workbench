@@ -51,7 +51,7 @@
       "name": "sharepoint-discovery",
       "source": "./plugins/sharepoint-discovery",
       "strict": true,
-      "description": "Read-only analysis of exported classic SharePoint inventories and schemas: per-page migration complexity scoring, functional grouping of web-part code, schema drift auditing, choice field inventory, and calculated column extraction."
+      "description": "Collection and analysis of classic and modern SharePoint site inventories and schemas, with zero tenant writes: per-page migration complexity scoring, web-part code grouping, navigation, custom-form and permissions analysis, schema export audit/diff/definition generation and scaffolding, choice-field and calculated-column extraction, plus read-only PnP.PowerShell and on-prem SP2016 collectors, managed-metadata and schema-drift auditors, and a discovery report-set generator."
     },
     {
       "name": "sharepoint-page-modernization",
