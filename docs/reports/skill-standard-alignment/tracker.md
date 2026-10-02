@@ -55,7 +55,7 @@ installed copy (symlinks resolved) also passes.
 | Passing | 93 | 104 |
 | Failing | 11 | 0 |
 | Errors | 16 | 0 |
-| Warnings | 643 | 400 |
+| Warnings | 643 | 369 |
 
 Baseline: first full audit, before any edits. Current: audit run at the time of the latest change-log entry.
 
@@ -69,7 +69,7 @@ Baseline: first full audit, before any edits. Current: audit run at the time of 
 | content-structure-analysis | 1 | 1 | 0 | 0 |
 | sharepoint-agents-and-skills | 15 | 0 | 0 | 15 |
 | sharepoint-content-migration | 2 | 2 | 0 | 0 |
-| sharepoint-content-publication | 6 | 0 | 0 | 6 |
+| sharepoint-content-publication | 6 | 6 | 0 | 0 |
 | sharepoint-discovery | 15 | 15 | 0 | 0 |
 | sharepoint-link-remediation | 5 | 0 | 1 | 4 |
 | sharepoint-migration-planning | 5 | 0 | 0 | 5 |
@@ -86,8 +86,8 @@ Statuses: **Retrofitted** = restructured to the standard layout and passes `--st
 
 | Rule | Baseline | Current | Notes |
 |---|---|---|---|
-| `navigation.canonical-headings` | 522 | 360 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
-| `size.lean` | 36 | 19 | SKILL.md over the 80-line target |
+| `navigation.canonical-headings` | 522 | 330 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
+| `size.lean` | 36 | 18 | SKILL.md over the 80-line target |
 | `packaging.folder-structure` | 27 | 0 | Missing evals/ directory (and disallowed directories) |
 | `evals.missing` | 27 | 0 | All skills now have evals/evals.json (see decisions: the 27 new files were authored, not observed) |
 | `navigation.entry-toc` | 20 | 12 | Long entry point lacks Contents in the first 100 lines |
@@ -131,12 +131,12 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | sharepoint-agents-and-skills | sharepoint-verify-sharepoint-native-skill | 44 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
 | sharepoint-content-migration | sharepoint-audit-list-content | 68 | FAIL 1/8 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-content-migration | sharepoint-migrate-sharepoint-list-content | 64 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
-| sharepoint-content-publication | sharepoint-publish-aspx-to-sharepoint | 51 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-content-publication | sharepoint-publish-markdown-to-sharepoint | 44 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-content-publication | sharepoint-reconcile-sharepoint-publication | 34 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-content-publication | sharepoint-rollback-sharepoint-publication | 44 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-content-publication | sharepoint-upload-content | 82 | PASS 0/6 | PASS 0/6 | Not started | no | size.lean,navigation.canonical-headings |
-| sharepoint-content-publication | sharepoint-validate-publication | 37 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
+| sharepoint-content-publication | sharepoint-publish-aspx-to-sharepoint | 51 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-content-publication | sharepoint-publish-markdown-to-sharepoint | 55 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-content-publication | sharepoint-reconcile-sharepoint-publication | 52 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-content-publication | sharepoint-rollback-sharepoint-publication | 54 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-content-publication | sharepoint-upload-content | 55 | PASS 0/6 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-content-publication | sharepoint-validate-publication | 52 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-discovery | sharepoint-analyze-custom-forms | 60 | FAIL 1/6 | PASS 0/0 | Retrofitted | no | none |
 | sharepoint-discovery | sharepoint-analyze-page-inventory | 61 | PASS 0/6 | PASS 0/0 | Retrofitted | no | none |
 | sharepoint-discovery | sharepoint-analyze-permissions | 62 | PASS 0/6 | PASS 0/0 | Retrofitted | no | none |
@@ -218,7 +218,7 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
   lists were written from each skill's `SKILL.md` and its sibling skills, and have **not** been run
   against any model. Treat them as a starting contract the skill owner should review, and record real
   model results separately.
-- **Task-success evals exist for only 39 of 104 skills.** The other 65 have routing evals only. Authoring
+- **Task-success evals exist for only 45 of 104 skills.** The other 59 have routing evals only. Authoring
   `task-success.json` for them is the next evals step.
 - **`plugin:` frontmatter does not match the owning plugin for 38 skills.** 21 omit it
   (`sharepoint-agents-and-skills` 15, `sharepoint-content-publication` 6). 13 name an old pre-rename plugin
@@ -251,3 +251,4 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | 2026-10-02 | `content-structure-analysis` retrofitted (1 skill): `plugin:` corrected from `document-structure-analysis`; stale install and repo-root references removed; plugin names updated to `content-extraction` and `content-assembly`; interface detail moved to `references/analysis-interface.md`; `task-success.json` added; linked the missing `identity_core.py`, `plan_verification_core.py` and `topic_boundary_core.py` into the skill (its import failed from an installed copy). Strict audit passes in source and installed mode; plugin tests pass (70). |
 | 2026-10-02 | `.claude-plugin/marketplace.json` reviewed against `manage-marketplace`: all 16 entries `strict: true`, each plugin has its own `plugin.json` with an object author and no auto-discovered arrays, all sources resolve. Updated the stale `sharepoint-discovery` description to cover its collectors, auditors, report generator and schema tooling. Plugin versions left at their current values. Re-check the marketplace after each plugin retrofit. |
 | 2026-10-02 | `sharepoint-content-migration` retrofitted (2 skills): `sharepoint-audit-list-content` (106 to 68 lines; commands rewritten from repo-root `plugins/...` paths to skill-root-relative; workflow, scripts table and Phase 2 section list moved to two references) and `sharepoint-migrate-sharepoint-list-content` (161 to 63 lines; API/sequencing and the real-executor notes moved to two references). Fixed a broken example (`ItemMigrationPlan` has no `to_dict()`) and linked the missing `provisioning_outcomes.py` into the migrate skill. `task-success.json` added to both. Strict audit passes in source and installed mode; plugin tests pass (34). |
+| 2026-10-02 | `sharepoint-content-publication` retrofitted (6 skills): `plugin:` and `allowed-tools:` frontmatter added; every script path was `../../scripts/...` (escaping the skill), now skill-root-relative with the needed scripts, the Get-WorkbenchConnectionConfig helper and the actual-state CSV doc symlinked into each skill; 2 plugin-root references (executors/gates/corrections, upload details); `task-success.json` added to all 6. Found that the executors' `-ConfigPath` default does not resolve from an installed skill and documented passing it explicitly. Marketplace listing corrected (no "page conversion" executors here; tokens are operation-specific, not plan-derived). `plugin.json` description still says TRANSITIONAL_HOLDING_LOCATION (left for the user). Strict audit passes in source and installed mode; 38 plugin tests pass. |

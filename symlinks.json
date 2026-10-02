@@ -3306,6 +3306,120 @@
       "dst": "plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/scripts/provisioning_outcomes.py",
       "strategy": "symlink",
       "description": "Imported by item_migration.py"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-aspx-to-sharepoint/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-publish-aspx-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-publish-markdown-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-reconcile-sharepoint-publication/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-reconcile-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/publication-executors-and-gates.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/references/publication-executors-and-gates.md",
+      "strategy": "symlink",
+      "description": "Canonical publication-executors-and-gates.md for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-aspx-to-sharepoint/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-publish-aspx-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-publish-markdown-to-sharepoint"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_reconcile.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-reconcile-sharepoint-publication/scripts/sharepoint_reconcile.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_reconcile.py for sharepoint-reconcile-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/docs/sharepoint-actual-state-csv-format.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-reconcile-sharepoint-publication/references/sharepoint-actual-state-csv-format.md",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint-actual-state-csv-format.md for sharepoint-reconcile-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/spo-rollback-publication.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/scripts/spo-rollback-publication.ps1",
+      "strategy": "symlink",
+      "description": "Canonical spo-rollback-publication.ps1 for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for sharepoint-rollback-sharepoint-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_upload.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/scripts/sharepoint_upload.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_upload.py for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_publish_plan.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/scripts/sharepoint_publish_plan.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_publish_plan.py for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/references/upload-content-details.md",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-upload-content/references/upload-content-details.md",
+      "strategy": "symlink",
+      "description": "Canonical upload-content-details.md for sharepoint-upload-content"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/sharepoint_dry_run.py",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/scripts/sharepoint_dry_run.py",
+      "strategy": "symlink",
+      "description": "Canonical sharepoint_dry_run.py for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/spo-validate-publication-deployment.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/scripts/spo-validate-publication-deployment.ps1",
+      "strategy": "symlink",
+      "description": "Canonical spo-validate-publication-deployment.ps1 for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-content-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for sharepoint-validate-publication"
     }
   ]
 }

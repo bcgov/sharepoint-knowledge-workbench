@@ -1,6 +1,6 @@
 # Skill retrofit: progress and handoff state
 
-Last updated: 2026-10-02. Read `PLAN.md` first for the how-to. This file is the live state: update it at the end of every
+Last updated: 2026-10-02 (after sharepoint-content-publication). Read `PLAN.md` first for the how-to. This file is the live state: update it at the end of every
 plugin (and whenever you stop mid-plugin, using the "In flight" section).
 
 ## Contents
@@ -16,14 +16,14 @@ plugin (and whenever you stop mid-plugin, using the "In flight" section).
 
 ## Where we are
 
-- Branch: `chore/retrofit-skills-standard`, based on `origin/main` (`69809a2`). Draft PR: see [Log](#log) for the link.
+- Branch: `chore/retrofit-skills-standard`, based on `origin/main` (`69809a2`). Draft PR: https://github.com/bcgov/sharepoint-knowledge-workbench/pull/7 (the user merges it when every plugin is done).
 - PR #5 (`.gitignore` change) was already merged by the user; this effort continues on a new branch and PR.
 - Audit snapshot: 104 skills, 104 pass, 0 fail, 0 errors; remaining warnings are layout/size items in plugins not yet retrofitted
   (the tracker has exact counts).
-- **7 of 16 plugins fully retrofitted (39 of 104 skills).** All 104 skills have `evals/evals.json`; 39 have
+- **8 of 16 plugins fully retrofitted (45 of 104 skills).** All 104 skills have `evals/evals.json`; 45 have
   `evals/task-success.json`.
-- Next plugin to take: **`sharepoint-content-publication`** (user's explicit choice), then the rest of the queue top to
-  bottom (alphabetical). `sharepoint-agents-and-skills` is deliberately **last** (user's instruction).
+- Next plugin to take: **`sharepoint-link-remediation`**, then the rest of the queue top to bottom (alphabetical).
+  `sharepoint-agents-and-skills` is deliberately **last** (user's instruction).
 
 ## Retrofitted plugins and skills
 
@@ -39,6 +39,7 @@ correct, `task-success.json` present, `verify-plugin.sh <plugin>` prints `RESULT
 | content-rendering | 7 | `content-compare-rendered-output`, `content-create-aspx-rendering-template`, `content-create-markdown-rendering-template`, `content-render-multipage-markdown`, `content-render-sharepoint-aspx`, `content-validate-rendered-output`, `content-validate-rendering-template` |
 | content-structure-analysis | 1 | `content-analyze-document-structure` |
 | sharepoint-content-migration | 2 | `sharepoint-audit-list-content`, `sharepoint-migrate-sharepoint-list-content` |
+| sharepoint-content-publication | 6 | `sharepoint-publish-aspx-to-sharepoint`, `sharepoint-publish-markdown-to-sharepoint`, `sharepoint-reconcile-sharepoint-publication`, `sharepoint-rollback-sharepoint-publication`, `sharepoint-upload-content`, `sharepoint-validate-publication` |
 
 What was done to each retrofitted skill (details in the tracker's Change log):
 
@@ -51,7 +52,9 @@ What was done to each retrofitted skill (details in the tracker's Change log):
 - Plugin-specific notes: `workbench-setup` validate skill now documents `test-pnp-effective-capability-probe.ps1` (the old
   `test-grant-tier-probe.ps1` no longer exists) and gained a symlink for `test-network-connectivity.ps1`;
   `sharepoint-discovery` skills' `plugin:` fixed from `sharepoint-schema`; `sharepoint-content-migration` migrate skill's
-  broken `.to_dict()` example fixed.
+  broken `.to_dict()` example fixed; `sharepoint-content-publication` skills used `../../scripts/...` paths (escaping the skill) and had no
+  scripts linked: now skill-root-relative with scripts, the config helper and the CSV-format doc symlinked in, and the executors'
+  `-ConfigPath` default (does not resolve when installed) documented.
 
 ## Error-fixed only
 
@@ -78,15 +81,14 @@ Work top to bottom. Counts and notes are from the 2026-10-02 audit.
 
 | # | Plugin | Skills | Line counts (current) | Plugin-specific notes |
 |---|---|---|---|---|
-| 1 | sharepoint-content-publication | 6 | 51 44 34 44 82 37  | `plugin:` frontmatter is missing in all 6. Write-capable; keep safety gates. |
-| 2 | sharepoint-link-remediation | 5 | 70 117 130 108 80  | 1 error-fixed skill (field-image-references, 130 lines). Several are write-capable and dry-run gated: keep their safety contracts word-for-word in Constraints. |
-| 3 | sharepoint-migration-planning | 5 | 96 72 103 107 72  | Reuses `sharepoint-provisioning`'s `wave_planning.py` directly (documented in the marketplace description); check each skill actually links what it imports. |
-| 4 | sharepoint-page-modernization | 4 | 82 78 83 71  | 2 error-fixed skills. Assets are symlinked to `scripts/assets/` by convention (see PLAN gotchas). Plans only; no tenant writes. |
-| 5 | sharepoint-page-modernization-execution | 4 | 59 36 77 49  | All four have `plugin: sharepoint-content-publication` (wrong; set to this plugin). 3 skills already have authored evals + task-success; `copy-page-between-sites` has existing evals but no task-success. Real writes gated by -Execute + ConfirmToken. |
-| 6 | sharepoint-provisioning | 19 | 39 39 71 39 39 39 39 39 44 39 39 39 39 39 39 39 39 39 39  | 19 skills, 18 follow one uniform dry-run template (script, -PlanPath, -Execute, exact -ConfirmToken). Evals + task-success already authored. `apply-provisioning-plan` is the odd one (dispatches to 25 scripts; 71 lines). Ideal for a shared reference describing the common safety contract. |
-| 7 | sharepoint-schema-reconciliation | 4 | 80 81 102 105  | All four have `plugin: sharepoint-provisioning` (wrong). Zero tenant I/O is enforced by a test in this plugin; keep that statement. |
-| 8 | sharepoint-spfx-authoring | 10 | 55 122 117 93 473 67 72 72 117 56  | 10 skills; `scaffold-spfx-form-customizer` is 473 lines (the largest SKILL.md in the repo; needs real splitting). 3 error-fixed skills. plugin.json version is 1.0.0 (others 0.1.0-alpha.1). References over 100 lines need `## Contents`. |
-| 9 | sharepoint-agents-and-skills | 15 | 42 31 30 46 37 83 46 45 61 44 42 124 40 38 44  | LAST by the user's instruction. `plugin:` frontmatter missing in all 15. Includes agent/native-skill create/deploy/backup/restore skills. |
+| 1 | sharepoint-link-remediation | 5 | 70 117 130 108 80  | 1 error-fixed skill (field-image-references, 130 lines). Several are write-capable and dry-run gated: keep their safety contracts word-for-word in Constraints. |
+| 2 | sharepoint-migration-planning | 5 | 96 72 103 107 72  | Reuses `sharepoint-provisioning`'s `wave_planning.py` directly (documented in the marketplace description); check each skill actually links what it imports. |
+| 3 | sharepoint-page-modernization | 4 | 82 78 83 71  | 2 error-fixed skills. Assets are symlinked to `scripts/assets/` by convention (see PLAN gotchas). Plans only; no tenant writes. |
+| 4 | sharepoint-page-modernization-execution | 4 | 59 36 77 49  | All four have `plugin: sharepoint-content-publication` (wrong; set to this plugin). 3 skills (convert-page-to-modern, execute-page-bulk-migration, validate-page-migration) already have authored evals + task-success; `copy-page-between-sites` (error-fixed) has existing evals but no task-success. Real writes gated by -Execute + ConfirmToken. |
+| 5 | sharepoint-provisioning | 19 | 39 39 71 39 39 39 39 39 44 39 39 39 39 39 39 39 39 39 39  | 19 skills, 18 follow one uniform dry-run template (script, -PlanPath, -Execute, exact -ConfirmToken). Evals + task-success already authored. `apply-provisioning-plan` is the odd one (dispatches to 25 scripts; 71 lines). Ideal for a shared reference describing the common safety contract. |
+| 6 | sharepoint-schema-reconciliation | 4 | 80 81 102 105  | All four have `plugin: sharepoint-provisioning` (wrong). Zero tenant I/O is enforced by a test in this plugin; keep that statement. |
+| 7 | sharepoint-spfx-authoring | 10 | 55 122 117 93 473 67 72 72 117 56  | 10 skills; `scaffold-spfx-form-customizer` is 473 lines (the largest SKILL.md in the repo; needs real splitting). 3 error-fixed skills. plugin.json version is 1.0.0 (others 0.1.0-alpha.1). References over 100 lines need `## Contents`. |
+| 8 | sharepoint-agents-and-skills | 15 | 42 31 30 46 37 83 46 45 61 44 42 124 40 38 44  | LAST by the user's instruction. `plugin:` frontmatter missing in all 15. Includes agent/native-skill create/deploy/backup/restore skills. |
 
 Skill names for each remaining plugin: `ls plugins/<plugin>/skills`. The per-skill table in
 `docs/reports/skill-standard-alignment/tracker.md` has current open rules per skill.
@@ -120,7 +122,10 @@ Current plugin: _(none started)_
    part of this effort. A fix belongs upstream in `agent-scaffolders`.
 7. A "newer October 2026 Anthropic standard" was mentioned; no separate spec was available. Ask the user for its source if it
    should be applied.
-8. A stale docstring in `plugins/content-structure-analysis/scripts/document_structure_analysis.py` still names the
+8. `plugins/sharepoint-content-publication/.claude-plugin/plugin.json` still has `TRANSITIONAL_HOLDING_LOCATION (not a completed Phase 4.5 domain plugin...)`
+   as its description; the plugin now has 6 real skills and real executors. Update the manifest description? (Not touched; the marketplace
+   listing was corrected.)
+9. A stale docstring in `plugins/content-structure-analysis/scripts/document_structure_analysis.py` still names the
    decommissioned `docx-to-content` orchestrator. Code change, deliberately not touched.
 
 ## Pickup checklist for a new agent
@@ -137,4 +142,6 @@ Current plugin: _(none started)_
 |---|---|
 | 2026-10-02 | Baseline audit: 104 skills, 93 pass / 11 fail, 16 errors, 643 warnings (`baseline.tsv`). |
 | 2026-10-02 | PR #5 (ignore Agentic OS runtime state) merged by the user. New branch `chore/retrofit-skills-standard` cut from `origin/main`. |
+| 2026-10-02 | `sharepoint-content-publication` retrofitted (6 skills), marketplace listing corrected, verified `RESULT: OK`. |
+| 2026-10-02 | Branch pushed and draft PR #7 opened against `main`; backlog committed as 12 per-plugin commits plus a docs commit. |
 | 2026-10-02 | Retrofitted 7 plugins (39 skills), fixed 8 error skills, authored evals for 27 skills, updated marketplace `sharepoint-discovery` description. Tooling and this handoff written. |

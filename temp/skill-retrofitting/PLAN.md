@@ -196,7 +196,12 @@ Take one plugin at a time, in the order listed in `PROGRESS.md`.
   data). Follow the sibling skills; whether to relocate to a plugin-root `assets/` is an open decision.
 - `plugin:` frontmatter must equal the owning plugin directory; many skills still carry old pre-rename names or none.
 - Old plugin names in text should be updated; see the map below.
-- A skill's documented script list may not match what is actually linked into its `scripts/`; trust the filesystem.
+- A skill's documented script list may not match what is actually linked into its `scripts/`; trust the filesystem. Some skills
+  (e.g. `sharepoint-content-publication`) pointed at `../../scripts/...` (outside the skill) and had **no** scripts linked at all: link the
+  script, its Python imports and any `.ps1` it dot-sources (`Get-WorkbenchConnectionConfig.ps1`) into the skill's `scripts/`.
+- `.ps1` executors with `[string]$ConfigPath = (Join-Path $PSScriptRoot "..\..\..\config.psd1")` resolve to the repo root only from the plugin's
+  `scripts/`; from an installed skill they do not. Document passing `-ConfigPath` or `-SiteUrl/-ClientId/-TenantId` explicitly.
+- A reference can live outside `references/` at the plugin root (e.g. `docs/`); symlink it into the skill's `references/` from where it is.
 - The documented API in a SKILL.md can be wrong (e.g. `ItemMigrationPlan` has no `to_dict()`). Run examples before shipping them.
 
 ## Stale-name map
