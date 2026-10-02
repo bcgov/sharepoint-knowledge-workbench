@@ -18,8 +18,8 @@
   {
     "query": "The Region column is used by two content types.",
     "expected_behavior": [
-      "Warns that a site column in use should not be removed blindly and does not force the deletion",
-      "Suggests checking and unlinking dependent content types first",
+      "Warns that removal is destructive and site-wide and the script checks neither dependents nor the result afterwards",
+      "Suggests checking dependent content types and lists first",
       "Makes no deletion without -Execute and the token"
     ]
   }

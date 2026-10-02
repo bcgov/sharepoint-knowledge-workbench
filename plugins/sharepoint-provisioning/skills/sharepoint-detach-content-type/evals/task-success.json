@@ -10,7 +10,7 @@
   {
     "query": "The plan looks right. Apply it for real.",
     "expected_behavior": [
-      "Adds -Execute and -ConfirmToken DETACH-SPO-CONTENT-TYPE-FROM-LIST to the same command",
+      "Adds -Execute and -ConfirmToken DETACH-SPO-CONTENT-TYPE to the same command",
       "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
       "Does not alter the plan content between the dry run and the real run"
     ]
