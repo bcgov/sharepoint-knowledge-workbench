@@ -4158,6 +4158,294 @@
       "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/mystrings.d.ts",
       "strategy": "symlink",
       "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-agents/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-native-skills/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent-template/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-agents/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-native-skills/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-rollback-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-update-sharepoint-agent/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agents-and-skills-safety-and-config.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/references/agents-and-skills-safety-and-config.md",
+      "strategy": "symlink",
+      "description": "shared safety reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent-template/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-update-sharepoint-agent/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-package-authoring-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/references/agent-package-authoring-details.md",
+      "strategy": "symlink",
+      "description": "authoring reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-rollback-sharepoint-native-skill/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/native-skill-lifecycle-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/references/native-skill-lifecycle-details.md",
+      "strategy": "symlink",
+      "description": "native lifecycle reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-agents/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-native-skills/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-agents/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-backup-restore-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-native-skills/references/agent-backup-restore-details.md",
+      "strategy": "symlink",
+      "description": "backup restore reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/references/agent-knowledge-binding-details.md",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/references/agent-knowledge-binding-details.md",
+      "strategy": "symlink",
+      "description": "knowledge binding reference"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/apply-sharepoint-agent-template.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/scripts/apply-sharepoint-agent-template.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-agent.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-apply-sharepoint-agent-template/scripts/create-sharepoint-agent.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/backup-sharepoint-agents.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-agents/scripts/backup-sharepoint-agents.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/backup-sharepoint-native-skills.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-backup-sharepoint-native-skills/scripts/backup-sharepoint-native-skills.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/configure-sharepoint-agent-knowledge.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/scripts/configure-sharepoint-agent-knowledge.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/get-agent-resource-identifiers.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-configure-sharepoint-agent-knowledge/scripts/get-agent-resource-identifiers.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-agent-template.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-agent-template/scripts/create-sharepoint-agent-template.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/create-sharepoint-native-skill.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-create-sharepoint-native-skill/scripts/create-sharepoint-native-skill.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/inventory-skills.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-deploy-sharepoint-native-skill/scripts/inventory-skills.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/provision-agentassets.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/scripts/provision-agentassets.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/verify-agentassets-ready.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/scripts/verify-agentassets-ready.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/diagnose-sharepoint-library.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-inventory-and-validate-agentassets/scripts/diagnose-sharepoint-library.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/restore-sharepoint-agents.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-agents/scripts/restore-sharepoint-agents.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/restore-sharepoint-native-skills.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-restore-sharepoint-native-skills/scripts/restore-sharepoint-native-skills.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/rollback-skill-deployment.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-rollback-sharepoint-native-skill/scripts/rollback-skill-deployment.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/update-sharepoint-agent.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-update-sharepoint-agent/scripts/update-sharepoint-agent.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/verify-agentassets-artifact.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/scripts/verify-agentassets-artifact.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/reconcile-deployed-skill.ps1",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-verify-sharepoint-native-skill/scripts/reconcile-deployed-skill.ps1",
+      "strategy": "symlink",
+      "description": "skill script"
+    },
+    {
+      "src": "plugins/sharepoint-agents-and-skills/scripts/review_manual_topics.py",
+      "dst": "plugins/sharepoint-agents-and-skills/skills/sharepoint-review-manual-topics/scripts/review_manual_topics.py",
+      "strategy": "symlink",
+      "description": "skill script"
     }
   ]
 }
