@@ -207,6 +207,8 @@ Take one plugin at a time, in the order listed in `PROGRESS.md`.
   to `.work/pr-body.md` with a normal file write and check `wc -c`).
 - **Count skills from the filesystem, not from memory**: use the plugin's `ls skills | wc -l`, or `tools/finish-plugin.py` (it computes totals). An earlier handoff
   note confused the task-success file count with the retrofitted-skill count.
+- **Independence tests also scan shipped `.json`/`.py`/`.toml`/`.yaml` for forbidden strings** (e.g. `sharepoint-migration`, a source-repo marker, which also matches `sharepoint-migration-planning`). Keep such names out of
+  authored eval JSON (say "the migration-planning plugin"); Markdown is not scanned. Always run the plugin's tests (`verify-plugin.sh` now fails on a test failure).
 - Some plugins carry an **independence test** (`tests/test_plugin_independence.py` in `sharepoint-link-remediation` and `sharepoint-schema-reconciliation`) that
   forbids real files under `skills/` except `SKILL.md` and `evals.json`. The new standard adds `evals/task-success.json`, so the test's exemption set must include it.
 - **Verify every documented token/flag against the code.** `sharepoint-provisioning` had three skills documenting `-ConfirmToken` values the scripts reject, and `sharepoint-page-modernization`

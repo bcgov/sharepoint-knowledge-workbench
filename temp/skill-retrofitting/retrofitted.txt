@@ -13,3 +13,4 @@ plugin sharepoint-migration-planning
 plugin sharepoint-page-modernization
 plugin sharepoint-page-modernization-execution
 plugin sharepoint-provisioning
+plugin sharepoint-schema-reconciliation

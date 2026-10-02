@@ -16,7 +16,7 @@ for s in $P/skills/*/; do b=$(basename ${s%/}); [ -d "$W/$b/scripts" ] || contin
   for f in "$W/$b"/scripts/*.py; do [ -e "$f" ] || continue; m=$(basename "$f" .py); case "$m" in *-*) continue;; esac
     (cd "$W/$b" && python3 -c "import sys; sys.path.insert(0,'scripts'); import $m" >/dev/null 2>&1) || { echo "IMPORT FAIL $b: $m (a module it imports is probably not linked into the skill's scripts/)"; fail=1; }; done; done
 echo "== 4. plugin tests"
-[ -d "$P/tests" ] && (cd "$P" && python3 -m pytest -q tests 2>&1 | tail -1) || echo "(no tests dir)"
+if [ -d "$P/tests" ]; then tr=$(cd "$P" && python3 -m pytest -q tests 2>&1 | tail -1); echo "$tr"; case "$tr" in *failed*|*error*) echo "TEST FAILURE"; fail=1;; esac; else echo "(no tests dir)"; fi
 echo "== 5. symlinks"; python3 .agents/skills/symlink-manager/scripts/symlink_manager.py diagnose 2>&1 | grep -i -E "all links ok|broken|regular file|✗" | head -3
 echo "== 6. marketplace"; python3 .agents/skills/audit-plugin/scripts/audit_marketplace_sources.py . 2>&1 | tail -1
 echo "== 7. eval JSON"

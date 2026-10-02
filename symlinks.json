@@ -3834,6 +3834,102 @@
       "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-site-column/references/provisioning-executor-contract.md",
       "strategy": "symlink",
       "description": "Canonical executor contract for sharepoint-update-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/schema-reconciliation-pipeline.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-modern-calendar-list/references/schema-reconciliation-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical schema-reconciliation-pipeline.md for sharepoint-provision-modern-calendar-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/field_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/scripts/field_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical field_provisioning.py for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/field-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-fields/references/field-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical field-provisioning-details.md for sharepoint-provision-fields"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/content_type_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/scripts/content_type_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical content_type_provisioning.py for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/content-type-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-content-types/references/content-type-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical content-type-provisioning-details.md for sharepoint-provision-content-types"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/list_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/list_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical list_provisioning.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/field_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/field_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical field_provisioning.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/scripts/content_type_provisioning.py",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/scripts/content_type_provisioning.py",
+      "strategy": "symlink",
+      "description": "Canonical content_type_provisioning.py for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/list-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-list/references/list-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical list-provisioning-details.md for sharepoint-provision-list"
+    },
+    {
+      "src": "plugins/sharepoint-schema-reconciliation/references/calendar-provisioning-details.md",
+      "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-modern-calendar-list/references/calendar-provisioning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical calendar-provisioning-details.md for sharepoint-provision-modern-calendar-list"
     }
   ]
 }
