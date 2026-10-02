@@ -146,7 +146,7 @@ compatible additive schema change).
 - [ ] **Step 7: Commit**
 
 ```bash
-cd /Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench
+cd .
 git add tools/phase-4-native-sharepoint-skills/schemas/evaluation-case-schema.json \
         tools/phase-4-native-sharepoint-skills/evaluations/validate_cases.py \
         tools/phase-4-native-sharepoint-skills/tests/test_evaluations_harness.py

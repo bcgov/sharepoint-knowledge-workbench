@@ -11,7 +11,7 @@ Re-checked all three `.worktrees/` entries and `git worktree list` against Wave 
 
 ```
 $ git worktree list
-/Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench  101cd20 [phase-4-5-core-plugin-refactoring]
+.  101cd20 [phase-4-5-core-plugin-refactoring]
 ```
 
 Only the current checkout is registered — unchanged from Wave 0. Each `.worktrees/` directory's

@@ -5,7 +5,7 @@
 
 > **Source-architecture correction (2026-08-07) — READ BEFORE §8d/§8e.** A direct structural inspection of the pinned source tree found that **CMAT skills are thin shells, not implementation units**: every one of the 34 skills contains the same 3 real files (`SKILL.md`, `evals/evals.json`, `evals/results.tsv`) plus symlinks into a *centralized* `plugins/sharepoint-migration/scripts/` tree (183 files across 14 subdirectories) and `scripts/lib/` (10 shared PowerShell helper modules). §8d's per-skill symlink counts therefore measure **coupling to shared scripts**, not independently extractable implementation. This does not invalidate §8d/§8e's classification *framework* — it changes the **extraction unit**. See §3c (Source Architecture Correction), §8f (agent inventory — previously omitted entirely), §8g (symlink-resolution defects), and §8h (literal-density axis) below, all of which supersede the affected portions of §8d/§8e's supporting data while leaving their three-axis model and destination-matching rule intact.
 >
-> **Evidence-baseline update (2026-08-01):** A documentation-only reconciliation pass replaced hypothetical candidate descriptions with the actual observed source inventory at `/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` — **119 directories, 272 files (144 real files + 128 symlinks)** across 33 skills (historical snapshot, dated 2026-08-01). This inventory is a **source baseline for future classification**, not an extraction authorization, and not a permanent total — the source repository continues to evolve independently. **A direct recount on 2026-08-03 found 34 skill directories — see §8d for the current, verified figure and complete per-skill mapping.** See §3a (Source Evidence Baseline) below for the 2026-08-01 historical snapshot. No code, plugin, or CMAT-repository artifact was touched by this reconciliation; see the companion completion report for the exact diff.
+> **Evidence-baseline update (2026-08-01):** A documentation-only reconciliation pass replaced hypothetical candidate descriptions with the actual observed source inventory at `../jag-csb-cmat-sharepoint-online/plugins/sharepoint-migration/skills/` — **119 directories, 272 files (144 real files + 128 symlinks)** across 33 skills (historical snapshot, dated 2026-08-01). This inventory is a **source baseline for future classification**, not an extraction authorization, and not a permanent total — the source repository continues to evolve independently. **A direct recount on 2026-08-03 found 34 skill directories — see §8d for the current, verified figure and complete per-skill mapping.** See §3a (Source Evidence Baseline) below for the 2026-08-01 historical snapshot. No code, plugin, or CMAT-repository artifact was touched by this reconciliation; see the companion completion report for the exact diff.
 
 ## Planning discipline
 
@@ -381,7 +381,7 @@ The workbench must not erase a capability's origin. This is in addition to, not 
 ## 8c. Phase 6 Overlap Findings (2026-08-03) — not Phase 9 execution
 
 **Purpose:** prevent Phase 6 Task 0 from recreating capabilities already proven in the CMAT
-repository (`/Users/richardfremmerlid/Projects/jag-csb-cmat-sharepoint-online`, plugin
+repository (`../jag-csb-cmat-sharepoint-online`, plugin
 `sharepoint-migration`), and record where Phase 6 should stay minimal pending Phase 9 extraction.
 This section is a **finding record only** — it does not begin Phase 9 work, does not extract any
 CMAT file, and does not modify CMAT.
@@ -450,7 +450,7 @@ corrected here to the actual count. Per instruction, `SKILL.md` frontmatter's `s
 "backing evidence" column reflects actual files found (regular script files or real, verified
 symlinks into the skill folder), not the claimed status.
 
-Every row's source is the CMAT repository (`/Users/richardfremmerlid/Projects/jag-csb-cmat-
+Every row's source is the CMAT repository (`../jag-csb-cmat-
 sharepoint-online`, `plugins/sharepoint-migration/skills/<name>/`) — no row in this table has any
 other source. **Implementation-status category is strictly one of three, mutually exclusive, and
 sums to exactly 34** (genericity/CMAT-specificity and cross-skill scope questions are separate
