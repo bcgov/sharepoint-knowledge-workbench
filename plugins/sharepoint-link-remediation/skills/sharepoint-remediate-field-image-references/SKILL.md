@@ -1,7 +1,7 @@
 ---
 name: sharepoint-remediate-field-image-references
 plugin: sharepoint-link-remediation
-description: Inventory-verified remediation of an embedded <img> reference inside a rich-text list field -- classifies each item against a real document-library inventory (matched / missing / broken-placeholder-no-src / no-image) and proposes a rewrite ONLY for confirmed-matched items, never a blind regex guess. Distinct from remediate-links (page-body content) and remediate-document-content-links (Office/PDF files). DRY-RUN BY DEFAULT -- applying changes requires BOTH an explicitly injected executor AND a confirmation token from the plan.
+description: Inventory-verified remediation of an embedded img reference inside a rich-text list field -- classifies each item against a real document-library inventory (matched / missing / broken-placeholder-no-src / no-image) and proposes a rewrite ONLY for confirmed-matched items, never a blind regex guess. Distinct from remediate-links (page-body content) and remediate-document-content-links (Office/PDF files). DRY-RUN BY DEFAULT -- applying changes requires BOTH an explicitly injected executor AND a confirmation token from the plan.
 allowed-tools: Bash, Read
 examples:
   - "python -c \"from field_image_remediation import plan_field_image_remediation; print(plan_field_image_remediation(items, inventory=inventory, ruleset=ruleset).to_dict())\""
