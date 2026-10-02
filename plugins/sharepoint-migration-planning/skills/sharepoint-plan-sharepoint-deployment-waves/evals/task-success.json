@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Order these site column, content type and list objects so every dependency deploys first.",
+    "expected_behavior": [
+      "Builds DeploymentObject entries with depends_on names and calls plan_waves(objects)",
+      "Reports OBSERVED with the ordered stages, each dependency in a strictly earlier stage",
+      "Applies no provisioning change"
+    ]
+  },
+  {
+    "query": "ContentTypeB depends on a column that is not in my list. Order it anyway.",
+    "expected_behavior": [
+      "Reports a FAILED plan with a finding naming the unresolved dependency",
+      "Does not silently drop the object or guess an order",
+      "Asks for the missing object or a corrected dependency"
+    ]
+  },
+  {
+    "query": "Make ListC depend on stage 2 instead of naming the objects.",
+    "expected_behavior": [
+      "Declines numbered-stage dependencies and explains depends_on names objects by name only",
+      "Explains a stage number standing in for its contents goes stale silently",
+      "Asks which named object ListC depends on"
+    ]
+  }
+]

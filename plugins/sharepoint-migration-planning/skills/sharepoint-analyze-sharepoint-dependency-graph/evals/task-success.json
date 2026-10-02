@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Build the dependency matrix and wave order from these inventory objects.",
+    "expected_behavior": [
+      "Runs load_matrix_objects, then run_all_checks(objects, source_names=...) before build_dependency_matrix",
+      "Reports the matrix outcome, waves and blocking_findings",
+      "Makes no tenant call and uses no AI judgment"
+    ]
+  },
+  {
+    "query": "The completeness checks failed on orphan entries, but compute the waves anyway.",
+    "expected_behavior": [
+      "Stops when run_all_checks reports all_passed false and reports summary.failed_check_names",
+      "Explains a matrix that does not match its source must not drive wave computation",
+      "Does not call build_dependency_matrix on that matrix"
+    ]
+  },
+  {
+    "query": "Two objects depend on each other. Just pick an order.",
+    "expected_behavior": [
+      "Reports a cycle as outcome FAILED with blocking_findings",
+      "Does not drop or guess an order for the cycle",
+      "Asks for the dependency to be corrected"
+    ]
+  }
+]
