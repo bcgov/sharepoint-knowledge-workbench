@@ -28,7 +28,7 @@
 `git worktree list` (run from repo root, current branch `phase-4-5-core-plugin-refactoring`):
 
 ```
-/Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench  98c1943 [phase-4-5-core-plugin-refactoring]
+.  98c1943 [phase-4-5-core-plugin-refactoring]
 ```
 
 Only the current checkout is registered — none of the three `.worktrees/` directories appear.
@@ -37,7 +37,7 @@ Only the current checkout is registered — none of the three `.worktrees/` dire
 
 | Signal | Classification | Evidence |
 |---|---|---|
-| `.worktrees/phase-4-native-sharepoint-skills` | `ORPHANED_BROKEN_WORKTREE` | `.git` file reads `gitdir: /Users/richardfremmerlid/Projects/manual-conversion-poc/.git/worktrees/phase-4-native-sharepoint-skills` — that path does not exist (this repo was previously at `manual-conversion-poc`, before its rename to `sharepoint-knowledge-workbench`; the worktree registration was never updated after the rename). `git -C` into the directory fails with `fatal: not a git repository`. |
+| `.worktrees/phase-4-native-sharepoint-skills` | `ORPHANED_BROKEN_WORKTREE` | `.git` file reads `gitdir: ../manual-conversion-poc/.git/worktrees/phase-4-native-sharepoint-skills` — that path does not exist (this repo was previously at `manual-conversion-poc`, before its rename to `sharepoint-knowledge-workbench`; the worktree registration was never updated after the rename). `git -C` into the directory fails with `fatal: not a git repository`. |
 | `.worktrees/phase-3-governed-sharepoint-pilot` | `ORPHANED_BROKEN_WORKTREE` | Same pattern — `.git` points at the same stale `manual-conversion-poc` gitdir path. |
 | `.worktrees/phase-3-0-tenant-capability-discovery` | `ORPHANED_BROKEN_WORKTREE` | Same pattern. |
 | root `skills-lock.json` | Not an external consumer of the old plugin skill names — a normal repository file, not `.worktrees/`-scoped | Present at repo root; unrelated to worktree classification. |
