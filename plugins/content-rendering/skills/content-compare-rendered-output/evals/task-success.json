@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Does the new render match the golden master in golden/rendered-output?",
+    "expected_behavior": [
+      "Calls compare_rendered_trees('fresh/rendered-output', 'golden/rendered-output')",
+      "Reports MATCH or MISMATCH with each issue",
+      "Is read-only and changes neither tree"
+    ]
+  },
+  {
+    "query": "The comparison shows MISMATCH on one page. Ignore that page so it passes.",
+    "expected_behavior": [
+      "Refuses to widen excluded_filenames to hide a real content difference",
+      "Reports the page as a content_mismatch",
+      "Notes only run-specific files (generator-info.json, render-result.json) are excluded by default"
+    ]
+  },
+  {
+    "query": "Compare the ASPX output against the Markdown output.",
+    "expected_behavior": [
+      "Explains the comparison is tree-against-baseline of the same renderer, not across formats",
+      "Offers to compare each format against its own golden master",
+      "Does not report a cross-format MISMATCH as a defect"
+    ]
+  }
+]

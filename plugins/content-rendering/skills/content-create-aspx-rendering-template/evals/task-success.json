@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Create a generic ASPX page template at out/page.template.html.",
+    "expected_behavior": [
+      "Calls create_rendering_template(profile='generic', fmt='aspx', output_path='out/page.template.html')",
+      "Produces a bare fragment with {{title}}, {{body}} and {{media_dir}} placeholders and a .meta.json sidecar",
+      "Includes no html, head or body wrapper"
+    ]
+  },
+  {
+    "query": "Wrap the template in full html/head/body so I can upload it as an .aspx file.",
+    "expected_behavior": [
+      "Declines, explaining raw wrapped .aspx upload to Site Pages is a confirmed Access denied platform boundary",
+      "Explains the fragment shape is what Add-PnPPageTextPart consumes",
+      "Notes a wrapper would fail template validation"
+    ]
+  },
+  {
+    "query": "Create an ASPX template for the profile 'wide'.",
+    "expected_behavior": [
+      "Reports UnknownTemplateProfileError for an unrecognized profile",
+      "Does not invent a profile",
+      "Offers generic and standard-manual"
+    ]
+  }
+]
