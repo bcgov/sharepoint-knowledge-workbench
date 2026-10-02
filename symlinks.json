@@ -3486,6 +3486,138 @@
       "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/scripts/link_rules.py",
       "strategy": "symlink",
       "description": "Imported by link_integrity.py"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-plan-sharepoint-deployment-waves/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-plan-sharepoint-deployment-waves"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/provisioning_outcomes.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/scripts/provisioning_outcomes.py",
+      "strategy": "symlink",
+      "description": "Canonical provisioning_outcomes.py for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/migration-project-setup-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/references/migration-project-setup-details.md",
+      "strategy": "symlink",
+      "description": "Canonical migration-project-setup-details.md for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/migration-pipeline-and-outcomes.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/references/migration-pipeline-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical migration-pipeline-and-outcomes.md for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/pipeline-overview.mmd",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-setup-sharepoint-migration-project/references/pipeline-overview.mmd",
+      "strategy": "symlink",
+      "description": "Canonical pipeline-overview.mmd for sharepoint-setup-sharepoint-migration-project"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/site-inventory-validation-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/references/site-inventory-validation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical site-inventory-validation-details.md for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/migration-pipeline-and-outcomes.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/references/migration-pipeline-and-outcomes.md",
+      "strategy": "symlink",
+      "description": "Canonical migration-pipeline-and-outcomes.md for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/site-inventory-export-schema.json",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-discover-sharepoint-site-inventory/assets/site-inventory-export-schema.json",
+      "strategy": "symlink",
+      "description": "Canonical site-inventory-export-schema.json for sharepoint-discover-sharepoint-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/dependency-graph-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/references/dependency-graph-details.md",
+      "strategy": "symlink",
+      "description": "Canonical dependency-graph-details.md for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/rules/deployment-decision-principles.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/references/deployment-decision-principles.md",
+      "strategy": "symlink",
+      "description": "Canonical deployment-decision-principles.md for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/rules/test-driven-wave-deployment.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/references/test-driven-wave-deployment.md",
+      "strategy": "symlink",
+      "description": "Canonical test-driven-wave-deployment.md for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/dependency-matrix-schema.json",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-analyze-sharepoint-dependency-graph/assets/dependency-matrix-schema.json",
+      "strategy": "symlink",
+      "description": "Canonical dependency-matrix-schema.json for sharepoint-analyze-sharepoint-dependency-graph"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/deployment-wave-planning-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-plan-sharepoint-deployment-waves/references/deployment-wave-planning-details.md",
+      "strategy": "symlink",
+      "description": "Canonical deployment-wave-planning-details.md for sharepoint-plan-sharepoint-deployment-waves"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/spo-provision-calendar.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/scripts/spo-provision-calendar.ps1",
+      "strategy": "symlink",
+      "description": "Canonical spo-provision-calendar.ps1 for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/references/wave-script-generation-details.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/references/wave-script-generation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical wave-script-generation-details.md for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/rules/test-driven-wave-deployment.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/references/test-driven-wave-deployment.md",
+      "strategy": "symlink",
+      "description": "Canonical test-driven-wave-deployment.md for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/wave-script-template.example.py",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/assets/wave-script-template.example.py",
+      "strategy": "symlink",
+      "description": "Canonical wave-script-template.example.py for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-migration-planning/assets/wave-guide-template.md",
+      "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/assets/wave-guide-template.md",
+      "strategy": "symlink",
+      "description": "Canonical wave-guide-template.md for sharepoint-generate-sharepoint-wave-scripts"
     }
   ]
 }
