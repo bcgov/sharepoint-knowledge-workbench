@@ -20,7 +20,8 @@ Toolchain: Python 3.8+, Node.js LTS (v18 or v22), SPFx 1.20+ (Heft / Webpack).
 
 Starting from scratch, either:
 
-- **Option A (instant template):** copy the pre-configured project boilerplate from `assets/templates/spfx-project-reference/` to your target directory; or
+- **Option A (instant template):** copy the pre-configured project boilerplate from `assets/templates/spfx-project-reference/` to your target directory. The bundled copy has no `.gitignore` (git refuses a symlinked
+  `.gitignore` in the source repository); add one for your project, or use the plugin source's copy at `plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/.gitignore`; or
 - **Option B (Yeoman):** run `yo @microsoft/sharepoint` choosing component type `WebPart` and template `Minimal` (Node v22 or v18 LTS required).
 
 ## The layout specification
