@@ -1,0 +1,39 @@
+content-assembly | 1 | 1 lines | task-success 
+content-extraction | 1 | 1 lines | task-success 
+content-rendering | 7 | 7 lines | task-success 
+content-structure-analysis | 1 | 1 lines | task-success 
+sharepoint-content-migration | 2 | 2 lines | task-success 
+sharepoint-discovery | 15 | 15 lines | task-success 
+workbench-setup | 5 | 5 lines | task-success 
+content-assembly | content-assemble-structured-content | 62 lines | task-success yes
+content-extraction | content-extract-docx | 56 lines | task-success yes
+content-rendering | content-compare-rendered-output | 48 lines | task-success yes
+content-rendering | content-create-aspx-rendering-template | 53 lines | task-success yes
+content-rendering | content-create-markdown-rendering-template | 52 lines | task-success yes
+content-rendering | content-render-multipage-markdown | 56 lines | task-success yes
+content-rendering | content-render-sharepoint-aspx | 58 lines | task-success yes
+content-rendering | content-validate-rendered-output | 59 lines | task-success yes
+content-rendering | content-validate-rendering-template | 54 lines | task-success yes
+content-structure-analysis | content-analyze-document-structure | 56 lines | task-success yes
+sharepoint-content-migration | sharepoint-audit-list-content | 68 lines | task-success yes
+sharepoint-content-migration | sharepoint-migrate-sharepoint-list-content | 64 lines | task-success yes
+sharepoint-discovery | sharepoint-analyze-custom-forms | 60 lines | task-success no
+sharepoint-discovery | sharepoint-analyze-page-inventory | 61 lines | task-success no
+sharepoint-discovery | sharepoint-analyze-permissions | 62 lines | task-success no
+sharepoint-discovery | sharepoint-analyze-site-navigation | 60 lines | task-success no
+sharepoint-discovery | sharepoint-analyze-webpart-code | 66 lines | task-success no
+sharepoint-discovery | sharepoint-audit-managed-metadata | 62 lines | task-success yes
+sharepoint-discovery | sharepoint-audit-onprem-schema-drift | 61 lines | task-success yes
+sharepoint-discovery | sharepoint-audit-schema | 62 lines | task-success no
+sharepoint-discovery | sharepoint-collect-sharepoint-inventory | 60 lines | task-success yes
+sharepoint-discovery | sharepoint-diff-sharepoint-schema | 62 lines | task-success no
+sharepoint-discovery | sharepoint-extract-calculated-columns | 60 lines | task-success no
+sharepoint-discovery | sharepoint-extract-choice-fields | 59 lines | task-success no
+sharepoint-discovery | sharepoint-generate-discovery-report-set | 58 lines | task-success yes
+sharepoint-discovery | sharepoint-generate-sharepoint-schema-from-export | 60 lines | task-success no
+sharepoint-discovery | sharepoint-scaffold-schema-definition | 46 lines | task-success yes
+workbench-setup | workbench-initialize-document-workflow | 72 lines | task-success no
+workbench-setup | workbench-initialize-workbench-config | 55 lines | task-success no
+workbench-setup | workbench-request-app-registration | 80 lines | task-success no
+workbench-setup | workbench-resolve-workbench-paths | 59 lines | task-success no
+workbench-setup | workbench-validate-workbench-environment | 80 lines | task-success no

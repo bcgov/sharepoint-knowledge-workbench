@@ -15,3 +15,4 @@ plugin sharepoint-page-modernization-execution
 plugin sharepoint-provisioning
 plugin sharepoint-schema-reconciliation
 plugin sharepoint-spfx-authoring
+plugin sharepoint-agents-and-skills

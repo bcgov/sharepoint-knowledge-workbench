@@ -55,7 +55,7 @@ installed copy (symlinks resolved) also passes.
 | Passing | 93 | 104 |
 | Failing | 11 | 0 |
 | Errors | 16 | 0 |
-| Warnings | 643 | 79 |
+| Warnings | 643 | 0 |
 
 Baseline: first full audit, before any edits. Current: audit run at the time of the latest change-log entry.
 
@@ -67,7 +67,7 @@ Baseline: first full audit, before any edits. Current: audit run at the time of 
 | content-extraction | 1 | 1 | 0 | 0 |
 | content-rendering | 7 | 7 | 0 | 0 |
 | content-structure-analysis | 1 | 1 | 0 | 0 |
-| sharepoint-agents-and-skills | 15 | 0 | 0 | 15 |
+| sharepoint-agents-and-skills | 15 | 15 | 0 | 0 |
 | sharepoint-content-migration | 2 | 2 | 0 | 0 |
 | sharepoint-content-publication | 6 | 6 | 0 | 0 |
 | sharepoint-discovery | 15 | 15 | 0 | 0 |
@@ -86,13 +86,13 @@ Statuses: **Retrofitted** = restructured to the standard layout and passes `--st
 
 | Rule | Baseline | Current | Notes |
 |---|---|---|---|
-| `navigation.canonical-headings` | 522 | 75 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
-| `size.lean` | 36 | 2 | SKILL.md over the 80-line target |
+| `navigation.canonical-headings` | 522 | 0 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
+| `size.lean` | 36 | 0 | SKILL.md over the 80-line target |
 | `packaging.folder-structure` | 27 | 0 | Missing evals/ directory (and disallowed directories) |
 | `evals.missing` | 27 | 0 | All skills now have evals/evals.json (see decisions: the 27 new files were authored, not observed) |
-| `navigation.entry-toc` | 20 | 1 | Long entry point lacks Contents in the first 100 lines |
+| `navigation.entry-toc` | 20 | 0 | Long entry point lacks Contents in the first 100 lines |
 | `navigation.reference-toc` | 7 | 0 | Linked reference over 100 lines lacks early Contents |
-| `navigation.legacy-headings` | 4 | 1 | Legacy section names to fold into canonical sections |
+| `navigation.legacy-headings` | 4 | 0 | Legacy section names to fold into canonical sections |
 | `navigation.direct-reference` | 0 | 0 | Reference reached only through another reference |
 | `links.resolve` | 8 | 0 | Broken local link |
 | `packaging.resource` | 6 | 0 | Real file where a managed symlink belongs |
@@ -114,21 +114,21 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | content-rendering | content-validate-rendered-output | 59 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
 | content-rendering | content-validate-rendering-template | 54 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
 | content-structure-analysis | content-analyze-document-structure | 56 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
-| sharepoint-agents-and-skills | sharepoint-apply-sharepoint-agent-template | 42 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-backup-sharepoint-agents | 31 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-backup-sharepoint-native-skills | 30 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-configure-sharepoint-agent-knowledge | 46 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-create-sharepoint-agent | 83 | PASS 0/6 | PASS 0/6 | Not started | no | size.lean,navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-create-sharepoint-agent-template | 37 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-create-sharepoint-native-skill | 46 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-deploy-sharepoint-native-skill | 45 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-inventory-and-validate-agentassets | 61 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-restore-sharepoint-agents | 44 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-restore-sharepoint-native-skills | 42 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-review-manual-topics | 124 | PASS 0/8 | PASS 0/8 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings,navigation.legacy-headings |
-| sharepoint-agents-and-skills | sharepoint-rollback-sharepoint-native-skill | 40 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-update-sharepoint-agent | 38 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-agents-and-skills | sharepoint-verify-sharepoint-native-skill | 44 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
+| sharepoint-agents-and-skills | sharepoint-apply-sharepoint-agent-template | 46 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-backup-sharepoint-agents | 45 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-backup-sharepoint-native-skills | 45 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-configure-sharepoint-agent-knowledge | 47 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-create-sharepoint-agent | 47 | PASS 0/6 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-create-sharepoint-agent-template | 45 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-create-sharepoint-native-skill | 46 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-deploy-sharepoint-native-skill | 47 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-inventory-and-validate-agentassets | 46 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-restore-sharepoint-agents | 46 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-restore-sharepoint-native-skills | 45 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-review-manual-topics | 58 | PASS 0/8 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-rollback-sharepoint-native-skill | 45 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-update-sharepoint-agent | 46 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-agents-and-skills | sharepoint-verify-sharepoint-native-skill | 45 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-content-migration | sharepoint-audit-list-content | 68 | FAIL 1/8 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-content-migration | sharepoint-migrate-sharepoint-list-content | 64 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-content-publication | sharepoint-publish-aspx-to-sharepoint | 51 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
@@ -218,7 +218,7 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
   lists were written from each skill's `SKILL.md` and its sibling skills, and have **not** been run
   against any model. Treat them as a starting contract the skill owner should review, and record real
   model results separately.
-- **Task-success evals exist for only 74 of 104 skills.** The other 30 have routing evals only. Authoring
+- **Task-success evals exist for only 89 of 104 skills.** The other 15 have routing evals only. Authoring
   `task-success.json` for them is the next evals step.
 - **`plugin:` frontmatter does not match the owning plugin for 38 skills.** 21 omit it
   (`sharepoint-agents-and-skills` 15, `sharepoint-content-publication` 6). 13 name an old pre-rename plugin
@@ -259,3 +259,4 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | 2026-10-02 | `sharepoint-provisioning` retrofitted (19 skills): Regenerated the 18 uniform executor skills from one template (the old body had corrupted code fences such as `\\\ash` and leaked escapes like `\\-Execute\\`) and rewrote `sharepoint-apply-provisioning-plan`; one shared plugin-root reference (`provisioning-executor-contract.md`: safety contract, the plan `confirmation_token` vs fixed `-ConfirmToken` distinction, connection/config, plan-shape pointers, and a 28-script executor table with tokens verified against the scripts). **Fixed wrong documentation:** three skills documented tokens the scripts reject (`DETACH-SPO-CONTENT-TYPE-FROM-LIST` -> `DETACH-SPO-CONTENT-TYPE`; `REMOVE-SPO-CONTENT-TYPE` -> `REMOVE-SPO-CONTENT-TYPES`; `UPDATE-SPO-CONTENT-TYPE` -> `UPDATE-SPO-CONTENT-TYPES`) and the `task-success.json` files I had authored for them copied the wrong tokens, now regenerated; `sharepoint-remove-site-column` claimed post-deletion verification the script does not do (description corrected); the delete skills no longer imply in-use guards the scripts lack. Found (not changed): `spo-trigger-reindex.ps1`'s header documents another script's plan shape (copy-paste). Every documented token across all 19 SKILL.md and eval files now matches the scripts. Strict audit passes in source and installed mode; the plugin has no tests. |
 | 2026-10-02 | `sharepoint-schema-reconciliation` retrofitted (4 skills): SKILL.md rewritten for all 4; 5 plugin-root references (shared pipeline/write-safety/executor-locations plus one details reference per skill); `plugin:` corrected from `sharepoint-provisioning`; three skills had no scripts linked at all (the Python modules, their imports and `provisioning_outcomes.py` are now symlinked in; every quick-start was run from an installed copy); the executor pointer named a non-existent `sharepoint-migration-planning` skill, now `sharepoint-provisioning`'s `sharepoint-apply-provisioning-plan` (and the calendar executor, which lives in the migration-planning plugin, is stated accurately); removed the stale "THE ONLY WRITE-capable skill" claim (the calendar skill also has a gated apply); `task-success.json` added to all 4; `tests/test_plugin_independence.py` exemption set extended to `task-success.json`. Fixed `temp/skill-retrofitting/tools/verify-plugin.sh`, which showed a failing test count yet printed RESULT: OK (now fails on any test failure). Strict audit passes in source and installed mode; 100 plugin tests pass. |
 | 2026-10-02 | `sharepoint-spfx-authoring` retrofitted (10 skills): SKILL.md rewritten for all 10 (the 473-line form-customizer skill is now ~60 lines, with the 'deployed is not associated' hard gate in Constraints); 16 plugin-root references added (shared live-write/gate table, naming and versioning, pre-flight, deploy and publish runbooks, app-catalog request runbook, three form-customizer references, and one details reference per scaffold/workbench skill); `add-contents.py` used to add Contents to 5 long existing references. **Documentation corrections:** the old docs never said that `deploy-spfx-package.ps1`, `publish-spfx-package.ps1` and `provision-sample-dossier-schema.ps1` write immediately with no dry run, or that `register-listview-command-set.ps1` has no `-Execute` (only `-WhatIf`); the form-customizer diagram numbered steps differently from the body (now consistent, 11 steps); the publish and workbench-setup skills used repo-root script paths, a real tenant/client GUID, and project-specific paths and site names (removed); the package skill repeated one command block; two skills duplicated the naming table (now one shared reference). Linked the previously unmentioned scripts into their skills (`setup-spfx-workbench.ps1` and `check-spfx-toolchain.ps1` into the workbench skill; the master-detail templates and the 18-file reference project as file-level links so 'Option A' works when installed). Both Python scaffolders were run from installed copies. `task-success.json` added to all 10. Strict audit passes in source and installed mode; 3 plugin tests pass. |
+| 2026-10-02 | `sharepoint-agents-and-skills` retrofitted (15 skills): 15 skills retrofitted; last plugin |

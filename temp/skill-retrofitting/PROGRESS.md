@@ -1,6 +1,6 @@
 # Skill retrofit: progress and handoff state
 
-Last updated: 2026-10-02 (after sharepoint-spfx-authoring). Read `PLAN.md` first for the how-to. This file is the live state: update it at the end of every
+Last updated: 2026-10-02 (after sharepoint-agents-and-skills). Read `PLAN.md` first for the how-to. This file is the live state: update it at the end of every
 plugin (and whenever you stop mid-plugin, using the "In flight" section).
 
 ## Contents
@@ -20,9 +20,9 @@ plugin (and whenever you stop mid-plugin, using the "In flight" section).
 - PR #5 (`.gitignore` change) was already merged by the user; this effort continues on a new branch and PR.
 - Audit snapshot: 104 skills, 104 pass, 0 fail, 0 errors; remaining warnings are layout/size items in plugins not yet retrofitted
   (the tracker has exact counts).
-- **15 of 16 plugins fully retrofitted (89 of 104 skills).** All 104 skills have `evals/evals.json`; 74 have
+- **16 of 16 plugins fully retrofitted (104 of 104 skills).** All 104 skills have `evals/evals.json`; 89 have
   `evals/task-success.json`.
-- Next plugin to take: **`sharepoint-agents-and-skills`**, then the rest of the queue top to bottom (alphabetical).
+- Next plugin to take: **`(none: all plugins done)`**, then the rest of the queue top to bottom (alphabetical).
   `sharepoint-agents-and-skills` is deliberately **last** (user's instruction).
 
 ## Retrofitted plugins and skills
@@ -47,6 +47,7 @@ correct, `task-success.json` present, `verify-plugin.sh <plugin>` prints `RESULT
 | sharepoint-provisioning | 19 | `sharepoint-add-list-column`, `sharepoint-add-list-item`, `sharepoint-apply-provisioning-plan`, `sharepoint-configure-column-formatting`, `sharepoint-configure-library-settings`, `sharepoint-create-content-type`, `sharepoint-create-document-library`, `sharepoint-create-list`, `sharepoint-create-list-view`, `sharepoint-create-site-column`, `sharepoint-detach-content-type`, `sharepoint-remove-content-type`, `sharepoint-remove-list`, `sharepoint-remove-list-column`, `sharepoint-remove-site-column`, `sharepoint-update-content-type`, `sharepoint-update-list-column`, `sharepoint-update-list-settings`, `sharepoint-update-site-column` |
 | sharepoint-schema-reconciliation | 4 | `sharepoint-provision-content-types`, `sharepoint-provision-fields`, `sharepoint-provision-list`, `sharepoint-provision-modern-calendar-list` |
 | sharepoint-spfx-authoring | 10 | `sharepoint-deploy-spfx-solution`, `sharepoint-package-spfx-solution`, `sharepoint-publish-spfx-package`, `sharepoint-request-site-collection-app-catalog`, `sharepoint-scaffold-spfx-form-customizer`, `sharepoint-scaffold-spfx-listview-command-set`, `sharepoint-scaffold-spfx-master-detail`, `sharepoint-scaffold-spfx-react-app`, `sharepoint-scaffold-spfx-webpart`, `sharepoint-setup-spfx-workbench` |
+| sharepoint-agents-and-skills | 15 | `sharepoint-apply-sharepoint-agent-template`, `sharepoint-backup-sharepoint-agents`, `sharepoint-backup-sharepoint-native-skills`, `sharepoint-configure-sharepoint-agent-knowledge`, `sharepoint-create-sharepoint-agent`, `sharepoint-create-sharepoint-agent-template`, `sharepoint-create-sharepoint-native-skill`, `sharepoint-deploy-sharepoint-native-skill`, `sharepoint-inventory-and-validate-agentassets`, `sharepoint-restore-sharepoint-agents`, `sharepoint-restore-sharepoint-native-skills`, `sharepoint-review-manual-topics`, `sharepoint-rollback-sharepoint-native-skill`, `sharepoint-update-sharepoint-agent`, `sharepoint-verify-sharepoint-native-skill` |
 
 What was done to each retrofitted skill (details in the tracker's Change log):
 
@@ -88,7 +89,7 @@ Work top to bottom. Counts and notes are from the 2026-10-02 audit.
 
 | # | Plugin | Skills | Line counts (current) | Plugin-specific notes |
 |---|---|---|---|---|
-| 1 | sharepoint-agents-and-skills | 15 | 42 31 30 46 37 83 46 45 61 44 42 124 40 38 44  | LAST by the user's instruction. `plugin:` frontmatter missing in all 15. Includes agent/native-skill create/deploy/backup/restore skills. |
+
 
 Skill names for each remaining plugin: `ls plugins/<plugin>/skills`. The per-skill table in
 `docs/reports/skill-standard-alignment/tracker.md` has current open rules per skill.
@@ -160,5 +161,6 @@ Current plugin: _(none started)_
 | 2026-10-02 | `sharepoint-provisioning` retrofitted (19 skills): layout retrofit; 3 skills documented the wrong -ConfirmToken (detach, remove-content-type, update-content-type); the old template had corrupted code fences; remove-site-column overclaimed verification; evals corrected to match |
 | 2026-10-02 | `sharepoint-schema-reconciliation` retrofitted (4 skills): layout retrofit; plugin: corrected from sharepoint-provisioning; 3 of 4 skills had no scripts linked; wrong executor pointer fixed; 'only write-capable skill' claim corrected; independence test exemption extended |
 | 2026-10-02 | `sharepoint-spfx-authoring` retrofitted (10 skills): layout retrofit; the 473-line form-customizer skill split into 3 references with the hard gate kept up front; live-write facts stated (deploy/publish/provision-sample have no gate; register uses -WhatIf); repo-root paths and hardcoded GUIDs/site names removed; setup-workbench linked its scripts |
+| 2026-10-02 | `sharepoint-agents-and-skills` retrofitted (15 skills): 15 skills retrofitted; 5 plugin-root references; gates verified against scripts; review-manual-topics kept self-contained for native deployment |
 | 2026-10-02 | Branch pushed and draft PR #7 opened against `main`; backlog committed as 12 per-plugin commits plus a docs commit. |
 | 2026-10-02 | Retrofitted 7 plugins (32 skills; an earlier version of this log said 39, which was the task-success file count), fixed 8 error skills, authored evals for 27 skills, updated marketplace `sharepoint-discovery` description. Tooling and this handoff written. |
