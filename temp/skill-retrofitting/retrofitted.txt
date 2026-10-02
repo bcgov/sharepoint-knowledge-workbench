@@ -1,0 +1,9 @@
+# One entry per line. Read by tools/refresh-tracker.sh to mark skills "Retrofitted" in the tracker.
+# Format:  plugin <plugin-dir-name>     (all skills in that plugin)   |   skill <skill-dir-name>   (a single skill)
+plugin workbench-setup
+plugin sharepoint-discovery
+plugin content-assembly
+plugin content-extraction
+plugin content-rendering
+plugin content-structure-analysis
+plugin sharepoint-content-migration
