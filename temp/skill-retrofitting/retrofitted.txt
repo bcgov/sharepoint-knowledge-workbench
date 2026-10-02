@@ -8,3 +8,4 @@ plugin content-rendering
 plugin content-structure-analysis
 plugin sharepoint-content-migration
 plugin sharepoint-content-publication
+plugin sharepoint-link-remediation

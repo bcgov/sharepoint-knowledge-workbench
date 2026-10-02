@@ -3420,6 +3420,72 @@
       "dst": "plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/scripts/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
       "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-extract-links/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-document-content-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-field-image-references"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-pipeline-and-write-safety.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/references/link-pipeline-and-write-safety.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-validate-link-integrity"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/extract-links-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-extract-links/references/extract-links-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-extract-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/remediate-links-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-links/references/remediate-links-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/document-link-remediation-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-document-content-links/references/document-link-remediation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-document-content-links"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/field-image-remediation-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-remediate-field-image-references/references/field-image-remediation-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-remediate-field-image-references"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/references/link-integrity-details.md",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/references/link-integrity-details.md",
+      "strategy": "symlink",
+      "description": "Canonical reference for sharepoint-validate-link-integrity"
+    },
+    {
+      "src": "plugins/sharepoint-link-remediation/scripts/link_rules.py",
+      "dst": "plugins/sharepoint-link-remediation/skills/sharepoint-validate-link-integrity/scripts/link_rules.py",
+      "strategy": "symlink",
+      "description": "Imported by link_integrity.py"
     }
   ]
 }

@@ -90,6 +90,7 @@ All run from anywhere inside the repo. Use `bash` (not zsh) for these scripts.
 | `tools/verify-plugin.sh <plugin>` | The full per-plugin gate: strict audit (source), strict audit of a materialized copy (installed), import sweep from the copy, plugin tests, symlink health, marketplace paths, eval JSON validity. Must print `RESULT: OK`. |
 | `tools/refresh-tracker.sh` | Re-audits all 104 skills and rewrites the audit-derived sections of the tracker (per-skill table, per-plugin progress, summary, rule counts). Reads `retrofitted.txt` for which plugins/skills are "Retrofitted". Does not touch the tracker's Change log or Decisions. |
 | `tools/gen-evals.sh <data-file>` | Generates `evals/evals.json` and `evals/task-success.json` for many uniform skills from a `|`-separated data file (see `tools/examples/provisioning-evals.dat`). Run from the plugin's `skills/` directory. Overwrites. |
+| `tools/finish-plugin.py <plugin> "<note>" [--tracker-note "..."]` | After a finished plugin: updates `retrofitted.txt`, PROGRESS (queue, retrofitted table, counts, next plugin, log) and the tracker's task-success line and change log. Then run `refresh-tracker.sh`. |
 | `tools/mark-skill-done.sh <skill>...` | After each finished skill: records it in `retrofitted.txt` and refreshes the tracker tables. |
 | `baseline.tsv` | The first full audit (before any edits), used for the tracker's Baseline column. Do not regenerate. |
 | `retrofitted.txt` | Source of truth for which plugins/skills are retrofitted. Edit it when you finish a plugin. |
@@ -202,6 +203,12 @@ Take one plugin at a time, in the order listed in `PROGRESS.md`.
 - `.ps1` executors with `[string]$ConfigPath = (Join-Path $PSScriptRoot "..\..\..\config.psd1")` resolve to the repo root only from the plugin's
   `scripts/`; from an installed skill they do not. Document passing `-ConfigPath` or `-SiteUrl/-ClientId/-TenantId` explicitly.
 - A reference can live outside `references/` at the plugin root (e.g. `docs/`); symlink it into the skill's `references/` from where it is.
+- **Verify a body file is non-empty before `gh pr edit --body-file`** (a failed `sed` produced an empty file and blanked the PR description once; write PR bodies
+  to `.work/pr-body.md` with a normal file write and check `wc -c`).
+- **Count skills from the filesystem, not from memory**: use the plugin's `ls skills | wc -l`, or `tools/finish-plugin.py` (it computes totals). An earlier handoff
+  note confused the task-success file count with the retrofitted-skill count.
+- Some plugins carry an **independence test** (`tests/test_plugin_independence.py` in `sharepoint-link-remediation` and `sharepoint-schema-reconciliation`) that
+  forbids real files under `skills/` except `SKILL.md` and `evals.json`. The new standard adds `evals/task-success.json`, so the test's exemption set must include it.
 - The documented API in a SKILL.md can be wrong (e.g. `ItemMigrationPlan` has no `to_dict()`). Run examples before shipping them.
 
 ## Stale-name map
