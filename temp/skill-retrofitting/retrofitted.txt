@@ -14,3 +14,4 @@ plugin sharepoint-page-modernization
 plugin sharepoint-page-modernization-execution
 plugin sharepoint-provisioning
 plugin sharepoint-schema-reconciliation
+plugin sharepoint-spfx-authoring

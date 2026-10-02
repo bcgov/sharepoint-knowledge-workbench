@@ -3930,6 +3930,240 @@
       "dst": "plugins/sharepoint-schema-reconciliation/skills/sharepoint-provision-modern-calendar-list/references/calendar-provisioning-details.md",
       "strategy": "symlink",
       "description": "Canonical calendar-provisioning-details.md for sharepoint-provision-modern-calendar-list"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-deploy-runbook.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/references/spfx-deploy-runbook.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-deploy-runbook.md for sharepoint-deploy-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-live-write-scripts.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/references/spfx-live-write-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-live-write-scripts.md for sharepoint-deploy-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-package-preflight.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/references/spfx-package-preflight.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-package-preflight.md for sharepoint-package-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-naming-and-versioning.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/references/spfx-naming-and-versioning.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-naming-and-versioning.md for sharepoint-package-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-publish-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/references/spfx-publish-details.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-publish-details.md for sharepoint-publish-spfx-package"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-naming-and-versioning.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/references/spfx-naming-and-versioning.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-naming-and-versioning.md for sharepoint-publish-spfx-package"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-live-write-scripts.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/references/spfx-live-write-scripts.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-live-write-scripts.md for sharepoint-publish-spfx-package"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/app-catalog-request-runbook.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-request-site-collection-app-catalog/references/app-catalog-request-runbook.md",
+      "strategy": "symlink",
+      "description": "Canonical app-catalog-request-runbook.md for sharepoint-request-site-collection-app-catalog"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-suitability-and-setup.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-suitability-and-setup.md",
+      "strategy": "symlink",
+      "description": "Canonical form-customizer-suitability-and-setup.md for sharepoint-scaffold-spfx-form-customizer"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-implementation-patterns.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-implementation-patterns.md",
+      "strategy": "symlink",
+      "description": "Canonical form-customizer-implementation-patterns.md for sharepoint-scaffold-spfx-form-customizer"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/form-customizer-deploy-associate-validate.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-form-customizer/references/form-customizer-deploy-associate-validate.md",
+      "strategy": "symlink",
+      "description": "Canonical form-customizer-deploy-associate-validate.md for sharepoint-scaffold-spfx-form-customizer"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/listview-command-set-workflow.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-listview-command-set/references/listview-command-set-workflow.md",
+      "strategy": "symlink",
+      "description": "Canonical listview-command-set-workflow.md for sharepoint-scaffold-spfx-listview-command-set"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/master-detail-scaffold-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/references/master-detail-scaffold-details.md",
+      "strategy": "symlink",
+      "description": "Canonical master-detail-scaffold-details.md for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/react-app-scaffold-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-react-app/references/react-app-scaffold-details.md",
+      "strategy": "symlink",
+      "description": "Canonical react-app-scaffold-details.md for sharepoint-scaffold-spfx-react-app"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/webpart-scaffold-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-webpart/references/webpart-scaffold-details.md",
+      "strategy": "symlink",
+      "description": "Canonical webpart-scaffold-details.md for sharepoint-scaffold-spfx-webpart"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-naming-and-versioning.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-webpart/references/spfx-naming-and-versioning.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-naming-and-versioning.md for sharepoint-scaffold-spfx-webpart"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/references/spfx-workbench-setup-details.md",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/references/spfx-workbench-setup-details.md",
+      "strategy": "symlink",
+      "description": "Canonical spfx-workbench-setup-details.md for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/check-spfx-toolchain.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": "Canonical check-spfx-toolchain.ps1 for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/scripts/setup-spfx-workbench.ps1",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-setup-spfx-workbench/scripts/setup-spfx-workbench.ps1",
+      "strategy": "symlink",
+      "description": "Canonical setup-spfx-workbench.ps1 for sharepoint-setup-spfx-workbench"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/MasterDetailWebPart.ts.template",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/MasterDetailWebPart.ts.template",
+      "strategy": "symlink",
+      "description": "Canonical MasterDetailWebPart.ts.template for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/MasterDetailWebPart.module.scss.template",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/MasterDetailWebPart.module.scss.template",
+      "strategy": "symlink",
+      "description": "Canonical MasterDetailWebPart.module.scss.template for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/.yo-rc.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/.yo-rc.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/.gitignore",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/.gitignore",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/package.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/package.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/tsconfig.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/tsconfig.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/eslint.config.js",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/eslint.config.js",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/rig.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/rig.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/serve.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/serve.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/package-solution.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/package-solution.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/config.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/config.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/deploy-azure-storage.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/deploy-azure-storage.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/write-manifests.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/write-manifests.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/typescript.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/typescript.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/config/sass.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/config/sass.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.manifest.json",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.manifest.json",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.module.scss",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.module.scss",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.ts",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/SelectedIdFilterWebPart.ts",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/en-us.js",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/en-us.js",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-authoring/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/mystrings.d.ts",
+      "dst": "plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-master-detail/assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/mystrings.d.ts",
+      "strategy": "symlink",
+      "description": "Reference project file for sharepoint-scaffold-spfx-master-detail"
     }
   ]
 }

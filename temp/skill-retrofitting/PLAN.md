@@ -91,6 +91,7 @@ All run from anywhere inside the repo. Use `bash` (not zsh) for these scripts.
 | `tools/refresh-tracker.sh` | Re-audits all 104 skills and rewrites the audit-derived sections of the tracker (per-skill table, per-plugin progress, summary, rule counts). Reads `retrofitted.txt` for which plugins/skills are "Retrofitted". Does not touch the tracker's Change log or Decisions. |
 | `tools/gen-evals.sh <data-file>` | Generates `evals/evals.json` and `evals/task-success.json` for many uniform skills from a `|`-separated data file (see `tools/examples/provisioning-evals.dat`). Run from the plugin's `skills/` directory. Overwrites. |
 | `tools/finish-plugin.py <plugin> "<note>" [--tracker-note "..."]` | After a finished plugin: updates `retrofitted.txt`, PROGRESS (queue, retrofitted table, counts, next plugin, log) and the tracker's task-success line and change log. Then run `refresh-tracker.sh`. |
+| `tools/add-contents.py <file.md>...` | Adds an auditor-compatible `## Contents` block to long plugin-root references (the `navigation.reference-toc` warning). Idempotent. |
 | `tools/mark-skill-done.sh <skill>...` | After each finished skill: records it in `retrofitted.txt` and refreshes the tracker tables. |
 | `baseline.tsv` | The first full audit (before any edits), used for the tracker's Baseline column. Do not regenerate. |
 | `retrofitted.txt` | Source of truth for which plugins/skills are retrofitted. Edit it when you finish a plugin. |
