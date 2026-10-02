@@ -1,5 +1,13 @@
 # Effective SharePoint Permissions Matrix — Site User Roles × Entra App Permissions × PnP Grant Tiers
 
+## Contents
+
+- [The three axes](#the-three-axes)
+- [The vocabulary mismatch](#️-the-vocabulary-mismatch-dont-conflate-these)
+- [How effective access is actually calculated](#how-effective-access-is-actually-calculated-microsofts-own-documented-model)
+- [What this workbench has observed vs. still doesn't know](#what-this-workbench-has-actually-observed-vs-still-doesnt-know)
+- [Practical checklist](#practical-checklist-when-an-operation-unexpectedly-succeeds-or-fails)
+
 Synthesizes everything this plugin has learned (and unlearned) about what actually determines
 whether a PnP operation succeeds against a SharePoint site, across the three independent axes
 that all interact: **who the site itself says can do what**, **what the app registration is
