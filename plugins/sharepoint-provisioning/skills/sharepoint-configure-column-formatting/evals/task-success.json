@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Apply the JSON formatting in format.json to the Status field. Show me the plan first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-configure-column-formatting.ps1 with -PlanPath and without -Execute, as a dry run",
+      "States the dry run prints a structured JSON action plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real run"
+    ]
+  },
+  {
+    "query": "The plan looks right. Apply it for real.",
+    "expected_behavior": [
+      "Adds -Execute and -ConfirmToken CONFIGURE-SPO-COLUMN-FORMATTING to the same command",
+      "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
+      "Does not alter the plan content between the dry run and the real run"
+    ]
+  },
+  {
+    "query": "Can you check the formatting JSON is valid before applying it?",
+    "expected_behavior": [
+      "Reads the formatting from the plan and shows the dry-run action first",
+      "Does not rewrite or invent formatting JSON that the user did not provide",
+      "Applies it only with -Execute and the exact token"
+    ]
+  }
+]

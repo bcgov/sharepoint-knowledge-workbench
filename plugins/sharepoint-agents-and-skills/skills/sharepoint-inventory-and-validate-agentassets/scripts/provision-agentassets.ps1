@@ -1,0 +1,1 @@
+../../../scripts/provision-agentassets.ps1

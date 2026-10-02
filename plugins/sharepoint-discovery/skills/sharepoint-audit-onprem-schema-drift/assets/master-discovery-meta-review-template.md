@@ -1,0 +1,1 @@
+../../../assets/master-discovery-meta-review-template.md

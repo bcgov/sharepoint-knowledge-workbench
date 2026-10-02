@@ -1,0 +1,15 @@
+[
+  {
+    "query": "Save my-skill's SKILL.md from AgentAssets locally.",
+    "expected_behavior": [
+      "Builds -Items with Url and Dest and runs scripts/backup-sharepoint-native-skills.ps1 -OutputDir",
+      "States it is read-only and the output feeds the restore skill"
+    ]
+  },
+  {
+    "query": "Back up every skill in the library without listing them.",
+    "expected_behavior": [
+      "Asks for an explicit -Items list; no hardcoded targets"
+    ]
+  }
+]

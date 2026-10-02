@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Scaffold an enterprise document catalogue web part with PnPjs and Tailwind.",
+    "expected_behavior": [
+      "Writes app_spec.json with webPartName, title and description and runs scripts/scaffold_spfx_react_app.py --spec ... --output-dir ...",
+      "Reports the generated manifest, web part, components (React component, pnpjsConfig.ts) and style files",
+      "Adds the build:tailwind step so npm run build compiles Tailwind first"
+    ]
+  },
+  {
+    "query": "Hardcode the document list's GUID so it is faster.",
+    "expected_behavior": [
+      "Recommends the self-healing GUID recovery that falls back to list titles when promoted across DEV, TEST and PROD",
+      "Points to the self-healing migration guide",
+      "Does not hardcode the GUID"
+    ]
+  },
+  {
+    "query": "The build fails because tailwind.output.css is missing.",
+    "expected_behavior": [
+      "Checks the build:tailwind script runs before heft and that npm run build calls it first",
+      "Points to the Tailwind integration guide",
+      "Does not eject the Webpack build"
+    ]
+  }
+]

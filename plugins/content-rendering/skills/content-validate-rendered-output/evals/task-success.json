@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Validate the Markdown render I just staged against its package and promote it if it passes.",
+    "expected_behavior": [
+      "Runs render_and_promote for Markdown, or validate_rendered_output to validate only",
+      "Reports PASS or FAIL, never WARN, with every issue listed",
+      "Promotes only on PASS"
+    ]
+  },
+  {
+    "query": "The package was reconverted after I rendered. Is the render still good?",
+    "expected_behavior": [
+      "Explains stale source content is detected via render-result.json's recorded source_content_sha256",
+      "Reports FAIL for a stale render and does not promote it",
+      "Suggests re-rendering from the current package"
+    ]
+  },
+  {
+    "query": "Validate the ASPX render, but pandoc errors while checking page content.",
+    "expected_behavior": [
+      "Treats the pandoc failure as 'cannot verify', not as a page_content_not_traceable finding",
+      "Does not report a false traceability failure",
+      "Does not promote an unverified render as if it passed"
+    ]
+  }
+]

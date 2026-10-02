@@ -1,5 +1,11 @@
 # URL-Driven Related-Item Pattern for SPFx Form Customizers
 
+## Contents
+
+- [Overview](#overview)
+- [Technical Architecture & State Model](#technical-architecture--state-model)
+- [Core Implementation Rules](#core-implementation-rules)
+
 ## Overview
 
 A frequent enterprise modernization pattern is creating or editing child records linked to a parent item directly from a parent dossier page (e.g. `Persons` -> `Narratives`).

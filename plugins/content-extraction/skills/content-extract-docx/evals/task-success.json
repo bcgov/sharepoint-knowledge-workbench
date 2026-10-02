@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Extract intake/Manual.docx so we can analyse its structure. Put the pandoc output in analysis/Manual.",
+    "expected_behavior": [
+      "Calls extract_and_normalize(source='intake/Manual.docx', output_dir='analysis/Manual') with scripts/ on sys.path",
+      "Reports the normalized-source-document v1 result: markdown text, media list, content hash, heading structure and defect signals",
+      "Does not choose single or chunked strategy or propose topic boundaries"
+    ]
+  },
+  {
+    "query": "pandoc is not installed on this machine. Run the extraction.",
+    "expected_behavior": [
+      "Reports that dependencies.MissingDependencyError is raised because pandoc is not on PATH",
+      "Asks the user to install pandoc and does not attempt to install system tools without checking first",
+      "Does not fabricate an extraction result"
+    ]
+  },
+  {
+    "query": "Extract the doc, then decide for me whether it should be one page or split into chunks.",
+    "expected_behavior": [
+      "Performs the extraction only",
+      "Declines to decide the strategy here and routes that to the content-structure-analysis plugin",
+      "Presents any raw-TOC or heading observations as inputs to that decision, not as the decision"
+    ]
+  }
+]

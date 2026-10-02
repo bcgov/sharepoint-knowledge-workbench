@@ -1,0 +1,10 @@
+[
+  {"query": "Convert article.aspx in the ClassicPages library to a modern Site Page", "should_trigger": true},
+  {"query": "Do a dry run of converting one classic page to modern and stamp my migration tag field on it", "should_trigger": true},
+  {"query": "Convert this single .aspx page using ConvertTo-PnPPage with a field mapping file", "should_trigger": true},
+  {"query": "Turn this classic page into a modern page within the same site", "should_trigger": true},
+  {"query": "Convert every page in the ClassicPages library in one run", "should_trigger": false},
+  {"query": "Check that the converted pages have their mapped fields populated", "should_trigger": false},
+  {"query": "Rewrite the broken links inside the converted page bodies", "should_trigger": false},
+  {"query": "Copy this page from the source site to the target site", "should_trigger": false}
+]

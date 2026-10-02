@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Build a full preview of ./destination/My-Page using the chrome in ./site-chrome/Example.",
+    "expected_behavior": [
+      "Runs preview_composition.py --page-folder ./destination/My-Page --chrome-folder ./site-chrome/Example",
+      "Writes full-preview.html inside the page folder by default and reports the outcome",
+      "Makes no network call"
+    ]
+  },
+  {
+    "query": "There is no logo in the chrome. Add a placeholder logo so it looks finished.",
+    "expected_behavior": [
+      "Refuses to add a placeholder image",
+      "Reports Partial with the missing logo named, still writing the preview",
+      "Builds the preview from exactly what is on disk"
+    ]
+  },
+  {
+    "query": "The page folder has no modern-preview.html. Compose the preview anyway.",
+    "expected_behavior": [
+      "Reports Unavailable for the missing required file and writes no output",
+      "Does not fabricate page content",
+      "Names the file the user must provide"
+    ]
+  }
+]

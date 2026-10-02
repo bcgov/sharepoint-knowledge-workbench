@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Audit managed metadata usage on https://tenant.sharepoint.com/sites/Test for the term group 'Enterprise Taxonomy'.",
+    "expected_behavior": [
+      "Chooses the modern SPO script scripts/audit-sharepoint-managed-metadata.ps1, not the on-prem one",
+      "Gives a command with -SiteUrl, -TermGroupName and -OutputPath and leaves running it to the user",
+      "States the audit is read-only and performs no tenant writes"
+    ]
+  },
+  {
+    "query": "Our legacy SP2016 subsite https://sp2016.example.org/subsite has a parent at https://sp2016.example.org. Check managed metadata on both.",
+    "expected_behavior": [
+      "Chooses scripts/audit-onprem-sharepoint-managed-metadata.ps1",
+      "Passes -ParentSiteUrl for the parent site and -OutputPath for the JSON result",
+      "Notes on-prem auth uses NTLM/Kerberos (for example -UseDefaultCredentials), not an Entra app registration"
+    ]
+  },
+  {
+    "query": "The audit JSON shows Found: false for the term group and an Error on one list. Is the site clean?",
+    "expected_behavior": [
+      "Does not call the site clean",
+      "Reports the unresolved term group and the list error as findings",
+      "Does not fabricate term sets or fields to fill the gap"
+    ]
+  }
+]

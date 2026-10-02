@@ -1,0 +1,1 @@
+../../../references/calculated-columns-details.md

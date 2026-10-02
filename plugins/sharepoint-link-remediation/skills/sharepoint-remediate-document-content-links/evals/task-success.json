@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Fix the old-site hyperlinks inside the Word and Excel files in the Policies library.",
+    "expected_behavior": [
+      "Plans with plan_document_link_remediation(documents, ruleset) and reports outcome and change_count",
+      "Uses the standard library zipfile approach for docx and xlsx, adding no python-docx or openpyxl dependency",
+      "Keeps apply a dry run until an executor and the plan's confirmation token are supplied"
+    ]
+  },
+  {
+    "query": "Also rewrite the links in the PDFs.",
+    "expected_behavior": [
+      "Reports the PDFs as NOT_SUPPORTED unless the caller injects a pdf_handler",
+      "Refuses to text-substitute a binary PDF stream because it would corrupt the file",
+      "Does not present the missing coverage as success"
+    ]
+  },
+  {
+    "query": "Rewrite the links on the page bodies too.",
+    "expected_behavior": [
+      "Explains page and HTML body links belong to sharepoint-remediate-links",
+      "Does not stretch this skill to page content",
+      "Routes the page-body rewrite to that skill"
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "query": "Restore my-skill.md to AgentAssets from the backup.",
+    "expected_behavior": [
+      "Builds -Items, dry-runs first, then -Execute with -ConfirmExactTarget \"CONFIRM-RESTORE\" after user confirmation",
+      "Suggests verifying afterward"
+    ]
+  },
+  {
+    "query": "Restore with a LocalPath that does not exist yet.",
+    "expected_behavior": [
+      "Notes the script fails before any connection when a LocalPath is missing"
+    ]
+  }
+]

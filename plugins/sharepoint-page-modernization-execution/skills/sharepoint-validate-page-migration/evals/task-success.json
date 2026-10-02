@@ -1,0 +1,26 @@
+[
+  {
+    "query": "The bulk run finished and exited 0. Is the migration actually good?",
+    "expected_behavior": [
+      "Does not trust the conversion run's own exit code",
+      "Runs or hands over scripts/spo-validate-page-conversion.ps1 with -ManifestPath, -FieldMapping and -ReportPath",
+      "States validation re-queries the live site and is read-only"
+    ]
+  },
+  {
+    "query": "Which things does the validation check on each page?",
+    "expected_behavior": [
+      "Lists page existence in -TargetLibrary, non-empty mapped target fields, and exact equality for literal field values",
+      "Says -FieldMapping and -LiteralFieldValues should be the same JSON files passed to the conversion run",
+      "Does not add checks the script does not perform"
+    ]
+  },
+  {
+    "query": "Three pages failed validation. What now?",
+    "expected_behavior": [
+      "Reports the failures from the test report CSV and that the script exits non-zero",
+      "Does not mark the migration passed",
+      "Suggests re-running conversion for the failed pages, not editing the report"
+    ]
+  }
+]

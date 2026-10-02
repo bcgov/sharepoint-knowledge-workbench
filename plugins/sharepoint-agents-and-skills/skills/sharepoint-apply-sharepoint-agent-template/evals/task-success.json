@@ -1,0 +1,17 @@
+[
+  {
+    "query": "Make an agent from my policy template using the Policies folder URL.",
+    "expected_behavior": [
+      "Confirms the template's KnowledgeSourcePlaceholderCount and supplies exactly that many URLs",
+      "Requires -AgentName and -AgentDescription",
+      "Runs scripts/apply-sharepoint-agent-template.ps1, which delegates to create-sharepoint-agent.ps1; does not deploy"
+    ]
+  },
+  {
+    "query": "The template has 2 placeholders but I only have one URL; just pad it.",
+    "expected_behavior": [
+      "Refuses to pad or truncate; asks for the missing source",
+      "Explains the count must match exactly"
+    ]
+  }
+]

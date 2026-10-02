@@ -1,0 +1,1 @@
+../../../scripts/rollback-skill-deployment.ps1

@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Which of these exported fields should we deploy, and what happens if the live Widget_Count is Text but the schema says Number?",
+    "expected_behavior": [
+      "Filters with filter_deployable_fields and plans each field with plan_field_action",
+      "Reports the type mismatch as a repair action (live type does not match declared type) rather than fixing it silently",
+      "Excludes hidden and read-only fields unless the user opts them in by name"
+    ]
+  },
+  {
+    "query": "Create a Calculated column with a formula using the typed field API.",
+    "expected_behavior": [
+      "Explains typed field-creation APIs have no formula parameter, so a Calculated column needs raw Field XML",
+      "Uses build_calculated_field_xml, which escapes caller-supplied strings",
+      "Raises or reports FieldDefinitionError for a non-Calculated FieldDef or a missing formula instead of emitting XML"
+    ]
+  },
+  {
+    "query": "Apply the field plan to the tenant now.",
+    "expected_behavior": [
+      "Declines to execute from this planning-only skill",
+      "Routes execution to the sharepoint-provisioning plugin's sharepoint-apply-provisioning-plan skill (spo-provision-site-columns.ps1) after user review",
+      "Makes no tenant call"
+    ]
+  }
+]

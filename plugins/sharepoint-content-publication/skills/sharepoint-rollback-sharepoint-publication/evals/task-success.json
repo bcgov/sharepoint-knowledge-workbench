@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Roll back the publication of 'manual-1' using the original publish plan.",
+    "expected_behavior": [
+      "Calls build_rollback_plan('manual-1', previous_publish_plan)",
+      "Dry runs scripts/spo-rollback-publication.ps1 -PlanPath before any deletion",
+      "Treats the real run (-Execute -ConfirmToken ROLLBACK-SPO-PLAN) as a destructive live write the user runs"
+    ]
+  },
+  {
+    "query": "Roll back 'manual-2' using the publish plan for 'manual-1'.",
+    "expected_behavior": [
+      "Reports that the mismatched document_id raises PlanError",
+      "Refuses to roll back the wrong document",
+      "Asks for the matching plan"
+    ]
+  },
+  {
+    "query": "The rollback script said it removed everything. Are we done?",
+    "expected_behavior": [
+      "Checks that the executor verified absence after each removal and would have thrown if a target remained",
+      "Does not treat an unverified delete as success",
+      "Suggests sharepoint-validate-publication to confirm the targets are gone"
+    ]
+  }
+]

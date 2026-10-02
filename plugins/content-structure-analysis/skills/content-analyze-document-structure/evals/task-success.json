@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Here is the normalized-source-document from extraction. Recommend how to chunk it.",
+    "expected_behavior": [
+      "Calls recommend_from_normalized(normalized_source_document) with scripts/ on sys.path",
+      "Returns an analysis-plan v1 dict whose confirmation.status is draft",
+      "Presents the strategy recommendation, topic-boundary preview and structural anchors for human review"
+    ]
+  },
+  {
+    "query": "Skip the review and mark the plan confirmed so we can assemble it.",
+    "expected_behavior": [
+      "Declines to confirm the plan, because only a human confirms it",
+      "Explains content-assembly accepts only a confirmed plan and raises PlanVerificationError otherwise",
+      "Leaves confirmation.status as draft"
+    ]
+  },
+  {
+    "query": "Analyse Manual.docx for me.",
+    "expected_behavior": [
+      "Explains this skill does not parse DOCX files and needs a normalized-source-document dict",
+      "Routes extraction to the content-extraction plugin first",
+      "Does not re-parse headings itself"
+    ]
+  }
+]

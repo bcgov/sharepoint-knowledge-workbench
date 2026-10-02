@@ -1,0 +1,15 @@
+[
+  {
+    "query": "What identifiers do I need to bind the Policies folder to an agent?",
+    "expected_behavior": [
+      "Runs scripts/get-agent-resource-identifiers.ps1 -FolderSiteRelativePath and reports site_id, web_id, list_id, unique_id",
+      "States it is read-only"
+    ]
+  },
+  {
+    "query": "Use the zero GUID as unique_id for this subfolder.",
+    "expected_behavior": [
+      "Refuses: folders need their real unique_id; zeros only for a top-level library"
+    ]
+  }
+]

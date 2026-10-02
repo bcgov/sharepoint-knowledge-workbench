@@ -1,0 +1,10 @@
+[
+  {"query": "Create a Contract content type and attach it to the Contracts library", "should_trigger": true},
+  {"query": "Add a new content type with these field links", "should_trigger": true},
+  {"query": "Bind the Client and Value columns to a new content type", "should_trigger": true},
+  {"query": "Attach a content type to a target list", "should_trigger": true},
+  {"query": "Rename an existing content type", "should_trigger": false},
+  {"query": "Delete the Contract content type", "should_trigger": false},
+  {"query": "Detach the Contract content type from the Contracts library", "should_trigger": false},
+  {"query": "Create a site column called Client", "should_trigger": false}
+]

@@ -1,0 +1,10 @@
+[
+  {"query": "Which lists on https://tenant.sharepoint.com/sites/Test use managed metadata columns?", "should_trigger": true},
+  {"query": "Audit the Enterprise Taxonomy term group on our legacy SP2016 site before we migrate", "should_trigger": true},
+  {"query": "Find every site column bound to a Taxonomy field and list the term sets they use", "should_trigger": true},
+  {"query": "Do we use managed metadata anywhere on the subsite or its parent site?", "should_trigger": true},
+  {"query": "Compare the field schemas between the Requests list and its archive lists", "should_trigger": false},
+  {"query": "Create a new term set in the term store for our department names", "should_trigger": false},
+  {"query": "Export every list item on the site to CSV", "should_trigger": false},
+  {"query": "Analyse the top navigation and quick launch tree of this site", "should_trigger": false}
+]

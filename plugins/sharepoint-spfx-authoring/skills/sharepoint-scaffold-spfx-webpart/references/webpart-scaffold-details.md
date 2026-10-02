@@ -1,0 +1,1 @@
+../../../references/webpart-scaffold-details.md

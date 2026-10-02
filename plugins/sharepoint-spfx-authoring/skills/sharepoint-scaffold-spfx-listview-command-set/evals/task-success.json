@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Register my command set on the Documents library and show me what it will do first.",
+    "expected_behavior": [
+      "Runs scripts/register-listview-command-set.ps1 with -ListName, -Name, -Title and -ComponentId plus -WhatIf first",
+      "Explains there is no -Execute switch and that it writes unless -WhatIf is given, and that the user runs the real registration",
+      "Targets a non-production site"
+    ]
+  },
+  {
+    "query": "Associate the command set with the content type like we did for the form customizer.",
+    "expected_behavior": [
+      "Refuses: a ListView Command Set attaches to a list-scoped custom action, never a content type",
+      "Points to the registration script instead",
+      "Does not use content-type association"
+    ]
+  },
+  {
+    "query": "The script printed success. Is the registration persisted?",
+    "expected_behavior": [
+      "Does not treat the success message as proof",
+      "Re-queries the list's UserCustomActions and confirms the stable name and component ID",
+      "Notes propagation delay and a hard refresh before checking the UI"
+    ]
+  }
+]

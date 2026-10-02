@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Check that the links in the export still resolve after remediation.",
+    "expected_behavior": [
+      "Builds the inventory with extract_links_from_paths, then calls validate_link_integrity with make_local_path_resolver('export/')",
+      "Reports each LinkFinding as RESOLVED, BROKEN, UNRESOLVABLE or SKIPPED, and the overall outcome",
+      "Makes no network call"
+    ]
+  },
+  {
+    "query": "No resolver is available. Assume the links are fine.",
+    "expected_behavior": [
+      "Reports the links as UNRESOLVABLE, never assumed good",
+      "Does not count UNRESOLVABLE as passing",
+      "Asks for a resolver or an exported tree to check against"
+    ]
+  },
+  {
+    "query": "The inventory is empty. Validation passed?",
+    "expected_behavior": [
+      "Reports EMPTY, not a pass, because validating nothing is not validating successfully",
+      "Suggests re-running extraction",
+      "Does not claim integrity was verified"
+    ]
+  }
+]

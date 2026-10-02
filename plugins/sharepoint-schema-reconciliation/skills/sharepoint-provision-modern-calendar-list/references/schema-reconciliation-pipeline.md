@@ -1,0 +1,1 @@
+../../../references/schema-reconciliation-pipeline.md

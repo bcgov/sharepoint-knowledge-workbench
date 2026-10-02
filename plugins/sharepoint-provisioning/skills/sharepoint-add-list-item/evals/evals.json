@@ -1,0 +1,10 @@
+[
+  {"query": "Add three new items to the Projects list with their field values", "should_trigger": true},
+  {"query": "Create a list item with Title and Status from a plan file", "should_trigger": true},
+  {"query": "Insert a row into the Tasks list", "should_trigger": true},
+  {"query": "Seed the lookup list with these entries", "should_trigger": true},
+  {"query": "Add a Status column to the Projects list", "should_trigger": false},
+  {"query": "Create a new custom list called Projects", "should_trigger": false},
+  {"query": "Delete every item in the Projects list", "should_trigger": false},
+  {"query": "Export all items of the Projects list to CSV", "should_trigger": false}
+]
