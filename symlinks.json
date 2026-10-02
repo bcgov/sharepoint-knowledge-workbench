@@ -3618,6 +3618,60 @@
       "dst": "plugins/sharepoint-migration-planning/skills/sharepoint-generate-sharepoint-wave-scripts/assets/wave-guide-template.md",
       "strategy": "symlink",
       "description": "Canonical wave-guide-template.md for sharepoint-generate-sharepoint-wave-scripts"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-analyze-aspx-pages/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-analyze-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-convert-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-compose-page-preview/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-compose-page-preview"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-modernization-pipeline.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/references/page-modernization-pipeline.md",
+      "strategy": "symlink",
+      "description": "Canonical page-modernization-pipeline.md for sharepoint-generate-conversion-report"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/aspx-analysis-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-analyze-aspx-pages/references/aspx-analysis-details.md",
+      "strategy": "symlink",
+      "description": "Canonical aspx-analysis-details.md for sharepoint-analyze-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/aspx-conversion-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-convert-aspx-pages/references/aspx-conversion-details.md",
+      "strategy": "symlink",
+      "description": "Canonical aspx-conversion-details.md for sharepoint-convert-aspx-pages"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/page-preview-composition-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-compose-page-preview/references/page-preview-composition-details.md",
+      "strategy": "symlink",
+      "description": "Canonical page-preview-composition-details.md for sharepoint-compose-page-preview"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/references/conversion-report-details.md",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/references/conversion-report-details.md",
+      "strategy": "symlink",
+      "description": "Canonical conversion-report-details.md for sharepoint-generate-conversion-report"
+    },
+    {
+      "src": "plugins/sharepoint-page-modernization/scripts/outcomes.py",
+      "dst": "plugins/sharepoint-page-modernization/skills/sharepoint-generate-conversion-report/scripts/outcomes.py",
+      "strategy": "symlink",
+      "description": "Imported by conversion_report.py"
     }
   ]
 }

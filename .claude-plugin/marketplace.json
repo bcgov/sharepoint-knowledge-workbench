@@ -57,7 +57,7 @@
       "name": "sharepoint-page-modernization",
       "source": "./plugins/sharepoint-page-modernization",
       "strict": true,
-      "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion manifests: component inventory, classification, data-driven layout selection, component mapping with explicit gap notices, and a human-readable Markdown conversion report. Produces plans, never tenant writes."
+      "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion plans (section mapping and view files): component inventory, classification, data-driven layout selection, component mapping with explicit gap notices, an offline page preview, and a human-readable Markdown report rendered from a conversion manifest. Produces plans, never tenant writes."
     },
     {
       "name": "sharepoint-page-modernization-execution",

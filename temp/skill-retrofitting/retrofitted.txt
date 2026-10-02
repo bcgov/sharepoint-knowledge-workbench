@@ -10,3 +10,4 @@ plugin sharepoint-content-migration
 plugin sharepoint-content-publication
 plugin sharepoint-link-remediation
 plugin sharepoint-migration-planning
+plugin sharepoint-page-modernization
