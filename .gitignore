@@ -82,3 +82,11 @@ __pycache__/
 build/
 *.egg-info/
 .venv-*/
+
+# Agentic OS runtime state (os-init retrofit)
+context/memory/
+context/status.md
+context/os-state.json
+context/events.jsonl
+context/.locks/
+.claude/
