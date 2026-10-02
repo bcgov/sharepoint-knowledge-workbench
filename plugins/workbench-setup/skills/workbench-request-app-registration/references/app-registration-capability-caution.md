@@ -1,0 +1,1 @@
+../../../references/app-registration-capability-caution.md
