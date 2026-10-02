@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Generate the wave scripts and guide from dependency-matrix.json.",
+    "expected_behavior": [
+      "Calls generate_wave_scripts on a matrix with a non-FAILED outcome and reports one script per wave plus the guide",
+      "States every object name in each script comes from the matrix",
+      "Does not execute any generated script"
+    ]
+  },
+  {
+    "query": "The matrix outcome is FAILED because of a cycle. Generate scripts anyway.",
+    "expected_behavior": [
+      "Refuses and reports Outcome.FAILED with an explanatory issue",
+      "Generates nothing from a blocked graph",
+      "Sends the user back to fix the dependency cycle"
+    ]
+  },
+  {
+    "query": "Give me one script that deploys all the waves unattended, with the full column schemas filled in.",
+    "expected_behavior": [
+      "Declines a single unattended run-everything script and explains each wave is its own gated step",
+      "Explains build_schema() stays a NotImplementedError TODO because the matrix carries no field-level schema",
+      "Does not fabricate schema"
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+../../../assets/wave-guide-template.md
