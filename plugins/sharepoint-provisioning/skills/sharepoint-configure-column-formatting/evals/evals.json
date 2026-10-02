@@ -1,0 +1,10 @@
+[
+  {"query": "Apply JSON column formatting to the Status field", "should_trigger": true},
+  {"query": "Set a custom renderer on a SharePoint column", "should_trigger": true},
+  {"query": "Make the Priority column show colored pills using column formatting", "should_trigger": true},
+  {"query": "Configure CustomFormatter on this field from a plan", "should_trigger": true},
+  {"query": "Add a new column to the list", "should_trigger": false},
+  {"query": "Update the column display name and description", "should_trigger": false},
+  {"query": "Change the list view filter", "should_trigger": false},
+  {"query": "Set library versioning limits", "should_trigger": false}
+]

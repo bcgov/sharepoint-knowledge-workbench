@@ -1,0 +1,10 @@
+[
+  {"query": "Delete the Projects list", "should_trigger": true},
+  {"query": "Safely remove a document library and verify it is gone", "should_trigger": true},
+  {"query": "Remove the obsolete Archive library", "should_trigger": true},
+  {"query": "Delete this list with a post-deletion check", "should_trigger": true},
+  {"query": "Create a new list", "should_trigger": false},
+  {"query": "Remove one column from a list", "should_trigger": false},
+  {"query": "Delete a single list item", "should_trigger": false},
+  {"query": "Detach a content type from a list", "should_trigger": false}
+]

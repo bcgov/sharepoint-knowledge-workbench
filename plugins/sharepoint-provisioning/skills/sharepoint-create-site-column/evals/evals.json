@@ -1,0 +1,10 @@
+[
+  {"query": "Create a Choice site column called Region", "should_trigger": true},
+  {"query": "Add a site column of type Lookup", "should_trigger": true},
+  {"query": "Create a Calculated site column using field XML", "should_trigger": true},
+  {"query": "Provision a new User site column", "should_trigger": true},
+  {"query": "Add a column to one list only", "should_trigger": false},
+  {"query": "Update the choices on an existing site column", "should_trigger": false},
+  {"query": "Delete the Region site column", "should_trigger": false},
+  {"query": "Create a content type that uses the Region column", "should_trigger": false}
+]

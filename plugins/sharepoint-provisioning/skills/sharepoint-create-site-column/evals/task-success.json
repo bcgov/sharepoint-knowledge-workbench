@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Create a Choice site column called Region with the values North, South and East. Show me the plan first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-provision-site-columns.ps1 with -PlanPath and without -Execute, as a dry run",
+      "States the dry run prints a structured JSON action plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real run"
+    ]
+  },
+  {
+    "query": "The plan looks right. Apply it for real.",
+    "expected_behavior": [
+      "Adds -Execute and -ConfirmToken PROVISION-SPO-SITE-COLUMNS to the same command",
+      "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
+      "Does not alter the plan content between the dry run and the real run"
+    ]
+  },
+  {
+    "query": "Make a calculated column from this field XML.",
+    "expected_behavior": [
+      "Uses the field XML from the user and does not rewrite the formula",
+      "Shows the dry-run action before any write",
+      "Applies only with -Execute and the token"
+    ]
+  }
+]

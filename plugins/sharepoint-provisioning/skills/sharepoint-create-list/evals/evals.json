@@ -1,0 +1,10 @@
+[
+  {"query": "Create a custom list called Projects", "should_trigger": true},
+  {"query": "Provision a new Template 100 list on the site", "should_trigger": true},
+  {"query": "I need a new list to track assets", "should_trigger": true},
+  {"query": "Create an empty list from a plan file", "should_trigger": true},
+  {"query": "Create a document library called Policies", "should_trigger": false},
+  {"query": "Delete the Projects list", "should_trigger": false},
+  {"query": "Add a column to the Projects list", "should_trigger": false},
+  {"query": "Add an item to the Projects list", "should_trigger": false}
+]

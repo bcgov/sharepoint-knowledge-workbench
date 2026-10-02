@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Create a document library called Policies. Show me the plan first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-provision-list.ps1 with -PlanPath and without -Execute, as a dry run",
+      "States the dry run prints a structured JSON action plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real run"
+    ]
+  },
+  {
+    "query": "The plan looks right. Apply it for real.",
+    "expected_behavior": [
+      "Adds -Execute and -ConfirmToken PROVISION-SPO-LIST to the same command",
+      "Treats the real run as a live tenant write that the user runs, not something to run unprompted",
+      "Does not alter the plan content between the dry run and the real run"
+    ]
+  },
+  {
+    "query": "A library named Policies already exists. What does the plan do?",
+    "expected_behavior": [
+      "Reports the existing library from the dry-run output rather than claiming it was created",
+      "Does not overwrite or recreate the library",
+      "Requires -Execute and the token for any write"
+    ]
+  }
+]
