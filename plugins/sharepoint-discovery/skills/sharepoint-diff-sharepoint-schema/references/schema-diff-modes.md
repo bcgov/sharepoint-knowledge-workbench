@@ -1,0 +1,1 @@
+../../../references/schema-diff-modes.md

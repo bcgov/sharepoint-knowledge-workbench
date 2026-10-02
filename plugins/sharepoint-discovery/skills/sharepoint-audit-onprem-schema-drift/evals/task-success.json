@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Data copying from the Requests list to Archive_2024 and Archive_2025 on https://sp2016.example.org/sites/Legacy is failing. Find out if schema drift is the cause.",
+    "expected_behavior": [
+      "Uses scripts/audit-onprem-sharepoint-schema-drift.ps1 with -SourceListNames @('Requests') and -DestinationListNames for the two archive lists",
+      "Supplies -SiteUrl and -OutputDir, and leaves running the script to the user",
+      "States the audit is read-only on the site"
+    ]
+  },
+  {
+    "query": "Run the drift audit against every list matching Cal_* but only highlight the Case_ID and Status fields.",
+    "expected_behavior": [
+      "Uses -DestinationListPattern \"Cal_*\" and -WatchFieldNames @('Case_ID','Status')",
+      "Explains -WatchFieldNames only narrows the Field Types report section and that the CSVs still cover every field",
+      "Does not hardcode any source or destination list names that the user did not give"
+    ]
+  },
+  {
+    "query": "The script printed warnings for two Get-PnPField failures. Summarise the results.",
+    "expected_behavior": [
+      "Treats each Write-Warning as a gap in the data, not a clean result",
+      "Points to SchemaDrift-Report.md and the five SchemaDrift CSVs in the output directory",
+      "Does not invent field or workflow records for the lists that failed"
+    ]
+  }
+]

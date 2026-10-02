@@ -1,0 +1,26 @@
+[
+  {
+    "query": "I need a quick count of items and storage for every list on https://sp2016.example.org/sites/Legacy.",
+    "expected_behavior": [
+      "Chooses scripts/collect-onprem-sharepoint-inventory.ps1 with -QuickCountsOnly and -UseDefaultCredentials",
+      "Supplies -SiteUrl and an -OutputDir path, and leaves running the script to the user",
+      "States the collection is read-only (GET requests only)"
+    ]
+  },
+  {
+    "query": "Collect the choice-field options of the Persons list on our SharePoint Online site https://tenant.sharepoint.com/sites/Test.",
+    "expected_behavior": [
+      "Chooses scripts/collect-sharepoint-inventory.ps1 with -Mode ListFields, -ListName and -FieldNames",
+      "Gives an -OutputPath for the JSON result",
+      "Does not run the script itself, since it performs live tenant I/O"
+    ]
+  },
+  {
+    "query": "I want the folder layout that the schema skills expect, from the modern site.",
+    "expected_behavior": [
+      "Chooses scripts/collect-sharepoint-schema-export.ps1 with -SiteUrl and -OutputDir",
+      "Notes it does not produce summary/site_columns.json",
+      "Points the resulting export to the schema analysis skills"
+    ]
+  }
+]
