@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Publish the rendered Markdown in ./rendered to the Knowledge library, folder Manual, for document 'manual-1'.",
+    "expected_behavior": [
+      "Builds the plan with build_markdown_publish_plan('manual-1', './rendered', 'Knowledge', 'Manual')",
+      "Dry runs scripts/spo-publish-markdown-plan.ps1 -PlanPath first, without -Execute",
+      "Leaves the real run (-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN) to the user"
+    ]
+  },
+  {
+    "query": "Publish to whatever library you think is right.",
+    "expected_behavior": [
+      "Requires an explicit target library and folder and does not pick a default",
+      "Asks the user for them",
+      "Builds no plan until they are given"
+    ]
+  },
+  {
+    "query": "Some files already exist in the library. Will they be overwritten safely?",
+    "expected_behavior": [
+      "Explains an overwrite is wrapped in Set-PnPFileCheckedOut and Set-PnPFileCheckedIn -CheckinType MajorCheckIn around Add-PnPFile",
+      "Recommends reviewing the dry run before a real run",
+      "Does not run a real upload unprompted"
+    ]
+  }
+]
