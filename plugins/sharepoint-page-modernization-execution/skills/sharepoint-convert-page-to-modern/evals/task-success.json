@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Convert article.aspx from the ClassicPages library to a modern page. Show me what it will do first.",
+    "expected_behavior": [
+      "Runs or hands over scripts/spo-convert-page-to-modern.ps1 as a dry run, without -Execute",
+      "States the dry run prints the plan and makes zero tenant writes",
+      "Does not supply a confirmation token until the user asks for the real conversion"
+    ]
+  },
+  {
+    "query": "Now do the real conversion and tag it with the literal value in literals.json, using field-mapping.json.",
+    "expected_behavior": [
+      "Passes -FieldMapping field-mapping.json and -LiteralFieldValues literals.json",
+      "Adds -Execute -ConfirmToken CONVERT-SPO-PAGE and treats it as a live tenant write the user runs",
+      "Does not invent field names or mapping values that the user did not provide"
+    ]
+  },
+  {
+    "query": "Will the links inside the page body be rewritten by this?",
+    "expected_behavior": [
+      "Says same-site ConvertTo-PnPPage does not rewrite embedded links, because -UrlMappingFile and -SkipUrlRewriting apply only to cross-site transformations",
+      "Points to a separate pass with the sharepoint-link-remediation skills",
+      "Does not claim the conversion fixes links"
+    ]
+  }
+]

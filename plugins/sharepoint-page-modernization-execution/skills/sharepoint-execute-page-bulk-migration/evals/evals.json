@@ -1,0 +1,10 @@
+[
+  {"query": "Convert every classic page in the ClassicPages library to modern pages in one run", "should_trigger": true},
+  {"query": "Run the bulk page migration with a resumable manifest and throttling", "should_trigger": true},
+  {"query": "The bulk conversion was interrupted halfway, resume it without redoing the finished pages", "should_trigger": true},
+  {"query": "Try the bulk page migration on one page first before the full library", "should_trigger": true},
+  {"query": "Convert just this one page, article.aspx", "should_trigger": false},
+  {"query": "Validate the converted pages against the run manifest", "should_trigger": false},
+  {"query": "Analyse the complexity of the pages before we migrate", "should_trigger": false},
+  {"query": "Fix the embedded links in the converted pages", "should_trigger": false}
+]
