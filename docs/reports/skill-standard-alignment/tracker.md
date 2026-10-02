@@ -55,7 +55,7 @@ installed copy (symlinks resolved) also passes.
 | Passing | 93 | 104 |
 | Failing | 11 | 0 |
 | Errors | 16 | 0 |
-| Warnings | 643 | 286 |
+| Warnings | 643 | 265 |
 
 Baseline: first full audit, before any edits. Current: audit run at the time of the latest change-log entry.
 
@@ -74,7 +74,7 @@ Baseline: first full audit, before any edits. Current: audit run at the time of 
 | sharepoint-link-remediation | 5 | 5 | 0 | 0 |
 | sharepoint-migration-planning | 5 | 5 | 0 | 0 |
 | sharepoint-page-modernization | 4 | 4 | 0 | 0 |
-| sharepoint-page-modernization-execution | 4 | 0 | 1 | 3 |
+| sharepoint-page-modernization-execution | 4 | 4 | 0 | 0 |
 | sharepoint-provisioning | 19 | 0 | 0 | 19 |
 | sharepoint-schema-reconciliation | 4 | 0 | 0 | 4 |
 | sharepoint-spfx-authoring | 10 | 0 | 3 | 7 |
@@ -86,7 +86,7 @@ Statuses: **Retrofitted** = restructured to the standard layout and passes `--st
 
 | Rule | Baseline | Current | Notes |
 |---|---|---|---|
-| `navigation.canonical-headings` | 522 | 260 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
+| `navigation.canonical-headings` | 522 | 239 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
 | `size.lean` | 36 | 10 | SKILL.md over the 80-line target |
 | `packaging.folder-structure` | 27 | 0 | Missing evals/ directory (and disallowed directories) |
 | `evals.missing` | 27 | 0 | All skills now have evals/evals.json (see decisions: the 27 new files were authored, not observed) |
@@ -166,10 +166,10 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | sharepoint-page-modernization | sharepoint-compose-page-preview | 49 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-page-modernization | sharepoint-convert-aspx-pages | 55 | FAIL 1/6 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-page-modernization | sharepoint-generate-conversion-report | 49 | FAIL 2/5 | PASS 0/0 | Retrofitted | yes | none |
-| sharepoint-page-modernization-execution | sharepoint-convert-page-to-modern | 59 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-page-modernization-execution | sharepoint-copy-page-between-sites | 36 | FAIL 1/6 | PASS 0/6 | Errors fixed | no | navigation.canonical-headings |
-| sharepoint-page-modernization-execution | sharepoint-execute-page-bulk-migration | 77 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-page-modernization-execution | sharepoint-validate-page-migration | 49 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
+| sharepoint-page-modernization-execution | sharepoint-convert-page-to-modern | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-page-modernization-execution | sharepoint-copy-page-between-sites | 51 | FAIL 1/6 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-page-modernization-execution | sharepoint-execute-page-bulk-migration | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-page-modernization-execution | sharepoint-validate-page-migration | 48 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-provisioning | sharepoint-add-list-column | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
 | sharepoint-provisioning | sharepoint-add-list-item | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
 | sharepoint-provisioning | sharepoint-apply-provisioning-plan | 71 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
@@ -218,7 +218,7 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
   lists were written from each skill's `SKILL.md` and its sibling skills, and have **not** been run
   against any model. Treat them as a starting contract the skill owner should review, and record real
   model results separately.
-- **Task-success evals exist for only 59 of 104 skills.** The other 45 have routing evals only. Authoring
+- **Task-success evals exist for only 60 of 104 skills.** The other 44 have routing evals only. Authoring
   `task-success.json` for them is the next evals step.
 - **`plugin:` frontmatter does not match the owning plugin for 38 skills.** 21 omit it
   (`sharepoint-agents-and-skills` 15, `sharepoint-content-publication` 6). 13 name an old pre-rename plugin
@@ -255,3 +255,4 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | 2026-10-02 | `sharepoint-link-remediation` retrofitted (5 skills): SKILL.md rewritten for all 5 (Constraints first; shared pipeline/outcomes/write-safety reference plus one details reference per skill); task-success.json added to all 5; `link_rules.py` linked into `sharepoint-validate-link-integrity` (its import failed from an installed copy); extended `tests/test_plugin_independence.py`'s exemption set to include `task-success.json` (the new standard adds that skill-owned eval file). Documented that the executors' `-ConfigPath` default does not resolve when installed. Strict audit passes in source and installed mode; 165 plugin tests pass. |
 | 2026-10-02 | `sharepoint-migration-planning` retrofitted (5 skills): SKILL.md rewritten for all 5; 6 plugin-root references (pipeline/outcomes plus one details reference per skill); `provisioning_outcomes.py`, `wave_planning.py`, the plugin rules, the JSON schemas and templates symlinked into the skills that use them (they previously pointed at `../../assets`, `../../rules`, `../../references`); `task-success.json` added to all 5. Corrected the wave-scripts doc: only `spo-provision-calendar.ps1` is local, the other three executors belong to `sharepoint-provisioning`; the plugin README still lists all four as local (left for the user). Marketplace listing corrected (`wave_planning.py` is authored in this plugin). Strict audit passes in source and installed mode; 64 plugin tests pass. |
 | 2026-10-02 | `sharepoint-page-modernization` retrofitted (4 skills): SKILL.md rewritten for all 4; 5 plugin-root references (pipeline/outcomes plus one details reference per skill); the documented command lines used flags that do not exist (`--raw-html`, `--inventory`, `--classified`, `--layout ... --output manifest.json`), now the real ones (`--source-html`, `--input`, `--components`, `--output-mapping`/`--output-views`); found that no script in the plugin assembles the full PageConversionManifest (component_mapping writes mapping and views; conversion_report only consumes a manifest) and documented that; pointer to the page-conversion executor updated to `sharepoint-convert-page-to-modern` in `sharepoint-page-modernization-execution`; `outcomes.py` linked into `sharepoint-generate-conversion-report` (its import failed from an installed copy); `task-success.json` added to all 4. Marketplace listing corrected. Strict audit passes in source and installed mode; 82 plugin tests pass. |
+| 2026-10-02 | `sharepoint-page-modernization-execution` retrofitted (4 skills): SKILL.md rewritten for all 4; 5 plugin-root references (shared gates/tokens/config plus one details reference per skill); `plugin:` corrected from `sharepoint-content-publication`; the copy-page skill previously described only a planning script and now documents its gated `-Execute -ConfirmToken COPY-SPO-PAGE` mode and the same-site vs cross-site flows (including the 2026-09-08 same-site bug note); `task-success.json` added to `sharepoint-copy-page-between-sites` (the other three already had authored evals). Marketplace listing already accurate. Strict audit passes in source and installed mode; the plugin has no tests. |
