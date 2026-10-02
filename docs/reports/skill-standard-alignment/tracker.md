@@ -55,7 +55,7 @@ installed copy (symlinks resolved) also passes.
 | Passing | 93 | 104 |
 | Failing | 11 | 0 |
 | Errors | 16 | 0 |
-| Warnings | 643 | 338 |
+| Warnings | 643 | 308 |
 
 Baseline: first full audit, before any edits. Current: audit run at the time of the latest change-log entry.
 
@@ -72,7 +72,7 @@ Baseline: first full audit, before any edits. Current: audit run at the time of 
 | sharepoint-content-publication | 6 | 6 | 0 | 0 |
 | sharepoint-discovery | 15 | 15 | 0 | 0 |
 | sharepoint-link-remediation | 5 | 5 | 0 | 0 |
-| sharepoint-migration-planning | 5 | 0 | 0 | 5 |
+| sharepoint-migration-planning | 5 | 5 | 0 | 0 |
 | sharepoint-page-modernization | 4 | 0 | 2 | 2 |
 | sharepoint-page-modernization-execution | 4 | 0 | 1 | 3 |
 | sharepoint-provisioning | 19 | 0 | 0 | 19 |
@@ -86,11 +86,11 @@ Statuses: **Retrofitted** = restructured to the standard layout and passes `--st
 
 | Rule | Baseline | Current | Notes |
 |---|---|---|---|
-| `navigation.canonical-headings` | 522 | 305 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
-| `size.lean` | 36 | 15 | SKILL.md over the 80-line target |
+| `navigation.canonical-headings` | 522 | 280 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
+| `size.lean` | 36 | 12 | SKILL.md over the 80-line target |
 | `packaging.folder-structure` | 27 | 0 | Missing evals/ directory (and disallowed directories) |
 | `evals.missing` | 27 | 0 | All skills now have evals/evals.json (see decisions: the 27 new files were authored, not observed) |
-| `navigation.entry-toc` | 20 | 9 | Long entry point lacks Contents in the first 100 lines |
+| `navigation.entry-toc` | 20 | 7 | Long entry point lacks Contents in the first 100 lines |
 | `navigation.reference-toc` | 7 | 5 | Linked reference over 100 lines lacks early Contents |
 | `navigation.legacy-headings` | 4 | 4 | Legacy section names to fold into canonical sections |
 | `navigation.direct-reference` | 0 | 0 | Reference reached only through another reference |
@@ -157,11 +157,11 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | sharepoint-link-remediation | sharepoint-remediate-field-image-references | 57 | FAIL 1/7 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-link-remediation | sharepoint-remediate-links | 59 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-link-remediation | sharepoint-validate-link-integrity | 55 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
-| sharepoint-migration-planning | sharepoint-analyze-sharepoint-dependency-graph | 96 | PASS 0/6 | PASS 0/6 | Not started | no | size.lean,navigation.canonical-headings |
-| sharepoint-migration-planning | sharepoint-discover-sharepoint-site-inventory | 72 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-migration-planning | sharepoint-generate-sharepoint-wave-scripts | 103 | PASS 0/7 | PASS 0/7 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings |
-| sharepoint-migration-planning | sharepoint-plan-sharepoint-deployment-waves | 107 | PASS 0/7 | PASS 0/7 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings |
-| sharepoint-migration-planning | sharepoint-setup-sharepoint-migration-project | 72 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
+| sharepoint-migration-planning | sharepoint-analyze-sharepoint-dependency-graph | 62 | PASS 0/6 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-migration-planning | sharepoint-discover-sharepoint-site-inventory | 58 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-migration-planning | sharepoint-generate-sharepoint-wave-scripts | 59 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-migration-planning | sharepoint-plan-sharepoint-deployment-waves | 53 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-migration-planning | sharepoint-setup-sharepoint-migration-project | 59 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-page-modernization | sharepoint-analyze-aspx-pages | 82 | PASS 0/6 | PASS 0/6 | Not started | no | size.lean,navigation.canonical-headings |
 | sharepoint-page-modernization | sharepoint-compose-page-preview | 78 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
 | sharepoint-page-modernization | sharepoint-convert-aspx-pages | 83 | FAIL 1/6 | PASS 0/6 | Errors fixed | no | size.lean,navigation.canonical-headings |
@@ -218,7 +218,7 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
   lists were written from each skill's `SKILL.md` and its sibling skills, and have **not** been run
   against any model. Treat them as a starting contract the skill owner should review, and record real
   model results separately.
-- **Task-success evals exist for only 50 of 104 skills.** The other 54 have routing evals only. Authoring
+- **Task-success evals exist for only 55 of 104 skills.** The other 49 have routing evals only. Authoring
   `task-success.json` for them is the next evals step.
 - **`plugin:` frontmatter does not match the owning plugin for 38 skills.** 21 omit it
   (`sharepoint-agents-and-skills` 15, `sharepoint-content-publication` 6). 13 name an old pre-rename plugin
@@ -253,3 +253,4 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | 2026-10-02 | `sharepoint-content-migration` retrofitted (2 skills): `sharepoint-audit-list-content` (106 to 68 lines; commands rewritten from repo-root `plugins/...` paths to skill-root-relative; workflow, scripts table and Phase 2 section list moved to two references) and `sharepoint-migrate-sharepoint-list-content` (161 to 63 lines; API/sequencing and the real-executor notes moved to two references). Fixed a broken example (`ItemMigrationPlan` has no `to_dict()`) and linked the missing `provisioning_outcomes.py` into the migrate skill. `task-success.json` added to both. Strict audit passes in source and installed mode; plugin tests pass (34). |
 | 2026-10-02 | `sharepoint-content-publication` retrofitted (6 skills): `plugin:` and `allowed-tools:` frontmatter added; every script path was `../../scripts/...` (escaping the skill), now skill-root-relative with the needed scripts, the Get-WorkbenchConnectionConfig helper and the actual-state CSV doc symlinked into each skill; 2 plugin-root references (executors/gates/corrections, upload details); `task-success.json` added to all 6. Found that the executors' `-ConfigPath` default does not resolve from an installed skill and documented passing it explicitly. Marketplace listing corrected (no "page conversion" executors here; tokens are operation-specific, not plan-derived). `plugin.json` description still says TRANSITIONAL_HOLDING_LOCATION (left for the user). Strict audit passes in source and installed mode; 38 plugin tests pass. |
 | 2026-10-02 | `sharepoint-link-remediation` retrofitted (5 skills): SKILL.md rewritten for all 5 (Constraints first; shared pipeline/outcomes/write-safety reference plus one details reference per skill); task-success.json added to all 5; `link_rules.py` linked into `sharepoint-validate-link-integrity` (its import failed from an installed copy); extended `tests/test_plugin_independence.py`'s exemption set to include `task-success.json` (the new standard adds that skill-owned eval file). Documented that the executors' `-ConfigPath` default does not resolve when installed. Strict audit passes in source and installed mode; 165 plugin tests pass. |
+| 2026-10-02 | `sharepoint-migration-planning` retrofitted (5 skills): SKILL.md rewritten for all 5; 6 plugin-root references (pipeline/outcomes plus one details reference per skill); `provisioning_outcomes.py`, `wave_planning.py`, the plugin rules, the JSON schemas and templates symlinked into the skills that use them (they previously pointed at `../../assets`, `../../rules`, `../../references`); `task-success.json` added to all 5. Corrected the wave-scripts doc: only `spo-provision-calendar.ps1` is local, the other three executors belong to `sharepoint-provisioning`; the plugin README still lists all four as local (left for the user). Marketplace listing corrected (`wave_planning.py` is authored in this plugin). Strict audit passes in source and installed mode; 64 plugin tests pass. |
