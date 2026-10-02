@@ -34,7 +34,8 @@
     {
       "name": "sharepoint-agents-and-skills",
       "source": "./plugins/sharepoint-agents-and-skills",
-      "strict": true
+      "strict": true,
+      "description": "Authors, deploys, verifies, backs up and restores SharePoint Copilot agents (.agent packages and templates) and native SKILL.md skills in a tenant's AgentAssets library, plus a manual-topic review skill. Authoring is zero tenant I/O; deploy, restore and rollback are dry-run by default, with writes gated behind -Execute and an exact confirmation token."
     },
     {
       "name": "workbench-setup",

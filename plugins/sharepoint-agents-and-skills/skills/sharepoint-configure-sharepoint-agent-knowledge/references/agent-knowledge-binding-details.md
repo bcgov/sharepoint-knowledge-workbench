@@ -1,0 +1,1 @@
+../../../references/agent-knowledge-binding-details.md

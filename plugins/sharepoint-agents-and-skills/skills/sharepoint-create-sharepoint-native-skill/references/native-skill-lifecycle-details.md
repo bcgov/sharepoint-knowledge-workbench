@@ -1,0 +1,1 @@
+../../../references/native-skill-lifecycle-details.md

@@ -1,0 +1,15 @@
+[
+  {
+    "query": "Back up agent-one.agent before I clean up the site.",
+    "expected_behavior": [
+      "Confirms -SitePath and the exact -AgentFileNames, then runs scripts/backup-sharepoint-agents.ps1 with -OutputDir",
+      "States it is read-only"
+    ]
+  },
+  {
+    "query": "Back up all agents on the site.",
+    "expected_behavior": [
+      "Does not assume a default list; asks the user to name the exact files"
+    ]
+  }
+]

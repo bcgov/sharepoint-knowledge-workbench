@@ -1,0 +1,1 @@
+../../../scripts/backup-sharepoint-native-skills.ps1
