@@ -55,7 +55,7 @@ installed copy (symlinks resolved) also passes.
 | Passing | 93 | 104 |
 | Failing | 11 | 0 |
 | Errors | 16 | 0 |
-| Warnings | 643 | 265 |
+| Warnings | 643 | 170 |
 
 Baseline: first full audit, before any edits. Current: audit run at the time of the latest change-log entry.
 
@@ -75,7 +75,7 @@ Baseline: first full audit, before any edits. Current: audit run at the time of 
 | sharepoint-migration-planning | 5 | 5 | 0 | 0 |
 | sharepoint-page-modernization | 4 | 4 | 0 | 0 |
 | sharepoint-page-modernization-execution | 4 | 4 | 0 | 0 |
-| sharepoint-provisioning | 19 | 0 | 0 | 19 |
+| sharepoint-provisioning | 19 | 19 | 0 | 0 |
 | sharepoint-schema-reconciliation | 4 | 0 | 0 | 4 |
 | sharepoint-spfx-authoring | 10 | 0 | 3 | 7 |
 | workbench-setup | 5 | 5 | 0 | 0 |
@@ -86,7 +86,7 @@ Statuses: **Retrofitted** = restructured to the standard layout and passes `--st
 
 | Rule | Baseline | Current | Notes |
 |---|---|---|---|
-| `navigation.canonical-headings` | 522 | 239 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
+| `navigation.canonical-headings` | 522 | 144 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
 | `size.lean` | 36 | 10 | SKILL.md over the 80-line target |
 | `packaging.folder-structure` | 27 | 0 | Missing evals/ directory (and disallowed directories) |
 | `evals.missing` | 27 | 0 | All skills now have evals/evals.json (see decisions: the 27 new files were authored, not observed) |
@@ -170,25 +170,25 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | sharepoint-page-modernization-execution | sharepoint-copy-page-between-sites | 51 | FAIL 1/6 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-page-modernization-execution | sharepoint-execute-page-bulk-migration | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-page-modernization-execution | sharepoint-validate-page-migration | 48 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
-| sharepoint-provisioning | sharepoint-add-list-column | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-add-list-item | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-apply-provisioning-plan | 71 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-configure-column-formatting | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-configure-library-settings | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-create-content-type | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-create-document-library | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-create-list | 44 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-create-list-view | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-create-site-column | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-detach-content-type | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-remove-content-type | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-remove-list | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-remove-list-column | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-remove-site-column | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-update-content-type | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-update-list-column | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-update-list-settings | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
-| sharepoint-provisioning | sharepoint-update-site-column | 39 | PASS 0/7 | PASS 0/5 | Not started | yes | navigation.canonical-headings |
+| sharepoint-provisioning | sharepoint-add-list-column | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-add-list-item | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-apply-provisioning-plan | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-configure-column-formatting | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-configure-library-settings | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-create-content-type | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-create-document-library | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-create-list | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-create-list-view | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-create-site-column | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-detach-content-type | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-remove-content-type | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-remove-list | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-remove-list-column | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-remove-site-column | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-update-content-type | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-update-list-column | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-update-list-settings | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-provisioning | sharepoint-update-site-column | 49 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-schema-reconciliation | sharepoint-provision-content-types | 80 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
 | sharepoint-schema-reconciliation | sharepoint-provision-fields | 81 | PASS 0/6 | PASS 0/6 | Not started | no | size.lean,navigation.canonical-headings |
 | sharepoint-schema-reconciliation | sharepoint-provision-list | 102 | PASS 0/7 | PASS 0/7 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings |
@@ -256,3 +256,4 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | 2026-10-02 | `sharepoint-migration-planning` retrofitted (5 skills): SKILL.md rewritten for all 5; 6 plugin-root references (pipeline/outcomes plus one details reference per skill); `provisioning_outcomes.py`, `wave_planning.py`, the plugin rules, the JSON schemas and templates symlinked into the skills that use them (they previously pointed at `../../assets`, `../../rules`, `../../references`); `task-success.json` added to all 5. Corrected the wave-scripts doc: only `spo-provision-calendar.ps1` is local, the other three executors belong to `sharepoint-provisioning`; the plugin README still lists all four as local (left for the user). Marketplace listing corrected (`wave_planning.py` is authored in this plugin). Strict audit passes in source and installed mode; 64 plugin tests pass. |
 | 2026-10-02 | `sharepoint-page-modernization` retrofitted (4 skills): SKILL.md rewritten for all 4; 5 plugin-root references (pipeline/outcomes plus one details reference per skill); the documented command lines used flags that do not exist (`--raw-html`, `--inventory`, `--classified`, `--layout ... --output manifest.json`), now the real ones (`--source-html`, `--input`, `--components`, `--output-mapping`/`--output-views`); found that no script in the plugin assembles the full PageConversionManifest (component_mapping writes mapping and views; conversion_report only consumes a manifest) and documented that; pointer to the page-conversion executor updated to `sharepoint-convert-page-to-modern` in `sharepoint-page-modernization-execution`; `outcomes.py` linked into `sharepoint-generate-conversion-report` (its import failed from an installed copy); `task-success.json` added to all 4. Marketplace listing corrected. Strict audit passes in source and installed mode; 82 plugin tests pass. |
 | 2026-10-02 | `sharepoint-page-modernization-execution` retrofitted (4 skills): SKILL.md rewritten for all 4; 5 plugin-root references (shared gates/tokens/config plus one details reference per skill); `plugin:` corrected from `sharepoint-content-publication`; the copy-page skill previously described only a planning script and now documents its gated `-Execute -ConfirmToken COPY-SPO-PAGE` mode and the same-site vs cross-site flows (including the 2026-09-08 same-site bug note); `task-success.json` added to `sharepoint-copy-page-between-sites` (the other three already had authored evals). Marketplace listing already accurate. Strict audit passes in source and installed mode; the plugin has no tests. |
+| 2026-10-02 | `sharepoint-provisioning` retrofitted (19 skills): Regenerated the 18 uniform executor skills from one template (the old body had corrupted code fences such as `\\\ash` and leaked escapes like `\\-Execute\\`) and rewrote `sharepoint-apply-provisioning-plan`; one shared plugin-root reference (`provisioning-executor-contract.md`: safety contract, the plan `confirmation_token` vs fixed `-ConfirmToken` distinction, connection/config, plan-shape pointers, and a 28-script executor table with tokens verified against the scripts). **Fixed wrong documentation:** three skills documented tokens the scripts reject (`DETACH-SPO-CONTENT-TYPE-FROM-LIST` -> `DETACH-SPO-CONTENT-TYPE`; `REMOVE-SPO-CONTENT-TYPE` -> `REMOVE-SPO-CONTENT-TYPES`; `UPDATE-SPO-CONTENT-TYPE` -> `UPDATE-SPO-CONTENT-TYPES`) and the `task-success.json` files I had authored for them copied the wrong tokens, now regenerated; `sharepoint-remove-site-column` claimed post-deletion verification the script does not do (description corrected); the delete skills no longer imply in-use guards the scripts lack. Found (not changed): `spo-trigger-reindex.ps1`'s header documents another script's plan shape (copy-paste). Every documented token across all 19 SKILL.md and eval files now matches the scripts. Strict audit passes in source and installed mode; the plugin has no tests. |

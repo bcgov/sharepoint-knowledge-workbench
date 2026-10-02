@@ -3720,6 +3720,120 @@
       "dst": "plugins/sharepoint-page-modernization-execution/skills/sharepoint-copy-page-between-sites/references/page-copy-plan-details.md",
       "strategy": "symlink",
       "description": "Canonical page-copy-plan-details.md for sharepoint-copy-page-between-sites"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-add-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-add-list-item/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-add-list-item"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-apply-provisioning-plan"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-column-formatting/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-configure-column-formatting"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-configure-library-settings/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-configure-library-settings"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-document-library/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-document-library"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-list"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-list-view/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-list-view"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-create-site-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-create-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-detach-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-detach-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-list"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-list-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-remove-site-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-remove-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-content-type/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-list-settings/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-list-settings"
+    },
+    {
+      "src": "plugins/sharepoint-provisioning/references/provisioning-executor-contract.md",
+      "dst": "plugins/sharepoint-provisioning/skills/sharepoint-update-site-column/references/provisioning-executor-contract.md",
+      "strategy": "symlink",
+      "description": "Canonical executor contract for sharepoint-update-site-column"
     }
   ]
 }

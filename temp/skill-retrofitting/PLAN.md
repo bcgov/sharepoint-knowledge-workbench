@@ -209,6 +209,9 @@ Take one plugin at a time, in the order listed in `PROGRESS.md`.
   note confused the task-success file count with the retrofitted-skill count.
 - Some plugins carry an **independence test** (`tests/test_plugin_independence.py` in `sharepoint-link-remediation` and `sharepoint-schema-reconciliation`) that
   forbids real files under `skills/` except `SKILL.md` and `evals.json`. The new standard adds `evals/task-success.json`, so the test's exemption set must include it.
+- **Verify every documented token/flag against the code.** `sharepoint-provisioning` had three skills documenting `-ConfirmToken` values the scripts reject, and `sharepoint-page-modernization`
+  documented CLI flags that do not exist. Grep the enforced value (`ConfirmToken -ne "..."`, `--help`) and compare; regenerate any authored eval that copied a wrong value.
+- **Do not claim safety behavior the code lacks** (post-deletion verification, in-use guards). Read the script body, not just its header (headers can be stale or copy-pasted).
 - The documented API in a SKILL.md can be wrong (e.g. `ItemMigrationPlan` has no `to_dict()`). Run examples before shipping them.
 
 ## Stale-name map

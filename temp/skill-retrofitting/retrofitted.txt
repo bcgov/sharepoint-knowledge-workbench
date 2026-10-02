@@ -12,3 +12,4 @@ plugin sharepoint-link-remediation
 plugin sharepoint-migration-planning
 plugin sharepoint-page-modernization
 plugin sharepoint-page-modernization-execution
+plugin sharepoint-provisioning
