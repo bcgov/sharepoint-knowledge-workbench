@@ -1,0 +1,15 @@
+[
+  {
+    "query": "Write a native skill called intake-summarizer from these instructions.",
+    "expected_behavior": [
+      "Validates the lowercase-hyphen name and runs scripts/create-sharepoint-native-skill.ps1 with exactly one instruction source and -OutputPath",
+      "Does not deploy"
+    ]
+  },
+  {
+    "query": "Have the skill create a new Word file in the library.",
+    "expected_behavior": [
+      "Explains chat-runtime native skills cannot create files; suggests copy-paste-ready structured output"
+    ]
+  }
+]

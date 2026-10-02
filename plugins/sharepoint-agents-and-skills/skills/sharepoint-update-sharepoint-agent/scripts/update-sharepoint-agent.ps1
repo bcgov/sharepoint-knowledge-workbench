@@ -1,0 +1,1 @@
+../../../scripts/update-sharepoint-agent.ps1

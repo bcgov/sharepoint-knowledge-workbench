@@ -1,0 +1,1 @@
+../../../scripts/configure-sharepoint-agent-knowledge.ps1

@@ -1,0 +1,16 @@
+[
+  {
+    "query": "Review the Onboarding topic page for completeness.",
+    "expected_behavior": [
+      "Reviews exactly one topic, consulting at most 2 linked topics",
+      "Produces the documented output sections",
+      "Uses honest metadata-unavailable phrasing"
+    ]
+  },
+  {
+    "query": "Review all 25 topics and verify their SHA-256 hashes.",
+    "expected_behavior": [
+      "Refuses full-library scanning and hash verification; read-only editorial review only"
+    ]
+  }
+]

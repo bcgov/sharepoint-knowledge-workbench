@@ -1,0 +1,15 @@
+[
+  {
+    "query": "Is my-skill deployed and unchanged?",
+    "expected_behavior": [
+      "Runs scripts/verify-agentassets-artifact.ps1 and reports ARTIFACT_ALREADY_PRESENT, DEPLOYED_ARTIFACT_DRIFT_DETECTED or DEPLOYMENT_CANDIDATE_NOT_YET_PRESENT",
+      "Read-only"
+    ]
+  },
+  {
+    "query": "Confirm the package identity and anchors are complete too.",
+    "expected_behavior": [
+      "Declines: only a SHA-256 comparison of retrieved bytes is claimed"
+    ]
+  }
+]

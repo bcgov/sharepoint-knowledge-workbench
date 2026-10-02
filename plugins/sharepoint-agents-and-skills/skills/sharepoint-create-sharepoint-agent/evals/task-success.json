@@ -1,0 +1,16 @@
+[
+  {
+    "query": "Create an agent grounded on the Policies folder with these instructions.",
+    "expected_behavior": [
+      "Resolves identifiers first, then runs scripts/create-sharepoint-agent.ps1 with -KnowledgeSourcePaths and one instruction source",
+      "States zero tenant I/O and no deployment"
+    ]
+  },
+  {
+    "query": "Make it editable so it can create files for users.",
+    "expected_behavior": [
+      "Explains custom agents are read-only RAG and cannot create files",
+      "Does not claim otherwise"
+    ]
+  }
+]
