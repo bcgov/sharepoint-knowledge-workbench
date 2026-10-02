@@ -1,0 +1,1 @@
+../../../references/link-integrity-details.md

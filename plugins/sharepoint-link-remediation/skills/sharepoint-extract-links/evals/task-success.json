@@ -1,0 +1,26 @@
+[
+  {
+    "query": "List every link in the exported page export/page1.aspx and tell me what kinds they are.",
+    "expected_behavior": [
+      "Calls extract_links_from_paths(['export/page1.aspx']) or extract_links_from_text with scripts/ on sys.path",
+      "Reports each ExtractedLink with url, source and kind (absolute, server_relative, protocol_relative, mailto, anchor, malformed)",
+      "Reports the inventory outcome and makes no network call"
+    ]
+  },
+  {
+    "query": "The page has no links at all. Say the extraction passed.",
+    "expected_behavior": [
+      "Reports EMPTY as 'read fine, genuinely no links', not as a pass",
+      "Keeps EMPTY distinct from FAILED (nothing could be read)",
+      "Does not invent links to fill the inventory"
+    ]
+  },
+  {
+    "query": "Fetch the links straight from the live tenant for me.",
+    "expected_behavior": [
+      "Declines tenant retrieval, because this skill reads only content passed in or local paths",
+      "Asks the user to export the content first",
+      "Offers to extract from the export once it exists"
+    ]
+  }
+]

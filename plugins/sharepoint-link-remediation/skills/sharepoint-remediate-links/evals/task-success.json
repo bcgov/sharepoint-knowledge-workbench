@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Rewrite the old /Pages/ links to /SitePages/ in these documents using rules.json. Show me what would change.",
+    "expected_behavior": [
+      "Loads the ruleset with load_ruleset and calls plan_remediation(documents, ruleset)",
+      "Reports the plan outcome and would_change without writing anything",
+      "Makes no tenant write and uses no built-in host or URL"
+    ]
+  },
+  {
+    "query": "Apply the plan now, I do not have a writer or a token, just do it.",
+    "expected_behavior": [
+      "Explains a real apply needs an injected writer (else WriterRequired) and confirm=plan.confirmation_token (else ConfirmationRequired)",
+      "Does not fabricate a writer or reuse a stale token",
+      "Keeps the run a dry run until both exist"
+    ]
+  },
+  {
+    "query": "Half the writes failed with a permission error. Mark the run as done.",
+    "expected_behavior": [
+      "Reports PARTIAL or FORBIDDEN honestly and does not call the run a success",
+      "Does not flatten the permission denial into a generic failure",
+      "Offers rollback_remediation under the same gates if the user wants to undo"
+    ]
+  }
+]
