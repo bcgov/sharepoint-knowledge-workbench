@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Is out/page.template.md a valid rendering template?",
+    "expected_behavior": [
+      "Loads it with load_rendering_template and calls validate_rendering_template",
+      "Reports PASS or FAIL, never WARN, with each issue",
+      "Validates the template definition only, not rendered output"
+    ]
+  },
+  {
+    "query": "My ASPX template has {{title}} as plain text outside any heading and a body tag around it.",
+    "expected_behavior": [
+      "Reports {{title}} is not inside a heading construct and the full-page wrapper tag as separate FAIL issues",
+      "Explains ASPX templates must be bare fragments for Add-PnPPageTextPart",
+      "Does not silently fix the template"
+    ]
+  },
+  {
+    "query": "Check that the rendered pages from last night have no broken links.",
+    "expected_behavior": [
+      "Explains this skill validates templates, not rendered output",
+      "Routes the check to content-validate-rendered-output",
+      "Does not run the template validator on rendered pages"
+    ]
+  }
+]

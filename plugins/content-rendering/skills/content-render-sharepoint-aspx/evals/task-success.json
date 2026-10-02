@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Render the accepted package into SharePoint modern-page artifacts in ./out.",
+    "expected_behavior": [
+      "Uses SharePointAspxRenderer().render(package, output_dir) or render_to_staging on a CanonicalPackage loaded with CanonicalPackage.load()",
+      "Reports the page-manifest.json, one HTML fragment per chunk in pages/, and the copied media/",
+      "Makes no SharePoint call"
+    ]
+  },
+  {
+    "query": "Also upload the generated pages to our Site Pages library as .aspx files.",
+    "expected_behavior": [
+      "Declines to upload anything, because this skill performs zero SharePoint tenant I/O",
+      "Explains raw .aspx upload to Site Pages is a confirmed Access denied platform boundary and fragments go through Add-PnPPage and Add-PnPPageTextPart",
+      "Routes publishing to sharepoint-publish-aspx-to-sharepoint"
+    ]
+  },
+  {
+    "query": "pandoc is not available. Render what you can.",
+    "expected_behavior": [
+      "Reports that PandocConversionError is raised rather than returning a partial render",
+      "Asks the user to install pandoc and does not install system tools without checking first",
+      "Does not hand back an incomplete page manifest as a success"
+    ]
+  }
+]
