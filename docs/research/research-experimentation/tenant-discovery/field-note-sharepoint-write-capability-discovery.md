@@ -858,7 +858,7 @@ production pipeline would need to decide whether multi-section pages (multiple w
 columns) are worth the added complexity or whether "one Text web part per topic" is sufficient.
 
 **Corroborating research (found this session, from a sibling BC Gov project):**
-`/Users/richardfremmerlid/projects/legacy-source-repository/plugins/sharepoint-migration/`
+`../legacy-source-repository/plugins/sharepoint-migration/`
 has two directly relevant, more mature skills for classic-ASPX→modern-SPO conversion:
 `sp-converting-aspx-pages` (an 8-stage inventory→classify→layout→map→manifest→validate→
 preview→report pipeline for migrating real classic SP2016 pages) and `sp-converting-wiki-pages`.

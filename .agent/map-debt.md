@@ -203,36 +203,36 @@
   control metadata versus raw RTE HTML so literal-markup regressions fail offline before tenant
   writes.
 - **Source-repo scripts to consult during promotion**:
-  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\analyze-aspx-webparts.ps1`
+  - `<legacy-source-repo>/plugins/sharepoint-migration/scripts/page-migration\analyze-aspx-webparts.ps1`
     for downloaded-ASPX web part inventory, zones, list bindings, connected web parts, and
     CEWP/SEWP extraction from raw page files.
-  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\scan-webparts.ps1`
+  - `<legacy-source-repo>/plugins/sharepoint-migration/scripts/page-migration\scan-webparts.ps1`
     and `extract-webpart-content.ps1` for live content-database web part discovery via
     `GetLimitedWebPartManager` plus `exportwp.aspx`, including the lesson not to filter by
     author-editable web part Title.
-  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\convert-wiki-page.ps1`
+  - `<legacy-source-repo>/plugins/sharepoint-migration/scripts/page-migration\convert-wiki-page.ps1`
     and `extract-site-navigation.ps1` for content-first extraction, chrome stripping,
     navigation/chrome capture, asset URL rewriting, and local preview package generation.
-  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\page-migration\convert-and-upload-aspx.ps1`
+  - `<legacy-source-repo>/plugins/sharepoint-migration/scripts/page-migration\convert-and-upload-aspx.ps1`
     for the end-to-end legacy ASPX to modern SPO page pipeline, including local intermediate
     artifacts and optional upload.
-  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\upload\upload-modern-page.ps1`
+  - `<legacy-source-repo>/plugins/sharepoint-migration/scripts/upload\upload-modern-page.ps1`
     and `upload-modern-page-rest.ps1` for modern page creation/upload patterns, HTML sanitizing
     before PnP injection, overwrite handling, and PnP-version compatibility considerations.
-  - `<legacy-source-repo>/plugins\sharepoint-migration\scripts\upload\migrate-site-assets.ps1`
+  - `<legacy-source-repo>/plugins/sharepoint-migration/scripts/upload\migrate-site-assets.ps1`
     for source SiteAssets enumeration/download/cache/upload so page image and icon URLs resolve
     after migration.
 - **Existing workbench plugin scripts to consult during promotion**:
-  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-convert-page-to-modern.ps1`
+  - `plugins/sharepoint-content-publication/scripts/spo-convert-page-to-modern.ps1`
     for single-page conversion flow and current repo-standard PnP auth/config handling.
-  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-convert-pages-bulk.ps1`
+  - `plugins/sharepoint-content-publication/scripts/spo-convert-pages-bulk.ps1`
     for bulk orchestration, worker invocation patterns, and validation chaining.
-  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-page-copy-plan.ps1`
+  - `plugins/sharepoint-content-publication/scripts/spo-page-copy-plan.ps1`
     for copy-plan safety contracts, tenant-admin URL handling, and dry-run/execute confirmation
     patterns.
-  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-upload-plan.ps1`
+  - `plugins/sharepoint-content-publication/scripts/spo-upload-plan.ps1`
     for current modern page creation/upload plan execution and overwrite handling.
-  - `C:\Users\RICHFREM\source\repos\sharepoint-knowledge-workbench\plugins\sharepoint-content-publication\scripts\spo-validate-page-conversion.ps1`
+  - `plugins/sharepoint-content-publication/scripts/spo-validate-page-conversion.ps1`
     for validation/readback patterns after page conversion.
 - **Evidence or reproduction step**: run
   `temp/bc-gov-sharepoint-aspx-experiment.ps1 -Execute -Action Export` against
@@ -860,7 +860,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
 - **Why it was not fixed now**: writing the missing auditor is a new capability in a different domain (plugin-structure tooling, owned by the `audit-plugin` skill from the sibling `agent-plugins-skills` monorepo per `CLAUDE.md`'s Category 1 protocol), not part of Wave 2's authorized scope, and Category 1 artifacts must be authored in the sibling repo under its own PR/review protocol — not created here.
 - **Workaround used, and its limits**: ran `.agents/skills/audit-plugin/scripts/audit.py --path plugins/sharepoint-agents-and-skills` instead (result: `AUDIT PASSED`, only pre-existing `references/`-directory warnings). This is explicitly the weaker of the two checks per Hard Gate #12's own text. Wave 2's specific exposure is nil — it added no files inside any skill directory at all (agents are plugin-root peers of `skills/`) — but a future extraction that does add skill-internal files will hit a real, unguarded drift risk.
 - **Recommended fix**: author `audit_plugin_structure.py` in `agent-plugins-skills` under the `audit-plugin` skill (real-file-inside-skill-dir detection, per ADR-002/ADR-003), merge via that repo's PR protocol, reinstall here — then update Hard Gate #12 and spec §9a with the resolved invocation path. Until then, Hard Gate #12's second sentence should be treated as aspirational and any Phase 9 wave that writes files into a skill directory must state explicitly which check it actually ran.
-- **Evidence / reproduction**: `find /Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench -name 'audit_plugin_structure.py'` → no results (repository and `.agents/` both searched, 2026-08-07).
+- **Evidence / reproduction**: `find . -name 'audit_plugin_structure.py'` → no results (repository and `.agents/` both searched, 2026-08-07).
 - **Severity**: M (a mandatory hard gate is unsatisfiable as written; the drift class it exists to catch has already occurred once undetected across 16 files per the 2026-07-25 entry it cites)
 - **Repeat**: YES — this gate will be unsatisfiable for every subsequent Phase 9 wave until the script exists. Must escalate on next encounter rather than being deferred again.
 - **Status**: OPEN
@@ -870,7 +870,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
 - **Logged Date**: 2026-08-07
 - **Cycle/Session**: Phase 9 Wave 2 — agent extraction into `plugins/sharepoint-agents-and-skills/`
 - **Artifact Affected**: `plugin-sources.json`, `skills-lock.json` (both tracked); `.agents/skills/plugin-installer/scripts/plugin_add.py` (Category 1, sibling-repo owned)
-- **Friction Observed**: Hard Gate #10 requires `plugin_add.py <plugin-path> -y` after any modification under `plugins/`. Running it from a git worktree (the standard per-phase workflow since Phase 2, per `CLAUDE.md`) appended an absolute worktree path — `/Users/.../.claude/worktrees/agent-aa349c7aac745b79c` — as a permanent `source` entry in tracked `plugin-sources.json`, and added 15 `installedAt` records to tracked `skills-lock.json` describing an install into a throwaway worktree-local `.agents/` directory that will not exist after the worktree is removed. Committing either would have shipped a dead machine-specific path into `main`.
+- **Friction Observed**: Hard Gate #10 requires `plugin_add.py <plugin-path> -y` after any modification under `plugins/`. Running it from a git worktree (the standard per-phase workflow since Phase 2, per `CLAUDE.md`) appended an absolute worktree path — `<absolute-home-path>/.claude/worktrees/agent-aa349c7aac745b79c` — as a permanent `source` entry in tracked `plugin-sources.json`, and added 15 `installedAt` records to tracked `skills-lock.json` describing an install into a throwaway worktree-local `.agents/` directory that will not exist after the worktree is removed. Committing either would have shipped a dead machine-specific path into `main`.
 - **Fix applied inline**: reverted both files (`git checkout -- plugin-sources.json skills-lock.json`) after confirming the installer's real verification value had already been obtained — it reported the destination as `.agents/ (skills + agents + commands + hooks)` and successfully installed all four new agent files, which is exactly the evidence Wave 2 needed to confirm `plugins/<plugin>/agents/` is the tool-recognized component location. The gate was run; only its tracked-file side effects were discarded. Nothing under `plugins/` was altered by the revert.
 - **Recommended durable fix**: `plugin_add.py` should record the source as a repository-root-relative path (or the canonical repo URL it already knows — it writes `https://github.com/richfrem/sharepoint-knowledge-workbench` into `skills-lock.json` while writing an absolute worktree path into `plugin-sources.json`, so the two manifests disagree). Owned by `agent-plugins-skills`; fix belongs there, not here. Until then, Hard Gate #10 should carry a worktree caveat: run the installer, then verify `git status` and revert manifest churn that encodes the worktree path.
 - **Evidence / reproduction**: `git diff plugin-sources.json` immediately after `python3 .agents/skills/plugin-installer/scripts/plugin_add.py . --plugins sharepoint-agents-and-skills -y` from the Wave 2 worktree, 2026-08-07.
