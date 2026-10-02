@@ -1,0 +1,26 @@
+[
+  {
+    "query": "What is this classic page made of? I have page.html and a views export views.json.",
+    "expected_behavior": [
+      "Runs aspx_inventory.py with --source-html page.html --views-json views.json --output inventory.json, then component_classification.py --input inventory.json --output classified.json",
+      "Reports each component's Role, Type and Variant and each stage's outcome",
+      "Makes no tenant call"
+    ]
+  },
+  {
+    "query": "The classifier could not place one web part. Call it a Banner so the report looks complete.",
+    "expected_behavior": [
+      "Refuses to force a category and keeps the component as Unknown",
+      "Explains a wrong classification is more expensive downstream than an honest gap",
+      "Lists the Unknown component for the user to resolve"
+    ]
+  },
+  {
+    "query": "The page HTML had no detectable zones. Report the analysis as successful.",
+    "expected_behavior": [
+      "Reports Empty, not Observed",
+      "Does not invent zones",
+      "Suggests checking the export or supplying an override file for connected consumers"
+    ]
+  }
+]
