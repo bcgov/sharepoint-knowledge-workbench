@@ -55,7 +55,7 @@ installed copy (symlinks resolved) also passes.
 | Passing | 93 | 104 |
 | Failing | 11 | 0 |
 | Errors | 16 | 0 |
-| Warnings | 643 | 145 |
+| Warnings | 643 | 79 |
 
 Baseline: first full audit, before any edits. Current: audit run at the time of the latest change-log entry.
 
@@ -77,7 +77,7 @@ Baseline: first full audit, before any edits. Current: audit run at the time of 
 | sharepoint-page-modernization-execution | 4 | 4 | 0 | 0 |
 | sharepoint-provisioning | 19 | 19 | 0 | 0 |
 | sharepoint-schema-reconciliation | 4 | 4 | 0 | 0 |
-| sharepoint-spfx-authoring | 10 | 0 | 3 | 7 |
+| sharepoint-spfx-authoring | 10 | 10 | 0 | 0 |
 | workbench-setup | 5 | 5 | 0 | 0 |
 
 Statuses: **Retrofitted** = restructured to the standard layout and passes `--strict` (except missing evals); **Errors fixed** = no audit errors, layout not yet aligned; **Not started** = untouched.
@@ -86,13 +86,13 @@ Statuses: **Retrofitted** = restructured to the standard layout and passes `--st
 
 | Rule | Baseline | Current | Notes |
 |---|---|---|---|
-| `navigation.canonical-headings` | 522 | 124 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
-| `size.lean` | 36 | 7 | SKILL.md over the 80-line target |
+| `navigation.canonical-headings` | 522 | 75 | Missing Contents/Constraints/Quick start/Workflow/Verification/References headings |
+| `size.lean` | 36 | 2 | SKILL.md over the 80-line target |
 | `packaging.folder-structure` | 27 | 0 | Missing evals/ directory (and disallowed directories) |
 | `evals.missing` | 27 | 0 | All skills now have evals/evals.json (see decisions: the 27 new files were authored, not observed) |
-| `navigation.entry-toc` | 20 | 5 | Long entry point lacks Contents in the first 100 lines |
-| `navigation.reference-toc` | 7 | 5 | Linked reference over 100 lines lacks early Contents |
-| `navigation.legacy-headings` | 4 | 4 | Legacy section names to fold into canonical sections |
+| `navigation.entry-toc` | 20 | 1 | Long entry point lacks Contents in the first 100 lines |
+| `navigation.reference-toc` | 7 | 0 | Linked reference over 100 lines lacks early Contents |
+| `navigation.legacy-headings` | 4 | 1 | Legacy section names to fold into canonical sections |
 | `navigation.direct-reference` | 0 | 0 | Reference reached only through another reference |
 | `links.resolve` | 8 | 0 | Broken local link |
 | `packaging.resource` | 6 | 0 | Real file where a managed symlink belongs |
@@ -193,16 +193,16 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | sharepoint-schema-reconciliation | sharepoint-provision-fields | 55 | PASS 0/6 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-schema-reconciliation | sharepoint-provision-list | 54 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
 | sharepoint-schema-reconciliation | sharepoint-provision-modern-calendar-list | 53 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
-| sharepoint-spfx-authoring | sharepoint-deploy-spfx-solution | 55 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-spfx-authoring | sharepoint-package-spfx-solution | 122 | PASS 0/8 | PASS 0/8 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings,navigation.legacy-headings |
-| sharepoint-spfx-authoring | sharepoint-publish-spfx-package | 117 | PASS 0/8 | PASS 0/8 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings,navigation.legacy-headings |
-| sharepoint-spfx-authoring | sharepoint-request-site-collection-app-catalog | 93 | PASS 0/5 | PASS 0/5 | Not started | no | size.lean,navigation.canonical-headings |
-| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-form-customizer | 473 | PASS 0/11 | PASS 0/11 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings,navigation.legacy-headings,navigation.reference-toc |
-| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-listview-command-set | 67 | FAIL 3/4 | PASS 0/4 | Errors fixed | no | navigation.canonical-headings |
-| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-master-detail | 72 | PASS 0/5 | PASS 0/5 | Not started | no | navigation.canonical-headings |
-| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-react-app | 72 | FAIL 3/5 | PASS 0/7 | Errors fixed | no | navigation.canonical-headings,navigation.reference-toc |
-| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-webpart | 117 | PASS 0/7 | PASS 0/7 | Not started | no | size.lean,navigation.entry-toc,navigation.canonical-headings |
-| sharepoint-spfx-authoring | sharepoint-setup-spfx-workbench | 56 | FAIL 1/6 | PASS 0/6 | Errors fixed | no | navigation.canonical-headings |
+| sharepoint-spfx-authoring | sharepoint-deploy-spfx-solution | 49 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-package-spfx-solution | 48 | PASS 0/8 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-publish-spfx-package | 49 | PASS 0/8 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-request-site-collection-app-catalog | 47 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-form-customizer | 54 | PASS 0/11 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-listview-command-set | 49 | FAIL 3/4 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-master-detail | 48 | PASS 0/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-react-app | 51 | FAIL 3/5 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-scaffold-spfx-webpart | 50 | PASS 0/7 | PASS 0/0 | Retrofitted | yes | none |
+| sharepoint-spfx-authoring | sharepoint-setup-spfx-workbench | 47 | FAIL 1/6 | PASS 0/0 | Retrofitted | yes | none |
 | workbench-setup | workbench-initialize-document-workflow | 72 | FAIL 1/6 | PASS 0/0 | Retrofitted | no | none |
 | workbench-setup | workbench-initialize-workbench-config | 55 | PASS 0/5 | PASS 0/0 | Retrofitted | no | none |
 | workbench-setup | workbench-request-app-registration | 80 | PASS 0/9 | PASS 0/0 | Retrofitted | no | none |
@@ -218,7 +218,7 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
   lists were written from each skill's `SKILL.md` and its sibling skills, and have **not** been run
   against any model. Treat them as a starting contract the skill owner should review, and record real
   model results separately.
-- **Task-success evals exist for only 64 of 104 skills.** The other 40 have routing evals only. Authoring
+- **Task-success evals exist for only 74 of 104 skills.** The other 30 have routing evals only. Authoring
   `task-success.json` for them is the next evals step.
 - **`plugin:` frontmatter does not match the owning plugin for 38 skills.** 21 omit it
   (`sharepoint-agents-and-skills` 15, `sharepoint-content-publication` 6). 13 name an old pre-rename plugin
@@ -258,3 +258,4 @@ Columns: lines = `SKILL.md` line count now; Baseline and Now show `status errors
 | 2026-10-02 | `sharepoint-page-modernization-execution` retrofitted (4 skills): SKILL.md rewritten for all 4; 5 plugin-root references (shared gates/tokens/config plus one details reference per skill); `plugin:` corrected from `sharepoint-content-publication`; the copy-page skill previously described only a planning script and now documents its gated `-Execute -ConfirmToken COPY-SPO-PAGE` mode and the same-site vs cross-site flows (including the 2026-09-08 same-site bug note); `task-success.json` added to `sharepoint-copy-page-between-sites` (the other three already had authored evals). Marketplace listing already accurate. Strict audit passes in source and installed mode; the plugin has no tests. |
 | 2026-10-02 | `sharepoint-provisioning` retrofitted (19 skills): Regenerated the 18 uniform executor skills from one template (the old body had corrupted code fences such as `\\\ash` and leaked escapes like `\\-Execute\\`) and rewrote `sharepoint-apply-provisioning-plan`; one shared plugin-root reference (`provisioning-executor-contract.md`: safety contract, the plan `confirmation_token` vs fixed `-ConfirmToken` distinction, connection/config, plan-shape pointers, and a 28-script executor table with tokens verified against the scripts). **Fixed wrong documentation:** three skills documented tokens the scripts reject (`DETACH-SPO-CONTENT-TYPE-FROM-LIST` -> `DETACH-SPO-CONTENT-TYPE`; `REMOVE-SPO-CONTENT-TYPE` -> `REMOVE-SPO-CONTENT-TYPES`; `UPDATE-SPO-CONTENT-TYPE` -> `UPDATE-SPO-CONTENT-TYPES`) and the `task-success.json` files I had authored for them copied the wrong tokens, now regenerated; `sharepoint-remove-site-column` claimed post-deletion verification the script does not do (description corrected); the delete skills no longer imply in-use guards the scripts lack. Found (not changed): `spo-trigger-reindex.ps1`'s header documents another script's plan shape (copy-paste). Every documented token across all 19 SKILL.md and eval files now matches the scripts. Strict audit passes in source and installed mode; the plugin has no tests. |
 | 2026-10-02 | `sharepoint-schema-reconciliation` retrofitted (4 skills): SKILL.md rewritten for all 4; 5 plugin-root references (shared pipeline/write-safety/executor-locations plus one details reference per skill); `plugin:` corrected from `sharepoint-provisioning`; three skills had no scripts linked at all (the Python modules, their imports and `provisioning_outcomes.py` are now symlinked in; every quick-start was run from an installed copy); the executor pointer named a non-existent `sharepoint-migration-planning` skill, now `sharepoint-provisioning`'s `sharepoint-apply-provisioning-plan` (and the calendar executor, which lives in the migration-planning plugin, is stated accurately); removed the stale "THE ONLY WRITE-capable skill" claim (the calendar skill also has a gated apply); `task-success.json` added to all 4; `tests/test_plugin_independence.py` exemption set extended to `task-success.json`. Fixed `temp/skill-retrofitting/tools/verify-plugin.sh`, which showed a failing test count yet printed RESULT: OK (now fails on any test failure). Strict audit passes in source and installed mode; 100 plugin tests pass. |
+| 2026-10-02 | `sharepoint-spfx-authoring` retrofitted (10 skills): SKILL.md rewritten for all 10 (the 473-line form-customizer skill is now ~60 lines, with the 'deployed is not associated' hard gate in Constraints); 16 plugin-root references added (shared live-write/gate table, naming and versioning, pre-flight, deploy and publish runbooks, app-catalog request runbook, three form-customizer references, and one details reference per scaffold/workbench skill); `add-contents.py` used to add Contents to 5 long existing references. **Documentation corrections:** the old docs never said that `deploy-spfx-package.ps1`, `publish-spfx-package.ps1` and `provision-sample-dossier-schema.ps1` write immediately with no dry run, or that `register-listview-command-set.ps1` has no `-Execute` (only `-WhatIf`); the form-customizer diagram numbered steps differently from the body (now consistent, 11 steps); the publish and workbench-setup skills used repo-root script paths, a real tenant/client GUID, and project-specific paths and site names (removed); the package skill repeated one command block; two skills duplicated the naming table (now one shared reference). Linked the previously unmentioned scripts into their skills (`setup-spfx-workbench.ps1` and `check-spfx-toolchain.ps1` into the workbench skill; the master-detail templates and the 18-file reference project as file-level links so 'Option A' works when installed). Both Python scaffolders were run from installed copies. `task-success.json` added to all 10. Strict audit passes in source and installed mode; 3 plugin tests pass. |
