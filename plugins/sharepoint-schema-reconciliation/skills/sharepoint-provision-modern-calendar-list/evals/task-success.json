@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Provision a modern calendar list called Team Calendar.",
+    "expected_behavior": [
+      "Calls plan_calendar_list(CalendarListDef(title='Team Calendar')) and reports a plan with three steps (list creation, list-local fields, modern calendar view)",
+      "Uses the Generic List template (100), with Start and End as list-local fields only",
+      "Applies nothing without an injected executor and the plan's confirmation token"
+    ]
+  },
+  {
+    "query": "Declare Start and End as site columns so other lists can reuse them.",
+    "expected_behavior": [
+      "Refuses: CalendarListDef(start_end_site_columns=...) raises StartEndScopeViolation",
+      "Explains declaring them as site columns or content-type-linked fields silently breaks calendar view rendering",
+      "Says a list created that way cannot be fixed and must be deleted and recreated"
+    ]
+  },
+  {
+    "query": "Run the calendar executor script for me.",
+    "expected_behavior": [
+      "Explains spo-provision-calendar.ps1 belongs to the migration-planning plugin and is not part of the sharepoint-apply-provisioning-plan executor table",
+      "Leaves the live run to the user and does not execute it",
+      "Treats this skill as planning plus a gated Python apply"
+    ]
+  }
+]

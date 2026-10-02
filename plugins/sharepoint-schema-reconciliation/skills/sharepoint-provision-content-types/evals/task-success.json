@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Plan the Demo_Item content type: link Widget_Count and drop Deprecated_Field.",
+    "expected_behavior": [
+      "Builds a ContentTypeDef and ContentTypeState and calls plan_content_type",
+      "Lists each action with step, already_correct and detail, unlinking Deprecated_Field only if it is currently linked",
+      "Executes nothing"
+    ]
+  },
+  {
+    "query": "The schema says Widget_Count is visible but the live content type has it hidden. Just flip it.",
+    "expected_behavior": [
+      "Reports the hidden-flag mismatch as drift named in the action's detail instead of correcting it silently",
+      "Leaves the existing content type alone except for the drift the schema calls out",
+      "Presents the drift to the user before any apply"
+    ]
+  },
+  {
+    "query": "Attach Demo_Item to the Demo_List list.",
+    "expected_behavior": [
+      "Uses plan_add_content_type_to_list('Demo_List', 'Demo_Item', ...) and reports whether it is already attached",
+      "Does not treat an already-attached content type as an error or a fake success",
+      "Leaves execution to the gated apply path"
+    ]
+  }
+]
