@@ -14,3 +14,17 @@ Persistent tracking of architectural friction, structural anomalies, and unclose
 | DEBT-20261002-01 | Skills exceeded the 100-line partial-read budget and carried wrong gate docs | RESOLVED | M | YES | 2026-10-02 | 104 skills across 16 plugins had long SKILL.md files, stale repo-root paths, missing import links in installed copies, and documented tokens/flags that did not match the scripts. Retrofitted to the audit-skill contract: lean SKILL.md with Contents, detail in plugin-root references symlinked one level deep, gates verified against scripts. Open follow-ups: 15 skills lack task-success.json, evals never run against a model, 3 empty old-name plugin folders pending deletion approval. | PR #7 |
 | DEBT-20261003-01 | 16 plugins and 104 skills reorganized into seven user-facing domains, with site/domain context removed | RESOLVED | M | NO | 2026-10-03 | Issue #6: migrated to 7 plugins / 104 skills (58 renamed) with a graph-based reference rewrite, independent verifier, installer-transition evidence and rollback proof; both SPFx routes and all evals preserved. Site-, list-, organization- and domain-specific content was removed or turned into parameters/config; audit and discovery scripts are config-driven; a repository guard test and second-site fixtures prevent regressions. Three independent reviews triaged and fixed (found and fixed REST list-title escaping order in four collectors and an analyzer repo-root regression). | this PR (issue #6) |
 | DEBT-20261003-02 | Bare `pytest -q` cannot run the repository in one process | OPEN | S | NO | 2026-10-03 | Plugins share flat module names across test namespaces, so the control plane's bundled VERIFY_EXIT wrapper (a bare `pytest -q`) cannot run the whole repo. Receipts were recorded through the same verifier function with a per-namespace runner command (owner accepted the substitution). Fix: provide a repo-level runner/config the wrapper can call. | |
+
+
+## Issue 6 independent implementation review — 2026-10-03
+
+- Logged date: 2026-10-03
+- Cycle/Session ID: issue-6-independent-sonnet-review
+- Artifact affected: registered issue-6 worktree runtime routing, publication contract, audit/repair boundary, architecture descriptions and assessment packaging
+- Friction observed: five unresolved acceptance gaps confirmed by source review and local functional/wheel probes; installer transition receipts not found. Namespace suite has one LibreOffice failure reproduced in the baseline. The audit-plugin guide also references audit_plugin_structure.py, absent from its installed scripts.
+- Why not fixed now: independent reviewer preserves implementation ownership and verifier independence; Claude must correct source and attach evidence.
+- Recommended fix: follow the five corrections and installer acceptance checks in temp/issue-6-quality-check/claude-review.md; repair the stale audit-plugin tool reference in its owning repository separately.
+- Evidence/repro: temp/issue-6-quality-check/claude-review.md, functional-probes.json, assessment-wheel-result.json, test-node-parity.json and independent-tests/; consolidated existing-issue dry-run payload in review-issue-payload.json.
+- Severity: M
+- Repeat: NO
+- Status: ESCALATED
