@@ -1,0 +1,1 @@
+../../../sharepoint-document-conversion/scripts/assembly/publication_map.py

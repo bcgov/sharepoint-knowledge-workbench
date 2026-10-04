@@ -5,7 +5,7 @@ flowchart TD
         B["Markdown working copy in governed library"]
         C["SharePoint Markdown editor"]
         D["SharePoint agent"]
-        E["Native SharePoint skill"]
+        E["Native SharePoint skill\nSpecific end-to-end workflow is proposed"]
         F["Business metadata and review workflow"]
         G{"Business proposal approved?"}
         H["Approved change proposal"]
@@ -58,11 +58,11 @@ flowchart TD
 
     subgraph PUB["Governed publication pipeline"]
         X["Publication map"]
-        Y["Templates and renderers"]
+        Y["content-render-markdown-pages / content-render-sharepoint-pages"]
         Z["Generate destination outputs"]
         AA["Validate complete release"]
         AB{"Publication approved?"}
-        AC["Publish SharePoint projection"]
+        AC["sharepoint-apply-page-publication-plan\nPublish SharePoint projection"]
         AD["Generate other approved formats"]
         AE["Record deployment evidence"]
 

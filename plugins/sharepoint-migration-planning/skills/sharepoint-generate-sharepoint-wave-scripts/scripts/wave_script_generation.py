@@ -1,1 +1,0 @@
-../../../scripts/wave_script_generation.py

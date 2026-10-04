@@ -1,5 +1,16 @@
 # Master Initiative Implementation Plan — AI-Assisted Structured Knowledge Workbench
 
+**Current repository snapshot (2026-10-03):** the SharePoint Knowledge Workbench now has seven
+independently installable domain plugins and 104 skills. The 11 built use cases cover setup,
+document conversion, site assessment, object creation and publishing, site migration, Copilot agent
+and native-skill lifecycle, and SPFx development. One of the 12 documented use cases — the
+integrated AI-assisted knowledge-management pipeline — remains a future-state vision. This count
+describes the repository catalog; it is not a percentage-complete measure of the broader vision.
+The current package names and skill inventory are in
+[`docs/architecture/seven-domain-plugin-skill-catalog.md`](../architecture/seven-domain-plugin-skill-catalog.md).
+Phase dispositions below describe roadmap gates and should not be read as a substitute for the
+current plugin manifests and tests.
+
 **Status:** Whole-spectrum plan. Every phase (1–9, plus 3.0 and 5.5) is decomposed into subphases, and every
 subphase into implementation stages with entry/exit criteria and evidence requirements. This is the
 superordinate planning artifact; the Phase 2 contract-hardening plan
@@ -332,7 +343,7 @@ tenant-scripting tool's destination logic.
   answer, not a default-by-omission. **Evidence:** the document itself, reviewed before Subphase 3.2 pilots
   anything.
   **Related open question (not yet decided, informs but does not resolve this stage):**
-  `docs/vision/editing-workflow-options-for-external-review.md` explores where content authors would
+  `docs/vision/content-authoring-workflow-options.md` explores where content authors would
   actually edit content (Git vs. SharePoint vs. a hybrid), candidate editing/synchronization models
   A–G, a proposed non-negotiable rule that routine authoring must hide Git/publication machinery from
   business authors, and a concrete supervised human-technical-publisher bridge (three named repository
@@ -346,9 +357,8 @@ tenant-scripting tool's destination logic.
   edited topic re-enters the structured content package; and how IDs, lineage, hashes, manifests,
   cross-references, and publication maps are recalculated after an edit. This stage does **not**
   decide which runtime (deterministic pipeline vs. native skill vs. conversational agent) performs
-  any of the above steps — that is Phase 6's responsibility (see its Subphase 6.3 below). See
-  `docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for
-  the full architecture note and resolution this scope clarification is drawn from.
+  any of the above steps — that is Phase 6's responsibility (see its Subphase 6.3 below). The
+  resulting phase-placement decision is captured in this roadmap's Subphase 6.3 and Phase 6.5.
 
 ### Subphase 3.2 — Package-only deployment mode
 
@@ -621,7 +631,7 @@ validated output format`. Do not broaden it into an agent editing-and-publicatio
 agent-performed rendering of edited content. That concern belongs to Phase 6 Subphase 6.3 (runtime
 placement) and the future placeholder Phase 6.5 (Ongoing Structured Content Maintenance and
 Assisted Republishing) — see
-`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.
+  the roadmap's Subphase 6.3 and Phase 6.5 sections.
 
 ### Subphase 5.5B.1 — Renderer Expansion
 - Stage 5.5B.1.1 — identify a real required output format (not speculative). **Deliverable:** format
@@ -709,8 +719,7 @@ evidence review.
 
 ### Subphase 6.3 — Runtime placement for content-lifecycle actions
 
-**(Added from external review, 2026-08-02, GPT 5.6 — Phase 5 brainstorming placement question. See
-`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md`.)**
+**(Added from external review, 2026-08-02, GPT 5.6 — Phase 5 brainstorming placement question.)**
 
 Phase 3 Stage 3.1.4 decides *what* the ongoing structured-content maintenance workflow must do
 (review, approval, versioning, lineage/hash/manifest recalculation). This subphase decides *which
@@ -751,9 +760,8 @@ is met.
 ## Phase 6.5 — Ongoing Structured Content Authoring and Republishing
 
 **(Added from external review, 2026-08-02, GPT 5.6 — Phase 5 brainstorming placement question;
-elaborated in a follow-up review the same day. See
-`docs/vision/resolved-question-ongoing-editing-and-agent-assisted-rendering-phase-placement.md` for the
-full architecture note this phase is drawn from. Named "Ongoing Structured Content Authoring and
+elaborated in a follow-up review the same day. The phase-placement decision is summarized in this
+roadmap's Subphase 6.3 and Phase 6.5. Named "Ongoing Structured Content Authoring and
 Republishing" per the follow-up review's clearer naming — supersedes the initial working title
 "Ongoing Structured Content Maintenance and Assisted Republishing.")**
 
@@ -983,11 +991,11 @@ required policy/legal review completed before any rule is enforced in production
 
 #### Subphase 9.2 — Capability classification and prioritization
 - Stage 9.2.1 — classify every candidate capability. **Deliverable:** disposition matrix using `EXTRACT_NOW`, `EXTRACT_LATER`, `MERGE_WITH_EXISTING_CAPABILITY`, `KEEP_PROJECT_SPECIFIC`, `RESEARCH`, `RETIRE`, or `REJECT`. **Verification:** every disposition has a reason, owner, dependency assessment, and safe default. **Evidence:** reviewed disposition matrix.
-- Stage 9.2.2 — assess individual skills located under project-specific plugins. **Deliverable:** skill-level review, including skills currently housed under the ORDS plugin. **Verification:** classification is based on the skill's actual responsibility, not its current directory. Generic SharePoint skills may qualify; ORDS execution patterns and court-system business logic do not. **Evidence:** skill-level decision record.
+- Stage 9.2.2 — assess individual skills located under project-specific plugins. **Deliverable:** skill-level review, including skills currently housed under a project-specific integration plugin. **Verification:** classification is based on the skill's actual responsibility, not its current directory. Generic SharePoint skills may qualify; integration execution patterns and source-system business logic do not. **Evidence:** skill-level decision record.
 - Stage 9.2.3 — select one pilot plugin family. **Deliverable:** selection memo comparing at least `sharepoint-discovery`, `sharepoint-schema`, and `sharepoint-page-modernization`. **Verification:** selection considers reuse value, read/write risk, coupling, test maturity, overlap, ownership, and extraction effort. **Evidence:** approved memo. **Recommended initial candidate:** `sharepoint-discovery`.
 
 #### Subphase 9.3 — Coupling and dependency analysis
-- Stage 9.3.1 — map all dependencies for the selected pilot. **Deliverable:** coupling matrix covering legacy literals, list/field names, tenant URLs and IDs, app registrations, environment names, ORDS dependencies, business rules, shared PowerShell modules, cross-plugin references, symlinks, fixtures, and permissions. **Verification:** each dependency is marked remove, parameterize, replace, retain-as-provenance, or block. **Evidence:** reviewed coupling matrix.
+- Stage 9.3.1 — map all dependencies for the selected pilot. **Deliverable:** coupling matrix covering legacy literals, list/field names, tenant URLs and IDs, app registrations, environment names, integration dependencies, business rules, shared PowerShell modules, cross-plugin references, symlinks, fixtures, and permissions. **Verification:** each dependency is marked remove, parameterize, replace, retain-as-provenance, or block. **Evidence:** reviewed coupling matrix.
 - Stage 9.3.2 — define the generic capability contract. **Deliverable:** target-neutral input, output, error, permission, dry-run, evidence, and lifecycle contract. **Verification:** no contract field requires legacy systems or a specific tenant. **Evidence:** contract document and adversarial review.
 - Stage 9.3.3 — define source-to-destination provenance. **Deliverable:** provenance manifest connecting extracted files and behaviours to the pinned source baseline. **Verification:** a future maintainer can identify what was adapted, rewritten, omitted, or intentionally diverged. **Evidence:** provenance manifest.
 
@@ -1002,7 +1010,7 @@ required policy/legal review completed before any rule is enforced in production
 - Stage 9.5.3 — preserve safe defaults. **Deliverable:** read-only-by-default behaviour for discovery candidates; explicit dry-run, confirmation, least-privilege, partial-failure, and evidence handling for any future write-capable capability. **Verification:** safety tests fail if unapproved writes become reachable. **Evidence:** safety test results.
 
 #### Subphase 9.6 — Independent fixtures, tests, and parity proof
-- Stage 9.6.1 — create neutral fixtures. **Deliverable:** sanitized, project-independent SharePoint fixtures and expected outputs. **Verification:** fixtures contain no live tenant identifiers, protected content, LegacySource schema, or ORDS data. **Evidence:** fixture audit.
+- Stage 9.6.1 — create neutral fixtures. **Deliverable:** sanitized, project-independent SharePoint fixtures and expected outputs. **Verification:** fixtures contain no live tenant identifiers, protected content, LegacySource schema, or integration data. **Evidence:** fixture audit.
 - Stage 9.6.2 — prove destination independence. **Deliverable:** isolated test run with the legacy repository, source symlinks, source configuration, and source environment unavailable. **Verification:** all plugin tests and documented user journeys pass. **Evidence:** test report with exact counts.
 - Stage 9.6.3 — prove semantic parity for deliberately retained behaviours. **Deliverable:** source-versus-destination comparison. **Verification:** selected generic behaviours match the pinned source oracle or have an explicitly reviewed contract improvement; no test is loosened merely to pass. **Evidence:** parity report and disposition of intentional differences.
 - Stage 9.6.4 — run adversarial and mutation tests. **Deliverable:** tests for project-literal leakage, missing configuration, permission failure, malformed expected state, partial discovery, and silent-success prevention. **Verification:** deliberate defects reach their intended detectors. **Evidence:** mutation matrix.
@@ -1065,8 +1073,8 @@ asserted completeness without demonstrating it.
 ---
 
 
-| Reusable SharePoint plugin extraction from the legacy source repository | Phase 9, Subphases 9.1–9.9 | LATER | Pinned source baseline, stable destination conventions, Phase 3 evidence patterns, and one approved pilot capability | Phase 9 exit gate: one independent reusable plugin with neutral fixtures, parity and independence proof, source repository unchanged | Must not interrupt current Phases 3–8 or copy project-specific plugins wholesale. **Updated 2026-08-03:** the LegacySource `sharepoint-migration` source inventory (34 skills, directly audited, corrected from earlier 31/33 estimates) has been directly audited — see `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md` §8c–§8e. Phase 9 covers all applicable `sharepoint-migration` capabilities, not only the subset overlapping Phase 6. Phase 9 reuses the final workbench plugin structure (destination-plugin-matching rule, §8e) — existing plugins are preferred over new ones. 5 of 7 candidate new engineering plugins (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-migration`) are provisionally evidence-justified; 2 (`sharepoint-provisioning`, `sharepoint-validation-and-reconciliation`) are not — all remain evidence-gated, none approved. No LegacySource migration or extraction has started; the legacy repository remains intact and unmodified. `ords-integration-migration` remains excluded from Phase 9 by default (`ORDS_SPECIFIC_OUT_OF_SCOPE`). |
-| Selective reuse of generic skills currently housed under project-specific or ORDS plugins | Phase 9, Stages 9.2.2 and 9.9.2 | LATER | Skill-level responsibility and coupling review | Skill disposition and backlog decision records | ORDS integration framework and court-system business rules are out of scope; only independently generic SharePoint skills may qualify |
+| Reusable SharePoint plugin extraction from the legacy source repository | Phase 9, Subphases 9.1–9.9 | LATER | Pinned source baseline, stable destination conventions, Phase 3 evidence patterns, and one approved pilot capability | Phase 9 exit gate: one independent reusable plugin with neutral fixtures, parity and independence proof, source repository unchanged | Must not interrupt current Phases 3–8 or copy project-specific plugins wholesale. **Updated 2026-08-03:** the LegacySource `sharepoint-migration` source inventory (34 skills, directly audited, corrected from earlier 31/33 estimates) has been directly audited — see `docs/superpowers/specs/phase-9-reusable-sharepoint-plugin-extraction-spec.md` §8c–§8e. Phase 9 covers all applicable `sharepoint-migration` capabilities, not only the subset overlapping Phase 6. Phase 9 reuses the final workbench plugin structure (destination-plugin-matching rule, §8e) — existing plugins are preferred over new ones. 5 of 7 candidate new engineering plugins (`sharepoint-discovery`, `sharepoint-schema`, `sharepoint-page-modernization`, `sharepoint-link-remediation`, `sharepoint-content-migration`) are provisionally evidence-justified; 2 (`sharepoint-provisioning`, `sharepoint-validation-and-reconciliation`) are not — all remain evidence-gated, none approved. No LegacySource migration or extraction has started; the legacy repository remains intact and unmodified. the project-specific integration plugin remains excluded from Phase 9 by default (`INTEGRATION_SPECIFIC_OUT_OF_SCOPE`). |
+| Selective reuse of generic skills currently housed under project-specific plugins | Phase 9, Stages 9.2.2 and 9.9.2 | LATER | Skill-level responsibility and coupling review | Skill disposition and backlog decision records | integration framework and source-system business rules are out of scope; only independently generic SharePoint skills may qualify |
 | Shared Claude/Copilot rule reconciliation from the legacy repository | Phase 9, Subphase 9.4 | LATER | Pinned source rules plus current destination instruction hierarchy | Rule-classification report, reviewed destination diffs, and proof that LegacySource/environment overlays remain in the source repository | Wholesale copying would mix reusable engineering rules with project and environment facts |
 
 ## Global Gating Rules (carried from architecture review, unchanged)

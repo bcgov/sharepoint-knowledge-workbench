@@ -1,5 +1,14 @@
 # AI-Assisted SharePoint Knowledge Workbench Research
 
+> **Current implementation snapshot (2026-10-03):** the repository packages 104 skills in
+> seven installable plugins. The document conversion, site assessment, site build and
+> publishing, site migration, Copilot agents and native skills, SPFx development, and
+> workbench setup capabilities are represented in the current catalog. This research folder
+> includes both current guidance and historical observations; historical plugin names and
+> tenant results are preserved as provenance. See the [seven-domain catalog](../architecture/seven-domain-plugin-skill-catalog.md)
+> for current identities. The broader end-to-end AI-assisted knowledge curation vision is
+> not fully implemented.
+
 This directory contains research, field notes, and architecture guidance supporting an emerging **AI-Assisted SharePoint Knowledge Workbench**.
 
 The work began with a practical document-conversion problem: how to turn large Word manuals into maintainable, structured knowledge without treating raw Markdown conversion as the final product. It expanded into a broader investigation of how structured Markdown, SharePoint governance, native SharePoint skills, SharePoint agents, Copilot Cowork, Copilot Studio, and GitHub Copilot can work together across the knowledge lifecycle.
@@ -120,41 +129,41 @@ business-user-facing interaction.
 
 ### Start here
 
-1. [`research-summary-ai-in-sharepoint-content-chaos-to-clarity.md`](research-summary-ai-in-sharepoint-content-chaos-to-clarity.md)  
+1. [`research-ai-in-sharepoint-setup-automate-insight.md`](sharepoint-platforms-capabilities/research-ai-in-sharepoint-setup-automate-insight.md)  
    Introduces the Microsoft direction around **Setup, Automate, and Insight** and connects it to the complete knowledge-management lifecycle.
 
-2. [`capability-layering-sharepoint-skills-cowork-copilot-studio-github.md`](capability-layering-sharepoint-skills-cowork-copilot-studio-github.md)  
+2. [`capability-layering-across-platforms.md`](sharepoint-platforms-capabilities/capability-layering-across-platforms.md)  
    Provides the broad platform model across SharePoint agents, native SharePoint skills, Copilot Cowork, Copilot Studio, and GitHub Copilot.
 
-3. [`skill-runtime-decision-guide-sharepoint-vs-github-copilot.md`](skill-runtime-decision-guide-sharepoint-vs-github-copilot.md)  
+3. [`skill-runtime-decision-guide-sharepoint-vs-github-copilot.md`](architecture-design-patterns/skill-runtime-decision-guide-sharepoint-vs-github-copilot.md)  
    Provides the practical decision tree for choosing where a skill should be created, stored, executed, tested, and governed.
 
 ### SharePoint agents and native skills
 
-4. [`sharepoint-agents-and-native-skills-as-workbench-outputs.md`](sharepoint-agents-and-native-skills-as-workbench-outputs.md)  
+4. [`sharepoint-agents-and-native-skills-as-workbench-outputs.md`](sharepoint-platforms-capabilities/sharepoint-agents-and-native-skills-as-workbench-outputs.md)  
    Explains how native skills and SharePoint agents can be generated as constrained outputs of the broader studio, including storage, licensing, permissions, deployment, and evaluation considerations.
 
-5. [`research-summary-copilot-in-sharepoint-get-started.md`](research-summary-copilot-in-sharepoint-get-started.md)  
+5. [`research-copilot-in-sharepoint-preview.md`](sharepoint-platforms-capabilities/research-copilot-in-sharepoint-preview.md)  
    Summarizes the documented Copilot in SharePoint preview, administrative controls, availability, skill storage, permission boundaries, and capability limitations.
 
-6. [`field-note-sharepoint-agentassets-review-manual-topics-skill.md`](field-note-sharepoint-agentassets-review-manual-topics-skill.md)  
+6. [`field-note-agentassets-skill-creation.md`](sharepoint-platforms-capabilities/field-note-agentassets-skill-creation.md)  
    Records the successful tenant experiment using the `AgentAssets` library and the generated `review-manual-topics` native skill. It also identifies hardening and evaluation requirements.
 
-7. [`field-note-ready-made-copilot-agent-launch-by-name.md`](field-note-ready-made-copilot-agent-launch-by-name.md)  
+7. [`field-note-agent-launch-by-name-not-a-handoff.md`](sharepoint-platforms-capabilities/field-note-agent-launch-by-name-not-a-handoff.md)  
    Records an unverified observation from Phase 5 Task 4: the ready-made/default Copilot appears to "launch" a named custom `.agent` when asked in natural language, but its cited sources suggest it may be self-answering rather than truly handing off to that agent's distinct instructions. Do not treat as confirmed until verified per that note's method.
 
-8. [`field-note-aspx-vs-markdown-grounding-comparison.md`](field-note-aspx-vs-markdown-grounding-comparison.md)  
+8. [`field-note-aspx-vs-markdown-grounding.md`](knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md)  
    Records tenant-tested findings from Phase 5's Task 7/8 live comparison of two grounding formats. Two reproducible failure modes appeared on **both** agents regardless of format — inferring "currency" from file-upload timestamps instead of real review metadata, and giving mutually contradictory confident answers across repeated runs of a cross-topic-relationship question — suggesting model-level rather than format-specific behavior. One single-case finding suggests a possible Markdown-side ambiguity-handling advantage, not yet confirmed at scale.
 
 ### Content creation, curation, and Markdown
 
-7. [`research-summary-native-markdown-sharepoint-onedrive.md`](research-summary-native-markdown-sharepoint-onedrive.md)  
+7. [`research-markdown-support-sharepoint-onedrive.md`](publication-delivery/research-markdown-support-sharepoint-onedrive.md)  
    Examines native Markdown viewing, editing, versioning, and governance in SharePoint and OneDrive, along with source-of-truth and agent-grounding implications.
 
-8. [`research-summary-sharepoint-ai-forward-content-creation-curation.md`](research-summary-sharepoint-ai-forward-content-creation-curation.md)  
+8. [`research-sharepoint-content-creation-and-curation.md`](knowledge-discovery-retrieval/research-sharepoint-content-creation-and-curation.md)  
    Extends the lifecycle beyond conversion into AI-assisted creation, review, publication, continuous curation, knowledge health, and agent readiness.
 
-9. [`concept-dual-target-rendering-agent-vs-human.md`](concept-dual-target-rendering-agent-vs-human.md)  
+9. [`dual-target-rendering-concept.md`](publication-delivery/dual-target-rendering-concept.md)  
    Defines the dual-target rendering model separating rich, styled human-facing output from token-dense, instruction-embedded agent-optimized publication digests.
 
 ## Suggested Reading Paths
@@ -243,7 +252,7 @@ Monitor
 
 AI-generated proposals must not silently become content changes, metadata updates, approvals, publications, retirements, or deletions.
 
-## Government-Specific Controls
+## Regulated-Environment Controls
 
 The workbench vision adds controls beyond the product demonstrations reviewed in this research:
 

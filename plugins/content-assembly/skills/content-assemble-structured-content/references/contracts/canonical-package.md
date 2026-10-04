@@ -1,1 +1,0 @@
-../../../../references/contracts/canonical-package.md

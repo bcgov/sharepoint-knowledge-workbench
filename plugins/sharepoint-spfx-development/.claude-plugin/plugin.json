@@ -1,0 +1,13 @@
+{
+    "name": "sharepoint-spfx-development",
+    "version": "1.0.0",
+    "description": "SharePoint Framework (SPFx) development for SharePoint Online: scaffolds web parts, React web parts, Master-Detail web parts, form customizers and list-view command sets, sets up the hosted workbench, packages solutions, and delivers them by either of two routes -- App Catalog deployment or direct package publication.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint"
+    ]
+}

@@ -1,1 +1,0 @@
-../../../scripts/preview_composition.py

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Executes a PublishPlan (built by plan-page-publication or publish-markdown-files) via an explicitly injected uploader -- zero SharePoint tenant I/O by default, matching this plugin's Phase 3 package-only architecture.",
+    "prompt": "Use the apply-page-publication-plan skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

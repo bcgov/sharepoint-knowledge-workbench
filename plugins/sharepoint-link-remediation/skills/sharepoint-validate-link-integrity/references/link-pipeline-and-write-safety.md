@@ -1,1 +1,0 @@
-../../../references/link-pipeline-and-write-safety.md

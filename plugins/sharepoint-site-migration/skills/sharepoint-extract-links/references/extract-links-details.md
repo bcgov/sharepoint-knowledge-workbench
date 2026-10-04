@@ -1,0 +1,1 @@
+../../../references/link-remediation/extract-links-details.md

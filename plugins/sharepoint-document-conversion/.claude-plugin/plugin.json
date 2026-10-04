@@ -1,0 +1,32 @@
+{
+    "name": "sharepoint-document-conversion",
+    "version": "0.1.0-alpha.1",
+    "description": "SharePoint document conversion: extracts a source .docx into a normalized source document, analyzes topic structure and chunking strategy, assembles a validated canonical content package, renders it to multipage Markdown or SharePoint modern pages through local rendering templates, validates the rendered output, and provides single-topic editorial review of rendered Markdown or published pages. Every workflow is local or read-only; nothing in this package writes to a tenant.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "canonical-content",
+        "chunking",
+        "validation",
+        "atomic-promotion",
+        "docx",
+        "pandoc",
+        "source-extraction",
+        "document-parsing",
+        "rendering",
+        "multipage-markdown",
+        "publication",
+        "topic-grouping",
+        "chunking-strategy",
+        "draft-plan",
+        "structure-analysis",
+        "copilot-agent",
+        "native-skill",
+        "agentassets",
+        "tenant-pilot"
+    ]
+}

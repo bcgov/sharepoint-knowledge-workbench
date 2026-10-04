@@ -1,1 +1,0 @@
-../../../../scripts/canonical_schema/publication_map.py

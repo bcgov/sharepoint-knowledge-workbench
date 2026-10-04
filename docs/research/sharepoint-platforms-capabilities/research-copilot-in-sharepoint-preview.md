@@ -3,7 +3,7 @@
 **Primary source:** [Get started with Copilot in SharePoint (preview)](https://learn.microsoft.com/en-us/SharePoint/copilot-in-sharepoint-get-started)  
 **Publisher:** Microsoft Learn  
 **Source last updated:** June 25, 2026  
-**Purpose:** Summarize the documented Copilot in SharePoint preview, its controls and limitations, and explain how it affects the proposed AI-Assisted SharePoint Knowledge Workbench for a government environment.  
+**Purpose:** Summarize the documented Copilot in SharePoint preview, its controls and limitations, and explain how it affects the proposed AI-Assisted SharePoint Knowledge Workbench for a regulated environment.  
 **Status:** Research and architecture input; not implementation authorization.
 
 ## 1. Executive Summary
@@ -278,7 +278,7 @@ The workbench could expose a small number of user journeys while internal routin
 
 The documented ability to create sites, lists, libraries, pages, reports, and files through natural language supports the Setup pillar.
 
-The government workbench should still separate:
+The workbench should still separate:
 
 ```text
 request
@@ -321,13 +321,13 @@ Potential controls include:
 
 The Microsoft documentation confirms that ordinary SharePoint permissions, retention, sensitivity labels, and auditing can apply to these files.
 
-## 11. Implications for Government Governance
+## 11. Implications for Governance
 
 ### Tenant and Site Rollout
 
 The documented `IncludeSelectedSites` mode supports a bounded pilot instead of immediate tenant-wide rollout.
 
-A government pilot should identify:
+A pilot should identify:
 
 - approved tenant environment;
 - selected pilot sites;
@@ -340,7 +340,7 @@ A government pilot should identify:
 
 ### Skill Authoring Rights
 
-The default rule that site editors can create skills may be too broad for some government sites.
+The default rule that site editors can create skills may be too broad for some sites.
 
 A governance decision is required on whether to:
 
@@ -448,7 +448,7 @@ If later platform tools are approved, separate action skills could deploy the re
 The documentation supports this layered architecture:
 
 ```text
-Government Knowledge Standards and Policies
+Knowledge Standards and Policies
         ↓
 GitHub Copilot Knowledge Workbench
 Design → Convert → Validate → Test → Package → Produce Evidence
@@ -529,7 +529,7 @@ Before implementation, verify:
 
 ## 17. Research-Informed Vision Statement
 
-> The AI-Assisted SharePoint Knowledge Workbench should use two complementary skill environments. Repository-based GitHub Copilot skills provide custom code, deterministic conversion, validation, testing, packaging, and release evidence. Native Copilot in SharePoint skills provide reusable, site-scoped, permission-aware workflows that guide users and interact with SharePoint content through supported capabilities. Government controls determine where Copilot is available, who can create and run skills, how skill definitions are governed, and when a recommendation may become an authorized action.
+> The AI-Assisted SharePoint Knowledge Workbench should use two complementary skill environments. Repository-based GitHub Copilot skills provide custom code, deterministic conversion, validation, testing, packaging, and release evidence. Native Copilot in SharePoint skills provide reusable, site-scoped, permission-aware workflows that guide users and interact with SharePoint content through supported capabilities. Administrative controls determine where Copilot is available, who can create and run skills, how skill definitions are governed, and when a recommendation may become an authorized action.
 
 ## 18. Key Takeaway
 
@@ -561,4 +561,4 @@ The feature is documented as preview, and Microsoft notes that:
 - the managed model may change;
 - unsupported environments remain excluded until Microsoft documents otherwise.
 
-The Microsoft documentation does not define this project's structured-content architecture, government operating model, GitHub workbench, publication-map contract, or approval design. Those sections are project recommendations and must be reviewed separately.
+The Microsoft documentation does not define this project's structured-content architecture, operating model, GitHub workbench, publication-map contract, or approval design. Those sections are project recommendations and must be reviewed separately.

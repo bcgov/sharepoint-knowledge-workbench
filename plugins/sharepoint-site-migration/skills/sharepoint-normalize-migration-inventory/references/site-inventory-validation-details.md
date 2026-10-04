@@ -1,0 +1,1 @@
+../../../references/migration-planning/site-inventory-validation-details.md

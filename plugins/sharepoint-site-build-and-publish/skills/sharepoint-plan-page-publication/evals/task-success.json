@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Plan publishing the rendered pages in ./rendered for document 'manual-1' to /sites/Test/SitePages.",
+    "expected_behavior": [
+      "Calls build_page_publish_plan_from_render(document_id='manual-1', rendered_dir='./rendered', target_site_relative_path='/sites/Test/SitePages') with scripts/ on sys.path (the rendered directory holds page-manifest.json and the HTML fragments)",
+      "Returns a PublishPlan listing each HTML fragment in manifest order with its target page name, tagged source_format html-fragment, with no tenant write",
+      "Hands the plan to sharepoint-apply-page-publication-plan for execution"
+    ]
+  },
+  {
+    "query": "Just upload the rendered .aspx files straight into Site Pages.",
+    "expected_behavior": [
+      "Refuses raw .aspx upload, explaining it is a confirmed Access denied platform boundary",
+      "Explains the working route is Add-PnPPage, Add-PnPPageTextPart and Publish-PnPPage via sharepoint-apply-page-publication-plan",
+      "Does not build a plan that uploads .aspx files"
+    ]
+  },
+  {
+    "query": "The source directory ./rendered does not exist. Build the plan anyway.",
+    "expected_behavior": [
+      "Refuses to build a plan from a missing source directory",
+      "Also refuses a directory that has no .md files",
+      "Does not fabricate page entries"
+    ]
+  }
+]

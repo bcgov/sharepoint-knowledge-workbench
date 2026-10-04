@@ -1,0 +1,40 @@
+flowchart TD
+    subgraph S1["1. initialize-migration-project (interactive)"]
+        A1["Ask: source site URL, target site URL"]
+        A2["Confirm sharepoint-workbench-setup's config.psd1 /\nconnection block exists (workbench-initialize-connection-config\nalready run) -- do not re-invent connection config"]
+        A3["Create a per-migration working folder\n(holds discovery export, dependency matrix,\ngenerated wave scripts + guide)"]
+        A1 --> A2 --> A3
+    end
+
+    subgraph S2["2. normalize-migration-inventory"]
+        B1["Depends on sharepoint-collection (Part A)\n-- NOT YET BUILT, blocked on auth-model decision"]
+        B2["Until Part A exists: accept an already-produced\nexport directory as input (manual or an existing\nexport script, run outside this workbench by a human)"]
+        B1 -.->|"not yet available"| B2
+        B2 --> B3["Raw site export on disk:\nlists, content types, site columns,\nfields, lookup targets"]
+    end
+
+    subgraph S3a["3a. analyze-migration-dependencies (DETERMINISTIC, Python)"]
+        C1["Read the raw export"]
+        C2["Derive DeploymentObjects + depends_on\n(e.g. a lookup field depends on its target list)"]
+        C3["Reuse sharepoint-site-build-and-publish's wave_planning.py\n(plan_waves -- topological sort, cycle detection)"]
+        C4["Emit dependency-matrix.json\n(conforms to assets/migration-planning/dependency-matrix-schema.json)"]
+        C1 --> C2 --> C3 --> C4
+    end
+
+    subgraph S3b["3b. scaffold-migration-wave-scripts (AI-MODEL-ASSISTED)"]
+        D1["Read dependency-matrix.json"]
+        D2["Read assets/wave-script-template.example.py\nand assets/migration-planning/wave-guide-template.md as style references"]
+        D3["sharepoint-scaffold-migration-wave-scripts\nAgent synthesizes NEW, site-specific wave\nscripts using sharepoint-site-build-and-publish plan/apply functions"]
+        D4["Agent synthesizes a wave guide document\n(human runbook: test -> deploy -> retest per wave)"]
+        D1 --> D2 --> D3
+        D2 --> D4
+    end
+
+    S1 --> S2
+    S2 --> S3a
+    S3a --> S3b
+    S3b --> E["Output: dependency-matrix.json,\ngenerated wave-*.py scripts,\nWAVE-GUIDE.md -- ready for a human\nto run wave-by-wave through\nsharepoint-site-build-and-publish, test-gated"]
+
+    style B1 fill:#fdd,stroke:#c00
+    style S3a fill:#dfd,stroke:#080
+    style S3b fill:#ddf,stroke:#008

@@ -191,7 +191,7 @@ Native SharePoint skill
 This skill is a strong example of the proposed compilation model:
 
 ```text
-Government content-management requirement
+Content-management requirement
 → workbench designs a bounded workflow
 → workbench generates a native-compatible skill specification
 → human reviews it
@@ -367,7 +367,7 @@ or a deterministic rule based on approved metadata criticality.
 
 The generated choice is `Won't Fix`.
 
-For government use, consider whether a more formal value is preferable:
+For regulated use, consider whether a more formal value is preferable:
 
 ```text
 Accepted exception
@@ -498,7 +498,7 @@ The generated skill is a strong proof of concept, but production hardening shoul
 
 ## 14. Dated Follow-Up — Phase 3.0 Controlled Tenant Discovery Addendum (2026-07-30)
 
-During Phase 3.0 controlled tenant discovery, further empirical tests were conducted on native SharePoint skills and custom `.agent` files in the tested BC Government development tenant:
+During Phase 3.0 controlled tenant discovery, further empirical tests were conducted on native SharePoint skills and custom `.agent` files in the tested development tenant:
 
 - `CONFIRMED_TENANT_OBSERVATION`: Generic PnP file upload of `SKILL.md` beneath `AgentAssets/Skills/<skill-name>/SKILL.md` succeeded and was discovered by the same-site custom agent through matching trigger wording.
 - `CONFIRMED_TENANT_OBSERVATION`: The tested custom agent `.agent` JSON did not require an explicit skill reference to discover the same-site native skill.

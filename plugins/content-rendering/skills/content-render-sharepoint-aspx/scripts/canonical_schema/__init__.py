@@ -1,1 +1,0 @@
-../../../../scripts/canonical_schema/__init__.py

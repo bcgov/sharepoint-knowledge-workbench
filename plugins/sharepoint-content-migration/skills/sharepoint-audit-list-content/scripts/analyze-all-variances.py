@@ -1,1 +1,0 @@
-../../../scripts/content-audit/analyze-all-variances.py

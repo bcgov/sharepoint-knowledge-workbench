@@ -1,0 +1,1 @@
+../../../scripts/rendering/template_validation.py

@@ -1,0 +1,1 @@
+../../../scripts/content-publication/sharepoint_publish_plan.py

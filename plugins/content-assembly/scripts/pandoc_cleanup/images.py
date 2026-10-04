@@ -1,1 +1,0 @@
-../../../content-extraction/scripts/pandoc/images.py

@@ -1,1 +1,0 @@
-../../../scripts/component_mapping.py

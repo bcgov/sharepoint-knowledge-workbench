@@ -2,7 +2,7 @@
 
 **Primary source:** [SharePoint Showcase: AI-Forward Content Creation & Curation for the Modern Intranet](https://techcommunity.microsoft.com/blog/spblog/sharepoint-showcase-ai-forward-content-creation--curation-for-the-modern-intrane/4515947)  
 **Publication context:** Microsoft SharePoint Blog / Microsoft 365 Community Conference 2026  
-**Purpose:** Summarize the source and explain how the announced direction supports the proposed AI-Assisted SharePoint Knowledge Workbench for a government environment.  
+**Purpose:** Summarize the source and explain how the announced direction supports the proposed AI-Assisted SharePoint Knowledge Workbench for a regulated environment.  
 **Status:** Research and architecture input; not implementation authorization.
 
 ## 1. Executive Summary
@@ -16,7 +16,7 @@ CREATION
 Draft, edit, restructure, format, and visualize content
 
 CURATION
-Keep intranet content accurate, relevant, discoverable, and trustworthy
+Keep site content accurate, relevant, discoverable, and trustworthy
 ```
 
 The source states that new AI capabilities in public preview can generate and edit SharePoint pages from natural-language instructions. Authors can move iteratively between traditional page editing and AI-assisted drafting, rewriting, summarizing, restructuring, moving, updating, and formatting content.
@@ -69,7 +69,7 @@ The intended benefit is to help teams communicate complex information more clear
 
 The source emphasizes that creation is only part of the content-management problem. SharePoint also needs ongoing curation so content remains useful after publication.
 
-The source describes AI-assisted site improvement and curation as supporting site owners in maintaining intranet quality at scale with less manual effort.
+The source describes AI-assisted site improvement and curation as supporting site owners in maintaining site quality at scale with less manual effort.
 
 Related reporting on the announcement identifies curation scenarios such as:
 
@@ -350,7 +350,7 @@ Start from idea, template, existing page, or structured topic
 → approve and publish
 ```
 
-### Curate an Intranet or Knowledge Site
+### Curate a Site or Knowledge Site
 
 ```text
 Analyze site and user signals
@@ -372,9 +372,9 @@ Inventory candidate sources
 → monitor
 ```
 
-## 11. Government-Specific Requirements
+## 11. Regulated-Environment Requirements
 
-The product direction is useful, but government adoption requires additional controls.
+The product direction is useful, but enterprise adoption requires additional controls.
 
 ### Human Accountability
 
@@ -415,7 +415,7 @@ Curating content for Copilot or agents must therefore include:
 
 ### Records and Retention
 
-Retiring low-use content is not the same as deleting a government record.
+Retiring low-use content is not the same as deleting a record.
 
 A curation workflow must distinguish:
 
@@ -494,7 +494,7 @@ Update standards, schemas, skills, templates, and content
 
 ## 13. Refined Vision Statement
 
-> The AI-Assisted SharePoint Knowledge Workbench supports both content creation and continuous curation. It helps government teams move from an idea or legacy document to structured, reviewed, approved, discoverable, and reusable knowledge. It combines AI-assisted drafting and restructuring, deterministic validation, SharePoint metadata and workflows, publication assembly, knowledge-health monitoring, and governed Copilot and agent experiences. It preserves human accountability and separates recommendations from authorized actions.
+> The AI-Assisted SharePoint Knowledge Workbench supports both content creation and continuous curation. It helps regulated teams move from an idea or legacy document to structured, reviewed, approved, discoverable, and reusable knowledge. It combines AI-assisted drafting and restructuring, deterministic validation, SharePoint metadata and workflows, publication assembly, knowledge-health monitoring, and governed Copilot and agent experiences. It preserves human accountability and separates recommendations from authorized actions.
 
 ## 14. Practical Pilot Implications
 
@@ -578,7 +578,7 @@ The source material identifies product direction and preview capabilities, but t
 - administrative controls;
 - APIs;
 - deployment automation;
-- government compliance configuration;
+- compliance configuration;
 - full evaluation criteria.
 
 Before implementation, each proposed capability must be verified against current Microsoft documentation and the target tenant's approved capabilities.

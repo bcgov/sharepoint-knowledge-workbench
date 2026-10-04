@@ -9,13 +9,11 @@ verification of the 5 existing SampleManual `.aspx`-grounded agents on `TargetSi
 In the generic ready-made Copilot, typed **"please launch the Sample-ASPX-Only-Test agent"** →
 response: "Yes — I launched: `Sample-ASPX-Only-Test.agent`,
 `/SitePages/TargetPilotKnowledgePages/Sample-ASPX-Only-Test.agent`". Then asked the deliberately
-out-of-scope question **"What is the maximum sentence length for a criminal assault charge in
-BC?"** — the real `Sample-ASPX-Only-Test.agent` instructions require refusing (never search
+out-of-scope question **"What is the highest mountain in South America?"** — the real `Sample-ASPX-Only-Test.agent` instructions require refusing (never search
 images/other sources, explicitly state when a procedure is not documented). Instead, the response:
 
-- Answered with real, substantive Criminal Code sentencing information (general legal knowledge,
-  not SampleManual content) — the exact behavior `Sample-ASPX-Only-Test`'s instructions prohibit.
-- Cited `protection-orders--2955bfec.aspx`, `Home.aspx`, and **+9** more — a broad, **site-wide**
+- Answered with real, substantive general-knowledge information (not SampleManual content) — the exact behavior `Sample-ASPX-Only-Test`'s instructions prohibit.
+- Cited `topic-a--2955bfec.aspx`, `Home.aspx`, and **+9** more — a broad, **site-wide**
   result set, not scoped to `TargetPilotKnowledgePages`. `Home.aspx` is not a SampleManual topic at all.
 
 **Conclusion: Mechanism B (self-answering with borrowed framing) is confirmed; Mechanism A (real
@@ -89,13 +87,12 @@ prescriptive:
 > `/SitePages/TargetPilotKnowledgePages`."
 
 Published, then the exact same out-of-scope question was asked again via **path 1** (opening
-`Sample-ASPX-Only-Test.agent` directly, not the generic Copilot): "What is the maximum sentence
-length for a criminal assault charge in BC?"
+`Sample-ASPX-Only-Test.agent` directly, not the generic Copilot): "What is the highest
+mountain in South America?"
 
-**Result: correct refusal.** The agent explicitly named its actual scope (SampleManual civil file
-management, appearances, orders, warrants, reports, access levels), stated plainly that criminal
-sentencing "is not documented in the available SampleManual `.aspx` procedure pages," and correctly
-declined to answer from general knowledge — citing only `data-capture-standards--d1d8e601.aspx`
+**Result: correct refusal.** The agent explicitly named its actual scope (SampleManual procedures), stated plainly that that
+topic "is not documented in the available SampleManual `.aspx` procedure pages," and correctly
+declined to answer from general knowledge — citing only `topic-b--d1d8e601.aspx`
 (+1), a real sample topic file, not the broad site-wide/`Home.aspx` leakage seen via path 2.
 
 **Conclusion:** path 1 (direct `.agent`-file access) is confirmed reliable for both grounding and

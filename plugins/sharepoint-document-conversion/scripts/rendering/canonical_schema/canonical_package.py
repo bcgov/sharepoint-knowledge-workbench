@@ -1,0 +1,1 @@
+../../assembly/canonical_schema/canonical_package.py

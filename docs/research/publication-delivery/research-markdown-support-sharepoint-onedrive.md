@@ -78,7 +78,7 @@ Microsoft explicitly positions SharePoint and OneDrive as places to manage Markd
 
 This supports the idea that Markdown can participate in familiar Microsoft 365 file-management patterns rather than being treated only as an external developer artifact.
 
-The announcement does not, by itself, define the government-specific approval, records, privacy, security, retention, or source-of-truth model required for this project. Those remain architecture and organizational decisions.
+The announcement does not, by itself, define the organization-specific approval, records, privacy, security, retention, or source-of-truth model required for this project. Those remain architecture and organizational decisions.
 
 ### 2.5 Markdown for AI Context and Skills
 
@@ -152,7 +152,7 @@ That supports the broader workbench vision in which Markdown can represent:
 
 These artifacts should not all share the same schema or governance rules merely because all use the `.md` extension.
 
-## 4. Potential Government Knowledge-Management Model
+## 4. Potential Knowledge-Management Model
 
 Native Markdown support enables a possible division of responsibility.
 
@@ -309,7 +309,7 @@ A deliberate authority matrix remains required.
 | Audience | Controlled vocabulary, human-confirmed |
 | Validation status | Validation pipeline |
 | Renderer version | Release manifest |
-| Sensitivity | Approved government classification process |
+| Sensitivity | Approved organizational classification process |
 | Records classification | Approved records-management process |
 
 A metadata-enrichment skill may propose values, but authoritative governance values require confirmed sources or accountable decisions.
@@ -517,7 +517,7 @@ The Microsoft announcement does not provide a complete accessibility conformance
 
 Native support increases usability and discoverability. That makes governance more important, not less important.
 
-A government implementation should explicitly address:
+A regulated implementation should explicitly address:
 
 - Protect A/Protected B or other applicable classification rules;
 - appropriate SharePoint site and library permissions;
@@ -616,7 +616,7 @@ Instead:
 
 ## 16. Research-Informed Vision Statement
 
-> Native Markdown support in SharePoint and OneDrive makes Markdown a more credible bridge between human-maintained structured content, Microsoft 365 governance, and AI-assisted work. For the proposed government knowledge workbench, Markdown can serve as a readable structured and instructional format, while SharePoint provides business-facing file management, metadata, versioning, permissions, and workflow capabilities. The implementation must still preserve explicit source-of-truth ownership, deterministic validation, approval boundaries, records and security controls, and independent evaluation of Copilot and agent grounding.
+> Native Markdown support in SharePoint and OneDrive makes Markdown a more credible bridge between human-maintained structured content, Microsoft 365 governance, and AI-assisted work. For the proposed knowledge workbench, Markdown can serve as a readable structured and instructional format, while SharePoint provides business-facing file management, metadata, versioning, permissions, and workflow capabilities. The implementation must still preserve explicit source-of-truth ownership, deterministic validation, approval boundaries, records and security controls, and independent evaluation of Copilot and agent grounding.
 
 ## 17. Source and Research Limitations
 
@@ -638,7 +638,7 @@ The source material does not fully specify:
 - tenant-by-tenant rollout state;
 - agent-grounding compatibility across products;
 - API behaviour;
-- government records, privacy, security, and approval patterns.
+- records, privacy, security, and approval patterns.
 
 All implementation decisions should be verified in the target tenant and against current Microsoft documentation before operational use.
 

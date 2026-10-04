@@ -1,0 +1,17 @@
+{
+    "name": "sharepoint-copilot-agents-and-skills",
+    "version": "0.1.0-alpha.1",
+    "description": "Authors, deploys, verifies, backs up and restores SharePoint Copilot agents (.agent packages and templates) and native SKILL.md skills in a tenant's AgentAssets library. Authoring is zero tenant I/O; deploy, restore and undeploy are dry-run by default, with writes gated behind -Execute (restore and undeploy also require an exact confirmation); library provisioning is the exception and writes immediately when run.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "copilot-agent",
+        "native-skill",
+        "agentassets",
+        "tenant-pilot"
+    ]
+}

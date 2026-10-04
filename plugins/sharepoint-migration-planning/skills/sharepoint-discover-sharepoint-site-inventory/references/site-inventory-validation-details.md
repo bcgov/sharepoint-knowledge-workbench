@@ -1,1 +1,0 @@
-../../../references/site-inventory-validation-details.md

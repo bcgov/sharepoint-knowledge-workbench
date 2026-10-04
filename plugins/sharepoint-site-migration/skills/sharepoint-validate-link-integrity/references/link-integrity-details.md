@@ -1,0 +1,1 @@
+../../../references/link-remediation/link-integrity-details.md

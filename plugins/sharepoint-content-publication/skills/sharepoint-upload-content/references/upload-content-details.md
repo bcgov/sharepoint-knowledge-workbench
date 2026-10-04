@@ -1,1 +1,0 @@
-../../../references/upload-content-details.md

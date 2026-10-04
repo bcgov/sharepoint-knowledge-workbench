@@ -193,7 +193,7 @@ View permission
 
 Microsoft also documents that permission inheritance can be broken on the Agent Assets library when a more restrictive model is required.
 
-For government use, the default may be too broad for some sites. A proposed operating model is:
+For regulated use, the default may be too broad for some sites. A proposed operating model is:
 
 ```text
 Site viewer
@@ -383,7 +383,7 @@ An agent may use supported native skills, but the agent definition and skill def
 The workbench can be treated as a compiler, test environment, and release-management system for SharePoint-native artifacts.
 
 ```text
-Government standards and business intent
+Organizational standards and business intent
         +
 Structured content and metadata
         +
@@ -623,7 +623,7 @@ Before a SharePoint agent is accepted, verify:
 - responses are checked for grounding and permission behaviour;
 - the owner, review date, source scope, and deployment evidence are recorded.
 
-## 21. Government Governance Requirements
+## 21. Governance Requirements
 
 ### 21.1 Skill Authoring Rights
 

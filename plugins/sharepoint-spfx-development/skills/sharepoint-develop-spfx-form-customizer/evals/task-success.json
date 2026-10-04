@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Create a Form Customizer so New Review items open with the parent Author from ?SelectedID.",
+    "expected_behavior": [
+      "Confirms a Form Customizer is the right pattern and gathers requirements without guessing",
+      "Validates SelectedID as a positive integer and saves the lookup as the integer Id (RelatedAuthorId), never display text",
+      "Plans packaging, deployment and association as separate steps"
+    ]
+  },
+  {
+    "query": "I uploaded the app and added it to the site. Are we done?",
+    "expected_behavior": [
+      "Says no: deployed is not associated, and SharePoint silently keeps serving the default form until the component ID is associated with the content type",
+      "Prompts immediately for the association step and names which checkpoint is outstanding",
+      "Runs scripts/associate-form-customizer.ps1 as a dry run first, and only passes -Execute after review"
+    ]
+  },
+  {
+    "query": "Make the form redirect to whatever URL is in the Source query string.",
+    "expected_behavior": [
+      "Refuses an unvalidated redirect and explains the open-redirect risk",
+      "Allows only a relative path or a same-origin URL, falling back to a safe default",
+      "Does not follow an external origin"
+    ]
+  }
+]

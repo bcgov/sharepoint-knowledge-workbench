@@ -1,1 +1,0 @@
-../../../references/extract-links-details.md

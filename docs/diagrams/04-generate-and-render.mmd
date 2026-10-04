@@ -4,11 +4,11 @@ flowchart TD
     Derived["Generate Derived Elements by Code\nTable of contents\nNavigation\nIndexes\nKeyword summaries\nCross-document listings"]
     Select["Use Confirmed Output Choice\nDestination format + template profile"]
     Protocol["Renderer Protocol\nStructured package is the only content input"]
-    Renderer["Phase 1 Renderer\nMultipage Markdown"]
+    Renderer["content-render-markdown-pages\ncontent-render-sharepoint-pages"]
     Pages["Create Pages in Manifest Order"]
     Index["Create Path-Aware Index\nfrom structured structure"]
     Media["Copy and Rewrite Media\nfor output-relative paths"]
-    Validate{"Validate Rendered Output\nPage, index and media links\nCounts, traceability, orphans and stale files"}
+    Validate{"content-validate-rendered-output\nCheck page, index and media links\nCounts, traceability, orphans and stale files"}
     Fail["FAIL\nRetain staging\nProtect accepted output"]
     Promote["Atomic Promotion"]
     Output["Accepted Rendered Output\nindex.md + pages + media\nrenderer-validation.json"]

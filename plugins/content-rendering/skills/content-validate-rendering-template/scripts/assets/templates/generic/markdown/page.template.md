@@ -1,1 +1,0 @@
-../../../../../../../assets/templates/generic/markdown/page.template.md
