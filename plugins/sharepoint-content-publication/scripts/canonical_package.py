@@ -1,1 +1,0 @@
-../../content-assembly/scripts/canonical_package.py

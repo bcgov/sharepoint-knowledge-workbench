@@ -1,0 +1,1 @@
+../../../../references/assembly/contracts/publication-map.md

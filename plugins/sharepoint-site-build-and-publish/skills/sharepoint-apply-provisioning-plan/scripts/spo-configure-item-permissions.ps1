@@ -1,0 +1,1 @@
+../../../scripts/provisioning/spo-configure-item-permissions.ps1

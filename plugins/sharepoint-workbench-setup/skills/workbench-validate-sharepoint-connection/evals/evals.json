@@ -1,0 +1,15 @@
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Confirms the app registration/connection actually works against a live tenant -- provides real, runnable network-reachability + interactive-authentication scripts, and validates the Entra ID app registration itself (OAuth2 device-code + _api/contextinfo REST smoke test, plus a permission-boundary proof). Also validates connection/profile configuration correctness before any of that (always PASS or FAIL, never WARN).",
+    "prompt": "Use the validate-sharepoint-connection skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

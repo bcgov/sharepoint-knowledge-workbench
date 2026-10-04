@@ -1,0 +1,1 @@
+../../../scripts/provisioning/spo-provision-site.ps1

@@ -1,0 +1,1 @@
+../../../../sharepoint-site-migration/scripts/page-modernization-execution/Get-WorkbenchConnectionConfig.ps1

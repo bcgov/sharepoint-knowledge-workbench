@@ -2,7 +2,7 @@
 
 > **Status: target-state vision, not built.** Unlike every other doc in this folder, this use
 > case does not describe a working plugin — it describes where the workbench is headed once
-> [Document Conversion](document-conversion.md) is treated as a one-time extraction step rather
+> [Document Conversion](sharepoint-document-conversion.md) is treated as a one-time extraction step rather
 > than the end state. Do not treat anything below as available today.
 
 Move knowledge management itself — not just the initial Word-to-Markdown conversion — from
@@ -15,7 +15,7 @@ authority and accountable people remaining responsible for approval and risk.
 
 ## When you'd reach for this (once built)
 
-You've converted a manual once (via [Document Conversion](document-conversion.md)) and now need
+You've converted a manual once (via [Document Conversion](sharepoint-document-conversion.md)) and now need
 to **operate** it: someone edits canonical content after cutover, a schema needs to be designed
 from a plain-language request, a change needs review/approval before republishing, or a SharePoint
 knowledge agent needs to be created and evaluated as a governed product rather than an ungoverned
@@ -38,9 +38,9 @@ approval, security/records classification, or retention decisions.
 
 | Already built | Still just proposed |
 |---|---|
-| Extract/analyze/confirm/convert/render pipeline (4 plugins) | Natural-language → governed SharePoint schema design |
-| SharePoint content publication (`sharepoint-content-publication`) | AI-assisted content classification, cleanup, and impact analysis |
-| Agent/native-skill lifecycle tooling (`sharepoint-agents-and-skills`) | Governed review/approval workflow generation |
+| Extract/analyze/confirm/convert/render pipeline (`sharepoint-document-conversion`) | Natural-language → governed SharePoint schema design |
+| SharePoint content publication (`sharepoint-site-build-and-publish`) | AI-assisted content classification, cleanup, and impact analysis |
+| Agent/native-skill lifecycle tooling (`sharepoint-copilot-agents-and-skills`) | Governed review/approval workflow generation |
 | — | SharePoint knowledge agents evaluated as a governed product (readiness/drift monitoring) |
 | — | Continuous knowledge-health dashboards (stale/orphan/duplicate detection) |
 | — | The ongoing SharePoint-edit → re-render → republish loop (placeholder Phase 6.5, `NOT_TRIGGERED`) |

@@ -1,0 +1,1 @@
+../../../scripts/provision-sample-master-detail-schema.ps1

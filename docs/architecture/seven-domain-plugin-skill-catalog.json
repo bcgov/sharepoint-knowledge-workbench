@@ -1,0 +1,707 @@
+{
+  "schema": 1,
+  "package_count": 7,
+  "skill_count": 104,
+  "unique_skill_names": 104,
+  "packages": [
+    {
+      "name": "sharepoint-workbench-setup",
+      "version": "0.1.0-alpha.1",
+      "description": "Foundational access, connection and project/document configuration for the whole workbench: guides app-registration requests (unattended App-Only/certificate and interactive/delegated), generates the root SharePoint connection config, runs the document-workflow intake wizard, validates the SharePoint connection and written configuration/profile files, resolves document input/output paths, and provides live network-reachability, authentication and PnP effective-capability probes. Zero tenant I/O by default and zero document extraction/rendering -- live probes are opt-in scripts you run yourself.",
+      "agents": [],
+      "skill_count": 5,
+      "skills": [
+        {
+          "name": "workbench-initialize-connection-config",
+          "description": "Creates the root, git-ignored config.psd1 from the canonical config.psd1.example template: Entra ID app-registration details (TenantId, ClientId, AuthenticationMode) and the target SharePoint site (SiteUrl). Use when setting up a workbench connection for the first time. Generating the file is the default action and never connects to anything; a separate, explicit connector is needed for a read-only connection test. Mandatory answers: SiteUrl, TenantId, ClientId, AuthenticationMode.",
+          "previous_name": "workbench-initialize-workbench-config",
+          "previous_plugin": "workbench-setup"
+        },
+        {
+          "name": "workbench-initialize-document-workflow",
+          "description": "Interactive intake wizard that records a source document's identity, processing stages, output formats (only implemented renderer profiles are executable choices), publication locations, agent-grounding representations and governance settings, then writes document-workflows/{DocumentId}.workflow.psd1 and publication-profiles/{DocumentId}.publication.psd1. Use when setting up a new document or revision for conversion or publication. Ask, propose defaults, validate, display, write, stop; never extracts, renders, or connects to SharePoint.",
+          "previous_name": "workbench-initialize-document-workflow",
+          "previous_plugin": "workbench-setup"
+        },
+        {
+          "name": "workbench-request-app-registration",
+          "description": "Guides the pre-work before any SharePoint use case that connects to a live tenant. Documents the two app-registration types (unattended App-Only/certificate for scheduled jobs, interactive/delegated for human-operator provisioning), generates a filled service-request document for your tenant or cloud administrator, and gives the setup sequence once granted (Entra API permissions, admin consent, Enterprise Application user assignment, and the separate PnP PowerShell site-level grant). Use before initializing config or running live checks. No network I/O; templating and reference data only.",
+          "previous_name": "workbench-request-app-registration",
+          "previous_plugin": "workbench-setup"
+        },
+        {
+          "name": "workbench-resolve-document-paths",
+          "description": "Resolves a DocumentId plus already-parsed connection, document-workflow and publication-profile dicts into the concrete export paths and arguments the two SharePoint analysis plugins (sharepoint-site-assessment, sharepoint-site-migration) need, checks each path against the real filesystem, and prints the resolved invocations. Use when preparing to run those plugins for a document. Never executes a downstream plugin; print, don't execute.",
+          "previous_name": "workbench-resolve-workbench-paths",
+          "previous_plugin": "workbench-setup"
+        },
+        {
+          "name": "workbench-validate-sharepoint-connection",
+          "description": "Confirms the app registration and connection work against a live tenant. Validates config and profile correctness (always PASS or FAIL), validates the Entra ID app registration (device-code auth plus an _api/contextinfo REST smoke test and a permission-boundary proof), and provides network-reachability and interactive sign-in scripts. Use before another plugin or a live tenant operation relies on the workbench environment.",
+          "previous_name": "workbench-validate-workbench-environment",
+          "previous_plugin": "workbench-setup"
+        }
+      ]
+    },
+    {
+      "name": "sharepoint-document-conversion",
+      "version": "0.1.0-alpha.1",
+      "description": "SharePoint document conversion: extracts a source .docx into a normalized source document, analyzes topic structure and chunking strategy, assembles a validated canonical content package, renders it to multipage Markdown or SharePoint modern pages through local rendering templates, validates the rendered output, and provides single-topic editorial review of rendered Markdown or published pages. Every workflow is local or read-only; nothing in this package writes to a tenant.",
+      "agents": [],
+      "skill_count": 11,
+      "skills": [
+        {
+          "name": "content-analyze-document-structure",
+          "description": "Analyzes normalized extracted document content to identify heading hierarchy, topic boundaries, cross-references, structural deficiencies, and a proposed conversion plan for human review. Use after source-document extraction. Does not parse DOCX files, assemble the structured content package, render outputs, or publish to SharePoint.",
+          "previous_name": "content-analyze-document-structure",
+          "previous_plugin": "content-structure-analysis"
+        },
+        {
+          "name": "content-assemble-structured-content",
+          "description": "Assembles a validated structured content package from a human-confirmed conversion plan and its source document, with stable identities, source lineage, hashes, manifests and publication mappings. Use after the conversion plan has been confirmed. Does not extract source documents, make unconfirmed topic decisions, render output formats, or publish to SharePoint.",
+          "previous_name": "content-assemble-structured-content",
+          "previous_plugin": "content-assembly"
+        },
+        {
+          "name": "content-compare-rendered-output",
+          "description": "Compares a freshly produced rendered-output tree (Markdown or ASPX) against a recorded golden-master baseline for byte-identical fidelity, checking file-set completeness and byte-for-byte content while excluding run-specific files. Use to prove a refactor or re-render reproduces known-good output. A standalone, reusable golden-master comparison primitive.",
+          "previous_name": "content-compare-rendered-output",
+          "previous_plugin": "content-rendering"
+        },
+        {
+          "name": "content-create-markdown-rendering-template",
+          "description": "Instantiates a new local Markdown rendering (page-structure) template file on disk from the plugin's canonical generic or standard-manual starter, with heading, body and media placeholders. Use when you need a new page layout template for Markdown output. Not an agent or native-skill instruction template.",
+          "previous_name": "content-create-markdown-rendering-template",
+          "previous_plugin": "content-rendering"
+        },
+        {
+          "name": "content-create-sharepoint-rendering-template",
+          "description": "Instantiates a new local SharePoint modern-page (ASPX) rendering (page-structure) template file on disk from the plugin's canonical generic or standard-manual starter, backed by the confirmed Add-PnPPage and Add-PnPPageTextPart fragment shape. Use when you need a new page layout template for SharePoint modern pages. Not an agent or native-skill instruction template, and never a raw wrapped .aspx page (confirmed Access denied).",
+          "previous_name": "content-create-aspx-rendering-template",
+          "previous_plugin": "content-rendering"
+        },
+        {
+          "name": "content-extract-docx",
+          "description": "Runs pandoc against a source .docx and produces a normalized-source-document contract (markdown text, media files, heading structure, defect signals, statistics) for downstream structure analysis. Use as the first step when converting a Word document into structured content. Observes the source only; never interprets strategy or writes structured content.",
+          "previous_name": "content-extract-docx",
+          "previous_plugin": "content-extraction"
+        },
+        {
+          "name": "content-render-markdown-pages",
+          "description": "Renders an accepted structured content package into a multipage Markdown publication output, one page per chunk with a path-aware index, rewritten media and page-relative links, validated and atomically promoted. Use after the package has been built and validated. Does not extract source documents, determine topic boundaries, assemble the package, or publish to SharePoint.",
+          "previous_name": "content-render-multipage-markdown",
+          "previous_plugin": "content-rendering"
+        },
+        {
+          "name": "content-render-sharepoint-pages",
+          "description": "Renders an accepted structured content package into SharePoint modern-page-ready artifacts (an HTML fragment per chunk plus a page-manifest.json) for the confirmed Add-PnPPage and Add-PnPPageTextPart route. Use when preparing content for SharePoint publication. Does not upload to SharePoint, does not attempt raw .aspx upload (confirmed Access denied), and does not extract source documents or determine topic boundaries.",
+          "previous_name": "content-render-sharepoint-aspx",
+          "previous_plugin": "content-rendering"
+        },
+        {
+          "name": "content-review-manual-topic",
+          "description": "Reviews exactly one explicitly selected manual topic page (rendered Markdown in the repository runtime, or the published page in the native SharePoint runtime) for content completeness, section structure, cross-reference consistency, and terminology clarity against publication standards. Read-only; consults at most two directly referenced topics and never reviews a whole library.",
+          "previous_name": "sharepoint-review-manual-topics",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "content-validate-rendered-output",
+          "description": "Validates a staged rendered-output directory (Markdown or ASPX) against the canonical package it was rendered from, and promotes it atomically on PASS. Use after rendering and before accepting or publishing a render. Detects missing or orphan pages, broken links and media references, path traversal, stale source content, and content not traceable to its source chunk. Always PASS or FAIL, never WARN.",
+          "previous_name": "content-validate-rendered-output",
+          "previous_plugin": "content-rendering"
+        },
+        {
+          "name": "content-validate-rendering-template",
+          "description": "Validates a RenderingTemplate (from the Markdown or ASPX template-creation skills) for schema, placeholder, required-section and format-profile correctness. Use before relying on a template. Checks the template definition itself, not rendered output, which content-validate-rendered-output handles.",
+          "previous_name": "content-validate-rendering-template",
+          "previous_plugin": "content-rendering"
+        }
+      ]
+    },
+    {
+      "name": "sharepoint-site-assessment",
+      "version": "0.1.0-alpha.1",
+      "description": "Read-only assessment of classic and modern SharePoint sites: analyzes exported inventories and schemas offline (per-page migration complexity scoring, web-part behavior grouping, site navigation depth, custom-form classification, permissions and broken inheritance, schema export comparison, choice columns, calculated columns) and collects them live with read-only PnP.PowerShell/on-prem collectors for lists, libraries, content types and pages. Analysis rules and behavioral knowledge are caller-supplied, never built in; no workflow writes to a tenant.",
+      "agents": [
+        "sharepoint-discovery-agent"
+      ],
+      "skill_count": 12,
+      "skills": [
+        {
+          "name": "sharepoint-analyze-custom-forms",
+          "description": "Analyses an exported classic SharePoint custom list-form inventory, classifying each form as out-of-box, script-based, or InfoPath/custom-layout, and attaches a caller-supplied modernization strategy per classification. Use when planning a classic-to-modern migration and deciding which list forms carry forward as-is. Read-only; consumes an export you provide and never contacts a tenant.",
+          "previous_name": "sharepoint-analyze-custom-forms",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-analyze-page-inventory",
+          "description": "Analyses an exported classic SharePoint page inventory, scoring per-page migration complexity, classifying web-part categories and emitting a disposition hint per page (migrate as-is, rebuild, retire), using a caller-supplied rules file. Use when planning a classic-to-modern migration and deciding which pages are cheap to move. Read-only; consumes an export you provide and never contacts a tenant.",
+          "previous_name": "sharepoint-analyze-page-inventory",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-analyze-permissions",
+          "description": "Analyses an exported classic SharePoint permissions snapshot, deriving groups, evaluated objects and the subset with broken permission inheritance, to produce a group provisioning worksheet and a broken-inheritance exception report. Use when planning a classic-to-modern migration and you need to know which groups exist and which lists or libraries must be explicitly re-provisioned. Read-only; consumes an export you provide and never contacts a tenant.",
+          "previous_name": "sharepoint-analyze-permissions",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-analyze-site-navigation",
+          "description": "Analyses an exported classic SharePoint site navigation tree (top nav and quick launch), flattening it with per-node depth and child counts and computing max-depth statistics, to produce a navigation architecture summary. Use when planning a classic-to-modern migration and sizing navigation before mapping it to hub or global navigation. Read-only; consumes an export you provide and never contacts a tenant.",
+          "previous_name": "sharepoint-analyze-site-navigation",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-analyze-webpart-behavior",
+          "description": "Groups classic SharePoint web parts by functional behaviour (inline script, external helper scripts, text-only, empty, or unretrievable) so near-duplicate instances collapse into a reviewable set. Use when a modernization review should cover each behaviour once instead of each instance. Classification knowledge is caller-supplied via a KnowledgeBase; read-only.",
+          "previous_name": "sharepoint-analyze-webpart-code",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-audit-managed-metadata",
+          "description": "Audits a live SharePoint site for Managed Metadata (Taxonomy) usage, covering term group and term-set discovery plus every list, library and site column bound to a Taxonomy field, for modern SPO (PnP.PowerShell) or legacy on-prem SP2016 (NTLM/Kerberos REST plus CSOM). Use ahead of a migration or schema-design decision to learn whether and where a site uses Managed Metadata.",
+          "previous_name": "sharepoint-audit-managed-metadata",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-audit-onprem-schema-drift",
+          "description": "Compares field schemas between a set of source lists and a set of destination lists on a legacy on-prem SP2016 site, reporting missing fields, type mismatches, required-field mismatches, broken lookup references and workflow associations. Use for schema-drift root-cause analysis when a data copy or workflow fails, or ahead of a migration that depends on matching schemas.",
+          "previous_name": "sharepoint-audit-onprem-schema-drift",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-collect-site-inventory",
+          "description": "Collects a live SharePoint inventory: lists and libraries, list fields, library files and content-type/schema exports (modern SPO via PnP.PowerShell), plus full site crawls, quick item and storage counts and bulk .aspx page downloads (legacy on-prem SP2016 via NTLM/Kerberos REST). Use when you need a fresh export for this plugin's read-only analysis skills or for ad hoc review.",
+          "previous_name": "sharepoint-collect-sharepoint-inventory",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-compare-schema-exports",
+          "description": "Compares two exported SharePoint schema snapshots (lists, content types, site columns, per-list fields) and reports additions, removals and per-property changes, plus a duplicate-display-name audit. Use to answer what actually differs between two environments before a migration, a promotion or a post-deployment check. Environment labels and compared properties are caller-supplied. Read-only; consumes exports, never contacts a tenant.",
+          "previous_name": "sharepoint-audit-schema",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-extract-calculated-columns",
+          "description": "Finds calculated-type fields across an exported SharePoint schema and reports each one's Formula and any [FieldName]-referenced field names, distinguishing \"formula captured\" from \"formula not present in this export\" rather than fabricating one. Use for migration planning, or for dependency analysis before renaming or removing a referenced field. Read-only; consumes an export, never contacts a tenant.",
+          "previous_name": "sharepoint-extract-calculated-columns",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-extract-choice-columns",
+          "description": "Inventories Choice and MultiChoice fields from an exported SharePoint schema and renders them as a list and internal-name keyed overrides mapping, distinguishing \"no options defined\" from \"options unknown\". Use when you need the real option sets behind a site's Choice columns for migration mapping, validation rules or seeding a provisioning template. Read-only; the group filter is opt-in with no default.",
+          "previous_name": "sharepoint-extract-choice-fields",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-generate-assessment-reports",
+          "description": "Assembles a set of Markdown discovery reports (master page and chrome, script editor and custom code, problematic web parts, unique web part code review catalog, security and permissions, custom list forms) from previously collected SharePoint JSON/CSV export files. Use once discovery collection has produced its raw files and you need readable reports for human review. Pure local report assembly; no tenant I/O.",
+          "previous_name": "sharepoint-generate-discovery-report-set",
+          "previous_plugin": "sharepoint-discovery"
+        }
+      ]
+    },
+    {
+      "name": "sharepoint-site-build-and-publish",
+      "version": "0.1.0-alpha.1",
+      "description": "Creates, configures and publishes SharePoint content: schema definitions (generate, scaffold, compare) and declarative column, content-type, list/library and calendar reconciliation plans (zero tenant I/O), real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions and taxonomy, and safe content publication (Markdown files, modern pages, page copy plans, publication-state comparison and removal). Every writing script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken.",
+      "agents": [
+        "sharepoint-validation-agent"
+      ],
+      "skill_count": 33,
+      "skills": [
+        {
+          "name": "sharepoint-add-list-column",
+          "description": "Adds a column directly to an existing SharePoint list or library. Use when a column belongs to one list only. Dry-run by default; real writes require -Execute and confirmation token ADD-SPO-LIST-COLUMN.",
+          "previous_name": "sharepoint-add-list-column",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-add-list-item",
+          "description": "Creates new list items in a SharePoint list with given field values. Use to seed or load items into an existing list. Dry-run by default; real writes require -Execute and confirmation token ADD-SPO-LIST-ITEM.",
+          "previous_name": "sharepoint-add-list-item",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-apply-page-publication-plan",
+          "description": "Executes a PublishPlan (built by sharepoint-plan-page-publication or sharepoint-publish-markdown-files) either through an explicitly injected Python uploader or through a real PnP executor that creates and publishes modern pages. Use to carry out a page-publication plan. Zero tenant I/O by default.",
+          "previous_name": "sharepoint-upload-content",
+          "previous_plugin": "sharepoint-content-publication"
+        },
+        {
+          "name": "sharepoint-apply-provisioning-plan",
+          "description": "The real PnP.PowerShell executors for sharepoint-site-build-and-publish's plan JSON, covering create, update and delete of lists, libraries, site columns and content types, content-type attach and detach, and the granular and site-level operations (views, items, pages, web parts, permissions, navigation, term sets, branding, hub sites, re-index). Use once a plan has been approved, to pick the right executor script. Dry-run by default; every write is gated behind -Execute and an operation-specific -ConfirmToken.",
+          "previous_name": "sharepoint-apply-provisioning-plan",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-compare-publication-state",
+          "description": "Read-only comparison of an expected UploadPackage against the actual observed SharePoint library state (a CSV export), reporting missing, duplicate, mismatched or unexpected items. Use after an upload to check that the library matches the package. Reports differences only: applies no fixes and performs no tenant I/O.",
+          "previous_name": "sharepoint-reconcile-sharepoint-publication",
+          "previous_plugin": "sharepoint-content-publication"
+        },
+        {
+          "name": "sharepoint-compare-schema-definitions",
+          "description": "Compares schema DEFINITIONS (the declarative SiteSchemaDefinition shape) against each other, or a schema definition against an exported SchemaExport, answering what would change if a target definition were applied against current state. Use after generating or hand-authoring a target definition. Read-only; consumes local files and objects only, never contacts a tenant, never writes an apply plan.",
+          "previous_name": "sharepoint-diff-sharepoint-schema",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-configure-column-formatting",
+          "description": "Applies JSON custom column formatting and custom renderers to SharePoint fields. Use to change how a column displays. Dry-run by default; real writes require -Execute and confirmation token CONFIGURE-SPO-COLUMN-FORMATTING.",
+          "previous_name": "sharepoint-configure-column-formatting",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-configure-library-settings",
+          "description": "Configures advanced SharePoint document library version limits, content approval and draft visibility settings. Use to tune versioning and approval on a library. Dry-run by default; real writes require -Execute and confirmation token CONFIGURE-SPO-LIBRARY-SETTINGS.",
+          "previous_name": "sharepoint-configure-library-settings",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-copy-page-between-sites",
+          "description": "Builds a safe, human-reviewed plan for copying or promoting an existing SharePoint Online Site Page, such as an .aspx page in Site Pages, from one SPO site to another. Use for TEST-to-PROD page promotion requests. Performs no tenant writes by default, runs a reviewed copy only with -Execute and a confirmation token, and avoids raw .aspx file upload.",
+          "previous_name": "sharepoint-copy-page-between-sites",
+          "previous_plugin": "sharepoint-page-modernization-execution"
+        },
+        {
+          "name": "sharepoint-create-content-type",
+          "description": "Creates new SharePoint content types, binds field links and attaches content types to target lists. Use to define a reusable content type. Dry-run by default; real writes require -Execute and confirmation token PROVISION-SPO-CONTENT-TYPES.",
+          "previous_name": "sharepoint-create-content-type",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-create-document-library",
+          "description": "Creates a new SharePoint document library (Template 101) using PnP.PowerShell. Use to add a document library to a site. Dry-run by default; real writes require -Execute and confirmation token PROVISION-SPO-LIST.",
+          "previous_name": "sharepoint-create-document-library",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-create-list",
+          "description": "Creates a new SharePoint custom list (Template 100) using PnP.PowerShell. Use to add a custom list to a site. Dry-run by default; real writes require -Execute and confirmation token PROVISION-SPO-LIST.",
+          "previous_name": "sharepoint-create-list",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-create-list-view",
+          "description": "Creates and configures custom views for SharePoint lists and document libraries. Use to add a filtered or sorted view. Dry-run by default; real writes require -Execute and confirmation token PROVISION-SPO-LIST-VIEW.",
+          "previous_name": "sharepoint-create-list-view",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-create-site-column",
+          "description": "Creates new SharePoint site columns across standard or complex types (Text, Choice, Lookup, User, Calculated via Field XML). Use to define a reusable site column. Dry-run by default; real writes require -Execute and confirmation token PROVISION-SPO-SITE-COLUMNS.",
+          "previous_name": "sharepoint-create-site-column",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-detach-content-type",
+          "description": "Detaches and unlinks a content type from a specific SharePoint list or library. Use to stop a list using a content type without deleting it. Dry-run by default; real writes require -Execute and confirmation token DETACH-SPO-CONTENT-TYPE.",
+          "previous_name": "sharepoint-detach-content-type",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-generate-schema-definition-from-export",
+          "description": "Transforms an already-loaded SharePoint schema export (site columns, content types, lists with fields) into a declarative, JSON-serializable schema definition. Use when you need a definition suitable for later comparison or provisioning-input translation. A pure, read-only transform; consumes an export, never contacts a tenant.",
+          "previous_name": "sharepoint-generate-sharepoint-schema-from-export",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-plan-column-changes",
+          "description": "Filters an exported field set down to deployable fields, detects live-type drift against a declared schema, and builds raw Field XML for column types a typed field-creation API cannot express (Calculated has no formula parameter; Lookup and LookupMulti; User and UserMulti). Use when planning site-column provisioning. Pure planning; no write ships in this module.",
+          "previous_name": "sharepoint-provision-fields",
+          "previous_plugin": "sharepoint-schema-reconciliation"
+        },
+        {
+          "name": "sharepoint-plan-content-type-changes",
+          "description": "Plans create-if-missing SharePoint content-type provisioning from a caller-supplied declarative definition (add, hide, show and unlink field links, with hidden-flag drift against the schema surfaced rather than silently fixed) plus content-type-to-list attach planning. Use when reconciling a content type against current state. Pure planning, read-safe by construction; no write ships in this module.",
+          "previous_name": "sharepoint-provision-content-types",
+          "previous_plugin": "sharepoint-schema-reconciliation"
+        },
+        {
+          "name": "sharepoint-plan-page-publication",
+          "description": "Builds a human-actionable publish plan (a PublishPlan) for rendered content as SharePoint modern pages. Use after rendering, before uploading. Performs no tenant writes and never attempts raw .aspx upload (blocked); execution belongs to sharepoint-apply-page-publication-plan.",
+          "previous_name": "sharepoint-publish-aspx-to-sharepoint",
+          "previous_plugin": "sharepoint-content-publication"
+        },
+        {
+          "name": "sharepoint-publish-markdown-files",
+          "description": "Builds a human-actionable publish plan mapping rendered Markdown and media files to an exact SharePoint library and folder, then a real PnP executor uploads it with Add-PnPFile and checkout/checkin discipline. Use to publish rendered Markdown output to a document library. Dry-run by default.",
+          "previous_name": "sharepoint-publish-markdown-to-sharepoint",
+          "previous_plugin": "sharepoint-content-publication"
+        },
+        {
+          "name": "sharepoint-reconcile-calendar-list",
+          "description": "Plans provisioning of a working modern SharePoint Online calendar list, structurally preventing a real platform bug (Start/End declared as site columns or content-type-linked fields silently breaks calendar view rendering) by refusing any definition that would trigger it and always planning the validated workaround shape. Use when asked for a calendar list. Gates any real write behind dry-run-by-default, an injected executor and a plan-derived confirmation token.",
+          "previous_name": "sharepoint-provision-modern-calendar-list",
+          "previous_plugin": "sharepoint-schema-reconciliation"
+        },
+        {
+          "name": "sharepoint-reconcile-site-schema",
+          "description": "Reconciles a whole declarative SharePoint provisioning schema (site columns, content types, target lists) against caller-supplied current state, detects duplicate-titled lists before any delete, and gates any real write behind dry-run-by-default, an explicitly injected executor and a plan-derived confirmation token. Use for whole-schema reconciliation and the gated apply.",
+          "previous_name": "sharepoint-provision-list",
+          "previous_plugin": "sharepoint-schema-reconciliation"
+        },
+        {
+          "name": "sharepoint-remove-content-type",
+          "description": "Deletes a SharePoint content type from the site collection. Use to remove an obsolete content type. Dry-run by default; real writes require -Execute and confirmation token REMOVE-SPO-CONTENT-TYPES.",
+          "previous_name": "sharepoint-remove-content-type",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-remove-list",
+          "description": "Deletes a SharePoint list or document library and re-checks that it is gone, failing loud if it still exists. Use to remove an obsolete list or library. Dry-run by default; real writes require -Execute and confirmation token PROVISION-SPO-LIST.",
+          "previous_name": "sharepoint-remove-list",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-remove-list-column",
+          "description": "Removes a list-scoped column from a SharePoint list or library. Use to drop a column from one list only. Dry-run by default; real writes require -Execute and confirmation token REMOVE-SPO-LIST-COLUMN.",
+          "previous_name": "sharepoint-remove-list-column",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-remove-publication",
+          "description": "Builds a rollback plan reversing a prior publication's exact actions, scoped to one document, then a real PnP executor removes each target (Remove-PnPPage or Remove-PnPFile) with fail-loud removal verification. Use to undo a publication. Dry-run by default.",
+          "previous_name": "sharepoint-rollback-sharepoint-publication",
+          "previous_plugin": "sharepoint-content-publication"
+        },
+        {
+          "name": "sharepoint-remove-site-column",
+          "description": "Deletes a SharePoint site column and reports each column as removed or failed. Use to remove an obsolete site column. Dry-run by default; real writes require -Execute and confirmation token REMOVE-SPO-SITE-COLUMNS.",
+          "previous_name": "sharepoint-remove-site-column",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-scaffold-schema-definition",
+          "description": "Scaffolds a declarative SiteSchemaDefinition JSON structure from scratch or from input parameters, without a live tenant connection. Use to author or bootstrap a new SharePoint site schema definition locally before diffing it with sharepoint-site-build-and-publish or provisioning it with sharepoint-site-build-and-publish.",
+          "previous_name": "sharepoint-scaffold-schema-definition",
+          "previous_plugin": "sharepoint-discovery"
+        },
+        {
+          "name": "sharepoint-update-content-type",
+          "description": "Updates SharePoint content type name, description, group or hidden properties. Use to rename or reclassify a content type. Dry-run by default; real writes require -Execute and confirmation token UPDATE-SPO-CONTENT-TYPES.",
+          "previous_name": "sharepoint-update-content-type",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-update-list-column",
+          "description": "Updates a list-scoped column's properties on a specific SharePoint list. Use to change one list's column. Dry-run by default; real writes require -Execute and confirmation token UPDATE-SPO-LIST-COLUMN.",
+          "previous_name": "sharepoint-update-list-column",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-update-list-settings",
+          "description": "Updates SharePoint list or library title, description and versioning settings using Set-PnPList. Use to rename or reconfigure a list. Dry-run by default; real writes require -Execute and confirmation token UPDATE-SPO-LIST.",
+          "previous_name": "sharepoint-update-list-settings",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-update-site-column",
+          "description": "Updates existing SharePoint site column properties (display name, description, required, choices) using Set-PnPField. Use to change a reusable site column. Dry-run by default; real writes require -Execute and confirmation token UPDATE-SPO-SITE-COLUMNS.",
+          "previous_name": "sharepoint-update-site-column",
+          "previous_plugin": "sharepoint-provisioning"
+        },
+        {
+          "name": "sharepoint-validate-publication",
+          "description": "Offline pre-upload schema validation of an UploadPackage against the target library schema, plus a read-only post-deployment presence check (Get-PnPPage or Get-PnPFile) confirming that a PublishPlan's targets landed on the tenant. Use before uploading and again after publishing.",
+          "previous_name": "sharepoint-validate-publication",
+          "previous_plugin": "sharepoint-content-publication"
+        }
+      ]
+    },
+    {
+      "name": "sharepoint-site-migration",
+      "version": "0.1.0-alpha.1",
+      "description": "Plans and executes SharePoint site migration: validates a source-site export, derives the object dependency graph and migration wave plan, scaffolds wave scripts, analyzes and modernizes classic pages (plan, preview, single and library conversion, validation, reports), migrates list content with two-pass lookup re-linking, and extracts and updates links in pages, documents and rich-text columns. Planning and analysis are read-only; most writing scripts are dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken; the preserved consumer-specific repair script in the content-audit folder is a documented exception (it writes unless -DryRun is passed), so check each script's own parameters.",
+      "agents": [
+        "sharepoint-content-migration-sequencing-agent",
+        "sharepoint-deployment-planning-agent",
+        "sharepoint-deployment-sequencing-agent",
+        "sharepoint-link-agent",
+        "sharepoint-link-remediation-analysis-agent",
+        "sharepoint-modernization-agent",
+        "sharepoint-webpart-modernization-analysis-agent"
+      ],
+      "skill_count": 19,
+      "skills": [
+        {
+          "name": "sharepoint-analyze-classic-pages",
+          "description": "Stages 1-2 of classic page modernization. Parses exported classic .aspx content, view exports and connected-consumer overrides into a neutral component inventory, then classifies each component by role, type and variant. Use to understand what a legacy page is made of before deciding how to rebuild it. Read-only; operates on exported files and never contacts a tenant.",
+          "previous_name": "sharepoint-analyze-aspx-pages",
+          "previous_plugin": "sharepoint-page-modernization"
+        },
+        {
+          "name": "sharepoint-analyze-migration-dependencies",
+          "description": "Deterministically shapes a caller-supplied dependency-matrix object list into a computed wave order (reusing wave_planning.plan_waves directly), gated by completeness checks (source coverage, orphan matrix entries, unresolved lookup targets, destination-name collisions) that catch the matrix silently not matching the source it claims to describe. Use as stage 3a after inventory validation. Pure computation: no tenant I/O, no AI-model involvement, fully deterministic and testable.",
+          "previous_name": "sharepoint-analyze-sharepoint-dependency-graph",
+          "previous_plugin": "sharepoint-migration-planning"
+        },
+        {
+          "name": "sharepoint-audit-list-migration",
+          "description": "Audit list and library content fidelity between an on-premises SharePoint source and SharePoint Online. Reconciles multi-value and single-value identity lookup columns against ground truth, detects item ID vs business-key suffix shifts/skews, flags dropped/missing pointers, and identifies false matches caused by string/name collisions. Use when verifying list content integrity, auditing ShareGate migrations, or preparing the evidence for a separately authorized lookup repair. This skill never writes to a tenant.",
+          "previous_name": "sharepoint-audit-list-content",
+          "previous_plugin": "sharepoint-content-migration"
+        },
+        {
+          "name": "sharepoint-convert-page-library-to-modern",
+          "description": "Orchestrates classic-to-modern page conversion across every page in a library, one subprocess per page, with a resumable manifest and post-run validation. Use to convert a whole library in one run. Dry-run by default; real writes are gated behind -Execute and a confirmation token.",
+          "previous_name": "sharepoint-execute-page-bulk-migration",
+          "previous_plugin": "sharepoint-page-modernization-execution"
+        },
+        {
+          "name": "sharepoint-convert-page-to-modern",
+          "description": "Converts a single classic SharePoint page to a modern Site Page with ConvertTo-PnPPage and stamps caller-supplied field-mapping and literal metadata onto the converted page. Use to convert one classic .aspx page within the same site. Dry-run by default; real writes are gated behind -Execute and a confirmation token.",
+          "previous_name": "sharepoint-convert-page-to-modern",
+          "previous_plugin": "sharepoint-page-modernization-execution"
+        },
+        {
+          "name": "sharepoint-create-page-preview",
+          "description": "Merges a site's structural chrome (navigation, header, logo, ancestors) with an already-extracted page's content (modern-preview.html plus metadata.json) into a single self-contained offline preview HTML file. Use so a reviewer can see a converted page in context. Disk-only; performs no tenant writes.",
+          "previous_name": "sharepoint-compose-page-preview",
+          "previous_plugin": "sharepoint-page-modernization"
+        },
+        {
+          "name": "sharepoint-extract-links",
+          "description": "Extracts and classifies every hyperlink from SharePoint page or document content (absolute, server-relative, protocol-relative, mailto, anchor, malformed) into a LinkInventory with an honest outcome (OBSERVED, EMPTY, PARTIAL, FAILED). Use first, to build a complete link inventory before deciding what needs rewriting. Read-only; reads content you pass it and never contacts a tenant.",
+          "previous_name": "sharepoint-extract-links",
+          "previous_plugin": "sharepoint-link-remediation"
+        },
+        {
+          "name": "sharepoint-generate-modernization-report",
+          "description": "Renders a human-readable Markdown disposition report from a PageConversionManifest (conforming to assets/manifest-schema.json), with a web-part classification table, a gaps section naming every unmigrated item, and a layout and confidence summary. Use to give a reviewer a scannable view of a conversion plan. A pure function on a manifest already on disk; performs no tenant writes.",
+          "previous_name": "sharepoint-generate-conversion-report",
+          "previous_plugin": "sharepoint-page-modernization"
+        },
+        {
+          "name": "sharepoint-initialize-migration-project",
+          "description": "Confirms the workbench's own repository-root config.psd1 (produced by sharepoint-workbench-setup's initialize-connection-config) already exists with a Connection block, then creates a per-migration working directory for this pipeline's later-stage outputs. Use as stage 1 before planning a migration. A pure filesystem and text check: no tenant I/O, and it never fabricates a config.",
+          "previous_name": "sharepoint-setup-sharepoint-migration-project",
+          "previous_plugin": "sharepoint-migration-planning"
+        },
+        {
+          "name": "sharepoint-migrate-list-content",
+          "description": "Migrates SharePoint list-item content in batches with retry, and resolves lookup-column values with a two-pass ID-mapping technique (record source-to-destination IDs during a content pass, resolve lookup fields against that mapping once all target lists exist). Use to migrate item content into lists already provisioned with the right schema. Gates any real write behind dry-run-by-default, an explicitly injected executor, and a plan-derived confirmation token.",
+          "previous_name": "sharepoint-migrate-sharepoint-list-content",
+          "previous_plugin": "sharepoint-content-migration"
+        },
+        {
+          "name": "sharepoint-normalize-migration-inventory",
+          "description": "Validates and normalizes an already-produced source-site export directory (lists, fields, and critically lookup-column targets) into the raw object list that stage 3a needs. Use as stage 2 after exporting a source site. Live-tenant discovery itself is out of scope (design-only); this skill only validates an export a human already produced, and never invents lookup-target data that is not present.",
+          "previous_name": "sharepoint-discover-sharepoint-site-inventory",
+          "previous_plugin": "sharepoint-migration-planning"
+        },
+        {
+          "name": "sharepoint-plan-migration-waves",
+          "description": "Computes a deployment wave plan by topologically sorting a caller-supplied, dependency-annotated list of deployment objects, grouping them into ordered stages where every dependency is satisfied by a strictly earlier stage, and honestly reporting cycles or unresolved dependencies instead of guessing an order. Use when you have objects (site columns, content types, lists, or any caller-defined type) with declared dependencies and need a provably correct order. Pure computation, no tenant I/O.",
+          "previous_name": "sharepoint-plan-sharepoint-deployment-waves",
+          "previous_plugin": "sharepoint-migration-planning"
+        },
+        {
+          "name": "sharepoint-plan-page-modernization",
+          "description": "Stages 3-4 of classic page modernization. Selects a modern page layout from declarative, data-driven rules, then maps classified components to modern sections and views, emitting an explicit gap notice for components that cannot be migrated. Use after classification, to plan the modern page. Produces mapping and view plans; performs no tenant writes.",
+          "previous_name": "sharepoint-convert-aspx-pages",
+          "previous_plugin": "sharepoint-page-modernization"
+        },
+        {
+          "name": "sharepoint-scaffold-migration-wave-scripts",
+          "description": "Reads dependency-matrix.json (from the dependency-graph analysis) and synthesizes one wave-script skeleton per computed wave, plus a single human wave guide, using real object names, types and dependsOn from the matrix only. Use as stage 3b after the matrix is computed. Never fabricates field-level schema (the matrix does not carry it) and never emits a single unattended run-everything script.",
+          "previous_name": "sharepoint-generate-sharepoint-wave-scripts",
+          "previous_plugin": "sharepoint-migration-planning"
+        },
+        {
+          "name": "sharepoint-update-links-in-documents",
+          "description": "Rewrites legacy URLs embedded INSIDE Office documents (docx, xlsx, pptx via stdlib zipfile, with no python-docx, openpyxl or python-pptx dependency) and PDFs (through an optional caller-injected handler) stored in a document library. Use when a migrated page links to a document whose own hyperlinks still point at the old site. Distinct from sharepoint-update-page-links, which only rewrites page/HTML body content. DRY-RUN BY DEFAULT; applying changes requires BOTH an injected executor AND a confirmation token from the plan.",
+          "previous_name": "sharepoint-remediate-document-content-links",
+          "previous_plugin": "sharepoint-link-remediation"
+        },
+        {
+          "name": "sharepoint-update-page-links",
+          "description": "Rewrites legacy SharePoint URLs in page/HTML body content to their modern targets using a declarative, parameterized rewrite ruleset. Use after a migration has moved content (for example classic /Pages/ to /SitePages/, or an old host to a new one). DRY-RUN BY DEFAULT; applying changes requires BOTH an explicitly injected writer AND a confirmation token from the plan. Reports PARTIAL, FORBIDDEN and FAILED honestly and supports rollback.",
+          "previous_name": "sharepoint-remediate-links",
+          "previous_plugin": "sharepoint-link-remediation"
+        },
+        {
+          "name": "sharepoint-update-rich-text-image-links",
+          "description": "Inventory-verified remediation of an embedded img reference inside a rich-text list field. Classifies each item against a real document-library inventory (matched, missing, broken-placeholder-no-src, no-image) and proposes a rewrite ONLY for confirmed-matched items, never a blind regex guess. Use when a rich-text field's image points at a library the file moved out of. Distinct from sharepoint-update-page-links (page-body content) and sharepoint-update-links-in-documents (Office/PDF files). DRY-RUN BY DEFAULT; applying changes requires BOTH an injected executor AND a confirmation token from the plan.",
+          "previous_name": "sharepoint-remediate-field-image-references",
+          "previous_plugin": "sharepoint-link-remediation"
+        },
+        {
+          "name": "sharepoint-validate-link-integrity",
+          "description": "Verifies that links resolve after a migration or remediation pass, classifying each as RESOLVED, BROKEN, UNRESOLVABLE or SKIPPED with an honest overall outcome. Use last, to prove a migration or remediation actually worked. Read-only and resolver-injected; it ships no network transport, so an unreachable target is reported as unresolvable rather than guessed.",
+          "previous_name": "sharepoint-validate-link-integrity",
+          "previous_plugin": "sharepoint-link-remediation"
+        },
+        {
+          "name": "sharepoint-validate-page-modernization",
+          "description": "Read-only validation of converted modern pages against a run manifest, checking page existence, mapped-field population and literal field values. Use after a conversion run, to confirm every page landed with its metadata. Writes a pass/fail test report and exits non-zero on any failure, for use in a pipeline.",
+          "previous_name": "sharepoint-validate-page-migration",
+          "previous_plugin": "sharepoint-page-modernization-execution"
+        }
+      ]
+    },
+    {
+      "name": "sharepoint-copilot-agents-and-skills",
+      "version": "0.1.0-alpha.1",
+      "description": "Authors, deploys, verifies, backs up and restores SharePoint Copilot agents (.agent packages and templates) and native SKILL.md skills in a tenant's AgentAssets library. Authoring is zero tenant I/O; deploy, restore and undeploy are dry-run by default, with writes gated behind -Execute (restore and undeploy also require an exact confirmation); library provisioning is the exception and writes immediately when run.",
+      "agents": [],
+      "skill_count": 14,
+      "skills": [
+        {
+          "name": "sharepoint-backup-agents",
+          "description": "Read-only backup of named .agent files from a SharePoint site to a local directory. Use as a precaution before any tenant cleanup or agent change. Makes no tenant changes.",
+          "previous_name": "sharepoint-backup-sharepoint-agents",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-backup-native-skills",
+          "description": "Read-only backup of named AgentAssets native-skill and template files from a SharePoint tenant to a local directory. Use as a precaution before tenant cleanup or a redeploy. Makes no tenant changes.",
+          "previous_name": "sharepoint-backup-sharepoint-native-skills",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-create-agent-package",
+          "description": "Authors a validated SharePoint Copilot agent (.agent JSON) source file locally, from explicit name, description, instructions and knowledge-source parameters, or from a Markdown template. Use to produce an agent package. Does not deploy it.",
+          "previous_name": "sharepoint-create-sharepoint-agent",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-create-agent-package-from-template",
+          "description": "Creates a concrete local .agent package for one set of knowledge sources from an existing agent template (through create-agent-package); it does not apply anything to a tenant. Use after a template exists, to produce an agent for one set of knowledge sources. Zero tenant I/O; does not deploy.",
+          "previous_name": "sharepoint-apply-sharepoint-agent-template",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-create-agent-template",
+          "description": "Authors a reusable SharePoint agent template (purpose, instruction structure, boundaries, refusal behavior, citation expectations, knowledge-source placeholders, governance metadata), distinct from a concrete .agent package. Use to capture a reusable agent shape. Zero tenant I/O.",
+          "previous_name": "sharepoint-create-sharepoint-agent-template",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-create-native-skill",
+          "description": "Authors a validated native SharePoint skill (SKILL.md) source package locally. Use to write a skill for a site's AgentAssets library. Does not deploy it; creation and deployment are separate.",
+          "previous_name": "sharepoint-create-sharepoint-native-skill",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-deploy-native-skill",
+          "description": "Deploys a native SharePoint SKILL.md to a tenant's AgentAssets library with SHA-256 readback verification, dry-run by default. Use to publish an already-built skill. Also inventories what is deployed.",
+          "previous_name": "sharepoint-deploy-sharepoint-native-skill",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-inspect-agent-knowledge",
+          "description": "Read-only report of a deployed SharePoint agent's current knowledge-source bindings, plus resolution of the exact site_id, web_id, list_id and unique_id a new binding needs. Use to inspect what an agent is grounded on or to get correct identifiers for site isolation.",
+          "previous_name": "sharepoint-configure-sharepoint-agent-knowledge",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-prepare-agentassets-library",
+          "description": "Inspects and validates the readiness of a SharePoint site's AgentAssets document library and its Skills subfolder (read-only checks), and provisions them only when explicitly requested -- the provisioning script is write-capable and has no dry-run gate -- before native-skill deployment. Use before deploying a native skill, or to troubleshoot library names and IDs.",
+          "previous_name": "sharepoint-inventory-and-validate-agentassets",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-restore-agents",
+          "description": "Restores .agent files from a local backup back to their tenant locations, dry-run by default with an explicit confirmation gate. Use to recover agents saved by the backup skill.",
+          "previous_name": "sharepoint-restore-sharepoint-agents",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-restore-native-skills",
+          "description": "Restores AgentAssets native-skill and template files from a local backup back to their tenant locations, dry-run by default with an explicit confirmation gate. Use to recover files saved by the native-skill backup skill.",
+          "previous_name": "sharepoint-restore-sharepoint-native-skills",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-undeploy-native-skill",
+          "description": "Human-authorized rollback of a deployed native SharePoint skill, recycling (not permanently deleting) the target SKILL.md, dry-run by default. Use to take a deployed skill out of service recoverably.",
+          "previous_name": "sharepoint-rollback-sharepoint-native-skill",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-update-agent-package",
+          "description": "Updates an existing local .agent source package's description, instructions or knowledge sources in place, without recreating the whole package. Use to change an agent you already authored. Zero tenant I/O.",
+          "previous_name": "sharepoint-update-sharepoint-agent",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        },
+        {
+          "name": "sharepoint-verify-native-skill",
+          "description": "Read-only reconciliation of a deployed native SharePoint skill's SKILL.md against its repository source by exact SHA-256 comparison. Use to check whether a deployment happened and whether it has drifted.",
+          "previous_name": "sharepoint-verify-sharepoint-native-skill",
+          "previous_plugin": "sharepoint-agents-and-skills"
+        }
+      ]
+    },
+    {
+      "name": "sharepoint-spfx-development",
+      "version": "1.0.0",
+      "description": "SharePoint Framework (SPFx) development for SharePoint Online: scaffolds web parts, React web parts, Master-Detail web parts, form customizers and list-view command sets, sets up the hosted workbench, packages solutions, and delivers them by either of two routes -- App Catalog deployment or direct package publication.",
+      "agents": [],
+      "skill_count": 10,
+      "skills": [
+        {
+          "name": "sharepoint-deploy-spfx-solution",
+          "description": "Provides PnP PowerShell runbooks and scripts to upload, deploy and verify .sppkg packages in Site Collection or Tenant App Catalogs. Use after packaging an SPFx solution, to get it into an App Catalog and confirm it is valid and enabled.",
+          "previous_name": "sharepoint-deploy-spfx-solution",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-develop-spfx-form-customizer",
+          "description": "Scaffolds, implements, tests, packages, deploys, associates, validates and rolls back an SPFx Form Customizer extension for SharePoint Online list New, Edit and Display forms. Use when a list needs a customized item form, especially one driven by URL parameters such as a parent SelectedID.",
+          "previous_name": "sharepoint-scaffold-spfx-form-customizer",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-develop-spfx-listview-command-set",
+          "description": "Scaffolds, implements, packages, deploys, registers, validates and removes an SPFx ListView Command Set for SharePoint list or library command bars, including commands that open URLs or host React dialogs and panels. Use for custom list commands; not for item forms.",
+          "previous_name": "sharepoint-scaffold-spfx-listview-command-set",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-package-spfx-solution",
+          "description": "Automates production SPFx solution builds using Heft and Webpack and verifies .sppkg package integrity, for both web parts and Form Customizers. Use when an SPFx solution is ready to be built into a deployable package.",
+          "previous_name": "sharepoint-package-spfx-solution",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-publish-spfx-package",
+          "description": "Publishes an SPFx .sppkg package to a Site Collection App Catalog or Tenant App Catalog using config.psd1-driven connection settings, then performs basic catalog verification. Use to publish (and optionally install) a built package without manual browser upload.",
+          "previous_name": "sharepoint-publish-spfx-package",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-request-site-collection-app-catalog",
+          "description": "Guides the setup of Site Collection App Catalogs through service-desk ticket requests in an enterprise tenancy, or through direct Admin Center and PnP PowerShell execution in trial and sandbox environments. Use before deploying custom SPFx web parts to a site that has no App Catalog.",
+          "previous_name": "sharepoint-request-site-collection-app-catalog",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-scaffold-spfx-master-detail-webpart",
+          "description": "Scaffolds a complete SPFx Master-Detail Web Part boilerplate (TypeScript, SCSS module, manifest) from a JSON list layout specification. Use when modernizing legacy SharePoint 2013/2016 multi-list briefing or dossier pages that rely on URL parameter query filtering (?SelectedID=...).",
+          "previous_name": "sharepoint-scaffold-spfx-master-detail",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-scaffold-spfx-react-webpart",
+          "description": "Scaffolds an enterprise-grade React 17/18 SPFx Web Part with Fluent UI 8/9, PnPjs v4 cross-site context, Tailwind CSS, self-healing migration GUID recovery and robust state management. Use for complex, interactive components such as document catalogues, favourites portals, multi-list dashboards or cross-site aggregators.",
+          "previous_name": "sharepoint-scaffold-spfx-react-app",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-scaffold-spfx-webpart",
+          "description": "Guides scaffolding of any new, generic SPFx web part from scratch by confirming toolchain dependencies, interactively gathering the web part's requirements (name, purpose, data source, framework, configurability), running the official Yeoman generator, and customizing the generated files. Use when no more specific scaffold skill fits.",
+          "previous_name": "sharepoint-scaffold-spfx-webpart",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        },
+        {
+          "name": "sharepoint-setup-spfx-hosted-workbench",
+          "description": "Sets up and validates a local SPFx web part development workflow that can be tested in the SharePoint Online hosted workbench (workbench.aspx). Use when preparing an SPFx project to debug against localhost manifests in a real tenant.",
+          "previous_name": "sharepoint-setup-spfx-workbench",
+          "previous_plugin": "sharepoint-spfx-authoring"
+        }
+      ]
+    }
+  ]
+}

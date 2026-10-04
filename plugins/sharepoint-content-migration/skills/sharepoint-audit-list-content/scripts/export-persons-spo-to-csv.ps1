@@ -1,1 +1,0 @@
-../../../scripts/content-audit/export-persons-spo-to-csv.ps1

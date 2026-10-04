@@ -361,7 +361,7 @@ The workbench can become the design and compilation layer for all supported targ
 
 ```text
 Business requirement
-+ government standard
++ organizational standard
 + workflow policy
 + target capability profile
 + permission model
@@ -510,7 +510,7 @@ flowchart TD
 - SharePoint, Cowork, or Copilot Studio should provide the operational user experience;
 - one business specification needs several target-specific implementations.
 
-## 11. Government Architecture Considerations
+## 11. Regulated-Environment Architecture Considerations
 
 ### 11.1 Recommendation vs. Action
 
@@ -696,6 +696,6 @@ This architecture note is informed by current Microsoft documentation and intern
 - Microsoft documentation for SharePoint agents;
 - Microsoft documentation for Copilot Cowork plugin skills and connectors;
 - Microsoft documentation for Copilot Studio skills and broader agent capabilities;
-- internal Microsoft/BC Government working-group discussion of GitHub Copilot skills, routing skills, MCP governance, and Git-based CI/CD.
+- internal working-group discussion of GitHub Copilot skills, routing skills, MCP governance, and Git-based CI/CD.
 
 Product names, preview status, packaging formats, licensing, and supported capabilities may change. Verify each target against current documentation and the intended tenant before implementation.

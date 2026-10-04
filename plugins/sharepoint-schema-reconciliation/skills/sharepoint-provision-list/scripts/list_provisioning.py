@@ -1,1 +1,0 @@
-../../../scripts/list_provisioning.py

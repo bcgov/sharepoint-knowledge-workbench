@@ -1,1 +1,0 @@
-../../../scripts/spo-provision-calendar.ps1

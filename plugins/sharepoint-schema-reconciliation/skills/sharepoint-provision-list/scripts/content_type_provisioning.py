@@ -1,1 +1,0 @@
-../../../scripts/content_type_provisioning.py

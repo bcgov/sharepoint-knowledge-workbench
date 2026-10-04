@@ -1,1 +1,0 @@
-../../../../references/contracts/publication-map.md

@@ -1,0 +1,1 @@
+../../../scripts/assembly/validate_canonical.py

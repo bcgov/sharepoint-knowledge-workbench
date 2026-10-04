@@ -142,7 +142,7 @@ All scripts preserved for Phase 5 and ongoing research:
 
 ### Reconciliation Requirement
 
-**UNRESOLVED:** Determine which version (if any) is deployed to `AgentAssets/Skills/review-manual-topics/SKILL.md` on the current tenant.
+**UNRESOLVED at the time of this pilot:** which version (if any) was deployed to `AgentAssets/Skills/review-manual-topics/SKILL.md` on the pilot tenant. This is an observation from that pilot, not a step for every installation; on your own tenant, compare the deployed skill with the repository copy using the reconcile skill.
 
 **Script created for verification:**
 - `tools/phase-4-native-sharepoint-skills/deployment/scripts/task-8a-reconcile-deployed-skill.ps1`

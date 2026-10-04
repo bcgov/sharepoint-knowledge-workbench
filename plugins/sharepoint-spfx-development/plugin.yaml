@@ -1,0 +1,20 @@
+name: sharepoint-spfx-development
+version: 1.0.0
+description: "SharePoint Framework (SPFx) development for SharePoint Online: scaffolds web parts, React web parts, Master-Detail web parts, form customizers and list-view command sets, sets up the hosted workbench, packages solutions, and delivers them by either of two routes -- App Catalog deployment or direct package publication."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - sharepoint-deploy-spfx-solution
+  - sharepoint-develop-spfx-form-customizer
+  - sharepoint-develop-spfx-listview-command-set
+  - sharepoint-package-spfx-solution
+  - sharepoint-publish-spfx-package
+  - sharepoint-request-site-collection-app-catalog
+  - sharepoint-scaffold-spfx-master-detail-webpart
+  - sharepoint-scaffold-spfx-react-webpart
+  - sharepoint-scaffold-spfx-webpart
+  - sharepoint-setup-spfx-hosted-workbench

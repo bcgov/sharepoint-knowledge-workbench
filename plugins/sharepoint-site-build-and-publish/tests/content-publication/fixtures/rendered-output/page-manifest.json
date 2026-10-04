@@ -1,0 +1,19 @@
+{
+  "pages": [
+    {
+      "chunk_id": "alpha--22222222",
+      "html_file": "pages/alpha--22222222.html",
+      "media_refs": [],
+      "title": "Alpha"
+    },
+    {
+      "chunk_id": "beta--11111111",
+      "html_file": "pages/beta--11111111.html",
+      "media_refs": [
+        "../media/diagram.png"
+      ],
+      "title": "Beta"
+    }
+  ],
+  "schema_version": "1.0"
+}

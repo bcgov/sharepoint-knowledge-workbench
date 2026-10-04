@@ -1,0 +1,1 @@
+../../../docs/content-publication/sharepoint-actual-state-csv-format.md

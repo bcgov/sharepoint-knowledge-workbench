@@ -1,0 +1,1 @@
+../../../scripts/content-publication/sharepoint_dry_run.py

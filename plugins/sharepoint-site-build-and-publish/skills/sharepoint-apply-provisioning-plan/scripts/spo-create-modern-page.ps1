@@ -1,0 +1,1 @@
+../../../scripts/provisioning/spo-create-modern-page.ps1

@@ -1,1 +1,0 @@
-../../../../scripts/schema/normalized_source_document.py

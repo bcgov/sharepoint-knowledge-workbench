@@ -1,1 +1,0 @@
-../../content-assembly/scripts/dispositions.py

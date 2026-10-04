@@ -1,1 +1,0 @@
-../../../scripts/canonical_package.py

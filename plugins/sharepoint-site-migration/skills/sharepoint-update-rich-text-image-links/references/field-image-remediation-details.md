@@ -1,0 +1,1 @@
+../../../references/link-remediation/field-image-remediation-details.md

@@ -30,22 +30,13 @@
     {
       "source": "richfrem/sharepoint-knowledge-workbench",
       "plugins": [
-        "content-assembly",
-        "content-extraction",
-        "content-rendering",
-        "content-structure-analysis",
-        "sharepoint-agents-and-skills",
-        "sharepoint-content-migration",
-        "sharepoint-content-publication",
-        "sharepoint-discovery",
-        "sharepoint-link-remediation",
-        "sharepoint-migration-planning",
-        "sharepoint-page-modernization",
-        "sharepoint-page-modernization-execution",
-        "sharepoint-provisioning",
-        "sharepoint-schema-reconciliation",
-        "sharepoint-spfx-authoring",
-        "workbench-setup"
+        "sharepoint-copilot-agents-and-skills",
+        "sharepoint-document-conversion",
+        "sharepoint-site-assessment",
+        "sharepoint-site-build-and-publish",
+        "sharepoint-site-migration",
+        "sharepoint-spfx-development",
+        "sharepoint-workbench-setup"
       ]
     }
   ]

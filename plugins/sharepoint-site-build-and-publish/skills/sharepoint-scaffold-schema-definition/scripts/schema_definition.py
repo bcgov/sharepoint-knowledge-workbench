@@ -1,0 +1,1 @@
+../../../../sharepoint-site-assessment/scripts/schema_definition.py

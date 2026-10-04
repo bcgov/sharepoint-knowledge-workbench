@@ -1,0 +1,15 @@
+name: sharepoint-workbench-setup
+version: 0.1.0-alpha.1
+description: "Foundational access, connection and project/document configuration for the whole workbench: guides app-registration requests (unattended App-Only/certificate and interactive/delegated), generates the root SharePoint connection config, runs the document-workflow intake wizard, validates the SharePoint connection and written configuration/profile files, resolves document input/output paths, and provides live network-reachability, authentication and PnP effective-capability probes. Zero tenant I/O by default and zero document extraction/rendering -- live probes are opt-in scripts you run yourself."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - workbench-initialize-connection-config
+  - workbench-initialize-document-workflow
+  - workbench-request-app-registration
+  - workbench-resolve-document-paths
+  - workbench-validate-sharepoint-connection

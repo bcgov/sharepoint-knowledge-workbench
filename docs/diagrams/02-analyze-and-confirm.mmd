@@ -1,9 +1,9 @@
 flowchart TD
     Source["Source Word Document"]
-    Verify["Verify source and dependencies\nRecord tool versions"]
+    Verify["content-extract-docx\nVerify source and dependencies\nRecord tool versions"]
     Fingerprint["Calculate source fingerprint\nSHA-256 + file size"]
     Temporary["Create Temporary Markdown Extraction\nText, headings, tables, image links\nand separately extracted images\n\nNOT maintained content"]
-    Compare["Analyze Word Source + Temporary Extraction\nDocument size and statistics\nHeading hierarchy and topics\nTables, images, links and references\nExtraction defects or potential content loss"]
+    Compare["content-analyze-document-structure\nAnalyze Word Source + Temporary Extraction\nDocument size and statistics\nHeading hierarchy and topics\nTables, images, links and references\nExtraction defects or potential content loss"]
     Distinguish["Distinguish Maintained vs. Generated Content\n\nMaintained: business content, headings, tables,\nimage links, essential references\n\nGenerated: TOC, navigation, keyword summaries,\nindexes and derived metadata"]
     Recommend["Recommend Content Organization\nOne file or smaller topic files\nStructural anchors and metadata\nBest maintainable source format"]
     Ask["Ask User About Desired Results\nOutput formats\nTemplates to apply\nSingle or multiple outputs"]

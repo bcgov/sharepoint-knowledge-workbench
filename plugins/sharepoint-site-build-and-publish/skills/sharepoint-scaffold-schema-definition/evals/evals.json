@@ -1,0 +1,10 @@
+[
+  {"query": "Create an empty SiteSchemaDefinition JSON for the pilot-site", "should_trigger": true},
+  {"query": "Bootstrap a new schema definition file locally before we provision anything", "should_trigger": true},
+  {"query": "Scaffold a schema template labelled hr-site that I can fill in", "should_trigger": true},
+  {"query": "Build a schema definition from lists and content types I describe, without touching the tenant", "should_trigger": true},
+  {"query": "Generate a schema definition from this exported site", "should_trigger": false},
+  {"query": "Diff the baseline schema definition against the target one", "should_trigger": false},
+  {"query": "Provision this schema to the SharePoint tenant", "should_trigger": false},
+  {"query": "Find the calculated columns in this export", "should_trigger": false}
+]

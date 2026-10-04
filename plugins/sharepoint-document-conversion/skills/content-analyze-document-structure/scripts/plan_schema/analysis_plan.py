@@ -1,0 +1,1 @@
+../../../../scripts/structure-analysis/plan_schema/analysis_plan.py

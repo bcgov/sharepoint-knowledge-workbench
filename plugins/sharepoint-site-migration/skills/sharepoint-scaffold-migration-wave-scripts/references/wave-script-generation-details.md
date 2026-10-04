@@ -1,0 +1,1 @@
+../../../references/migration-planning/wave-script-generation-details.md

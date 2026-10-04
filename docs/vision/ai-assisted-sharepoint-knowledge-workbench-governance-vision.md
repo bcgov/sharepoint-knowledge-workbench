@@ -12,11 +12,11 @@
 > any plugin/agent name from this document as settled.
 >
 > **Generalization note (added 2026-08-09):** this document was originally titled and framed as a
-> "Government" vision, written against a real government pilot tenant. Renamed to
+> "Government" vision, written against a real pilot tenant. Renamed to
 > `ai-assisted-sharepoint-knowledge-workbench-governance-vision.md` and reworded to describe a
 > general regulated-enterprise structured knowledge management workbench — the governance/records/
 > security/accessibility rigor throughout is substantive and kept as-is (it applies to any
-> regulated enterprise, not government specifically), only the government-specific framing and
+> regulated enterprise, not government specifically), only the organization-specific framing and
 > site examples were generalized. Old filename retained here for anyone searching by memory.
 
 ## 1. Purpose
@@ -960,7 +960,7 @@ Superseded Content
 
 ### 8.2 SharePoint Modern Pages
 
-Modern pages may later provide a richer intranet experience, but raw `.aspx` is never an authoring or canonical format.
+Modern pages may later provide a richer site experience, but raw `.aspx` is never an authoring or canonical format.
 
 Programmatic creation may require approved Microsoft Entra permissions, Microsoft Graph or PnP access, and an organizational deployment model. Therefore, modern-page publishing remains a separately authorized adapter.
 

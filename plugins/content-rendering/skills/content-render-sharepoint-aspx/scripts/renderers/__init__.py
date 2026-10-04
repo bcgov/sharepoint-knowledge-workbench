@@ -1,1 +1,0 @@
-../../../../scripts/renderers/__init__.py

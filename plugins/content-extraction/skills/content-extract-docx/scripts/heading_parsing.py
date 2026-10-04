@@ -1,1 +1,0 @@
-../../../scripts/heading_parsing.py

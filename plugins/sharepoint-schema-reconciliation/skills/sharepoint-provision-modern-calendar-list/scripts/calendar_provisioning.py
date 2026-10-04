@@ -1,1 +1,0 @@
-../../../scripts/calendar_provisioning.py

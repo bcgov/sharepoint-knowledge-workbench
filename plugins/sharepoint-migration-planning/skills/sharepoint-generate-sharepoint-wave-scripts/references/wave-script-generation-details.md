@@ -1,1 +1,0 @@
-../../../references/wave-script-generation-details.md

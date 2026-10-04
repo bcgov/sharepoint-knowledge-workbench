@@ -1,0 +1,1 @@
+../../../scripts/rendering/structured_content_rendering.py

@@ -1,1 +1,0 @@
-../../../scripts/publication_map.py
