@@ -165,8 +165,10 @@ _TABLE_SEPARATOR_ROW = re.compile(
 # at all (e.g. a divider pandoc emits for a Word horizontal rule) is never
 # mistaken for a table separator row.
 _GRID_TABLE_HEADER_SEPARATOR = re.compile(
-    r'^\s*\+[-=:]*=[-=:]*(?:\+[-=:]*=[-=:]*)*\+\s*$', re.MULTILINE
+    r'^\s*(?:\+[-:]*=[-=:]*)+\+\s*$', re.MULTILINE
 )
+# Each `+`-delimited segment must contain at least one `=`; the pattern anchors on the segment's first `=` (preceded only by `-`/`:`)
+# so it has exactly one way to match any line and cannot backtrack exponentially.
 # Pandoc emits grid tables (bounded by `+---+`/`+===+` lines) for complex/
 # merged-cell Word tables. `_TABLE_SEPARATOR_ROW` only recognizes GFM-style
 # `| --- | --- |` pipe-table separators, so a document containing only grid

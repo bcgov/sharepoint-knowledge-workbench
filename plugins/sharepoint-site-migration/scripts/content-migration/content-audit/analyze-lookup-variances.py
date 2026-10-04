@@ -79,8 +79,8 @@ def normalize(val):
     
     # 1. HTML tag & entity stripping for rich text / multi-line notes
     if "<" in s and ">" in s:
-        s = re.sub(r'<style[^>]*>.*?</style>', '', s, flags=re.DOTALL | re.IGNORECASE)
-        s = re.sub(r'<script[^>]*>.*?</script>', '', s, flags=re.DOTALL | re.IGNORECASE)
+        s = re.sub(r'<style[^>]*>.*?</style[^>]*>', '', s, flags=re.DOTALL | re.IGNORECASE)
+        s = re.sub(r'<script[^>]*>.*?</script[^>]*>', '', s, flags=re.DOTALL | re.IGNORECASE)
         s = re.sub(r'<[^>]+>', ' ', s)
     
     # Decode common HTML entities
