@@ -116,9 +116,11 @@ if ($Execute) {
 
     foreach ($action in $plan.actions) {
         try {
-            $layout = if ($action.layout_type) { $action.layout_type } else { "Article" }
+            $layout = if ($action.PSObject.Properties.Name -contains 'layout_type' -and $action.layout_type) { $action.layout_type } else { "Article" }
             Add-PnPPage -Name $action.page_name -LayoutType $layout -ErrorAction Stop | Out-Null
-            if ($action.section_template) { Add-PnPPageSection -Page $action.page_name -SectionTemplate $action.section_template -ErrorAction Stop | Out-Null }
+            if ($action.PSObject.Properties.Name -contains 'section_template' -and $action.section_template) {
+                Add-PnPPageSection -Page $action.page_name -SectionTemplate $action.section_template -ErrorAction Stop | Out-Null
+            }
             $updated += [ordered]@{ page_name = $action.page_name }
         }
         catch {
@@ -140,6 +142,9 @@ if ($Execute) {
     $resultJson = $result | ConvertTo-Json -Depth 8
     $resultJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $resultJson -Encoding UTF8 }
+    if ($failed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {

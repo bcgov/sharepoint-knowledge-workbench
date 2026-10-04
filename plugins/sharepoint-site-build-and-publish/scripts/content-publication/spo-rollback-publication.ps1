@@ -69,9 +69,24 @@ $ErrorActionPreference = "Stop"
 function Get-RollbackTargetKind {
     [CmdletBinding()]
     param([Parameter(Mandatory = $true)][string]$TargetUrl)
-    $firstSegment = $TargetUrl.TrimStart("/").Split("/")[0]
-    if ($firstSegment -eq "SitePages") { return "page" }
+    $normalized = $TargetUrl.Replace('\', '/').TrimStart('/')
+    if ($normalized -match '(^|/)SitePages(/|$)') { return "page" }
     return "file"
+}
+
+function Get-PageIdentityFromTargetUrl {
+    [CmdletBinding()]
+    param([Parameter(Mandatory = $true)][string]$TargetUrl)
+    $normalized = $TargetUrl.Replace('\', '/').TrimStart('/')
+    $sitePagesIndex = $normalized.IndexOf("SitePages/", [System.StringComparison]::OrdinalIgnoreCase)
+    $pagePath = if ($sitePagesIndex -ge 0) {
+        $normalized.Substring($sitePagesIndex + 10)
+    } else {
+        $normalized
+    }
+    $dirName = [System.IO.Path]::GetDirectoryName($pagePath).Replace('\', '/')
+    $baseName = [System.IO.Path]::GetFileNameWithoutExtension($pagePath)
+    if ($dirName) { "$dirName/$baseName" } else { $baseName }
 }
 
 $connectionConfig = Get-WorkbenchConnectionConfig -Path $ConfigPath
@@ -109,54 +124,72 @@ if ($Execute) {
     if ($TenantAdminUrl) { $connectParameters["TenantAdminUrl"] = $TenantAdminUrl }
     Connect-PnPOnline @connectParameters
 
-    $results = foreach ($action in $plan.actions) {
-        $kind = Get-RollbackTargetKind -TargetUrl $action.target_url
+    try {
+        $results = foreach ($action in $plan.actions) {
+            $kind = Get-RollbackTargetKind -TargetUrl $action.target_url
 
-        if ($kind -eq "page") {
-            $pageName = [System.IO.Path]::GetFileNameWithoutExtension(($action.target_url -split "/")[-1])
-            $existingPage = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
-            if (-not $existingPage) {
+            try {
+                if ($kind -eq "page") {
+                    $pageIdentity = Get-PageIdentityFromTargetUrl -TargetUrl $action.target_url
+                    $existingPage = Get-PnPPage -Identity $pageIdentity -ErrorAction SilentlyContinue
+                    if (-not $existingPage) {
+                        [pscustomobject]@{
+                            target_url = $action.target_url
+                            kind       = $kind
+                            outcome    = "EMPTY"
+                            detail     = "Page '$pageIdentity' not found -- nothing to remove."
+                        }
+                        continue
+                    }
+                    Remove-PnPPage -Identity $pageIdentity -Force
+                    $stillThere = Get-PnPPage -Identity $pageIdentity -ErrorAction SilentlyContinue
+                    if ($stillThere) {
+                        throw "Removal verification failed: page '$pageIdentity' still present after Remove-PnPPage."
+                    }
+                }
+                else {
+                    $existingFile = Get-PnPFile -Url $action.target_url -ErrorAction SilentlyContinue
+                    if (-not $existingFile) {
+                        [pscustomobject]@{
+                            target_url = $action.target_url
+                            kind       = $kind
+                            outcome    = "EMPTY"
+                            detail     = "File '$($action.target_url)' not found -- nothing to remove."
+                        }
+                        continue
+                    }
+                    Remove-PnPFile -ServerRelativeUrl $action.target_url -Force
+                    $stillThere = Get-PnPFile -Url $action.target_url -ErrorAction SilentlyContinue
+                    if ($stillThere) {
+                        throw "Removal verification failed: file '$($action.target_url)' still present after Remove-PnPFile."
+                    }
+                }
+
                 [pscustomobject]@{
                     target_url = $action.target_url
                     kind       = $kind
-                    outcome    = "EMPTY"
-                    detail     = "Page '$pageName' not found -- nothing to remove."
+                    outcome    = "OBSERVED"
+                    detail     = "Removed and verified absent."
                 }
-                continue
             }
-            Remove-PnPPage -Identity $pageName -Force
-            $stillThere = Get-PnPPage -Identity $pageName -ErrorAction SilentlyContinue
-            if ($stillThere) {
-                throw "Removal verification failed: page '$pageName' still present after Remove-PnPPage."
-            }
-        }
-        else {
-            $existingFile = Get-PnPFile -Url $action.target_url -ErrorAction SilentlyContinue
-            if (-not $existingFile) {
+            catch {
                 [pscustomobject]@{
                     target_url = $action.target_url
                     kind       = $kind
-                    outcome    = "EMPTY"
-                    detail     = "File '$($action.target_url)' not found -- nothing to remove."
+                    outcome    = "FAILED"
+                    detail     = $_.Exception.Message
                 }
-                continue
-            }
-            Remove-PnPFile -ServerRelativeUrl $action.target_url -Force
-            $stillThere = Get-PnPFile -Url $action.target_url -ErrorAction SilentlyContinue
-            if ($stillThere) {
-                throw "Removal verification failed: file '$($action.target_url)' still present after Remove-PnPFile."
             }
         }
 
-        [pscustomobject]@{
-            target_url = $action.target_url
-            kind       = $kind
-            outcome    = "OBSERVED"
-            detail     = "Removed and verified absent."
+        $results | ConvertTo-Json -Depth 8
+        $anyFailed = @($results | Where-Object { $_.outcome -eq "FAILED" })
+        if ($anyFailed.Count -gt 0) {
+            exit 1
         }
+    } finally {
+        Disconnect-PnPOnline -ErrorAction SilentlyContinue
     }
-
-    $results | ConvertTo-Json -Depth 8
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {
@@ -166,8 +199,8 @@ else {
             reason = $action.reason
             kind = $kind
             remove = $(if ($kind -eq "page") {
-                $pageName = [System.IO.Path]::GetFileNameWithoutExtension(($action.target_url -split "/")[-1])
-                "Remove-PnPPage -Identity `"$pageName`" -Force"
+                $pageIdentity = Get-PageIdentityFromTargetUrl -TargetUrl $action.target_url
+                "Remove-PnPPage -Identity `"$pageIdentity`" -Force"
             } else {
                 "Remove-PnPFile -ServerRelativeUrl `"$($action.target_url)`" -Force"
             })

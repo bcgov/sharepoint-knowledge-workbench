@@ -121,8 +121,13 @@ if ($changedDocuments.Count -eq 0) {
 }
 
 if ($Execute) {
-    if ($ConfirmToken -ne "REMEDIATE-SPO-LINKS") {
-        throw "-Execute requires -ConfirmToken REMEDIATE-SPO-LINKS."
+    $expectedToken = if ($plan.PSObject.Properties.Name -contains 'confirmation_token' -and $plan.confirmation_token) {
+        $plan.confirmation_token
+    } else {
+        "REMEDIATE-SPO-LINKS"
+    }
+    if ($ConfirmToken -ne $expectedToken -and $ConfirmToken -ne "REMEDIATE-SPO-LINKS") {
+        throw "-Execute requires -ConfirmToken '$expectedToken'."
     }
     if (-not (Get-Command Set-PnPListItem -ErrorAction SilentlyContinue)) {
         throw "PnP.PowerShell with Set-PnPListItem is required. Install/import PnP.PowerShell before executing."
@@ -143,7 +148,7 @@ if ($Execute) {
         }
 
         try {
-            $escapedPath = $document.source -replace "'", "''"
+            $escapedPath = [System.Security.SecurityElement]::Escape($document.source)
             $item = Get-PnPListItem -List $TargetLibrary -Query "<View><Query><Where><Eq><FieldRef Name='FileRef'/><Value Type='Text'>$escapedPath</Value></Eq></Where></Query></View>" -PageSize 1
             if (-not $item) {
                 throw "No item found in '$TargetLibrary' with FileRef '$($document.source)'."
@@ -167,6 +172,10 @@ if ($Execute) {
     }
 
     $results | ConvertTo-Json -Depth 8
+    $anyFailed = @($results | Where-Object { -not $_.success })
+    if ($anyFailed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $actionPlans = foreach ($document in $changedDocuments) {

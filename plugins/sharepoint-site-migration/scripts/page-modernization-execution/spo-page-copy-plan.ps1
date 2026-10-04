@@ -140,14 +140,32 @@ function Resolve-SpoSitePageUrl {
         throw "$ParameterName must end with .aspx."
     }
 
-    $sitePath = "/" + (($pathParts[0..($sitePagesIndex - 1)]) -join "/")
+    $relativeSegments = if ($sitePagesIndex -lt ($pathParts.Count - 1)) {
+        $pathParts[($sitePagesIndex + 1)..($pathParts.Count - 1)]
+    } else {
+        @($pageName)
+    }
+    $relativePagePath = $relativeSegments -join "/"
+    $sitePath = if ($sitePagesIndex -gt 0) {
+        "/" + (($pathParts[0..($sitePagesIndex - 1)]) -join "/")
+    } else {
+        ""
+    }
+    $serverRelativeFileUrl = if ($sitePath) { "$sitePath/SitePages/$relativePagePath" } else { "/SitePages/$relativePagePath" }
+    $relativeFolder = if ($relativeSegments.Count -gt 1) {
+        ($relativeSegments[0..($relativeSegments.Count - 2)]) -join "/"
+    } else {
+        ""
+    }
+
     [pscustomobject]@{
-        SiteUrl = "$($uri.Scheme)://$($uri.Host)$sitePath"
-        Library = "Site Pages"
-        PageName = $pageName
-        SiteRelativePageUrl = "SitePages/$pageName"
+        SiteUrl                = "$($uri.Scheme)://$($uri.Host)$sitePath"
+        Library                = "Site Pages"
+        PageName               = $pageName
+        RelativeFolder         = $relativeFolder
+        SiteRelativePageUrl    = "SitePages/$relativePagePath"
         ServerRelativeSitePath = $sitePath
-        ServerRelativeFileUrl = "$sitePath/SitePages/$pageName"
+        ServerRelativeFileUrl  = $serverRelativeFileUrl
     }
 }
 
@@ -171,6 +189,11 @@ function Format-ConnectPnPOnlineCommand {
 
 $source = Resolve-SpoSitePageUrl -PageUrl $SourcePageUrl -ParameterName "SourcePageUrl"
 $target = Resolve-SpoSitePageUrl -PageUrl $TargetPageUrl -ParameterName "TargetPageUrl"
+
+if ($source.SiteUrl -ieq $target.SiteUrl -and $source.ServerRelativeFileUrl -ieq $target.ServerRelativeFileUrl) {
+    throw "Source and target resolve to the same page: '$($source.ServerRelativeFileUrl)'."
+}
+
 $connectionConfig = Get-WorkbenchConnectionConfig -Path $ConfigPath
 if (-not $ClientId) { $ClientId = $connectionConfig.ClientId }
 if (-not $TenantId) { $TenantId = $connectionConfig.TenantId }
@@ -187,7 +210,11 @@ $isSameSite = $source.SiteUrl -ieq $target.SiteUrl
 # topic copies directly to a full target file path) -- and MUST use the
 # direct form, since landing under the source name in the SAME folder would
 # collide with the source file itself.
-$targetSitePagesFolderUrl = "$($target.ServerRelativeSitePath)/SitePages"
+$targetSitePagesFolderUrl = if ($target.RelativeFolder) {
+    "$($target.ServerRelativeSitePath)/SitePages/$($target.RelativeFolder)"
+} else {
+    "$($target.ServerRelativeSitePath)/SitePages"
+}
 $copiedFileServerRelativeUrl = if ($isSameSite) { $target.ServerRelativeFileUrl } else { "$targetSitePagesFolderUrl/$($source.PageName)" }
 
 $plan = [ordered]@{
@@ -288,6 +315,13 @@ if ($Execute) {
         #    SitePages FOLDER (Copy-PnPFile requires a folder -- not a filename --
         #    as -TargetUrl for a cross-site-collection copy; it lands under the
         #    source page name).
+        if ($source.PageName -ne $target.PageName) {
+            $existingIntermediate = Get-PnPFile -Url $copiedFileServerRelativeUrl -ErrorAction SilentlyContinue
+            if ($existingIntermediate) {
+                throw "Intermediate landing file already exists at '$copiedFileServerRelativeUrl' on the target site. Refusing to overwrite unrelated page during cross-site copy staging."
+            }
+        }
+
         $connectParameters["Url"] = $source.SiteUrl
         Connect-PnPOnline @connectParameters
         $copyParameters = @{

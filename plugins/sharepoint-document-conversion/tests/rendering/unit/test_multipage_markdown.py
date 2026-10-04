@@ -508,3 +508,11 @@ def test_render_falls_back_to_manifest_order_when_no_publication_map(tmp_path):
     index_text = (output_dir / "index.md").read_text(encoding="utf-8")
     assert index_text.index("Intro") < index_text.index("Details")
 
+
+def test_rewrite_local_links_preserves_query_and_fragment():
+    content = "[See Alpha](chunks/alpha.md?filter=1#summary) and [Beta](chunks/beta.md#section)"
+    known = {"alpha", "beta"}
+    rewritten = mpm._rewrite_local_links(content, known)
+    assert rewritten == "[See Alpha](alpha.md?filter=1#summary) and [Beta](beta.md#section)"
+
+

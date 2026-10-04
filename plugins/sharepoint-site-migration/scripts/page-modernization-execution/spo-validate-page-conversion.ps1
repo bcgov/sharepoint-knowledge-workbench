@@ -146,9 +146,12 @@ foreach ($row in $rowsToCheck) {
     $missingFields = @()
     $notes = @()
 
-    $modernItem = Get-PnPListItem -List $TargetLibrary `
-        -Query "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='File'>$pageName</Value></Eq></Where>" `
-        -Fields ([string[]]$targetFieldNames + @("FileLeafRef")) -ErrorAction SilentlyContinue
+    $escapedName = [System.Security.SecurityElement]::Escape($pageName)
+    $viewFieldsList = @("FileLeafRef") + [string[]]$targetFieldNames
+    $viewFieldsXml = ($viewFieldsList | ForEach-Object { "<FieldRef Name='$_'/>" }) -join ""
+    $camlQuery = "<View><ViewFields>$viewFieldsXml</ViewFields><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='File'>$escapedName</Value></Eq></Where></Query></View>"
+    $modernItems = @(Get-PnPListItem -List $TargetLibrary -Query $camlQuery -ErrorAction SilentlyContinue)
+    $modernItem = if ($modernItems.Count -gt 0) { $modernItems[0] } else { $null }
 
     if (-not $modernItem) {
         $notes += "Page not found in target library '$TargetLibrary'"

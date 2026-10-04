@@ -45,8 +45,12 @@ def scaffold_react_app(spec: Dict[str, Any], output_dir: Path) -> None:
     components_dir.mkdir(parents=True, exist_ok=True)
     style_dir.mkdir(parents=True, exist_ok=True)
 
+    import re
     wp_name = spec.get("webPartName", "EnterpriseApp")
+    if not re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_$]*", wp_name):
+        raise ValueError(f"webPartName must be a valid TypeScript identifier, got: {wp_name!r}")
     title = spec.get("title", wp_name)
+    title_literal = json.dumps(title)
     description = spec.get("description", f"Enterprise React SPFx Web Part for {title}")
     wp_id = spec.get("id", str(uuid.uuid4()))
 
@@ -129,7 +133,7 @@ export const {wp_name}: React.FC<I{wp_name}Props> = (props) => {{
   return (
     <div className="p-4 bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="flex items-center justify-between mb-4 border-b pb-2">
-        <h2 className="text-xl font-semibold text-gray-800">{{props.webpartTitle || '{title}'}}</h2>
+        <h2 className="text-xl font-semibold text-gray-800">{{props.webpartTitle || {title_literal}}}</h2>
       </div>
 
       {{error && (

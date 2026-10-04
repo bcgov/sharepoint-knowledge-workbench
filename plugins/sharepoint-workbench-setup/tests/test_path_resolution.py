@@ -219,7 +219,8 @@ class TestFormatInvocations:
         assert "UNAVAILABLE" in text
         for invocation in result.invocations:
             for missing_filename in invocation.missing:
-                assert missing_filename not in text.split(invocation.skill)[-1].split("Args:")[0] or True
+                for resolved_val in invocation.args.values():
+                    assert missing_filename not in str(resolved_val)
 
     def test_format_lists_plugin_and_skill_for_every_invocation(self, tmp_path):
         result = resolve_workbench_paths(

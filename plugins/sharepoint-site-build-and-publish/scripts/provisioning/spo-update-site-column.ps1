@@ -124,19 +124,23 @@ if ($Execute) {
                 Identity    = $action.internal_name
                 ErrorAction = "Stop"
             }
-            if ($action.display_name) { $setParameters["Values"] = @{ Title = $action.display_name } }
-            if ($null -ne $action.description) {
-                if (-not $setParameters.ContainsKey("Values")) { $setParameters["Values"] = @{} }
-                $setParameters["Values"]["Description"] = $action.description
+            $values = @{}
+            if ($action.PSObject.Properties.Name -contains 'display_name' -and $action.display_name) {
+                $values["Title"] = $action.display_name
             }
-            if ($null -ne $action.required) {
-                if (-not $setParameters.ContainsKey("Values")) { $setParameters["Values"] = @{} }
-                $setParameters["Values"]["Required"] = [bool]$action.required
+            if ($action.PSObject.Properties.Name -contains 'description' -and $null -ne $action.description) {
+                $values["Description"] = $action.description
             }
-            if ($action.choices -and $action.choices.Count -gt 0) {
-                if (-not $setParameters.ContainsKey("Values")) { $setParameters["Values"] = @{} }
-                $setParameters["Values"]["Choices"] = $action.choices
+            if ($action.PSObject.Properties.Name -contains 'required' -and $null -ne $action.required) {
+                $values["Required"] = [bool]$action.required
             }
+            if ($action.PSObject.Properties.Name -contains 'choices' -and $action.choices -and $action.choices.Count -gt 0) {
+                $values["Choices"] = $action.choices
+            }
+            if ($values.Count -eq 0) {
+                throw "No supported field changes supplied for '$($action.internal_name)'."
+            }
+            $setParameters["Values"] = $values
             Set-PnPField @setParameters | Out-Null
             $updated += [ordered]@{ internal_name = $action.internal_name }
         }
@@ -159,6 +163,9 @@ if ($Execute) {
     $resultJson = $result | ConvertTo-Json -Depth 8
     $resultJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $resultJson -Encoding UTF8 }
+    if ($failed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {

@@ -148,3 +148,12 @@ class TestApplyItemMigration:
                 plan, dry_run=False, executor=lambda item: 1,
                 confirm=plan.confirmation_token, retry_attempts=-1,
             )
+
+    def test_batch_size_zero_is_rejected(self):
+        with pytest.raises(ValueError, match="batch_size"):
+            plan_item_migration(_items(2), batch_size=0)
+
+    def test_batch_size_negative_is_rejected(self):
+        with pytest.raises(ValueError, match="batch_size"):
+            plan_item_migration(_items(2), batch_size=-5)
+

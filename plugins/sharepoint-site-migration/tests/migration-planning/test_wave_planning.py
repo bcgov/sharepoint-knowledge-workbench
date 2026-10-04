@@ -98,3 +98,14 @@ def test_to_dict_is_json_serializable_and_matches_stage_shape():
     assert result["stages"] == [[{"name": "A", "object_type": "List", "depends_on": []}]]
     assert result["blocking_findings"] == []
 
+
+def test_duplicate_object_names_are_reported_as_failed_not_overwritten():
+    a1 = DeploymentObject(name="DuplicateName", object_type="List")
+    a2 = DeploymentObject(name="DuplicateName", object_type="ContentType")
+
+    plan = plan_waves([a1, a2])
+
+    assert plan.outcome == Outcome.FAILED
+    assert plan.stages == ()
+    assert any("DUPLICATE OBJECT" in finding and "DuplicateName" in finding for finding in plan.blocking_findings)
+

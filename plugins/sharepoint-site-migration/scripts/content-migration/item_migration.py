@@ -113,6 +113,8 @@ class ItemMigrationResult:
 
 def plan_item_migration(items: Sequence[MigrationItem], *, batch_size: int) -> ItemMigrationPlan:
     """Group ``items`` into fixed-size batches. Never writes anything."""
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+        raise ValueError("batch_size must be a positive integer")
     if not items:
         return ItemMigrationPlan(batches=(), outcome=Outcome.EMPTY)
 

@@ -243,3 +243,54 @@ def test_verify_deletion_complete_passes_when_gone():
 def test_verify_deletion_complete_fails_loud_when_still_present():
     with pytest.raises(DeletionVerificationFailed):
         verify_deletion_complete("Demo_List", still_exists=True)
+
+
+def test_list_creation_serialization_preserves_template_and_metadata():
+    schema = ProvisioningSchema(
+        lists=(ListDef(title="DocLib", template=101, description="Library", content_types=("CustomDoc",)),)
+    )
+    plan = plan_provisioning(schema, _empty_state())
+    assert len(plan.list_creations) == 1
+    creation = plan.list_creations[0]
+    assert creation.template == 101
+    assert creation.description == "Library"
+    assert creation.content_types == ("CustomDoc",)
+
+    payload = plan.to_dict()
+    found = [c for c in payload["list_creations"] if c["title"] == "DocLib"]
+    assert len(found) == 1
+    assert found[0]["template"] == 101
+    assert found[0]["description"] == "Library"
+    assert found[0]["content_types"] == ["CustomDoc"]
+
+
+def test_recreate_list_executes_deletion_before_creation():
+    state = CurrentState(lists={"Demo_List": ListState(title="Demo_List", exists=True)})
+    schema = ProvisioningSchema(lists=(ListDef(title="Demo_List", recreate=True),))
+    plan = plan_provisioning(schema, state)
+
+    calls = []
+    def executor(step, detail):
+        calls.append((step, detail["title"]))
+
+    result = apply_provisioning(plan, executor=executor, dry_run=False, confirm=plan.confirmation_token)
+    assert result.outcome == Outcome.OBSERVED
+    assert calls == [("list_deletion", "Demo_List"), ("list_creation", "Demo_List")]
+
+
+def test_recreate_list_skips_creation_if_deletion_fails():
+    state = CurrentState(lists={"Demo_List": ListState(title="Demo_List", exists=True)})
+    schema = ProvisioningSchema(lists=(ListDef(title="Demo_List", recreate=True),))
+    plan = plan_provisioning(schema, state)
+
+    calls = []
+    def executor(step, detail):
+        calls.append(step)
+        if step == "list_deletion":
+            raise RuntimeError("delete failed")
+
+    result = apply_provisioning(plan, executor=executor, dry_run=False, confirm=plan.confirmation_token)
+    assert result.outcome == Outcome.FAILED
+    assert calls == ["list_deletion"]
+    assert any("skipped creation" in err for _, err in result.failed)
+

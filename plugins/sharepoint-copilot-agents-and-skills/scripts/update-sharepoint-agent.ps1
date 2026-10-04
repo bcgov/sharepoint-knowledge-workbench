@@ -35,7 +35,7 @@ param(
     [string]$AgentDescription,
     [string]$AgentInstructionsPath,
     [string]$AgentInstructions,
-    [string[]]$KnowledgeSourcePaths,
+    [object[]]$KnowledgeSourcePaths,
     [switch]$AllowEmptyKnowledgeSources
 )
 
@@ -86,9 +86,57 @@ if ($AgentInstructionsPath -or $AgentInstructions) {
 }
 
 if ($PSBoundParameters.ContainsKey('KnowledgeSourcePaths')) {
-    $itemsByUrl = [System.Object[]]($KnowledgeSourcePaths | ForEach-Object { [PSCustomObject]@{ url = $_ } })
-    $agent.customCopilotConfig.gptDefinition.capabilities[0].items_by_url = $itemsByUrl
-    $changed += "knowledge sources ($($KnowledgeSourcePaths.Count) URL(s))"
+    $capability = @($agent.customCopilotConfig.gptDefinition.capabilities | Where-Object { $_.name -eq 'OneDriveAndSharePoint' })
+    if ($capability.Count -eq 0) {
+        if ($agent.customCopilotConfig.gptDefinition.capabilities.Count -gt 0) {
+            $targetCap = $agent.customCopilotConfig.gptDefinition.capabilities[0]
+        } else {
+            $targetCap = [PSCustomObject]@{ name = 'OneDriveAndSharePoint'; items_by_url = @() }
+            $agent.customCopilotConfig.gptDefinition.capabilities = @($targetCap)
+        }
+    } else {
+        $targetCap = $capability[0]
+    }
+
+    # Map existing items by URL to preserve resolved identifiers
+    $existingMap = @{}
+    if ($targetCap.items_by_url) {
+        foreach ($item in $targetCap.items_by_url) {
+            if ($item.url) {
+                $existingMap[$item.url] = $item
+            }
+        }
+    }
+
+    $newItems = @()
+    foreach ($ks in $KnowledgeSourcePaths) {
+        if ($ks -is [PSCustomObject] -or $ks -is [System.Collections.IDictionary]) {
+            $newItems += $ks
+        } else {
+            $urlStr = "$ks".Trim()
+            if (-not $urlStr) { continue }
+            if ($existingMap.ContainsKey($urlStr)) {
+                $newItems += $existingMap[$urlStr]
+            } else {
+                $leafName = Split-Path -Path $urlStr -Leaf
+                if (-not $leafName) { $leafName = ($urlStr -split '/')[-1] }
+                $isList = $urlStr -match "/Lists/"
+                $typeStr = if ($isList) { "List" } else { "Folder" }
+                $newItems += [PSCustomObject]@{
+                    url       = $urlStr
+                    name      = [System.Uri]::UnescapeDataString($leafName)
+                    site_id   = "00000000-0000-0000-0000-000000000000"
+                    web_id    = "00000000-0000-0000-0000-000000000000"
+                    list_id   = "00000000-0000-0000-0000-000000000000"
+                    unique_id = "00000000-0000-0000-0000-000000000000"
+                    type      = $typeStr
+                }
+            }
+        }
+    }
+
+    $targetCap.items_by_url = [System.Object[]]$newItems
+    $changed += "knowledge sources ($($newItems.Count) item(s))"
 }
 
 $agent | ConvertTo-Json -Depth 10 | Set-Content -Path $AgentPath -Encoding UTF8

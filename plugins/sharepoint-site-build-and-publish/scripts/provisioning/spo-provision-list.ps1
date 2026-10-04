@@ -221,17 +221,34 @@ if ($Execute) {
         }
     }
 
+    $failedDeleteTitles = @($failed | Where-Object { $_.step -eq "delete" } | ForEach-Object { $_.title })
+
     foreach ($creation in $creations) {
+        if ($failedDeleteTitles -contains $creation.title) {
+            $failed += [ordered]@{ title = $creation.title; step = "create"; error = "Skipped creation of '$($creation.title)' because preceding deletion failed" }
+            continue
+        }
         try {
-            $template = if (Get-Member -InputObject $creation -Name "template" -ErrorAction SilentlyContinue) { [int]$creation.template } else { 100 }
-            $description = if (Get-Member -InputObject $creation -Name "description" -ErrorAction SilentlyContinue) { $creation.description } else { "" }
+            $template = if ($creation.PSObject.Properties.Name -contains 'template') { [int]$creation.template } else { 100 }
+            $description = if ($creation.PSObject.Properties.Name -contains 'description') { [string]$creation.description } else { "" }
+            $contentTypes = if ($creation.PSObject.Properties.Name -contains 'content_types') { @($creation.content_types) } else { @() }
             New-PnPList -Title $creation.title -Template $template -ErrorAction Stop | Out-Null
             if ($description) {
                 Set-PnPList -Identity $creation.title -Description $description -ErrorAction Stop | Out-Null
             }
+            if ($contentTypes.Count -gt 0) {
+                foreach ($ct in $contentTypes) {
+                    if ($ct) {
+                        Add-PnPContentTypeToList -List $creation.title -ContentType $ct -ErrorAction Stop | Out-Null
+                    }
+                }
+            }
             $check = Get-PnPList -Identity $creation.title -ErrorAction SilentlyContinue
             if (-not $check) {
                 throw "list creation verification failed: '$($creation.title)' not found after create"
+            }
+            if ($check.BaseTemplate -ne $template) {
+                throw "list creation verification failed: expected BaseTemplate $template but got $($check.BaseTemplate)"
             }
             $created += [ordered]@{ title = $creation.title; detail = $creation.detail }
         }
@@ -261,14 +278,26 @@ if ($Execute) {
     $resultJson = $result | ConvertTo-Json -Depth 8
     $resultJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $resultJson -Encoding UTF8 }
+    if ($failed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $deletionPlans = foreach ($deletion in $deletions) {
         [ordered]@{ title = $deletion.title; reason = $deletion.reason; action = "Remove-PnPList -Identity `"$($deletion.title)`" -Force" }
     }
     $creationPlans = foreach ($creation in $creations) {
-        $template = if (Get-Member -InputObject $creation -Name "template" -ErrorAction SilentlyContinue) { [int]$creation.template } else { 100 }
-        [ordered]@{ title = $creation.title; detail = $creation.detail; action = "New-PnPList -Title `"$($creation.title)`" -Template $template" }
+        $template = if ($creation.PSObject.Properties.Name -contains 'template') { [int]$creation.template } else { 100 }
+        $description = if ($creation.PSObject.Properties.Name -contains 'description') { [string]$creation.description } else { "" }
+        $contentTypes = if ($creation.PSObject.Properties.Name -contains 'content_types') { @($creation.content_types) } else { @() }
+        [ordered]@{
+            title = $creation.title
+            detail = $creation.detail
+            template = $template
+            description = $description
+            content_types = $contentTypes
+            action = "New-PnPList -Title `"$($creation.title)`" -Template $template"
+        }
     }
 
     $summary = [ordered]@{

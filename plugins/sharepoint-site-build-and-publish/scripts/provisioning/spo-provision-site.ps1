@@ -115,13 +115,43 @@ if ($Execute) {
     $failed = @()
 
     foreach ($action in $plan.actions) {
+        $title = if ($action.PSObject.Properties.Name -contains 'title') { $action.title } else { $null }
+        $actionType = if ($action.PSObject.Properties.Name -contains 'type') { $action.type } else { "CommunicationSite" }
+        $url = if ($action.PSObject.Properties.Name -contains 'url') { $action.url } else { $null }
+        $alias = if ($action.PSObject.Properties.Name -contains 'alias') { $action.alias } else { $null }
+        $desc = if ($action.PSObject.Properties.Name -contains 'description') { $action.description } else { "" }
+        $hasTz = $action.PSObject.Properties.Name -contains 'time_zone_id' -and $action.time_zone_id
+        $hasLocale = $action.PSObject.Properties.Name -contains 'locale_id' -and $action.locale_id
+
         try {
-            if ($action.type -eq "CommunicationSite") { New-PnPSite -Type CommunicationSite -Title $action.title -Url $action.url -Description $action.description -ErrorAction Stop | Out-Null } else { New-PnPSite -Type TeamSite -Title $action.title -Alias $action.alias -Description $action.description -ErrorAction Stop | Out-Null }
-            if ($action.time_zone_id -or $action.locale_id) { $regParams = @{ ErrorAction = "SilentlyContinue" }; if ($action.time_zone_id) { $regParams["TimeZone"] = $action.time_zone_id }; if ($action.locale_id) { $regParams["LocaleId"] = $action.locale_id }; Set-PnPRegionalSettings @regParams | Out-Null }
-            $updated += [ordered]@{ title = $action.title }
+            $createdSiteUrl = $url
+            if ($actionType -eq "CommunicationSite") {
+                $retUrl = New-PnPSite -Type CommunicationSite -Title $title -Url $url -Description $desc -ErrorAction Stop
+                if ($retUrl) { $createdSiteUrl = $retUrl }
+            } else {
+                $retUrl = New-PnPSite -Type TeamSite -Title $title -Alias $alias -Description $desc -ErrorAction Stop
+                if ($retUrl) { $createdSiteUrl = $retUrl }
+            }
+
+            if ($createdSiteUrl -and ($hasTz -or $hasLocale)) {
+                $regParams = @{ ErrorAction = "Stop" }
+                if ($hasTz) { $regParams["TimeZone"] = [int]$action.time_zone_id }
+                if ($hasLocale) { $regParams["LocaleId"] = [int]$action.locale_id }
+                $siteConnectParams = @{
+                    Url         = $createdSiteUrl
+                    ClientId    = $ClientId
+                    Tenant      = $TenantId
+                    Interactive = $true
+                }
+                if ($TenantAdminUrl) { $siteConnectParams["TenantAdminUrl"] = $TenantAdminUrl }
+                Connect-PnPOnline @siteConnectParams
+                Set-PnPRegionalSettings @regParams | Out-Null
+                Connect-PnPOnline @connectParameters
+            }
+            $updated += [ordered]@{ title = $title }
         }
         catch {
-            $failed += [ordered]@{ title = $action.title; error = $_.Exception.Message }
+            $failed += [ordered]@{ title = $title; error = $_.Exception.Message }
         }
     }
 
@@ -139,6 +169,9 @@ if ($Execute) {
     $resultJson = $result | ConvertTo-Json -Depth 8
     $resultJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $resultJson -Encoding UTF8 }
+    if ($failed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {

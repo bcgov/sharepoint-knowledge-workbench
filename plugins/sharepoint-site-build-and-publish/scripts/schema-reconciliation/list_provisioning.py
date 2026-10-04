@@ -141,9 +141,18 @@ class CurrentState:
 class ListCreation:
     title: str
     detail: str
+    template: int = 100
+    description: str = ""
+    content_types: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
-        return {"title": self.title, "detail": self.detail}
+        return {
+            "title": self.title,
+            "detail": self.detail,
+            "template": self.template,
+            "description": self.description,
+            "content_types": list(self.content_types),
+        }
 
 
 @dataclass(frozen=True)
@@ -194,10 +203,10 @@ class ProvisioningPlan:
         for action in self.content_type_actions:
             if not action.already_correct:
                 items.append(("content_type", action.to_dict()))
-        for creation in self.list_creations:
-            items.append(("list_creation", creation.to_dict()))
         for deletion in self.list_deletions:
             items.append(("list_deletion", deletion.to_dict()))
+        for creation in self.list_creations:
+            items.append(("list_creation", creation.to_dict()))
         return items
 
     @property
@@ -276,14 +285,26 @@ def plan_provisioning(schema: ProvisioningSchema, current: CurrentState) -> Prov
 
         if not exists:
             list_creations.append(
-                ListCreation(list_def.title, f"create '{list_def.title}' (template {list_def.template})")
+                ListCreation(
+                    title=list_def.title,
+                    detail=f"create '{list_def.title}' (template {list_def.template})",
+                    template=list_def.template,
+                    description=list_def.description,
+                    content_types=tuple(list_def.content_types),
+                )
             )
         elif list_def.recreate:
             list_deletions.append(
                 ListDeletion(list_def.title, f"delete '{list_def.title}' for recreate", blocking=False)
             )
             list_creations.append(
-                ListCreation(list_def.title, f"recreate '{list_def.title}' (template {list_def.template})")
+                ListCreation(
+                    title=list_def.title,
+                    detail=f"recreate '{list_def.title}' (template {list_def.template})",
+                    template=list_def.template,
+                    description=list_def.description,
+                    content_types=tuple(list_def.content_types),
+                )
             )
 
     has_content = bool(field_actions or content_type_actions or list_creations or list_deletions)
@@ -349,16 +370,26 @@ def apply_provisioning(
 
     executed: list[tuple[str, dict[str, Any]]] = []
     failed: list[tuple[str, str]] = []
+    failed_deletion_titles: set[str] = set()
     forbidden = False
 
     for step, detail in items:
+        if step == "list_creation":
+            title = detail.get("title", "")
+            if title in failed_deletion_titles:
+                failed.append((step, f"skipped creation of '{title}' because preceding deletion failed"))
+                continue
         try:
             executor(step, detail)  # type: ignore[misc]
         except PermissionError as exc:
             forbidden = True
             failed.append((step, f"forbidden: {exc}"))
+            if step == "list_deletion":
+                failed_deletion_titles.add(detail.get("title", ""))
         except Exception as exc:  # noqa: BLE001 -- caller-supplied sink, any error is reportable
             failed.append((step, str(exc)))
+            if step == "list_deletion":
+                failed_deletion_titles.add(detail.get("title", ""))
         else:
             executed.append((step, detail))
 

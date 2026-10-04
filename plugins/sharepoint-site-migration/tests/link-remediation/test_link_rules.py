@@ -106,3 +106,11 @@ def test_module_ships_no_default_rules_and_no_urls():
     assert "http://" not in source
     assert "https://" not in source
     assert ".sharepoint.com" not in source
+
+
+def test_replacement_with_backslashes_is_literal_not_regex_template():
+    rule = RewriteRule(match="http://share", replacement=r"\\server\share")
+    rewritten, matched = rule.apply("http://share/docs")
+    assert matched is True
+    assert rewritten == r"\\server\share/docs"
+

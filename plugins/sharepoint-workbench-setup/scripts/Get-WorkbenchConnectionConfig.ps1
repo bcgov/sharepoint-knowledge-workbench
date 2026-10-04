@@ -24,7 +24,10 @@ function Get-WorkbenchConnectionConfig {
     param([Parameter(Mandatory = $false)][string]$Path)
 
     $resolvedPath = $null
-    if ($Path -and (Test-Path -LiteralPath $Path)) {
+    if ($Path) {
+        if (-not (Test-Path -LiteralPath $Path)) {
+            throw "Explicitly specified ConfigPath '$Path' does not exist."
+        }
         $resolvedPath = (Resolve-Path -LiteralPath $Path).Path
     } else {
         $candidates = @(
@@ -44,25 +47,59 @@ function Get-WorkbenchConnectionConfig {
     }
 
     if (-not $resolvedPath -or -not (Test-Path -LiteralPath $resolvedPath)) {
-        return [pscustomobject]@{ SiteUrl = $null; ClientId = $null; TenantId = $null; TenantAdminUrl = $null; ConfigPath = $null }
+        return [pscustomobject]@{
+            SiteUrl               = $null
+            ClientId              = $null
+            TenantId              = $null
+            TenantAdminUrl        = $null
+            AuthenticationMode    = "Interactive"
+            CertificateThumbprint = $null
+            CertificatePath       = $null
+            ConfigPath            = $null
+        }
     }
 
     $rawConfig = Import-PowerShellDataFile -LiteralPath $resolvedPath
     $cfg = if ($rawConfig.Connection) { $rawConfig.Connection } else { $rawConfig }
-    $tenantAdminUrl = if ($rawConfig.Authentication -and $rawConfig.Authentication.Contains('TenantAdminUrl')) {
-        $rawConfig.Authentication['TenantAdminUrl']
+    $auth = if ($rawConfig.Authentication) { $rawConfig.Authentication } else { @{} }
+    $tenantAdminUrl = if ($auth.Contains('TenantAdminUrl')) {
+        $auth['TenantAdminUrl']
     } elseif ($rawConfig.Contains('TenantAdminUrl')) {
         $rawConfig['TenantAdminUrl']
     } else {
         $null
     }
+    $authMode = if ($cfg.PSObject.Properties.Name -contains 'AuthenticationMode' -and $cfg.AuthenticationMode) {
+        $cfg.AuthenticationMode
+    } elseif ($rawConfig.PSObject.Properties.Name -contains 'AuthenticationMode' -and $rawConfig.AuthenticationMode) {
+        $rawConfig.AuthenticationMode
+    } else {
+        "Interactive"
+    }
+    $certThumbprint = if ($auth.Contains('CertificateThumbprint')) {
+        $auth['CertificateThumbprint']
+    } elseif ($rawConfig.Contains('CertificateThumbprint')) {
+        $rawConfig['CertificateThumbprint']
+    } else {
+        $null
+    }
+    $certPath = if ($auth.Contains('CertificatePath')) {
+        $auth['CertificatePath']
+    } elseif ($rawConfig.Contains('CertificatePath')) {
+        $rawConfig['CertificatePath']
+    } else {
+        $null
+    }
 
     [pscustomobject]@{
-        SiteUrl        = $cfg.SiteUrl
-        ClientId       = $cfg.ClientId
-        TenantId       = $cfg.TenantId
-        TenantAdminUrl = $tenantAdminUrl
-        ConfigPath     = $resolvedPath
+        SiteUrl               = $cfg.SiteUrl
+        ClientId              = $cfg.ClientId
+        TenantId              = $cfg.TenantId
+        TenantAdminUrl        = $tenantAdminUrl
+        AuthenticationMode    = $authMode
+        CertificateThumbprint = $certThumbprint
+        CertificatePath       = $certPath
+        ConfigPath            = $resolvedPath
     }
 }
 
