@@ -1,1 +1,0 @@
-../../../assets/wave-script-template.example.py

@@ -1,0 +1,1 @@
+../../../../scripts/rendering/renderers/validate_rendered.py

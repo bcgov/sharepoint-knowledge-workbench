@@ -1,0 +1,1 @@
+../../../scripts/page-modernization/component_classification.py

@@ -1,6 +1,6 @@
 # Phase 3.0 Write-Exploration Findings — Agent/Skill/Template Capability Discovery
 
-Log of hands-on, authorized capability discovery performed directly on the BC Gov dev site
+Log of hands-on, authorized capability discovery performed directly on the dev site
 (`TargetSite-Dev`), moving beyond the read-only `phase-3-0-tenant-discovery.ps1` script into
 staged, reversible write actions. Site owner (user) explicitly authorized this as an active
 capability-discovery exercise. All artifacts below are labeled `TEST-DO-NOT-USE-*` and are
@@ -19,7 +19,7 @@ sanitized, committable summary.
 
 ## Executive Summary (for external review — e.g. asking GPT-5.6 what else to test)
 
-**Setup:** a document library and a `.agent` file were created on a real BC Gov dev SharePoint
+**Setup:** a document library and a `.agent` file were created on a real dev SharePoint
 site, both entirely via PnP PowerShell (no Copilot UI wizard). Real content was then added: a
 small synthetic test file with a planted secret keyword, and later the **actual real source manual
 rendered output** (25 of 26 topic pages + 111 images from the `docx-to-content` plugin's Phase 1
@@ -46,8 +46,8 @@ through the agent's chat pane in the browser.
    topic files, plus surfaces contextual Copilot suggestion chips automatically. This resolves a
    previously-flagged manual-only verification item from the read-only discovery script.
 5. **Multi-document synthesis across real manual content is high quality**: asked to relate two
-   real source manual topics (warrants, protection orders), the agent correctly identified 3 relevant
-   source files, synthesized an accurate, domain-specific answer (correct form names/codes),
+   real source manual topics (two related procedures), the agent correctly identified 3 relevant
+   source files, synthesized an accurate, domain-specific answer (correct names and codes),
    cited every claim, and explicitly avoided overclaiming a causal relationship the source
    material didn't support.
 6. Built-in Copilot behaviors work without any custom skill: **quiz generation** from grounded
@@ -761,8 +761,8 @@ non-automatable verification. That verification is now done:
   `Get-ChildItem` + `Add-PnPFile` loop that preserves the source folder structure
   (`sample-manual-full/index.md`, `sample-manual-full/pages/*.md`, `sample-manual-full/media/*`).
 - Opening `index.md` directly in the browser renders it with SharePoint's native split-pane
-  Markdown viewer: the `# Index` H1 heading renders correctly, and every relative Markdown link
-  (e.g. `[LOCATE A FILE](pages/locate-a-file--82c06d21.md)`) renders as a real, clickable
+  Markdown viewer: the `# Index` H1 heading renders correctly, and relative Markdown links
+  (for example, links to `pages/locate-a-file--82c06d21.md`) render as real, clickable
   hyperlink in the preview pane — **confirmed working**, including navigating through to the
   linked topic pages themselves (user confirmed clicking through renders correctly, not just the
   index).
@@ -776,26 +776,24 @@ non-automatable verification. That verification is now done:
   no custom web part, and no special SharePoint configuration required. This substantially
   de-risks the "publish rendered manual content directly to SharePoint" path referenced in the
   broader initiative's vision documents. Still to verify as a distinct follow-up: whether a topic
-  page containing embedded images (`![...](../media/...)`) renders those images correctly in the
+  page containing an image with a relative `../media/` reference renders it correctly in the
   same native preview pane, since `index.md` itself contains only links, not images.
 
 ## 14. Multi-document cross-topic synthesis — CONFIRMED, high quality (most impressive result yet)
 
 Uploaded the real source manual rendered output (`sample-manual-full/`, 25 of 26 real topic pages +
 111 media images; `manual-sample/`, 5 hand-picked topics) and asked, using the §
-`test-do-not-use-manual-cross-topic` skill: *"how do warrants relate to protection orders in the
+`test-do-not-use-manual-cross-topic` skill: *"how does procedure A relate to procedure B in the
 source manual?"*
 
 - The agent correctly identified **3 relevant source files** and synthesized across all of them,
-  structuring its answer as "Topic A: Warrants" / "Topic B: Protection Orders" / "Relationship
+  structuring its answer as "Topic A: Procedure A" / "Topic B: Procedure B" / "Relationship
   Between the Topics" — organically matching the *intent* of the skill's structure even though
   (consistent with §12's finding) it did not use the skill's literal `**Answer:**` /
   `**Topics used:**` / `**Cross-topic relationship found:**` labels.
-- Content accuracy was high and domain-specific: correctly named real sample warrant types
-  (Warrant of Arrest/WOA, Warrant of Committal/WOC, Warrant for Arrest/WFA) and protection-order
-  form types (POR, OTP, NRP, RESO/FMER), correctly referenced the Reports Module's Warrants
-  Report and POR Reconciliation Report, and drew an accurate higher-level relationship (both are
-  party-level status indicators, both are court-generated records, both have dedicated
+- Content accuracy was high and domain-specific: correctly named the real sample document types
+  and form types, correctly referenced two reports of the Reports Module, and drew an accurate higher-level relationship (both are
+  party-level status indicators, both are system-generated records, both have dedicated
   monitoring/reporting) — this is real domain content correctly extracted and connected across
   multiple real manual topics, not hallucinated.
 - Each factual claim carried a numbered citation back to its specific source file.
@@ -808,7 +806,7 @@ source manual?"*
 
 - Also notable: the response included a distinct "**Cross-Topic Conclusion**" section that
   carefully avoided overclaiming a causal relationship — explicitly stating *"The manual does not
-  state that a warrant automatically creates or results from a protection order. Instead, it
+  state that item A automatically creates or results from item B. Instead, it
   links them operationally..."* — correctly distinguishing correlation/operational linkage from
   causation, then citing the exact three source files (`parties--62236e0e.md`,
   `document-production--ad3390e0.md`, and a third) backing each claim. This is a meaningful
@@ -857,7 +855,7 @@ holding the whole page's HTML, which worked for headings/lists/paragraphs/tables
 production pipeline would need to decide whether multi-section pages (multiple web parts,
 columns) are worth the added complexity or whether "one Text web part per topic" is sufficient.
 
-**Corroborating research (found this session, from a sibling BC Gov project):**
+**Corroborating research (found this session, from a sibling project):**
 `../legacy-source-repository/plugins/sharepoint-migration/`
 has two directly relevant, more mature skills for classic-ASPX→modern-SPO conversion:
 `sp-converting-aspx-pages` (an 8-stage inventory→classify→layout→map→manifest→validate→
@@ -939,7 +937,7 @@ touches:
 - **Copilot-in-SharePoint's rich-text-editor "rewrite" feature is a separate surface** from
   agents — it only sees the text currently in the editor, not documents or Graph data, and saves
   no history. Not something we tested this session; noted here in case it's ever relevant to a
-  future authoring-workflow question (see `docs/vision/editing-workflow-options-for-external-review.md`).
+  future authoring-workflow question (see `docs/vision/content-authoring-workflow-options.md`).
 - **Responsible-AI/governance framing:** "AI-generated content may be incomplete, inaccurate, or
   out-of-date... should not be relied on without independent verification"; "not for high-risk
   uses (medical, legal, financial, professional advice)"; "customer data is not used to train

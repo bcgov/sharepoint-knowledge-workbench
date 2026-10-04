@@ -1,1 +1,0 @@
-../../content-extraction/scripts/emf_convert.py

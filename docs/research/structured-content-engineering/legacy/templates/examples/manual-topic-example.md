@@ -32,7 +32,7 @@ have forgotten it or it has expired.
 > Do not share the verification code with anyone, including IT staff. IT
 > will never ask you for this code over the phone or by email.
 
-![Password reset screen showing the verification code entry field](../../../references/media/password-reset-screen.png)
+Illustrative image: password reset screen showing the verification code entry field.
 
 ## Expected Result
 
@@ -56,4 +56,4 @@ Service Desk directly to have the lock cleared sooner.
 
 ## Related Topics
 
-- [Setting Up Multi-Factor Authentication](setting-up-mfa-example.md)
+- Setting Up Multi-Factor Authentication (`setting-up-mfa-example.md`)

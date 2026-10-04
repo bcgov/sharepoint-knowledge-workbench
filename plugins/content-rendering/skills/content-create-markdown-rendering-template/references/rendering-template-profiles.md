@@ -1,1 +1,0 @@
-../../../references/rendering-template-profiles.md

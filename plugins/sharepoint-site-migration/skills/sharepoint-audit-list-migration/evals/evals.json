@@ -1,0 +1,26 @@
+[
+  {
+    "id": "eval-1-positive",
+    "type": "positive",
+    "prompt": "Audit list item and lookup fidelity between SharePoint 2016 and SharePoint Online after migration",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-2-positive",
+    "type": "positive",
+    "prompt": "Find dropped or stale identity lookup pointers and business-key suffix skew in migrated SharePoint lists",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-3-negative",
+    "type": "negative",
+    "prompt": "Compare site columns and content types between two SharePoint sites",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-4-negative",
+    "type": "negative",
+    "prompt": "Migrate list items into a newly provisioned SharePoint Online list",
+    "should_trigger": false
+  }
+]

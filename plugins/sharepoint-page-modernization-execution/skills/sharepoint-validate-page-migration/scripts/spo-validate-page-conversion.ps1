@@ -1,1 +1,0 @@
-../../../scripts/spo-validate-page-conversion.ps1

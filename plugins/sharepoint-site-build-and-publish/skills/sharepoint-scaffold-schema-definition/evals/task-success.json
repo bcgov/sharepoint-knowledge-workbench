@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Make me an empty schema definition for pilot-site and save it as schema.json.",
+    "expected_behavior": [
+      "Runs python3 scripts/schema_scaffold.py --label pilot-site --output schema.json",
+      "Reports the written path and that the definition has status OBSERVED with no site columns, content types or lists",
+      "Makes no tenant connection"
+    ]
+  },
+  {
+    "query": "I want a definition that already has one list called 'Staff Directory' with a Title field.",
+    "expected_behavior": [
+      "Uses scaffold_schema(...) with a lists argument, not a hand-edited empty file",
+      "Notes a list without a key gets one derived from its title",
+      "Reports the section counts of the written file"
+    ]
+  },
+  {
+    "query": "Now provision that schema to the production site.",
+    "expected_behavior": [
+      "Declines to provision from this skill",
+      "Points to sharepoint-site-build-and-publish for diffing and sharepoint-site-build-and-publish for execution",
+      "Makes no tenant writes"
+    ]
+  }
+]

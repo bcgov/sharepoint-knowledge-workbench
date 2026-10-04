@@ -1,1 +1,0 @@
-../../../../scripts/schema/shared.py

@@ -1,0 +1,1 @@
+../../../scripts/assembly/hashing.py

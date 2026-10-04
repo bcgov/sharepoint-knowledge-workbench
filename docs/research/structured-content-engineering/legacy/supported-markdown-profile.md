@@ -7,11 +7,11 @@ content renderable across every output format the pipeline supports.
 ## Relative-path rules for images and links
 
 - **Images**: reference image files with a relative path from the topic
-  file, e.g. `![Diagram of the intake form](../media/intake-form.png)`.
+  file, such as `../media/intake-form.png`.
   Never use an absolute filesystem path, a `file://` URL, or a bare
   filename that assumes a specific working directory.
 - **Links to other topics**: reference other topic files with a relative
-  path to that file, e.g. `[Related Topic](related-topic.md)`. Never
+  path to that file, such as `related-topic.md`. Never
   hardcode a rendered-output URL, page number, or site path — the same
   relative reference must resolve correctly regardless of which output
   format the content is eventually rendered to.
@@ -26,8 +26,7 @@ content renderable across every output format the pipeline supports.
 - Ordered and unordered lists, including nested lists.
 - Fenced code blocks with a language hint where applicable.
 - Tables (pipe-table syntax).
-- Relative image references (`![alt](relative/path)`).
-- Relative links to other topic files (`[text](relative/path.md)`).
+- Relative image references and links to other topic files.
 - Semantic callouts in the `> [!TYPE]` form documented in
   `templates/components/README.md`.
 - Blockquotes for quoted material (not for callouts — use the semantic

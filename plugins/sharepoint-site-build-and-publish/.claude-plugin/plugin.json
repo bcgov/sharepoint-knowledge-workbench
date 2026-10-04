@@ -1,0 +1,28 @@
+{
+    "name": "sharepoint-site-build-and-publish",
+    "version": "0.1.0-alpha.1",
+    "description": "Creates, configures and publishes SharePoint content: schema definitions (generate, scaffold, compare) and declarative column, content-type, list/library and calendar reconciliation plans (zero tenant I/O), real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions and taxonomy, and safe content publication (Markdown files, modern pages, page copy plans, publication-state comparison and removal). Every writing script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "publication",
+        "page-promotion",
+        "reconciliation",
+        "tenant-pilot",
+        "discovery",
+        "inventory",
+        "migration-analysis",
+        "modernization",
+        "pnp-powershell",
+        "pages",
+        "provisioning",
+        "site-columns",
+        "content-types",
+        "lists",
+        "schema"
+    ]
+}

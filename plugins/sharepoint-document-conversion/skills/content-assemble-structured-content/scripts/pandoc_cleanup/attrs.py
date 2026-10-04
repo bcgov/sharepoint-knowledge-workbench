@@ -1,0 +1,1 @@
+../../../../scripts/extraction/pandoc/attrs.py

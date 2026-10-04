@@ -1,0 +1,1 @@
+../../../sharepoint-document-conversion/scripts/assembly/hashing.py

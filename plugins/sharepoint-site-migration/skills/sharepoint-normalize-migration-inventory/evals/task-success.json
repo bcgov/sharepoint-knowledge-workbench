@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Validate the site export in ./export before we analyze dependencies.",
+    "expected_behavior": [
+      "Calls validate_export_directory('./export')",
+      "Reports the outcome and every issue, and passes result.matrix_objects on only for OBSERVED or EMPTY",
+      "Makes no tenant call"
+    ]
+  },
+  {
+    "query": "One lookup field in the export has no lookupList. Guess the target and continue.",
+    "expected_behavior": [
+      "Refuses to guess: a Lookup field with no lookupList is FAILED with the exact issue named",
+      "Does not fabricate a lookup target",
+      "Stops before the dependency-graph stage"
+    ]
+  },
+  {
+    "query": "Connect to the source site and pull the inventory for me.",
+    "expected_behavior": [
+      "Explains live-tenant discovery is out of scope for this skill and design-only",
+      "Asks for an export a human already produced",
+      "Points to the collectors in sharepoint-site-assessment as a way to produce one"
+    ]
+  }
+]

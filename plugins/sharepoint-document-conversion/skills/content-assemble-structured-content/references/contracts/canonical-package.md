@@ -1,0 +1,1 @@
+../../../../references/assembly/contracts/canonical-package.md

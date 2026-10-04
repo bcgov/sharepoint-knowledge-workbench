@@ -1,1 +1,0 @@
-../../../scripts/spo-provision-term-set.ps1

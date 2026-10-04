@@ -1,5 +1,10 @@
 # SharePoint Agent and Native Skill Capability Reference
 
+> This capability reference preserves historical tenant findings. Its old plugin and skill
+> names identify the source used when each observation was recorded; they are not current
+> install paths. Use the [current seven-domain catalog](../../architecture/seven-domain-plugin-skill-catalog.md)
+> for current identities.
+
 **Purpose:** Consolidate what has actually been observed, tested, or confirmed on a real tenant
 about the two distinct `AgentAssets`-adjacent artifact types — **SharePoint Copilot agents**
 (`.agent` JSON files) and **native Copilot in SharePoint skills** (`SKILL.md` files) — into one
@@ -91,10 +96,10 @@ confirms otherwise (see §4, "agent-to-skill discovery").
 | Knowledge source requires exact `site_id`/`web_id`/`list_id`/`unique_id`, not just a URL | `CONFIRMED_TENANT_OBSERVATION` | `research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` Part 1 |
 | Classic ASPX pages are **not** automatically indexed/discoverable by agent keyword search | `CONFIRMED_TENANT_OBSERVATION` (platform constraint) | same, Part 1 |
 | Site Pages folder knowledge sources need a real, non-zero `unique_id`; document-library sources use an all-zero `unique_id` | `CONFIRMED_TENANT_OBSERVATION` | `research-experimentation/phase-4-agent-format-learning-journal.md` §"Knowledge Source Structure" |
-| Agent schema is `schemaVersion 0.2.0`, `customCopilotConfig.gptDefinition`, `items_by_url`/`items_by_sharepoint_ids` capability block, `behavior_overrides.special_instructions.discourage_model_knowledge` to force source grounding | `CONFIRMED_TENANT_OBSERVATION` (reverse-engineered from working reference agents) | same; also `plugins/sharepoint-agents-and-skills/skills/create-sharepoint-agent/SKILL.md` |
+| Agent schema is `schemaVersion 0.2.0`, `customCopilotConfig.gptDefinition`, `items_by_url`/`items_by_sharepoint_ids` capability block, `behavior_overrides.special_instructions.discourage_model_knowledge` to force source grounding | `CONFIRMED_TENANT_OBSERVATION` (reverse-engineered from working reference agents) | same; current authoring skill: `plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-create-agent-package/SKILL.md` |
 | A single-knowledge-source agent, if hand-serialized via naive `ConvertTo-Json`, can silently collapse `items_by_url` into a bare object instead of a one-element array (schema-invalid) | `CONFIRMED_TENANT_OBSERVATION` — real bug found and fixed | `create-sharepoint-agent`'s test suite (see its `SKILL.md`) |
 | The default/ready-made Copilot in SharePoint experience *appears* to "launch" a named custom agent from natural language, but may be self-answering rather than truly handing off to the named agent's distinct instructions | `INCONCLUSIVE` — not yet confirmed | `field-note-agent-launch-by-name-not-a-handoff.md` |
-| Raw `.aspx` file upload to a document library is blocked (`Access denied`); only `Add-PnPPage`/`Add-PnPPageTextPart` modern-page creation works | `CONFIRMED_TENANT_OBSERVATION` | referenced in `plugins/sharepoint-content-publication/skills/publish-aspx-to-sharepoint/SKILL.md` §"Real platform constraint recorded" |
+| Raw `.aspx` file upload to a document library is blocked (`Access denied`); only `Add-PnPPage`/`Add-PnPPageTextPart` modern-page creation works | `CONFIRMED_TENANT_OBSERVATION` | Historical source: old publication skill; current publication package is `sharepoint-site-build-and-publish` (see catalog). |
 | Two agents (ASPX-grounded vs. Markdown-grounded) both showed the same two failure modes: inferring "currency" from upload timestamps instead of real review metadata, and giving contradictory confident answers across repeated runs of the same cross-topic question | `CONFIRMED_TENANT_OBSERVATION` (single-tenant test) | `knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md` |
 | Government cloud environments (GCC, GCC High, DoD, 21Vianet-operated M365) do not currently support Copilot in SharePoint preview | `PRODUCT_DOCUMENTED` (Microsoft Learn, not tenant-tested) | `research-copilot-in-sharepoint-preview.md` §3 |
 | HTML content converted via pandoc and published through `Add-PnPPage`/`Add-PnPPageTextPart` renders correctly as a modern page — headings, bullet lists, and embedded images all rendered inline | `CONFIRMED_TENANT_OBSERVATION` | `PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` Part 5. `.docx`/`.pptx` generation, multi-section/multi-web-part pages, and multi-image/table rendering are `NOT_YET_TESTED`. |
@@ -226,7 +231,7 @@ Renderer = Published Output` vision directly against the real source manual rend
   configuration. Embedded-image rendering within a topic page (as opposed to just links) was
   **not yet independently confirmed** — flagged as a distinct follow-up.
 - **Multi-document cross-topic synthesis: `CONFIRMED`, high quality — the strongest single
-  result in this note.** Asked how two real source manual topics (warrants, protection orders) relate,
+  result in this note.** Asked how two real source manual topics (two related procedures) relate,
   the agent correctly identified 3 relevant source files, used correct domain-specific
   terminology and form codes, cited every claim, and explicitly avoided overclaiming a causal
   relationship the source material didn't support (stating the manual only links the topics
@@ -241,7 +246,7 @@ Renderer = Published Output` vision directly against the real source manual rend
   same SampleManual topic, converted via `pandoc -t html` with image URLs rewritten to an uploaded
   `SiteAssets/` folder, rendered correctly — heading, bullet list, body paragraphs, and the first
   embedded image all displayed inline exactly as authored (confirmed by screenshot). Independently
-  corroborated by a sibling BC Gov project's own, more mature ASPX-to-SPO migration research:
+  corroborated by a sibling project's own, more mature ASPX-to-SPO migration research:
   *"There is no direct conversion... it is 'reconstruct pages'"* — modern pages support only
   modern web parts, and PnP PowerShell (`Add-PnPPage`/`Add-PnPPageWebPart`/`Add-PnPPageTextPart`)
   is the recommended automation path.
@@ -320,7 +325,7 @@ Concretely observed in this one session, all `CONFIRMED_TENANT_OBSERVATION`:
 
 - **Incremental content edits mid-review, not just a final save.** Answering checklist question
   1 ("Is the content factually accurate? ... Partially. Notes?") with a specific correction
-  ("update the 3rd branch arrow from 'Small Claims' to 'Small Claims / Notice of Claim'")
+  ("update the 3rd branch arrow from 'Option A' to 'Option A / Option A details'")
   produced an immediate edit to the file's actual Mermaid diagram node label, with a distinct
   "File updated: `desk-orders-workflow-diagram.md`" confirmation and link — before the checklist
   had finished. A second, unrelated style request ("add a header background color and white
@@ -412,8 +417,8 @@ consistent with the documented platform constraint in `research-copilot-in-share
 The deployed `review-manual-topics` skill was put through a dedicated metadata/permission/safety
 evaluation before being accepted as safe to keep deployed. Full detail in
 `PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md` Part 11; evidence reports at
-`docs/reports/phase-4-native-sharepoint-skills/TASK-9-METADATA-VISIBILITY-REPORT.md` and
-`.../TASK-11-SAFETY-EVALUATION-REPORT.md`.
+  the Phase 4 evaluation reports, which are historical evidence and are not part of the current
+  research tree.
 
 **Task 9 — Metadata visibility: `COMPLETE`.** The skill has full structured metadata access —
 it reads SharePoint's structured column/field system directly, not by parsing rendered page
@@ -464,10 +469,10 @@ finding) — worth resolving in a future hardened version rather than treated as
 - No repository tooling currently discovers **unattributed** skills automatically — the three
   found in §3 were identified by manual cross-reference against `git grep`, not by an existing
   skill (see `field-note-agentassets-tenant-inventory-2026-08-05.md` §3, "Gap identified").
-- No post-deployment validation exists for confirming an agent's or skill's *actual* live
-  behavior matches its written definition beyond static hash/content comparison (see
-  `plugins/sharepoint-content-publication/skills/validate-sharepoint-publication/SKILL.md`
-  §"Outstanding work" for the parallel gap on the publication side).
+- The historical notes did not establish automated post-deployment validation of actual live
+  agent behavior. Current Copilot skill identity and verification entry points are listed in
+  the seven-domain catalog and plugin README; verify their current scope before relying on this
+  older gap statement.
 - Licensing/permission questions listed in `field-note-agentassets-skill-creation.md` §8
   (author licensing, user entitlement, Restricted Content Discovery interaction, PAYG
   SharePoint-agent access) remain unanswered.
@@ -481,8 +486,7 @@ finding) — worth resolving in a future hardened version rather than treated as
 - `docs/research/research-experimentation/PHASE-4-SHAREPOINT-AGENTS-CRITICAL-LEARNINGS.md`
 - `docs/research/research-experimentation/phase-4-agent-format-learning-journal.md`
 - `docs/research/knowledge-discovery-retrieval/field-note-aspx-vs-markdown-grounding.md`
-- `plugins/sharepoint-content-publication/skills/publish-aspx-to-sharepoint/SKILL.md`
-- `plugins/sharepoint-agents-and-skills/skills/create-sharepoint-agent/SKILL.md`
+- `plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-create-agent-package/SKILL.md`
 
 Update this document (add a row, don't rewrite history) whenever a new field note confirms,
 contradicts, or extends a capability listed here.

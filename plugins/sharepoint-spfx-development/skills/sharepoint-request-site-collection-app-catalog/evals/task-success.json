@@ -1,0 +1,26 @@
+[
+  {
+    "query": "We are in the enterprise tenancy and need an App Catalog on our test and prod sites.",
+    "expected_behavior": [
+      "Identifies Path A: developers lack Tenant Admin rights, so a ticket to the organization's SharePoint administration team is needed",
+      "Fills in the ticket template with the two target site URLs and cites the prior approved reference tickets",
+      "Does not attempt direct provisioning"
+    ]
+  },
+  {
+    "query": "I own a trial tenant and have Global Admin. Create the catalog on https://contoso.sharepoint.com/sites/Dev.",
+    "expected_behavior": [
+      "Identifies Path B and connects to the tenant admin site (-admin.sharepoint.com), not the target site",
+      "Gives Connect-PnPOnline to the admin URL followed by Add-PnPSiteCollectionAppCatalog -Site <url>",
+      "Leaves the tenant write to the user"
+    ]
+  },
+  {
+    "query": "I connected to the site URL and Add-PnPSiteCollectionAppCatalog failed.",
+    "expected_behavior": [
+      "Explains the connection must be to the tenant admin site URL, not the target site collection",
+      "Asks the user to reconnect to the -admin.sharepoint.com URL",
+      "Offers the Admin Center walkthrough as an alternative"
+    ]
+  }
+]

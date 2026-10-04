@@ -43,4 +43,4 @@ form. Omit this section if there is nothing to document yet.
 
 ## Related Topics
 
-- [<Related topic title>](<relative-link-to-related-topic.md>)
+- <Related topic title> — <relative-link-to-related-topic.md>

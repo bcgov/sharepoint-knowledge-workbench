@@ -1,1 +1,0 @@
-../../../scripts/spo-convert-page-to-modern.ps1

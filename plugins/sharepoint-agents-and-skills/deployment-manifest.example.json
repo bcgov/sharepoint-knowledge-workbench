@@ -1,7 +1,0 @@
-{
-  "skill_name": "review-manual-topics",
-  "repository_path": "plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md",
-  "target_library": "AgentAssets",
-  "target_relative_folder": "Skills/review-manual-topics",
-  "target_filename": "SKILL.md"
-}

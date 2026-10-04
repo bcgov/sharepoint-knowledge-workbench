@@ -1,1 +1,0 @@
-../../../scripts/spo-create-modern-page.ps1

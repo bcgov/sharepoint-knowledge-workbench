@@ -4,6 +4,8 @@
 **Task:** Task 7.5 - Agent format discovery and recreation based on manually created reference agents  
 **Status:** Complete
 
+> **Historical, anonymized evidence.** This is a dated observation from one pilot. Site, web, list and folder identifiers are replaced by distinct placeholders: `<SANDBOX_*>` belong to a retired sandbox site, `<DEV_*>` to the intended development site (`TargetSite-Dev`), `<LIST_ID_*>`/`<UNIQUE_ID_*>` to libraries and folders. Only the relationships matter: IDs copied from an agent on one site silently point a new agent at that site's content. The all-zero GUID is the documented empty value, not a placeholder.
+
 ## Summary
 
 Successfully analyzed three SharePoint agent files (.agent JSON format) to understand the correct structure for Phase 4 native skill agents. Updated automation script to match discovered patterns.
@@ -106,20 +108,20 @@ Agent created successfully with:
 
 ## CRITICAL: Site Isolation Issue & Multi-Stage Fix
 
-**Issue 1 discovered:** Agents created with zero list_ids (00000000-0000-0000-0000-000000000000) permit the SharePoint content picker to expose libraries from OTHER sites, including the retired TargetSite-Dev sandbox.
+**Issue 1 discovered:** Agents created with zero list_ids (00000000-0000-0000-0000-000000000000) permit the SharePoint content picker to expose libraries from OTHER sites, including the retired sandbox site (`<SANDBOX_SITE>`).
 
-**Issue 2 discovered (more critical):** Using site_id and web_id from the wrong site causes agents to reference wrong site's content entirely. Initial script hardcoded values from TEST agent (bd691009-3e48-422a-928b-c01a27aaca06 / 5c76b6ea-19f7-41b2-b29c-c0aa36aaee04) which point to TargetSite-Dev, not TargetSite-Dev.
+**Issue 2 discovered (more critical):** Using site_id and web_id from the wrong site causes agents to reference wrong site's content entirely. Initial script hardcoded values from a TEST agent (`<SANDBOX_SITE_ID>` / `<SANDBOX_WEB_ID>`) which point to the retired sandbox site (`<SANDBOX_SITE>`), not to the intended development site (`TargetSite-Dev`).
 
 **Impact:** Agents referenced retired site's content, violating Phase 4 isolation requirements.
 
 **Fix applied (Stage 1 - Partial):**
 - Changed script from zero list_ids to REAL list_ids from TargetSite-Dev
-- TargetPilotKnowledgePages list_id: `1ff096cb-00ee-4013-a253-d856100fafb2`
-- TargetPilotKnowledge list_id: `0ea7cc13-c318-42d3-96b9-5318e797f083`
+- TargetPilotKnowledgePages list_id: `<LIST_ID_SCRIPT_PAGES>`
+- TargetPilotKnowledge list_id: `<LIST_ID_KNOWLEDGE>`
 
 **Fix applied (Stage 2 - Complete):**
-- Corrected site_id to: `19801e68-6fba-44c7-89c7-923b85baf943` (TargetSite-Dev)
-- Corrected web_id to: `fbff48d7-76dd-4f69-8b03-9f8ed45f07cf` (TargetSite-Dev)
+- Corrected site_id to: `<DEV_SITE_ID>` (TargetSite-Dev)
+- Corrected web_id to: `<DEV_WEB_ID>` (TargetSite-Dev)
 - Extracted from working agent after manual UI configuration
 - Agent now correctly grounds on TargetSite-Dev ONLY
 
@@ -146,8 +148,8 @@ Agent created successfully with:
 | Property | Manual (Works) | Script (Failed) |
 |----------|---|---|
 | URL | `/SitePages/TargetPilotKnowledgePages` | `/TargetPilotKnowledgePages` |
-| list_id | `1a4a1eda-a2fe-4c43-8d48-4a841f07b253` | `1ff096cb-00ee-4013-a253-d856100fafb2` |
-| unique_id | `d260117a-79d8-4586-b9cf-9a0211634556` | `00000000-0000-0000-0000-000000000000` |
+| list_id | `<LIST_ID_MANUAL_AGENT>` | `<LIST_ID_SCRIPT_PAGES>` |
+| unique_id | `<UNIQUE_ID_FOLDER>` | `00000000-0000-0000-0000-000000000000` |
 
 **Why This Matters:**
 - list_id identifies which library/folder to search
@@ -157,8 +159,8 @@ Agent created successfully with:
 
 **Solution:**
 Use the EXACT list_id and unique_id from the working manual agent:
-- list_id: `1a4a1eda-a2fe-4c43-8d48-4a841f07b253`
-- unique_id: `d260117a-79d8-4586-b9cf-9a0211634556`
+- list_id: `<LIST_ID_MANUAL_AGENT>`
+- unique_id: `<UNIQUE_ID_FOLDER>`
 - URL MUST include: `/SitePages/TargetPilotKnowledgePages` (not just the library name)
 
 **Platform Note:** Classic ASPX pages are still not supported by agents for automatic indexing, but manual agent creation works because it manually specifies the exact SitePages folder, allowing direct content access even if search ranking doesn't favor it.

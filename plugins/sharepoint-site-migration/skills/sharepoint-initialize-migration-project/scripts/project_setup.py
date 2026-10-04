@@ -1,0 +1,1 @@
+../../../scripts/migration-planning/project_setup.py

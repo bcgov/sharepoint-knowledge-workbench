@@ -1,8 +1,0 @@
-[
-  {"id":"positive-1","type":"positive","prompt":"How do I request a site collection App Catalog through the BC Government service desk?","should_trigger":true},
-  {"id":"positive-2","type":"positive","prompt":"Provision a site App Catalog in my SharePoint trial tenant","should_trigger":true},
-  {"id":"positive-3","type":"positive","prompt":"Our site cannot install SPFx packages because it has no App Catalog","should_trigger":true},
-  {"id":"negative-1","type":"negative","prompt":"Deploy this sppkg to an existing site App Catalog","should_trigger":false},
-  {"id":"negative-2","type":"negative","prompt":"Create a tenant-wide SharePoint app package","should_trigger":false},
-  {"id":"negative-3","type":"negative","prompt":"Register an installed command set on one library","should_trigger":false}
-]

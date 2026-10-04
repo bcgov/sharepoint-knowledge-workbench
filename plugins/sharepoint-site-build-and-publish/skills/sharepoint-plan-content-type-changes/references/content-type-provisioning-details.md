@@ -1,0 +1,1 @@
+../../../references/schema-reconciliation/content-type-provisioning-details.md

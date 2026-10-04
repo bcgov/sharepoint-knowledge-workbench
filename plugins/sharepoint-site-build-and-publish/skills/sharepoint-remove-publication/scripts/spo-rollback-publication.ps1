@@ -1,0 +1,1 @@
+../../../scripts/content-publication/spo-rollback-publication.ps1

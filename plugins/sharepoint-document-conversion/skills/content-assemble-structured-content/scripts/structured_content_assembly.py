@@ -1,0 +1,1 @@
+../../../scripts/assembly/structured_content_assembly.py

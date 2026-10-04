@@ -247,9 +247,9 @@ limitations, and implementation status.
 ## SharePoint Modern Pages
 
 - **Purpose**: publishing manual content as SharePoint Modern Pages inside
-  an organization's existing SharePoint document/intranet environment.
+  an organization's existing SharePoint document environment.
 - **Audience**: readers who already work inside a SharePoint-based
-  intranet and expect manuals to live there.
+  environment and expect manuals to live there.
 - **Canonical content accepted (planned)**: same canonical package shape
   as Multipage Markdown, mapped to SharePoint's page/web-part model.
 - **Semantic components supported (planned)**: callouts mapped to

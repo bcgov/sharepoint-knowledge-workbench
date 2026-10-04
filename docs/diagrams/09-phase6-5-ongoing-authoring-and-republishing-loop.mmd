@@ -3,7 +3,7 @@ flowchart TD
     subgraph SP1["SharePoint - propose/review only"]
         A["Content owner / reader"]
         B["Published structured content"]
-        C["Edit, change proposal, or review comment"]
+        C["Edit, change proposal, or review comment\nRelated skill: content-review-manual-topic"]
         D["SharePoint agent / native skill"]
 
         B --> A
@@ -22,7 +22,7 @@ flowchart TD
     end
 
     subgraph DET["Deterministic tooling - validation and rendering authority"]
-        H["Validate schema, IDs, links, media, provenance"]
+        H["content-validate-rendered-output\nValidate schema, IDs, links, media, provenance"]
         I["Recalculate identity, lineage, hashes,\ncross-references, publication maps"]
         J{"Validated structured content package?"}
         K["Impact analysis across related topics"]
@@ -37,7 +37,7 @@ flowchart TD
     end
 
     subgraph PUB2["SharePoint - hosts and reconciles"]
-        M["Republish and reconcile updated outputs"]
+        M["sharepoint-apply-page-publication-plan\nRepublish and reconcile updated outputs"]
         N["Governed publication approval"]
         O{"Publication approved?"}
 

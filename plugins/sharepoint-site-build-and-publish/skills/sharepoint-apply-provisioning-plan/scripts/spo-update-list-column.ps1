@@ -1,0 +1,1 @@
+../../../scripts/provisioning/spo-update-list-column.ps1

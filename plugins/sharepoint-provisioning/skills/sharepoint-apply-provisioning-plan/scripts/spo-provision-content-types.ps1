@@ -1,1 +1,0 @@
-../../../scripts/spo-provision-content-types.ps1

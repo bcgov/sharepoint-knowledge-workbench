@@ -1,1 +1,0 @@
-../../../scripts/template_validation.py

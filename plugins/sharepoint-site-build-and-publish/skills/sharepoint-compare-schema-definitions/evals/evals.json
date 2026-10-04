@@ -1,0 +1,15 @@
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Compares schema DEFINITIONS (the declarative SiteSchemaDefinition shape) against each other, or a schema definition against a live SchemaExport (\"what would change if this target definition were applied against this current state\"). Read-only -- consumes local files/objects only, never contacts a tenant, never writes an apply plan.",
+    "prompt": "Use the compare-schema-definitions skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

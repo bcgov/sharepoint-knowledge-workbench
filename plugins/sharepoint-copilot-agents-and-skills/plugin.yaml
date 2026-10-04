@@ -1,0 +1,24 @@
+name: sharepoint-copilot-agents-and-skills
+version: 0.1.0-alpha.1
+description: "Authors, deploys, verifies, backs up and restores SharePoint Copilot agents (.agent packages and templates) and native SKILL.md skills in a tenant's AgentAssets library. Authoring is zero tenant I/O; deploy, restore and undeploy are dry-run by default, with writes gated behind -Execute (restore and undeploy also require an exact confirmation); library provisioning is the exception and writes immediately when run."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - sharepoint-backup-agents
+  - sharepoint-backup-native-skills
+  - sharepoint-create-agent-package
+  - sharepoint-create-agent-package-from-template
+  - sharepoint-create-agent-template
+  - sharepoint-create-native-skill
+  - sharepoint-deploy-native-skill
+  - sharepoint-inspect-agent-knowledge
+  - sharepoint-prepare-agentassets-library
+  - sharepoint-restore-agents
+  - sharepoint-restore-native-skills
+  - sharepoint-undeploy-native-skill
+  - sharepoint-update-agent-package
+  - sharepoint-verify-native-skill

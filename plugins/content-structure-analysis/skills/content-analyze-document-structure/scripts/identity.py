@@ -1,1 +1,0 @@
-../../../scripts/identity.py

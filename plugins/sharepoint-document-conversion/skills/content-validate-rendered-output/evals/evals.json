@@ -1,0 +1,15 @@
+[
+  {
+    "name": "documented-skill-contract",
+    "description": "Validates a staged rendered-output directory (Markdown via render-markdown-pages, or ASPX via render-sharepoint-pages) against the canonical package it was rendered from, and promotes it atomically on PASS. Detects missing/orphan pages, broken links/media references, path traversal, stale source content, and content not traceable back to its source chunk. Always PASS or FAIL, never WARN.",
+    "prompt": "Use the validate-rendered-output skill according to its SKILL.md. State the expected inputs, outputs, safety boundaries, and what the skill must not do.",
+    "expected": [
+      "Uses the skill documented in SKILL.md",
+      "Identifies the required input artifacts or parameters",
+      "Identifies the expected output or report artifact",
+      "Respects the documented plugin boundaries and non-responsibilities",
+      "Does not invent destructive tenant writes or bypass required confirmation gates"
+    ],
+    "should_trigger": true
+  }
+]

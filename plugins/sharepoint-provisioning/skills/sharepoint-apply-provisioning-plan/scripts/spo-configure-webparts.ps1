@@ -1,1 +1,0 @@
-../../../scripts/spo-configure-webparts.ps1
