@@ -40,8 +40,11 @@ from pathlib import Path
 # text (pandoc emits `\]` for a literal `]` byte) otherwise terminates the
 # character class early and the whole reference is silently missed.
 _IMAGE_LINK = re.compile(r'!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)')
+# Each attribute starts with a different character class (`.`, `#`, word) and an unquoted value cannot contain quotes, braces or
+# whitespace, so every `{...}` has exactly one tokenization: no ambiguity, no catastrophic backtracking.
+_ATTR_ITEM = r'(?:\.[\w-]+|#[\w-]+|[\w-]+=(?:"[^"]*"|[^\s"}][^\s}]*))'
 _ATTR_ARTIFACT = re.compile(
-    r'\{(?:\s*(?:\.[\w-]+|#[\w-]+|[\w-]+="[^"]*"|[\w-]+=\S+))+\s*\}'
+    r'\{\s*' + _ATTR_ITEM + r'(?:(?:\s+|(?=[.#]))' + _ATTR_ITEM + r')*\s*\}'
 )
 _HEADING_WITH_IMAGE = re.compile(r'^#{1,6} .*!\[(?:[^\]\\]|\\.)*\]\([^)]*\).*$', re.MULTILINE)
 

@@ -24,10 +24,9 @@ CONNECTION = {"SiteUrl": "https://example.sharepoint.com/sites/Demo"}
 
 def test_build_endpoint_checklist_derives_tenant_from_site_url():
     checklist = build_endpoint_checklist(CONNECTION)
-    hosts = [e["host"] for e in checklist]
-    assert "example.sharepoint.com" in hosts
-    assert "login.microsoftonline.com" in hosts
-    assert "graph.microsoft.com" in hosts
+    hosts = {e["host"] for e in checklist}
+    expected = {"example.sharepoint.com", "login.microsoftonline.com", "graph.microsoft.com"}
+    assert expected <= hosts        # exact host names, not substrings of some URL
 
 
 def test_build_endpoint_checklist_depends_only_on_the_site_hostname():
