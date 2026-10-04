@@ -114,14 +114,43 @@ if ($Execute) {
     $updated = @()
     $failed = @()
 
+    $defaultTypes = @("Text", "Image", "BingMap", "Connect", "ContentRollup", "Events", "GroupCalendar", "Hero", "HighlightedContent", "Link", "List", "News", "PageTitle", "People", "QuickChart", "QuickLinks", "SiteActivity", "Video", "Yammer", "Divider", "Spacer")
+
     foreach ($action in $plan.actions) {
+        $pName = if ($action.PSObject.Properties.Name -contains 'page_name') { $action.page_name } else { $null }
+        $wpType = if ($action.PSObject.Properties.Name -contains 'webpart_type') { $action.webpart_type } else { $null }
+        $component = if ($action.PSObject.Properties.Name -contains 'component') { $action.component } else { $null }
+        $sec = if ($action.PSObject.Properties.Name -contains 'section') { [int]$action.section } else { 1 }
+        $col = if ($action.PSObject.Properties.Name -contains 'column') { [int]$action.column } else { 1 }
+        $props = if ($action.PSObject.Properties.Name -contains 'properties') { $action.properties }
+                 elseif ($action.PSObject.Properties.Name -contains 'webpart_properties') { $action.webpart_properties }
+                 else { $null }
         try {
-            $wpParams = @{ Page = $action.page_name; DefaultWebPartType = $action.webpart_type; Section = [int]$action.section; Column = [int]$action.column; ErrorAction = "Stop" }
+            $wpParams = @{
+                Page        = $pName
+                Section     = $sec
+                Column      = $col
+                ErrorAction = "Stop"
+            }
+            if ($component) {
+                $wpParams["Component"] = $component
+            }
+            elseif ($wpType) {
+                if ($defaultTypes -contains $wpType) {
+                    $wpParams["DefaultWebPartType"] = $wpType
+                }
+                else {
+                    $wpParams["Component"] = $wpType
+                }
+            }
+            if ($props) {
+                $wpParams["Properties"] = $props
+            }
             Add-PnPPageWebPart @wpParams | Out-Null
-            $updated += [ordered]@{ page_name = $action.page_name }
+            $updated += [ordered]@{ page_name = $pName }
         }
         catch {
-            $failed += [ordered]@{ page_name = $action.page_name; error = $_.Exception.Message }
+            $failed += [ordered]@{ page_name = $pName; error = $_.Exception.Message }
         }
     }
 
@@ -139,14 +168,22 @@ if ($Execute) {
     $resultJson = $result | ConvertTo-Json -Depth 8
     $resultJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $resultJson -Encoding UTF8 }
+    if ($failed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
+    $defaultTypes = @("Text", "Image", "BingMap", "Connect", "ContentRollup", "Events", "GroupCalendar", "Hero", "HighlightedContent", "Link", "List", "News", "PageTitle", "People", "QuickChart", "QuickLinks", "SiteActivity", "Video", "Yammer", "Divider", "Spacer")
     $actionPlans = foreach ($action in $plan.actions) {
         $pageName = if ($action.PSObject.Properties.Name -contains 'page_name') { $action.page_name } else { $null }
         $wpType = if ($action.PSObject.Properties.Name -contains 'webpart_type') { $action.webpart_type } else { $null }
+        $component = if ($action.PSObject.Properties.Name -contains 'component') { $action.component } else { $null }
+        $wpTarget = if ($component) { "-Component `"$component`"" }
+                    elseif ($defaultTypes -contains $wpType) { "-DefaultWebPartType `"$wpType`"" }
+                    else { "-Component `"$wpType`"" }
         [ordered]@{
             page_name = $pageName
-            action    = "Add-PnPPageWebPart -Page `"$pageName`" -Component `"$wpType`""
+            action    = "Add-PnPPageWebPart -Page `"$pageName`" $wpTarget"
         }
     }
     $summary = [ordered]@{

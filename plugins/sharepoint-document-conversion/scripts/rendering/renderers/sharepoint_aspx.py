@@ -59,7 +59,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path, PurePosixPath
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlsplit, urlunsplit
 
 _THIS_DIR = Path(__file__).resolve().parent
 _SCRIPTS_DIR = _THIS_DIR.parent
@@ -92,19 +92,24 @@ def _rewrite_local_links(content: str, known_chunk_ids: set) -> str:
     -- a page-relative link to that chunk's rendered sibling page. Same
     policy as multipage_markdown._rewrite_local_links, but targeting
     `.html` instead of `.md` since this renderer's pages are HTML
-    fragments, not Markdown files."""
+    fragments, not Markdown files. Preserves query parameters and fragments."""
 
     def _replace(match: "re.Match") -> str:
         prefix, raw_target, suffix = match.group(1), match.group(2), match.group(3)
-        if raw_target.startswith(("http://", "https://", "#", "mailto:")):
+        if raw_target.startswith(("http://", "https://", "mailto:")):
             return match.group(0)
-        decoded = unquote(raw_target)
-        if not decoded.startswith(_LOCAL_LINK_PREFIX):
+        u = urlsplit(raw_target)
+        if u.scheme or u.netloc:
             return match.group(0)
-        chunk_id = PurePosixPath(decoded).stem
+        decoded_path = unquote(u.path)
+        if not decoded_path.startswith(_LOCAL_LINK_PREFIX):
+            return match.group(0)
+        chunk_id = PurePosixPath(decoded_path).stem
         if chunk_id not in known_chunk_ids:
             return match.group(0)
-        return f"{prefix}{quote(chunk_id)}.html{suffix}"
+        new_path = f"{quote(chunk_id)}.html"
+        new_target = urlunsplit(("", "", new_path, u.query, u.fragment))
+        return f"{prefix}{new_target}{suffix}"
 
     return _LINK_REF.sub(_replace, content)
 
@@ -140,7 +145,7 @@ class SharePointAspxRenderer:
     name = "sharepoint-aspx"
     supported_manifest_versions = frozenset({_canonical_contracts.MANIFEST_SCHEMA_VERSION})
 
-    def render(self, package, output_dir: Path) -> "contracts.RenderResult":
+    def render(self, package, output_dir: Path, template: "Any | None" = None) -> "contracts.RenderResult":
         output_dir = Path(output_dir)
         pages_dir = output_dir / "pages"
         media_dir = output_dir / "media"
@@ -175,13 +180,24 @@ class SharePointAspxRenderer:
         for chunk in ordered_chunks:
             rewritten_md = _rewrite_local_links(chunk.content, known_chunk_ids)
             html_fragment = _markdown_to_html_fragment(rewritten_md)
+            if template is not None:
+                title = chunk.metadata.topic or chunk.metadata.title or chunk.metadata.chunk_id
+                tmpl_text = getattr(template, "content", str(template))
+                final_html = (
+                    tmpl_text
+                    .replace("{{title}}", title)
+                    .replace("{{body}}", html_fragment)
+                    .replace("{{media_dir}}", "../media")
+                )
+            else:
+                final_html = html_fragment
 
             page_path = pages_dir / f"{chunk.metadata.chunk_id}.html"
-            page_path.write_text(html_fragment, encoding="utf-8")
+            page_path.write_text(final_html, encoding="utf-8")
             output_files.append(str(page_path))
 
             media_refs = sorted({
-                unquote(src) for src in _IMG_SRC.findall(html_fragment)
+                unquote(src) for src in _IMG_SRC.findall(final_html)
                 if not src.startswith(("http://", "https://"))
             })
 

@@ -46,7 +46,7 @@ class RewriteRule:
 
     def apply(self, url: str) -> tuple[str, bool]:
         pattern = re.compile(re.escape(self.match), re.IGNORECASE)
-        rewritten, count = pattern.subn(self.replacement, url)
+        rewritten, count = pattern.subn(lambda _: self.replacement, url)
         return rewritten, count > 0
 
     def to_dict(self) -> dict[str, str]:

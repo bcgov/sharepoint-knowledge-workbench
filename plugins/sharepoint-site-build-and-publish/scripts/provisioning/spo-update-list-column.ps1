@@ -118,10 +118,19 @@ if ($Execute) {
         try {
             $setParams = @{ List = $action.list_title; Identity = $action.internal_name; ErrorAction = "Stop" }
             $vals = @{}
-            if ($action.display_name) { $vals["Title"] = $action.display_name }
-            if ($action.description) { $vals["Description"] = $action.description }
-            if ($null -ne $action.required) { $vals["Required"] = [bool]$action.required }
-            if ($vals.Count -gt 0) { $setParams["Values"] = $vals }
+            if ($action.PSObject.Properties.Name -contains 'display_name' -and $action.display_name) {
+                $vals["Title"] = $action.display_name
+            }
+            if ($action.PSObject.Properties.Name -contains 'description' -and $null -ne $action.description) {
+                $vals["Description"] = $action.description
+            }
+            if ($action.PSObject.Properties.Name -contains 'required' -and $null -ne $action.required) {
+                $vals["Required"] = [bool]$action.required
+            }
+            if ($vals.Count -eq 0) {
+                throw "No supported field changes supplied for '$($action.internal_name)' on list '$($action.list_title)'."
+            }
+            $setParams["Values"] = $vals
             Set-PnPField @setParams | Out-Null
             $updated += [ordered]@{ internal_name = $action.internal_name }
         }
@@ -144,6 +153,9 @@ if ($Execute) {
     $resultJson = $result | ConvertTo-Json -Depth 8
     $resultJson
     if ($OutputPath) { Set-Content -LiteralPath $OutputPath -Value $resultJson -Encoding UTF8 }
+    if ($failed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $actionPlans = foreach ($action in $plan.actions) {

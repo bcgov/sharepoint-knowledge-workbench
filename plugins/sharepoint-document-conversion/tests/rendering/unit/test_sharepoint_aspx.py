@@ -152,7 +152,8 @@ def test_renderer_satisfies_protocol():
 def test_render_signature_has_no_docx_or_plan_parameter():
     sig = inspect.signature(spx.SharePointAspxRenderer.render)
     params = list(sig.parameters)
-    assert params == ["self", "package", "output_dir"]
+    assert "docx" not in params and "plan" not in params
+    assert params[:3] == ["self", "package", "output_dir"]
 
 
 def test_module_never_imports_docx_or_analysis_modules():

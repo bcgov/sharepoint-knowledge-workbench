@@ -198,21 +198,20 @@ try {
     Write-Host "App Id     : $($app.Id)" -ForegroundColor Green
     Write-Host "Deployed   : $($app.Deployed)" -ForegroundColor Green
 
-    $verify = Get-PnPApp -Scope $Scope -Identity $app.Id -ErrorAction SilentlyContinue
-    if ($verify) {
-        Write-Host "Verification: PASS (app found in catalog)." -ForegroundColor Green
-    } else {
-        Write-Host "Verification: WARNING (app not returned by Get-PnPApp)." -ForegroundColor Yellow
+    if (-not $app) {
+        throw "Package deployment did not return an app identity."
     }
+
+    $verify = Get-PnPApp -Scope $Scope -Identity $app.Id -ErrorAction Stop
+    if (-not $verify -or -not $verify.Deployed) {
+        throw "Expected app '$($app.Title)' ($($app.Id)) is not deployed in catalog."
+    }
+    Write-Host "Verification: PASS (app found and deployed in catalog)." -ForegroundColor Green
 
     if ($Install -and $Scope -eq "Site") {
         Write-Host "Installing app on the current site ($finalSiteUrl)..." -ForegroundColor Cyan
-        try {
-            Install-PnPApp -Identity $app.Id -Scope Site -ErrorAction Stop | Out-Null
-            Write-Host "Installed app onto site successfully." -ForegroundColor Green
-        } catch {
-            Write-Host "App installation note: $($_.Exception.Message)" -ForegroundColor Yellow
-        }
+        Install-PnPApp -Identity $app.Id -Scope Site -ErrorAction Stop | Out-Null
+        Write-Host "Installed app onto site successfully." -ForegroundColor Green
     }
 }
 catch {

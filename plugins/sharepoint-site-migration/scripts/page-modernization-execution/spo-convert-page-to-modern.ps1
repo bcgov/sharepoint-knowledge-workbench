@@ -154,21 +154,25 @@ if ($Execute) {
     if ($TenantAdminUrl) { $connectParameters["TenantAdminUrl"] = $TenantAdminUrl }
     Connect-PnPOnline @connectParameters
 
-    $sourceItem = Get-PnPListItem -List $SourceLibrary `
-        -Query "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='File'>$PageName</Value></Eq></Where>" `
-        -Fields (@("FileRef", "FileLeafRef") + [string[]]$fieldMappingTable.Keys)
-    if (-not $sourceItem) {
+    $escapedName = [System.Security.SecurityElement]::Escape($PageName)
+    $viewFieldsList = @("FileRef", "FileLeafRef") + [string[]]$fieldMappingTable.Keys
+    $viewFieldsXml = ($viewFieldsList | ForEach-Object { "<FieldRef Name='$_'/>" }) -join ""
+    $camlQuery = "<View><ViewFields>$viewFieldsXml</ViewFields><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='File'>$escapedName</Value></Eq></Where></Query></View>"
+    $sourceItems = @(Get-PnPListItem -List $SourceLibrary -Query $camlQuery)
+    if ($sourceItems.Count -eq 0) {
         throw "No page named '$PageName' found in '$SourceLibrary'."
     }
+    $sourceItem = $sourceItems[0]
 
     ConvertTo-PnPPage -Identity $sourceItem.FieldValues["FileRef"] -TargetWebUrl $SiteUrl `
         -Overwrite -KeepPageCreationModificationInformation -CopyPageMetadata
 
-    $modernItem = Get-PnPListItem -List $TargetLibrary `
-        -Query "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='File'>$PageName</Value></Eq></Where>"
-    if (-not $modernItem) {
+    $modernQuery = "<View><ViewFields><FieldRef Name='FileRef'/><FieldRef Name='FileLeafRef'/></ViewFields><Query><Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='File'>$escapedName</Value></Eq></Where></Query></View>"
+    $modernItems = @(Get-PnPListItem -List $TargetLibrary -Query $modernQuery)
+    if ($modernItems.Count -eq 0) {
         throw "Modern page not found in '$TargetLibrary' after conversion of '$PageName'."
     }
+    $modernItem = $modernItems[0]
 
     $stampValues = [ordered]@{}
     foreach ($sourceFieldName in $fieldMappingTable.Keys) {

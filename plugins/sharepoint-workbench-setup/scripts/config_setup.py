@@ -46,6 +46,9 @@ class ConfigIssue:
     message: str
 
 
+VALID_AUTHENTICATION_MODES = ("Interactive", "Certificate", "DeviceCode")
+
+
 def validate_connection_answers(connection: dict, authentication: dict) -> list:
     """Validate `connection`/`authentication` answers against design
     spec Section 1's mandatory/conditional key rules. Returns a list of
@@ -63,6 +66,12 @@ def validate_connection_answers(connection: dict, authentication: dict) -> list:
             issues.append(ConfigIssue(field_to_code[field], f"Connection.{field} is required"))
 
     mode = connection.get("AuthenticationMode")
+    if mode and mode not in VALID_AUTHENTICATION_MODES:
+        issues.append(ConfigIssue(
+            "invalid_authentication_mode",
+            f"Connection.AuthenticationMode must be one of {VALID_AUTHENTICATION_MODES}, got {mode!r}"
+        ))
+
     for required_field in _CONDITIONAL_AUTH_FIELDS.get(mode, ()):
         if not authentication.get(required_field):
             code = f"missing_{_to_snake_case(required_field)}"

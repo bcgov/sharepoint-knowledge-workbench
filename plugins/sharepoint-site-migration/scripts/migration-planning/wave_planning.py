@@ -109,9 +109,18 @@ def plan_waves(objects: Sequence[DeploymentObject]) -> WavePlan:
     if not objects:
         return WavePlan(stages=(), blocking_findings=(), outcome=Outcome.EMPTY)
 
-    by_name: dict[str, DeploymentObject] = {obj.name: obj for obj in objects}
-
     blocking_findings: list[str] = []
+    seen_names: set[str] = set()
+    by_name: dict[str, DeploymentObject] = {}
+    for obj in objects:
+        if obj.name in seen_names:
+            blocking_findings.append(
+                f"DUPLICATE OBJECT: '{obj.name}' is declared more than once in the supplied object list"
+            )
+        else:
+            seen_names.add(obj.name)
+            by_name[obj.name] = obj
+
     for obj in objects:
         for dep in obj.depends_on:
             if dep not in by_name:

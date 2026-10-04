@@ -69,7 +69,7 @@ requirements each of these satisfies):
 import re
 import sys
 from pathlib import Path, PurePosixPath
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlsplit, urlunsplit
 
 _THIS_DIR = Path(__file__).resolve().parent
 _SCRIPTS_DIR = _THIS_DIR.parent
@@ -98,19 +98,24 @@ def _rewrite_local_links(content: str, known_chunk_ids: set) -> str:
     `pages/`. Links to a chunk_id not present in this render (should not
     happen for an already-vetted package, but left untouched rather than
     guessed at) and all other link forms (external, anchor, mailto) are
-    left exactly as written."""
+    left exactly as written. Preserves query parameters and fragments."""
 
     def _replace(match: "re.Match") -> str:
         prefix, raw_target, suffix = match.group(1), match.group(2), match.group(3)
-        if raw_target.startswith(("http://", "https://", "#", "mailto:")):
+        if raw_target.startswith(("http://", "https://", "mailto:")):
             return match.group(0)
-        decoded = unquote(raw_target)
-        if not decoded.startswith(_LOCAL_LINK_PREFIX):
+        u = urlsplit(raw_target)
+        if u.scheme or u.netloc:
             return match.group(0)
-        chunk_id = PurePosixPath(decoded).stem
+        decoded_path = unquote(u.path)
+        if not decoded_path.startswith(_LOCAL_LINK_PREFIX):
+            return match.group(0)
+        chunk_id = PurePosixPath(decoded_path).stem
         if chunk_id not in known_chunk_ids:
             return match.group(0)
-        return f"{prefix}{quote(chunk_id)}.md{suffix}"
+        new_path = f"{quote(chunk_id)}.md"
+        new_target = urlunsplit(("", "", new_path, u.query, u.fragment))
+        return f"{prefix}{new_target}{suffix}"
 
     return _LINK_REF.sub(_replace, content)
 
@@ -160,7 +165,7 @@ class MultipageMarkdownRenderer:
     name = "multipage-markdown"
     supported_manifest_versions = frozenset({_canonical_contracts.MANIFEST_SCHEMA_VERSION})
 
-    def render(self, package, output_dir: Path) -> "contracts.RenderResult":
+    def render(self, package, output_dir: Path, template: "Any | None" = None) -> "contracts.RenderResult":
         output_dir = Path(output_dir)
         pages_dir = output_dir / "pages"
         media_dir = output_dir / "media"
@@ -195,9 +200,20 @@ class MultipageMarkdownRenderer:
 
         # One page per chunk, in render order.
         for chunk in ordered_chunks:
-            content = _rewrite_local_links(chunk.content, known_chunk_ids)
+            body = _rewrite_local_links(chunk.content, known_chunk_ids)
+            if template is not None:
+                title = chunk.metadata.topic or chunk.metadata.title or chunk.metadata.chunk_id
+                tmpl_text = getattr(template, "content", str(template))
+                page_content = (
+                    tmpl_text
+                    .replace("{{title}}", title)
+                    .replace("{{body}}", body)
+                    .replace("{{media_dir}}", "../media")
+                )
+            else:
+                page_content = body
             page_path = pages_dir / f"{chunk.metadata.chunk_id}.md"
-            page_path.write_text(content)
+            page_path.write_text(page_content)
             output_files.append(str(page_path))
 
         index_path = output_dir / "index.md"

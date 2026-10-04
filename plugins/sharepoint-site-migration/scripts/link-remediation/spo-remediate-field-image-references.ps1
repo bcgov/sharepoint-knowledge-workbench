@@ -101,8 +101,13 @@ if ($changedItems.Count -eq 0) {
 }
 
 if ($Execute) {
-    if ($ConfirmToken -ne "REMEDIATE-SPO-FIELD-IMAGES") {
-        throw "-Execute requires -ConfirmToken REMEDIATE-SPO-FIELD-IMAGES."
+    $expectedToken = if ($plan.PSObject.Properties.Name -contains 'confirmation_token' -and $plan.confirmation_token) {
+        $plan.confirmation_token
+    } else {
+        "REMEDIATE-SPO-FIELD-IMAGES"
+    }
+    if ($ConfirmToken -ne $expectedToken -and $ConfirmToken -ne "REMEDIATE-SPO-FIELD-IMAGES") {
+        throw "-Execute requires -ConfirmToken '$expectedToken'."
     }
     if (-not (Get-Command Set-PnPListItem -ErrorAction SilentlyContinue)) {
         throw "PnP.PowerShell with Set-PnPListItem is required. Install/import PnP.PowerShell before executing."
@@ -136,6 +141,10 @@ if ($Execute) {
     }
 
     $results | ConvertTo-Json -Depth 8
+    $anyFailed = @($results | Where-Object { -not $_.success })
+    if ($anyFailed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $actionPlans = foreach ($fix in $changedItems) {

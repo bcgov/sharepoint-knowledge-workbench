@@ -52,7 +52,7 @@ param(
     [string]$AgentInstructionsPath,
     [string]$AgentInstructions,
 
-    [string[]]$KnowledgeSourcePaths,
+    [object[]]$KnowledgeSourcePaths,
 
     [string]$AgentTemplatePath = (Join-Path $PSScriptRoot '../assets/templates/sharepoint-agent.template.json'),
     [string]$AgentMarkdownTemplatePath,

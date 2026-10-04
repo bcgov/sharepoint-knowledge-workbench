@@ -136,8 +136,13 @@ if ($changedDocuments.Count -eq 0) {
 }
 
 if ($Execute) {
-    if ($ConfirmToken -ne "REMEDIATE-SPO-DOCUMENT-LINKS") {
-        throw "-Execute requires -ConfirmToken REMEDIATE-SPO-DOCUMENT-LINKS."
+    $expectedToken = if ($plan.PSObject.Properties.Name -contains 'confirmation_token' -and $plan.confirmation_token) {
+        $plan.confirmation_token
+    } else {
+        "REMEDIATE-SPO-DOCUMENT-LINKS"
+    }
+    if ($ConfirmToken -ne $expectedToken -and $ConfirmToken -ne "REMEDIATE-SPO-DOCUMENT-LINKS") {
+        throw "-Execute requires -ConfirmToken '$expectedToken'."
     }
     foreach ($cmdlet in @("Set-PnPFileCheckedOut", "Add-PnPFile", "Set-PnPFileCheckedIn")) {
         if (-not (Get-Command $cmdlet -ErrorAction SilentlyContinue)) {
@@ -162,13 +167,22 @@ if ($Execute) {
             throw "remediated_content_path '$($document.remediated_content_path)' for '$($document.source)' does not exist."
         }
 
+        $checkedOut = $false
         try {
             $folder = [System.IO.Path]::GetDirectoryName($document.source) -replace "\\", "/"
             $fileName = [System.IO.Path]::GetFileName($document.source)
 
             Set-PnPFileCheckedOut -Url $document.source | Out-Null
+            $checkedOut = $true
             Add-PnPFile -Path $document.remediated_content_path -Folder $folder -NewFileName $fileName | Out-Null
             Set-PnPFileCheckedIn -Url $document.source -CheckinType MajorCheckIn -Comment $CheckinComment | Out-Null
+            $checkedOut = $false
+
+            $localSize = (Get-Item -LiteralPath $document.remediated_content_path).Length
+            $remoteFile = Get-PnPFile -Url $document.source -AsFileObject -ErrorAction SilentlyContinue
+            if ($remoteFile -and $remoteFile.Length -ne $localSize) {
+                Write-Warning "Uploaded file size ($($remoteFile.Length)) differs from local size ($localSize)."
+            }
 
             [pscustomobject]@{
                 source  = $document.source
@@ -176,6 +190,9 @@ if ($Execute) {
             }
         }
         catch {
+            if ($checkedOut -and (Get-Command Undo-PnPFileCheckout -ErrorAction SilentlyContinue)) {
+                try { Undo-PnPFileCheckout -Url $document.source -ErrorAction SilentlyContinue } catch {}
+            }
             [pscustomobject]@{
                 source  = $document.source
                 success = $false
@@ -185,6 +202,10 @@ if ($Execute) {
     }
 
     $results | ConvertTo-Json -Depth 8
+    $anyFailed = @($results | Where-Object { -not $_.success })
+    if ($anyFailed.Count -gt 0) {
+        exit 1
+    }
 }
 else {
     $actionPlans = foreach ($document in $changedDocuments) {
