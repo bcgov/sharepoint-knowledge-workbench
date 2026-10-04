@@ -1,0 +1,1 @@
+../../../../scripts/extraction/schema/__init__.py

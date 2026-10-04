@@ -1,1 +1,0 @@
-../../../scripts/schema_export.py

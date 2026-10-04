@@ -1,1 +1,0 @@
-../../../../scripts/plan_schema/__init__.py

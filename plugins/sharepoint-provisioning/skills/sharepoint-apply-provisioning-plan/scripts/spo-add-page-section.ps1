@@ -1,1 +1,0 @@
-../../../scripts/spo-add-page-section.ps1

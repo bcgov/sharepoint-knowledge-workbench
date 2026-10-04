@@ -1,100 +1,51 @@
 {
   "name": "sharepoint-knowledge-workbench",
-  "description": "Independently-installable domain plugins for the SharePoint Knowledge Workbench: content-extraction, content-structure-analysis, content-assembly, and content-rendering convert source manuals into validated structured content (Markdown/ASPX); sharepoint-* plugins provide comprehensive discovery, schema reconciliation, tenant provisioning, content publication, page modernization, link remediation, wave planning, SPFx development, and Copilot agent management; workbench-setup provides foundational environment configuration.",
+  "description": "Seven independently installable SharePoint domain plugins: workbench setup, document conversion, site assessment, site build and publish, site migration, Copilot agents and native skills, and SPFx development.",
   "owner": {
     "name": "Richard Fremmerlid"
   },
   "plugins": [
     {
-      "name": "content-extraction",
-      "source": "./plugins/content-extraction",
-      "strict": true
-    },
-    {
-      "name": "content-structure-analysis",
-      "source": "./plugins/content-structure-analysis",
-      "strict": true
-    },
-    {
-      "name": "content-assembly",
-      "source": "./plugins/content-assembly",
-      "strict": true
-    },
-    {
-      "name": "content-rendering",
-      "source": "./plugins/content-rendering",
-      "strict": true
-    },
-    {
-      "name": "sharepoint-content-publication",
-      "source": "./plugins/sharepoint-content-publication",
+      "name": "sharepoint-workbench-setup",
+      "source": "./plugins/sharepoint-workbench-setup",
       "strict": true,
-      "description": "SharePoint tenant publication tooling: packages rendered publication output, reconciles tenant state, and builds safe human-reviewed SPO Site Page copy/promotion plans (never raw .aspx upload). Real PnP executors exist for modern-page creation/upload, markdown/file publishing, rollback, and a read-only post-deployment presence check -- each write executor is dry-run by default, with real writes gated behind -Execute plus an operation-specific -ConfirmToken."
+      "description": "Foundational access, connection and project/document configuration for the whole workbench: guides app-registration requests (unattended App-Only/certificate and interactive/delegated), generates the root SharePoint connection config, runs the document-workflow intake wizard, validates the SharePoint connection and written configuration/profile files, resolves document input/output paths, and provides live network-reachability, authentication and PnP effective-capability probes. Zero tenant I/O by default and zero document extraction/rendering -- live probes are opt-in scripts you run yourself."
     },
     {
-      "name": "sharepoint-agents-and-skills",
-      "source": "./plugins/sharepoint-agents-and-skills",
+      "name": "sharepoint-document-conversion",
+      "source": "./plugins/sharepoint-document-conversion",
       "strict": true,
-      "description": "Authors, deploys, verifies, backs up and restores SharePoint Copilot agents (.agent packages and templates) and native SKILL.md skills in a tenant's AgentAssets library, plus a manual-topic review skill. Authoring is zero tenant I/O; deploy, restore and rollback are dry-run by default, with writes gated behind -Execute and an exact confirmation token."
+      "description": "SharePoint document conversion: extracts a source .docx into a normalized source document, analyzes topic structure and chunking strategy, assembles a validated canonical content package, renders it to multipage Markdown or SharePoint modern pages through local rendering templates, validates the rendered output, and provides single-topic editorial review of rendered Markdown or published pages. Every workflow is local or read-only; nothing in this package writes to a tenant."
     },
     {
-      "name": "workbench-setup",
-      "source": "./plugins/workbench-setup",
-      "strict": true
-    },
-    {
-      "name": "sharepoint-link-remediation",
-      "source": "./plugins/sharepoint-link-remediation",
+      "name": "sharepoint-site-assessment",
+      "source": "./plugins/sharepoint-site-assessment",
       "strict": true,
-      "description": "Generic SharePoint link extraction, rewrite-rule remediation, and post-migration link-integrity validation. Extraction and validation are read-only; the 3 write-capable remediation skills (page links, document-content links, field image references) are dry-run by default and each have a real PnP executor requiring -Execute plus a confirmation token."
+      "description": "Read-only assessment of classic and modern SharePoint sites: analyzes exported inventories and schemas offline (per-page migration complexity scoring, web-part behavior grouping, site navigation depth, custom-form classification, permissions and broken inheritance, schema export comparison, choice columns, calculated columns) and collects them live with read-only PnP.PowerShell/on-prem collectors for lists, libraries, content types and pages. Analysis rules and behavioral knowledge are caller-supplied, never built in; no workflow writes to a tenant."
     },
     {
-      "name": "sharepoint-discovery",
-      "source": "./plugins/sharepoint-discovery",
+      "name": "sharepoint-site-build-and-publish",
+      "source": "./plugins/sharepoint-site-build-and-publish",
       "strict": true,
-      "description": "Collection and analysis of classic and modern SharePoint site inventories and schemas, with zero tenant writes: per-page migration complexity scoring, web-part code grouping, navigation, custom-form and permissions analysis, schema export audit/diff/definition generation and scaffolding, choice-field and calculated-column extraction, plus read-only PnP.PowerShell and on-prem SP2016 collectors, managed-metadata and schema-drift auditors, and a discovery report-set generator."
+      "description": "Creates, configures and publishes SharePoint content: schema definitions (generate, scaffold, compare) and declarative column, content-type, list/library and calendar reconciliation plans (zero tenant I/O), real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions and taxonomy, and safe content publication (Markdown files, modern pages, page copy plans, publication-state comparison and removal). Every writing script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken."
     },
     {
-      "name": "sharepoint-page-modernization",
-      "source": "./plugins/sharepoint-page-modernization",
+      "name": "sharepoint-site-migration",
+      "source": "./plugins/sharepoint-site-migration",
       "strict": true,
-      "description": "Analyses and converts legacy classic SharePoint pages into modern-page conversion plans (section mapping and view files): component inventory, classification, data-driven layout selection, component mapping with explicit gap notices, an offline page preview, and a human-readable Markdown report rendered from a conversion manifest. Produces plans, never tenant writes."
+      "description": "Plans and executes SharePoint site migration: validates a source-site export, derives the object dependency graph and migration wave plan, scaffolds wave scripts, analyzes and modernizes classic pages (plan, preview, single and library conversion, validation, reports), migrates list content with two-pass lookup re-linking, and extracts and updates links in pages, documents and rich-text columns. Planning and analysis are read-only; most writing scripts are dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken; the preserved consumer-specific repair script in the content-audit folder is a documented exception (it writes unless -DryRun is passed), so check each script's own parameters."
     },
     {
-      "name": "sharepoint-page-modernization-execution",
-      "source": "./plugins/sharepoint-page-modernization-execution",
+      "name": "sharepoint-copilot-agents-and-skills",
+      "source": "./plugins/sharepoint-copilot-agents-and-skills",
       "strict": true,
-      "description": "Real PnP.PowerShell page modernization executors: single page conversion, bulk conversion, page copying between sites, and post-conversion validation."
+      "description": "Authors, deploys, verifies, backs up and restores SharePoint Copilot agents (.agent packages and templates) and native SKILL.md skills in a tenant's AgentAssets library. Authoring is zero tenant I/O; deploy, restore and undeploy are dry-run by default, with writes gated behind -Execute (restore and undeploy also require an exact confirmation); library provisioning is the exception and writes immediately when run."
     },
     {
-      "name": "sharepoint-schema-reconciliation",
-      "source": "./plugins/sharepoint-schema-reconciliation",
+      "name": "sharepoint-spfx-development",
+      "source": "./plugins/sharepoint-spfx-development",
       "strict": true,
-      "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning reconciliation. Reconcile-not-recreate semantics, a raw Field XML workaround for calculated/lookup/user columns, and duplicate-title detection before any delete. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token. Zero tenant I/O ships in this plugin (enforced by a test) -- the real PnP executors for these plans live in sharepoint-provisioning instead."
-    },
-    {
-      "name": "sharepoint-provisioning",
-      "source": "./plugins/sharepoint-provisioning",
-      "strict": true,
-      "description": "Real PnP.PowerShell executors for granular CRUD and declarative site-column, list-column, content-type, view, item, list, library, site, branding, navigation, permissions, and taxonomy provisioning. 19 dedicated execution skills: dry-run by default; every write gated behind -Execute and an operation-specific -ConfirmToken."
-    },
-    {
-      "name": "sharepoint-migration-planning",
-      "source": "./plugins/sharepoint-migration-planning",
-      "strict": true,
-      "description": "Plans a SharePoint site migration end-to-end across four implemented skills: project setup (config.psd1 confirmation + working directory), site-inventory export validation (lookup-target normalization), deterministic dependency-graph analysis and deployment wave-order computation (Stage 3a, gated by completeness checks that catch a matrix silently not matching the source it claims to describe, built on this plugin's own wave_planning.py), and generated wave deployment scripts plus a human wave guide (Stage 3b, one wave at a time -- never an unattended run-everything script)."
-    },
-    {
-      "name": "sharepoint-content-migration",
-      "source": "./plugins/sharepoint-content-migration",
-      "strict": true,
-      "description": "Item-level SharePoint content migration and fidelity auditing: batched migration with retry, two-pass lookup-ID relinking, and SP2016-to-SPO list-content and lookup reconciliation. Distinct from schema provisioning. Migration writes remain explicitly gated; audit outputs separate protected source data from zero-PII reports."
-    },
-    {
-      "name": "sharepoint-spfx-authoring",
-      "source": "./plugins/sharepoint-spfx-authoring",
-      "strict": true,
-      "description": "Authors, packages, publishes, and deploys custom SPFx web parts, Form Customizers, and ListView Command Sets for SharePoint Online, including URL-driven related-item forms and React dialog/panel commands. Covers production packaging, App Catalog deployment, content-type association where applicable, and list-scoped command registration and rollback."
+      "description": "SharePoint Framework (SPFx) development for SharePoint Online: scaffolds web parts, React web parts, Master-Detail web parts, form customizers and list-view command sets, sets up the hosted workbench, packages solutions, and delivers them by either of two routes -- App Catalog deployment or direct package publication."
     }
   ]
 }

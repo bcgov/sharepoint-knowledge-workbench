@@ -1,0 +1,1 @@
+../../../scripts/provisioning/spo-update-site-column.ps1

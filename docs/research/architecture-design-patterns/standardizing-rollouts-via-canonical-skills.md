@@ -1,7 +1,13 @@
 # Architecture Note: Standardizing Tenancy Rollouts via Canonical Workbench Skills
 
+> **Research note, not a current command catalog.** This document records rollout
+> findings and proposed standards from an earlier repository state. Plugin names and
+> ownership below may have changed. For current installable package names and skill
+> identities, use the [seven-domain catalog](../../architecture/seven-domain-plugin-skill-catalog.md)
+> and each plugin's current `SKILL.md`; do not copy old command paths from this note.
+
 ## 1. Context & Problem
-During the trial tenancy deployment of custom SPFx web parts (e.g. CrownNet My Fav Apps), ad-hoc PowerShell scripts were temporarily generated under `temp/trialtenancy/*/scripts/` for list provisioning, data seeding, and view configuration.
+During the trial tenancy deployment of custom SPFx web parts (e.g. a "favorite apps" web part), ad-hoc PowerShell scripts were temporarily generated under `temp/trialtenancy/*/scripts/` for list provisioning, data seeding, and view configuration.
 
 While functional, generating throwaway scripts creates:
 - Code duplication across test runs and projects.
@@ -15,9 +21,9 @@ While functional, generating throwaway scripts creates:
 
 | Capability Needed | Legacy Ad-hoc Approach | Canonical Plugin Skill Pattern |
 | :--- | :--- | :--- |
-| **List & Schema Provisioning** | Custom `01-provision-prereq-lists.ps1` | `sharepoint-provisioning` / `sharepoint-apply-provisioning-plan`<br>Pass a declarative `SiteSchemaDefinition.json` specifying lists, fields, and types. |
+| **List & Schema Provisioning** | Custom `01-provision-prereq-lists.ps1` | `sharepoint-site-build-and-publish` / `sharepoint-apply-provisioning-plan`<br>Pass a declarative schema definition specifying lists, fields, and types. |
 | **List Views & Sorting** | Custom `01c-configure-applications-view.ps1` | `sharepoint-create-list-view`<br>Run `spo-provision-list-view.ps1 -PlanPath <view-plan.json> -Execute -ConfirmToken PROVISION-SPO-LIST-VIEW`. |
-| **Sample Data & Content Seeding** | Custom `02-seed-sample-data.ps1` | `sharepoint-content-migration`<br>Run `sharepoint-migrate-sharepoint-list-content` or `sharepoint-add-list-item` with structured JSON input. |
+| **Sample Data & Content Seeding** | Custom `02-seed-sample-data.ps1` | `sharepoint-site-migration` for migration; `sharepoint-site-build-and-publish` for adding items. Confirm the current skill interface before use. |
 | **SPFx Solution Packaging & Deploy** | Custom `04-publish-sppkg.ps1` | `sharepoint-publish-spfx-package`<br>Run `publish-spfx-package.ps1 -PackagePath <path> -Scope Site/Tenant -ConfigPath <config.psd1>`. |
 
 ## 4. Universal Parameter & Execution Standards for Canonical Skills
@@ -69,7 +75,7 @@ All SPFx authoring and deployment tooling must document and handle the 4 distinc
 | Layer | Configuration File | Purpose & UI Location | Example |
 | :--- | :--- | :--- | :--- |
 | **Package File** | `config/package-solution.json` (`paths.zippedPackage`) | Physical `.sppkg` file name generated in `sharepoint/solution/`. | `my-fav-apps-dev.sppkg` |
-| **Solution Name** | `config/package-solution.json` (`solution.name`) | Display title in **App Catalog** and **Site Contents > Add an App**. | `crownnet-my-fav-apps-dev` |
+| **Solution Name** | `config/package-solution.json` (`solution.name`) | Display title in **App Catalog** and **Site Contents > Add an App**. | `my-favorite-apps-dev` |
 | **Solution Version** | `config/package-solution.json` (`solution.version`) | Semantic version string (`1.0.7.0`) triggering SharePoint upgrade prompts. | `1.0.7.0` |
 | **Web Part Selector Title** | `*WebPart.manifest.json` (`preconfiguredEntries[0].title.default`) | 🌟 **The actual name displayed to authors in the SharePoint page `+` toolbox selector.** | `My Applications` |
 | **Toolbox Category** | `*WebPart.manifest.json` (`preconfiguredEntries[0].group.default`) | Category heading in the toolbox. | `Advanced` |
@@ -83,14 +89,14 @@ During real tenant validation, the following cmdlet discrepancies were identifie
 1. **`Publish-PnPPage` vs `Set-PnPPage -Publish`**:
    - **Discrepancy**: PnP.PowerShell has no standalone `Publish-PnPPage` cmdlet. Publishing a modern page requires `Set-PnPPage -Identity "<page>" -Publish` (or `Save-PnPPage -Publish`).
    - **Affected plugin files**:
-     - `plugins/sharepoint-content-publication/scripts/spo-upload-plan.ps1` (Line 131)
-     - `plugins/sharepoint-content-publication/scripts/sharepoint_upload.py`
+     - `plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-upload-plan.ps1` (Line 131)
+     - `plugins/sharepoint-site-build-and-publish/scripts/content-publication/sharepoint_upload.py`
      - Associated `SKILL.md` docstrings.
 
 2. **`Set-PnPView -Query` Parameter**:
    - **Discrepancy**: `Add-PnPView` accepts `-Query`, but `Set-PnPView` does not support `-Query` directly. Modifying CAML queries on existing views requires setting `$view.ViewQuery` and executing `Invoke-PnPQuery`.
    - **Affected plugin files**:
-     - `plugins/sharepoint-provisioning/scripts/spo-provision-list-view.ps1`
+     - `plugins/sharepoint-site-build-and-publish/scripts/provisioning/spo-provision-list-view.ps1`
 
 3. **`config.psd1` Relative Path Resolution**:
    - **Discrepancy**: Scripts assuming `$PSScriptRoot/../../../../config.psd1` fail when executed from repo root if using `Resolve-Path` directly without probing `$PWD` and fallback candidates.
@@ -99,9 +105,9 @@ During real tenant validation, the following cmdlet discrepancies were identifie
 ---
 
 ## 8. Planned Next Steps / Backlog Items
-1. **Audit & Patch Skill Scripts**: Fix `Publish-PnPPage` and `Set-PnPView` across `plugins/sharepoint-content-publication` and `plugins/sharepoint-provisioning`.
+1. **Audit & Patch Skill Scripts**: Fix `Publish-PnPPage` and `Set-PnPView` across `plugins/sharepoint-site-build-and-publish` and `plugins/sharepoint-site-build-and-publish`.
 2. **Apply Universal Parameter Pattern to All 16 Plugins**: Update all plugin provisioning and migration scripts to support explicit parameter overrides (`-SiteUrl`, `-ClientId`, etc.) alongside `config.psd1`.
-3. **Scaffold Generic Manifest Generators**: Provide commands in `workbench-setup` or `sharepoint-provisioning` to scaffold declarative JSON plans from interactive requirements or exports.
+3. **Scaffold Generic Manifest Generators**: This is a proposal from the research period, not a claim about current capability. Check the setup and site-build-and-publish plugin inventories before planning work.
 4. **Unified Rollout Orchestrator**: Create a generic declarative wave orchestrator (`sharepoint-plan-sharepoint-deployment-waves`) that executes pre-flight connectivity -> schema provisioning -> asset upload -> package publication -> view creation in sequence.
 
 ---
@@ -113,13 +119,13 @@ Every `.ps1` script across the 16 plugins will be aligned using the 3-step stand
 2. **Analyze alignment**: Add explicit parameter overrides (`-SiteUrl`, `-ClientId`, `-TenantId`, `-ConfigPath`), prerequisite/lifecycle switches (`-Install`, `-Ensure...`), multi-tier path probing, and verify correct PnP cmdlet syntax.
 3. **Update script & skill**: Update script, sync `.agents/skills` mirror, verify tests, and check off the item.
 
-### 9.1. `plugins/sharepoint-spfx-authoring`
+### 9.1. `plugins/sharepoint-spfx-development`
 - [x] `publish-spfx-package.ps1` — Supports `-Scope Site/Tenant`, `-Install`, `-EnsureSiteAppCatalog`, `-SkipFeatureDeployment`, explicit overrides, and multi-tier config resolution.
 - [x] `package-spfx-solution.ps1` — Supports auto-install of missing `node_modules`, hermetic `npm run build` invocation, and `.sppkg` non-zero validation.
 - [x] `deploy-spfx-package.ps1` — Aligned parameters with `publish-spfx-package.ps1` (supports `-Scope`, `-Install`, `-EnsureSiteAppCatalog`, dual-mode config).
 - [ ] `check-spfx-toolchain.ps1` — Verify Node.js v18/v22 and SPFx toolchain checks.
 
-### 9.2. `plugins/sharepoint-provisioning`
+### 9.2. `plugins/sharepoint-site-build-and-publish`
 - [x] `spo-provision-list-view.ps1` — Fixed `Set-PnPView` / `Add-PnPView` handling, updated CSOM `$view.ViewQuery` + `Invoke-PnPQuery`, and added proper `finally { Disconnect-PnPOnline }`.
 - [ ] `apply-provisioning-plan.ps1` — Add explicit connection parameter overrides and multi-tier config resolution.
 - [ ] `spo-provision-list.ps1` — Add explicit connection parameter overrides and confirmation gating.
@@ -137,19 +143,19 @@ Every `.ps1` script across the 16 plugins will be aligned using the 3-step stand
 - [ ] `spo-configure-column-formatting.ps1` — Add explicit connection parameter overrides.
 - [ ] `spo-detach-content-type.ps1` — Add explicit connection parameter overrides.
 
-### 9.3. `plugins/sharepoint-content-publication`
+### 9.3. `plugins/sharepoint-site-build-and-publish`
 - [x] `spo-upload-plan.ps1` — Replaced invalid `Publish-PnPPage` with `Set-PnPPage -Identity "<page>" -Publish` and added `finally { Disconnect-PnPOnline }`.
 - [ ] `spo-publish-markdown-plan.ps1` — Add explicit connection overrides and verify checkout/checkin discipline.
 - [ ] `spo-validate-publication-deployment.ps1` — Add explicit connection parameter overrides.
 - [ ] `spo-rollback-publication.ps1` — Add explicit connection parameter overrides.
 - [ ] `Get-WorkbenchConnectionConfig.ps1` — Ensure multi-tier path probing (`$PWD`, parent directories).
 
-### 9.4. `plugins/sharepoint-content-migration`
+### 9.4. `plugins/sharepoint-site-migration`
 - [ ] `spo-migrate-list-items.ps1` — Add `Microsoft.SharePoint.Client.FieldUrlValue` formatting support and explicit connection overrides.
 - [ ] `spo-migrate-library-files.ps1` — Add explicit connection overrides and binary verification.
 - [ ] `Get-WorkbenchConnectionConfig.ps1` — Multi-tier path probing alignment.
 
-### 9.5. `plugins/sharepoint-discovery`
+### 9.5. `plugins/sharepoint-site-assessment`
 - [ ] `collect-sharepoint-inventory.ps1` — Add explicit connection overrides.
 - [ ] `collect-sharepoint-schema-export.ps1` — Add explicit connection overrides.
 - [ ] `collect-sharepoint-page-inventory.ps1` — Add explicit connection overrides.
@@ -164,13 +170,13 @@ Every `.ps1` script across the 16 plugins will be aligned using the 3-step stand
 - [ ] `collect-onprem-sharepoint-aspx-pages.ps1` — Add legacy authentication parameter overrides.
 - [ ] `generate-sharepoint-discovery-report-set.ps1` — Add path resolution robustness.
 
-### 9.6. `plugins/sharepoint-page-modernization-execution`
+### 9.6. `plugins/sharepoint-site-migration`
 - [ ] `spo-convert-page-to-modern.ps1` — Verify `ConvertTo-PnPPage` parameter alignment and explicit overrides.
 - [ ] `spo-execute-page-bulk-migration.ps1` — Add explicit connection overrides and progress manifest resume support.
 - [ ] `spo-validate-page-migration.ps1` — Add explicit connection overrides and fail-loud reporting.
 - [ ] `spo-copy-page-between-sites.ps1` — Add explicit source and destination connection parameter overrides.
 
-### 9.7. `plugins/sharepoint-agents-and-skills`
+### 9.7. `plugins/sharepoint-copilot-agents-and-skills`
 - [ ] `deploy-and-verify-skill.ps1` — Add explicit connection parameter overrides and SHA-256 readback check.
 - [ ] `reconcile-deployed-skill.ps1` — Add explicit connection parameter overrides.
 - [ ] `rollback-skill-deployment.ps1` — Add explicit connection parameter overrides and recycle bin discipline.
@@ -191,7 +197,7 @@ Every `.ps1` script across the 16 plugins will be aligned using the 3-step stand
 - [ ] `update-sharepoint-agent.ps1` — Local package update verification.
 - [ ] `create-sharepoint-native-skill.ps1` — Local skill authoring verification.
 
-### 9.8. `plugins/workbench-setup`
+### 9.8. `plugins/sharepoint-workbench-setup`
 - [ ] `test-spo-connection.ps1` — Verify connection reporting across delegated vs app-only modes.
 - [ ] `init-workbench-config.ps1` — Profile template generator alignment.
 - [ ] `resolve-workbench-paths.ps1` — Path resolution alignment.
@@ -216,24 +222,24 @@ Following the update of underlying `.ps1` scripts, every `SKILL.md` file in each
    - Clear documentation of dry-run output vs. the exact `-ConfirmToken <TOKEN>` required for mutation.
 
 ### 10.2. SKILL.md Update Checklist
-- [x] `plugins/sharepoint-spfx-authoring/skills/sharepoint-publish-spfx-package/SKILL.md` — Updated with 4 calling examples, naming matrix, and site activation instructions.
-- [x] `plugins/sharepoint-spfx-authoring/skills/sharepoint-package-spfx-solution/SKILL.md` — Updated with dependency rules, versioning discipline, and naming matrix.
-- [x] `plugins/sharepoint-spfx-authoring/skills/sharepoint-scaffold-spfx-webpart/SKILL.md` — Updated with naming matrix and toolbox title distinction.
-- [ ] `plugins/sharepoint-spfx-authoring/skills/sharepoint-deploy-spfx-solution/SKILL.md`
-- [ ] `plugins/sharepoint-provisioning/skills/sharepoint-create-list-view/SKILL.md`
-- [ ] `plugins/sharepoint-provisioning/skills/sharepoint-create-list/SKILL.md`
-- [ ] `plugins/sharepoint-provisioning/skills/sharepoint-create-document-library/SKILL.md`
-- [ ] `plugins/sharepoint-provisioning/skills/sharepoint-create-site-column/SKILL.md`
-- [ ] `plugins/sharepoint-provisioning/skills/sharepoint-create-content-type/SKILL.md`
-- [ ] `plugins/sharepoint-provisioning/skills/sharepoint-apply-provisioning-plan/SKILL.md`
-- [ ] `plugins/sharepoint-content-publication/skills/sharepoint-publish-aspx-to-sharepoint/SKILL.md`
-- [ ] `plugins/sharepoint-content-publication/skills/sharepoint-publish-markdown-to-sharepoint/SKILL.md`
-- [ ] `plugins/sharepoint-content-publication/skills/sharepoint-upload-content/SKILL.md`
-- [ ] `plugins/sharepoint-content-publication/skills/sharepoint-validate-publication/SKILL.md`
-- [ ] `plugins/sharepoint-content-publication/skills/sharepoint-rollback-sharepoint-publication/SKILL.md`
-- [ ] `plugins/sharepoint-content-migration/skills/sharepoint-migrate-sharepoint-list-content/SKILL.md`
-- [ ] `plugins/sharepoint-content-migration/skills/sharepoint-add-list-item/SKILL.md`
-- [ ] `plugins/sharepoint-discovery/skills/*/SKILL.md` (all 13 discovery skills)
+- [x] `plugins/sharepoint-spfx-development/skills/sharepoint-publish-spfx-package/SKILL.md` — Updated with 4 calling examples, naming matrix, and site activation instructions.
+- [x] `plugins/sharepoint-spfx-development/skills/sharepoint-package-spfx-solution/SKILL.md` — Updated with dependency rules, versioning discipline, and naming matrix.
+- [x] `plugins/sharepoint-spfx-development/skills/sharepoint-scaffold-spfx-webpart/SKILL.md` — Updated with naming matrix and toolbox title distinction.
+- [ ] `plugins/sharepoint-spfx-development/skills/sharepoint-deploy-spfx-solution/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-list-view/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-list/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-document-library/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-site-column/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-content-type/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-apply-provisioning-plan/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-plan-page-publication/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-markdown-files/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-apply-page-publication-plan/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-validate-publication/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-remove-publication/SKILL.md`
+- [ ] `plugins/sharepoint-site-migration/skills/sharepoint-migrate-list-content/SKILL.md`
+- [ ] `plugins/sharepoint-site-build-and-publish/skills/sharepoint-add-list-item/SKILL.md`
+- [ ] `plugins/sharepoint-site-assessment/skills/*/SKILL.md` (all 13 discovery skills)
 - [ ] `plugins/sharepoint-page-modernization-execution/skills/*/SKILL.md` (all 4 modernization execution skills)
-- [ ] `plugins/sharepoint-agents-and-skills/skills/*/SKILL.md` (all 19 agent/skill management skills)
-- [ ] `plugins/workbench-setup/skills/*/SKILL.md` (all 5 workbench setup skills)
+- [ ] `plugins/sharepoint-copilot-agents-and-skills/skills/*/SKILL.md` (all 19 agent/skill management skills)
+- [ ] `plugins/sharepoint-workbench-setup/skills/*/SKILL.md` (all 5 workbench setup skills)

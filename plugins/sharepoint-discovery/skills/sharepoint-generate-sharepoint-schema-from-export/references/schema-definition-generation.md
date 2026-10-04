@@ -1,1 +1,0 @@
-../../../references/schema-definition-generation.md

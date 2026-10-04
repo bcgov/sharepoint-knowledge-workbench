@@ -9,12 +9,12 @@ globs: ["*.ps1"]
 **Applies to every live-tenant `.ps1` script in this repo** (`plugins/*/scripts/*.ps1`,
 `plugins/*/skills/*/scripts/*.ps1`) **except scripts that explicitly document Certificate/App-Only
 auth** (e.g. an unattended cert-based service script built per
-`plugins/workbench-setup/references/app-registration-overview.md`'s App-Only scenario) — those
+`plugins/sharepoint-workbench-setup/references/app-registration-overview.md`'s App-Only scenario) — those
 follow their own documented certificate flow instead, not this one.
 
 Reference implementation:
-`plugins/workbench-setup/scripts/test-spo-connection.ps1` (baseline) and
-`plugins/sharepoint-content-publication/scripts/spo-page-copy-plan.ps1` (baseline +
+`plugins/sharepoint-workbench-setup/scripts/test-spo-connection.ps1` (baseline) and
+`plugins/sharepoint-site-migration/scripts/page-modernization-execution/spo-page-copy-plan.ps1` (baseline +
 `TenantAdminUrl`).
 
 ### The pattern
@@ -54,7 +54,7 @@ Reference implementation:
 
 **Incident (2026-08-11):** `spo-page-copy-plan.ps1`'s `-Execute` path called `Copy-PnPPage` after
 connecting only to the source site, with no `-TenantAdminUrl`. It failed against the real tenant
-(`bcgov.sharepoint.com`) with "Unable to connect to the SharePoint Online Admin Center ... Attempted
+(`<tenant>.sharepoint.com`) with "Unable to connect to the SharePoint Online Admin Center ... Attempted
 to perform an unauthorized operation" — not a script logic bug, but a missing standard-auth
 parameter. Fixed by adding a `-TenantAdminUrl` parameter, sourcing it from `config.psd1`'s
 `Authentication.TenantAdminUrl`, and passing it through every `Connect-PnPOnline` call the script

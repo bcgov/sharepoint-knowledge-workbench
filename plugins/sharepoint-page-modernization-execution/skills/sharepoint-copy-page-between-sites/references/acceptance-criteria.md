@@ -1,1 +1,0 @@
-../../../references/sharepoint-copy-page-between-sites-acceptance-criteria.md

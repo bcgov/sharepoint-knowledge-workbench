@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "DESIGN SCAFFOLD - draft shape only, not yet validated against a real implementation or test suite. Generalizes the OBSERVED SHAPE of wave-dependency-matrix.json from a separate SharePoint migration repository (wave, objectType, sourceName/destinationName, dependsOn) with zero project-specific content. dependsOn here is BY OBJECT NAME ONLY -- the source's practice of also allowing a bare wave-number string was deliberately not carried forward (see sharepoint-site-build-and-publish/scripts/wave_planning.py's module docstring for why).",
+  "title": "SharePoint Migration Dependency Matrix",
+  "type": "object",
+  "required": ["objects"],
+  "properties": {
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "objectType", "dependsOn"],
+        "properties": {
+          "name": { "type": "string", "description": "Unique object name, e.g. a list, content type, or field name." },
+          "objectType": { "type": "string", "description": "Caller-defined free text, e.g. 'List', 'ContentType', 'SiteColumn'. Not a fixed enum." },
+          "dependsOn": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Names of other objects in this array that must be deployed first."
+          }
+        }
+      }
+    },
+    "waves": {
+      "type": "array",
+      "description": "Computed by analyze-migration-dependencies via wave_planning.plan_waves() -- not hand-authored.",
+      "items": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+  }
+}

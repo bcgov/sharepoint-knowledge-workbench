@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-site-assessment"
+version = "0.1.0-alpha.1"
+description = "Read-only analysis of classic SharePoint discovery exports: page inventory and complexity planning, web part code classification, site navigation architecture, custom form inventory, and permissions/broken-inheritance analysis. Zero tenant I/O -- reads already-collected export files only."
+requires-python = ">=3.10"
+# No dependency on any other workbench distribution -- this plugin must install and run
+# standalone (Phase 4.5 convention, Phase 9 spec §14 independence requirement).
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "discovery_inputs", "page_inventory_analysis", "webpart_code_analysis", "navigation_analysis", "forms_analysis", "permissions_analysis",
+    # schema comparison / definition / field-extraction modules (assessment workflows moved here with their local dependencies)
+    "schema_export", "schema_definition", "schema_diff", "schema_scaffold", "duplicate_fields", "choice_fields", "calculated_columns",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"
+
+[tool.setuptools.package-data]
+"*" = ["*.json"]
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]
+testpaths = ["tests"]

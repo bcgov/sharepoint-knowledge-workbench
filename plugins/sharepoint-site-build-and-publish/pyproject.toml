@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-site-build-and-publish"
+version = "0.1.0-alpha.1"
+description = "Creates, configures and publishes SharePoint content: schema definitions (generate, scaffold, compare) and declarative column, content-type, list/library and calendar reconciliation plans (zero tenant I/O), real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions and taxonomy, and safe content publication (Markdown files, modern pages, page copy plans, publication-state comparison and removal). Every writing script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken."
+requires-python = ">=3.10"
+# Every consolidated implementation is dependency-free and runs standalone from its namespace folder.
+dependencies = []
+
+# This package bundles several flat-module implementations in namespace folders under scripts/. Same-named
+# modules exist in more than one namespace, so there is no single importable distribution of them: scripts run
+# from their own folder and tests run one namespace per process (tests/run_namespaces.py). The original
+# per-plugin setuptools settings are preserved in references/source-packages/<source-plugin>/pyproject.toml.source.
+[tool.setuptools]
+py-modules = []

@@ -1,0 +1,1 @@
+../../../scripts/provisioning/spo-configure-library-settings.ps1

@@ -1,0 +1,1 @@
+../../../../sharepoint-document-conversion/scripts/assembly/canonical_schema/__init__.py

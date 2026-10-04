@@ -1,13 +1,13 @@
 flowchart LR
     Source["Source Word Document"]
-    Analyze["1. Analyze and Plan\nTemporary extraction\nStructure and statistics\nOrganization recommendation"]
+    Analyze["1. Analyze and Plan\ncontent-extract-docx\ncontent-analyze-document-structure"]
     Confirm{"User Confirms\nor Overrides"}
-    Convert["2. Create Structured Content\nClean, organize, chunk\nand package"]
+    Convert["2. Create Structured Content\ncontent-assemble-structured-content"]
     Structured["Validated Structured Content\nAuthor-maintained knowledge\n+ metadata + media"]
     Generate["3. Generate Derived Elements\nTOC, navigation, indexes\nkeyword summaries"]
-    Render["4. Apply Template and Render"]
-    Output["Validated Desired Outputs"]
-    Evidence["Evidence and Human Review"]
+    Render["4. Apply Template and Render\ncontent-render-markdown-pages\ncontent-render-sharepoint-pages"]
+    Output["Validated Desired Outputs\ncontent-validate-rendered-output"]
+    Evidence["Evidence and Human Review\ncontent-compare-rendered-output\ncontent-review-manual-topic"]
 
     Source --> Analyze --> Confirm
     Confirm -- "Override" --> Analyze

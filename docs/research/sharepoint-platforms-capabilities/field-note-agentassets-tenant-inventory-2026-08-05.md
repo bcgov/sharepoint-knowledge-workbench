@@ -27,7 +27,7 @@ capability a dedicated skill should own.
 | Item | Path | Size (bytes) | Repository attribution |
 |---|---|---|---|
 | `sample-test-skill` | `AgentAssets/Skills/sample-test-skill/SKILL.md` | 821 | **Known** — created by `tools/phase-4-native-sharepoint-skills/deployment/scripts/create-test-skill.ps1` (Phase 4.7.5 test skill). |
-| `review-manual-topics` | `AgentAssets/Skills/review-manual-topics/SKILL.md` | 9,461 | **Known** — the repository's own deployed skill (see `field-note-agentassets-skill-creation.md`). Verified byte-for-byte identical to `plugins/sharepoint-agents-and-skills/skills/review-manual-topics/SKILL.md` (only a trailing-newline difference) — **no drift**. |
+| `review-manual-topics` | `AgentAssets/Skills/review-manual-topics/SKILL.md` | 9,461 | **Known** — repository skill at the time of this 2026-08-05 observation (see `field-note-agentassets-skill-creation.md`). It has since moved into `sharepoint-document-conversion`; consult the current seven-domain catalog before using old paths. |
 | `sample-procedure-review-template.md` | `AgentAssets/sample-procedure-review-template.md` | 383 | **Known** — a tracked Phase 4 deliverable template (see `tools/phase-5-sharepoint-knowledge-agent-pilot/backup-skills-and-templates.ps1`'s own docstring, which explicitly lists it as "real Phase 4 deliverables, explicitly NOT in scope for any deletion"). |
 | `build-sample-module-test` | `AgentAssets/Skills/build-sample-module-test/SKILL.md` | 3,949 | **Unattributed.** No match anywhere in this repository's tracked source, docs, or tools for this skill name or its content. Not created by any script in this repo. |
 | `sample-workflow-diagram` | `AgentAssets/Skills/sample-workflow-diagram/SKILL.md` | 3,779 | **Unattributed.** Same as above — no repository source. |
@@ -103,7 +103,7 @@ executes as written, at least via this invocation surface.
 
 ## 3. Gap identified
 
-No skill under `plugins/sharepoint-agents-and-skills/skills/` currently performs the discovery
+No skill under `plugins/sharepoint-copilot-agents-and-skills/skills/` currently performs the discovery
 + download + capability-analysis + write-up sequence this note required manually:
 
 - `inventory-and-validate-agentassets` only confirms existence/readiness and lists filenames —

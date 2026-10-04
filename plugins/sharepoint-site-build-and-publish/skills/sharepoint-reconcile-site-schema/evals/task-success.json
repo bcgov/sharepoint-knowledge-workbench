@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Reconcile this whole schema against what is live and tell me what would change.",
+    "expected_behavior": [
+      "Calls plan_provisioning(schema, current_state) and reports the plan outcome and to_dict() contents",
+      "Surfaces any blocking_findings, especially duplicate-titled lists",
+      "Applies nothing"
+    ]
+  },
+  {
+    "query": "There are two live lists named 'Orders' and the plan recreates it. Apply it with the plan's token anyway.",
+    "expected_behavior": [
+      "Explains duplicate-titled lists unconditionally block execution (DuplicateListsBlockProvisioning) regardless of the token",
+      "Refuses to apply and asks for the duplicate to be resolved first",
+      "Does not work around the gate"
+    ]
+  },
+  {
+    "query": "Apply the plan, but I do not have an executor wired up.",
+    "expected_behavior": [
+      "Explains a real apply raises ExecutorRequired without an injected executor(step, detail) and that the module ships no tenant transport",
+      "Points to the sharepoint-site-build-and-publish plugin's spo-provision-list.ps1 via sharepoint-apply-provisioning-plan as the real executor",
+      "Keeps the run a dry run until an executor and confirm=plan.confirmation_token exist"
+    ]
+  }
+]

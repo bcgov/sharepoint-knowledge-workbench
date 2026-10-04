@@ -1,0 +1,1 @@
+../../../scripts/provisioning/spo-configure-column-formatting.ps1

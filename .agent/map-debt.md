@@ -156,7 +156,7 @@
 
 - **Logged Date**: 2026-08-11
 - **Cycle/Session ID**: `9df8d825-19a5-46ef-88e8-4b18c496f39d`
-- **Artifact Affected**: `temp/bc-gov-sharepoint-aspx-experiment.ps1`,
+- **Artifact Affected**: `temp/sharepoint-aspx-experiment.ps1`,
   `temp/spo-page-checkout-utility.ps1`
 - **Friction Observed**: the initial scratch page-edit flow mutated `CanvasContent1`/published
   without explicitly checking out and checking in the target Site Pages file.
@@ -164,8 +164,8 @@
   scratch experiment and did not account for libraries requiring checkout/version discipline.
 - **Recommended fix**: keep checkout/checkin as a reusable helper around all future page-canvas
   mutation scripts before promoting any learning into `plugins/sharepoint-content-publication/`.
-- **Evidence or reproduction step**: run `temp/bc-gov-sharepoint-aspx-experiment.ps1 -Execute
-  -Action ReplaceHeader -ConfirmToken BC-GOV-ASPX-EXPERIMENT`; the write path now dot-sources
+- **Evidence or reproduction step**: run `temp/sharepoint-aspx-experiment.ps1 -Execute
+  -Action ReplaceHeader -ConfirmToken <CONFIRM_TOKEN>`; the write path now dot-sources
   `temp/spo-page-checkout-utility.ps1`, calls `Invoke-SpoPageCheckout`, mutates `CanvasContent1`,
   calls `Invoke-SpoPageCheckin`, then publishes.
 - **Severity**: M
@@ -176,7 +176,7 @@
 
 - **Logged Date**: 2026-08-11
 - **Cycle/Session ID**: `9df8d825-19a5-46ef-88e8-4b18c496f39d`
-- **Artifact Affected**: `temp/bc-gov-sharepoint-aspx-experiment.ps1`,
+- **Artifact Affected**: `temp/sharepoint-aspx-experiment.ps1`,
   `temp/spo-page-checkout-utility.ps1`,
   `temp/spo-page-style-section-headings-experiment.ps1`,
   `temp/spo-list-webpart-format-experiment.ps1`, future
@@ -235,7 +235,7 @@
   - `plugins/sharepoint-content-publication/scripts/spo-validate-page-conversion.ps1`
     for validation/readback patterns after page conversion.
 - **Evidence or reproduction step**: run
-  `temp/bc-gov-sharepoint-aspx-experiment.ps1 -Execute -Action Export` against
+  `temp/sharepoint-aspx-experiment.ps1 -Execute -Action Export` against
   `TopicHome Copy.aspx` and inspect `canvas-controls.json`/`CanvasContent1.html`; earlier
   over-encoded RTE body rendered as visible `<section style=...>` text on the page. Additional
   scratch scripts now cover section-heading text cleanup and list-web-part view-formatting
@@ -365,7 +365,7 @@
   established convention exactly (`Get-WorkbenchConnectionConfig` from `config.psd1`, dry-run
   default, `-Execute` + a literal `-ConfirmToken`, `Get-Command`-gated PnP cmdlet checks). Real PnP
   cmdlet sequences verified against `Repair-EmbeddedLinks.ps1` in the source repository (proven
-  cmdlets only, none of its LegacyIntranet-specific config/literals ported).
+  cmdlets only, none of its LegacySite-specific config/literals ported).
 - **Reusable design seam, worth remembering for any future document-content-mutation executor**:
   `document_link_remediation.py`'s OOXML zipfile/XML-part rewrite is Python-only logic — it can't be
   reimplemented in PowerShell, and rewritten file bytes aren't JSON-safe to put in a plan file. The
@@ -384,7 +384,7 @@
   factoring into a genuinely shared, symlinked helper if a 4th plugin needs the same
   `config.psd1`-reading logic — not urgent, flagged here so it isn't silently reinvented a 4th time.
 - **Evidence**: all 3 scripts parse-check clean (`[System.Management.Automation.Language.Parser]::ParseFile`),
-  zero project-specific literal leakage (grepped for `LegacyIntranet`/`LegacySource`/`LegacyApp`/`LegacyOrg`/`LegacyOrg`),
+  zero project-specific literal leakage (grepped for `LegacySite`/`LegacySource`/`LegacyApp`/`LegacyOrg`/`LegacyOrg`),
   all 6 skill-directory symlinks (3 `.ps1` + pre-existing Python copies) verified real via
   `Get-ChildItem`'s `LinkType: SymbolicLink`, 164/164 real tests passing (1 pre-existing unrelated
   failure, `test_no_module_lives_only_inside_a_skill_directory` re: `evals.json`, confirmed via
@@ -504,7 +504,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
      `ExecutorRequired` without an injected executor; no `.ps1` in the plugin.
   4. **List-item content migration** (`sharepoint-content-migration`) — **STUB**, same
      `ExecutorRequired` pattern in `item_migration.py::apply_item_migration`. Source:
-     `wave2-persons.ps1`, `wave3-person-dependents.ps1` etc.
+     `wave2-<list>.ps1`, `wave3-<list>-dependents.ps1` etc.
   5. **Page upload/publish** (`sharepoint-content-publication`) — **STUB** (the finding that started
      this audit). Source: `plugins/sharepoint-migration/scripts/upload/upload-modern-page.ps1`
      (real `Add-PnPPage`/`Add-PnPPageTextPart`/`Publish-PnPPage`). Workbench `sharepoint_upload.py`
@@ -580,7 +580,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   manifest + throttle, kept from the source's already-generic design, minus its link-repair step
   which belongs to `sharepoint-link-remediation` not duplicated here), and `validate-page-migration`
   (`spo-validate-page-conversion.ps1`, read-only post-run validator). Two real literal leaks
-  (`"MediaInfo"`, a real LegacyIntranet library name) found and fixed during independent verification,
+  (`"MediaInfo"`, a real LegacySite library name) found and fixed during independent verification,
   in `.EXAMPLE` blocks that would have otherwise passed a cursory review. All 3 scripts parse
   clean, zero remaining project-literal matches, all 5 symlinks confirmed real (`l` mode bit) via
   `Get-ChildItem`, dry-run output verified to produce zero tenant I/O by default, plugin's 38-test
@@ -623,8 +623,8 @@ lesson, recorded once here instead of re-derived plugin by plugin.
     (17 assets + 14 references + 3 top-level tests). ~11 are real onboarding candidates (9 reusable
     report templates, 2 methodology docs); 1 (`webpart-migration-rules.json`) confirmed already
     ported (byte-diffed against the destination copy, exit 0 — not just a filename match); 22 are
-    correctly LegacySource-specific project data/runbooks/decision records (including actual government
-    service-request/denial letters) that should stay in the source repo, not be onboarded.
+    correctly LegacySource-specific project data/runbooks/decision records (including real client
+    correspondence) that should stay in the source repo, not be onboarded.
   - **Implication beyond `sharepoint-discovery`**: the source repo's `skills/`, `agents/`,
     `assets/`, and `references/` span multiple destination plugins (schema, provisioning,
     content-migration, content-publication, link-remediation, page-modernization,
@@ -646,7 +646,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   plugin's 63-test suite still passes, symlinks confirmed real (`l` mode bit) via `ls -la`.
   `plugin.yaml` and `.claude-plugin/plugin.json` both updated (skill added, "zero tenant I/O"
   claim corrected to reflect this plugin now has a real collector). One LegacySource-specific list-name
-  literal (`All_Appearances`) found leaking into a usage example during verification and fixed in
+  literal (a fixed list name) found leaking into a usage example during verification and fixed in
   both the script and SKILL.md.
 - **Update (2026-08-11, same day, later session): `sharepoint-discovery` gap #1 now substantially
   closed.** Following the user's explicit "get one plugin correct first" direction, 4 parallel
@@ -654,7 +654,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   collector gap this plugin had:
   - `audit-managed-metadata` (new skill) — 2 scripts (modern SPO + on-prem SP2016 variants).
   - `audit-onprem-schema-drift` (new skill) — 1 script, generalized from a heavily LegacySource-hardcoded
-    source (removed hardcoded `$WatchFields`/`$SourceLists`/`'ITAU_Cal_*'` pattern matching and a
+    source (removed hardcoded `$WatchFields`/`$SourceLists`/consumer-specific list-name pattern matching and a
     LegacySource-specific workflow-name search, replaced with `-SourceListNames`/`-DestinationListNames`/
     `-DestinationListPattern`/`-WatchFieldNames` parameters).
   - `generate-discovery-report-set` (new skill) — 1 script, **a corrective rewrite, not a port**:
@@ -925,7 +925,7 @@ lesson, recorded once here instead of re-derived plugin by plugin.
   brief both require any shared script/reference symlinked into a skill folder to go through
   `.agents/skills/symlink-manager/scripts/symlink_manager.py`. That path does not exist in this
   worktree (`.agents/` is not populated here); the only `symlink_manager.py` copies found on disk
-  live in sibling repos (`agent-plugins-skills`, `jag-legacy-oracle-plugins`) or `~/Downloads`.
+  live in sibling repos (`agent-plugins-skills`, a legacy sibling plugin repo) or `~/Downloads`.
   `sharepoint-provisioning` did not end up needing any symlinks (all three skills' only file is a
   real `SKILL.md`, matching `sharepoint-schema`'s/`sharepoint-link-remediation`'s precedent of
   skills with no bundled scripts/references), so this was not blocking, but it would block the

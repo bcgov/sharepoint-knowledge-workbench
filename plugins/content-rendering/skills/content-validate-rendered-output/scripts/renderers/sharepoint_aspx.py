@@ -1,1 +1,0 @@
-../../../../scripts/renderers/sharepoint_aspx.py

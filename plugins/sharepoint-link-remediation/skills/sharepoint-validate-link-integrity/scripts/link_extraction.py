@@ -1,1 +1,0 @@
-../../../scripts/link_extraction.py

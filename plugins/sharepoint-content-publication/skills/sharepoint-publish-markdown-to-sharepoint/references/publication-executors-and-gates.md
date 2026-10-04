@@ -1,1 +1,0 @@
-../../../references/publication-executors-and-gates.md

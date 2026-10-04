@@ -1,1 +1,0 @@
-../../../references/content-type-provisioning-details.md

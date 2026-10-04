@@ -1,1 +1,0 @@
-../../../references/sharepoint-audit-list-content-acceptance-criteria.md

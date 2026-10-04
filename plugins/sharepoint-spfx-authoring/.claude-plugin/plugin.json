@@ -1,8 +1,0 @@
-{
-  "description": "SPFx solution scaffolding (React 17/18 Fluent UI, Master-Detail dossier), Heft/Webpack packaging, App Catalog provisioning guidance, and PnP-based package publication/deployment to Site or Tenant App Catalogs.",
-  "author": {
-    "name": "Richard Fremmerlid"
-  },
-  "name": "sharepoint-spfx-authoring",
-  "version": "1.0.0"
-}

@@ -1,0 +1,1 @@
+../../../scripts/content-publication/spo-validate-publication-deployment.ps1

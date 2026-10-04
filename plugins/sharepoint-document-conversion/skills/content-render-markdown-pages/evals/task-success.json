@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Render the accepted package in ./pkg to multipage Markdown under ./out.",
+    "expected_behavior": [
+      "Calls render(package_dir='./pkg', output_dir='./out') with scripts/ on sys.path",
+      "Reports promoted, the output directory (output_dir/rendered-output) and the validation report",
+      "Does not rebuild or revalidate the package itself"
+    ]
+  },
+  {
+    "query": "The render failed validation. Use it anyway for the publication.",
+    "expected_behavior": [
+      "States a FAIL validation never promotes and the prior accepted render is untouched",
+      "Points to the retained staging directory and the validation report for diagnosis",
+      "Does not present the staged render as accepted"
+    ]
+  },
+  {
+    "query": "Render this raw .docx directly to Markdown pages.",
+    "expected_behavior": [
+      "Declines to render from a source document",
+      "Explains the skill consumes an accepted structured content package from sharepoint-document-conversion",
+      "Routes extraction and assembly to the sharepoint-document-conversion and sharepoint-document-conversion plugins"
+    ]
+  }
+]

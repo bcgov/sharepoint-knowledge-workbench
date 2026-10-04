@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Set up a migration project called acme-migration from https://contoso.sharepoint.com/sites/old to https://contoso.sharepoint.com/sites/new.",
+    "expected_behavior": [
+      "Calls setup_migration_project(repo_root, source_site_url=..., target_site_url=..., project_slug='acme-migration') with scripts/ on sys.path",
+      "Creates runs/sharepoint-site-migration/acme-migration/ with export/ and generated-scripts/ and reports the outcome",
+      "Makes no tenant call and does not write config.psd1"
+    ]
+  },
+  {
+    "query": "There is no config.psd1 in the repo yet. Make one for the project.",
+    "expected_behavior": [
+      "Reports Outcome.FAILED for a missing config.psd1 and creates no working directory",
+      "Declines to generate a competing connection config",
+      "Routes the user to workbench-initialize-connection-config, which owns config.psd1"
+    ]
+  },
+  {
+    "query": "I do not have a target site URL yet. Create the project anyway.",
+    "expected_behavior": [
+      "Reports a missing required argument as Outcome.FAILED with an actionable message",
+      "Creates no directory",
+      "Asks the user for the target URL and project slug"
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-site-migration"
+version = "0.1.0-alpha.1"
+description = "Plans and executes SharePoint site migration: validates a source-site export, derives the object dependency graph and migration wave plan, scaffolds wave scripts, analyzes and modernizes classic pages (plan, preview, single and library conversion, validation, reports), migrates list content with two-pass lookup re-linking, and extracts and updates links in pages, documents and rich-text columns. Planning and analysis are read-only; every writing script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken."
+requires-python = ">=3.10"
+# Every consolidated implementation is dependency-free and runs standalone from its namespace folder.
+dependencies = []
+
+# This package bundles several flat-module implementations in namespace folders under scripts/. Same-named
+# modules exist in more than one namespace, so there is no single importable distribution of them: scripts run
+# from their own folder and tests run one namespace per process (tests/run_namespaces.py). The original
+# per-plugin setuptools settings are preserved in references/source-packages/<source-plugin>/pyproject.toml.source.
+[tool.setuptools]
+py-modules = []
