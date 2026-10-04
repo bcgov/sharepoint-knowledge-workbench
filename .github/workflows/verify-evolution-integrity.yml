@@ -7,6 +7,10 @@ on:
       - 'py_services/**'
       - 'src/**'
 
+# Least privilege: the job only reads the repository (checkout and git diff); it never writes.
+permissions:
+  contents: read
+
 jobs:
   verify-evolution:
     name: Verify Evolution & Map Debt Compliance
