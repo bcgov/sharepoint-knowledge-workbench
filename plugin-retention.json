@@ -282,6 +282,170 @@
       },
       "rules": {},
       "agents": {}
+    },
+    "sharepoint-copilot-agents-and-skills": {
+      "skills": {
+        "sharepoint-backup-agents": true,
+        "sharepoint-backup-native-skills": true,
+        "sharepoint-create-agent-package": true,
+        "sharepoint-create-agent-package-from-template": true,
+        "sharepoint-create-agent-template": true,
+        "sharepoint-create-native-skill": true,
+        "sharepoint-deploy-native-skill": true,
+        "sharepoint-inspect-agent-knowledge": true,
+        "sharepoint-prepare-agentassets-library": true,
+        "sharepoint-restore-agents": true,
+        "sharepoint-restore-native-skills": true,
+        "sharepoint-undeploy-native-skill": true,
+        "sharepoint-update-agent-package": true,
+        "sharepoint-verify-native-skill": true
+      },
+      "rules": {},
+      "agents": {}
+    },
+    "sharepoint-document-conversion": {
+      "skills": {
+        "content-analyze-document-structure": true,
+        "content-assemble-structured-content": true,
+        "content-compare-rendered-output": true,
+        "content-create-markdown-rendering-template": true,
+        "content-create-sharepoint-rendering-template": true,
+        "content-extract-docx": true,
+        "content-render-markdown-pages": true,
+        "content-render-sharepoint-pages": true,
+        "content-review-manual-topic": true,
+        "content-validate-rendered-output": true,
+        "content-validate-rendering-template": true
+      },
+      "rules": {},
+      "agents": {}
+    },
+    "sharepoint-site-assessment": {
+      "skills": {
+        "sharepoint-analyze-custom-forms": true,
+        "sharepoint-analyze-page-inventory": true,
+        "sharepoint-analyze-permissions": true,
+        "sharepoint-analyze-site-navigation": true,
+        "sharepoint-analyze-webpart-behavior": true,
+        "sharepoint-audit-managed-metadata": true,
+        "sharepoint-audit-onprem-schema-drift": true,
+        "sharepoint-collect-site-inventory": true,
+        "sharepoint-compare-schema-exports": true,
+        "sharepoint-extract-calculated-columns": true,
+        "sharepoint-extract-choice-columns": true,
+        "sharepoint-generate-assessment-reports": true
+      },
+      "rules": {},
+      "agents": {
+        "sharepoint-site-assessment-sharepoint-discovery-agent.md": true
+      }
+    },
+    "sharepoint-site-build-and-publish": {
+      "skills": {
+        "sharepoint-add-list-column": true,
+        "sharepoint-add-list-item": true,
+        "sharepoint-apply-page-publication-plan": true,
+        "sharepoint-apply-provisioning-plan": true,
+        "sharepoint-compare-publication-state": true,
+        "sharepoint-compare-schema-definitions": true,
+        "sharepoint-configure-column-formatting": true,
+        "sharepoint-configure-library-settings": true,
+        "sharepoint-copy-page-between-sites": true,
+        "sharepoint-create-content-type": true,
+        "sharepoint-create-document-library": true,
+        "sharepoint-create-list": true,
+        "sharepoint-create-list-view": true,
+        "sharepoint-create-site-column": true,
+        "sharepoint-detach-content-type": true,
+        "sharepoint-generate-schema-definition-from-export": true,
+        "sharepoint-plan-column-changes": true,
+        "sharepoint-plan-content-type-changes": true,
+        "sharepoint-plan-page-publication": true,
+        "sharepoint-publish-markdown-files": true,
+        "sharepoint-reconcile-calendar-list": true,
+        "sharepoint-reconcile-site-schema": true,
+        "sharepoint-remove-content-type": true,
+        "sharepoint-remove-list": true,
+        "sharepoint-remove-list-column": true,
+        "sharepoint-remove-publication": true,
+        "sharepoint-remove-site-column": true,
+        "sharepoint-scaffold-schema-definition": true,
+        "sharepoint-update-content-type": true,
+        "sharepoint-update-list-column": true,
+        "sharepoint-update-list-settings": true,
+        "sharepoint-update-site-column": true,
+        "sharepoint-validate-publication": true
+      },
+      "rules": {
+        "schema-driven-sharepoint-deployment.md": true
+      },
+      "agents": {
+        "sharepoint-site-build-and-publish-sharepoint-validation-agent.md": true
+      }
+    },
+    "sharepoint-site-migration": {
+      "skills": {
+        "sharepoint-analyze-classic-pages": true,
+        "sharepoint-analyze-migration-dependencies": true,
+        "sharepoint-audit-list-migration": true,
+        "sharepoint-convert-page-library-to-modern": true,
+        "sharepoint-convert-page-to-modern": true,
+        "sharepoint-create-page-preview": true,
+        "sharepoint-extract-links": true,
+        "sharepoint-generate-modernization-report": true,
+        "sharepoint-initialize-migration-project": true,
+        "sharepoint-migrate-list-content": true,
+        "sharepoint-normalize-migration-inventory": true,
+        "sharepoint-plan-migration-waves": true,
+        "sharepoint-plan-page-modernization": true,
+        "sharepoint-scaffold-migration-wave-scripts": true,
+        "sharepoint-update-links-in-documents": true,
+        "sharepoint-update-page-links": true,
+        "sharepoint-update-rich-text-image-links": true,
+        "sharepoint-validate-link-integrity": true,
+        "sharepoint-validate-page-modernization": true
+      },
+      "rules": {
+        "deployment-decision-principles.md": true,
+        "schema-driven-sharepoint-deployment.md": true,
+        "test-driven-wave-deployment.md": true
+      },
+      "agents": {
+        "sharepoint-site-migration-sharepoint-content-migration-sequencing-agent.md": true,
+        "sharepoint-site-migration-sharepoint-deployment-planning-agent.md": true,
+        "sharepoint-site-migration-sharepoint-deployment-sequencing-agent.md": true,
+        "sharepoint-site-migration-sharepoint-link-agent.md": true,
+        "sharepoint-site-migration-sharepoint-link-remediation-analysis-agent.md": true,
+        "sharepoint-site-migration-sharepoint-modernization-agent.md": true,
+        "sharepoint-site-migration-sharepoint-webpart-modernization-analysis-agent.md": true
+      }
+    },
+    "sharepoint-spfx-development": {
+      "skills": {
+        "sharepoint-deploy-spfx-solution": true,
+        "sharepoint-develop-spfx-form-customizer": true,
+        "sharepoint-develop-spfx-listview-command-set": true,
+        "sharepoint-package-spfx-solution": true,
+        "sharepoint-publish-spfx-package": true,
+        "sharepoint-request-site-collection-app-catalog": true,
+        "sharepoint-scaffold-spfx-master-detail-webpart": true,
+        "sharepoint-scaffold-spfx-react-webpart": true,
+        "sharepoint-scaffold-spfx-webpart": true,
+        "sharepoint-setup-spfx-hosted-workbench": true
+      },
+      "rules": {},
+      "agents": {}
+    },
+    "sharepoint-workbench-setup": {
+      "skills": {
+        "workbench-initialize-connection-config": true,
+        "workbench-initialize-document-workflow": true,
+        "workbench-request-app-registration": true,
+        "workbench-resolve-document-paths": true,
+        "workbench-validate-sharepoint-connection": true
+      },
+      "rules": {},
+      "agents": {}
     }
   }
 }

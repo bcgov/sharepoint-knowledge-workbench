@@ -7,7 +7,7 @@ globs:
   - "plugins/sharepoint-site-migration/assets/migration-planning/*.json"
 ---
 
-## Core principle
+# Rule: Schema-Driven SharePoint Deployment
 
 Every schema/deployment-object definition (site columns, content types,
 lists, or any other deployable object type) lives in a caller-supplied JSON
@@ -46,7 +46,7 @@ a human -- turns that class of bug into a planning-time failure (an
 unresolved dependency or a cycle, reported honestly) rather than a
 run-time surprise against a live tenant.
 
-## Deliberately out of scope for this rule
+## Iron laws
 
 1. **No hardcoded object definitions inside a generated wave script.** Every list/field/
    content-type name a generated script touches must come from `dependency-matrix.json`, never be
