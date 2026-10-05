@@ -14,3 +14,10 @@ Do not edit manually except to correct a factual error.
 - **Summary**: Added [PSCredential] parameter to spo-download-file.ps1 to allow interactive or explicit domain credential passing when downloading from on-premises SharePoint 2016 instances where default Windows credentials are not passed automatically.
 - **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
 
+
+## 2026-10-05 - Add Config-Driven SP2016 Auth and PSCredential to spo-download-file.ps1
+
+- **Type**: Enhancement / Fix
+- **Summary**: Aligned spo-download-file.ps1 with canonical SP2016 patterns (collect-sp2016-page-manifest.ps1). Reads Source.UseDefaultCredentials from config.psd1, supports -UseDefaultCredentials switch and -Credential parameter, and falls back to interactive Get-Credential when unauthenticated.
+- **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
+
