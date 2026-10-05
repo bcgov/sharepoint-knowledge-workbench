@@ -1,7 +1,8 @@
 ---
 name: sharepoint-collect-site-inventory
 plugin: sharepoint-site-assessment
-description: Collects a live SharePoint inventory: lists and libraries, list fields, library files and content-type/schema exports (modern SPO via PnP.PowerShell), plus full site crawls, quick item and storage counts and bulk .aspx page downloads (legacy on-prem SP2016 via NTLM/Kerberos REST). Use when you need a fresh export for this plugin's read-only analysis skills or for ad hoc review.
+description: >-
+  Collects a live SharePoint inventory: lists and libraries, list fields, library files and content-type/schema exports (modern SPO via PnP.PowerShell), plus full site crawls, quick item and storage counts and bulk .aspx page downloads (legacy on-prem SP2016 via NTLM/Kerberos REST). Use when you need a fresh export for this plugin's read-only analysis skills or for ad hoc review.
 allowed-tools: Bash, Read
 examples:
   - "pwsh -File scripts/collect-sharepoint-inventory.ps1 -SiteUrl \"https://tenant.sharepoint.com/sites/Test\" -Mode Lists -OutputPath lists.json"
