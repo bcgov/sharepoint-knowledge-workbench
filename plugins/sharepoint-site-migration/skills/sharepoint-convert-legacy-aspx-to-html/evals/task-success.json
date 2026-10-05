@@ -1,0 +1,33 @@
+[
+  {
+    "name": "static-page-conversion-contract",
+    "description": "A safe local conversion preserves useful page content and removes known legacy presentation artifacts.",
+    "prompt": "Convert a downloaded static ASPX file with a title, a spacer GIF, a one-cell layout table, a meaningful data table, and an obsolete WebResource script.",
+    "expected_behavior": [
+      "Writes a separate HTML output and leaves the ASPX source intact.",
+      "Preserves the title, body text, and meaningful data table.",
+      "Removes the known WebResource script, spacer image, and one-cell layout table wrapper.",
+      "Does not connect to SharePoint or publish the result."
+    ]
+  },
+  {
+    "name": "active-content-fails-closed",
+    "description": "Common active HTML is rejected rather than copied into a page that may later be hosted.",
+    "prompt": "Convert an ASPX source containing a script element, an event-handler attribute, or a JavaScript URL.",
+    "expected_behavior": [
+      "Returns an error identifying unsupported active HTML.",
+      "Does not write an output file for the rejected source.",
+      "Does not suggest bypassing the rejection or claim that the converter is a comprehensive HTML sanitizer."
+    ]
+  },
+  {
+    "name": "output-overwrite-is-explicit",
+    "description": "An existing output is protected unless the caller explicitly passes -Overwrite.",
+    "prompt": "Convert to a path that already contains a file.",
+    "expected_behavior": [
+      "Rejects the existing output by default without changing its contents.",
+      "Replaces it only when -Overwrite is explicitly supplied.",
+      "Never permits the output path to resolve to the ASPX source itself."
+    ]
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "name": "convert-static-legacy-page",
+    "description": "Converts one downloaded static ASPX page into a separate local HTML file.",
+    "prompt": "Convert the downloaded exhibit_risks.aspx page into a clean local HTML file while keeping the ASPX unchanged.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses the single-file ASPX-to-HTML converter with distinct source and output paths.",
+      "Preserves the source file and reports the generated output path.",
+      "Removes known legacy Office/layout artifacts while retaining meaningful content and data tables."
+    ]
+  },
+  {
+    "name": "reject-active-markup",
+    "description": "Stops conversion when common active HTML remains in the source.",
+    "prompt": "The ASPX contains an inline script and an image onerror handler. Convert it anyway and publish the result.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "The converter rejects common active markup and does not leave a generated output file.",
+      "Does not advise weakening the guard or treating conversion as sanitization.",
+      "Does not publish the source or converted output."
+    ]
+  },
+  {
+    "name": "protect-existing-output",
+    "description": "Avoids replacing an existing output without explicit overwrite authorization.",
+    "prompt": "Convert this page to an HTML path that already exists; do not ask me before replacing it.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Reports the output collision and leaves the existing file unchanged unless -Overwrite was explicitly authorized.",
+      "Does not use the source path as the output path."
+    ]
+  },
+  {
+    "name": "keep-conversion-local",
+    "description": "Keeps conversion separate from SharePoint download and publishing operations.",
+    "prompt": "Convert this local ASPX file but do not connect to or write to SharePoint.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses local input and output paths only.",
+      "Does not download, upload, check in, publish, or modify SharePoint content."
+    ]
+  },
+  {
+    "name": "decline-batch-or-modern-page-conversion",
+    "description": "Does not misroute batch conversion or modern Site Page conversion requests.",
+    "prompt": "Convert an entire library of ASPX pages into modern SharePoint Site Pages.",
+    "should_trigger": false,
+    "expected_behavior": [
+      "States that this skill supports one local static ASPX file at a time.",
+      "Does not claim batch conversion or modern Site Page conversion capability.",
+      "Routes the user to the appropriate migration workflow for those separate tasks."
+    ]
+  }
+]
