@@ -21,3 +21,10 @@ Do not edit manually except to correct a factual error.
 - **Summary**: Aligned spo-download-file.ps1 with canonical SP2016 patterns (collect-sp2016-page-manifest.ps1). Reads Source.UseDefaultCredentials from config.psd1, supports -UseDefaultCredentials switch and -Credential parameter, and falls back to interactive Get-Credential when unauthenticated.
 - **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
 
+
+## 2026-10-05 - Fix Wildcard Matching Bug in spo-download-file.ps1
+
+- **Type**: Bugfix
+- **Summary**: Replaced -like \ *?*\ wildcard check on $sourceLeaf with $sourceLeaf.Contains('?'). In PowerShell -like, ? is a single-character wildcard matching any character, causing IndexOf('?') to evaluate to -1 and Substring(0, -1) to fail with length must be non-negative error.
+- **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
+

@@ -147,7 +147,7 @@ if ($isSp2016) {
 
 # Resolve target file name
 $sourceLeaf = [System.IO.Path]::GetFileName($targetUrl)
-if ($sourceLeaf -like "*?*") {
+if ($sourceLeaf.Contains('?')) {
     $sourceLeaf = $sourceLeaf.Substring(0, $sourceLeaf.IndexOf('?'))
 }
 if (-not $sourceLeaf) {
