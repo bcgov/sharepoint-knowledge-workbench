@@ -7,3 +7,10 @@ Do not edit manually except to correct a factual error.
 |------|------|-------------------|-------|-----------|---------|
 | 2026-10-05 | Tier 0 | Unquoted colon in SKILL.md description caused YAML frontmatter parse failure in Claude Code / agent skill loader | Quoted description in sharepoint-compare-publication-state SKILL.md using YAML folded block | Syntax fix | RESOLVED — frontmatter passes PyYAML validation |
 | 2026-10-05 | Tier 1 | Lack of generic single-file download and HTML page upload skills in build-and-publish plugin | Added sharepoint-download-file (SPO/SP2016) and sharepoint-publish-html-page (M365 Roadmap 569208 native HTML rendering) with managed symlinks and evals | New Capability | RESOLVED - audit-skill --strict and plugin manifest tests pass |
+
+## 2026-10-05 - Add PSCredential Support to spo-download-file.ps1
+
+- **Type**: Enhancement / Fix
+- **Summary**: Added [PSCredential] parameter to spo-download-file.ps1 to allow interactive or explicit domain credential passing when downloading from on-premises SharePoint 2016 instances where default Windows credentials are not passed automatically.
+- **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
+
