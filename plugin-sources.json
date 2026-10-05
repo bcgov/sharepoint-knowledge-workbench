@@ -28,7 +28,7 @@
       ]
     },
     {
-      "source": "richfrem/sharepoint-knowledge-workbench",
+      "source": "C:\\Users\\RICHFREM\\source\\repos\\sharepoint-knowledge-workbench\\plugins",
       "plugins": [
         "sharepoint-copilot-agents-and-skills",
         "sharepoint-document-conversion",
