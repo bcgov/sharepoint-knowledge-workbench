@@ -1,0 +1,22 @@
+[
+  {
+    "query": "Download test2.html from the Shared Documents library in SharePoint Online to my local temp folder",
+    "should_trigger": true
+  },
+  {
+    "query": "Get the latest copy of an aspx page from SitePages on SPO and save it to disk",
+    "should_trigger": true
+  },
+  {
+    "query": "Export a document from the Criminal Documents library to local storage",
+    "should_trigger": true
+  },
+  {
+    "query": "Upload this markdown file to the document library",
+    "should_trigger": false
+  },
+  {
+    "query": "Provision a new SharePoint list called Projects",
+    "should_trigger": false
+  }
+]

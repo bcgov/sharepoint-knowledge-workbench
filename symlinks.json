@@ -4434,6 +4434,30 @@
       "dst": "plugins/sharepoint-site-build-and-publish/scripts/calendar-executor/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
       "description": "Canonical Get-WorkbenchConnectionConfig.ps1 for the calendar executor"
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-download-file/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-download-file/scripts/spo-download-file.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-html-page/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-publish-html-page.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-html-page/scripts/spo-publish-html-page.ps1",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Preview uploading dashboard.html to SitePages on the intranet DEV site.",
+    "expected_behavior": [
+      "Invokes scripts/spo-publish-html-page.ps1 -HtmlPath \".\\dashboard.html\" -TargetLibrary \"SitePages\" without -Execute",
+      "Validates .html extension before attempting upload",
+      "Reports planned target server-relative URL and performs zero tenant writes in dry run"
+    ]
+  },
+  {
+    "query": "Publish dashboard.html to the SitePages library with confirmation.",
+    "expected_behavior": [
+      "Passes -Execute and -ConfirmToken PUBLISH-SPO-HTML",
+      "Applies checkout/checkin discipline (Set-PnPFileCheckedOut / Set-PnPFileCheckedIn) if the file already exists",
+      "Verifies file presence post-upload and outputs direct in-browser URL"
+    ]
+  },
+  {
+    "query": "Can I publish a raw .aspx file with this skill?",
+    "expected_behavior": [
+      "Explains that raw .aspx file uploads are blocked by SharePoint Online DenyAddAndCustomizePages security policy",
+      "Enforces .html or .htm file extension",
+      "Directs modern .aspx page publication requests to modern page publishing skills (Add-PnPPage)"
+    ]
+  }
+]
