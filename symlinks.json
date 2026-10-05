@@ -4458,6 +4458,18 @@
       "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-html-page/scripts/spo-publish-html-page.ps1",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/scripts/convert-aspx-to-html.ps1",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-legacy-aspx-to-html/scripts/convert-aspx-to-html.ps1",
+      "strategy": "symlink",
+      "description": "Expose the canonical local ASPX-to-HTML converter to its skill."
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/legacy-aspx-to-html-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-legacy-aspx-to-html/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Expose the canonical acceptance criteria to its skill."
     }
   ]
 }

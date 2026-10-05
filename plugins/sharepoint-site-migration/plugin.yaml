@@ -11,6 +11,7 @@ skills:
   - sharepoint-analyze-classic-pages
   - sharepoint-analyze-migration-dependencies
   - sharepoint-audit-list-migration
+  - sharepoint-convert-legacy-aspx-to-html
   - sharepoint-convert-page-library-to-modern
   - sharepoint-convert-page-to-modern
   - sharepoint-create-page-preview
