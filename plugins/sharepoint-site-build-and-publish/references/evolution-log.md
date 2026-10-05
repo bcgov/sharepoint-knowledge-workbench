@@ -21,3 +21,17 @@ Do not edit manually except to correct a factual error.
 - **Summary**: Aligned spo-download-file.ps1 with canonical SP2016 patterns (collect-sp2016-page-manifest.ps1). Reads Source.UseDefaultCredentials from config.psd1, supports -UseDefaultCredentials switch and -Credential parameter, and falls back to interactive Get-Credential when unauthenticated.
 - **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
 
+
+## 2026-10-05 - Fix Wildcard Matching Bug in spo-download-file.ps1
+
+- **Type**: Bugfix
+- **Summary**: Replaced -like \ *?*\ wildcard check on $sourceLeaf with $sourceLeaf.Contains('?'). In PowerShell -like, ? is a single-character wildcard matching any character, causing IndexOf('?') to evaluate to -1 and Substring(0, -1) to fail with length must be non-negative error.
+- **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
+
+
+## 2026-10-05 - Add Interactive Credential Fallback on 401 for SP2016 in spo-download-file.ps1
+
+- **Type**: Enhancement / Robustness
+- **Summary**: Updated spo-download-file.ps1 so -Credential takes precedence over -UseDefaultCredentials, and added a fallback catch block: when Windows Integrated Auth returns HTTP 401 Unauthorized, automatically prompts for domain credentials via Get-Credential and retries.
+- **Components**: plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-download-file.ps1
+

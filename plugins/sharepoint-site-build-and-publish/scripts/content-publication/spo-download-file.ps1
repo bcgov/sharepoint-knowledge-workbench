@@ -147,7 +147,7 @@ if ($isSp2016) {
 
 # Resolve target file name
 $sourceLeaf = [System.IO.Path]::GetFileName($targetUrl)
-if ($sourceLeaf -like "*?*") {
+if ($sourceLeaf.Contains('?')) {
     $sourceLeaf = $sourceLeaf.Substring(0, $sourceLeaf.IndexOf('?'))
 }
 if (-not $sourceLeaf) {
@@ -206,15 +206,28 @@ if ($isSp2016) {
         OutFile         = $destinationFilePath
         ErrorAction     = "Stop"
     }
-    if ($UseDefaultCredentials) {
-        $reqArgs["UseDefaultCredentials"] = $true
-    } elseif ($null -ne $Credential) {
+    if ($null -ne $Credential) {
         $reqArgs["Credential"] = $Credential
+    } elseif ($UseDefaultCredentials) {
+        $reqArgs["UseDefaultCredentials"] = $true
     } else {
         $Credential = Get-Credential -Message "Credentials for SP2016 request"
         $reqArgs["Credential"] = $Credential
     }
-    Invoke-WebRequest @reqArgs
+
+    try {
+        Invoke-WebRequest @reqArgs
+    } catch {
+        if (($_.Exception.Message -match "401" -or ($_.Exception.Response -and $_.Exception.Response.StatusCode -eq 401)) -and -not $Credential) {
+            Write-Host "Integrated authentication returned 401 Unauthorized. Prompting for credentials..." -ForegroundColor Yellow
+            $Credential = Get-Credential -Message "Enter credentials for SP2016 request ($sourceSite)"
+            $reqArgs.Remove("UseDefaultCredentials")
+            $reqArgs["Credential"] = $Credential
+            Invoke-WebRequest @reqArgs
+        } else {
+            throw
+        }
+    }
 } else {
     if (-not (Get-Command Get-PnPFile -ErrorAction SilentlyContinue)) {
         throw "PnP.PowerShell with Get-PnPFile is required. Install/import PnP.PowerShell before executing."
