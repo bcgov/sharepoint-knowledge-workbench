@@ -1,0 +1,22 @@
+[
+  {
+    "query": "Publish this HTML dashboard test-parent.html to the SitePages library on SharePoint",
+    "should_trigger": true
+  },
+  {
+    "query": "Upload an html page to a document library with native rendering support",
+    "should_trigger": true
+  },
+  {
+    "query": "Publish test.html to SharePoint Online Site Pages",
+    "should_trigger": true
+  },
+  {
+    "query": "Download a file from SharePoint to local disk",
+    "should_trigger": false
+  },
+  {
+    "query": "Convert an ASPX page to Markdown format",
+    "should_trigger": false
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Download /sites/Site/Shared Documents/report.pdf to ./downloads",
+    "expected_behavior": [
+      "Invokes scripts/spo-download-file.ps1 -RemoteUrl \"/sites/Site/Shared Documents/report.pdf\" -DestinationDir \"./downloads\" without -Execute first (dry-run)",
+      "Reports source URL and resolved local destination path without downloading",
+      "Leaves the real run (-Execute -ConfirmToken DOWNLOAD-SPO-FILE) to the user"
+    ]
+  },
+  {
+    "query": "Download test.html from SharePoint Online and overwrite if it exists locally.",
+    "expected_behavior": [
+      "Passes -Overwrite switch to scripts/spo-download-file.ps1",
+      "Explains that by default existing files are protected unless -Overwrite is passed",
+      "Performs zero tenant writes during download"
+    ]
+  },
+  {
+    "query": "Download page.aspx from on-prem SharePoint 2016 at https://csb.jag.gov.bc.ca/Pages/default.aspx",
+    "expected_behavior": [
+      "Identifies SP2016 source platform from URL or configuration",
+      "Uses Windows Integrated authentication without requiring PnP Entra client registration",
+      "Verifies destination file arrival and reports byte size"
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+../../../scripts/content-publication/spo-publish-html-page.ps1
