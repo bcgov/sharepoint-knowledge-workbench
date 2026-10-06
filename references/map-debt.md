@@ -31,3 +31,12 @@ Persistent tracking of architectural friction, structural anomalies, and unclose
 - Severity: M
 - Repeat: NO
 - Status: ESCALATED
+# Recursive content inventory — 2026-10-05
+
+- OBSERVED, Status: OPEN — First user-run on-prem request with integrated Windows session credentials returned HTTP 401 before web/library discovery. The new collector and bulk downloader now use interactive credential prompts, not default session credentials; 17 mocked collector cases pass. Prompted live authentication has not yet been confirmed. This is an authentication/environment finding, not evidence the site contains no files.
+- CONFIRMED, Status: RESOLVED — Added offline bulk link CSV extraction, Online stored-page exports and inventory-driven downloads; updated related existing skills and catalog descriptions. Link-remediation namespace: 195 passed. Content-publication: 58 passed, plus 3 final adapter tests. See the canonical bulk workflow reference for explicit coverage limits and future live validation.
+
+- CONFIRMED, Status: RESOLVED — Added `plugins/sharepoint-site-assessment/scripts/collect-sharepoint-content-inventory.ps1` for recursive Online/on-prem CSV file inventories. Prior collectors covered structure or one library. Tests cover nested subsites/folders, hidden and empty libraries, pagination, partial errors, config and auto selection. Domain usage contract: `plugins/sharepoint-site-assessment/references/inventory-collectors.md`.
+- CONFIRMED, Status: RESOLVED — Shared connection helper accessed absent dictionary keys under strict mode. Corrected canonical `plugins/sharepoint-workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1`; flat, nested, minimal and auth-mode cases are verified.
+- OBSERVED, Status: OPEN — Installed whole-plugin auditor fails because `.agents/skills/audit-plugin/references/skill-authoring-contract.json` is absent. Domain skill audit and all 746 manifest symlinks pass. Repair belongs to the external auditor plugin; no installed copy was patched. Broad diagnose scan was stopped after exceeding several minutes; direct manifest audit completed successfully.
+- CONFIRMED, Status: OPEN — Workbench setup suite's repository-wide context test fails on unchanged root config templates containing consumer-specific literals. Assessment suite: 176 passed, 2 skipped; setup suite: 97 passed, 1 failed. This task does not change those templates or the detector. Baseline evidence and dry-run issue payloads are under `temp/content-inventory-evidence/`.

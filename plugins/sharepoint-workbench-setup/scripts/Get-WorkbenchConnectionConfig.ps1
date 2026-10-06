@@ -14,6 +14,8 @@ sharepoint-site-assessment, sharepoint-site-migration). Owned by sharepoint-work
 Supports both a flat config.psd1 shape (SiteUrl/ClientId/TenantId/
 TenantAdminUrl at the top level) and a nested shape (Connection.SiteUrl/
 Connection.ClientId/Connection.TenantId + Authentication.TenantAdminUrl).
+Optional dictionary keys remain null under strict-mode callers; missing
+Connection/Authentication sections do not invalidate a flat profile.
 
 .PARAMETER Path
 Path to config.psd1.
@@ -60,8 +62,9 @@ function Get-WorkbenchConnectionConfig {
     }
 
     $rawConfig = Import-PowerShellDataFile -LiteralPath $resolvedPath
-    $cfg = if ($rawConfig.Connection) { $rawConfig.Connection } else { $rawConfig }
-    $auth = if ($rawConfig.Authentication) { $rawConfig.Authentication } else { @{} }
+    # Dictionary indexing tolerates optional sections/keys under strict mode.
+    $cfg = if ($rawConfig['Connection']) { $rawConfig['Connection'] } else { $rawConfig }
+    $auth = if ($rawConfig['Authentication']) { $rawConfig['Authentication'] } else { @{} }
     $tenantAdminUrl = if ($auth.Contains('TenantAdminUrl')) {
         $auth['TenantAdminUrl']
     } elseif ($rawConfig.Contains('TenantAdminUrl')) {
@@ -69,10 +72,10 @@ function Get-WorkbenchConnectionConfig {
     } else {
         $null
     }
-    $authMode = if ($cfg.PSObject.Properties.Name -contains 'AuthenticationMode' -and $cfg.AuthenticationMode) {
-        $cfg.AuthenticationMode
-    } elseif ($rawConfig.PSObject.Properties.Name -contains 'AuthenticationMode' -and $rawConfig.AuthenticationMode) {
-        $rawConfig.AuthenticationMode
+    $authMode = if ($cfg['AuthenticationMode']) {
+        $cfg['AuthenticationMode']
+    } elseif ($rawConfig['AuthenticationMode']) {
+        $rawConfig['AuthenticationMode']
     } else {
         "Interactive"
     }
@@ -92,9 +95,9 @@ function Get-WorkbenchConnectionConfig {
     }
 
     [pscustomobject]@{
-        SiteUrl               = $cfg.SiteUrl
-        ClientId              = $cfg.ClientId
-        TenantId              = $cfg.TenantId
+        SiteUrl               = $cfg['SiteUrl']
+        ClientId              = $cfg['ClientId']
+        TenantId              = $cfg['TenantId']
         TenantAdminUrl        = $tenantAdminUrl
         AuthenticationMode    = $authMode
         CertificateThumbprint = $certThumbprint

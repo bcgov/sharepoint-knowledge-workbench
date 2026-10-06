@@ -1,4 +1,7 @@
 [
+  {"query": "Inventory all documents, images, pages and files across every library and subsite as CSV", "should_trigger": true},
+  {"query": "Use config-spo-prod.psd1 to inventory all file contents under this SharePoint Online site", "should_trigger": true},
+  {"query": "Enumerate every SP2016 document and picture library recursively, including hidden libraries and empty libraries", "should_trigger": true},
   {"query": "Export a list and library inventory from https://tenant.sharepoint.com/sites/Test", "should_trigger": true},
   {"query": "Crawl the on-prem SP2016 site and get item counts and storage per list", "should_trigger": true},
   {"query": "Download all the .aspx pages from the legacy SharePoint site", "should_trigger": true},

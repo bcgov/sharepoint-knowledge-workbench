@@ -1,6 +1,6 @@
 name: sharepoint-site-build-and-publish
 version: 0.1.0-alpha.1
-description: "Creates, configures and publishes SharePoint content: schema definitions (generate, scaffold, compare) and declarative column, content-type, list/library and calendar reconciliation plans (zero tenant I/O), real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions and taxonomy, and safe content publication (Markdown files, modern pages, page copy plans, publication-state comparison and removal). Every writing script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken."
+description: "Creates, configures and publishes SharePoint content: schema definitions (generate, scaffold, compare) and declarative column, content-type, list/library and calendar reconciliation plans (zero tenant I/O), real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions and taxonomy, and safe content publication (Markdown files, modern pages, page copy plans, publication-state comparison and removal). Every writing script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken. Includes inventory-driven bulk static page/document downloads with a source-to-local CSV manifest for offline Python link analysis."
 author: Richard Fremmerlid
 kind: backend
 platforms:

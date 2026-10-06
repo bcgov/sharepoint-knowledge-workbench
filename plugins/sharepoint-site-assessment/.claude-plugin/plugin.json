@@ -1,7 +1,7 @@
 {
     "name": "sharepoint-site-assessment",
     "version": "0.1.0-alpha.1",
-    "description": "Read-only assessment of classic and modern SharePoint sites: analyzes exported inventories and schemas offline (per-page migration complexity scoring, web-part behavior grouping, site navigation depth, custom-form classification, permissions and broken inheritance, schema export comparison, choice columns, calculated columns) and collects them live with read-only PnP.PowerShell/on-prem collectors for lists, libraries, content types and pages. Analysis rules and behavioral knowledge are caller-supplied, never built in; no workflow writes to a tenant.",
+    "description": "Read-only assessment of classic and modern SharePoint sites: analyzes exported inventories and schemas offline (per-page migration complexity scoring, web-part behavior grouping, site navigation depth, custom-form classification, permissions and broken inheritance, schema export comparison, choice columns, calculated columns) and collects them live with read-only PnP.PowerShell/on-prem collectors for lists, libraries, content types and pages. Analysis rules and behavioral knowledge are caller-supplied, never built in; no workflow writes to a tenant. Includes recursive CSV file inventories across all libraries and subsites on Online or on-prem, with interactive authentication and explicit partial-result reporting.",
     "author": {
         "name": "Richard Fremmerlid"
     },

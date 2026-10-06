@@ -1,4 +1,7 @@
 [
+  {"query": "Use Python to inventory links across downloaded HTML, ASPX and Office documents into CSV", "should_trigger": true},
+  {"query": "Collect stored modern Site Page fields, then extract embedded links offline", "should_trigger": true},
+  {"query": "Upload these rewritten files to SharePoint", "should_trigger": false},
   {
     "name": "documented-skill-contract",
     "description": "Extracts and classifies every hyperlink from SharePoint page or document content -- absolute, server-relative, protocol-relative, mailto, anchor, and malformed -- into a LinkInventory carrying an honest outcome (OBSERVED / EMPTY / PARTIAL / FAILED). Read-only; reads content you pass it and never contacts a tenant.",
