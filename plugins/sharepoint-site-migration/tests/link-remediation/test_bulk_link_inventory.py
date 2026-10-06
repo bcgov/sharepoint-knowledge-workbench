@@ -109,3 +109,49 @@ def test_local_root_and_format_filtering_with_inventory_csv(tmp_path):
     assert report_all["SourceCount"] == 2
     assert report_all["ProblemCount"] == 0
 
+
+def test_webpart_json_and_xml_extraction(tmp_path):
+    exporter = load_exporter()
+    source = tmp_path / "webparts"
+    source.mkdir()
+
+    # 1. webpart-content.json
+    wp_json = source / "webpart-content.json"
+    wp_json.write_text(json.dumps([
+        {
+            "PageUrl": "/sites/demo/default.aspx",
+            "WebPartId": "wp-1234",
+            "Content": '<div><a href="/sites/demo/docs/test.pdf">Doc</a><img src="\\u002fsites\\u002fdemo\\u002fimages\\u002flogo.png"></div>',
+            "ContentLink": "/sites/demo/SiteAssets/custom.html",
+        }
+    ]), encoding="utf-8")
+
+    # 2. .webpart XML
+    wp_xml = source / "banner.webpart"
+    wp_xml.write_text("""<?xml version="1.0" encoding="utf-8"?>
+<webParts>
+  <webPart xmlns="http://schemas.microsoft.com/WebPart/v3">
+    <data>
+      <properties>
+        <property name="ContentLink" type="string">https://example.test/assets/banner.html</property>
+        <property name="Content" type="string"><![CDATA[<p><a href="https&#58;&#47;&#47;example.test&#47;page.aspx">Link</a></p>]]></property>
+      </properties>
+    </data>
+  </webPart>
+</webParts>""", encoding="utf-8")
+
+    report = exporter.run(source_dir=source, output_dir=tmp_path / "out_wp")
+    assert report["Status"] == "OBSERVED"
+    assert report["SourceCount"] == 2
+
+    with (tmp_path / "out_wp/links.csv").open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+
+    raw_urls = [r["RawUrl"] for r in rows]
+    # Check that unicode \u002f and entities &#58; &#47; were normalized
+    assert "/sites/demo/images/logo.png" in raw_urls
+    assert "/sites/demo/SiteAssets/custom.html" in raw_urls
+    assert "https://example.test/assets/banner.html" in raw_urls
+    assert "https://example.test/page.aspx" in raw_urls
+
+

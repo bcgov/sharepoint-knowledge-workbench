@@ -23,7 +23,7 @@ from __future__ import annotations
 # from field_provisioning import FieldDef
 
 
-def plan_wave_{wave_id}(current_state) -> "ProvisioningPlan":
+def plan_wave_placeholder(current_state) -> "ProvisioningPlan":
     """Build the provisioning plan for wave {wave_id}: {list of object names
     from this wave, taken from dependency-matrix.json -- never hardcoded here}."""
     schema = ProvisioningSchema(

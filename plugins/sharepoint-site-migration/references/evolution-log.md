@@ -15,3 +15,9 @@ Do not edit manually except to correct a factual error.
 - Status: RESOLVED — Added `--local-root`, `--path-column`, auto-resolution of `RelativePath`/`LibraryRelativePath`/`ServerRelativeUrl`, `--formats` filtering, `--skip-unsupported` handling, and self-contained `sys.path` bootstrap in `export_link_inventory.py`.
 - Verification: bulk link inventory tests (4 passed) and full link test suite (227 passed) verified clean execution.
 
+# Web part XML/JSON extraction, URL unescaping, and host location metadata — 2026-10-06
+
+- Status: RESOLVED — Added support for `.webpart`/`.dwp` XML and `webpart-content.json` extraction, robust SharePoint URL normalization (handling Unicode `\u002f` and HTML entities `&#58;`), CSS `url(...)` background image extraction, and preserved `RelativePath` and `ServerRelativeUrl` hosting coordinates on every `links.csv` record for downstream URL rewriting. Fixed template syntax in `wave-script-template.example.py` resolving CodeQL extraction errors.
+- Verification: bulk link inventory tests (5 passed) and full link test suite (228 passed) clean.
+
+
