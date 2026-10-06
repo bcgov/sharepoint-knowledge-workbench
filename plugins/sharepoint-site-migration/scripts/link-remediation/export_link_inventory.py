@@ -12,6 +12,7 @@ import argparse
 import csv
 import html
 import json
+import re
 import sys
 import zipfile
 from collections import Counter
@@ -28,9 +29,34 @@ if str(_SCRIPT_DIR) not in sys.path:
 from link_extraction import classify
 
 
-LINK_COLUMNS = ["SourceUrl", "WebUrl", "LibraryTitle", "LocalPath", "SourcePart", "RawUrl", "ResolvedUrl", "LinkKind", "OccurrenceCount"]
+LINK_COLUMNS = [
+    "SourceUrl",
+    "WebUrl",
+    "LibraryTitle",
+    "RelativePath",
+    "ServerRelativeUrl",
+    "LocalPath",
+    "SourcePart",
+    "RawUrl",
+    "ResolvedUrl",
+    "LinkKind",
+    "OccurrenceCount",
+]
 SOURCE_COLUMNS = ["SourceUrl", "LocalPath", "Format", "Status", "LinkCount", "Message"]
-SUPPORTED = {".html", ".htm", ".aspx", ".docx", ".xlsx", ".pptx", ".pdf"}
+SUPPORTED = {".html", ".htm", ".aspx", ".docx", ".xlsx", ".pptx", ".pdf", ".webpart", ".dwp", ".xml", ".json", ".txt"}
+
+
+def normalize_sharepoint_url(raw_url: str) -> str:
+    """Normalize and unescape SharePoint URL encodings (HTML entities, Unicode escapes, and URI percent encodings)."""
+    if not raw_url:
+        return ""
+    val = raw_url.strip()
+    # Unescape HTML entities (e.g. &amp;, &#58;, &#47;)
+    val = html.unescape(val)
+    # Unescape literal JSON/Unicode sequences like \u002f or \u003a
+    if "\\u00" in val:
+        val = re.sub(r'\\u00([0-9a-fA-F]{2})', lambda m: chr(int(m.group(1), 16)), val)
+    return val.strip()
 
 
 class MarkupLinks(HTMLParser):
@@ -43,24 +69,35 @@ class MarkupLinks(HTMLParser):
     def handle_starttag(self, tag, attrs):
         for name, value in attrs:
             if name.lower() in {"href", "src", "action", "url"} and value:
-                self.urls.append(value.strip())
+                norm = normalize_sharepoint_url(value)
+                if norm:
+                    self.urls.append(norm)
+            elif name.lower() == "style" and value and "url(" in value.lower():
+                # Extract CSS background-image url(...)
+                for match in re.finditer(r'url\s*\(\s*[\'"]?([^\'")]+)[\'"]?\s*\)', value, re.IGNORECASE):
+                    norm = normalize_sharepoint_url(match.group(1))
+                    if norm:
+                        self.urls.append(norm)
 
     handle_startendtag = handle_starttag
 
 
 def markup_urls(text):
+    if not text:
+        return []
     parser = MarkupLinks()
     parser.feed(text)
     return parser.urls
 
 
 def field_urls(value):
-    """Read HTML plus URL-bearing properties in exported page/web-part JSON."""
+    """Read HTML plus URL-bearing properties in exported page/web-part/list-item JSON."""
     if isinstance(value, dict):
         for key, child in value.items():
-            if isinstance(child, str) and key.lower().endswith(("url", "href", "src", "imagesource")):
-                if child.strip():
-                    yield html.unescape(child.strip())
+            if isinstance(child, str) and key.lower().endswith(("url", "href", "src", "imagesource", "serverrelativeurl", "contentlink")):
+                norm = normalize_sharepoint_url(child)
+                if norm:
+                    yield norm
             else:
                 yield from field_urls(child)
     elif isinstance(value, list):
@@ -76,15 +113,54 @@ def field_urls(value):
             yield from field_urls(parsed)
 
 
+def read_webpart_xml(content: str) -> list[tuple[str, str]]:
+    """Extract links and ContentLink references from classic SP2016 .webpart / .dwp XML."""
+    found = []
+    # Search for ContentLink / Content XML tags and properties
+    for tag_match in re.finditer(r'<(?:\w+:)?(?:ContentLink|property\b[^>]*name=["\']ContentLink["\'])[^>]*>(.*?)</(?:\w+:)?(?:ContentLink|property)>', content, re.IGNORECASE | re.DOTALL):
+        link_val = normalize_sharepoint_url(tag_match.group(1))
+        if link_val:
+            found.append(("ContentLink", link_val))
+    for content_match in re.finditer(r'<(?:\w+:)?(?:Content|property\b[^>]*name=["\']Content["\'])[^>]*>(.*?)</(?:\w+:)?(?:Content|property)>', content, re.IGNORECASE | re.DOTALL):
+        inner_html = content_match.group(1)
+        # Unwrap CDATA
+        cdata_match = re.search(r'<!\[CDATA\[(.*?)\]\]>', inner_html, re.DOTALL)
+        if cdata_match:
+            inner_html = cdata_match.group(1)
+        for url in markup_urls(inner_html):
+            found.append(("Content", url))
+    return found
+
+
 def read_links(path):
     """Return (source-part, URL) pairs and optional modern-page source metadata."""
     if path.name.endswith(".page.json"):
         payload = json.loads(path.read_text(encoding="utf-8-sig"))
-        fields = payload["Fields"]
+        fields = payload.get("Fields", {})
         return [(name, url) for name, value in fields.items() for url in field_urls(value)], payload
+    
+    # Check for webpart-content.json (from sharepoint-analyze-webpart-behavior)
+    if path.name == "webpart-content.json" or path.name.endswith(".webparts.json"):
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+        found = []
+        if isinstance(payload, list):
+            for wp in payload:
+                wp_id = wp.get("WebPartId", wp.get("Id", "webpart"))
+                content = wp.get("Content", wp.get("sampleContent", ""))
+                if content:
+                    for url in markup_urls(content):
+                        found.append((f"WebPart:{wp_id}", url))
+                if wp.get("ContentLink"):
+                    found.append((f"WebPart:{wp_id}:ContentLink", normalize_sharepoint_url(wp["ContentLink"])))
+        return found, {}
+
     suffix = path.suffix.lower()
-    if suffix in {".html", ".htm", ".aspx"}:
+    if suffix in {".html", ".htm", ".aspx", ".txt"}:
         return [("markup", url) for url in markup_urls(path.read_text(encoding="utf-8-sig"))], {}
+
+    if suffix in {".webpart", ".dwp"} or (suffix == ".xml" and "webpart" in path.name.lower()):
+        return read_webpart_xml(path.read_text(encoding="utf-8-sig")), {}
+
     if suffix in {".docx", ".xlsx", ".pptx"}:
         found = []
         with zipfile.ZipFile(path) as archive:
@@ -93,8 +169,16 @@ def read_links(path):
                     continue
                 for relation in ElementTree.fromstring(archive.read(part)):
                     if relation.attrib.get("TargetMode") == "External" and relation.attrib.get("Target"):
-                        found.append((part, relation.attrib["Target"]))
+                        norm = normalize_sharepoint_url(relation.attrib["Target"])
+                        if norm:
+                            found.append((part, norm))
         return found, {}
+
+    if suffix == ".json":
+        # Generic list-item or schema JSON export
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+        return [("json-field", url) for url in field_urls(payload)], {}
+
     raise NotImplementedError(f"Link parsing for {suffix or 'extensionless files'} is not supported")
 
 
@@ -185,7 +269,19 @@ def run(
                 parsed = urlsplit(raw)
                 resolved = urljoin(source_url, raw) if source_url else (raw if parsed.scheme else "")
                 kind = "non-navigational" if raw.startswith("#") or parsed.scheme.lower() in {"mailto", "tel", "javascript"} else classify(raw)
-                links.append({"SourceUrl": source_url, "WebUrl": metadata.get("WebUrl", row.get("WebUrl", "")), "LibraryTitle": metadata.get("LibraryTitle", row.get("LibraryTitle", "")), "LocalPath": local, "SourcePart": part, "RawUrl": raw, "ResolvedUrl": resolved, "LinkKind": kind, "OccurrenceCount": count})
+                links.append({
+                    "SourceUrl": source_url,
+                    "WebUrl": metadata.get("WebUrl", row.get("WebUrl", "")),
+                    "LibraryTitle": metadata.get("LibraryTitle", row.get("LibraryTitle", "")),
+                    "RelativePath": metadata.get("RelativePath", row.get("RelativePath", "")),
+                    "ServerRelativeUrl": metadata.get("ServerRelativeUrl", row.get("ServerRelativeUrl", "")),
+                    "LocalPath": local,
+                    "SourcePart": part,
+                    "RawUrl": raw,
+                    "ResolvedUrl": resolved,
+                    "LinkKind": kind,
+                    "OccurrenceCount": count,
+                })
             record["LinkCount"] = len(occurrences)
             if occurrences:
                 record["Status"] = "OBSERVED"
