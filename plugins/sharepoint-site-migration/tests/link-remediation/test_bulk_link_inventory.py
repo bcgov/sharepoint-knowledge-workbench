@@ -69,3 +69,43 @@ def test_empty_and_unreadable_are_distinct(tmp_path):
     bad = tmp_path / "bad.docx"
     bad.write_text("not a zip", encoding="utf-8")
     assert exporter.run(source_dir=tmp_path, output_dir=tmp_path / "other")["Status"] == "PARTIAL"
+
+
+def test_local_root_and_format_filtering_with_inventory_csv(tmp_path):
+    exporter = load_exporter()
+    download_root = tmp_path / "downloads"
+    download_root.mkdir()
+    page = download_root / "test.aspx"
+    page.write_text('<a href="https://example.test/link1">Link1</a>', encoding="utf-8")
+    doc = download_root / "ignored.pdf"
+    doc.write_bytes(b"%PDF-test")
+
+    inventory_csv = tmp_path / "files.csv"
+    with inventory_csv.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["FileUrl", "RelativePath", "FileExtension", "Status"])
+        writer.writeheader()
+        writer.writerow({"FileUrl": "https://example.test/test.aspx", "RelativePath": "test.aspx", "FileExtension": "aspx", "Status": "DOWNLOADED"})
+        writer.writerow({"FileUrl": "https://example.test/ignored.pdf", "RelativePath": "ignored.pdf", "FileExtension": "pdf", "Status": "DOWNLOADED"})
+
+    # Test filtering formats down to only aspx
+    report = exporter.run(
+        manifest_csv=inventory_csv,
+        output_dir=tmp_path / "out1",
+        local_root=download_root,
+        formats=["aspx"],
+    )
+    assert report["Status"] == "OBSERVED"
+    assert report["SourceCount"] == 1
+    assert report["LinkCount"] == 1
+
+    # Test skip_unsupported keeps status as OBSERVED even if unsupported PDF is in input
+    report_all = exporter.run(
+        manifest_csv=inventory_csv,
+        output_dir=tmp_path / "out2",
+        local_root=download_root,
+        skip_unsupported=True,
+    )
+    assert report_all["Status"] == "OBSERVED"
+    assert report_all["SourceCount"] == 2
+    assert report_all["ProblemCount"] == 0
+

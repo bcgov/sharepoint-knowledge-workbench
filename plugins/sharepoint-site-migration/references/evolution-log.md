@@ -9,3 +9,9 @@ Do not edit manually except to correct a factual error.
 
 - Status: RESOLVED — Added the offline Python CSV exporter for static pages, Office external relationships and stored modern-page fields, plus the Online page-field collector. Preserves original URLs, local paths and per-source coverage; PDFs and other parsing gaps remain explicit. Updated existing extraction, conversion, rewrite and validation skills; no new skill identities.
 - Verification: link-remediation namespace 195 passed, including fixture-based extraction and mocked page-field export. First live content collection remains pending. Workflow contract: `references/link-remediation/bulk-content-link-workflow.md`.
+
+# Link inventory path resolution and format filtering — 2026-10-06
+
+- Status: RESOLVED — Added `--local-root`, `--path-column`, auto-resolution of `RelativePath`/`LibraryRelativePath`/`ServerRelativeUrl`, `--formats` filtering, `--skip-unsupported` handling, and self-contained `sys.path` bootstrap in `export_link_inventory.py`.
+- Verification: bulk link inventory tests (4 passed) and full link test suite (227 passed) verified clean execution.
+
