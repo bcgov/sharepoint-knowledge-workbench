@@ -1,0 +1,1 @@
+../../../scripts/link-remediation/collect-sharepoint-page-content.ps1

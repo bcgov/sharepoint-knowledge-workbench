@@ -1847,7 +1847,7 @@
       "src": "plugins/sharepoint-workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
       "dst": "plugins/sharepoint-site-migration/scripts/link-remediation/Get-WorkbenchConnectionConfig.ps1",
       "strategy": "symlink",
-      "description": ""
+      "description": "Connection helper for stored page content export"
     },
     {
       "src": "plugins/sharepoint-site-migration/scripts/link-remediation/link_extraction.py",
@@ -4470,6 +4470,90 @@
       "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-legacy-aspx-to-html/acceptance-criteria.md",
       "strategy": "symlink",
       "description": "Expose the canonical acceptance criteria to its skill."
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/scripts/collect-sharepoint-content-inventory.ps1",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-collect-site-inventory/scripts/collect-sharepoint-content-inventory.ps1",
+      "strategy": "symlink",
+      "description": "Recursive file content inventory for Online and SP2016"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/download-sharepoint-inventory-files.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-download-file/scripts/download-sharepoint-inventory-files.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/bulk-download-workflow.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-download-file/references/bulk-download-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/scripts/link-remediation/export_link_inventory.py",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-extract-links/scripts/export_link_inventory.py",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/scripts/link-remediation/collect-sharepoint-page-content.ps1",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-extract-links/scripts/collect-sharepoint-page-content.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-extract-links/scripts/Get-WorkbenchConnectionConfig.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-extract-links/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-legacy-aspx-to-html/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-page-to-modern/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-page-links/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-links-in-documents/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-rich-text-image-links/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-validate-link-integrity/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-validate-page-modernization/references/bulk-content-link-workflow.md",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }

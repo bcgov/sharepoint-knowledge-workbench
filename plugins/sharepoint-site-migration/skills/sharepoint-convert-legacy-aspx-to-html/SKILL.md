@@ -37,6 +37,11 @@ The output path must differ from the source and must not already exist. To repla
 
 ## Workflow
 
+For a bulk migration, first download selected files with `sharepoint-download-file` and capture
+an original Python link CSV with `sharepoint-extract-links`. Keep source URLs and originals;
+conversion remains one eligible local page at a time. Re-extract links from converted output
+before planning rewrites. See [bulk content workflow](references/bulk-content-link-workflow.md).
+
 1. Confirm the input is the intended downloaded, static ASPX file and retain the original unchanged.
 2. Choose a distinct, non-existing output `.html` path. Never use the source path as the output path.
 3. Run the converter. If it rejects active markup, stop and report the error; do not weaken the guard or publish the source as a workaround.

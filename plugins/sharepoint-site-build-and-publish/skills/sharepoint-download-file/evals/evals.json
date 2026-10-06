@@ -1,4 +1,6 @@
 [
+  {"query": "Download all HTML, HTM and ASPX files selected from files.csv for offline Python link analysis", "should_trigger": true},
+  {"query": "Preview bulk SP2016 downloads and preserve source URLs across subsites", "should_trigger": true},
   {
     "query": "Download test2.html from the Shared Documents library in SharePoint Online to my local temp folder",
     "should_trigger": true

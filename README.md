@@ -57,6 +57,31 @@ See [INSTALL.md](INSTALL.md) for installation and consumer integration options, 
 
 ## ⚡ Getting Started: Installation & Setup
 
+### File and link inventories for migration
+
+The existing `sharepoint-collect-site-inventory`, `sharepoint-download-file` and
+`sharepoint-extract-links` skills now support recursive CSV file inventories, selected bulk
+downloads, and offline Python link inventories for static HTML/HTM/ASPX and Office documents.
+An Online collector exports modern-page stored fields for the same Python analysis.
+
+```powershell
+# User-run file inventory: choose the target and destination folder.
+pwsh -File plugins/sharepoint-site-assessment/scripts/collect-sharepoint-content-inventory.ps1 -SiteUrl https://sharepoint.example.org/ -OutputDir ./inventory
+
+# Offline Python analysis after selected downloads.
+python plugins/sharepoint-site-migration/scripts/link-remediation/export_link_inventory.py --manifest-csv ./downloads/downloads.csv --output-dir ./links
+```
+
+The collector writes `files.csv`, including source site/subsite, container/library, path,
+filename, extension and metadata; it also writes library/error CSVs and a status manifest.
+Online hostnames select interactive browser sign-in; on-prem prompts for credentials.
+No file contents are downloaded by the inventory collector. Link extraction retains original
+source URLs and reports failed/unsupported sources. PDFs and script-generated links require
+additional coverage. No new skill identities were added.
+
+See the [bulk content/link workflow](plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md)
+for download, modern-field export, conversion, rewrite, publishing and validation stages.
+
 ### 1. Prerequisite (SharePoint use cases only): request an app registration
 
 Skip this step if you only need the [document-conversion pipeline](#-content-conversion-workstream-architecture--workflow)

@@ -14,7 +14,7 @@ By default performs no tenant I/O (dry-run plan only); -Execute plus
 Remote file URL or server-relative URL.
 Examples:
   SPO:    "/sites/MySite/Shared Documents/report.html" or "https://tenant.sharepoint.com/sites/Site/Shared Documents/file.pdf"
-  SP2016: "https://csb.jag.gov.bc.ca/Criminal Documents/justinews/apr-7-22.aspx"
+  SP2016: "https://sharepoint.example.org/Shared Documents/article.aspx"
 
 .PARAMETER ServerRelativeUrl
 Alias for RemoteUrl for backward compatibility.
@@ -25,8 +25,15 @@ Local directory where the downloaded file will be saved. Defaults to current dir
 .PARAMETER FileName
 Optional local filename override. If omitted, uses the filename from the remote URL.
 
+.PARAMETER RawFile
+On-prem: retrieve stored file bytes through REST rather than rendering the page URL.
+Use for offline static-page analysis; has no effect on the Online Get-PnPFile route.
+
 .PARAMETER FromSource
 Explicit switch to indicate the source is the SP2016 environment defined in config.psd1 Source.
+
+.PARAMETER TargetPlatform
+Auto detects standard Online hostnames; Online or OnPrem overrides it for custom hosts.
 
 .PARAMETER Overwrite
 Switch to overwrite existing local file. Default is false (fails if local file exists).
@@ -36,7 +43,7 @@ Overrides config.psd1 Connection.SiteUrl (or Source.SiteUrl when -FromSource is 
 
 .PARAMETER UseDefaultCredentials
 Use current Windows session credentials (Kerberos/NTLM) for SharePoint 2016 on-prem.
-If omitted and no -Credential is provided, can be read from config.psd1 Source.UseDefaultCredentials or prompts for credentials.
+If omitted and no -Credential is provided, prompts interactively for credentials.
 
 .PARAMETER Credential
 Explicit PSCredential for SharePoint 2016 on-prem authentication.
@@ -75,7 +82,11 @@ param(
 
     [string]$FileName,
 
+    [switch]$RawFile,
+
     [switch]$FromSource,
+
+    [ValidateSet('Auto', 'Online', 'OnPrem')][string]$TargetPlatform = 'Auto',
 
     [switch]$Overwrite,
 
@@ -85,7 +96,7 @@ param(
 
     [pscredential]$Credential,
 
-    [string]$ConfigPath = (Join-Path $PSScriptRoot "..\..\..\config.psd1"),
+    [string]$ConfigPath,
 
     [string]$ClientId,
 
@@ -109,29 +120,29 @@ if (-not $targetUrl) {
 }
 
 $connectionConfig = Get-WorkbenchConnectionConfig -Path $ConfigPath
+if (-not $ConfigPath) { $ConfigPath = $connectionConfig.ConfigPath }
 
 # Detect if target is SP2016
 $isSp2016 = $false
-if ($FromSource) {
+if ($FromSource -or $TargetPlatform -eq 'OnPrem') {
     $isSp2016 = $true
+} elseif ($TargetPlatform -eq 'Online') {
+    $isSp2016 = $false
 } elseif ($targetUrl -like "http*://*") {
-    if ($targetUrl -match "csb\.jag\.gov\.bc\.ca" -or ($targetUrl -match "\.gov\.bc\.ca/" -and $targetUrl -notmatch "sharepoint\.com")) {
-        $isSp2016 = $true
-    }
+    $isSp2016 = ([uri]$targetUrl).Host -notmatch '(^|\.)sharepoint\.(com|us|de|cn)$'
 }
 
 if ($isSp2016) {
     $sourceConfig = @{}
-    if (Test-Path $ConfigPath) {
+    if ($ConfigPath -and (Test-Path -LiteralPath $ConfigPath)) {
         $rawPsd1 = Import-PowerShellDataFile $ConfigPath
         if ($rawPsd1.ContainsKey("Source")) {
             $sourceConfig = $rawPsd1.Source
         }
     }
-    $sourceSite = if ($SiteUrl) { $SiteUrl } elseif ($sourceConfig.ContainsKey("SiteUrl")) { $sourceConfig.SiteUrl } else { "https://csb.jag.gov.bc.ca/" }
-    if (-not $UseDefaultCredentials -and $sourceConfig.ContainsKey("UseDefaultCredentials") -and $sourceConfig.UseDefaultCredentials) {
-        $UseDefaultCredentials = $true
-    }
+    $sourceSite = if ($SiteUrl) { $SiteUrl } elseif ($sourceConfig.ContainsKey("SiteUrl")) { $sourceConfig.SiteUrl } else { $connectionConfig.SiteUrl }
+    if (-not $sourceSite -and $targetUrl -like 'http*://*') { $sourceSite = ([uri]$targetUrl).GetLeftPart([UriPartial]::Authority) }
+    if (-not $sourceSite) { throw 'On-prem requires SiteUrl, Source.SiteUrl or an absolute RemoteUrl.' }
     $platform = "SharePoint2016"
 } else {
     if (-not $SiteUrl) { $SiteUrl = $connectionConfig.SiteUrl }
@@ -200,6 +211,11 @@ if ($isSp2016) {
     $fullUrl = if ($targetUrl -like "http*://*") { $targetUrl } else {
         "$($sourceSite.TrimEnd('/'))/$($targetUrl.TrimStart('/'))"
     }
+    if ($RawFile) {
+        $relativeFileUrl = if ($targetUrl -like 'http*://*') { ([uri]$targetUrl).AbsolutePath } else { $targetUrl }
+        $encodedPath = [uri]::EscapeDataString([uri]::UnescapeDataString($relativeFileUrl).Replace("'", "''"))
+        $fullUrl = "$($sourceSite.TrimEnd('/'))/_api/web/GetFileByServerRelativeUrl('$encodedPath')/`$value"
+    }
     $reqArgs = @{
         Uri             = $fullUrl
         UseBasicParsing = $true
@@ -246,7 +262,8 @@ if ($isSp2016) {
 
     try {
         Write-Host "Downloading '$targetUrl' to '$destinationFilePath'..." -ForegroundColor Cyan
-        Get-PnPFile -Url $targetUrl -Path $resolvedDestDir -FileName $targetFileName -AsFile -Force -ErrorAction Stop | Out-Null
+        $pnpFileUrl = if ($targetUrl -like 'http*://*') { ([uri]$targetUrl).AbsolutePath } else { $targetUrl }
+        Get-PnPFile -Url $pnpFileUrl -Path $resolvedDestDir -FileName $targetFileName -AsFile -Force -ErrorAction Stop | Out-Null
     }
     finally {
         Disconnect-PnPOnline -ErrorAction SilentlyContinue

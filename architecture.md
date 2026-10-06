@@ -99,6 +99,31 @@ Skill names changed in the seven-domain migration; the previous-to-current mappi
 
 ## 4. Safety Rules for Live SharePoint Changes
 
+### File and embedded-link inventory workflow
+
+The existing inventory, download and link skills now cover a reusable discovery workflow without
+adding new skill identities:
+
+1. `sharepoint-collect-site-inventory`: one Online/on-prem collector inventories files across
+   all libraries and descendant subsites into `files.csv`, with library/error CSVs and a manifest.
+2. `sharepoint-download-file`: an inventory-driven bulk wrapper previews or downloads selected
+   HTML/HTM/ASPX and document files, retaining original URLs in `downloads.csv`.
+3. `sharepoint-extract-links`: Python exports links and per-source coverage CSVs from static
+   pages, Office external relationships and exported modern-page content. A separate Online
+   read-only collector exports CanvasContent1, LayoutWebpartsContent and available classic fields.
+4. Existing conversion, rewrite, publishing and validation skills consume the discovery evidence.
+   Link inventories are captured before conversion and after publishing; actual destination
+   mappings and resolver-backed validation remain separate requirements.
+
+Online uses browser-based interactive authentication; new on-prem workflows prompt for credentials
+and never default to the current Windows session. Live scripts are run by the user. Python
+extraction is offline. PDFs, dynamic/script-generated links and unsupported custom page schemas
+remain explicit coverage gaps. Local fixture/mock tests do not establish live authentication or
+site-wide completeness. Skill counts remain unchanged; scripts are canonical plugin hub assets
+with manifest-registered skill symlinks.
+
+Details: [bulk content/link workflow](plugins/sharepoint-site-migration/references/link-remediation/bulk-content-link-workflow.md).
+
 To protect production and DEV environments from accidental changes, most tenant-writing tools follow three safety gates (verified by a static scan of the PowerShell scripts: 42 of 53 detected tenant-writing scripts are fully gated; always check a script's own parameters before running it):
 
 1. **Planning is Safe (Read-Only)**: Planning tools only read data and create local plan files on disk. They never modify a live site.
