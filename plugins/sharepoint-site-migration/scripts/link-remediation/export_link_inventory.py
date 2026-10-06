@@ -12,12 +12,18 @@ import argparse
 import csv
 import html
 import json
+import sys
 import zipfile
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urljoin, urlsplit
 from xml.etree import ElementTree
+
+# Ensure script directory is on sys.path for direct invocation
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
 
 from link_extraction import classify
 
@@ -99,26 +105,63 @@ def write_csv(path, rows, columns):
         writer.writerows(rows)
 
 
-def run(*, output_dir, source_dir=None, manifest_csv=None, base_url=None):
+def run(
+    *,
+    output_dir,
+    source_dir=None,
+    manifest_csv=None,
+    base_url=None,
+    local_root=None,
+    path_column=None,
+    formats=None,
+    skip_unsupported=False,
+):
     """Analyze local inputs and preserve per-source read/format coverage in sources.csv."""
     if bool(source_dir) == bool(manifest_csv):
         raise ValueError("Supply exactly one of source_dir or manifest_csv")
     output_dir = Path(output_dir).resolve()
+    local_root_path = Path(local_root).resolve() if local_root else None
+    allowed_formats = {f.lower() if f.startswith(".") else f".{f.lower()}" for f in formats} if formats else None
+
     if manifest_csv:
         manifest_csv = Path(manifest_csv).resolve()
         with manifest_csv.open(encoding="utf-8-sig", newline="") as handle:
-            inputs = list(csv.DictReader(handle))
-        for row in inputs:
-            local = row.get("LocalPath", "")
-            if local and not Path(local).is_absolute():
-                row["LocalPath"] = str(manifest_csv.parent / local)
+            raw_inputs = list(csv.DictReader(handle))
+        inputs = []
+        for row in raw_inputs:
+            # Auto-discover local file path if path_column not specified
+            local = ""
+            if path_column and row.get(path_column):
+                candidate = row[path_column]
+                local = str(local_root_path / candidate.lstrip("/\\")) if local_root_path else candidate
+            elif row.get("LocalPath"):
+                candidate = row["LocalPath"]
+                local = str(local_root_path / candidate.lstrip("/\\")) if local_root_path and not Path(candidate).is_absolute() else candidate
+            elif local_root_path:
+                for col in ("RelativePath", "LibraryRelativePath", "ServerRelativeUrl"):
+                    if row.get(col):
+                        local = str(local_root_path / row[col].lstrip("/\\"))
+                        break
+
+            if local and not Path(local).is_absolute() and not local_root_path:
+                local = str(manifest_csv.parent / local)
+
+            row["LocalPath"] = local
+
+            ext = Path(local).suffix.lower() if local else (f".{row['FileExtension'].lower().lstrip('.')}" if row.get("FileExtension") else "")
+            if allowed_formats and ext not in allowed_formats:
+                continue
+            inputs.append(row)
     else:
         source_dir = Path(source_dir).resolve(strict=True)
         inputs = []
         for path in sorted(source_dir.rglob("*")):
             if not path.is_file() or path.is_relative_to(output_dir):
                 continue
-            if path.suffix.lower() not in SUPPORTED and not path.name.endswith(".page.json"):
+            suffix = path.suffix.lower()
+            if allowed_formats and suffix not in allowed_formats:
+                continue
+            if not allowed_formats and suffix not in SUPPORTED and not path.name.endswith(".page.json"):
                 continue
             relative = path.relative_to(source_dir).as_posix()
             inputs.append({"LocalPath": str(path), "FileUrl": urljoin(base_url.rstrip("/") + "/", relative) if base_url else "", "Status": "DOWNLOADED"})
@@ -127,7 +170,8 @@ def run(*, output_dir, source_dir=None, manifest_csv=None, base_url=None):
     for row in inputs:
         local = row.get("LocalPath", "")
         source_url = row.get("FileUrl", row.get("SourceUrl", ""))
-        record = {"SourceUrl": source_url, "LocalPath": local, "Format": Path(local).suffix.lower(), "Status": "EMPTY", "LinkCount": 0, "Message": ""}
+        ext = Path(local).suffix.lower() if local else ""
+        record = {"SourceUrl": source_url, "LocalPath": local, "Format": ext, "Status": "EMPTY", "LinkCount": 0, "Message": ""}
         try:
             if row.get("Status", "DOWNLOADED") != "DOWNLOADED":
                 raise OSError(f"Source download status: {row.get('Status')}")
@@ -146,7 +190,8 @@ def run(*, output_dir, source_dir=None, manifest_csv=None, base_url=None):
             if occurrences:
                 record["Status"] = "OBSERVED"
         except NotImplementedError as exc:
-            failed += 1
+            if not skip_unsupported:
+                failed += 1
             record.update(Status="NOT_SUPPORTED", Message=str(exc))
         except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile, ElementTree.ParseError) as exc:
             failed += 1
@@ -170,8 +215,22 @@ def main():
     sources.add_argument("--manifest-csv", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--base-url", help="Original remote directory URL when no source manifest is available")
+    parser.add_argument("--local-root", type=Path, help="Base directory for resolving relative file paths in manifest CSV")
+    parser.add_argument("--path-column", help="CSV column name containing the local or relative file path")
+    parser.add_argument("--formats", help="Comma-separated file extensions to include (e.g. aspx,html,docx)")
+    parser.add_argument("--skip-unsupported", action="store_true", help="Do not count unsupported file types as execution problems")
     args = parser.parse_args()
-    report = run(**vars(args))
+    formats_list = [f.strip() for f in args.formats.split(",")] if args.formats else None
+    report = run(
+        output_dir=args.output_dir,
+        source_dir=args.source_dir,
+        manifest_csv=args.manifest_csv,
+        base_url=args.base_url,
+        local_root=args.local_root,
+        path_column=args.path_column,
+        formats=formats_list,
+        skip_unsupported=args.skip_unsupported,
+    )
     print(json.dumps(report, indent=2))
     return 1 if report["Status"] in {"PARTIAL", "FAILED"} else 0
 
