@@ -8,6 +8,8 @@
 
 - Planning performs zero tenant I/O. The executor `scripts/spo-publish-markdown-plan.ps1` is dry-run by default and writes nothing without `-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`. A real run is a live tenant write that the user runs.
 - Overwriting an existing file uses `Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType MajorCheckIn` around `Add-PnPFile`.
+- Before any upload, execution verifies the document library, resolves/creates nested target folders, and confirms the folder exists; inability to verify either stops the upload.
+- The executor does not create document libraries. If the target library is missing, use the SharePoint document-library skill to create it, then rerun the plan.
 - Require an explicit target library and folder; there is no default target. Refuse a missing or empty source directory.
 - When running from an installed copy, pass `-ConfigPath` (or `-SiteUrl`, `-ClientId`, `-TenantId`); the default config path does not resolve there.
 

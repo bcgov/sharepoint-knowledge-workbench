@@ -6,8 +6,9 @@ a PublishPlan.
 .DESCRIPTION
 Reads a PublishPlan JSON file (document_id, actions[]: source_path,
 target_library, target_folder, target_filename) and, for each action,
-uploads the source file into the target library/folder via Add-PnPFile,
-using checkout/checkin (Set-PnPFileCheckedOut / Set-PnPFileCheckedIn
+verifies the target library, resolves and verifies the target folder
+(creating missing nested folders), then uploads via Add-PnPFile. Uses
+checkout/checkin (Set-PnPFileCheckedOut / Set-PnPFileCheckedIn
 -CheckinType MajorCheckIn) around any overwrite of an existing file. By
 default performs no SharePoint tenant I/O; -Execute plus -ConfirmToken
 PUBLISH-SPO-MARKDOWN runs the real writes.
@@ -32,8 +33,9 @@ Overrides ConfigPath TenantId.
 Overrides ConfigPath Authentication.TenantAdminUrl.
 
 .PARAMETER Execute
-Runs the real Add-PnPFile / checkout-checkin calls. Omit this to print the
-per-action plan only.
+Verifies the target library, creates and confirms missing target folders,
+and runs the real Add-PnPFile / checkout-checkin calls. Omit this to print
+the per-action plan only.
 
 .PARAMETER ConfirmToken
 Required with -Execute. Must be PUBLISH-SPO-MARKDOWN.
@@ -89,8 +91,12 @@ if ($Execute) {
     if ($ConfirmToken -ne "PUBLISH-SPO-MARKDOWN") {
         throw "-Execute requires -ConfirmToken PUBLISH-SPO-MARKDOWN."
     }
-    if (-not (Get-Command Add-PnPFile -ErrorAction SilentlyContinue)) {
-        throw "PnP.PowerShell with Add-PnPFile is required. Install/import PnP.PowerShell before executing."
+    $requiredCommands = @("Get-PnPList", "Resolve-PnPFolder", "Get-PnPFolder", "Add-PnPFile")
+    $missingCommands = @($requiredCommands | Where-Object {
+        -not (Get-Command $_ -ErrorAction SilentlyContinue)
+    })
+    if ($missingCommands.Count -gt 0) {
+        throw "PnP.PowerShell commands are required before execution: $($missingCommands -join ', '). Install/import PnP.PowerShell before executing."
     }
 
     $connectParameters = @{
@@ -110,6 +116,29 @@ if ($Execute) {
         $targetFolder = "$($action.target_library)/$($action.target_folder)".TrimEnd("/").Replace("//", "/")
         $targetServerRelativeUrl = "$targetFolder/$($action.target_filename)"
 
+        try {
+            $targetLibrary = Get-PnPList -Identity $action.target_library -ErrorAction Stop
+        }
+        catch {
+            throw "Unable to verify target document library '$($action.target_library)' before upload; no file was uploaded. If the library is missing, create it with the SharePoint document-library skill and rerun. Details: $($_.Exception.Message)"
+        }
+        if (-not $targetLibrary) {
+            throw "Target document library '$($action.target_library)' could not be confirmed; no file was uploaded. If the library is missing, create it with the SharePoint document-library skill and rerun."
+        }
+
+        if (-not [string]::IsNullOrWhiteSpace([string]$action.target_folder)) {
+            try {
+                Resolve-PnPFolder -SiteRelativePath $targetFolder -ErrorAction Stop | Out-Null
+                $resolvedFolder = Get-PnPFolder -Url $targetFolder -ErrorAction Stop
+            }
+            catch {
+                throw "Unable to ensure and verify target folder '$targetFolder' before upload; no file was uploaded. Details: $($_.Exception.Message)"
+            }
+            if (-not $resolvedFolder) {
+                throw "Target folder '$targetFolder' could not be confirmed after resolution; no file was uploaded."
+            }
+        }
+
         $existingFile = Get-PnPFile -Url $targetServerRelativeUrl -ErrorAction SilentlyContinue
         if ($existingFile) {
             Set-PnPFileCheckedOut -Url $targetServerRelativeUrl
@@ -122,10 +151,11 @@ if ($Execute) {
         }
 
         [pscustomobject]@{
-            source_path = $action.source_path
-            target_url  = $targetServerRelativeUrl
-            overwrote   = [bool]$existingFile
-            success     = $true
+            source_path          = $action.source_path
+            target_url           = $targetServerRelativeUrl
+            target_folder_verified = $true
+            overwrote            = [bool]$existingFile
+            success              = $true
         }
     }
 
@@ -138,6 +168,19 @@ else {
             source_path = $action.source_path
             target_folder = $targetFolder
             target_filename = $action.target_filename
+            verify_library = "Get-PnPList -Identity `"$($action.target_library)`""
+            resolve_target_folder = if ([string]::IsNullOrWhiteSpace([string]$action.target_folder)) {
+                "Target document library root"
+            }
+            else {
+                "Resolve-PnPFolder -SiteRelativePath `"$targetFolder`""
+            }
+            verify_target_folder = if ([string]::IsNullOrWhiteSpace([string]$action.target_folder)) {
+                "Get-PnPList -Identity `"$($action.target_library)`""
+            }
+            else {
+                "Get-PnPFolder -Url `"$targetFolder`""
+            }
             checkout_if_exists = "Set-PnPFileCheckedOut -Url `"$targetFolder/$($action.target_filename)`""
             upload = "Add-PnPFile -Path `"$($action.source_path)`" -Folder `"$targetFolder`" -NewFileName `"$($action.target_filename)`""
             checkin_if_existed = "Set-PnPFileCheckedIn -Url `"$targetFolder/$($action.target_filename)`" -CheckinType MajorCheckIn"

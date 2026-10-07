@@ -26,6 +26,10 @@ Build a `PublishPlan` (source file to target library, folder and filename) and u
   nothing without `-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`. A real run is a live tenant write that the user runs.
 - Overwriting an existing file uses `Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType MajorCheckIn` around
   `Add-PnPFile`.
+- On execution, the uploader verifies the target document library, resolves nested target folders with
+  `Resolve-PnPFolder` (creating any that are missing), then confirms the folder with `Get-PnPFolder` before uploading.
+  If the library cannot be verified, it stops without uploading; create a missing library with the SharePoint
+  document-library skill and rerun.
 - Require an explicit target library and folder; there is no default target. Refuse a missing or empty source directory.
 - When running from an installed copy, pass `-ConfigPath` (or `-SiteUrl`, `-ClientId`, `-TenantId`); the default config path
   does not resolve there.
