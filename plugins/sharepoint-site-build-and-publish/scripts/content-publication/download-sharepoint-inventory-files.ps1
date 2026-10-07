@@ -9,6 +9,7 @@ Dry-run writes only downloads.csv locally. Real downloads require -Execute and
 Hash-keyed local directories prevent equal filenames in different subsites colliding.
 Default extensions are html,htm,aspx; pass a comma-separated list to include Office files.
 The user runs live downloads; never invoke them in a background agent session.
+Prints Started, Finished and Elapsed (hh:mm:ss) on the console, also when the run fails.
 .EXAMPLE
 pwsh -File download-sharepoint-inventory-files.ps1 -InventoryCsv ./inventory/files.csv -ConfigPath ./config.psd1 -OutputDir ./downloads
 #>
@@ -26,6 +27,11 @@ param(
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+
+# Runtime tracking: Started/Finished/Elapsed are printed on the console, including when the run fails.
+$script:RunStart = Get-Date
+Write-Host "Started:  $($script:RunStart.ToString('yyyy-MM-dd HH:mm:ss'))"
+try {
 if ($Execute -and $ConfirmToken -ne 'DOWNLOAD-SHAREPOINT-INVENTORY-FILES') {
     throw '-Execute requires -ConfirmToken DOWNLOAD-SHAREPOINT-INVENTORY-FILES.'
 }
@@ -82,3 +88,10 @@ if ($records.Count) { $records | Export-Csv -LiteralPath $manifest -NoTypeInform
 else { '"FileUrl","WebUrl","LibraryTitle","FileName","RelativePath","LocalPath","Status","Message"' | Set-Content -LiteralPath $manifest -Encoding utf8 }
 Write-Host "Wrote $($records.Count) download record(s) to $manifest; failures: $failed."
 if ($failed) { throw 'Some files could not be planned/downloaded; inspect downloads.csv.' }
+}
+finally {
+    $runEnd = Get-Date
+    $runElapsed = $runEnd - $script:RunStart
+    Write-Host "Finished: $($runEnd.ToString('yyyy-MM-dd HH:mm:ss'))"
+    Write-Host ("Elapsed:  {0:00}:{1:00}:{2:00}" -f [math]::Floor($runElapsed.TotalHours), $runElapsed.Minutes, $runElapsed.Seconds)
+}

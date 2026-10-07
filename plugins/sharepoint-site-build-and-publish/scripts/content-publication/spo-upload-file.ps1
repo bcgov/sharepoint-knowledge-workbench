@@ -12,6 +12,7 @@ checkout/checkin (Set-PnPFileCheckedOut / Set-PnPFileCheckedIn
 -CheckinType MajorCheckIn) around any overwrite of an existing file. By
 default performs no SharePoint tenant I/O; -Execute plus -ConfirmToken
 PUBLISH-SPO-MARKDOWN runs the real writes.
+Prints Started, Finished and Elapsed (hh:mm:ss) to stderr; stdout stays pure JSON.
 
 .PARAMETER PlanPath
 Path to a PublishPlan JSON file matching PublishPlan.to_dict()'s shape
@@ -66,6 +67,11 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+
+# Runtime tracking: Started/Finished/Elapsed go to stderr so stdout stays pure JSON for callers.
+$script:RunStart = Get-Date
+[Console]::Error.WriteLine("Started:  $($script:RunStart.ToString('yyyy-MM-dd HH:mm:ss'))")
+try {
 
 . (Join-Path $PSScriptRoot "Get-WorkbenchConnectionConfig.ps1")
 
@@ -200,4 +206,11 @@ else {
     }
 
     $summary | ConvertTo-Json -Depth 8
+}
+}
+finally {
+    $runEnd = Get-Date
+    $runElapsed = $runEnd - $script:RunStart
+    [Console]::Error.WriteLine("Finished: $($runEnd.ToString('yyyy-MM-dd HH:mm:ss'))")
+    [Console]::Error.WriteLine(("Elapsed:  {0:00}:{1:00}:{2:00}" -f [math]::Floor($runElapsed.TotalHours), $runElapsed.Minutes, $runElapsed.Seconds))
 }
