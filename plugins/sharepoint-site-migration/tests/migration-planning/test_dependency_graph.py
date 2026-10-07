@@ -2,7 +2,11 @@
 wave_planning.DeploymentObjects, computes the wave order via plan_waves
 (local to this plugin -- moved from sharepoint-provisioning 2026-08-08, see
 this plugin's README), and emits a dependency-matrix.json-shaped dict
-conforming to assets/migration-planning/dependency-matrix-schema.json."""
+conforming to assets/migration-planning/dependency-matrix-schema.json.
+
+Purpose: Tests for dependency_graph.py -- shapes a caller-supplied object list into wave_planning.DeploymentObjects, computes the wave order via plan_waves (local to this plugin -- moved from sharepoint-provisioning 2026-08-08, see this plugin's README), and emits a dependency-matrix.json-shaped dict conforming to assets/migration-planning/dependency-matrix-schema.json.
+Key Input Dependencies: dependency_graph, provisioning_outcomes, wave_planning.
+"""
 
 from __future__ import annotations
 
@@ -24,6 +28,7 @@ from wave_planning import DeploymentObject
 
 class TestLoadMatrixObjects:
     def test_loads_valid_objects(self):
+        """Verify loads valid objects."""
         raw = [
             {"name": "SiteColumnA", "objectType": "SiteColumn", "dependsOn": []},
             {"name": "ListA", "objectType": "List", "dependsOn": ["SiteColumnA"]},
@@ -35,16 +40,19 @@ class TestLoadMatrixObjects:
         )
 
     def test_missing_required_field_raises_with_object_name_or_index(self):
+        """Verify missing required field raises with object name or index."""
         raw = [{"name": "ListA", "dependsOn": []}]  # missing objectType
         with pytest.raises(MatrixValidationError, match="ListA"):
             load_matrix_objects(raw)
 
     def test_missing_name_raises_with_index(self):
+        """Verify missing name raises with index."""
         raw = [{"objectType": "List", "dependsOn": []}]
         with pytest.raises(MatrixValidationError, match="index 0"):
             load_matrix_objects(raw)
 
     def test_duplicate_names_raise(self):
+        """Verify duplicate names raise."""
         raw = [
             {"name": "ListA", "objectType": "List", "dependsOn": []},
             {"name": "ListA", "objectType": "List", "dependsOn": []},
@@ -55,6 +63,7 @@ class TestLoadMatrixObjects:
 
 class TestBuildDependencyMatrix:
     def test_emits_objects_and_waves_conforming_to_schema_shape(self):
+        """Verify emits objects and waves conforming to schema shape."""
         objects = (
             DeploymentObject(name="SiteColumnA", object_type="SiteColumn", depends_on=()),
             DeploymentObject(name="ListA", object_type="List", depends_on=("SiteColumnA",)),
@@ -65,6 +74,7 @@ class TestBuildDependencyMatrix:
         assert matrix["waves"] == [["SiteColumnA"], ["ListA"]]
 
     def test_reports_blocking_findings_without_raising(self):
+        """Verify reports blocking findings without raising."""
         objects = (DeploymentObject(name="ListA", object_type="List", depends_on=("Missing",)),)
         matrix = build_dependency_matrix(objects)
         assert matrix["outcome"] == Outcome.FAILED
@@ -72,6 +82,7 @@ class TestBuildDependencyMatrix:
         assert any("Missing" in f for f in matrix["blocking_findings"])
 
     def test_empty_input_is_empty_outcome(self):
+        """Verify empty input is empty outcome."""
         matrix = build_dependency_matrix(())
         assert matrix["outcome"] == Outcome.EMPTY
         assert matrix["objects"] == []

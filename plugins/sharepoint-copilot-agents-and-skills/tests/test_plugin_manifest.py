@@ -1,8 +1,14 @@
-"""
+"""Purpose:
+    Verify the plugin manifest declares exactly the skills present on disk.
+
+Key Input Dependencies:
+    - plugin.yaml
+    - skills/*/SKILL.md
+
 test_plugin_manifest.py -- guards against plugin.yaml's `skills:` list
 silently drifting out of sync with the skills actually shipped on disk.
 
-Purpose:
+Background:
     An external audit (2026-08-08) found four plugins across this workbench
     where plugin.yaml declared fewer skills than skills/ actually contained
     -- e.g. this plugin declared 2 skills while shipping 4. Any loader that
@@ -17,6 +23,10 @@ Purpose:
     contract's own verification.
 
 Layer: sharepoint-schema / plugin-local tests
+
+Function Index:
+    - _declared_skills
+    - test_plugin_yaml_skills_matches_skills_directory
 """
 
 import re
@@ -35,7 +45,9 @@ def _declared_skills(plugin_yaml_text: str) -> set[str]:
     return {line.strip().lstrip("-").strip() for line in match.group(1).splitlines() if line.strip()}
 
 
+# The manifest's skill names match directories containing shipped SKILL.md files.
 def test_plugin_yaml_skills_matches_skills_directory():
+    """The manifest's skill names match directories containing shipped SKILL.md files."""
     declared = _declared_skills((PLUGIN_ROOT / "plugin.yaml").read_text(encoding="utf-8"))
     on_disk = {
         p.name

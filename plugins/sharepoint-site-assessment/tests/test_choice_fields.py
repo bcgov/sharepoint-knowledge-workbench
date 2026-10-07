@@ -11,6 +11,18 @@ Layer: sharepoint-schema / plugin-local tests
 
 Key Input Dependencies:
     - choice_fields, schema_export (modules under test)
+
+Function index:
+    - _load
+    - test_inventories_choice_and_multichoice_fields
+    - test_odata_results_envelope_for_choices_is_supported
+    - test_field_without_a_choices_property_is_reported_unknown_not_empty
+    - test_empty_choice_list_is_distinct_from_unknown
+    - test_group_filter_is_opt_in_with_no_default
+    - test_overrides_mapping_is_keyed_by_list_and_internal_name
+    - test_overrides_mapping_omits_unknown_option_sets
+    - test_missing_export_is_unavailable_not_an_empty_success
+    - test_no_choice_fields_present_is_empty
 """
 
 import json
@@ -23,7 +35,9 @@ from choice_fields import inventory_choice_fields, to_overrides_mapping  # noqa:
 from schema_export import SectionStatus, load_schema_export  # noqa: E402
 
 
+# Load a schema export fixture with the test label and default layout.
 def _load(tmp_path, name, list_fields):
+    """Load a schema export fixture with the test label and default layout."""
     root = tmp_path / name
     for list_name, fields in list_fields.items():
         path = root / "lists" / list_name / "fields.json"
@@ -32,7 +46,9 @@ def _load(tmp_path, name, list_fields):
     return load_schema_export(root, label=name)
 
 
+# Inventories choice and multichoice fields.
 def test_inventories_choice_and_multichoice_fields(tmp_path):
+    """Inventories choice and multichoice fields."""
     inventory = inventory_choice_fields(_load(tmp_path, "a", {
         "Records": [
             {"InternalName": "status", "TypeAsString": "Choice", "Choices": ["Open", "Closed"]},
@@ -45,7 +61,9 @@ def test_inventories_choice_and_multichoice_fields(tmp_path):
     assert inventory.status is SectionStatus.OBSERVED
 
 
+# Odata results envelope for choices is supported.
 def test_odata_results_envelope_for_choices_is_supported(tmp_path):
+    """Odata results envelope for choices is supported."""
     inventory = inventory_choice_fields(_load(tmp_path, "b", {
         "Records": [{"InternalName": "status", "TypeAsString": "Choice",
                      "Choices": {"results": ["Open"]}}]
@@ -53,7 +71,9 @@ def test_odata_results_envelope_for_choices_is_supported(tmp_path):
     assert inventory.fields[0].choices == ("Open",)
 
 
+# Field without a choices property is reported unknown not empty.
 def test_field_without_a_choices_property_is_reported_unknown_not_empty(tmp_path):
+    """Field without a choices property is reported unknown not empty."""
     inventory = inventory_choice_fields(_load(tmp_path, "c", {
         "Records": [{"InternalName": "status", "TypeAsString": "Choice"}]
     }))
@@ -63,7 +83,9 @@ def test_field_without_a_choices_property_is_reported_unknown_not_empty(tmp_path
     assert inventory.status is SectionStatus.PARTIAL
 
 
+# Empty choice list is distinct from unknown.
 def test_empty_choice_list_is_distinct_from_unknown(tmp_path):
+    """Empty choice list is distinct from unknown."""
     inventory = inventory_choice_fields(_load(tmp_path, "d", {
         "Records": [{"InternalName": "status", "TypeAsString": "Choice", "Choices": []}]
     }))
@@ -71,7 +93,9 @@ def test_empty_choice_list_is_distinct_from_unknown(tmp_path):
     assert inventory.fields[0].choices == ()
 
 
+# Group filter is opt in with no default.
 def test_group_filter_is_opt_in_with_no_default(tmp_path):
+    """Group filter is opt in with no default."""
     export = _load(tmp_path, "e", {
         "Records": [
             {"InternalName": "a", "TypeAsString": "Choice", "Choices": ["1"], "Group": "Custom Columns"},
@@ -83,27 +107,35 @@ def test_group_filter_is_opt_in_with_no_default(tmp_path):
     assert [f.internal_name for f in filtered.fields] == ["a"]
 
 
+# Overrides mapping is keyed by list and internal name.
 def test_overrides_mapping_is_keyed_by_list_and_internal_name(tmp_path):
+    """Overrides mapping is keyed by list and internal name."""
     inventory = inventory_choice_fields(_load(tmp_path, "f", {
         "Records": [{"InternalName": "status", "TypeAsString": "Choice", "Choices": ["Open"]}]
     }))
     assert to_overrides_mapping(inventory) == {"lists/Records.status": ["Open"]}
 
 
+# Overrides mapping omits unknown option sets.
 def test_overrides_mapping_omits_unknown_option_sets(tmp_path):
+    """Overrides mapping omits unknown option sets."""
     inventory = inventory_choice_fields(_load(tmp_path, "g", {
         "Records": [{"InternalName": "status", "TypeAsString": "Choice"}]
     }))
     assert to_overrides_mapping(inventory) == {}
 
 
+# Missing export is unavailable not an empty success.
 def test_missing_export_is_unavailable_not_an_empty_success(tmp_path):
+    """Missing export is unavailable not an empty success."""
     inventory = inventory_choice_fields(load_schema_export(tmp_path / "none", label="none"))
     assert inventory.status is SectionStatus.UNAVAILABLE
     assert inventory.fields == ()
 
 
+# No choice fields present is empty.
 def test_no_choice_fields_present_is_empty(tmp_path):
+    """No choice fields present is empty."""
     inventory = inventory_choice_fields(_load(tmp_path, "h", {
         "Records": [{"InternalName": "note", "TypeAsString": "Text"}]
     }))

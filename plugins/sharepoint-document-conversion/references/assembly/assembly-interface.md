@@ -40,8 +40,8 @@ inventory/copy/rewrite, manifest assembly, validation, atomic promotion.
 
 ## Contracts
 
-- `references/assembly/contracts/canonical-package.md`: the package layout and manifest contract.
-- `references/assembly/contracts/publication-map.md`: the publication-map contract for grouped plans.
+- `references/contracts/canonical-package.md`: the package layout and manifest contract.
+- `references/contracts/publication-map.md`: the publication-map contract for grouped plans.
 
 ## External tools
 

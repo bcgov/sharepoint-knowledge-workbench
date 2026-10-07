@@ -23,6 +23,12 @@ Provenance:
     Extracted from the originating SharePoint migration repository's security and
     permissions analysis script at the pinned source commit. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
+
+Function index:
+    - _analyse_flat
+    - analyse
+    - generate_report
+    - run
 """
 
 from __future__ import annotations
@@ -35,7 +41,9 @@ from discovery_inputs import DiscoveryOutcome, DiscoveryStatus, load_json_input,
 DOMAIN = "permissions"
 
 
+# Derive permission-object and principal summaries from a flat assignment collection.
 def _analyse_flat(entries: list[dict]) -> tuple[str, list[dict], list[dict]]:
+    """Derive permission-object and principal summaries from a flat assignment collection."""
     site_url = ""
     groups_by_name: dict[str, dict] = {}
     objects_by_title: dict[str, dict] = {}

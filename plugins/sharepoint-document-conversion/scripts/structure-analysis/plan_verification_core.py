@@ -1,6 +1,14 @@
-"""
-plan_verification_core.py
+"""plan_verification_core.py
 ============================
+
+Purpose:
+    Confirmed-plan verification and plan-ID computation -- the single canonical implementation, shared by `document-structure-analysis` (via `plans.py`, which handles draft/confirm/media-decision workflows and delegates verification here) and `structured-content-assembly` (via a managed cross-plugin symlink at this exact module name -- `structured-content-assembly` consumes a *confirmed* plan dict and must verify it without depending on `document-structure-analysis`'s implementation package).
+
+Key Input Dependencies:
+    - hashlib
+    - json
+    - pathlib
+    - typing
 
 Confirmed-plan verification and plan-ID computation -- the single
 canonical implementation, shared by `document-structure-analysis` (via `plans.py`,
@@ -38,7 +46,14 @@ Function Index:
     - require_confirmed(plan) -> None
         Raises PlanVerificationError unless confirmation.status ==
         "confirmed".
-"""
+
+Key Functions Index:
+    - _canonical_json_bytes()
+    - _content_hash()
+    - compute_plan_id()
+    - verify_plan_against_source()
+    - verify_plan_integrity()
+    - require_confirmed()"""
 
 import hashlib
 import json
@@ -52,11 +67,15 @@ class PlanVerificationError(Exception):
     whose content was hand-tampered after it was written."""
 
 
+# Encode a plan mapping as deterministic UTF-8 JSON bytes for fingerprint calculation.
 def _canonical_json_bytes(payload: Any) -> bytes:
+    """Encode a plan mapping as deterministic UTF-8 JSON bytes for fingerprint calculation."""
     return json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
+# Compute the SHA-256 digest of the supplied source content.
 def _content_hash(data: bytes) -> str:
+    """Compute the SHA-256 digest of the supplied source content."""
     return hashlib.sha256(data).hexdigest()
 
 

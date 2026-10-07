@@ -1,4 +1,20 @@
-"""Exercise the collector with mocked PnP and paginated on-prem REST responses."""
+"""Exercise the collector with mocked PnP and paginated on-prem REST responses.
+Purpose:
+    Verify content-inventory collection behavior using isolated local fixtures.
+
+Key Input Dependencies:
+    - pytest, the plugin module under test, and temporary JSON fixtures created by the test cases.
+
+Function index:
+    - collect
+    - test_all_webs_files_and_empty_hidden_libraries
+    - test_failures_are_reported_as_partial
+    - test_late_rest_page_failure_preserves_earlier_files
+    - test_auth_denial_is_actionable_and_failed
+    - test_empty_inventory_keeps_csv_headers
+    - test_skill_routes_content_inventory_and_link_is_registered
+    - test_auto_detection_config_and_target_override
+"""
 
 import csv
 import json
@@ -14,7 +30,9 @@ COLLECTOR = PLUGIN / "scripts" / "collect-sharepoint-content-inventory.ps1"
 HARNESS = Path(__file__).parent / "fixtures" / "content-inventory-mocks.ps1"
 
 
+# Collect the configured content inventory and preserve per-web and per-page failure status.
 def collect(tmp_path, platform, scenario="complete"):
+    """Collect the configured content inventory and preserve per-web and per-page failure status."""
     assert COLLECTOR.is_file(), "recursive content collector is missing"
     pwsh = shutil.which("pwsh")
     if not pwsh:
@@ -34,8 +52,10 @@ def collect(tmp_path, platform, scenario="complete"):
     return result, manifest, files, libraries, output
 
 
+# All webs files and empty hidden libraries.
 @pytest.mark.parametrize("platform", ["Online", "OnPrem"])
 def test_all_webs_files_and_empty_hidden_libraries(tmp_path, platform):
+    """All webs files and empty hidden libraries."""
     result, manifest, files, libraries, _ = collect(tmp_path, platform)
     assert result.returncode == 0, result.stdout + result.stderr
     assert manifest["Status"] == "COMPLETE"
@@ -59,9 +79,11 @@ def test_all_webs_files_and_empty_hidden_libraries(tmp_path, platform):
     assert all(row["FileName"] != "folder" for row in files)
 
 
+# Failures are reported as partial.
 @pytest.mark.parametrize("platform", ["Online", "OnPrem"])
 @pytest.mark.parametrize("scenario", ["library-denied", "subsites-denied"])
 def test_failures_are_reported_as_partial(tmp_path, platform, scenario):
+    """Failures are reported as partial."""
     result, manifest, files, _, output = collect(tmp_path, platform, scenario)
     assert result.returncode != 0
     assert manifest["Status"] == "PARTIAL"
@@ -70,14 +92,18 @@ def test_failures_are_reported_as_partial(tmp_path, platform, scenario):
     assert "denied" in (output / "errors.csv").read_text(encoding="utf-8-sig")
 
 
+# Late rest page failure preserves earlier files.
 def test_late_rest_page_failure_preserves_earlier_files(tmp_path):
+    """Late rest page failure preserves earlier files."""
     result, manifest, files, _, _ = collect(tmp_path, "OnPrem", "page-denied")
     assert result.returncode != 0
     assert manifest["Status"] == "PARTIAL"
     assert "manual.docx" in {row["FileName"] for row in files}
 
 
+# Auth denial is actionable and failed.
 def test_auth_denial_is_actionable_and_failed(tmp_path):
+    """Auth denial is actionable and failed."""
     result, manifest, files, libraries, output = collect(tmp_path, "OnPrem", "unauthorized")
     assert result.returncode != 0
     assert manifest["Status"] == "FAILED"
@@ -87,8 +113,10 @@ def test_auth_denial_is_actionable_and_failed(tmp_path):
     assert "prompt" in error
 
 
+# Empty inventory keeps csv headers.
 @pytest.mark.parametrize("platform", ["Online", "OnPrem"])
 def test_empty_inventory_keeps_csv_headers(tmp_path, platform):
+    """Empty inventory keeps csv headers."""
     result, manifest, files, libraries, output = collect(tmp_path, platform, "empty")
     assert result.returncode == 0, result.stdout + result.stderr
     assert manifest["Status"] == "EMPTY"
@@ -96,7 +124,9 @@ def test_empty_inventory_keeps_csv_headers(tmp_path, platform):
     assert "FileName" in (output / "files.csv").read_text(encoding="utf-8-sig")
 
 
+# Skill routes content inventory and link is registered.
 def test_skill_routes_content_inventory_and_link_is_registered():
+    """Skill routes content inventory and link is registered."""
     skill = PLUGIN / "skills" / "sharepoint-collect-site-inventory"
     text = (skill / "SKILL.md").read_text(encoding="utf-8")
     description = text.split("description:", 1)[1].split("allowed-tools:", 1)[0]
@@ -110,6 +140,7 @@ def test_skill_routes_content_inventory_and_link_is_registered():
                for entry in manifest["links"])
 
 
+# Auto detection config and target override.
 @pytest.mark.parametrize("target,expected", [
     ("https://tenant.sharepoint.com/sites/root", "Online"),
     ("https://example.test/sites/root", "OnPrem"),
@@ -117,6 +148,7 @@ def test_skill_routes_content_inventory_and_link_is_registered():
 ])
 @pytest.mark.parametrize("override", [False, True])
 def test_auto_detection_config_and_target_override(tmp_path, target, expected, override):
+    """Auto detection config and target override."""
     config = tmp_path / "profile.psd1"
     configured_url = "https://unused.test/sites/root" if override else target
     config.write_text(

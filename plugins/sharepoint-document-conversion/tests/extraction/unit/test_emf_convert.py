@@ -1,7 +1,17 @@
 #!/usr/bin/env python
-"""
-test_emf_convert.py
+"""test_emf_convert.py
 ====================
+
+Purpose:
+    TDD-first: failing tests for emf_convert.py.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - shutil
+    - struct
+    - pathlib
+    - pytest
+    - emf_convert
 
 TDD-first: failing tests for emf_convert.py.
 Covers converting legacy Enhanced Metafile (.emf) / Windows Metafile (.wmf)
@@ -15,7 +25,12 @@ behavior (empty dir, no legacy media present) is always exercised.
 
 Usage:
     pytest plugins/sharepoint-document-conversion/tests/extraction/unit/test_emf_convert.py -v
-"""
+
+Key Functions Index:
+    - _write_minimal_emf()
+    - TestConvertLegacyMedia.test_empty_directory_returns_empty_mapping()
+    - TestConvertLegacyMedia.test_directory_with_no_legacy_media_returns_empty_mapping()
+    - TestConvertLegacyMedia.test_converts_emf_to_png_and_returns_mapping()"""
 
 import shutil
 import struct
@@ -58,19 +73,25 @@ def _write_minimal_emf(path: Path) -> None:
 
 
 class TestConvertLegacyMedia:
+    # Verify empty directory returns empty mapping.
     def test_empty_directory_returns_empty_mapping(self, tmp_path: Path):
+        """Verify empty directory returns empty mapping."""
         result = convert_legacy_media(tmp_path)
         assert result == {}
 
+    # Verify directory with no legacy media returns empty mapping.
     def test_directory_with_no_legacy_media_returns_empty_mapping(self, tmp_path: Path):
+        """Verify directory with no legacy media returns empty mapping."""
         (tmp_path / "image1.png").write_bytes(b"not a real png, just a stub")
         result = convert_legacy_media(tmp_path)
         assert result == {}
         # Non-legacy files must be left untouched.
         assert (tmp_path / "image1.png").exists()
 
+    # Verify converts emf to png and returns mapping.
     @pytest.mark.skipif(not SOFFICE_AVAILABLE, reason="soffice not found on PATH in this environment")
     def test_converts_emf_to_png_and_returns_mapping(self, tmp_path: Path):
+        """Verify converts emf to png and returns mapping."""
         emf_path = tmp_path / "image1.emf"
         _write_minimal_emf(emf_path)
 

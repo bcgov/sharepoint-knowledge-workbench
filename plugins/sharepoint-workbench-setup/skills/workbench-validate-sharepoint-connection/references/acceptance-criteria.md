@@ -1,0 +1,1 @@
+../../../references/workbench-validate-sharepoint-connection-acceptance-criteria.md

@@ -1,7 +1,12 @@
 #!/usr/bin/env python
-"""
-toc.py
+"""toc.py
 ======
+
+Purpose:
+    Strips a raw Word-generated table-of-contents field dump from pandoc markdown output.
+
+Key Input Dependencies:
+    - re
 
 Strips a raw Word-generated table-of-contents field dump from pandoc
 markdown output. Word's TOC field converts, under pandoc, into a literal
@@ -38,7 +43,14 @@ Function Index:
 Usage:
     from pandoc.toc import strip_raw_toc
     cleaned = strip_raw_toc(raw_markdown_text)
-"""
+
+Key Functions Index:
+    - _is_bookmark_toc_line()
+    - _is_slug_toc_line()
+    - _is_toc_line()
+    - _scan_toc_run()
+    - _marker_start()
+    - strip_raw_toc()"""
 
 import re
 
@@ -68,15 +80,53 @@ _TOC_MARKER_LINE = re.compile(r'^\*{0,2}\s*table of contents\s*\*{0,2}\s*$', re.
 
 
 def _is_bookmark_toc_line(stripped_line: str) -> bool:
+    """Identify a bookmark-anchor or `_Toc` link line from a Word TOC."""
     return bool(_BOOKMARK_ANCHOR_LINE.match(stripped_line) or _TOC_LINK_LINE.match(stripped_line))
 
 
 def _is_slug_toc_line(stripped_line: str) -> bool:
+    """Identify one nested same-slug link line that may belong to a TOC."""
     return bool(_TOC_SLUG_LINE.match(stripped_line))
 
 
 def _is_toc_line(stripped_line: str) -> bool:
+    """Return whether a line matches either supported raw TOC entry shape."""
     return _is_bookmark_toc_line(stripped_line) or _is_slug_toc_line(stripped_line)
+
+
+def _scan_toc_run(lines: list[str], start: int) -> tuple[int, int, bool]:
+    """Return the final entry index, entry count, and bookmark status for a TOC run."""
+    index = start
+    last_toc_index = start
+    toc_line_count = 0
+    has_bookmark_toc_line = False
+    while index < len(lines):
+        current = lines[index].rstrip("\n")
+        if current.strip() == "":
+            index += 1
+            continue
+        if not _is_toc_line(current):
+            break
+        last_toc_index = index
+        toc_line_count += 1
+        if _is_bookmark_toc_line(current):
+            has_bookmark_toc_line = True
+        index += 1
+    return last_toc_index, toc_line_count, has_bookmark_toc_line
+
+
+def _marker_start(lines: list[str], run_start: int, keep: list[bool]) -> int:
+    """Include a preceding TOC marker and its blank separators when retained."""
+    marker_index = run_start - 1
+    while marker_index >= 0 and lines[marker_index].rstrip("\n").strip() == "":
+        marker_index -= 1
+    if (
+        marker_index >= 0
+        and _TOC_MARKER_LINE.match(lines[marker_index].rstrip("\n").strip())
+        and keep[marker_index]
+    ):
+        return marker_index
+    return run_start
 
 
 def strip_raw_toc(markdown_text: str) -> str:
@@ -102,26 +152,9 @@ def strip_raw_toc(markdown_text: str) -> str:
             i += 1
             continue
 
-        # Found the start of a candidate TOC run: scan forward, allowing
-        # blank lines between TOC entries, until a non-blank line that is
-        # not TOC-shaped ends the run.
-        j = i
-        last_toc_index = i
-        toc_line_count = 0
-        has_bookmark_toc_line = False
-        while j < n:
-            s = lines[j].rstrip("\n")
-            if s.strip() == "":
-                j += 1
-                continue
-            if _is_toc_line(s):
-                last_toc_index = j
-                toc_line_count += 1
-                if _is_bookmark_toc_line(s):
-                    has_bookmark_toc_line = True
-                j += 1
-                continue
-            break
+        # Found a candidate run; the helper accepts blank separators but
+        # stops before the first non-TOC content line.
+        last_toc_index, toc_line_count, has_bookmark_toc_line = _scan_toc_run(lines, i)
 
         # A `_Toc`-bookmark shape is unambiguous evidence on its own (a
         # single line suffices, matching prior behavior). The slug-anchor
@@ -129,15 +162,7 @@ def strip_raw_toc(markdown_text: str) -> str:
         # appear consecutively -- a lone double-nested same-anchor link is
         # left alone (see module docstring).
         if has_bookmark_toc_line or toc_line_count >= 2:
-            run_start = i
-            # Extend backward over a "Table of Contents" marker line (and
-            # any blank lines between it and the run) if present.
-            m = run_start - 1
-            while m >= 0 and lines[m].rstrip("\n").strip() == "":
-                m -= 1
-            if m >= 0 and _TOC_MARKER_LINE.match(lines[m].rstrip("\n").strip()) and keep[m]:
-                run_start = m
-
+            run_start = _marker_start(lines, i, keep)
             for k in range(run_start, last_toc_index + 1):
                 keep[k] = False
             i = last_toc_index + 1

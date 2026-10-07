@@ -19,6 +19,9 @@ Intentional improvements:
   * Baseline gap notice was a hardcoded HTML literal naming specific project
     lists; here it is rendered from a template using the lists that were
     actually not migrated.
+
+Purpose: Stage 4 tests -- map classified components to modern sections and target list views, and record what could not be migrated.
+Key Input Dependencies: component_mapping.py.
 """
 
 import json
@@ -29,6 +32,7 @@ LAYOUT = {"selectedLayout": "Home", "sectionTemplate": "OneColumn", "ruleApplied
 
 
 def run_map(scripts_dir, components, tmp_path, *extra) -> tuple[dict, dict]:
+    """Test helper: run map."""
     comp_file = tmp_path / "component-model.json"
     layout_file = tmp_path / "layout-decision.json"
     map_out = tmp_path / "mapping-plan.json"
@@ -48,18 +52,21 @@ def run_map(scripts_dir, components, tmp_path, *extra) -> tuple[dict, dict]:
 
 
 def _primary():
+    """Test helper: primary."""
     return {"role": "Primary", "type": "XsltListView", "variant": "standalone",
             "listName": "Project_Requests", "viewQuery": "<Where/>", "zone": "wpz4",
             "confidence": "medium", "evidence": {}}
 
 
 def _consumer():
+    """Test helper: consumer."""
     return {"role": "Child", "type": "XsltListView", "variant": "connected-consumer",
             "listName": "Request_Tasks", "relationship": "Parent(Project_Requests).ID -> RequestId",
             "zone": "wpz5", "confidence": "manual-hint", "evidence": {}}
 
 
 def test_content_editor_maps_to_text_web_part(scripts_dir, tmp_path):
+    """Verify content editor maps to text web part."""
     plan, _ = run_map(scripts_dir, [{"role": "Banner", "type": "ContentEditor",
                                      "rawHtml": "<p>Hi</p>", "zone": "wpz1",
                                      "confidence": "high", "evidence": {}}], tmp_path)
@@ -69,6 +76,7 @@ def test_content_editor_maps_to_text_web_part(scripts_dir, tmp_path):
 
 
 def test_primary_listview_maps_to_list_web_part_and_a_view_entry(scripts_dir, tmp_path):
+    """Verify primary listview maps to list web part and a view entry."""
     plan, views = run_map(scripts_dir, [_primary()], tmp_path)
     section = next(s for s in plan["sections"] if s["webPart"].get("listName") == "Project_Requests")
     assert section["webPart"]["type"] == "ListWebPart"
@@ -86,6 +94,7 @@ def test_caml_lives_in_the_view_not_the_page(scripts_dir, tmp_path):
 
 
 def test_connected_consumer_is_not_migrated_and_keeps_its_relationship(scripts_dir, tmp_path):
+    """Verify connected consumer is not migrated and keeps its relationship."""
     plan, views = run_map(scripts_dir, [_consumer()], tmp_path)
     nm = [n for n in plan["notMigrated"] if n["listName"] == "Request_Tasks"]
     assert len(nm) == 1
@@ -95,6 +104,7 @@ def test_connected_consumer_is_not_migrated_and_keeps_its_relationship(scripts_d
 
 
 def test_gap_notice_section_added_exactly_once_when_gaps_exist(scripts_dir, tmp_path):
+    """Verify gap notice section added exactly once when gaps exist."""
     plan, _ = run_map(scripts_dir, [_primary(), _consumer()], tmp_path)
     gap_sections = [s for s in plan["sections"] if s["webPart"].get("isGapNotice")]
     assert len(gap_sections) == 1
@@ -108,21 +118,25 @@ def test_gap_notice_names_the_lists_that_were_actually_not_migrated(scripts_dir,
 
 
 def test_no_gap_notice_when_nothing_was_dropped(scripts_dir, tmp_path):
+    """Verify no gap notice when nothing was dropped."""
     plan, _ = run_map(scripts_dir, [_primary()], tmp_path)
     assert not any(s["webPart"].get("isGapNotice") for s in plan["sections"])
 
 
 def test_view_name_prefix_defaults_to_a_neutral_value(scripts_dir, tmp_path):
+    """Verify view name prefix defaults to a neutral value."""
     _, views = run_map(scripts_dir, [_primary()], tmp_path)
     assert views["views"][0]["viewName"] == "Migrated_ProjectRequests"
 
 
 def test_view_name_prefix_is_configurable(scripts_dir, tmp_path):
+    """Verify view name prefix is configurable."""
     _, views = run_map(scripts_dir, [_primary()], tmp_path, "--view-name-prefix", "Acme_")
     assert views["views"][0]["viewName"] == "Acme_ProjectRequests"
 
 
 def test_rules_applied_comes_from_the_mapping_file_not_a_hardcoded_list(scripts_dir, tmp_path):
+    """Verify rules applied comes from the mapping file not a hardcoded list."""
     custom = tmp_path / "mapping.json"
     custom.write_text(json.dumps({"mappingVersion": "9.9.9", "architecturalRules": [
         {"id": "X-001", "rule": "only rule"},
@@ -133,22 +147,26 @@ def test_rules_applied_comes_from_the_mapping_file_not_a_hardcoded_list(scripts_
 
 
 def test_packaged_mapping_rules_are_used_by_default(scripts_dir, tmp_path):
+    """Verify packaged mapping rules are used by default."""
     plan, _ = run_map(scripts_dir, [_primary()], tmp_path)
     assert plan["rulesApplied"] == ["ARCH-001", "ARCH-002", "ARCH-003", "ARCH-004", "ARCH-005"]
 
 
 def test_mapping_with_gaps_reports_partial(scripts_dir, tmp_path):
+    """Verify mapping with gaps reports partial."""
     plan, _ = run_map(scripts_dir, [_primary(), _consumer()], tmp_path)
     assert plan["outcome"]["status"] == "Partial"
     assert "Request_Tasks" in plan["outcome"]["detail"]
 
 
 def test_fully_mapped_page_reports_observed(scripts_dir, tmp_path):
+    """Verify fully mapped page reports observed."""
     plan, _ = run_map(scripts_dir, [_primary()], tmp_path)
     assert plan["outcome"]["status"] == "Observed"
 
 
 def test_page_whose_components_are_all_unmappable_reports_not_supported(scripts_dir, tmp_path):
+    """Verify page whose components are all unmappable reports not supported."""
     plan, _ = run_map(scripts_dir, [{"role": "Unknown", "type": "SPUserCodeWebPart",
                                      "zone": "wpz9", "confidence": "none", "evidence": {}}], tmp_path)
     assert plan["sections"] == []
@@ -157,5 +175,6 @@ def test_page_whose_components_are_all_unmappable_reports_not_supported(scripts_
 
 
 def test_empty_component_model_reports_empty(scripts_dir, tmp_path):
+    """Verify empty component model reports empty."""
     plan, _ = run_map(scripts_dir, [], tmp_path)
     assert plan["outcome"]["status"] == "Empty"

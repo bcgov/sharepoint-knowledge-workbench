@@ -1,4 +1,11 @@
-"""
+"""Purpose:
+    Validate connection answers and write the root SharePoint configuration without implicit tenant access.
+
+Key Input Dependencies:
+    - Caller-provided connection, authentication, and defaults mappings
+    - assets/config.psd1.example as the configuration schema
+    - psd1_writer.render_document
+
 config_setup.py
 =================
 
@@ -19,6 +26,15 @@ a clear message, rather than silently no-op'ing or faking success. A
 future, separately-authorized version may wire in a real PnP-backed
 connector as the default; this version's contract is: **zero tenant
 I/O unless the caller explicitly supplies a connector.**
+
+Function Index:
+    - ConfigSetupError
+    - ConfigIssue
+    - validate_connection_answers
+    - _to_snake_case
+    - build_config_psd1
+    - write_config
+    - test_connection
 """
 
 from dataclasses import dataclass
@@ -40,8 +56,10 @@ class ConfigSetupError(Exception):
     `config.psd1`."""
 
 
+# Represent one connection-answer validation issue with a stable code and explanation.
 @dataclass
 class ConfigIssue:
+    """Represent one connection-answer validation issue with a stable code and explanation."""
     code: str
     message: str
 
@@ -82,7 +100,9 @@ def validate_connection_answers(connection: dict, authentication: dict) -> list:
     return issues
 
 
+# Convert a mixed-case field name to the snake_case used in validation issue codes.
 def _to_snake_case(name: str) -> str:
+    """Convert a mixed-case field name to the snake_case used in validation issue codes."""
     out = []
     for i, ch in enumerate(name):
         if ch.isupper() and i > 0:

@@ -13,6 +13,16 @@ preserved. A single gap-notice section is appended, rendered from
 
 Layer: CLI entry point, invoked as a real subprocess by the pipeline (and by
 this plugin's own tests).
+
+Key Input Dependencies:
+    - Classified component-model JSON and layout JSON supplied by the caller.
+    - Mapping rules JSON supplied with --mapping-rules or bundled in assets/.
+    - gap-notice.template.html used when a connected consumer cannot migrate.
+    - outcomes.py shared page-modernization result vocabulary.
+
+Function Index:
+    _view_name_for, _render_gap_notice, _map_component,
+    _mapping_outcome, map_components, main
 """
 
 from __future__ import annotations
@@ -35,11 +45,13 @@ _GAP_REASON = "GAP-001-CRITICAL: modern SharePoint pages do not support the clas
 
 
 def _view_name_for(list_name: str, prefix: str) -> str:
+    """Create a neutral view name from the configured prefix and list title."""
     condensed = re.sub(r"[^A-Za-z0-9]", "", list_name)
     return f"{prefix}{condensed}"
 
 
 def _render_gap_notice(not_migrated: "list[dict]") -> str:
+    """Render the template with one actionable entry per unmigrated consumer."""
     template = _GAP_NOTICE_TEMPLATE.read_text(encoding="utf-8")
 
     items = []
@@ -67,55 +79,90 @@ def _render_gap_notice(not_migrated: "list[dict]") -> str:
     return rendered
 
 
+def _map_component(component: dict, view_name_prefix: str) -> tuple[dict | None, dict | None, dict | None, str | None]:
+    """Map one component into a section, view, gap record, or unsupported type."""
+    comp_type = component.get("type")
+    role = component.get("role")
+    if comp_type == "ContentEditor":
+        return {
+            "webPart": {
+                "type": "TextWebPart",
+                "content": component.get("rawHtml"),
+                "sourceZone": component.get("zone"),
+                "isGapNotice": False,
+            }
+        }, None, None, None
+    if comp_type == "XsltListView" and role in ("Primary", "Secondary"):
+        list_name = component.get("listName")
+        view_name = _view_name_for(list_name, view_name_prefix)
+        section = {
+            "webPart": {
+                "type": "ListWebPart",
+                "listName": list_name,
+                "viewName": view_name,
+                "sourceZone": component.get("zone"),
+                "isGapNotice": False,
+            }
+        }
+        view = {
+            "listName": list_name,
+            "viewName": view_name,
+            "camlQuery": component.get("viewQuery"),
+        }
+        return section, view, None, None
+    if comp_type == "XsltListView" and role == "Child":
+        return None, None, {
+            "listName": component.get("listName"),
+            "reason": _GAP_REASON,
+            "relationship": component.get("relationship"),
+        }, None
+    return None, None, None, comp_type
+
+
+def _mapping_outcome(
+    components: list[dict],
+    sections: list[dict],
+    not_migrated: list[dict],
+    unmappable_types: set[str],
+) -> dict:
+    """Classify the mapping result from mapped and unsupported components."""
+    if not components:
+        return outcomes.make_outcome("Empty", "No components to map")
+    if not sections and unmappable_types:
+        return outcomes.make_outcome(
+            "NotSupported",
+            f"No components could be mapped: {', '.join(sorted(unmappable_types))}",
+        )
+    if not_migrated:
+        return outcomes.make_outcome(
+            "Partial",
+            f"Not migrated: {', '.join(n['listName'] for n in not_migrated)}",
+        )
+    return outcomes.make_outcome("Observed", f"{len(sections)} section(s) mapped")
+
+
 def map_components(
     components: "list[dict]",
     layout: dict,
     mapping_rules: dict,
     view_name_prefix: str,
 ) -> tuple:
+    """Map supported classic components to modern sections/views and report gaps."""
     sections = []
     views = []
     not_migrated = []
     unmappable_types: "set[str]" = set()
 
     for component in components:
-        comp_type = component.get("type")
-        role = component.get("role")
-
-        if comp_type == "ContentEditor":
-            sections.append({
-                "webPart": {
-                    "type": "TextWebPart",
-                    "content": component.get("rawHtml"),
-                    "sourceZone": component.get("zone"),
-                    "isGapNotice": False,
-                }
-            })
-        elif comp_type == "XsltListView" and role in ("Primary", "Secondary"):
-            list_name = component.get("listName")
-            view_name = _view_name_for(list_name, view_name_prefix)
-            sections.append({
-                "webPart": {
-                    "type": "ListWebPart",
-                    "listName": list_name,
-                    "viewName": view_name,
-                    "sourceZone": component.get("zone"),
-                    "isGapNotice": False,
-                }
-            })
-            views.append({
-                "listName": list_name,
-                "viewName": view_name,
-                "camlQuery": component.get("viewQuery"),
-            })
-        elif comp_type == "XsltListView" and role == "Child":
-            not_migrated.append({
-                "listName": component.get("listName"),
-                "reason": _GAP_REASON,
-                "relationship": component.get("relationship"),
-            })
-        else:
-            unmappable_types.add(comp_type)
+        section, view, gap, unmappable_type = _map_component(component, view_name_prefix)
+        if section is not None:
+            sections.append(section)
+        if view is not None:
+            views.append(view)
+        if gap is not None:
+            not_migrated.append(gap)
+        if section is None and view is None and gap is None:
+            unmappable_types.add(unmappable_type)
 
     if not_migrated:
         sections.append({
@@ -134,26 +181,12 @@ def map_components(
     }
     views_plan = {"views": views}
 
-    if not components:
-        outcome = outcomes.make_outcome("Empty", "No components to map")
-    elif not sections and unmappable_types:
-        outcome = outcomes.make_outcome(
-            "NotSupported",
-            f"No components could be mapped: {', '.join(sorted(unmappable_types))}",
-        )
-    elif not_migrated:
-        outcome = outcomes.make_outcome(
-            "Partial",
-            f"Not migrated: {', '.join(n['listName'] for n in not_migrated)}",
-        )
-    else:
-        outcome = outcomes.make_outcome("Observed", f"{len(sections)} section(s) mapped")
-
-    plan["outcome"] = outcome
+    plan["outcome"] = _mapping_outcome(components, sections, not_migrated, unmappable_types)
     return plan, views_plan
 
 
 def main(argv: "list[str] | None" = None) -> int:
+    """Load mapping inputs, write section/view plans, and report failures."""
     parser = argparse.ArgumentParser(description="Map classified components to modern sections and views.")
     parser.add_argument("--components", required=True)
     parser.add_argument("--layout", required=True)

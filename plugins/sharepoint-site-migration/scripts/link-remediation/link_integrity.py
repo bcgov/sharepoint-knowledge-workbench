@@ -33,6 +33,11 @@ Key Input Dependencies:
 Usage:
     report = validate_link_integrity(inventory, ruleset)
     report = validate_link_integrity(inventory, ruleset, resolver=my_resolver)
+
+Function Index:
+    LinkFinding.to_dict, IntegrityReport.residual_count, IntegrityReport.to_dict,
+    _is_malformed, _is_absolute, make_local_path_resolver.resolve,
+    make_local_path_resolver, _inspect_link, validate_link_integrity
 """
 
 from __future__ import annotations
@@ -77,6 +82,7 @@ class LinkFinding:
     expected: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize one link verdict and its expected rewritten form."""
         return {
             "source": self.source,
             "url": self.url,
@@ -96,9 +102,11 @@ class IntegrityReport:
 
     @property
     def residual_count(self) -> int:
+        """Count links that still match a legacy rewrite rule."""
         return sum(1 for finding in self.findings if finding.status == LinkStatus.RESIDUAL_LEGACY)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize findings, resolution status, and residual-link count."""
         return {
             "outcome": self.outcome,
             "resolution_outcome": self.resolution_outcome,
@@ -109,6 +117,7 @@ class IntegrityReport:
 
 
 def _is_malformed(url: str) -> bool:
+    """Reject empty, whitespace-containing, and incomplete absolute URLs."""
     candidate = url.strip()
     if not candidate or any(character.isspace() for character in candidate):
         return True
@@ -121,6 +130,7 @@ def _is_malformed(url: str) -> bool:
 
 
 def _is_absolute(url: str) -> bool:
+    """Recognize HTTP and HTTPS URLs excluded from local resolution."""
     return url.lower().startswith(_ABSOLUTE_SCHEMES)
 
 
@@ -131,6 +141,7 @@ def make_local_path_resolver(root: str | Path) -> Resolver:
     base = Path(root).resolve()
 
     def resolve(url: str) -> bool:
+        """Resolve one server-relative path without allowing root traversal."""
         relative = url.split("?", 1)[0].split("#", 1)[0].lstrip("/")
         if not relative:
             return False
@@ -143,6 +154,40 @@ def make_local_path_resolver(root: str | Path) -> Resolver:
         return candidate.exists()
 
     return resolve
+
+
+def _inspect_link(
+    source: str,
+    url: str,
+    ruleset: RewriteRuleset,
+    resolver: Resolver | None,
+) -> tuple[LinkFinding, int, int, bool, bool]:
+    """Return one link verdict and its resolution/error counters."""
+    if _is_malformed(url):
+        return LinkFinding(source, url, LinkStatus.MALFORMED, detail="url is not parseable"), 0, 0, False, False
+    matching = ruleset.matches(url)
+    if matching:
+        return (
+            LinkFinding(
+                source, url, LinkStatus.RESIDUAL_LEGACY,
+                detail=f"rewrite rule still matches: {matching[0].match}",
+                expected=ruleset.apply(url)[0],
+            ),
+            0, 0, False, False,
+        )
+    if _is_absolute(url):
+        return LinkFinding(source, url, LinkStatus.EXTERNAL), 0, 0, False, False
+    if resolver is None:
+        return LinkFinding(source, url, LinkStatus.OK), 0, 0, False, False
+    try:
+        exists = resolver(url)
+    except PermissionError as exc:
+        return LinkFinding(source, url, LinkStatus.FORBIDDEN, detail=str(exc)), 0, 1, True, False
+    except Exception as exc:  # noqa: BLE001 -- caller-supplied resolver
+        return LinkFinding(source, url, LinkStatus.UNAVAILABLE, detail=str(exc)), 0, 1, False, True
+    if exists:
+        return LinkFinding(source, url, LinkStatus.OK), 1, 0, False, False
+    return LinkFinding(source, url, LinkStatus.UNRESOLVABLE, detail="target not found"), 0, 1, False, False
 
 
 def validate_link_integrity(
@@ -160,57 +205,14 @@ def validate_link_integrity(
     unavailable = False
 
     for link in inventory.links:
-        if _is_malformed(link.url):
-            findings.append(
-                LinkFinding(link.source, link.url, LinkStatus.MALFORMED, detail="url is not parseable")
-            )
-            continue
-
-        matching = ruleset.matches(link.url)
-        if matching:
-            findings.append(
-                LinkFinding(
-                    link.source,
-                    link.url,
-                    LinkStatus.RESIDUAL_LEGACY,
-                    detail=f"rewrite rule still matches: {matching[0].match}",
-                    expected=ruleset.apply(link.url)[0],
-                )
-            )
-            continue
-
-        if _is_absolute(link.url):
-            # Never passed to `resolver` -- external links are classified
-            # EXTERNAL and always counted healthy, resolver or not (see
-            # module docstring's "Resolver scope" note).
-            findings.append(LinkFinding(link.source, link.url, LinkStatus.EXTERNAL))
-            continue
-
-        if resolver is None:
-            findings.append(LinkFinding(link.source, link.url, LinkStatus.OK))
-            continue
-
-        try:
-            exists = resolver(link.url)
-        except PermissionError as exc:
-            forbidden = True
-            resolved_bad += 1
-            findings.append(LinkFinding(link.source, link.url, LinkStatus.FORBIDDEN, detail=str(exc)))
-            continue
-        except Exception as exc:  # noqa: BLE001 -- caller-supplied resolver
-            unavailable = True
-            resolved_bad += 1
-            findings.append(LinkFinding(link.source, link.url, LinkStatus.UNAVAILABLE, detail=str(exc)))
-            continue
-
-        if exists:
-            resolved_ok += 1
-            findings.append(LinkFinding(link.source, link.url, LinkStatus.OK))
-        else:
-            resolved_bad += 1
-            findings.append(
-                LinkFinding(link.source, link.url, LinkStatus.UNRESOLVABLE, detail="target not found")
-            )
+        finding, ok_count, bad_count, was_forbidden, was_unavailable = _inspect_link(
+            link.source, link.url, ruleset, resolver
+        )
+        findings.append(finding)
+        resolved_ok += ok_count
+        resolved_bad += bad_count
+        forbidden = forbidden or was_forbidden
+        unavailable = unavailable or was_unavailable
 
     if resolver is None:
         resolution_outcome = Outcome.NOT_SUPPORTED

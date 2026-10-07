@@ -1,6 +1,18 @@
 """
 analyze-list-mapping-assurance.py
 
+Purpose:
+    Build a deterministic source-to-target SharePoint item-ID map by matching
+    configured identity columns in ordered tiers, and report aggregate coverage.
+
+Key Input Dependencies:
+    - Audit-config JSON containing identity_mapping.list and identity_mapping.tiers.
+    - Source and target list CSV exports under --data-dir.
+    - Optional output path and --delete-pii-after flag supplied by the caller.
+
+Function Index:
+    normalize, load_identity_config, tier_key, read_rows, match_rows, main
+
 Config-driven, deterministic identity mapping between a source list (on-premises SharePoint) and the same list in SharePoint Online.
 It reads the two CSV exports written by export-list-content-pairs.ps1:
     <data-dir>/<List>-sp2016-onprem.csv   (source)
@@ -29,12 +41,14 @@ from pathlib import Path
 
 
 def normalize(val):
+    """Trim and uppercase an identity value before comparing tier keys."""
     if val is None:
         return ""
     return str(val).strip().upper()
 
 
 def load_identity_config(path):
+    """Load and validate the identity-mapping settings from the audit config."""
     cfg = {"list": None, "tiers": [{"name": "T1_Title", "columns": ["Title"]}]}
     if path and Path(path).is_file():
         with open(path, "r", encoding="utf-8") as handle:
@@ -50,11 +64,13 @@ def load_identity_config(path):
 
 
 def tier_key(row, columns):
+    """Return a normalized compound key, or None when any configured value is blank."""
     values = [normalize(row.get(c)) for c in columns]
     return "|".join(values) if all(values) else None
 
 
 def read_rows(path):
+    """Read a CSV export while accepting a UTF-8 BOM from SharePoint downloads."""
     with open(path, mode="r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
 
@@ -83,6 +99,7 @@ def match_rows(source_rows, target_rows, tiers):
 
 
 def main():
+    """Parse CLI options, generate the configured ID mapping, and optionally purge input exports."""
     parser = argparse.ArgumentParser(description="Deterministic identity mapping between a source list and its SharePoint Online counterpart")
     parser.add_argument("--audit-config", default=None, help="audit config JSON with an identity_mapping section (default: <data-dir>/audit-config.json)")
     parser.add_argument("--data-dir", default=".agents/scratch/pii-data", help="Directory containing the exported CSV files")

@@ -16,7 +16,7 @@
     ]
   },
   {
-    "query": "Download page.aspx from on-prem SharePoint 2016 at https://csb.jag.gov.bc.ca/Pages/default.aspx",
+    "query": "Download page.aspx from on-prem SharePoint 2016 at https://source.example/Pages/default.aspx",
     "expected_behavior": [
       "Identifies SP2016 source platform from URL or configuration",
       "Uses Windows Integrated authentication without requiring PnP Entra client registration",

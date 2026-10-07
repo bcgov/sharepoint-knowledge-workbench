@@ -1,6 +1,17 @@
-"""
-multipage_markdown.py
+"""multipage_markdown.py
 ======================
+
+Purpose:
+    Task 13 -- the first concrete `Renderer` (spec Section 7.3, "render-content"; Section 8, "Renderer Protocol"): multipage Markdown output.
+
+Key Input Dependencies:
+    - re
+    - sys
+    - pathlib
+    - urllib.parse
+    - atomic_output
+    - render_result
+    - canonical_schema
 
 Task 13 -- the first concrete `Renderer` (spec Section 7.3, "render-content";
 Section 8, "Renderer Protocol"): multipage Markdown output. Proves the
@@ -64,7 +75,13 @@ requirements each of these satisfies):
   same reusable primitive Task 11 built) and returns it UNPROMOTED. Task
   14 is expected to run its render validator against this staging dir and
   call `atomic_output.promote()` itself once validation passes.
-"""
+
+Key Functions Index:
+    - _rewrite_local_links()
+    - _rewrite_local_links._replace()
+    - _build_index()
+    - MultipageMarkdownRenderer.render()
+    - render_to_staging()"""
 
 import re
 import sys
@@ -100,7 +117,9 @@ def _rewrite_local_links(content: str, known_chunk_ids: set) -> str:
     guessed at) and all other link forms (external, anchor, mailto) are
     left exactly as written. Preserves query parameters and fragments."""
 
+    # Replace every target occurrence while preserving the surrounding content.
     def _replace(match: "re.Match") -> str:
+        """Replace every target occurrence while preserving the surrounding content."""
         prefix, raw_target, suffix = match.group(1), match.group(2), match.group(3)
         if raw_target.startswith(("http://", "https://", "mailto:")):
             return match.group(0)
@@ -165,7 +184,9 @@ class MultipageMarkdownRenderer:
     name = "multipage-markdown"
     supported_manifest_versions = frozenset({_canonical_contracts.MANIFEST_SCHEMA_VERSION})
 
+    # Render canonical package chunks as linked Markdown pages and write the corresponding index and media references.
     def render(self, package, output_dir: Path, template: "Any | None" = None) -> "contracts.RenderResult":
+        """Render canonical package chunks as linked Markdown pages and write the corresponding index and media references."""
         output_dir = Path(output_dir)
         pages_dir = output_dir / "pages"
         media_dir = output_dir / "media"

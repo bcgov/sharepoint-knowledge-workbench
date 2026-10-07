@@ -1,0 +1,1 @@
+../../../references/sharepoint-verify-native-skill-acceptance-criteria.md

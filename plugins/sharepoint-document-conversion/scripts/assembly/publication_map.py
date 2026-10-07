@@ -1,13 +1,24 @@
-"""
-publication_map.py
+"""publication_map.py
 ===================
+
+Purpose:
+    Minimal publication-map contract writer/loader for the "grouped" chunking strategy (Task 17-topic-grouping).
+
+Key Input Dependencies:
+    - json
+    - pathlib
+    - canonical_schema
 
 Minimal publication-map contract writer/loader for the "grouped" chunking
 strategy (Task 17-topic-grouping). `publication-map.json` references the
 canonical package's own identity (not just a bare manifest hash), lists
 canonical topic ids in explicit, directory-order-independent sequence.
 It no longer includes `parent_topic_id` (removed in Task 4).
-"""
+
+Key Functions Index:
+    - build_publication_map()
+    - write_publication_map()
+    - load_publication_map()"""
 
 import json
 from pathlib import Path
@@ -17,11 +28,13 @@ from canonical_schema import publication_map as contracts
 _FILENAME = "publication-map.json"
 
 
+# Build an ordered publication map that binds grouped package topics to their canonical chunk IDs.
 def build_publication_map(
     topic_boundaries: list,
     topic_chunk_ids: dict,
     package_identity: str,
 ) -> contracts.PublicationMap:
+    """Build an ordered publication map that binds grouped package topics to their canonical chunk IDs."""
     entries = [
         contracts.PublicationMapEntry(
             topic_id=boundary.topic_id,
@@ -38,7 +51,9 @@ def build_publication_map(
     )
 
 
+# Serialize the publication map to publication-map.json in the package directory.
 def write_publication_map(pub_map: contracts.PublicationMap, output_dir) -> Path:
+    """Serialize the publication map to publication-map.json in the package directory."""
     output_path = Path(output_dir) / _FILENAME
     output_path.write_text(json.dumps(pub_map.to_dict(), indent=2, sort_keys=True))
     return output_path
@@ -51,7 +66,9 @@ class MalformedPublicationMapError(Exception):
     as a ValidationIssue instead of letting a raw json/ValueError escape."""
 
 
+# Load publication-map.json, validate its schema and entries, or return None when the file is absent.
 def load_publication_map(package_dir):
+    """Load publication-map.json, validate its schema and entries, or return None when the file is absent."""
     path = Path(package_dir) / _FILENAME
     if not path.exists():
         return None

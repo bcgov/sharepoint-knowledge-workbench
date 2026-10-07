@@ -1,4 +1,14 @@
-"""
+"""Purpose:
+    Unit tests for scripts/structure-analysis/plans.py — draft plan construction (Task 6) plus confirmation and verification (Task 7).
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - pytest
+    - plan_schema
+    - plan_hashing
+    - plans
+
 Unit tests for scripts/structure-analysis/plans.py — draft plan construction (Task 6) plus
 confirmation and verification (Task 7).
 
@@ -13,7 +23,24 @@ Task 7 adds:
       (detects hand-tampering of a confirmed plan JSON file).
     - require_confirmed(plan) -> raises unless confirmation.status ==
       "confirmed" (shared precondition helper).
-"""
+
+Key Functions Index:
+    - _make_draft_plan()
+    - test_build_draft_plan_accepts_grouped_strategy()
+    - test_confirm_plan_sets_status_confirmed()
+    - test_confirm_plan_does_not_mutate_input_draft()
+    - test_confirm_plan_computes_plan_id_over_finalized_content()
+    - test_verify_plan_against_source_passes_when_unmodified()
+    - test_verify_plan_against_source_rejects_modified_source()
+    - test_verify_plan_integrity_passes_when_untampered()
+    - test_verify_plan_integrity_rejects_tampered_plan()
+    - test_require_confirmed_passes_for_confirmed_plan()
+    - test_require_confirmed_rejects_draft_plan()
+    - _draft_plan_with_pending_media()
+    - test_apply_media_decision_overrides_pending_record()
+    - test_apply_media_decision_raises_for_unknown_media_id()
+    - test_apply_media_decision_raises_on_already_confirmed_plan()
+    - test_confirm_plan_carries_media_decisions_forward_unchanged()"""
 
 import json
 
@@ -24,7 +51,9 @@ import plan_hashing as hashing
 import plans
 
 
+# Build a draft ConversionPlan from the supplied source and anchors.
 def _make_draft_plan(source_path):
+    """Build a draft ConversionPlan from the supplied source and anchors."""
     sha256 = hashing.content_hash(source_path.read_bytes())
     fingerprint = contracts.SourceFingerprint(
         path=str(source_path), sha256=sha256, size_bytes=source_path.stat().st_size,
@@ -51,6 +80,7 @@ def _make_draft_plan(source_path):
 # ---------------------------------------------------------------------------
 
 def test_build_draft_plan_accepts_grouped_strategy(tmp_path):
+    """Verify build draft plan accepts grouped strategy."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     sha256 = hashing.content_hash(source.read_bytes())
@@ -71,6 +101,7 @@ def test_build_draft_plan_accepts_grouped_strategy(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_confirm_plan_sets_status_confirmed(tmp_path):
+    """Verify confirm plan sets status confirmed."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -82,7 +113,9 @@ def test_confirm_plan_sets_status_confirmed(tmp_path):
     assert confirmed.confirmation.confirmed_at  # non-empty ISO-8601 timestamp
 
 
+# Verify confirm plan does not mutate input draft.
 def test_confirm_plan_does_not_mutate_input_draft(tmp_path):
+    """Verify confirm plan does not mutate input draft."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -93,7 +126,9 @@ def test_confirm_plan_does_not_mutate_input_draft(tmp_path):
     assert draft.confirmation.confirmed_at == ""
 
 
+# Verify confirm plan computes plan ID over finalized content.
 def test_confirm_plan_computes_plan_id_over_finalized_content(tmp_path):
+    """Verify confirm plan computes plan ID over finalized content."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -116,6 +151,7 @@ def test_confirm_plan_computes_plan_id_over_finalized_content(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_verify_plan_against_source_passes_when_unmodified(tmp_path):
+    """Verify verify plan against source passes when unmodified."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -124,7 +160,9 @@ def test_verify_plan_against_source_passes_when_unmodified(tmp_path):
     plans.verify_plan_against_source(confirmed, source)  # should not raise
 
 
+# Verify verify plan against source rejects modified source.
 def test_verify_plan_against_source_rejects_modified_source(tmp_path):
+    """Verify verify plan against source rejects modified source."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -141,6 +179,7 @@ def test_verify_plan_against_source_rejects_modified_source(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_verify_plan_integrity_passes_when_untampered(tmp_path):
+    """Verify verify plan integrity passes when untampered."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -149,7 +188,9 @@ def test_verify_plan_integrity_passes_when_untampered(tmp_path):
     plans.verify_plan_integrity(confirmed)  # should not raise
 
 
+# Verify verify plan integrity rejects tampered plan.
 def test_verify_plan_integrity_rejects_tampered_plan(tmp_path):
+    """Verify verify plan integrity rejects tampered plan."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -174,6 +215,7 @@ def test_verify_plan_integrity_rejects_tampered_plan(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_require_confirmed_passes_for_confirmed_plan(tmp_path):
+    """Verify require confirmed passes for confirmed plan."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -182,7 +224,9 @@ def test_require_confirmed_passes_for_confirmed_plan(tmp_path):
     plans.require_confirmed(confirmed)  # should not raise
 
 
+# Verify require confirmed rejects draft plan.
 def test_require_confirmed_rejects_draft_plan(tmp_path):
+    """Verify require confirmed rejects draft plan."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     draft = _make_draft_plan(source)
@@ -196,6 +240,7 @@ def test_require_confirmed_rejects_draft_plan(tmp_path):
 # ---------------------------------------------------------------------------
 
 def _draft_plan_with_pending_media(tmp_path):
+    """Build a draft plan that retains unresolved media decisions for validation tests."""
     source = tmp_path / "source.docx"
     source.write_bytes(b"fake docx bytes")
     sha256 = hashing.content_hash(source.read_bytes())
@@ -226,7 +271,9 @@ def _draft_plan_with_pending_media(tmp_path):
     )
 
 
+# Verify apply media decision overrides pending record.
 def test_apply_media_decision_overrides_pending_record(tmp_path):
+    """Verify apply media decision overrides pending record."""
     draft = _draft_plan_with_pending_media(tmp_path)
     updated = plans.apply_media_decision(
         draft,
@@ -245,7 +292,9 @@ def test_apply_media_decision_overrides_pending_record(tmp_path):
     assert updated.plan_id != draft.plan_id
 
 
+# Verify apply media decision raises for unknown media ID.
 def test_apply_media_decision_raises_for_unknown_media_id(tmp_path):
+    """Verify apply media decision raises for unknown media ID."""
     draft = _draft_plan_with_pending_media(tmp_path)
     with pytest.raises(ValueError):
         plans.apply_media_decision(
@@ -257,7 +306,9 @@ def test_apply_media_decision_raises_for_unknown_media_id(tmp_path):
         )
 
 
+# Verify apply media decision raises on already confirmed plan.
 def test_apply_media_decision_raises_on_already_confirmed_plan(tmp_path):
+    """Verify apply media decision raises on already confirmed plan."""
     draft = _draft_plan_with_pending_media(tmp_path)
     confirmed = plans.confirm_plan(draft, confirmed_by="tester")
     with pytest.raises(ValueError):
@@ -270,7 +321,9 @@ def test_apply_media_decision_raises_on_already_confirmed_plan(tmp_path):
         )
 
 
+# Verify confirm plan carries media decisions forward unchanged.
 def test_confirm_plan_carries_media_decisions_forward_unchanged(tmp_path):
+    """Verify confirm plan carries media decisions forward unchanged."""
     draft = _draft_plan_with_pending_media(tmp_path)
     reviewed = plans.apply_media_decision(
         draft,

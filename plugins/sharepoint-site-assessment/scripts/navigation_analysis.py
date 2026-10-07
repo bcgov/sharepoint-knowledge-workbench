@@ -20,6 +20,13 @@ Provenance:
     Extracted from the originating SharePoint migration repository's navigation
     architecture analysis script at the pinned source commit. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
+
+Function index:
+    - _flatten
+    - _max_depth
+    - analyse
+    - generate_report
+    - run
 """
 
 from __future__ import annotations
@@ -49,7 +56,9 @@ def _flatten(nodes: list[dict], depth: int = 0) -> list[dict]:
     return flat
 
 
+# Measure the deepest descendant chain in a navigation tree.
 def _max_depth(nodes: list[dict], depth: int = 0) -> int:
+    """Measure the deepest descendant chain in a navigation tree."""
     if not nodes:
         return depth - 1 if depth > 0 else 0
     deepest = depth

@@ -1,4 +1,20 @@
-"""Executable tests for create-sharepoint-agent-template.ps1 and apply-sharepoint-agent-template.ps1."""
+"""Purpose:
+    Exercise the PowerShell agent-template creation and application commands without tenant access.
+
+Key Input Dependencies:
+    - scripts/create-sharepoint-agent-template.ps1
+    - scripts/apply-sharepoint-agent-template.ps1
+    - PowerShell (pwsh) when available
+
+Executable tests for create-sharepoint-agent-template.ps1 and apply-sharepoint-agent-template.ps1.
+
+Function Index:
+    - run
+    - test_creates_valid_template
+    - test_apply_produces_valid_agent_with_correct_source_count
+    - test_apply_rejects_wrong_knowledge_source_count
+    - test_create_template_requires_positive_placeholder_count
+"""
 import json
 import shutil
 import subprocess
@@ -14,14 +30,18 @@ pwsh = shutil.which("pwsh")
 pytestmark = pytest.mark.skipif(pwsh is None, reason="pwsh not installed")
 
 
+# Invoke the requested PowerShell template command and capture its process result.
 def run(script: Path, args: list[str]) -> subprocess.CompletedProcess:
+    """Invoke the requested PowerShell template command and capture its process result."""
     return subprocess.run(
         [pwsh, "-NoProfile", "-NonInteractive", "-File", str(script), *args],
         capture_output=True, text=True,
     )
 
 
+# The command writes template JSON containing the requested name and placeholder count.
 def test_creates_valid_template(tmp_path):
+    """The command writes template JSON containing the requested name and placeholder count."""
     out = tmp_path / "template.json"
     result = run(CREATE_TEMPLATE, [
         "-TemplateName", "example-template",
@@ -40,7 +60,9 @@ def test_creates_valid_template(tmp_path):
     assert data["knowledgeSourcePlaceholderCount"] == 1
 
 
+# Applying a template writes a valid agent with the supplied knowledge sources and rendered instructions.
 def test_apply_produces_valid_agent_with_correct_source_count(tmp_path):
+    """Applying a template writes a valid agent with the supplied knowledge sources and rendered instructions."""
     template_path = tmp_path / "template.json"
     run(CREATE_TEMPLATE, [
         "-TemplateName", "example-template",
@@ -75,7 +97,9 @@ def test_apply_produces_valid_agent_with_correct_source_count(tmp_path):
     assert "Base instructions." in gpt["instructions"]
 
 
+# A mismatched knowledge-source count is rejected without writing an agent.
 def test_apply_rejects_wrong_knowledge_source_count(tmp_path):
+    """A mismatched knowledge-source count is rejected without writing an agent."""
     template_path = tmp_path / "template.json"
     run(CREATE_TEMPLATE, [
         "-TemplateName", "example-template",
@@ -96,7 +120,9 @@ def test_apply_rejects_wrong_knowledge_source_count(tmp_path):
     assert not agent_out.exists()
 
 
+# Template creation rejects a zero knowledge-source placeholder count.
 def test_create_template_requires_positive_placeholder_count(tmp_path):
+    """Template creation rejects a zero knowledge-source placeholder count."""
     out = tmp_path / "template.json"
     result = subprocess.run(
         [pwsh, "-NoProfile", "-NonInteractive", "-Command",

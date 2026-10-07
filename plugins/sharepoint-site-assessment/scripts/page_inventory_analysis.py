@@ -22,6 +22,22 @@ Provenance:
     Extracted from the originating SharePoint migration repository's classic-page
     content analysis script at the pinned source commit. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
+
+Function index:
+    - load_rules
+    - classify_wp_category
+    - compute_complexity
+    - disposition_hint
+    - analyse
+    - generate_report
+    - _complexity_distribution_rows
+    - _approach_distribution_rows
+    - _web_part_classification_rows
+    - _disposition_worksheet_rows
+    - _dependency_matrix_rows
+    - _custom_exception_rows
+    - _connected_page_rows
+    - run
 """
 
 from __future__ import annotations
@@ -98,7 +114,9 @@ def compute_complexity(page: dict, rules: dict) -> tuple[float, str]:
     return round(score, 1), label
 
 
+# Return the configured reviewer hint for a page category, or the neutral fallback.
 def disposition_hint(page: dict, rules: dict) -> str:
+    """Return the configured reviewer hint for a page category, or the neutral fallback."""
     hints = rules.get("dispositionHints", {})
     return hints.get(
         page.get("Category", ""), "Review -- apply Keep/Merge/Archive/Delete manually"
@@ -215,10 +233,25 @@ def generate_report(plan: dict) -> str:
         "| Complexity | Pages |",
         "|:---|---:|",
     ]
-    for label in ("Critical", "High", "Medium", "Low"):
-        lines.append(f"| {label} | {stats['byComplexity'][label]} |")
+    lines.extend(_complexity_distribution_rows(stats))
+    lines.extend(_approach_distribution_rows(stats))
+    lines.extend(_web_part_classification_rows(plan["webPartSummary"]))
+    lines.extend(_disposition_worksheet_rows(plan["pages"]))
+    lines.extend(_dependency_matrix_rows(plan["dependencyMatrix"]))
+    lines.extend(_custom_exception_rows(plan["pages"]))
+    lines.extend(_connected_page_rows(plan["pages"]))
+    lines.extend(["", "---", "", "*Full structured data: `page-inventory-plan.json` in the same folder.*"])
+    return "\n".join(lines)
 
-    lines += [
+
+def _complexity_distribution_rows(stats: dict) -> list[str]:
+    """Render the four complexity totals in the established display order."""
+    return [f"| {label} | {stats['byComplexity'][label]} |" for label in ("Critical", "High", "Medium", "Low")]
+
+
+def _approach_distribution_rows(stats: dict) -> list[str]:
+    """Render the approach totals and the heading for web-part classification."""
+    return [
         "",
         "### Migration approach distribution",
         "",
@@ -241,13 +274,17 @@ def generate_report(plan: dict) -> str:
         "| Category | Total Instances | Migration Approach | Modern Equivalent |",
         "|:---|---:|:---|:---|",
     ]
-    for wp in plan["webPartSummary"]:
+
+
+def _web_part_classification_rows(web_part_summary: list[dict]) -> list[str]:
+    """Render non-empty web-part categories and start the disposition worksheet."""
+    lines = []
+    for wp in web_part_summary:
         if wp["totalInstances"] > 0:
             lines.append(
                 f"| {wp['category']} | {wp['totalInstances']} | `{wp['approach']}` | {wp['modernEquivalent']} |"
             )
-
-    lines += [
+    return lines + [
         "",
         "---",
         "",
@@ -260,17 +297,21 @@ def generate_report(plan: dict) -> str:
         "| Disposition Hint | **Disposition** |",
         "|:---|:---|:---|:---|---:|:---|:---|:---|:---|",
     ]
-    for p in sorted(plan["pages"], key=lambda x: (x["category"], x["fileName"])):
-        exception = "Yes" if p["hasCustomException"] else "No"
-        connected = f"Yes ({p['connectedWebPartCount']})" if p["hasConnectedWebParts"] else "No"
-        hint = p["dispositionHint"].replace("|", "∣")
-        lines.append(
-            f"| {p['fileName']} | {p['category']} | {p['listTitle'] or '--'} "
-            f"| {p['complexityLabel']} ({p['complexityScore']}) | {p['webPartCount']} "
+
+
+def _disposition_worksheet_rows(pages: list[dict]) -> list[str]:
+    """Render sorted page rows for reviewers to assign a disposition."""
+    rows = []
+    for page in sorted(pages, key=lambda item: (item["category"], item["fileName"])):
+        exception = "Yes" if page["hasCustomException"] else "No"
+        connected = f"Yes ({page['connectedWebPartCount']})" if page["hasConnectedWebParts"] else "No"
+        hint = page["dispositionHint"].replace("|", "∣")
+        rows.append(
+            f"| {page['fileName']} | {page['category']} | {page['listTitle'] or '--'} "
+            f"| {page['complexityLabel']} ({page['complexityScore']}) | {page['webPartCount']} "
             f"| {exception} | {connected} | {hint} |  |"
         )
-
-    lines += [
+    return rows + [
         "",
         "---",
         "",
@@ -282,16 +323,20 @@ def generate_report(plan: dict) -> str:
         "| Page | Complexity | Score | Web Part Categories | Connected? | CEWP? | SEWP? |",
         "|:---|:---|---:|:---|:---|:---|:---|",
     ]
-    for p in plan["dependencyMatrix"]:
-        categories = ", ".join(p["webPartCategories"]) if p["webPartCategories"] else "--"
-        lines.append(
-            f"| {p['fileName']} | {p['complexityLabel']} | {p['complexityScore']} | {categories} "
-            f"| {'Yes' if p['hasConnectedWebParts'] else 'No'} "
-            f"| {'Yes' if p['hasCEWP'] else 'No'} "
-            f"| {'Yes' if p['hasSEWP'] else 'No'} |"
-        )
 
-    lines += [
+
+def _dependency_matrix_rows(pages: list[dict]) -> list[str]:
+    """Render page complexity and web-part category rows in matrix order."""
+    rows = []
+    for page in pages:
+        categories = ", ".join(page["webPartCategories"]) if page["webPartCategories"] else "--"
+        rows.append(
+            f"| {page['fileName']} | {page['complexityLabel']} | {page['complexityScore']} | {categories} "
+            f"| {'Yes' if page['hasConnectedWebParts'] else 'No'} "
+            f"| {'Yes' if page['hasCEWP'] else 'No'} "
+            f"| {'Yes' if page['hasSEWP'] else 'No'} |"
+        )
+    return rows + [
         "",
         "---",
         "",
@@ -303,15 +348,17 @@ def generate_report(plan: dict) -> str:
         "| Page | Web Part | Type | Modern Equivalent |",
         "|:---|:---|:---|:---|",
     ]
+
+
+def _custom_exception_rows(pages: list[dict]) -> list[str]:
+    """Render each custom-exception web part, or the established empty-state row."""
     exception_rows = [
-        f"| {p['fileName']} | {wp['category']} | {wp['typeName'] or '--'} | {wp['modernEquivalent']} |"
-        for p in plan["pages"]
-        for wp in p["webParts"]
+        f"| {page['fileName']} | {wp['category']} | {wp['typeName'] or '--'} | {wp['modernEquivalent']} |"
+        for page in pages
+        for wp in page["webParts"]
         if wp["approach"] == "custom-exception"
     ]
-    lines += exception_rows or ["| -- | -- | -- | No custom exceptions detected |"]
-
-    lines += [
+    return (exception_rows or ["| -- | -- | -- | No custom exceptions detected |"]) + [
         "",
         "---",
         "",
@@ -323,15 +370,16 @@ def generate_report(plan: dict) -> str:
         "| Page | Connection Count |",
         "|:---|---:|",
     ]
-    connected_rows = [
-        f"| {p['fileName']} | {p['connectedWebPartCount']} |"
-        for p in plan["pages"]
-        if p["hasConnectedWebParts"]
-    ]
-    lines += connected_rows or ["| -- | No connected web part pages detected |"]
 
-    lines += ["", "---", "", "*Full structured data: `page-inventory-plan.json` in the same folder.*"]
-    return "\n".join(lines)
+
+def _connected_page_rows(pages: list[dict]) -> list[str]:
+    """Render connected-web-part pages, retaining the established empty state."""
+    connected_rows = [
+        f"| {page['fileName']} | {page['connectedWebPartCount']} |"
+        for page in pages
+        if page["hasConnectedWebParts"]
+    ]
+    return connected_rows or ["| -- | No connected web part pages detected |"]
 
 
 def run(

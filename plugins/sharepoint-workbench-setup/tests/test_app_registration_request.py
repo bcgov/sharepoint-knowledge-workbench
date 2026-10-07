@@ -1,4 +1,10 @@
-"""
+"""Purpose:
+    Verify generic app-registration request rendering and setup guidance.
+
+Key Input Dependencies:
+    - app_registration_request module constants and pure renderer
+    - No tenant configuration or network access.
+
 test_app_registration_request.py
 ===================================
 
@@ -9,6 +15,21 @@ the API-permission sequence, admin consent, and the separate site-level
 SCA/licence requirement). Generalized from a real project's app-
 registration JIRA request and lab-notebook records -- no tenant-specific
 literal (org name, GUID, site URL) appears anywhere in this module.
+
+Function Index:
+    - test_render_service_request_fills_all_placeholders
+    - test_render_service_request_raises_on_missing_answer
+    - test_render_service_request_ignores_extra_answers
+    - test_setup_steps_covers_the_known_required_sequence
+    - test_setup_steps_has_no_tenant_specific_literals
+    - test_setup_steps_each_has_number_title_and_detail
+    - test_registration_types_has_exactly_etl_and_interactive
+    - test_registration_types_do_not_claim_tier_predicts_capability
+    - test_registration_types_interactive_capability_status_reflects_correction
+    - test_registration_types_etl_capability_status_marks_unverified
+    - test_registration_types_each_has_distinct_auth_and_licensing
+    - test_registration_types_each_has_pros_and_cons
+    - test_registration_types_no_tenant_specific_literals
 """
 
 import pytest
@@ -24,7 +45,9 @@ from app_registration_request import (
 TEMPLATE = "Name: <APP_NAME>\nProject: <PROJECT_NAME>\nTenant: <TENANT_NAME>\n"
 
 
+# Rendering replaces each known template placeholder with its supplied answer.
 def test_render_service_request_fills_all_placeholders():
+    """Rendering replaces each known template placeholder with its supplied answer."""
     answers = {"APP_NAME": "my-app", "PROJECT_NAME": "my-project", "TENANT_NAME": "my-tenant"}
     rendered = render_service_request(TEMPLATE, answers)
     assert "<APP_NAME>" not in rendered
@@ -33,13 +56,17 @@ def test_render_service_request_fills_all_placeholders():
     assert "my-tenant" in rendered
 
 
+# Rendering raises AppRegistrationRequestError when a required answer is missing.
 def test_render_service_request_raises_on_missing_answer():
+    """Rendering raises AppRegistrationRequestError when a required answer is missing."""
     answers = {"APP_NAME": "my-app", "PROJECT_NAME": "my-project"}
     with pytest.raises(AppRegistrationRequestError):
         render_service_request(TEMPLATE, answers)
 
 
+# Answers without matching placeholders do not appear in the rendered request.
 def test_render_service_request_ignores_extra_answers():
+    """Answers without matching placeholders do not appear in the rendered request."""
     answers = {
         "APP_NAME": "my-app", "PROJECT_NAME": "my-project", "TENANT_NAME": "my-tenant",
         "UNUSED_FIELD": "irrelevant",
@@ -48,7 +75,9 @@ def test_render_service_request_ignores_extra_answers():
     assert "irrelevant" not in rendered
 
 
+# Setup guidance names redirect, API permission, consent, site-access, and licensing steps.
 def test_setup_steps_covers_the_known_required_sequence():
+    """Setup guidance names redirect, API permission, consent, site-access, and licensing steps."""
     steps_text = " ".join(f"{s['title']} {s['detail']}" for s in SETUP_STEPS)
     steps_text += " ".join(str(v) for t in REGISTRATION_TYPES for v in t.values())
     for keyword in ("localhost", "User.Read", "Sites.Selected", "admin consent",
@@ -56,24 +85,31 @@ def test_setup_steps_covers_the_known_required_sequence():
         assert keyword in steps_text, f"expected {keyword!r} somewhere in SETUP_STEPS/REGISTRATION_TYPES"
 
 
+# Verify that setup steps has no tenant specific literals.
 def test_setup_steps_has_no_tenant_specific_literals():
+    """Verify that setup steps has no tenant specific literals."""
     steps_text = " ".join(f"{s['title']} {s['detail']}" for s in SETUP_STEPS).lower()
     for literal in [__import__("base64").b64decode(x).decode() for x in ['Z292LmJjLmNh', 'YmNnb3Y=', 'Y21hdA==', 'b3Jkcw==', 'amFn', 'aWRpcg==']]:
         assert literal not in steps_text, f"unexpected tenant-specific literal: {literal!r}"
 
 
+# Every setup step provides an integer sequence number, title, and detail.
 def test_setup_steps_each_has_number_title_and_detail():
+    """Every setup step provides an integer sequence number, title, and detail."""
     for step in SETUP_STEPS:
         assert isinstance(step["number"], int)
         assert step["title"]
         assert step["detail"]
 
 
+# The registration guidance defines exactly the ETL and interactive choices.
 def test_registration_types_has_exactly_etl_and_interactive():
+    """The registration guidance defines exactly the ETL and interactive choices."""
     keys = {t["key"] for t in REGISTRATION_TYPES}
     assert keys == {"etl", "interactive"}
 
 
+# Verify that registration types do not claim tier predicts capability.
 def test_registration_types_do_not_claim_tier_predicts_capability():
     # Corrected 2026-08-09: production testing disproved the earlier claim
     # that the PnP grant tier (Write vs Manage) reliably predicts whether
@@ -82,6 +118,7 @@ def test_registration_types_do_not_claim_tier_predicts_capability():
     # creation in an interactive session. Neither type may assert a fixed
     # capability boundary as a fact; each must instead point at
     # capability_testing_status for the honest, evidence-based status.
+    """Verify that registration types do not claim tier predicts capability."""
     for t in REGISTRATION_TYPES:
         assert "confirmed_capabilities" not in t, (
             f"{t['key']} must not assert capabilities as fixed facts -- "
@@ -90,20 +127,26 @@ def test_registration_types_do_not_claim_tier_predicts_capability():
         assert t["capability_testing_status"], f"{t['key']} missing capability_testing_status"
 
 
+# Verify that registration types interactive capability status reflects correction.
 def test_registration_types_interactive_capability_status_reflects_correction():
+    """Verify that registration types interactive capability status reflects correction."""
     by_key = {t["key"]: t for t in REGISTRATION_TYPES}
     status = by_key["interactive"]["capability_testing_status"].lower()
     assert "write" in status
     assert "not proof of a manage grant" in status or "not proof" in status
 
 
+# Verify that registration types etl capability status marks unverified.
 def test_registration_types_etl_capability_status_marks_unverified():
+    """Verify that registration types etl capability status marks unverified."""
     by_key = {t["key"]: t for t in REGISTRATION_TYPES}
     status = by_key["etl"]["capability_testing_status"].lower()
     assert "unverified" in status
 
 
+# Verify that registration types each has distinct auth and licensing.
 def test_registration_types_each_has_distinct_auth_and_licensing():
+    """Verify that registration types each has distinct auth and licensing."""
     by_key = {t["key"]: t for t in REGISTRATION_TYPES}
     assert by_key["etl"]["auth_mechanism"] != by_key["interactive"]["auth_mechanism"]
     assert "certificate" in by_key["etl"]["auth_mechanism"].lower()
@@ -117,13 +160,17 @@ def test_registration_types_each_has_distinct_auth_and_licensing():
            "not" in by_key["etl"]["licensing_note"].lower()
 
 
+# Each registration choice documents advantages and tradeoffs.
 def test_registration_types_each_has_pros_and_cons():
+    """Each registration choice documents advantages and tradeoffs."""
     for t in REGISTRATION_TYPES:
         assert t["pros"], f"{t['key']} missing pros"
         assert t["cons"], f"{t['key']} missing cons"
 
 
+# Verify that registration types no tenant specific literals.
 def test_registration_types_no_tenant_specific_literals():
+    """Verify that registration types no tenant specific literals."""
     for t in REGISTRATION_TYPES:
         blob = " ".join(str(v) for v in t.values()).lower()
         for literal in [__import__("base64").b64decode(x).decode() for x in ['Z292LmJjLmNh', 'YmNnb3Y=', 'Y21hdA==', 'amFn', 'aWRpcg==', 'Y3Ni']]:

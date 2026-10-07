@@ -1,4 +1,10 @@
-"""Authoritative schema for the `normalized-source-document` contract.
+"""Purpose:
+    Authoritative schema for the `normalized-source-document` contract.
+
+Key Input Dependencies:
+    - schema.shared
+
+Authoritative schema for the `normalized-source-document` contract.
 
 `source-document-extraction` is the sole producer of this contract -- this
 module is the single source of truth for its wire format, packaged inside
@@ -11,7 +17,9 @@ declare a dependency on this plugin. Each consumer validates the dict
 `extraction.extract_and_normalize` returns against its own plugin-local
 schema check (`schema_version` + required-field check) -- never across the
 plugin boundary at runtime.
-"""
+
+Key Functions Index:
+    - validate()"""
 from __future__ import annotations
 
 from schema.shared import check_schema_version, require
@@ -37,7 +45,9 @@ _REQUIRED_FIELDS = (
 )
 
 
+# Validate the supplied value against its relevant schema.
 def validate(data: dict) -> None:
+    """Validate the supplied value against its relevant schema."""
     check_schema_version(data, SCHEMA_VERSION, "normalized-source-document")
     for field_name in _REQUIRED_FIELDS:
         require(data, field_name)

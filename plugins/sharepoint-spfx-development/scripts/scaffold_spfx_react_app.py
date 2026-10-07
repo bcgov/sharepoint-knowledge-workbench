@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # Purpose: Scaffold a production-ready SPFx React Web Part boilerplate from a JSON layout specification.
+# Key Input Dependencies: JSON specification and output directory; generated files include the SPFx manifest and PnPjs source.
+# Function Index: _build_react_component_source; _build_webpart_source; scaffold_react_app; main.
 # Layer: Plugin Engineering / SPFx Scaffolding Generator
 
 """
@@ -9,12 +11,18 @@ Generates a complete production-ready SPFx React Web Part component tree
 with PnPjs v4 initialization, Context API state management, self-healing
 GUID migration recovery, and Tailwind CSS / Fluent UI styling.
 
-Key Input Dependencies:
-    - spec: JSON layout specification containing `webPartName`, `title`, `description`, etc.
+Purpose:
+    Scaffold a production-ready SPFx React Web Part boilerplate from a JSON layout specification.
 
-Key Procedures:
-    - scaffold_react_app(spec, output_dir): Generates manifest, pnpjsConfig, React components, and styling.
-    - main(): CLI entrypoint for spec parsing and output generation.
+Key Input Dependencies:
+    - JSON specification with optional component name, title, description, and ID values.
+    - Output directory receiving the generated SPFx manifest, source, and styles.
+
+Function Index:
+    - _build_react_component_source: Renders the configured React component source.
+    - _build_webpart_source: Renders the configured SPFx web-part class source.
+    - scaffold_react_app: Writes the configured component tree and supporting files.
+    - main: Parses command-line paths and invokes the scaffolder.
 
 Usage:
     python scripts/scaffold_spfx_react_app.py --spec app_spec.json --output-dir src/webparts/myApp
@@ -24,66 +32,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import uuid
 from pathlib import Path
 from typing import Any, Dict
 
 
-def scaffold_react_app(spec: Dict[str, Any], output_dir: Path) -> None:
-    """
-    Scaffolds an enterprise React SPFx component tree in the target output directory.
-
-    Args:
-        spec: Dictionary containing component layout options and metadata.
-        output_dir: Target path where web part files will be written.
-    """
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    
-    components_dir = output_dir / "components"
-    style_dir = output_dir / "style"
-    components_dir.mkdir(parents=True, exist_ok=True)
-    style_dir.mkdir(parents=True, exist_ok=True)
-
-    import re
-    wp_name = spec.get("webPartName", "EnterpriseApp")
-    if not re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_$]*", wp_name):
-        raise ValueError(f"webPartName must be a valid TypeScript identifier, got: {wp_name!r}")
-    title = spec.get("title", wp_name)
-    title_literal = json.dumps(title)
-    description = spec.get("description", f"Enterprise React SPFx Web Part for {title}")
-    wp_id = spec.get("id", str(uuid.uuid4()))
-
-    # 1. Manifest
-    manifest = {
-        "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-        "id": wp_id,
-        "alias": f"{wp_name}WebPart",
-        "componentType": "WebPart",
-        "version": "*",
-        "manifestVersion": 2,
-        "requiresCustomScript": False,
-        "supportedHosts": ["SharePointWebPart"],
-        "preconfiguredEntries": [
-            {
-                "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
-                "group": {"default": "Other"},
-                "title": {"default": title},
-                "description": {"default": description},
-                "officeFabricIconFontName": "DocumentSet",
-                "properties": {
-                    "description": description,
-                    "webpartTitle": title,
-                    "maxItems": 10
-                }
-            }
-        ]
-    }
-    with open(output_dir / f"{wp_name}WebPart.manifest.json", "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2)
-
-    # 2. pnpjsConfig.ts
-    pnp_config = """import { WebPartContext } from '@microsoft/sp-webpart-base';
+# Shared PnPjs bootstrap source written into generated React web parts.
+PNPJS_CONFIG_TEMPLATE = """import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { LogLevel, PnPLogging } from '@pnp/logging';
 import { spfi, SPFI, SPFx as spSPFx } from '@pnp/sp';
 import '@pnp/sp/webs';
@@ -112,11 +68,12 @@ export const getWeb = (absUrl: string): IWeb => {
   return _web;
 };
 """
-    with open(components_dir / "pnpjsConfig.ts", "w", encoding="utf-8") as f:
-        f.write(pnp_config)
 
-    # 3. Main React Component
-    main_tsx = f"""import * as React from 'react';
+
+# Renders the configured React functional component source.
+def _build_react_component_source(wp_name: str, title_literal: str) -> str:
+    """Creates the generated TSX view with the configured component name and fallback title."""
+    return f"""import * as React from 'react';
 import {{ Spinner, SpinnerSize, MessageBar, MessageBarType }} from '@fluentui/react';
 import {{ IReadonlyTheme }} from '@microsoft/sp-component-base';
 
@@ -160,11 +117,12 @@ export const {wp_name}: React.FC<I{wp_name}Props> = (props) => {{
 
 export default {wp_name};
 """
-    with open(components_dir / f"{wp_name}.tsx", "w", encoding="utf-8") as f:
-        f.write(main_tsx)
 
-    # 4. WebPart Class
-    wp_ts = f"""import * as React from 'react';
+
+# Renders the generated SPFx web-part class source.
+def _build_webpart_source(wp_name: str) -> str:
+    """Creates the SPFx lifecycle, property-pane, and component-mounting source."""
+    return f"""import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import {{ Version }} from '@microsoft/sp-core-library';
 import {{
@@ -250,6 +208,75 @@ export default class {wp_name}WebPart extends BaseClientSideWebPart<I{wp_name}We
   }}
 }}
 """
+
+
+# Scaffolds manifest, PnPjs setup, React component, and stylesheet files from the supplied specification.
+def scaffold_react_app(spec: Dict[str, Any], output_dir: Path) -> None:
+    """
+    Scaffolds an enterprise React SPFx component tree in the target output directory.
+
+    Args:
+        spec: Dictionary containing component layout options and metadata.
+        output_dir: Target path where web part files will be written.
+    """
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    components_dir = output_dir / "components"
+    style_dir = output_dir / "style"
+    components_dir.mkdir(parents=True, exist_ok=True)
+    style_dir.mkdir(parents=True, exist_ok=True)
+
+    wp_name = spec.get("webPartName", "EnterpriseApp")
+    if not re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_$]*", wp_name):
+        raise ValueError(f"webPartName must be a valid TypeScript identifier, got: {wp_name!r}")
+    title = spec.get("title", wp_name)
+    title_literal = json.dumps(title)
+    description = spec.get("description", f"Enterprise React SPFx Web Part for {title}")
+    wp_id = spec.get("id", str(uuid.uuid4()))
+
+    # 1. Manifest
+    manifest = {
+        "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+        "id": wp_id,
+        "alias": f"{wp_name}WebPart",
+        "componentType": "WebPart",
+        "version": "*",
+        "manifestVersion": 2,
+        "requiresCustomScript": False,
+        "supportedHosts": ["SharePointWebPart"],
+        "preconfiguredEntries": [
+            {
+                "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+                "group": {"default": "Other"},
+                "title": {"default": title},
+                "description": {"default": description},
+                "officeFabricIconFontName": "DocumentSet",
+                "properties": {
+                    "description": description,
+                    "webpartTitle": title,
+                    "maxItems": 10
+                }
+            }
+        ]
+    }
+    with open(output_dir / f"{wp_name}WebPart.manifest.json", "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+
+    # 2. pnpjsConfig.ts
+
+    with open(components_dir / "pnpjsConfig.ts", "w", encoding="utf-8") as f:
+        f.write(PNPJS_CONFIG_TEMPLATE)
+
+    # 3. Main React Component
+
+    main_tsx = _build_react_component_source(wp_name, title_literal)
+    with open(components_dir / f"{wp_name}.tsx", "w", encoding="utf-8") as f:
+        f.write(main_tsx)
+
+    # 4. WebPart Class
+
+    wp_ts = _build_webpart_source(wp_name)
     with open(output_dir / f"{wp_name}WebPart.ts", "w", encoding="utf-8") as f:
         f.write(wp_ts)
 
@@ -262,7 +289,9 @@ export default class {wp_name}WebPart extends BaseClientSideWebPart<I{wp_name}We
         f.write("/* Compiled tailwind output */\n")
 
 
+# Parses command-line arguments and delegates generation to the public scaffolding function.
 def main() -> None:
+    """Parses the specification and output path for the React SPFx scaffolder CLI."""
     parser = argparse.ArgumentParser(description="Scaffold enterprise React SPFx web part")
     parser.add_argument("--spec", type=Path, required=True, help="Path to layout spec JSON")
     parser.add_argument("--output-dir", type=Path, required=True, help="Output webpart directory")
@@ -275,5 +304,6 @@ def main() -> None:
     print(f"Successfully scaffolded React SPFx web part in {args.output_dir}")
 
 
+# Starts the command-line entrypoint when the script runs directly.
 if __name__ == "__main__":
     main()

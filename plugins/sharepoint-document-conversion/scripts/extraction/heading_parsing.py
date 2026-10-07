@@ -1,6 +1,15 @@
-"""
-heading_parsing.py
+"""heading_parsing.py
 ===================
+
+Purpose:
+    Source-level observation functions: this plugin owns every function that produces a source-level *observation* (heading structure, statistics, defect signals) from already-extracted pandoc markdown text, regardless of whether it touches `pandoc` directly.
+
+Key Input Dependencies:
+    - re
+    - pandoc.attrs
+    - pandoc.heading_emphasis
+    - pandoc.images
+    - pandoc.toc
 
 Source-level observation functions: this plugin owns every function that
 produces a source-level *observation* (heading structure, statistics,
@@ -15,7 +24,18 @@ Function Index:
     - detect_raw_toc(markdown_text) -> bool
     - detect_defect_signals(markdown_text) -> dict
     - compute_statistics(markdown_text) -> dict
-"""
+
+Key Functions Index:
+    - _normalize_heading_text()
+    - iter_heading_matches()
+    - parse_headings()
+    - _counts_by_level()
+    - _repeated_heading_texts()
+    - _repeated_paths()
+    - _image_stats()
+    - detect_raw_toc()
+    - detect_defect_signals()
+    - compute_statistics()"""
 
 import re
 
@@ -101,21 +121,27 @@ def parse_headings(markdown_text: str) -> list:
     ]
 
 
+# Count parsed source headings by heading level for extraction diagnostics.
 def _counts_by_level(headings: list) -> dict:
+    """Count parsed source headings by heading level for extraction diagnostics."""
     counts = {}
     for h in headings:
         counts[h["level"]] = counts.get(h["level"], 0) + 1
     return counts
 
 
+# Identify normalized heading titles that occur more than once in the source document.
 def _repeated_heading_texts(headings: list) -> dict:
+    """Identify normalized heading titles that occur more than once in the source document."""
     text_counts = {}
     for h in headings:
         text_counts[h["text"]] = text_counts.get(h["text"], 0) + 1
     return {text: count for text, count in text_counts.items() if count > 1}
 
 
+# Identify structural heading paths repeated in the parsed document outline.
 def _repeated_paths(headings: list) -> dict:
+    """Identify structural heading paths repeated in the parsed document outline."""
     path_counts = {}
     for h in headings:
         key = tuple(h["path"])
@@ -123,7 +149,9 @@ def _repeated_paths(headings: list) -> dict:
     return {path: count for path, count in path_counts.items() if count > 1}
 
 
+# Summarize extracted image references and their file types for the normalized document report.
 def _image_stats(media_dir) -> dict:
+    """Summarize extracted image references and their file types for the normalized document report."""
     if not media_dir.exists():
         return {"count": 0, "formats": []}
     files = [p for p in media_dir.rglob("*") if p.is_file()]

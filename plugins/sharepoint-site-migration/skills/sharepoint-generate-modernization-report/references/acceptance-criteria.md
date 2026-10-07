@@ -1,0 +1,1 @@
+../../../references/page-modernization/sharepoint-generate-modernization-report-acceptance-criteria.md

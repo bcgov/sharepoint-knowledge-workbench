@@ -1,6 +1,17 @@
-"""
-extraction.py
+"""extraction.py
 =============
+
+Purpose:
+    Public interface for the `source-document-extraction` plugin: runs pandoc once against a real source `.docx` and produces a `normalized-source-document` v1 dict, validated against this plugin's own `schema.normalized_source_document` module.
+
+Key Input Dependencies:
+    - hashlib
+    - subprocess
+    - sys
+    - pathlib
+    - dependencies
+    - schema.normalized_source_document
+    - heading_parsing
 
 Public interface for the `source-document-extraction` plugin: runs pandoc
 once against a real source `.docx` and produces a `normalized-source-document`
@@ -8,7 +19,10 @@ v1 dict, validated against this plugin's own `schema.normalized_source_document`
 module. This plugin is the sole producer of that contract; structured-content-assembly
 and structured-content-rendering never import this module directly -- they consume
 the dict this function returns.
-"""
+
+Key Functions Index:
+    - _run_pandoc_raw()
+    - extract_and_normalize()"""
 
 from __future__ import annotations
 

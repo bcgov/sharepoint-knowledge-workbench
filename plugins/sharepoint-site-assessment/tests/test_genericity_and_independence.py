@@ -6,6 +6,20 @@ analysis modules in sharepoint-site-assessment.
 Purpose:
     These are the tests that must fail if a future change reintroduces a
     project literal or a tenant write path into the schema analysis tools.
+
+Key Input Dependencies:
+    - pytest, the plugin module under test, and temporary JSON fixtures created by the test cases.
+
+Function index:
+    - _literal_pattern
+    - test_no_project_literal_in_schema_scripts
+    - test_no_tenant_write_path_in_schema_scripts
+    - test_neutral_fixtures_drive_a_full_comparison
+    - _literal_pattern
+    - test_no_project_literal_in_schema_scripts
+    - test_no_tenant_write_path_in_schema_scripts
+    - test_neutral_fixtures_drive_a_full_comparison
+    - test_neutral_fixtures_drive_duplicate_and_choice_audits
 """
 
 import re
@@ -25,7 +39,9 @@ FIXTURES = PLUGIN_ROOT / "tests" / "fixtures" / "exports"
 PROJECT_LITERALS = tuple(__import__("base64").b64decode(x).decode() for x in ['SlVTVElO', 'Q0VJUw==', 'T1JEUw==', 'Y291cnRob3VzZQ==', 'QUctQ1NC', 'UElP', 'SUNN', 'Y21hdA==', 'd2F2ZS1kZXBlbmRlbmN5LW1hdHJpeA==', 'Y2hvaWNlcy1vdmVycmlkZXM=', 'cmF3X2V4cG9ydHNfcHJvZA==', 'cmF3X2V4cG9ydF90ZXN0'])
 
 
+# Compile a boundary-aware regex for searching a project literal in source text.
 def _literal_pattern(literal: str) -> re.Pattern:
+    """Match the literal only when it is not embedded in a longer identifier."""
     return re.compile(
         r"(?<![A-Za-z0-9])" + re.escape(literal) + r"(?![A-Za-z0-9])", re.IGNORECASE
     )
@@ -51,7 +67,9 @@ SCHEMA_SCRIPTS = [
 ]
 
 
+# No project literal in schema scripts.
 def test_no_project_literal_in_schema_scripts():
+    """No project literal in schema scripts."""
     offenders = []
     for script_name in SCHEMA_SCRIPTS:
         path = PLUGIN_ROOT / "scripts" / script_name
@@ -64,7 +82,9 @@ def test_no_project_literal_in_schema_scripts():
     assert not offenders, offenders
 
 
+# No tenant write path in schema scripts.
 def test_no_tenant_write_path_in_schema_scripts():
+    """No tenant write path in schema scripts."""
     offenders = []
     for script_name in SCHEMA_SCRIPTS:
         path = PLUGIN_ROOT / "scripts" / script_name
@@ -77,7 +97,9 @@ def test_no_tenant_write_path_in_schema_scripts():
     assert not offenders, offenders
 
 
+# Neutral fixtures drive a full comparison.
 def test_neutral_fixtures_drive_a_full_comparison():
+    """Neutral fixtures drive a full comparison."""
     baseline = load_schema_export(FIXTURES / "baseline", label="baseline")
     candidate = load_schema_export(FIXTURES / "candidate", label="candidate")
     assert baseline.status is SectionStatus.OBSERVED
@@ -110,7 +132,9 @@ FIXTURES = PLUGIN_ROOT / "tests" / "fixtures" / "exports"
 PROJECT_LITERALS = tuple(__import__("base64").b64decode(x).decode() for x in ['SlVTVElO', 'Q0VJUw==', 'T1JEUw==', 'Y291cnRob3VzZQ==', 'QUctQ1NC', 'UElP', 'SUNN', 'Y21hdA==', 'd2F2ZS1kZXBlbmRlbmN5LW1hdHJpeA==', 'Y2hvaWNlcy1vdmVycmlkZXM=', 'cmF3X2V4cG9ydHNfcHJvZA==', 'cmF3X2V4cG9ydF90ZXN0'])
 
 
+# Compile a boundary-aware regex for searching a project literal in source text.
 def _literal_pattern(literal: str) -> re.Pattern:
+    """Match the literal only when it is not embedded in a longer identifier."""
     return re.compile(
         r"(?<![A-Za-z0-9])" + re.escape(literal) + r"(?![A-Za-z0-9])", re.IGNORECASE
     )
@@ -136,7 +160,9 @@ SCHEMA_SCRIPTS = [
 ]
 
 
+# No project literal in schema scripts.
 def test_no_project_literal_in_schema_scripts():
+    """No project literal in schema scripts."""
     offenders = []
     for script_name in SCHEMA_SCRIPTS:
         path = PLUGIN_ROOT / "scripts" / script_name
@@ -149,7 +175,9 @@ def test_no_project_literal_in_schema_scripts():
     assert not offenders, offenders
 
 
+# No tenant write path in schema scripts.
 def test_no_tenant_write_path_in_schema_scripts():
+    """No tenant write path in schema scripts."""
     offenders = []
     for script_name in SCHEMA_SCRIPTS:
         path = PLUGIN_ROOT / "scripts" / script_name
@@ -162,7 +190,9 @@ def test_no_tenant_write_path_in_schema_scripts():
     assert not offenders, offenders
 
 
+# Neutral fixtures drive a full comparison.
 def test_neutral_fixtures_drive_a_full_comparison():
+    """Neutral fixtures drive a full comparison."""
     baseline = load_schema_export(FIXTURES / "baseline", label="baseline")
     candidate = load_schema_export(FIXTURES / "candidate", label="candidate")
     assert baseline.status is SectionStatus.OBSERVED
@@ -175,7 +205,9 @@ def test_neutral_fixtures_drive_a_full_comparison():
 
 
 
+# Neutral fixtures drive duplicate and choice audits.
 def test_neutral_fixtures_drive_duplicate_and_choice_audits():
+    """Neutral fixtures drive duplicate and choice audits."""
     candidate = load_schema_export(FIXTURES / "candidate", label="candidate")
     duplicates = find_duplicate_fields(candidate)
     assert [g.display_name for g in duplicates.groups] == ["Region"]

@@ -8,6 +8,8 @@ Purpose:
     the convention used by the other workbench plugins' test suites.
 
 Layer: sharepoint-site-migration / tests
+
+Key Input Dependencies: pytest and the plugin directory tree.
 """
 
 import sys

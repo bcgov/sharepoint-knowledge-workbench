@@ -22,6 +22,21 @@ Provenance:
     no shared status vocabulary -- they printed to the console and silently substituted
     fabricated defaults when an input file was absent. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
+
+Function index:
+    - DiscoveryStatus
+    - DiscoveryOutcome
+    - DiscoveryOutcome.ok
+    - DiscoveryOutcome.to_dict
+    - DiscoveryOutcome.observed
+    - DiscoveryOutcome.empty
+    - DiscoveryOutcome.forbidden
+    - DiscoveryOutcome.unavailable
+    - DiscoveryOutcome.not_supported
+    - DiscoveryOutcome.partial
+    - DiscoveryOutcome.failed
+    - load_json_input
+    - require_output_dir
 """
 
 from __future__ import annotations
@@ -66,7 +81,9 @@ class DiscoveryOutcome:
         """True when the step produced a truthful observation (Observed/Empty/Partial)."""
         return self.status in _OK_STATUSES
 
+    # Serialize the discovery outcome with status, detail, and artifact references.
     def to_dict(self) -> dict:
+        """Serialize the discovery outcome with status, detail, and artifact references."""
         return {
             "status": self.status.value,
             "domain": self.domain,
@@ -76,32 +93,46 @@ class DiscoveryOutcome:
 
     # -- Constructors, one per status, so callers never build an outcome by hand. --
 
+    # Construct an outcome that records evidence successfully observed for the domain.
     @classmethod
     def observed(cls, domain: str, detail: str, data: Any = None, artifacts=()) -> "DiscoveryOutcome":
+        """Construct an outcome that records evidence successfully observed for the domain."""
         return cls(DiscoveryStatus.OBSERVED, domain, detail, data, tuple(artifacts))
 
+    # Construct an outcome that distinguishes a confirmed empty collection from missing evidence.
     @classmethod
     def empty(cls, domain: str, detail: str, data: Any = None, artifacts=()) -> "DiscoveryOutcome":
+        """Construct an outcome that distinguishes a confirmed empty collection from missing evidence."""
         return cls(DiscoveryStatus.EMPTY, domain, detail, data, tuple(artifacts))
 
+    # Construct an outcome for evidence that could not be read because access was denied.
     @classmethod
     def forbidden(cls, domain: str, detail: str) -> "DiscoveryOutcome":
+        """Construct an outcome for evidence that could not be read because access was denied."""
         return cls(DiscoveryStatus.FORBIDDEN, domain, detail, None, ())
 
+    # Construct an outcome for a required input that is not available.
     @classmethod
     def unavailable(cls, domain: str, detail: str) -> "DiscoveryOutcome":
+        """Construct an outcome for a required input that is not available."""
         return cls(DiscoveryStatus.UNAVAILABLE, domain, detail, None, ())
 
+    # Construct an outcome for an input shape the analyzer does not support.
     @classmethod
     def not_supported(cls, domain: str, detail: str) -> "DiscoveryOutcome":
+        """Construct an outcome for an input shape the analyzer does not support."""
         return cls(DiscoveryStatus.NOT_SUPPORTED, domain, detail, None, ())
 
+    # Construct an outcome that preserves usable evidence while recording missing portions.
     @classmethod
     def partial(cls, domain: str, detail: str, data: Any = None, artifacts=()) -> "DiscoveryOutcome":
+        """Construct an outcome that preserves usable evidence while recording missing portions."""
         return cls(DiscoveryStatus.PARTIAL, domain, detail, data, tuple(artifacts))
 
+    # Construct an outcome for malformed or otherwise unusable evidence.
     @classmethod
     def failed(cls, domain: str, detail: str) -> "DiscoveryOutcome":
+        """Construct an outcome for malformed or otherwise unusable evidence."""
         return cls(DiscoveryStatus.FAILED, domain, detail, None, ())
 
 

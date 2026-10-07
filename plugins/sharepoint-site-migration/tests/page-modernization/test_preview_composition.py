@@ -8,6 +8,9 @@ Tests for composing a self-contained offline preview by merging site chrome
 
 Every test drives the real CLI over the real filesystem -- no mocks on the
 parsing or path-resolution path.
+
+Purpose: Tests for composing a self-contained offline preview by merging site chrome (navigation, header, logo, ancestors) with already-extracted page content (modern-preview.html + metadata.json).
+Key Input Dependencies: preview_composition.py.
 """
 
 import json
@@ -17,6 +20,7 @@ import sys
 
 def _write_page_folder(tmp_path, *, title="Sample Page", page_name="Sample-Page.aspx",
                         content="<p>Hello world</p>", with_files=True):
+    """Test helper: write page folder."""
     page_folder = tmp_path / "page"
     page_folder.mkdir()
     if with_files:
@@ -34,6 +38,7 @@ def _write_page_folder(tmp_path, *, title="Sample Page", page_name="Sample-Page.
 
 
 def _write_chrome_folder(tmp_path, *, web=None, top_nav=None, ancestors=None, with_file=True):
+    """Test helper: write chrome folder."""
     chrome_folder = tmp_path / "chrome"
     chrome_folder.mkdir()
     if with_file:
@@ -47,6 +52,7 @@ def _write_chrome_folder(tmp_path, *, web=None, top_nav=None, ancestors=None, wi
 
 
 def run_compose(scripts_dir, page_folder, chrome_folder, tmp_path, *extra):
+    """Test helper: run compose."""
     out = tmp_path / "full-preview.html"
     result = subprocess.run(
         [sys.executable, str(scripts_dir / "preview_composition.py"),
@@ -59,6 +65,7 @@ def run_compose(scripts_dir, page_folder, chrome_folder, tmp_path, *extra):
 
 
 def test_full_chrome_and_content_reports_observed(scripts_dir, tmp_path):
+    """Verify full chrome and content reports observed."""
     page_folder = _write_page_folder(tmp_path)
     chrome_folder = _write_chrome_folder(tmp_path)
     result, out = run_compose(scripts_dir, page_folder, chrome_folder, tmp_path)
@@ -72,6 +79,7 @@ def test_full_chrome_and_content_reports_observed(scripts_dir, tmp_path):
 
 
 def test_missing_page_folder_files_reports_unavailable_and_writes_nothing(scripts_dir, tmp_path):
+    """Verify missing page folder files reports unavailable and writes nothing."""
     page_folder = _write_page_folder(tmp_path, with_files=False)
     chrome_folder = _write_chrome_folder(tmp_path)
     result, out = run_compose(scripts_dir, page_folder, chrome_folder, tmp_path)
@@ -81,6 +89,7 @@ def test_missing_page_folder_files_reports_unavailable_and_writes_nothing(script
 
 
 def test_missing_chrome_folder_file_reports_unavailable_and_writes_nothing(scripts_dir, tmp_path):
+    """Verify missing chrome folder file reports unavailable and writes nothing."""
     page_folder = _write_page_folder(tmp_path)
     chrome_folder = _write_chrome_folder(tmp_path, with_file=False)
     result, out = run_compose(scripts_dir, page_folder, chrome_folder, tmp_path)
@@ -90,6 +99,7 @@ def test_missing_chrome_folder_file_reports_unavailable_and_writes_nothing(scrip
 
 
 def test_empty_page_content_reports_empty_and_writes_nothing(scripts_dir, tmp_path):
+    """Verify empty page content reports empty and writes nothing."""
     page_folder = _write_page_folder(tmp_path, content="")
     chrome_folder = _write_chrome_folder(tmp_path)
     result, out = run_compose(scripts_dir, page_folder, chrome_folder, tmp_path)
@@ -99,6 +109,7 @@ def test_empty_page_content_reports_empty_and_writes_nothing(scripts_dir, tmp_pa
 
 
 def test_missing_logo_and_ancestors_reports_partial_but_still_writes_output(scripts_dir, tmp_path):
+    """Verify missing logo and ancestors reports partial but still writes output."""
     page_folder = _write_page_folder(tmp_path)
     chrome_folder = _write_chrome_folder(
         tmp_path, web={"Title": "Example Site"}, ancestors=[],
@@ -114,6 +125,7 @@ def test_missing_logo_and_ancestors_reports_partial_but_still_writes_output(scri
 
 
 def test_partial_reason_never_fabricates_a_substitute_logo(scripts_dir, tmp_path):
+    """Verify partial reason never fabricates a substitute logo."""
     page_folder = _write_page_folder(tmp_path)
     chrome_folder = _write_chrome_folder(tmp_path, web={"Title": "Example Site"})
     result, out = run_compose(scripts_dir, page_folder, chrome_folder, tmp_path)
@@ -123,6 +135,7 @@ def test_partial_reason_never_fabricates_a_substitute_logo(scripts_dir, tmp_path
 
 
 def test_top_nav_beyond_five_entries_grouped_under_more(scripts_dir, tmp_path):
+    """Verify top nav beyond five entries grouped under more."""
     page_folder = _write_page_folder(tmp_path)
     top_nav = [{"Title": f"Item{i}", "Url": f"/item{i}"} for i in range(7)]
     chrome_folder = _write_chrome_folder(tmp_path, top_nav=top_nav)
@@ -134,6 +147,7 @@ def test_top_nav_beyond_five_entries_grouped_under_more(scripts_dir, tmp_path):
 
 
 def test_breadcrumb_includes_current_page_title(scripts_dir, tmp_path):
+    """Verify breadcrumb includes current page title."""
     page_folder = _write_page_folder(tmp_path, title="My Page")
     chrome_folder = _write_chrome_folder(tmp_path)
     result, out = run_compose(scripts_dir, page_folder, chrome_folder, tmp_path)
@@ -143,6 +157,7 @@ def test_breadcrumb_includes_current_page_title(scripts_dir, tmp_path):
 
 
 def test_default_output_path_is_full_preview_html_in_page_folder(scripts_dir, tmp_path):
+    """Verify default output path is full preview html in page folder."""
     page_folder = _write_page_folder(tmp_path)
     chrome_folder = _write_chrome_folder(tmp_path)
     result = subprocess.run(

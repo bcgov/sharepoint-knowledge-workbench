@@ -12,6 +12,8 @@ Purpose:
     duplicated here).
 
 Layer: sharepoint-site-migration / tests
+
+Key Input Dependencies: link_extraction, link_integrity, link_outcomes, link_rules, rewrite-rules.json, link_integrity.py.
 """
 
 from pathlib import Path
@@ -28,16 +30,19 @@ FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
 @pytest.fixture()
 def ruleset():
+    """Pytest fixture providing ruleset."""
     return load_ruleset(FIXTURES / "rewrite-rules.json")
 
 
 def _inventory(*urls):
+    """Test helper: inventory."""
     return LinkInventory.from_links(
         [ExtractedLink(source="page", url=url, kind="hyperlink") for url in urls]
     )
 
 
 def test_a_link_a_rule_still_matches_is_reported_as_residual_legacy(ruleset):
+    """Verify a link a rule still matches is reported as residual legacy."""
     report = validate_link_integrity(_inventory("/Pages/team.aspx"), ruleset)
 
     assert report.outcome == Outcome.FAILED
@@ -46,6 +51,7 @@ def test_a_link_a_rule_still_matches_is_reported_as_residual_legacy(ruleset):
 
 
 def test_a_fully_rewritten_inventory_passes(ruleset):
+    """Verify a fully rewritten inventory passes."""
     report = validate_link_integrity(_inventory("/SitePages/team.aspx"), ruleset)
 
     assert report.outcome == Outcome.OBSERVED
@@ -53,6 +59,7 @@ def test_a_fully_rewritten_inventory_passes(ruleset):
 
 
 def test_a_mixed_inventory_is_partial(ruleset):
+    """Verify a mixed inventory is partial."""
     report = validate_link_integrity(_inventory("/SitePages/a.aspx", "/Pages/b.aspx"), ruleset)
 
     assert report.outcome == Outcome.PARTIAL
@@ -60,6 +67,7 @@ def test_a_mixed_inventory_is_partial(ruleset):
 
 
 def test_an_empty_inventory_is_empty_not_a_pass(ruleset):
+    """Verify an empty inventory is empty not a pass."""
     report = validate_link_integrity(_inventory(), ruleset)
 
     assert report.outcome == Outcome.EMPTY
@@ -68,6 +76,7 @@ def test_an_empty_inventory_is_empty_not_a_pass(ruleset):
 
 @pytest.mark.parametrize("url", ["   ", "http://", "://broken", "ht tp://x"])
 def test_malformed_urls_are_reported_not_silently_passed(ruleset, url):
+    """Verify malformed urls are reported not silently passed."""
     report = validate_link_integrity(_inventory(url), ruleset)
 
     assert report.findings[0].status == LinkStatus.MALFORMED
@@ -75,12 +84,14 @@ def test_malformed_urls_are_reported_not_silently_passed(ruleset, url):
 
 
 def test_without_a_resolver_resolution_is_reported_as_not_supported(ruleset):
+    """Verify without a resolver resolution is reported as not supported."""
     report = validate_link_integrity(_inventory("/SitePages/a.aspx"), ruleset)
 
     assert report.resolution_outcome == Outcome.NOT_SUPPORTED
 
 
 def test_with_a_real_filesystem_resolver_unresolvable_links_are_reported(tmp_path, ruleset):
+    """Verify with a real filesystem resolver unresolvable links are reported."""
     (tmp_path / "SitePages").mkdir()
     (tmp_path / "SitePages" / "a.aspx").write_text("ok")
     resolver = make_local_path_resolver(tmp_path)
@@ -97,13 +108,16 @@ def test_with_a_real_filesystem_resolver_unresolvable_links_are_reported(tmp_pat
 
 
 def test_local_path_resolver_does_not_escape_its_root(tmp_path, ruleset):
+    """Verify local path resolver does not escape its root."""
     resolver = make_local_path_resolver(tmp_path)
 
     assert resolver("/../../etc/hosts") is False
 
 
 def test_resolver_permission_denial_is_forbidden_not_a_pass(ruleset):
+    """Verify resolver permission denial is forbidden not a pass."""
     def forbidding_resolver(url):
+        """Test double for forbidding resolver used by the enclosing test."""
         raise PermissionError("denied")
 
     report = validate_link_integrity(
@@ -115,7 +129,9 @@ def test_resolver_permission_denial_is_forbidden_not_a_pass(ruleset):
 
 
 def test_resolver_transport_error_is_unavailable_not_a_pass(ruleset):
+    """Verify resolver transport error is unavailable not a pass."""
     def broken_resolver(url):
+        """Test double for broken resolver used by the enclosing test."""
         raise RuntimeError("target system unreachable")
 
     report = validate_link_integrity(
@@ -127,6 +143,7 @@ def test_resolver_transport_error_is_unavailable_not_a_pass(ruleset):
 
 
 def test_external_links_are_skipped_by_resolution_but_still_reported(ruleset, tmp_path):
+    """Verify external links are skipped by resolution but still reported."""
     resolver = make_local_path_resolver(tmp_path)
     report = validate_link_integrity(_inventory("https://www.example.org/ref"), ruleset, resolver=resolver)
 
@@ -135,6 +152,7 @@ def test_external_links_are_skipped_by_resolution_but_still_reported(ruleset, tm
 
 
 def test_report_over_a_real_extracted_file_flags_the_legacy_links(ruleset):
+    """Verify report over a real extracted file flags the legacy links."""
     inventory = extract_links_from_paths([FIXTURES / "legacy-page.aspx"])
     report = validate_link_integrity(inventory, ruleset)
 
@@ -145,6 +163,7 @@ def test_report_over_a_real_extracted_file_flags_the_legacy_links(ruleset):
 
 
 def test_report_is_json_serialisable_evidence(ruleset):
+    """Verify report is json serialisable evidence."""
     import json
 
     report = validate_link_integrity(_inventory("/Pages/a.aspx"), ruleset)
@@ -155,6 +174,7 @@ def test_report_is_json_serialisable_evidence(ruleset):
 
 
 def test_integrity_module_performs_no_writes_and_no_tenant_io():
+    """Verify integrity module performs no writes and no tenant io."""
     source = (Path(__file__).resolve().parents[2] / "scripts" / "link-remediation" / "link_integrity.py").read_text()
 
     for forbidden in ("write_text", "import requests", "urllib.request", "subprocess", "open("):
@@ -166,6 +186,7 @@ def test_integrity_module_performs_no_writes_and_no_tenant_io():
     [__import__("base64").b64decode(x).decode() for x in ['amFnLmdvdi5iYy5jYQ==', 'YmNnb3Yuc2hhcmVwb2ludC5jb20=', 'QUctQ1NC', 'Q3Jvd25OZXQ=', 'SlVTVElO', 'Q0VJUw==', 'T1JEUw==', 'Y291cnRob3VzZQ==']],
 )
 def test_module_source_contains_no_project_literals(literal):
+    """Verify module source contains no project literals."""
     source = (Path(__file__).resolve().parents[2] / "scripts" / "link-remediation" / "link_integrity.py").read_text()
 
     assert literal.lower() not in source.lower()

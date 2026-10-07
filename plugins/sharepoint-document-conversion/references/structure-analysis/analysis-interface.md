@@ -21,7 +21,7 @@ analysis_plan = recommend_from_normalized(normalized_source_document)
 - `normalized_source_document`: a `normalized-source-document` v1 dict, produced by the
   `sharepoint-document-conversion` plugin's `extract_and_normalize`.
 - Returns an `analysis-plan` v1 dict, validated against this plugin's own bundled schema.
-  `references/structure-analysis/contracts/analysis-plan.md` describes it. No repository-root or sibling-plugin lookup is required.
+  `references/contracts/analysis-plan.md` describes it. No repository-root or sibling-plugin lookup is required.
 
 ## Guarantees
 

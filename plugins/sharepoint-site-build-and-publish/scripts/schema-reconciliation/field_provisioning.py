@@ -17,6 +17,12 @@ Layer: sharepoint-site-build-and-publish / field planning
 
 Key Input Dependencies:
     - none (standard library only)
+
+Function Index:
+    FieldDef.to_dict, FieldAction.to_dict, filter_deployable_fields,
+    field_needs_type_repair, _escape_xml_attr, _escape_xml_text,
+    build_calculated_field_xml, build_lookup_field_xml,
+    build_user_field_xml, plan_field_action, _new_field_xml
 """
 
 from __future__ import annotations
@@ -84,6 +90,7 @@ class FieldDef:
     group: str = "Custom Columns"
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the caller-declared field and all type-specific settings."""
         return {
             "internal_name": self.internal_name,
             "display_name": self.display_name,
@@ -110,6 +117,7 @@ class FieldAction:
     xml: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the planned field operation, reason, and optional XML."""
         return {
             "internal_name": self.internal_name,
             "action": self.action,
@@ -160,6 +168,7 @@ def field_needs_type_repair(current_type: str | None, expected_type: str) -> boo
 
 
 def _escape_xml_attr(value: str) -> str:
+    """Escape XML attribute delimiters in a caller-provided value."""
     return (
         value.replace("&", "&amp;")
         .replace("<", "&lt;")
@@ -170,6 +179,7 @@ def _escape_xml_attr(value: str) -> str:
 
 
 def _escape_xml_text(value: str) -> str:
+    """Escape XML element-text delimiters without attribute-only quoting."""
     return value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
@@ -278,7 +288,19 @@ def plan_field_action(
             reason=f"already present with declared type {field_def.type!r}",
         )
 
-    xml: str | None = None
+    xml = _new_field_xml(field_def, field_id=field_id, lookup_list_id=lookup_list_id)
+    return FieldAction(
+        internal_name=field_def.internal_name,
+        action="create",
+        reason=f"declared but not present (type {field_def.type!r})",
+        xml=xml,
+    )
+
+
+def _new_field_xml(
+    field_def: FieldDef, *, field_id: str | None, lookup_list_id: str | None
+) -> str | None:
+    """Build specialized XML when a field type cannot use typed creation."""
     if field_def.type == "Calculated":
         if not field_id:
             raise FieldDefinitionError(
@@ -298,13 +320,7 @@ def plan_field_action(
             )
         xml = build_user_field_xml(field_def, field_id=field_id)
     elif field_def.type in _CHOICE_TYPES or field_def.type in _SIMPLE_TEXT_LIKE_TYPES:
-        xml = None
+        return None
     else:
         raise FieldDefinitionError(f"unsupported field type '{field_def.type}'")
-
-    return FieldAction(
-        internal_name=field_def.internal_name,
-        action="create",
-        reason=f"declared but not present (type {field_def.type!r})",
-        xml=xml,
-    )
+    return xml

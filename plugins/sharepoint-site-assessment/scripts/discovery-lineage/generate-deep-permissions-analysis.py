@@ -8,6 +8,18 @@ and generates deterministic, high-quality security & permissions reports:
   1. SPO-GROUP-PROVISIONING-CHECKLIST.md
   2. unique-permissions-exception-report.md
   3. security-analysis-summary.md
+
+Purpose:
+    Summarize supplied permissions evidence into review checklists and exception reports.
+
+Key Input Dependencies:
+    - Caller-supplied permissions inventory JSON and bundled checklist/exception report templates.
+
+Function index:
+    - analyze_permissions_data
+    - generate_checklist_report
+    - generate_exception_report
+    - main
 """
 
 import argparse
@@ -18,7 +30,9 @@ from datetime import date
 from pathlib import Path
 
 
+# Normalize either flat permission entries or the exported grouped shape for reporting.
 def analyze_permissions_data(data) -> dict:
+    """Summarize principals and objects with unique role assignments."""
     if isinstance(data, list):
         # Flatten array of permission entries
         groups_set = {}
@@ -66,7 +80,9 @@ def analyze_permissions_data(data) -> dict:
     }
 
 
+# Render the group-provisioning checklist from normalized permission evidence.
 def generate_checklist_report(summary: dict, site_name: str, strip_prefixes=()) -> str:
+    """Render group mappings and permission cautions for the target site."""
     today_str = date.today().strftime("%Y-%m-%d")
     
     rows = []
@@ -121,7 +137,9 @@ def generate_checklist_report(summary: dict, site_name: str, strip_prefixes=()) 
 """
 
 
+# Render details for groups and objects whose permissions do not inherit.
 def generate_exception_report(summary: dict, site_name: str) -> str:
+    """Render the unique-permissions exception report from normalized evidence."""
     today_str = date.today().strftime("%Y-%m-%d")
 
     group_rows = []
@@ -173,7 +191,9 @@ Every list and document library with broken permission inheritance (`HasUniqueRo
 """
 
 
+# Parse the command-line options, run the selected workflow, and report its outputs.
 def main() -> None:
+    """Parse the command-line options, run the selected workflow, and report its outputs."""
     p = argparse.ArgumentParser(description="Generate deep security and permissions analysis reports.")
     p.add_argument("--permissions", help="Path to permissions_inventory.json or all_permissions.json")
     p.add_argument("--output-dir", help="Directory for output markdown files")

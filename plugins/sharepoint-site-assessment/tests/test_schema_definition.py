@@ -14,6 +14,15 @@ Layer: sharepoint-schema / plugin-local tests
 Key Input Dependencies:
     - schema_export (fixture loading)
     - schema_definition (module under test)
+
+Function index:
+    - test_generates_full_definition_from_a_healthy_export
+    - test_degraded_export_produces_honest_non_observed_definition
+    - test_partial_export_is_reported_as_partial_not_observed
+    - test_list_with_unreadable_fields_section_is_still_recorded_honestly
+    - test_json_round_trip_preserves_shape
+    - test_field_definition_round_trip
+    - test_module_has_no_project_literals_or_tenant_urls
 """
 
 import json
@@ -34,7 +43,9 @@ from schema_definition import (  # noqa: E402
 FIXTURES = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "exports"
 
 
+# Generates full definition from a healthy export.
 def test_generates_full_definition_from_a_healthy_export():
+    """Generates full definition from a healthy export."""
     export = load_schema_export(FIXTURES / "baseline", label="baseline")
     definition = generate_schema_definition(export, label="baseline")
 
@@ -59,7 +70,9 @@ def test_generates_full_definition_from_a_healthy_export():
     assert field_names == {"alpha", "legacy_ref"}
 
 
+# Degraded export produces honest non observed definition.
 def test_degraded_export_produces_honest_non_observed_definition(tmp_path):
+    """Degraded export produces honest non observed definition."""
     export = load_schema_export(tmp_path / "does-not-exist", label="ghost")
     definition = generate_schema_definition(export, label="ghost")
 
@@ -69,7 +82,9 @@ def test_degraded_export_produces_honest_non_observed_definition(tmp_path):
     assert definition.lists == ()
 
 
+# Partial export is reported as partial not observed.
 def test_partial_export_is_reported_as_partial_not_observed(tmp_path):
+    """Partial export is reported as partial not observed."""
     root = tmp_path / "partial"
     (root / "summary").mkdir(parents=True)
     (root / "summary" / "site_columns.json").write_text(
@@ -87,7 +102,9 @@ def test_partial_export_is_reported_as_partial_not_observed(tmp_path):
     assert definition.lists == ()
 
 
+# List with unreadable fields section is still recorded honestly.
 def test_list_with_unreadable_fields_section_is_still_recorded_honestly(tmp_path):
+    """List with unreadable fields section is still recorded honestly."""
     root = tmp_path / "q"
     (root / "summary").mkdir(parents=True)
     (root / "summary" / "site_columns.json").write_text("[]", encoding="utf-8")
@@ -107,7 +124,9 @@ def test_list_with_unreadable_fields_section_is_still_recorded_honestly(tmp_path
     assert other.fields == ()
 
 
+# Json round trip preserves shape.
 def test_json_round_trip_preserves_shape():
+    """Json round trip preserves shape."""
     export = load_schema_export(FIXTURES / "baseline", label="baseline")
     definition = generate_schema_definition(export, label="baseline")
 
@@ -118,7 +137,9 @@ def test_json_round_trip_preserves_shape():
     assert restored == definition
 
 
+# Field definition round trip.
 def test_field_definition_round_trip():
+    """Field definition round trip."""
     field = FieldDefinition(
         internal_name="alpha",
         display_name="Alpha",
@@ -131,7 +152,9 @@ def test_field_definition_round_trip():
     assert FieldDefinition.from_dict(field.to_dict()) == field
 
 
+# Module has no project literals or tenant urls.
 def test_module_has_no_project_literals_or_tenant_urls():
+    """Module has no project literals or tenant urls."""
     import re
 
     source = Path(__file__).resolve().parents[1] / "scripts" / "schema_definition.py"

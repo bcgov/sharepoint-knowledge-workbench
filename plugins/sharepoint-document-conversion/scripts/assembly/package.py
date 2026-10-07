@@ -1,6 +1,21 @@
-"""
-package.py
+"""package.py
 ==========
+
+Purpose:
+    Builds a STAGED canonical-content package (spec Section 6.3) from a confirmed `ConversionPlan` and a `chunking.SlicedDocument` (already reconciled/sliced by Task 8's `chunking.py` against cleaned markdown).
+
+Key Input Dependencies:
+    - json
+    - re
+    - sys
+    - dataclasses
+    - pathlib
+    - urllib.parse
+    - canonical_schema
+    - dispositions
+    - hashing
+    - publication_map
+    - topic_boundary_core
 
 Builds a STAGED canonical-content package (spec Section 6.3) from a
 confirmed `ConversionPlan` and a `chunking.SlicedDocument` (already
@@ -55,7 +70,29 @@ Media handling (see individual docstrings below for full detail):
       never be written in the first place, rather than being written now
       and only caught by a later validation pass that runs against
       already-staged (but broken) output.
-"""
+Key Functions:
+    - _decode_and_validate(): Reject unsafe media paths before disk access.
+    - rewrite_media_and_copy(): Deduplicate, copy, and rewrite chunk media.
+    - extract_media_refs(): Read staged media links from chunk Markdown.
+    - _write_chunk_output(): Persist one chunk and return its manifest entry.
+    - build_canonical_package(): Assemble the ordinary canonical package.
+    - _prepare_grouped_boundaries(): Derive confirmed grouped topic slices.
+    - _slice_for_member(): Resolve a boundary member to its source slice.
+    - _write_grouped_topic(): Persist a topic chunk and its lineage sidecar.
+    - build_grouped_canonical_package(): Assemble grouped topics and map.
+
+Key Functions Index:
+    - _decode_and_validate()
+    - rewrite_media_and_copy()
+    - rewrite_media_and_copy._copy_once()
+    - rewrite_media_and_copy._replace()
+    - extract_media_refs()
+    - _write_chunk_output()
+    - _prepare_grouped_boundaries()
+    - _slice_for_member()
+    - _write_grouped_topic()
+    - build_canonical_package()
+    - build_grouped_canonical_package()"""
 
 import json
 import re
@@ -116,6 +153,7 @@ _WINDOWS_DRIVE_ROOT_RE = re.compile(r"^[A-Za-z]:[\\/]")
 
 
 def _decode_and_validate(raw_ref: str) -> str:
+    """Decode a media URL and reject absolute or traversal-based file paths."""
     decoded = unquote(raw_ref)
     posix = PurePosixPath(decoded)
     is_windows_style = (
@@ -155,6 +193,7 @@ def rewrite_media_and_copy(chunk_items: list, raw_base_dir: Path, media_out_dir:
     media_filenames: list = []
 
     def _copy_once(decoded_ref: str) -> str:
+        """Copy a validated asset once, reusing hashes and disambiguating names."""
         source_path = raw_base_dir / decoded_ref
         if (
             not source_path.exists()
@@ -182,6 +221,7 @@ def rewrite_media_and_copy(chunk_items: list, raw_base_dir: Path, media_out_dir:
         return candidate
 
     def _replace(match: "re.Match") -> str:
+        """Replace one local Markdown image reference with its staged path."""
         prefix, raw_ref, suffix = match.group(1), match.group(2), match.group(3)
         if raw_ref.startswith(("http://", "https://")):
             return match.group(0)
@@ -211,6 +251,135 @@ def extract_media_refs(content: str) -> list:
 # ---------------------------------------------------------------------------
 # Canonical package assembly
 # ---------------------------------------------------------------------------
+
+def _write_chunk_output(
+    plan: "contracts.ConversionPlan",
+    chunk_slice: object,
+    source_order: int,
+    content: str,
+    chunks_dir: Path,
+) -> "contracts.ManifestChunk":
+    """Write one ordinary chunk and sidecar, returning its manifest record."""
+    anchor = chunk_slice.anchor
+    chunk_id = anchor.stable_key
+    content_file = f"chunks/{chunk_id}.md"
+    metadata_file = f"chunks/{chunk_id}.meta.json"
+    (chunks_dir / f"{chunk_id}.md").write_text(content)
+
+    meta = contracts.ChunkMetadata(
+        schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
+        chunk_id=chunk_id,
+        source_order=source_order,
+        source_heading_path=list(anchor.source_heading_path),
+        topic=anchor.heading_text,
+        content_type=plan.content_type,
+        template_profile=plan.template_profile,
+        source_sha256=plan.source.sha256,
+        plan_id=plan.plan_id,
+        content_file=content_file,
+        content_sha256=hashing.content_hash(content.encode("utf-8")),
+        local_links=[],
+        media_refs=extract_media_refs(content),
+    )
+    (chunks_dir / f"{chunk_id}.meta.json").write_text(
+        json.dumps(meta.to_dict(), indent=2, sort_keys=True)
+    )
+    return contracts.ManifestChunk(
+        chunk_id=chunk_id,
+        content_file=content_file,
+        metadata_file=metadata_file,
+        source_order=source_order,
+        source_heading_path=list(anchor.source_heading_path),
+    )
+
+
+def _prepare_grouped_boundaries(plan: "contracts.ConversionPlan", sliced_document: object) -> tuple:
+    """Create topic boundaries and a stable lookup for their source slices."""
+    headings = [
+        {
+            "level": chunk_slice.anchor.heading_level,
+            "text": chunk_slice.anchor.heading_text,
+            "path": list(chunk_slice.anchor.source_heading_path),
+            "occurrence": chunk_slice.anchor.occurrence,
+        }
+        for chunk_slice in sliced_document.chunks
+    ]
+    if plan.confirmed_topic_roots:
+        root_keys = {
+            (tuple(root["source_heading_path"]), root["occurrence"])
+            for root in plan.confirmed_topic_roots
+        }
+        boundaries = topic_grouping.compute_topic_boundaries_from_roots(
+            headings, root_keys
+        )
+    else:
+        # Plans without confirmed roots retain the original heuristic fallback.
+        boundaries = topic_grouping.compute_topic_boundaries(headings)
+    slices_by_path_occurrence = {
+        (
+            tuple(chunk_slice.anchor.source_heading_path),
+            chunk_slice.anchor.occurrence,
+        ): chunk_slice
+        for chunk_slice in sliced_document.chunks
+    }
+    return boundaries, slices_by_path_occurrence
+
+
+def _slice_for_member(member: object, slices_by_path_occurrence: dict) -> object:
+    """Resolve a grouped boundary member to its original source chunk slice."""
+    return slices_by_path_occurrence[(tuple(member.path), member.occurrence)]
+
+
+def _write_grouped_topic(
+    plan: "contracts.ConversionPlan",
+    boundary: object,
+    source_order: int,
+    content: str,
+    chunks_dir: Path,
+    slices_by_path_occurrence: dict,
+) -> "contracts.ManifestChunk":
+    """Write one grouped topic, preserving member anchors in its sidecar."""
+    chunk_id = boundary.topic_id
+    content_file = f"chunks/{chunk_id}.md"
+    metadata_file = f"chunks/{chunk_id}.meta.json"
+    (chunks_dir / f"{chunk_id}.md").write_text(content)
+
+    anchors_meta = [
+        {
+            "stable_key": _slice_for_member(member, slices_by_path_occurrence).anchor.stable_key,
+            "source_heading_path": list(member.path),
+            "occurrence": member.occurrence,
+            "heading_level": member.level,
+        }
+        for member in boundary.members
+    ]
+    meta = contracts.ChunkMetadata(
+        schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
+        chunk_id=chunk_id,
+        source_order=source_order,
+        source_heading_path=[boundary.title],
+        topic=boundary.title,
+        content_type=plan.content_type,
+        template_profile=plan.template_profile,
+        source_sha256=plan.source.sha256,
+        plan_id=plan.plan_id,
+        content_file=content_file,
+        content_sha256=hashing.content_hash(content.encode("utf-8")),
+        local_links=[],
+        media_refs=extract_media_refs(content),
+        anchors=anchors_meta,
+    )
+    (chunks_dir / f"{chunk_id}.meta.json").write_text(
+        json.dumps(meta.to_dict(), indent=2, sort_keys=True)
+    )
+    return contracts.ManifestChunk(
+        chunk_id=chunk_id,
+        content_file=content_file,
+        metadata_file=metadata_file,
+        source_order=source_order,
+        source_heading_path=[boundary.title],
+    )
+
 
 def build_canonical_package(
     plan: "contracts.ConversionPlan",
@@ -247,46 +416,16 @@ def build_canonical_package(
         chunk_items, raw_media_dir, media_dir
     )
 
-    source_sha256 = plan.source.sha256
-    manifest_chunks = []
-    for idx, chunk_slice in ordered:
-        anchor = chunk_slice.anchor
-        chunk_id = anchor.stable_key
-        content = rewritten_by_chunk_id[chunk_id]
-        content_file = f"chunks/{chunk_id}.md"
-        metadata_file = f"chunks/{chunk_id}.meta.json"
-
-        (chunks_dir / f"{chunk_id}.md").write_text(content)
-
-        content_sha256 = hashing.content_hash(content.encode("utf-8"))
-        meta = contracts.ChunkMetadata(
-            schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
-            chunk_id=chunk_id,
-            source_order=idx,
-            source_heading_path=list(anchor.source_heading_path),
-            topic=anchor.heading_text,
-            content_type=plan.content_type,
-            template_profile=plan.template_profile,
-            source_sha256=source_sha256,
-            plan_id=plan.plan_id,
-            content_file=content_file,
-            content_sha256=content_sha256,
-            local_links=[],
-            media_refs=extract_media_refs(content),
+    manifest_chunks = [
+        _write_chunk_output(
+            plan,
+            chunk_slice,
+            idx,
+            rewritten_by_chunk_id[chunk_slice.anchor.stable_key],
+            chunks_dir,
         )
-        (chunks_dir / f"{chunk_id}.meta.json").write_text(
-            json.dumps(meta.to_dict(), indent=2, sort_keys=True)
-        )
-
-        manifest_chunks.append(
-            contracts.ManifestChunk(
-                chunk_id=chunk_id,
-                content_file=content_file,
-                metadata_file=metadata_file,
-                source_order=idx,
-                source_heading_path=list(anchor.source_heading_path),
-            )
-        )
+        for idx, chunk_slice in ordered
+    ]
 
     manifest = contracts.Manifest(
         schema_version=contracts.MANIFEST_SCHEMA_VERSION,
@@ -294,7 +433,7 @@ def build_canonical_package(
             plugin="docx-to-content", plugin_version="0.1.0"
         ),
         source=contracts.ManifestSourceFingerprint(
-            path=plan.source.path, sha256=source_sha256
+            path=plan.source.path, sha256=plan.source.sha256
         ),
         plan_id=plan.plan_id,
         content_type=plan.content_type,
@@ -348,39 +487,17 @@ def build_grouped_canonical_package(
     media_dir = output_dir / "media"
     chunks_dir.mkdir(parents=True, exist_ok=True)
 
-    headings = [
-        {
-            "level": chunk_slice.anchor.heading_level,
-            "text": chunk_slice.anchor.heading_text,
-            "path": list(chunk_slice.anchor.source_heading_path),
-            "occurrence": chunk_slice.anchor.occurrence,
-        }
-        for chunk_slice in sliced_document.chunks
-    ]
-    if plan.confirmed_topic_roots:
-        root_keys = {
-            (tuple(r["source_heading_path"]), r["occurrence"])
-            for r in plan.confirmed_topic_roots
-        }
-        boundaries = topic_grouping.compute_topic_boundaries_from_roots(headings, root_keys)
-    else:
-        # No confirmed root set on this plan (e.g. a plan predating Task 18,
-        # or the "grouped" strategy chosen without a prior analyze pass) --
-        # fall back to recomputing the default heuristic.
-        boundaries = topic_grouping.compute_topic_boundaries(headings)
-
-    slices_by_path_occurrence = {
-        (tuple(chunk_slice.anchor.source_heading_path), chunk_slice.anchor.occurrence): chunk_slice
-        for chunk_slice in sliced_document.chunks
-    }
-
-    def _slice_for_member(member):
-        return slices_by_path_occurrence[(tuple(member.path), member.occurrence)]
+    boundaries, slices_by_path_occurrence = _prepare_grouped_boundaries(
+        plan, sliced_document
+    )
 
     chunk_items = [
         (
             boundary.topic_id,
-            "\n\n".join(_slice_for_member(m).content for m in boundary.members),
+            "\n\n".join(
+                _slice_for_member(member, slices_by_path_occurrence).content
+                for member in boundary.members
+            ),
         )
         for boundary in boundaries
     ]
@@ -388,53 +505,18 @@ def build_grouped_canonical_package(
         chunk_items, raw_media_dir, media_dir
     )
 
-    source_sha256 = plan.source.sha256
-    manifest_chunks = []
     topic_chunk_ids = {}
+    manifest_chunks = []
     for source_order, boundary in enumerate(boundaries):
-        content = rewritten_by_topic_id[boundary.topic_id]
-        content_file = f"chunks/{boundary.topic_id}.md"
-        metadata_file = f"chunks/{boundary.topic_id}.meta.json"
         topic_chunk_ids[boundary.topic_id] = boundary.topic_id
-
-        (chunks_dir / f"{boundary.topic_id}.md").write_text(content)
-
-        anchors_meta = [
-            {
-                "stable_key": _slice_for_member(m).anchor.stable_key,
-                "source_heading_path": list(m.path),
-                "occurrence": m.occurrence,
-                "heading_level": m.level,
-            }
-            for m in boundary.members
-        ]
-        meta = contracts.ChunkMetadata(
-            schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
-            chunk_id=boundary.topic_id,
-            source_order=source_order,
-            source_heading_path=[boundary.title],
-            topic=boundary.title,
-            content_type=plan.content_type,
-            template_profile=plan.template_profile,
-            source_sha256=source_sha256,
-            plan_id=plan.plan_id,
-            content_file=content_file,
-            content_sha256=hashing.content_hash(content.encode("utf-8")),
-            local_links=[],
-            media_refs=extract_media_refs(content),
-            anchors=anchors_meta,
-        )
-        (chunks_dir / f"{boundary.topic_id}.meta.json").write_text(
-            json.dumps(meta.to_dict(), indent=2, sort_keys=True)
-        )
-
         manifest_chunks.append(
-            contracts.ManifestChunk(
-                chunk_id=boundary.topic_id,
-                content_file=content_file,
-                metadata_file=metadata_file,
-                source_order=source_order,
-                source_heading_path=[boundary.title],
+            _write_grouped_topic(
+                plan,
+                boundary,
+                source_order,
+                rewritten_by_topic_id[boundary.topic_id],
+                chunks_dir,
+                slices_by_path_occurrence,
             )
         )
 
@@ -444,7 +526,7 @@ def build_grouped_canonical_package(
             plugin="docx-to-content", plugin_version="0.1.0"
         ),
         source=contracts.ManifestSourceFingerprint(
-            path=plan.source.path, sha256=source_sha256
+            path=plan.source.path, sha256=plan.source.sha256
         ),
         plan_id=plan.plan_id,
         content_type=plan.content_type,
@@ -478,4 +560,3 @@ def build_grouped_canonical_package(
     publication_map.write_publication_map(pub_map, output_dir)
 
     return manifest
-

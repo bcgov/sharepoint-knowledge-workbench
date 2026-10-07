@@ -10,7 +10,7 @@
     "should_trigger": true
   },
   {
-    "query": "Export a document from the Criminal Documents library to local storage",
+    "query": "Export a document from the Archive Documents library to local storage",
     "should_trigger": true
   },
   {

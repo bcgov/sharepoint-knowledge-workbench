@@ -1,0 +1,1 @@
+../../../references/sharepoint-audit-managed-metadata-acceptance-criteria.md

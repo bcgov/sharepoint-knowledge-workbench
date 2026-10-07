@@ -1,4 +1,9 @@
-"""
+"""Purpose:
+    Render generic app-registration service requests and provide registration setup guidance.
+
+Key Input Dependencies:
+    - Caller-provided request template text and answer mapping; no tenant config or network client.
+
 app_registration_request.py
 ==============================
 
@@ -77,6 +82,11 @@ Three exports:
    grants *which* sites and at what nominal level, though (per the
    caution above) the nominal level is not a reliable predictor of
    actual behavior for delegated sessions.
+
+Function Index:
+    - AppRegistrationRequestError
+    - render_service_request
+    - render_service_request._substitute
 """
 from __future__ import annotations
 
@@ -106,7 +116,9 @@ def render_service_request(template_text: str, answers: dict) -> str:
             f"template references placeholder(s) with no supplied answer: {', '.join(missing)}"
         )
 
+    # Replace each known placeholder in the request template and reject missing answers.
     def _substitute(match: "re.Match") -> str:
+        """Replace each known placeholder in the request template and reject missing answers."""
         return str(answers[match.group(1)])
 
     return _PLACEHOLDER_PATTERN.sub(_substitute, template_text)

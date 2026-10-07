@@ -1,0 +1,1 @@
+../../../references/provisioning/sharepoint-create-content-type-acceptance-criteria.md

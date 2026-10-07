@@ -6,6 +6,25 @@ generate-master-discovery-meta-review.py
 Reads all discovery outputs across the 13 discovery domains and generates
 the consolidated Master Discovery Meta-Review Catalog using:
   assets/templates/MASTER-DISCOVERY-META-REVIEW-template.md
+
+Purpose:
+    Combine observed discovery metrics into a consolidated meta-review report.
+
+Key Input Dependencies:
+    - Caller-supplied discovery JSON outputs, optional metrics JSON/config.psd1, and the bundled meta-review template.
+
+Function index:
+    - find_asset
+    - fmt
+    - analyze_meta_data
+    - generate_meta_report
+    - read_json
+    - _collect_page_metrics
+    - _collect_navigation_metrics
+    - _collect_link_and_group_metrics
+    - _collect_security_metrics
+    - collect_metrics
+    - main
 """
 
 import argparse
@@ -30,7 +49,9 @@ def find_asset(name: str) -> Path:
 UNAVAILABLE = "unavailable"
 
 
+# Represent missing metric values explicitly for report templates.
 def fmt(value) -> str:
+    """Return the unavailable marker for missing metrics, otherwise their text value."""
     return UNAVAILABLE if value is None else str(value)
 
 
@@ -55,7 +76,9 @@ def analyze_meta_data(metrics: dict, site_url: str) -> dict:
     return summary
 
 
+# Render the site-level review from observed discovery metrics and input problems.
 def generate_meta_report(summary: dict, site_name: str, problems=()) -> str:
+    """Fill the packaged review template or render a concise metric-list fallback."""
     today_str = date.today().strftime("%Y-%m-%d")
     missing = sorted(k for k, v in summary.items() if v is None)
     quality = ["", "## Data quality", ""]
@@ -95,41 +118,79 @@ def read_json(path: Path, problems: list):
         return None
 
 
-def collect_metrics(target_root: Path, problems: list) -> dict:
-    """Derive every metric from the discovery outputs; anything that cannot be derived stays None."""
-    m = {k: None for k in ("total_pages", "total_wps", "unique_wp_groups", "flagged_links", "total_groups", "custom_forms",
-                           "total_nav_nodes", "oob_pages", "custom_pages", "spfx_candidates")}
+def _collect_page_metrics(target_root: Path, problems: list[str]) -> dict:
+    """Read the ASPX manifest and inventory to derive page and web-part counts."""
+    metrics = {"total_pages": None, "total_wps": None}
     manifest_path = target_root / "all_aspx_pages" / "aspx-manifest.json"
     manifest = read_json(manifest_path, problems)
     if isinstance(manifest, (list, dict)):
-        m["total_pages"] = len(manifest)
+        metrics["total_pages"] = len(manifest)
     elif not manifest_path.exists() and (target_root / "all_aspx_pages").is_dir():
         # No manifest at all: count the downloaded pages (every sub-folder), and say so. An unreadable manifest is NOT replaced by a count.
-        m["total_pages"] = len(list((target_root / "all_aspx_pages").rglob("*.aspx")))
+        metrics["total_pages"] = len(list((target_root / "all_aspx_pages").rglob("*.aspx")))
         problems.append(f"{manifest_path} is absent; total_pages was counted from the downloaded .aspx files")
     inventory = read_json(target_root / "analysis" / "aspx-webpart-inventory.json", problems)
     if isinstance(inventory, list):
-        m["total_wps"] = sum(len(p.get("WebParts") or []) for p in inventory if isinstance(p, dict))
+        metrics["total_wps"] = sum(len(page.get("WebParts") or []) for page in inventory if isinstance(page, dict))
+    return metrics
+
+
+def _collect_link_and_group_metrics(target_root: Path, problems: list[str]) -> dict:
+    """Read web-part group and link summary files when their shapes are recognized."""
+    metrics = {"unique_wp_groups": None, "flagged_links": None}
     groups = read_json(target_root / "analysis" / "webpart-code-groups.json", problems)
     if isinstance(groups, dict) and isinstance(groups.get("groups"), list):
-        m["unique_wp_groups"] = len(groups["groups"])
+        metrics["unique_wp_groups"] = len(groups["groups"])
     links = read_json(target_root / "analysis" / "links" / "link-summary.json", problems)
     if isinstance(links, dict):
-        m["flagged_links"] = links.get("flagged_links")
+        metrics["flagged_links"] = links.get("flagged_links")
+    return metrics
+
+
+def _collect_security_metrics(target_root: Path, problems: list[str]) -> dict:
+    """Count permission groups and custom forms from their collected manifests."""
+    metrics = {"total_groups": None, "custom_forms": None}
     perms = read_json(target_root / "analysis" / "security" / "permissions_inventory.json", problems)
     if isinstance(perms, dict) and isinstance(perms.get("Groups"), list):
-        m["total_groups"] = len(perms["Groups"])
+        metrics["total_groups"] = len(perms["Groups"])
     forms = read_json(target_root / "forms" / "custom-forms-manifest.json", problems)
     if isinstance(forms, list):
-        m["custom_forms"] = len(forms)
+        metrics["custom_forms"] = len(forms)
+    return metrics
+
+
+def _collect_navigation_metrics(target_root: Path, problems: list[str]) -> dict:
+    """Combine top-navigation and quick-launch node counts when either was observed."""
     top = read_json(target_root / "analysis" / "navigation" / "top-nav.json", problems)
     quick = read_json(target_root / "analysis" / "navigation" / "quick-launch-nav.json", problems)
+    count = None
     if isinstance(top, list) or isinstance(quick, list):
-        m["total_nav_nodes"] = len(top or []) + len(quick or [])
-    return m
+        count = len(top or []) + len(quick or [])
+    return {"total_nav_nodes": count}
 
 
+def collect_metrics(target_root: Path, problems: list[str]) -> dict:
+    """Derive available metrics from discovery outputs and leave absent values unset."""
+    metrics = {
+        key: None
+        for key in (
+            "total_pages", "total_wps", "unique_wp_groups", "flagged_links", "total_groups",
+            "custom_forms", "total_nav_nodes", "oob_pages", "custom_pages", "spfx_candidates",
+        )
+    }
+    for collector in (
+        _collect_page_metrics,
+        _collect_link_and_group_metrics,
+        _collect_security_metrics,
+        _collect_navigation_metrics,
+    ):
+        metrics.update(collector(target_root, problems))
+    return metrics
+
+
+# Parse the command-line options, run the selected workflow, and report its outputs.
 def main() -> None:
+    """Parse the command-line options, run the selected workflow, and report its outputs."""
     p = argparse.ArgumentParser(description="Generate Master Discovery Meta-Review Report.")
     p.add_argument("--output-dir", help="Directory for output markdown files")
     p.add_argument("--site-name", default="Source Site", help="Target site display name")

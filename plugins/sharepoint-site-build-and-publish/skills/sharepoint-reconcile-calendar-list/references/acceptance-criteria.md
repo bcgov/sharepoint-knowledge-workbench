@@ -1,0 +1,1 @@
+../../../references/schema-reconciliation/sharepoint-reconcile-calendar-list-acceptance-criteria.md

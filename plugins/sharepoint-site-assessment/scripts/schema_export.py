@@ -23,6 +23,18 @@ returning an empty collection for every kind of absence: a missing file
 unreadable file (`FORBIDDEN`) is not the same as a malformed one
 (`FAILED`), and a JSON shape this module does not understand
 (`NOT_SUPPORTED`) is not silently treated as zero items.
+
+Key Input Dependencies:
+    - Caller-supplied SharePoint discovery exports and the plugin-local schema/analysis modules used by this script.
+
+Function index:
+    - SectionStatus
+    - SectionResult
+    - ExportLayout
+    - SchemaExport
+    - _load_section
+    - _overall_status
+    - load_schema_export
 """
 
 from __future__ import annotations
@@ -89,7 +101,9 @@ class SchemaExport:
     status: SectionStatus = SectionStatus.UNAVAILABLE
 
 
+# Read one schema-export JSON section and report its parse, permission, shape, and duplicate-key outcome.
 def _load_section(path: Path, key_property: str) -> SectionResult:
+    """Read one schema-export JSON section and report its parse, permission, shape, and duplicate-key outcome."""
     if not path.is_file():
         return SectionResult(
             status=SectionStatus.UNAVAILABLE,
@@ -143,7 +157,9 @@ def _load_section(path: Path, key_property: str) -> SectionResult:
     return SectionResult(status=status, items=tuple(items), detail="", ambiguities=ambiguities)
 
 
+# Combine section outcomes into the aggregate schema-export status.
 def _overall_status(statuses) -> SectionStatus:
+    """Combine section outcomes into the aggregate schema-export status."""
     statuses = list(statuses)
     if not statuses:
         return SectionStatus.EMPTY

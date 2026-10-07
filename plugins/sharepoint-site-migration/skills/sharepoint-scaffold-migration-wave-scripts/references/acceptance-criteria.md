@@ -1,0 +1,1 @@
+../../../references/migration-planning/sharepoint-scaffold-migration-wave-scripts-acceptance-criteria.md

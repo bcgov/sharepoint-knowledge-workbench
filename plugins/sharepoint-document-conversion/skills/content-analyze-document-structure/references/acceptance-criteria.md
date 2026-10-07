@@ -1,0 +1,1 @@
+../../../references/structure-analysis/content-analyze-document-structure-acceptance-criteria.md

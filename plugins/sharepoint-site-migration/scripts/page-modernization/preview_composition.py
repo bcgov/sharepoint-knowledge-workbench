@@ -11,6 +11,16 @@ input folders and writes the one caller-named output file; no tenant I/O.
 
 Layer: CLI entry point, invoked as a real subprocess by the pipeline (and by
 this plugin's own tests).
+
+Key Input Dependencies:
+    - Page folder containing metadata.json and modern-preview.html.
+    - Chrome folder containing site-chrome.json and optional local assets.
+    - outcomes.py shared page-modernization result vocabulary.
+
+Function Index:
+    _extract_page_content, _render_top_nav, _render_breadcrumb,
+    _resolve_logo, _preview_chrome_gaps, _preview_page_title,
+    _preview_outcome, compose_preview, main
 """
 
 from __future__ import annotations
@@ -28,6 +38,7 @@ _MAX_VISIBLE_TOP_NAV = 5
 
 
 def _extract_page_content(page_html: str) -> str:
+    """Select the page-content region, body, or complete HTML as a fallback."""
     match = re.search(
         r'(?si)<(?:main|div) class="page-content">(?P<content>.*?)</(?:main|div)>', page_html
     )
@@ -40,6 +51,7 @@ def _extract_page_content(page_html: str) -> str:
 
 
 def _render_top_nav(top_nav: "list[dict]") -> str:
+    """Render navigation entries and group overflow under the More menu."""
     visible = list(top_nav[:_MAX_VISIBLE_TOP_NAV])
     overflow = top_nav[_MAX_VISIBLE_TOP_NAV:]
     if overflow:
@@ -64,6 +76,7 @@ def _render_top_nav(top_nav: "list[dict]") -> str:
 
 
 def _render_breadcrumb(ancestors: "list[dict]") -> str:
+    """Render ancestor links for the page breadcrumb."""
     return " <span class='bc-sep'>›</span> ".join(
         f"<span class='bc-item'><a href='{a.get('Url') or '#'}'>{a.get('Title') or ''}</a></span>"
         for a in ancestors
@@ -85,6 +98,38 @@ def _resolve_logo(web: dict, chrome_folder: Path, page_folder: Path) -> str:
                 shutil.copy(src_path, dest_path)
             return f"assets/{local_file}"
     return web.get("SiteLogoUrl") or ""
+
+
+def _preview_chrome_gaps(
+    logo_src: str, ancestors: list[dict], top_nav: list[dict]
+) -> list[str]:
+    """List required site-chrome components absent from the supplied export."""
+    missing = []
+    if not logo_src:
+        missing.append("logo")
+    if not ancestors:
+        missing.append("ancestors")
+    if not top_nav:
+        missing.append("navigation")
+    return missing
+
+
+def _preview_page_title(meta: dict) -> str:
+    """Choose the exported title or derive a neutral title from the page name."""
+    title = meta.get("Title")
+    if title:
+        return title
+    page_name = meta.get("PageName")
+    return re.sub(r"\.aspx$", "", page_name) if page_name else "Page Preview"
+
+
+def _preview_outcome(missing_chrome_parts: list[str]) -> dict:
+    """Build the observed/partial result for the available preview chrome."""
+    if missing_chrome_parts:
+        return outcomes.make_outcome(
+            "Partial", f"Missing chrome element(s): {', '.join(missing_chrome_parts)}"
+        )
+    return outcomes.make_outcome("Observed", "Preview composed with full chrome")
 
 
 _PAGE_TEMPLATE = """<!doctype html>
@@ -168,19 +213,9 @@ def compose_preview(page_folder: Path, chrome_folder: Path) -> "tuple[str | None
     top_nav = chrome.get("TopNav") or []
     ancestors = chrome.get("Ancestors") or []
 
-    missing_chrome_parts = []
     logo_src = _resolve_logo(web, chrome_folder, page_folder)
-    if not logo_src:
-        missing_chrome_parts.append("logo")
-    if not ancestors:
-        missing_chrome_parts.append("ancestors")
-    if not top_nav:
-        missing_chrome_parts.append("navigation")
-
-    page_title = meta.get("Title")
-    if not page_title:
-        page_name = meta.get("PageName")
-        page_title = re.sub(r"\.aspx$", "", page_name) if page_name else "Page Preview"
+    missing_chrome_parts = _preview_chrome_gaps(logo_src, ancestors, top_nav)
+    page_title = _preview_page_title(meta)
 
     web_title = web.get("Title") or "SharePoint Site"
     breadcrumb_html = _render_breadcrumb(ancestors)
@@ -197,17 +232,11 @@ def compose_preview(page_folder: Path, chrome_folder: Path) -> "tuple[str | None
         extracted_at=meta.get("ExtractedAt") or "",
     )
 
-    if missing_chrome_parts:
-        outcome = outcomes.make_outcome(
-            "Partial", f"Missing chrome element(s): {', '.join(missing_chrome_parts)}"
-        )
-    else:
-        outcome = outcomes.make_outcome("Observed", "Preview composed with full chrome")
-
-    return html, outcome
+    return html, _preview_outcome(missing_chrome_parts)
 
 
 def main(argv: "list[str] | None" = None) -> int:
+    """Compose a preview from local page and chrome folders and write it."""
     parser = argparse.ArgumentParser(
         description="Compose an offline preview by merging site chrome with extracted page content."
     )

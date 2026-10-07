@@ -1,6 +1,19 @@
-"""
-canonical_package.py
+"""canonical_package.py
 =====================
+
+Purpose:
+    The read-only, renderer-side consumer of a promoted canonical-content package (moved out of package.py during Phase 2's contract hardening).
+
+Key Input Dependencies:
+    - json
+    - sys
+    - dataclasses
+    - pathlib
+    - urllib.parse
+    - canonical_schema
+    - dispositions
+    - hashing
+    - publication_map
 
 The read-only, renderer-side consumer of a promoted canonical-content
 package (moved out of package.py during Phase 2's contract hardening).
@@ -20,7 +33,20 @@ CanonicalPackage.load() is a SECOND, independent integrity check at load
 time, on top of whatever validate_canonical.py already recorded in
 validation.json at convert time -- defense against the promoted package
 having been tampered with or corrupted on disk since promotion.
-"""
+
+Key Functions:
+    - _media_ref_to_filename(): Decode a staged media reference to its name.
+    - CanonicalPackage.load(): Validate package artifacts and load their content.
+
+Key Functions Index:
+    - _media_ref_to_filename()
+    - _load_manifest()
+    - _load_validation_report()
+    - _check_validation_report()
+    - _load_verified_chunks()
+    - _check_chunk_media()
+    - _load_publication_map()
+    - CanonicalPackage.load()"""
 
 import json
 import sys
@@ -78,6 +104,189 @@ def _media_ref_to_filename(ref: str) -> str:
     return unquote(name)
 
 
+def _load_manifest(package_dir: Path) -> "contracts.Manifest":
+    """Read and schema-validate the package manifest, raising a typed error."""
+    manifest_path = package_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise CanonicalPackageValidationError(f"{manifest_path} does not exist")
+    try:
+        return contracts.Manifest.from_dict(
+            json.loads(manifest_path.read_text(encoding="utf-8"))
+        )
+    except (ValueError, json.JSONDecodeError) as exc:
+        raise CanonicalPackageValidationError(
+            f"manifest.json failed schema validation: {exc}"
+        ) from exc
+
+
+def _load_validation_report(package_dir: Path) -> "contracts.ValidationReport":
+    """Read and schema-validate the persisted conversion validation report."""
+    validation_path = package_dir / "validation.json"
+    if not validation_path.exists():
+        raise CanonicalPackageValidationError(f"{validation_path} does not exist")
+    try:
+        return contracts.ValidationReport.from_dict(
+            json.loads(validation_path.read_text(encoding="utf-8"))
+        )
+    except (ValueError, json.JSONDecodeError) as exc:
+        raise CanonicalPackageValidationError(
+            f"validation.json failed schema validation: {exc}"
+        ) from exc
+
+
+def _check_validation_report(
+    package_dir: Path,
+    manifest: "contracts.Manifest",
+    validation_report: "contracts.ValidationReport",
+) -> None:
+    """Require an accepted report whose plan and source fingerprints match."""
+    if validation_report.status == "FAIL":
+        raise CanonicalPackageValidationError(
+            f"{package_dir} has validation status FAIL -- not renderable"
+        )
+    if validation_report.status == "WARN":
+        disposition_path = package_dir / "warning-disposition.json"
+        check = dispositions.apply_disposition(validation_report, disposition_path)
+        if not check.promotable:
+            undispositioned = [
+                dispositions.disposition_key(w) for w in check.undispositioned
+            ]
+            raise CanonicalPackageValidationError(
+                f"{package_dir} has validation status WARN with "
+                f"undispositioned warnings: {undispositioned}"
+            )
+    if validation_report.plan_id != manifest.plan_id:
+        raise CanonicalPackageIntegrityError(
+            f"validation.json plan_id={validation_report.plan_id!r} does "
+            f"not match manifest.json plan_id={manifest.plan_id!r} -- "
+            "the validation report does not describe this package"
+        )
+    if validation_report.source_sha256 != manifest.source.sha256:
+        raise CanonicalPackageIntegrityError(
+            f"validation.json source_sha256={validation_report.source_sha256!r} "
+            f"does not match manifest.json source.sha256="
+            f"{manifest.source.sha256!r} -- the validation report does "
+            "not describe this package"
+        )
+
+
+def _load_verified_chunks(
+    package_dir: Path, manifest: "contracts.Manifest"
+) -> list[LoadedChunk]:
+    """Read each chunk, validate its sidecar, and verify content and media."""
+    loaded_chunks = []
+    for manifest_chunk in manifest.chunks:
+        content_path = package_dir / manifest_chunk.content_file
+        metadata_path = package_dir / manifest_chunk.metadata_file
+        if not content_path.exists():
+            raise CanonicalPackageIntegrityError(
+                f"chunk {manifest_chunk.chunk_id!r}: missing content file {content_path}"
+            )
+        if not metadata_path.exists():
+            raise CanonicalPackageIntegrityError(
+                f"chunk {manifest_chunk.chunk_id!r}: missing metadata file {metadata_path}"
+            )
+
+        raw_bytes = content_path.read_bytes()
+        normalized_bytes = raw_bytes.replace(b"\r\n", b"\n")
+        content = normalized_bytes.decode("utf-8")
+        try:
+            metadata = contracts.ChunkMetadata.from_dict(
+                json.loads(metadata_path.read_text(encoding="utf-8"))
+            )
+        except (ValueError, json.JSONDecodeError) as exc:
+            raise CanonicalPackageValidationError(
+                f"chunk {manifest_chunk.chunk_id!r}: metadata failed schema validation: {exc}"
+            ) from exc
+
+        recomputed_hash = hashing.content_hash(normalized_bytes)
+        if recomputed_hash != metadata.content_sha256:
+            raise CanonicalPackageIntegrityError(
+                f"chunk {manifest_chunk.chunk_id!r}: content hash mismatch "
+                f"(sidecar says {metadata.content_sha256}, on-disk content "
+                f"hashes to {recomputed_hash}) -- package may have been "
+                "tampered with or corrupted since promotion"
+            )
+        _check_chunk_media(package_dir, manifest_chunk.chunk_id, metadata)
+        loaded_chunks.append(LoadedChunk(metadata=metadata, content=content))
+    return loaded_chunks
+
+
+def _check_chunk_media(
+    package_dir: Path,
+    chunk_id: str,
+    metadata: "contracts.ChunkMetadata",
+) -> None:
+    """Reject media references that do not point to existing package media."""
+    for ref in metadata.media_refs:
+        media_path = package_dir / "media" / _media_ref_to_filename(ref)
+        if not media_path.exists():
+            raise CanonicalPackageIntegrityError(
+                f"chunk {chunk_id!r}: media reference "
+                f"{ref!r} does not resolve to a file under "
+                f"{package_dir / 'media'}"
+            )
+
+
+def _load_publication_map(
+    package_dir: Path, manifest: "contracts.Manifest"
+) -> "object":
+    """Validate the grouped publication map or reject one on other strategies."""
+    try:
+        pub_map = publication_map.load_publication_map(package_dir)
+    except publication_map.MalformedPublicationMapError as exc:
+        if manifest.strategy == "grouped":
+            raise CanonicalPackageValidationError(
+                f"publication-map.json is malformed: {exc}"
+            ) from exc
+        raise CanonicalPackageValidationError(
+            f"{package_dir} has strategy={manifest.strategy!r} but an "
+            "unexpected or malformed publication-map.json is present"
+        ) from exc
+
+    if manifest.strategy != "grouped":
+        if pub_map is not None:
+            raise CanonicalPackageValidationError(
+                f"{package_dir} has strategy={manifest.strategy!r} but an "
+                "unexpected publication-map.json is present"
+            )
+        return None
+    if pub_map is None:
+        raise CanonicalPackageValidationError(
+            f"{package_dir} has strategy='grouped' but "
+            "publication-map.json is missing -- required at load "
+            "time, not only at convert time"
+        )
+    if pub_map.package_identity != manifest.plan_id:
+        raise CanonicalPackageIntegrityError(
+            f"publication-map.json package_identity="
+            f"{pub_map.package_identity!r} does not match "
+            f"manifest.json plan_id={manifest.plan_id!r} -- the "
+            "publication map does not describe this package"
+        )
+
+    manifest_chunk_ids = {chunk.chunk_id for chunk in manifest.chunks}
+    entry_chunk_ids = [entry.chunk_id for entry in pub_map.entries]
+    if len(set(entry_chunk_ids)) != len(entry_chunk_ids):
+        raise CanonicalPackageIntegrityError(
+            "publication-map.json has a duplicate chunk_id across entries"
+        )
+    if set(entry_chunk_ids) != manifest_chunk_ids:
+        raise CanonicalPackageIntegrityError(
+            "publication-map.json entries' chunk_id values do not "
+            "match manifest chunk ids -- may have been edited or "
+            "corrupted after promotion"
+        )
+    orders = sorted(entry.order for entry in pub_map.entries)
+    if orders != list(range(len(orders))):
+        raise CanonicalPackageIntegrityError(
+            "publication-map.json entry order is not a contiguous "
+            "0..N-1 sequence -- may have been edited or corrupted "
+            "after promotion"
+        )
+    return pub_map
+
+
 @dataclass(frozen=True)
 class LoadedChunk:
     """One chunk's metadata and content, already loaded into memory and
@@ -106,170 +315,11 @@ class CanonicalPackage:
         `package_dir`. Raises `CanonicalPackageError` (or a subclass) on
         any failure -- never returns a partially-valid package."""
         package_dir = Path(package_dir)
-
-        manifest_path = package_dir / "manifest.json"
-        if not manifest_path.exists():
-            raise CanonicalPackageValidationError(f"{manifest_path} does not exist")
-        try:
-            manifest = contracts.Manifest.from_dict(json.loads(manifest_path.read_text(encoding="utf-8")))
-        except (ValueError, json.JSONDecodeError) as exc:
-            raise CanonicalPackageValidationError(
-                f"manifest.json failed schema validation: {exc}"
-            ) from exc
-
-        validation_path = package_dir / "validation.json"
-        if not validation_path.exists():
-            raise CanonicalPackageValidationError(f"{validation_path} does not exist")
-        try:
-            validation_report = contracts.ValidationReport.from_dict(
-                json.loads(validation_path.read_text(encoding="utf-8"))
-            )
-        except (ValueError, json.JSONDecodeError) as exc:
-            raise CanonicalPackageValidationError(
-                f"validation.json failed schema validation: {exc}"
-            ) from exc
-
-        if validation_report.status == "FAIL":
-            raise CanonicalPackageValidationError(
-                f"{package_dir} has validation status FAIL -- not renderable"
-            )
-        if validation_report.status == "WARN":
-            disposition_path = package_dir / "warning-disposition.json"
-            check = dispositions.apply_disposition(validation_report, disposition_path)
-            if not check.promotable:
-                undispositioned = [dispositions.disposition_key(w) for w in check.undispositioned]
-                raise CanonicalPackageValidationError(
-                    f"{package_dir} has validation status WARN with "
-                    f"undispositioned warnings: {undispositioned}"
-                )
-
-        # Lineage cross-check: validation.json must actually describe THIS
-        # manifest, not merely have a PASS/WARN status -- a validation
-        # report copied or left over from a different package must not
-        # silently authorize this one.
-        if validation_report.plan_id != manifest.plan_id:
-            raise CanonicalPackageIntegrityError(
-                f"validation.json plan_id={validation_report.plan_id!r} does "
-                f"not match manifest.json plan_id={manifest.plan_id!r} -- "
-                "the validation report does not describe this package"
-            )
-        if validation_report.source_sha256 != manifest.source.sha256:
-            raise CanonicalPackageIntegrityError(
-                f"validation.json source_sha256={validation_report.source_sha256!r} "
-                f"does not match manifest.json source.sha256="
-                f"{manifest.source.sha256!r} -- the validation report does "
-                "not describe this package"
-            )
-
-        loaded_chunks = []
-        for manifest_chunk in manifest.chunks:
-            content_path = package_dir / manifest_chunk.content_file
-            metadata_path = package_dir / manifest_chunk.metadata_file
-            if not content_path.exists():
-                raise CanonicalPackageIntegrityError(
-                    f"chunk {manifest_chunk.chunk_id!r}: missing content file {content_path}"
-                )
-            if not metadata_path.exists():
-                raise CanonicalPackageIntegrityError(
-                    f"chunk {manifest_chunk.chunk_id!r}: missing metadata file {metadata_path}"
-                )
-
-            raw_bytes = content_path.read_bytes()
-            # Normalize CRLF -> LF if git on Windows touched line endings
-            normalized_bytes = raw_bytes.replace(b"\r\n", b"\n")
-            content = normalized_bytes.decode("utf-8")
-            try:
-                metadata = contracts.ChunkMetadata.from_dict(json.loads(metadata_path.read_text(encoding="utf-8")))
-            except (ValueError, json.JSONDecodeError) as exc:
-                raise CanonicalPackageValidationError(
-                    f"chunk {manifest_chunk.chunk_id!r}: metadata failed schema validation: {exc}"
-                ) from exc
-
-            recomputed_hash = hashing.content_hash(normalized_bytes)
-            if recomputed_hash != metadata.content_sha256:
-                raise CanonicalPackageIntegrityError(
-                    f"chunk {manifest_chunk.chunk_id!r}: content hash mismatch "
-                    f"(sidecar says {metadata.content_sha256}, on-disk content "
-                    f"hashes to {recomputed_hash}) -- package may have been "
-                    "tampered with or corrupted since promotion"
-                )
-
-            for ref in metadata.media_refs:
-                media_path = package_dir / "media" / _media_ref_to_filename(ref)
-                if not media_path.exists():
-                    raise CanonicalPackageIntegrityError(
-                        f"chunk {manifest_chunk.chunk_id!r}: media reference "
-                        f"{ref!r} does not resolve to a file under "
-                        f"{package_dir / 'media'}"
-                    )
-
-            loaded_chunks.append(LoadedChunk(metadata=metadata, content=content))
-
-        pub_map = None
-        if manifest.strategy == "grouped":
-            try:
-                pub_map = publication_map.load_publication_map(package_dir)
-            except publication_map.MalformedPublicationMapError as exc:
-                raise CanonicalPackageValidationError(
-                    f"publication-map.json is malformed: {exc}"
-                ) from exc
-
-            if pub_map is None:
-                raise CanonicalPackageValidationError(
-                    f"{package_dir} has strategy='grouped' but "
-                    "publication-map.json is missing -- required at load "
-                    "time, not only at convert time"
-                )
-
-            if pub_map.package_identity != manifest.plan_id:
-                raise CanonicalPackageIntegrityError(
-                    f"publication-map.json package_identity="
-                    f"{pub_map.package_identity!r} does not match "
-                    f"manifest.json plan_id={manifest.plan_id!r} -- the "
-                    "publication map does not describe this package"
-                )
-
-            manifest_chunk_ids = {c.chunk_id for c in manifest.chunks}
-            entry_chunk_ids = [e.chunk_id for e in pub_map.entries]
-            if len(set(entry_chunk_ids)) != len(entry_chunk_ids):
-                raise CanonicalPackageIntegrityError(
-                    "publication-map.json has a duplicate chunk_id across entries"
-                )
-            if set(entry_chunk_ids) != manifest_chunk_ids:
-                raise CanonicalPackageIntegrityError(
-                    "publication-map.json entries' chunk_id values do not "
-                    "match manifest chunk ids -- may have been edited or "
-                    "corrupted after promotion"
-                )
-            orders = sorted(e.order for e in pub_map.entries)
-            if orders != list(range(len(orders))):
-                raise CanonicalPackageIntegrityError(
-                    "publication-map.json entry order is not a contiguous "
-                    "0..N-1 sequence -- may have been edited or corrupted "
-                    "after promotion"
-                )
-        else:
-            # Non-grouped package: publication-map.json must not be present.
-            # validate_canonical.py rejects this at convert time, but load()
-            # re-checks independently since the file could have been added
-            # (or corrupted) after promotion. If the file exists but is
-            # malformed, publication_map.load_publication_map(...) raises
-            # MalformedPublicationMapError; treat that the same as an
-            # unexpected publication-map presence and raise a
-            # CanonicalPackageValidationError to preserve this module's
-            # `CanonicalPackageError`-based contract.
-            try:
-                unexpected = publication_map.load_publication_map(package_dir)
-            except publication_map.MalformedPublicationMapError as exc:
-                raise CanonicalPackageValidationError(
-                    f"{package_dir} has strategy={manifest.strategy!r} but an "
-                    "unexpected or malformed publication-map.json is present"
-                ) from exc
-            if unexpected is not None:
-                raise CanonicalPackageValidationError(
-                    f"{package_dir} has strategy={manifest.strategy!r} but an "
-                    "unexpected publication-map.json is present"
-                )
+        manifest = _load_manifest(package_dir)
+        validation_report = _load_validation_report(package_dir)
+        _check_validation_report(package_dir, manifest, validation_report)
+        loaded_chunks = _load_verified_chunks(package_dir, manifest)
+        pub_map = _load_publication_map(package_dir, manifest)
 
         return cls(
             manifest=manifest,
@@ -279,4 +329,3 @@ class CanonicalPackage:
             package_dir=package_dir,
             publication_map=pub_map,
         )
-

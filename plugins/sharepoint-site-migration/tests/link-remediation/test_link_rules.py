@@ -9,6 +9,8 @@ Purpose:
     default rules and no built-in host names.
 
 Layer: sharepoint-site-migration / tests
+
+Key Input Dependencies: link_rules, rewrite-rules.json, link_rules.py.
 """
 
 import json
@@ -22,6 +24,7 @@ FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
 
 def test_load_ruleset_reads_a_real_file():
+    """Verify load ruleset reads a real file."""
     ruleset = load_ruleset(FIXTURES / "rewrite-rules.json")
 
     assert isinstance(ruleset, RewriteRuleset)
@@ -31,6 +34,7 @@ def test_load_ruleset_reads_a_real_file():
 
 
 def test_rules_are_applied_in_declared_order_most_specific_first():
+    """Verify rules are applied in declared order most specific first."""
     ruleset = load_ruleset(FIXTURES / "rewrite-rules.json")
     rewritten, applied = ruleset.apply("http://legacy.example.internal/Pages/overview.aspx")
 
@@ -39,6 +43,7 @@ def test_rules_are_applied_in_declared_order_most_specific_first():
 
 
 def test_apply_returns_input_unchanged_when_no_rule_matches():
+    """Verify apply returns input unchanged when no rule matches."""
     ruleset = load_ruleset(FIXTURES / "rewrite-rules.json")
     rewritten, applied = ruleset.apply("https://www.example.org/reference")
 
@@ -47,6 +52,7 @@ def test_apply_returns_input_unchanged_when_no_rule_matches():
 
 
 def test_matching_is_case_insensitive():
+    """Verify matching is case insensitive."""
     ruleset = RewriteRuleset.from_dict({"rules": [{"match": "/pages/", "replacement": "/SitePages/"}]})
     rewritten, applied = ruleset.apply("/PAGES/a.aspx")
 
@@ -55,6 +61,7 @@ def test_matching_is_case_insensitive():
 
 
 def test_match_is_a_literal_not_a_regex():
+    """Verify match is a literal not a regex."""
     ruleset = RewriteRuleset.from_dict({"rules": [{"match": "a.b", "replacement": "X"}]})
 
     assert ruleset.apply("axb")[0] == "axb"
@@ -62,6 +69,7 @@ def test_match_is_a_literal_not_a_regex():
 
 
 def test_missing_ruleset_file_raises_rulesetError(tmp_path):
+    """Verify missing ruleset file raises rulesetError."""
     with pytest.raises(RulesetError) as excinfo:
         load_ruleset(tmp_path / "nope.json")
 
@@ -69,6 +77,7 @@ def test_missing_ruleset_file_raises_rulesetError(tmp_path):
 
 
 def test_malformed_json_raises_rulesetError(tmp_path):
+    """Verify malformed json raises rulesetError."""
     bad = tmp_path / "bad.json"
     bad.write_text("{ not json ")
 
@@ -77,6 +86,7 @@ def test_malformed_json_raises_rulesetError(tmp_path):
 
 
 def test_empty_ruleset_is_rejected(tmp_path):
+    """Verify empty ruleset is rejected."""
     empty = tmp_path / "empty.json"
     empty.write_text(json.dumps({"rules": []}))
 
@@ -96,11 +106,13 @@ def test_empty_ruleset_is_rejected(tmp_path):
     ],
 )
 def test_malformed_rule_entries_are_rejected(rule):
+    """Verify malformed rule entries are rejected."""
     with pytest.raises(RulesetError):
         RewriteRuleset.from_dict({"rules": [rule]})
 
 
 def test_module_ships_no_default_rules_and_no_urls():
+    """Verify module ships no default rules and no urls."""
     source = (Path(__file__).resolve().parents[2] / "scripts" / "link-remediation" / "link_rules.py").read_text()
 
     assert "http://" not in source
@@ -109,6 +121,7 @@ def test_module_ships_no_default_rules_and_no_urls():
 
 
 def test_replacement_with_backslashes_is_literal_not_regex_template():
+    """Verify replacement with backslashes is literal not regex template."""
     rule = RewriteRule(match="http://share", replacement=r"\\server\share")
     rewritten, matched = rule.apply("http://share/docs")
     assert matched is True

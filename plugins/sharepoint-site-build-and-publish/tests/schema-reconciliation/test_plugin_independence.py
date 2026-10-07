@@ -10,6 +10,21 @@ Purpose:
     anywhere in the shipped tree.
 
 Layer: sharepoint-site-build-and-publish / tests
+
+
+Key Input Dependencies:
+    - The plugin's runtime file tree and declared genericity/security invariants.
+
+Function Index:
+    _scoped_rglob, _shipped_files, test_runtime_tree_is_literal_free_scan_is_not_vacuous,
+    test_no_project_literal_anywhere_in_the_plugin,
+    test_no_runtime_reference_to_the_source_repository,
+    test_no_guid_shaped_identifier_is_shipped,
+    test_every_script_module_imports_with_no_third_party_dependency,
+    test_no_module_lives_only_inside_a_skill_directory,
+    _is_runtime_source, _matching_transport_calls,
+    _transport_findings_in_file, _find_live_transport_calls,
+    test_no_live_pnp_or_csom_or_network_transport_ships
 """
 
 import re
@@ -69,7 +84,9 @@ def _shipped_files():
         yield path
 
 
+# Verify the contract that runtime tree is literal free scan is not vacuous.
 def test_runtime_tree_is_literal_free_scan_is_not_vacuous():
+    """Verify the contract that runtime tree is literal free scan is not vacuous."""
     runtime = list(_shipped_files())
     assert runtime, "genericity scan found no runtime files -- gate is vacuous"
     assert any(path.suffix == ".py" for path in runtime), (
@@ -77,8 +94,10 @@ def test_runtime_tree_is_literal_free_scan_is_not_vacuous():
     )
 
 
+# Verify the contract that no project literal anywhere in the plugin.
 @pytest.mark.parametrize("literal", PROJECT_LITERALS)
 def test_no_project_literal_anywhere_in_the_plugin(literal):
+    """Verify the contract that no project literal anywhere in the plugin."""
     if re.fullmatch(r"[\w.-]+", literal) and "." in literal:
         pattern = re.compile(re.escape(literal), re.IGNORECASE)
     else:
@@ -93,8 +112,10 @@ def test_no_project_literal_anywhere_in_the_plugin(literal):
     assert offenders == [], f"project literal {literal!r} found in: {offenders}"
 
 
+# Verify the contract that no runtime reference to the source repository.
 @pytest.mark.parametrize("marker", SOURCE_REPO_MARKERS)
 def test_no_runtime_reference_to_the_source_repository(marker):
+    """Verify the contract that no runtime reference to the source repository."""
     offenders = []
     for path in _shipped_files():
         if path.suffix not in {".py", ".json", ".toml", ".yaml"}:
@@ -105,7 +126,9 @@ def test_no_runtime_reference_to_the_source_repository(marker):
     assert offenders == [], f"source-repository marker {marker!r} found in: {offenders}"
 
 
+# Verify the contract that no guid shaped identifier is shipped.
 def test_no_guid_shaped_identifier_is_shipped():
+    """Verify the contract that no guid shaped identifier is shipped."""
     guid = re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.IGNORECASE)
     offenders = [
         str(path.relative_to(PLUGIN_ROOT))
@@ -115,7 +138,9 @@ def test_no_guid_shaped_identifier_is_shipped():
     assert offenders == []
 
 
+# Verify the contract that every script module imports with no third party dependency.
 def test_every_script_module_imports_with_no_third_party_dependency():
+    """Verify the contract that every script module imports with no third party dependency."""
     import importlib
     import sys
 
@@ -134,18 +159,57 @@ def test_no_module_lives_only_inside_a_skill_directory():
     plugin root, never the only real copy (self-evolution Hard Gate #12)."""
     offenders = []
     for path in (PLUGIN_ROOT / "skills").rglob("*"):
+        parts = path.relative_to(PLUGIN_ROOT).parts
+        if "__pycache__" in parts or path.suffix == ".pyc":
+            continue
         if path.is_file() and not path.is_symlink() and path.name not in {"SKILL.md", "evals.json", "task-success.json"}:
             offenders.append(str(path.relative_to(PLUGIN_ROOT)))
 
     assert offenders == []
 
 
-def test_no_live_pnp_or_csom_or_network_transport_ships():
-    """Zero tenant I/O ships in this plugin (Phase 9 spec s13, task hard
-    requirement #2): no PnP/CSOM call, no raw network call, anywhere in the
-    runtime script/code tree -- scans all code files (.py, .ps1, .sh), and bans
-    every PnP write-verb prefix, not an enumerable cmdlet list that goes
-    stale as new executors are written elsewhere in this ecosystem."""
+# Decide whether a path belongs to the shipped runtime source scanned by this test.
+def _is_runtime_source(path: Path) -> bool:
+    """Exclude non-code, tests, and generated artifacts from transport scanning."""
+    if not path.is_file() or path.suffix not in {".py", ".ps1", ".sh", ".cmd", ".bat"}:
+        return False
+    parts = path.relative_to(PLUGIN_ROOT).parts
+    if "__pycache__" in parts or path.suffix == ".pyc":
+        return False
+    if ".pytest_cache" in parts or ".egg-info" in " ".join(parts) or "tests" in parts:
+        return False
+    return True
+
+
+# Find exact transport names and write-verb prefixes in one source file's text.
+def _matching_transport_calls(
+    path: Path, text: str, forbidden_exact: list[str], forbidden_prefixes: list[str]
+) -> list[str]:
+    """Return each prohibited API marker with its source path."""
+    findings = []
+    for call in forbidden_exact:
+        if call in text:
+            findings.append(f"{path.relative_to(PLUGIN_ROOT)}: {call}")
+    for prefix in forbidden_prefixes:
+        for match in re.finditer(re.escape(prefix) + r"[A-Za-z]+", text):
+            findings.append(f"{path.relative_to(PLUGIN_ROOT)}: {match.group()}")
+    return findings
+
+
+# Inspect one eligible runtime source file for prohibited transport calls.
+def _transport_findings_in_file(
+    path: Path, forbidden_exact: list[str], forbidden_prefixes: list[str]
+) -> list[str]:
+    """Return forbidden transport calls found in one eligible runtime source file."""
+    if not _is_runtime_source(path):
+        return []
+    text = path.read_text(encoding="utf-8", errors="ignore")
+    return _matching_transport_calls(path, text, forbidden_exact, forbidden_prefixes)
+
+
+# Scan the plugin's shipped runtime tree for live transport calls.
+def _find_live_transport_calls() -> list[str]:
+    """Collect PnP, CSOM, and raw network calls from runtime files."""
     forbidden_exact = [
         "Connect-PnPOnline", "Get-PnPContext", "New-ClientContext",
         "requests.get", "requests.post", "urllib.request", "http.client",
@@ -154,25 +218,11 @@ def test_no_live_pnp_or_csom_or_network_transport_ships():
     forbidden_prefixes = ["Add-PnP", "New-PnP", "Set-PnP", "Remove-PnP", "Invoke-PnPSPRestMethod"]
     offenders = []
     for path in sorted(_scoped_rglob()):
-        if not path.is_file():
-            continue
-        if path.suffix not in {".py", ".ps1", ".sh", ".cmd", ".bat"}:
-            continue
-        parts = path.relative_to(PLUGIN_ROOT).parts
-        if "__pycache__" in parts or path.suffix in {".pyc"}:
-            continue
-        if ".pytest_cache" in parts or ".egg-info" in " ".join(parts):
-            continue
-        if "tests" in parts:
-            continue
-        text = path.read_text(encoding="utf-8", errors="ignore")
-        for call in forbidden_exact:
-            if call in text:
-                offenders.append(f"{path.relative_to(PLUGIN_ROOT)}: {call}")
-        for prefix in forbidden_prefixes:
-            for match in re.finditer(re.escape(prefix) + r"[A-Za-z]+", text):
-                offenders.append(f"{path.relative_to(PLUGIN_ROOT)}: {match.group()}")
-
-    assert offenders == []
+        offenders.extend(_transport_findings_in_file(path, forbidden_exact, forbidden_prefixes))
+    return offenders
 
 
+# Ensure this offline planning plugin ships no tenant transport code.
+def test_no_live_pnp_or_csom_or_network_transport_ships():
+    """Keep PnP, CSOM, and raw network transports outside the runtime planner plugin."""
+    assert _find_live_transport_calls() == []

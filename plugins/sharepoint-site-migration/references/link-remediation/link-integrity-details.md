@@ -5,7 +5,7 @@
 - [Resolver injection](#resolver-injection)
 - [Statuses and outcomes](#statuses-and-outcomes)
 - [Usage](#usage)
-- [Relationship to sharepoint-site-build-and-publish](#relationship-to-sharepoint-content-publication)
+- [Relationship to sharepoint-site-build-and-publish](#relationship-to-sharepoint-site-build-and-publish)
 - [Provenance](#provenance)
 
 ## Resolver injection

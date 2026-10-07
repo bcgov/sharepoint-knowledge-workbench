@@ -13,6 +13,9 @@ Intentional improvement: Baseline evaluated rule conditions with `eval()` and
 silently swallowed any rule that raised. This port uses a restricted AST
 evaluator and records every rejected rule in `skippedRules` with a reason --
 a malformed rule must be visible, not invisible.
+
+Purpose: Stage 3 tests -- data-driven modern layout selection.
+Key Input Dependencies: layout-rules.json, layout_selection.py.
 """
 
 import json
@@ -21,6 +24,7 @@ import sys
 
 
 def run_layout(scripts_dir, assets_dir, components, tmp_path, rules_path=None) -> dict:
+    """Test helper: run layout."""
     model_file = tmp_path / "component-model.json"
     model_file.write_text(json.dumps({"components": components}), encoding="utf-8")
     out_file = tmp_path / "layout-decision.json"
@@ -34,6 +38,7 @@ def run_layout(scripts_dir, assets_dir, components, tmp_path, rules_path=None) -
 
 
 def test_one_primary_few_secondary_is_one_column(scripts_dir, assets_dir, tmp_path):
+    """Verify one primary few secondary is one column."""
     d = run_layout(scripts_dir, assets_dir, [
         {"role": "Banner", "type": "ContentEditor"},
         {"role": "Primary", "type": "XsltListView"},
@@ -43,6 +48,7 @@ def test_one_primary_few_secondary_is_one_column(scripts_dir, assets_dir, tmp_pa
 
 
 def test_one_primary_three_secondary_is_two_column(scripts_dir, assets_dir, tmp_path):
+    """Verify one primary three secondary is two column."""
     d = run_layout(scripts_dir, assets_dir, [
         {"role": "Primary", "type": "XsltListView"},
         {"role": "Secondary", "type": "XsltListView"},
@@ -53,6 +59,7 @@ def test_one_primary_three_secondary_is_two_column(scripts_dir, assets_dir, tmp_
 
 
 def test_content_only_page_is_article(scripts_dir, assets_dir, tmp_path):
+    """Verify content only page is article."""
     d = run_layout(scripts_dir, assets_dir, [
         {"role": "Banner", "type": "ContentEditor"},
         {"role": "Banner", "type": "ContentEditor"},
@@ -61,11 +68,13 @@ def test_content_only_page_is_article(scripts_dir, assets_dir, tmp_path):
 
 
 def test_summary_links_only_page_matches_lr004(scripts_dir, assets_dir, tmp_path):
+    """Verify summary links only page matches lr004."""
     d = run_layout(scripts_dir, assets_dir, [{"role": "Secondary", "type": "SummaryLinks"}], tmp_path)
     assert (d["selectedLayout"], d["sectionTemplate"], d["ruleApplied"]) == ("Home", "OneColumn", "LR-004")
 
 
 def test_first_matching_rule_wins(scripts_dir, assets_dir, tmp_path):
+    """Verify first matching rule wins."""
     d = run_layout(scripts_dir, assets_dir, [
         {"role": "Primary", "type": "XsltListView"},
         {"role": "Banner", "type": "SummaryLinks"},
@@ -74,6 +83,7 @@ def test_first_matching_rule_wins(scripts_dir, assets_dir, tmp_path):
 
 
 def test_decision_carries_rule_pnp_flag_and_rationale(scripts_dir, assets_dir, tmp_path):
+    """Verify decision carries rule pnp flag and rationale."""
     d = run_layout(scripts_dir, assets_dir, [{"role": "Primary", "type": "XsltListView"}], tmp_path)
     assert d["ruleApplied"].startswith("LR-") or d["ruleApplied"] == "DEFAULT"
     assert d["pnpFlag"].startswith("-LayoutType")
@@ -81,6 +91,7 @@ def test_decision_carries_rule_pnp_flag_and_rationale(scripts_dir, assets_dir, t
 
 
 def test_empty_component_list_falls_back_to_default_and_reports_empty(scripts_dir, assets_dir, tmp_path):
+    """Verify empty component list falls back to default and reports empty."""
     d = run_layout(scripts_dir, assets_dir, [], tmp_path)
     assert d["selectedLayout"] == "Home"
     assert d["ruleApplied"] == "DEFAULT"
@@ -94,6 +105,7 @@ def test_packaged_rules_are_used_when_no_rules_flag_is_given(scripts_dir, assets
 
 
 def test_malformed_rule_condition_is_recorded_not_silently_skipped(scripts_dir, assets_dir, tmp_path):
+    """Verify malformed rule condition is recorded not silently skipped."""
     bad_rules = tmp_path / "bad-rules.json"
     bad_rules.write_text(json.dumps({"version": "test", "rules": [
         {"id": "BAD-001", "condition": "__import__('os').system('true')", "layout": "Home",
@@ -123,6 +135,7 @@ def test_rule_condition_cannot_execute_arbitrary_code(scripts_dir, assets_dir, t
 
 
 def test_missing_rules_file_fails_honestly(scripts_dir, tmp_path):
+    """Verify missing rules file fails honestly."""
     model_file = tmp_path / "m.json"
     model_file.write_text(json.dumps({"components": []}), encoding="utf-8")
     result = subprocess.run(

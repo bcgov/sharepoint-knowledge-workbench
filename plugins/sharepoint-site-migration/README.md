@@ -6,6 +6,17 @@ pages (plan, preview, single and library conversion, validation, reports), migra
 with two-pass lookup re-linking, and extracts and updates links in pages, documents and rich-text
 columns. Planning and analysis are read-only; most writing scripts are dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken; the preserved consumer-specific repair script in the content-audit folder is a documented exception (it writes unless -DryRun is passed), so check each script's own parameters.
 
+## Plugin layout
+
+```text
+plugins/sharepoint-site-migration/
+├── assets/
+├── references/
+├── scripts/
+├── skills/
+└── tests/
+```
+
 ## Skills by functional group
 
 ### Migrate and modernize SharePoint sites
@@ -13,6 +24,7 @@ columns. Planning and analysis are read-only; most writing scripts are dry-run b
 - `sharepoint-analyze-classic-pages` -- Stages 1-2 of classic page modernization. Parses exported classic .aspx content, view exports and connected-consumer overrides into a neutral component inventory, then classifies each component by role, type and...
 - `sharepoint-analyze-migration-dependencies` -- Deterministically shapes a caller-supplied dependency-matrix object list into a computed wave order (reusing wave_planning.plan_waves directly), gated by completeness checks (source coverage, orphan matrix entries,...
 - `sharepoint-audit-list-migration` -- Audit list and library content fidelity between SP2016 On-Premises and SharePoint Online. Reconciles multi-value and single-value identity lookup columns against ground truth, detects Item ID vs Case ID suffix...
+- `sharepoint-convert-legacy-aspx-to-html` -- Converts one eligible static legacy ASPX page to HTML for migration.
 - `sharepoint-convert-page-library-to-modern` -- Orchestrates classic-to-modern page conversion across every page in a library, one subprocess per page, with a resumable manifest and post-run validation. Use to convert a whole library in one run. Dry-run by...
 - `sharepoint-convert-page-to-modern` -- Converts a single classic SharePoint page to a modern Site Page with ConvertTo-PnPPage and stamps caller-supplied field-mapping and literal metadata onto the converted page. Use to convert one classic .aspx page...
 - `sharepoint-create-page-preview` -- Merges a site's structural chrome (navigation, header, logo, ancestors) with an already-extracted page's content (modern-preview.html plus metadata.json) into a single self-contained offline preview HTML file. Use so...

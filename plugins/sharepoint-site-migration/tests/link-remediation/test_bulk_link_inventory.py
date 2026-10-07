@@ -1,4 +1,8 @@
-"""Bulk local extraction preserves source identity and reports format coverage."""
+"""Bulk local extraction preserves source identity and reports format coverage.
+
+Purpose: Bulk local extraction preserves source identity and reports format coverage.
+Key Input Dependencies: scripts/link-remediation/export_link_inventory.py.
+"""
 import csv
 import importlib.util
 import json
@@ -10,6 +14,7 @@ SCRIPT = Path(__file__).resolve().parents[2] / "scripts/link-remediation/export_
 
 
 def load_exporter():
+    """Test helper: load exporter."""
     assert SCRIPT.exists(), "bulk link CSV exporter is missing"
     spec = importlib.util.spec_from_file_location("bulk_links", SCRIPT)
     module = importlib.util.module_from_spec(spec)
@@ -18,6 +23,7 @@ def load_exporter():
 
 
 def test_static_office_and_modern_sources(tmp_path):
+    """Verify static office and modern sources."""
     exporter = load_exporter()
     source = tmp_path / "source"
     (source / "a").mkdir(parents=True)
@@ -44,6 +50,7 @@ def test_static_office_and_modern_sources(tmp_path):
 
 
 def test_manifest_keeps_remote_url_and_download_failures(tmp_path):
+    """Verify manifest keeps remote url and download failures."""
     exporter = load_exporter()
     page = tmp_path / "local.html"
     page.write_text('<a href="relative.aspx">Next</a>', encoding="utf-8")
@@ -62,6 +69,7 @@ def test_manifest_keeps_remote_url_and_download_failures(tmp_path):
 
 
 def test_empty_and_unreadable_are_distinct(tmp_path):
+    """Verify empty and unreadable are distinct."""
     exporter = load_exporter()
     page = tmp_path / "empty.htm"
     page.write_text("<p>No links</p>", encoding="utf-8")
@@ -72,6 +80,7 @@ def test_empty_and_unreadable_are_distinct(tmp_path):
 
 
 def test_local_root_and_format_filtering_with_inventory_csv(tmp_path):
+    """Verify local root and format filtering with inventory csv."""
     exporter = load_exporter()
     download_root = tmp_path / "downloads"
     download_root.mkdir()
@@ -111,6 +120,7 @@ def test_local_root_and_format_filtering_with_inventory_csv(tmp_path):
 
 
 def test_webpart_json_and_xml_extraction(tmp_path):
+    """Verify webpart json and xml extraction."""
     exporter = load_exporter()
     source = tmp_path / "webparts"
     source.mkdir()

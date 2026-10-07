@@ -20,6 +20,31 @@ Usage:
         --inventory  01_source_sharepoint/analysis/aspx-webpart-inventory.json \\
         --rules      assets/templates/webpart-migration-rules.json \\
         --output-dir 01_source_sharepoint/analysis/
+
+Purpose:
+    Analyse an ASPX web-part inventory and create a reviewer-ready modernization plan.
+
+Key Input Dependencies:
+    - A caller-supplied ASPX web-part inventory JSON, migration-rules JSON, optional config.psd1, and output directory.
+
+Function index:
+    - find_asset
+    - load_rules
+    - classify_wp_category
+    - compute_complexity
+    - disposition_hint
+    - _analyse_page
+    - _summarize_web_parts
+    - _summarize_pages
+    - analyse
+    - _complexity_rows
+    - _classification_rows
+    - _disposition_rows
+    - _dependency_rows
+    - _custom_exception_rows
+    - _connected_rows
+    - generate_report
+    - main
 """
 
 import argparse
@@ -43,7 +68,9 @@ def find_asset(name: str) -> Path:
     return here.parents[2] / "assets" / "templates" / name
 
 
+# Load the caller-selected web-part migration rules from JSON.
 def load_rules(rules_path: Path) -> dict:
+    """Load the caller-selected web-part migration rules from JSON."""
     return json.loads(rules_path.read_text(encoding="utf-8"))
 
 
@@ -97,12 +124,103 @@ def compute_complexity(page: dict, rules: dict) -> tuple[float, str]:
     return round(score, 1), label
 
 
+# Return the configured reviewer hint for a page category, or the neutral fallback.
 def disposition_hint(page: dict, rules: dict) -> str:
+    """Return the configured reviewer hint for a page category, or the neutral fallback."""
     hints = rules.get("dispositionHints", {})
     return hints.get(page.get("Category", ""), "Review — apply Keep/Merge/Archive/Delete manually")
 
 
 # ── Core analysis ──────────────────────────────────────────────────────────────
+
+
+# Classify the web parts on one page and derive its page-level fields.
+def _analyse_page(
+    page: dict, rules: dict, category_counts: dict[str, int]
+) -> dict:
+    """Build the analyzed page record and update observed category totals."""
+    web_parts = page.get("WebParts", [])
+    score, complexity_label = compute_complexity(page, rules)
+    classified_wps = []
+    for web_part in web_parts:
+        category = web_part.get("Category", "Other")
+        rule = classify_wp_category(category, rules)
+        category_counts[category] += 1
+        classified_wps.append({
+            "category": category,
+            "typeName": web_part.get("TypeName", ""),
+            "title": web_part.get("Title", ""),
+            "listName": web_part.get("ListName", ""),
+            "approach": rule["approach"],
+            "modernEquivalent": rule["modernEquivalent"],
+        })
+    return {
+        "fileName": page.get("FileName", ""),
+        "category": page.get("Category", ""),
+        "listTitle": page.get("ListTitle", ""),
+        "webPartCount": len(web_parts),
+        "webPartCategories": sorted({wp["category"] for wp in classified_wps}),
+        "hasConnectedWebParts": page.get("ConnectedWPCount", 0) > 0,
+        "connectedWebPartCount": page.get("ConnectedWPCount", 0),
+        "hasCEWP": page.get("HasCEWP", False),
+        "hasSEWP": page.get("HasSEWP", False),
+        "complexityScore": score,
+        "complexityLabel": complexity_label,
+        "hasCustomException": any(
+            wp["approach"] == "custom-exception" for wp in classified_wps
+        ),
+        "dispositionHint": disposition_hint(page, rules),
+        "disposition": "",
+        "webParts": classified_wps,
+    }
+
+
+# Build category totals in the same order as the configured rule entries.
+def _summarize_web_parts(category_counts: dict[str, int], rules: dict) -> list[dict]:
+    """Create one summary row for each configured category retained by the report."""
+    summary = []
+    for rule in rules["webPartRules"]:
+        category = rule["category"]
+        count = category_counts.get(category, 0)
+        if count > 0 or category != "Other":
+            summary.append({
+                "category": category,
+                "totalInstances": count,
+                "approach": rule["approach"],
+                "modernEquivalent": rule["modernEquivalent"],
+                "notes": rule["notes"],
+            })
+    return summary
+
+
+# Count analyzed pages in the public report's complexity and approach groupings.
+def _summarize_pages(pages: list[dict]) -> dict:
+    """Calculate totals and grouped counts without changing page analysis records."""
+    return {
+        "totalPages": len(pages),
+        "totalWebParts": sum(page["webPartCount"] for page in pages),
+        "byComplexity": {
+            label: sum(1 for page in pages if page["complexityLabel"] == label)
+            for label in ("Critical", "High", "Medium", "Low")
+        },
+        "byApproach": {
+            "directly-convertible": sum(
+                1 for page in pages
+                if all(wp["approach"] == "directly-convertible" for wp in page["webParts"])
+                and page["webParts"]
+            ),
+            "replace-ootb": sum(
+                1 for page in pages
+                if page["webParts"] and not page["hasCustomException"]
+                and any(wp["approach"] == "replace-ootb" for wp in page["webParts"])
+            ),
+            "custom-exception": sum(1 for page in pages if page["hasCustomException"]),
+            "no-web-parts": sum(1 for page in pages if not page["webParts"]),
+        },
+        "connectedWebPartPages": sum(1 for page in pages if page["hasConnectedWebParts"]),
+        "sewpPages": sum(1 for page in pages if page["hasSEWP"]),
+    }
+
 
 def analyse(inventory: list[dict], rules: dict) -> dict:
     """
@@ -116,93 +234,11 @@ def analyse(inventory: list[dict], rules: dict) -> dict:
           "stats": {...}
         }
     """
-    pages_out = []
-    wp_category_counts: dict[str, int] = defaultdict(int)
-
-    for page in inventory:
-        wps = page.get("WebParts", [])
-        score, complexity_label = compute_complexity(page, rules)
-
-        # Classify each web part on this page
-        classified_wps = []
-        for wp in wps:
-            cat = wp.get("Category", "Other")
-            rule = classify_wp_category(cat, rules)
-            wp_category_counts[cat] += 1
-            classified_wps.append({
-                "category": cat,
-                "typeName": wp.get("TypeName", ""),
-                "title": wp.get("Title", ""),
-                "listName": wp.get("ListName", ""),
-                "approach": rule["approach"],
-                "modernEquivalent": rule["modernEquivalent"],
-            })
-
-        # Unique web part categories on this page
-        unique_cats = sorted(set(wp["category"] for wp in classified_wps))
-        has_custom_exception = any(wp["approach"] == "custom-exception" for wp in classified_wps)
-
-        pages_out.append({
-            "fileName": page.get("FileName", ""),
-            "category": page.get("Category", ""),
-            "listTitle": page.get("ListTitle", ""),
-            "webPartCount": len(wps),
-            "webPartCategories": unique_cats,
-            "hasConnectedWebParts": page.get("ConnectedWPCount", 0) > 0,
-            "connectedWebPartCount": page.get("ConnectedWPCount", 0),
-            "hasCEWP": page.get("HasCEWP", False),
-            "hasSEWP": page.get("HasSEWP", False),
-            "complexityScore": score,
-            "complexityLabel": complexity_label,
-            "hasCustomException": has_custom_exception,
-            "dispositionHint": disposition_hint(page, rules),
-            "disposition": "",  # filled in by human reviewer
-            "webParts": classified_wps,
-        })
-
-    # Web part summary across all pages
-    wp_summary = []
-    for rule in rules["webPartRules"]:
-        cat = rule["category"]
-        count = wp_category_counts.get(cat, 0)
-        if count > 0 or cat != "Other":
-            wp_summary.append({
-                "category": cat,
-                "totalInstances": count,
-                "approach": rule["approach"],
-                "modernEquivalent": rule["modernEquivalent"],
-                "notes": rule["notes"],
-            })
-
-    # Dependency matrix: one row per page, sorted by complexity desc
-    matrix = sorted(pages_out, key=lambda p: p["complexityScore"], reverse=True)
-
-    stats = {
-        "totalPages": len(pages_out),
-        "totalWebParts": sum(p["webPartCount"] for p in pages_out),
-        "byComplexity": {
-            "Critical": sum(1 for p in pages_out if p["complexityLabel"] == "Critical"),
-            "High": sum(1 for p in pages_out if p["complexityLabel"] == "High"),
-            "Medium": sum(1 for p in pages_out if p["complexityLabel"] == "Medium"),
-            "Low": sum(1 for p in pages_out if p["complexityLabel"] == "Low"),
-        },
-        "byApproach": {
-            "directly-convertible": sum(
-                1 for p in pages_out
-                if all(wp["approach"] == "directly-convertible" for wp in p["webParts"])
-                and p["webParts"]
-            ),
-            "replace-ootb": sum(
-                1 for p in pages_out
-                if p["webParts"] and not p["hasCustomException"]
-                and any(wp["approach"] == "replace-ootb" for wp in p["webParts"])
-            ),
-            "custom-exception": sum(1 for p in pages_out if p["hasCustomException"]),
-            "no-web-parts": sum(1 for p in pages_out if not p["webParts"]),
-        },
-        "connectedWebPartPages": sum(1 for p in pages_out if p["hasConnectedWebParts"]),
-        "sewpPages": sum(1 for p in pages_out if p["hasSEWP"]),
-    }
+    category_counts: dict[str, int] = defaultdict(int)
+    pages_out = [_analyse_page(page, rules, category_counts) for page in inventory]
+    wp_summary = _summarize_web_parts(category_counts, rules)
+    matrix = sorted(pages_out, key=lambda page: page["complexityScore"], reverse=True)
+    stats = _summarize_pages(pages_out)
 
     return {
         "generated": str(date.today()),
@@ -215,12 +251,11 @@ def analyse(inventory: list[dict], rules: dict) -> dict:
 
 # ── Report generation ──────────────────────────────────────────────────────────
 
+# Generate report.
+# Render each report section in its established order.
 def generate_report(plan: dict) -> str:
+    """Render the analysis plan as a reviewer-facing disposition worksheet."""
     stats = plan["stats"]
-    pages = plan["pages"]
-    wp_summary = plan["webPartSummary"]
-    matrix = plan["dependencyMatrix"]
-
     lines = [
         "# ASPX Content Analysis & Migration Plan",
         "",
@@ -236,139 +271,127 @@ def generate_report(plan: dict) -> str:
         "| Complexity | Pages |",
         "|:---|---:|",
     ]
-    for label in ("Critical", "High", "Medium", "Low"):
-        lines.append(f"| {label} | {stats['byComplexity'][label]} |")
+    lines.extend(_complexity_rows(stats))
+    lines.extend(_classification_rows(plan["webPartSummary"]))
+    lines.extend(_disposition_rows(plan["pages"]))
+    lines.extend(_dependency_rows(plan["dependencyMatrix"]))
+    lines.extend(_custom_exception_rows(plan["pages"]))
+    lines.extend(_connected_rows(plan["pages"]))
+    lines.extend([
+        "", "---", "",
+        "*Full data: `aspx-content-plan.json` in the same folder.*",
+        "*Next step: set Disposition for all rows in Section 3, then feed Keep/Merge pages into `sp-converting-aspx-pages` pipeline.*",
+    ])
+    return "\n".join(lines)
 
-    lines += [
-        "",
-        "### Migration approach distribution",
-        "",
-        "| Approach | Pages |",
-        "|:---|---:|",
+
+# Render page-complexity totals and the migration-approach summary.
+def _complexity_rows(stats: dict) -> list[str]:
+    """Render complexity counts, approach counts, and the classification heading."""
+    rows = [f"| {label} | {stats['byComplexity'][label]} |" for label in ("Critical", "High", "Medium", "Low")]
+    return rows + [
+        "", "### Migration approach distribution", "", "| Approach | Pages |", "|:---|---:|",
         f"| Directly convertible (all WPs) | {stats['byApproach']['directly-convertible']} |",
         f"| Replace OOTB (at least one) | {stats['byApproach']['replace-ootb']} |",
         f"| Custom exception required | {stats['byApproach']['custom-exception']} |",
-        f"| No web parts detected | {stats['byApproach']['no-web-parts']} |",
-        "",
+        f"| No web parts detected | {stats['byApproach']['no-web-parts']} |", "",
         f"**Pages with connected web parts:** {stats['connectedWebPartPages']} (no OOTB SPO equivalent — design detail-page separately)  ",
         f"**Pages with Script Editor WPs:** {stats['sewpPages']} (SEWP blocked in modern SPO — requires SPFx justification)",
-        "",
-        "---",
-        "",
-        "## 2. Web Part Classification",
-        "",
-        "| Category | Total Instances | Migration Approach | Modern Equivalent |",
-        "|:---|---:|:---|:---|",
+        "", "---", "", "## 2. Web Part Classification", "",
+        "| Category | Total Instances | Migration Approach | Modern Equivalent |", "|:---|---:|:---|:---|",
     ]
-    for wp in wp_summary:
-        if wp["totalInstances"] > 0:
-            lines.append(
-                f"| {wp['category']} | {wp['totalInstances']} | `{wp['approach']}` | {wp['modernEquivalent']} |"
-            )
 
-    lines += [
-        "",
-        "---",
-        "",
-        "## 3. Disposition Worksheet",
-        "",
+
+# Render observed web-part categories and start the reviewer worksheet.
+def _classification_rows(summary: list[dict]) -> list[str]:
+    """Render non-empty category rows followed by the disposition table header."""
+    rows = [
+        f"| {wp['category']} | {wp['totalInstances']} | `{wp['approach']}` | {wp['modernEquivalent']} |"
+        for wp in summary if wp["totalInstances"] > 0
+    ]
+    return rows + [
+        "", "---", "", "## 3. Disposition Worksheet", "",
         "> **Instructions:** Review the `Disposition Hint` column. Set `Disposition` for each page to one of:",
         "> `Keep` | `Merge` | `Archive` | `Delete`",
-        "> Pages marked Keep or Merge proceed to `sp-converting-aspx-pages` pipeline.",
-        "",
+        "> Pages marked Keep or Merge proceed to `sp-converting-aspx-pages` pipeline.", "",
         "| Page | Category | List | Complexity | WP Count | Custom Exception? | Connected WPs? | Disposition Hint | **Disposition** |",
         "|:---|:---|:---|:---|---:|:---|:---|:---|:---|",
     ]
-    for p in sorted(pages, key=lambda x: (x["category"], x["fileName"])):
-        exc = "Yes" if p["hasCustomException"] else "No"
-        conn = f"Yes ({p['connectedWebPartCount']})" if p["hasConnectedWebParts"] else "No"
-        hint = p["dispositionHint"].replace("|", "∣")
-        lines.append(
-            f"| {p['fileName']} | {p['category']} | {p['listTitle'] or '—'} "
-            f"| {p['complexityLabel']} ({p['complexityScore']}) | {p['webPartCount']} "
-            f"| {exc} | {conn} | {hint} |  |"
-        )
 
-    lines += [
-        "",
-        "---",
-        "",
-        "## 4. Page Dependency Matrix",
-        "",
+
+# Render disposition rows in the original category-and-name order.
+def _disposition_rows(pages: list[dict]) -> list[str]:
+    """Render sorted page rows and the dependency-matrix heading."""
+    rows = []
+    for page in sorted(pages, key=lambda item: (item["category"], item["fileName"])):
+        exception = "Yes" if page["hasCustomException"] else "No"
+        connected = f"Yes ({page['connectedWebPartCount']})" if page["hasConnectedWebParts"] else "No"
+        hint = page["dispositionHint"].replace("|", "∣")
+        rows.append(
+            f"| {page['fileName']} | {page['category']} | {page['listTitle'] or '—'} "
+            f"| {page['complexityLabel']} ({page['complexityScore']}) | {page['webPartCount']} "
+            f"| {exception} | {connected} | {hint} |  |"
+        )
+    return rows + [
+        "", "---", "", "## 4. Page Dependency Matrix", "",
         "> Pages sorted by complexity score descending. Use this to identify high-risk combinations",
-        "> and select representative test pages (aim to cover each unique WP combination at least once).",
-        "",
+        "> and select representative test pages (aim to cover each unique WP combination at least once).", "",
         "| Page | Complexity | Score | Web Part Categories | Connected? | CEWP? | SEWP? |",
         "|:---|:---|---:|:---|:---|:---|:---|",
     ]
-    for p in matrix:
-        cats = ", ".join(p["webPartCategories"]) if p["webPartCategories"] else "—"
-        conn = "Yes" if p["hasConnectedWebParts"] else "No"
-        cewp = "Yes" if p["hasCEWP"] else "No"
-        sewp = "Yes" if p["hasSEWP"] else "No"
-        lines.append(
-            f"| {p['fileName']} | {p['complexityLabel']} | {p['complexityScore']} "
-            f"| {cats} | {conn} | {cewp} | {sewp} |"
+
+
+# Render pages in the precomputed complexity order.
+def _dependency_rows(matrix: list[dict]) -> list[str]:
+    """Render dependency-matrix rows and the custom-exception heading."""
+    rows = []
+    for page in matrix:
+        categories = ", ".join(page["webPartCategories"]) if page["webPartCategories"] else "—"
+        connected = "Yes" if page["hasConnectedWebParts"] else "No"
+        cewp = "Yes" if page["hasCEWP"] else "No"
+        sewp = "Yes" if page["hasSEWP"] else "No"
+        rows.append(
+            f"| {page['fileName']} | {page['complexityLabel']} | {page['complexityScore']} "
+            f"| {categories} | {connected} | {cewp} | {sewp} |"
         )
-
-    lines += [
-        "",
-        "---",
-        "",
-        "## 5. Custom Exception Pages",
-        "",
+    return rows + [
+        "", "---", "", "## 5. Custom Exception Pages", "",
         "> These pages contain web parts requiring SPFx or Power Apps solutions.",
-        "> Each must be explicitly justified (business function, cost, support plan, named approver) before proceeding.",
-        "",
-        "| Page | Web Part | Type | Notes |",
-        "|:---|:---|:---|:---|",
+        "> Each must be explicitly justified (business function, cost, support plan, named approver) before proceeding.", "",
+        "| Page | Web Part | Type | Notes |", "|:---|:---|:---|:---|",
     ]
-    custom_found = False
-    for p in pages:
-        for wp in p["webParts"]:
-            if wp["approach"] == "custom-exception":
-                lines.append(
-                    f"| {p['fileName']} | {wp['category']} | {wp['typeName'] or '—'} "
-                    f"| {wp.get('modernEquivalent', '—')} |"
-                )
-                custom_found = True
-    if not custom_found:
-        lines.append("| — | — | — | No custom exceptions detected |")
 
-    lines += [
-        "",
-        "---",
-        "",
-        "## 6. Connected Web Part Pages",
-        "",
+
+# Render custom-exception web parts and the connected-page table header.
+def _custom_exception_rows(pages: list[dict]) -> list[str]:
+    """Render custom web-part rows or the established no-exceptions message."""
+    rows = [
+        f"| {page['fileName']} | {wp['category']} | {wp['typeName'] or '—'} | {wp.get('modernEquivalent', '—')} |"
+        for page in pages for wp in page["webParts"] if wp["approach"] == "custom-exception"
+    ]
+    return (rows or ["| — | — | — | No custom exceptions detected |"]) + [
+        "", "---", "", "## 6. Connected Web Part Pages", "",
         "> These pages use the SP2016 web part connection mechanism (parent list filters child web parts on row select).",
-        "> There is no OOTB equivalent in modern SPO. Each must be redesigned as a detail-page or navigation pattern.",
-        "",
-        "| Page | Connection Count |",
-        "|:---|---:|",
-    ]
-    conn_found = False
-    for p in pages:
-        if p["hasConnectedWebParts"]:
-            lines.append(f"| {p['fileName']} | {p['connectedWebPartCount']} |")
-            conn_found = True
-    if not conn_found:
-        lines.append("| — | No connected web part pages detected |")
-
-    lines += [
-        "",
-        "---",
-        "",
-        "*Full data: `aspx-content-plan.json` in the same folder.*",
-        "*Next step: set Disposition for all rows in Section 3, then feed Keep/Merge pages into `sp-converting-aspx-pages` pipeline.*",
+        "> There is no OOTB equivalent in modern SPO. Each must be redesigned as a detail-page or navigation pattern.", "",
+        "| Page | Connection Count |", "|:---|---:|",
     ]
 
-    return "\n".join(lines)
+
+# Render connected pages or the no-connections message.
+def _connected_rows(pages: list[dict]) -> list[str]:
+    """Render only pages with connected web parts, preserving the empty-state wording."""
+    rows = [
+        f"| {page['fileName']} | {page['connectedWebPartCount']} |"
+        for page in pages if page["hasConnectedWebParts"]
+    ]
+    return rows or ["| — | No connected web part pages detected |"]
 
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 
+# Parse the command-line options, run the selected workflow, and report its outputs.
 def main() -> None:
+    """Parse the command-line options, run the selected workflow, and report its outputs."""
     p = argparse.ArgumentParser(
         description="Analyse ASPX web part inventory and produce a migration planning report."
     )

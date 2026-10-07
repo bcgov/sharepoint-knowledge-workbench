@@ -11,6 +11,24 @@ Layer: sharepoint-schema / plugin-local tests
 
 Key Input Dependencies:
     - schema_diff, schema_export (modules under test)
+
+Function index:
+    - _write_json
+    - _export
+    - test_compare_named_sets_reports_both_sides_and_changes
+    - test_compare_named_sets_surfaces_duplicate_keys_as_ambiguity
+    - test_compare_named_sets_skips_items_missing_the_key_and_records_it
+    - test_labels_are_caller_supplied_not_hardcoded_environment_names
+    - test_per_list_field_and_content_type_variances_are_reported
+    - test_list_present_on_only_one_side_is_not_silently_dropped
+    - test_missing_export_makes_the_report_unavailable_not_a_clean_pass
+    - test_render_markdown_is_deterministic
+    - test_render_markdown_carries_no_timestamp_or_host_identifiers
+    - test_compare_schema_definitions_reports_differences
+    - test_definition_generated_from_export_compares_identical_to_that_export
+    - test_degraded_definition_side_is_reported_honestly_not_a_clean_pass
+    - test_compare_definition_to_export_propagates_export_degradation
+    - test_compare_properties_are_caller_configurable
 """
 
 import json
@@ -30,12 +48,16 @@ from schema_definition import generate_schema_definition  # noqa: E402
 from schema_export import SectionStatus, load_schema_export  # noqa: E402
 
 
+# Write a JSON fixture under the supplied test directory.
 def _write_json(path: Path, payload) -> None:
+    """Write a JSON fixture under the supplied test directory."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload), encoding="utf-8")
 
 
+# Create and return a neutral schema-export fixture at the requested test path.
 def _export(root: Path, columns, lists, list_fields):
+    """Create and return a neutral schema-export fixture at the requested test path."""
     _write_json(root / "summary" / "site_columns.json", columns)
     _write_json(root / "summary" / "content_types.json", [])
     _write_json(root / "summary" / "lists.json", lists)
@@ -44,7 +66,9 @@ def _export(root: Path, columns, lists, list_fields):
     return root
 
 
+# Compare named sets reports both sides and changes.
 def test_compare_named_sets_reports_both_sides_and_changes():
+    """Compare named sets reports both sides and changes."""
     diff = compare_named_sets(
         left_items=[{"InternalName": "A", "TypeAsString": "Text"},
                     {"InternalName": "B", "TypeAsString": "Text"}],
@@ -61,7 +85,9 @@ def test_compare_named_sets_reports_both_sides_and_changes():
     assert diff.changed[0].right == "Note"
 
 
+# Compare named sets surfaces duplicate keys as ambiguity.
 def test_compare_named_sets_surfaces_duplicate_keys_as_ambiguity():
+    """Compare named sets surfaces duplicate keys as ambiguity."""
     diff = compare_named_sets(
         left_items=[{"InternalName": "A", "TypeAsString": "Text"},
                     {"InternalName": "A", "TypeAsString": "Note"}],
@@ -73,7 +99,9 @@ def test_compare_named_sets_surfaces_duplicate_keys_as_ambiguity():
     assert any("A" in a for a in diff.ambiguities)
 
 
+# Compare named sets skips items missing the key and records it.
 def test_compare_named_sets_skips_items_missing_the_key_and_records_it():
+    """Compare named sets skips items missing the key and records it."""
     diff = compare_named_sets(
         left_items=[{"TypeAsString": "Text"}],
         right_items=[],
@@ -83,7 +111,9 @@ def test_compare_named_sets_skips_items_missing_the_key_and_records_it():
     assert diff.ambiguities
 
 
+# Labels are caller supplied not hardcoded environment names.
 def test_labels_are_caller_supplied_not_hardcoded_environment_names(tmp_path):
+    """Labels are caller supplied not hardcoded environment names."""
     left = load_schema_export(
         _export(tmp_path / "a", [{"InternalName": "A"}], [], {}), label="baseline")
     right = load_schema_export(
@@ -96,7 +126,9 @@ def test_labels_are_caller_supplied_not_hardcoded_environment_names(tmp_path):
     assert "PROD" not in markdown and "TEST" not in markdown
 
 
+# Per list field and content type variances are reported.
 def test_per_list_field_and_content_type_variances_are_reported(tmp_path):
+    """Per list field and content type variances are reported."""
     left = load_schema_export(
         _export(
             tmp_path / "l",
@@ -122,7 +154,9 @@ def test_per_list_field_and_content_type_variances_are_reported(tmp_path):
     assert [v.key for v in per_list.fields.changed] == ["Alpha"]
 
 
+# List present on only one side is not silently dropped.
 def test_list_present_on_only_one_side_is_not_silently_dropped(tmp_path):
+    """List present on only one side is not silently dropped."""
     left = load_schema_export(
         _export(tmp_path / "l2", [], [], {"OnlyLeft": [{"InternalName": "A"}]}), label="l2")
     right = load_schema_export(_export(tmp_path / "r2", [], [], {}), label="r2")
@@ -130,7 +164,9 @@ def test_list_present_on_only_one_side_is_not_silently_dropped(tmp_path):
     assert "lists/OnlyLeft" in report.lists_only_left
 
 
+# Missing export makes the report unavailable not a clean pass.
 def test_missing_export_makes_the_report_unavailable_not_a_clean_pass(tmp_path):
+    """Missing export makes the report unavailable not a clean pass."""
     left = load_schema_export(_export(tmp_path / "l3", [], [], {}), label="l3")
     right = load_schema_export(tmp_path / "nowhere", label="r3")
     report = compare_schema_exports(left, right)
@@ -138,7 +174,9 @@ def test_missing_export_makes_the_report_unavailable_not_a_clean_pass(tmp_path):
     assert "unavailable" in render_markdown(report).lower()
 
 
+# Render markdown is deterministic.
 def test_render_markdown_is_deterministic(tmp_path):
+    """Render markdown is deterministic."""
     left = load_schema_export(
         _export(tmp_path / "d1", [{"InternalName": "B"}, {"InternalName": "A"}], [], {}), label="x")
     right = load_schema_export(_export(tmp_path / "d2", [], [], {}), label="y")
@@ -146,7 +184,9 @@ def test_render_markdown_is_deterministic(tmp_path):
         compare_schema_exports(left, right))
 
 
+# Render markdown carries no timestamp or host identifiers.
 def test_render_markdown_carries_no_timestamp_or_host_identifiers(tmp_path):
+    """Render markdown carries no timestamp or host identifiers."""
     left = load_schema_export(_export(tmp_path / "t1", [], [], {}), label="x")
     right = load_schema_export(_export(tmp_path / "t2", [], [], {}), label="y")
     markdown = render_markdown(compare_schema_exports(left, right))
@@ -154,7 +194,9 @@ def test_render_markdown_carries_no_timestamp_or_host_identifiers(tmp_path):
     assert "https://" not in markdown
 
 
+# Compare schema definitions reports differences.
 def test_compare_schema_definitions_reports_differences(tmp_path):
+    """Compare schema definitions reports differences."""
     left = generate_schema_definition(
         load_schema_export(
             _export(
@@ -193,7 +235,9 @@ def test_compare_schema_definitions_reports_differences(tmp_path):
     assert report.status is SectionStatus.PARTIAL
 
 
+# Definition generated from export compares identical to that export.
 def test_definition_generated_from_export_compares_identical_to_that_export(tmp_path):
+    """Definition generated from export compares identical to that export."""
     export = load_schema_export(
         _export(
             tmp_path / "eq",
@@ -216,7 +260,9 @@ def test_definition_generated_from_export_compares_identical_to_that_export(tmp_
     assert report.status is SectionStatus.PARTIAL
 
 
+# Degraded definition side is reported honestly not a clean pass.
 def test_degraded_definition_side_is_reported_honestly_not_a_clean_pass(tmp_path):
+    """Degraded definition side is reported honestly not a clean pass."""
     clean_export = load_schema_export(
         _export(tmp_path / "clean", [{"InternalName": "A"}], [], {}), label="clean"
     )
@@ -232,7 +278,9 @@ def test_degraded_definition_side_is_reported_honestly_not_a_clean_pass(tmp_path
     assert "unavailable" in render_markdown(report).lower()
 
 
+# Compare definition to export propagates export degradation.
 def test_compare_definition_to_export_propagates_export_degradation(tmp_path):
+    """Compare definition to export propagates export degradation."""
     clean_export = load_schema_export(
         _export(tmp_path / "clean2", [{"InternalName": "A"}], [], {}), label="clean2"
     )
@@ -246,7 +294,9 @@ def test_compare_definition_to_export_propagates_export_degradation(tmp_path):
     assert "unavailable" in render_markdown(report).lower()
 
 
+# Compare properties are caller configurable.
 def test_compare_properties_are_caller_configurable(tmp_path):
+    """Compare properties are caller configurable."""
     left = load_schema_export(
         _export(tmp_path / "c1", [{"InternalName": "A", "Hidden": True}], [], {}), label="x")
     right = load_schema_export(

@@ -1,0 +1,1 @@
+../../../references/workbench-resolve-document-paths-acceptance-criteria.md

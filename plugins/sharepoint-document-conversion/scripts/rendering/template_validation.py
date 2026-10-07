@@ -1,6 +1,13 @@
-"""
-template_validation.py
+"""template_validation.py
 ========================
+
+Purpose:
+    Phase 6 Task 0.16 -- the `validate-rendering-template` skill.
+
+Key Input Dependencies:
+    - re
+    - dataclasses
+    - templates
 
 Phase 6 Task 0.16 -- the `validate-rendering-template` skill. Validates
 a `RenderingTemplate` (`templates.py`) against schema/placeholder/
@@ -15,7 +22,14 @@ Every issue this module raises is `severity="error"` -- like
 nothing about a malformed template that a human should "accept as-is"
 the way a reviewable canonical-content discrepancy might be, so status
 is always PASS or FAIL, never WARN.
-"""
+
+Key Functions Index:
+    - _error()
+    - _check_known_profile_and_format()
+    - _check_placeholders()
+    - _check_title_in_heading()
+    - _check_aspx_fragment_only()
+    - validate_rendering_template()"""
 
 import re
 from dataclasses import dataclass, field
@@ -45,11 +59,15 @@ class TemplateValidationReport:
     issues: list = field(default_factory=list)
 
 
+# Create a template-validation error with its code, message, and optional template location.
 def _error(code: str, message: str) -> "TemplateValidationIssue":
+    """Create a template-validation error with its code, message, and optional template location."""
     return TemplateValidationIssue(severity="error", code=code, message=message)
 
 
+# Verify that the template profile and output format form a supported rendering combination.
 def _check_known_profile_and_format(template) -> list:
+    """Verify that the template profile and output format form a supported rendering combination."""
     issues = []
     if template.profile not in templates_module.KNOWN_PROFILES:
         issues.append(_error(
@@ -66,7 +84,9 @@ def _check_known_profile_and_format(template) -> list:
     return issues
 
 
+# Check that all required layout placeholders are declared and no unsupported placeholders are used.
 def _check_placeholders(template) -> list:
+    """Check that all required layout placeholders are declared and no unsupported placeholders are used."""
     issues = []
     present = set(_PLACEHOLDER.findall(template.content))
 

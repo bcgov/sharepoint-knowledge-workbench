@@ -37,6 +37,31 @@ Provenance:
     site-specific knowledge; they are removed here and replaced by the caller-supplied
     `KnowledgeBase`. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
+
+Function index:
+    - InlineLogicRule
+    - InlineLogicRule.matches
+    - KnowledgeBase
+    - KnowledgeBase.from_file
+    - KnowledgeBase.from_dict
+    - extract_script_srcs
+    - extract_inline_script
+    - extract_style
+    - strip_to_text
+    - _is_library
+    - classify
+    - _text_pattern_signature
+    - _is_multi_accordion
+    - _is_single_accordion
+    - _is_image_banner
+    - _is_document_link_list
+    - summarize_group
+    - assess_group
+    - recommend
+    - analyse
+    - generate_instance_csv
+    - generate_report
+    - run
 """
 
 from __future__ import annotations
@@ -88,7 +113,9 @@ class InlineLogicRule:
     business_intent: str = "Unknown -- requires manual review to confirm business purpose."
     spfx_assessment: str = "Unknown -- requires manual review to confirm whether SPFx is needed."
 
+    # Match a web-part script only when every token in the caller-reviewed rule is present.
     def matches(self, script: str) -> bool:
+        """Match a web-part script only when every token in the caller-reviewed rule is present."""
         return all(token in script for token in self.match)
 
 
@@ -113,8 +140,10 @@ class KnowledgeBase:
         data = json.loads(Path(path).read_text(encoding="utf-8"))
         return cls.from_dict(data)
 
+    # Build the knowledge base from its JSON-compatible mapping, applying documented neutral defaults.
     @classmethod
     def from_dict(cls, data: dict) -> "KnowledgeBase":
+        """Build the knowledge base from its JSON-compatible mapping, applying documented neutral defaults."""
         rules = tuple(
             InlineLogicRule(
                 match=tuple(entry["match"]),
@@ -153,7 +182,9 @@ def extract_inline_script(content: str) -> str:
     return "\n".join(parts)
 
 
+# Collect inline style-block contents from a web-part payload in document order.
 def extract_style(content: str) -> str:
+    """Collect inline style-block contents from a web-part payload in document order."""
     return "\n".join(m.group(1).strip() for m in STYLE_RE.finditer(content or "") if m.group(1).strip())
 
 
@@ -245,21 +276,44 @@ def _text_pattern_signature(content_lower: str) -> str:
     content collapses into one reviewable group. Purely structural -- no site vocabulary.
     """
     accordions = len(re.findall(r'class=["\']panel-group["\']|id=["\']accordion', content_lower))
-    if accordions > 1 or ("panel-group" in content_lower and content_lower.count("panel-heading") > 3):
-        return "PATTERN::MultiAccordionPanels"
-    if accordions == 1 or "panel-collapse" in content_lower or 'data-toggle="collapse"' in content_lower:
-        return "PATTERN::SingleAccordionPanel"
-    if "<table" in content_lower and "<img" in content_lower:
-        return "PATTERN::TableWithImages"
-    if "<img" in content_lower and "<table" not in content_lower:
-        return "PATTERN::ImageBanner"
-    if re.search(r"\.(pdf|docx?|xlsx?|pptx?)\b", content_lower) and (
-        "<ul" in content_lower or "<table" in content_lower
-    ):
-        return "PATTERN::DocumentLinkList"
-    if "mailto:" in content_lower:
-        return "PATTERN::ContactBox"
+    patterns = (
+        (_is_multi_accordion(content_lower, accordions), "PATTERN::MultiAccordionPanels"),
+        (_is_single_accordion(content_lower, accordions), "PATTERN::SingleAccordionPanel"),
+        ("<table" in content_lower and "<img" in content_lower, "PATTERN::TableWithImages"),
+        (_is_image_banner(content_lower), "PATTERN::ImageBanner"),
+        (_is_document_link_list(content_lower), "PATTERN::DocumentLinkList"),
+        ("mailto:" in content_lower, "PATTERN::ContactBox"),
+    )
+    for matches, signature in patterns:
+        if matches:
+            return signature
     return "PATTERN::RichTextBanner"
+
+
+def _is_multi_accordion(content_lower: str, accordion_count: int) -> bool:
+    """Identify markup containing multiple accordion groups or a dense group."""
+    if accordion_count > 1:
+        return True
+    return "panel-group" in content_lower and content_lower.count("panel-heading") > 3
+
+
+def _is_single_accordion(content_lower: str, accordion_count: int) -> bool:
+    """Identify the single-accordion structures not already classified as multi."""
+    if accordion_count == 1:
+        return True
+    return "panel-collapse" in content_lower or 'data-toggle="collapse"' in content_lower
+
+
+def _is_image_banner(content_lower: str) -> bool:
+    """Identify image-only banner markup rather than a table containing images."""
+    return "<img" in content_lower and "<table" not in content_lower
+
+
+def _is_document_link_list(content_lower: str) -> bool:
+    """Identify document references presented inside a list or table."""
+    has_document = bool(re.search(r"\.(pdf|docx?|xlsx?|pptx?)\b", content_lower))
+    has_collection = "<ul" in content_lower or "<table" in content_lower
+    return has_document and has_collection
 
 
 # -- Group interpretation -----------------------------------------------------

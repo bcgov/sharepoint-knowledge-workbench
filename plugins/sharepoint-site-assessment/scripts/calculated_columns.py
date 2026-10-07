@@ -23,6 +23,15 @@ Referenced field names are extracted from `[FieldName]` bracket syntax in the
 formula string, SharePoint's own calculated-column reference syntax; a
 formula with no bracketed references (e.g. one calling only built-in
 functions) legitimately yields an empty tuple, not an error.
+
+Key Input Dependencies:
+    - Caller-supplied SharePoint discovery exports and the plugin-local schema/analysis modules used by this script.
+
+Function index:
+    - CalculatedColumn
+    - CalculatedColumnsReport
+    - _referenced_fields
+    - find_calculated_columns
 """
 
 from __future__ import annotations
@@ -35,8 +44,10 @@ from schema_export import SchemaExport, SectionStatus
 _FIELD_REFERENCE_PATTERN = re.compile(r"\[([^\]]+)\]")
 
 
+# Represent a calculated field with its list, internal name, formula, and referenced columns.
 @dataclass(frozen=True)
 class CalculatedColumn:
+    """Represent a calculated field with its list, internal name, formula, and referenced columns."""
     list_key: str
     internal_name: str
     display_name: str
@@ -44,14 +55,18 @@ class CalculatedColumn:
     referenced_fields: tuple = ()
 
 
+# Report calculated fields, unresolved formulas, and the source export outcome.
 @dataclass(frozen=True)
 class CalculatedColumnsReport:
+    """Report calculated fields, unresolved formulas, and the source export outcome."""
     columns: tuple = ()
     ambiguities: tuple = ()
     status: SectionStatus = SectionStatus.UNAVAILABLE
 
 
+# Extract unique bracketed field references from a calculated-column formula in first-seen order.
 def _referenced_fields(formula: str) -> tuple:
+    """Extract unique bracketed field references from a calculated-column formula in first-seen order."""
     return tuple(_FIELD_REFERENCE_PATTERN.findall(formula))
 
 

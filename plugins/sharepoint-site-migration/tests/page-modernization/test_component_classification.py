@@ -11,6 +11,9 @@ are Banner, zone confidence is inherited, an empty inventory yields an empty
 model. Added behaviour (intentional improvement): an unrecognised web part
 type is reported through the outcome vocabulary rather than being silently
 labelled "Unknown" and forgotten.
+
+Purpose: Stage 2 tests -- assign Role/Type/Variant to each detected zone.
+Key Input Dependencies: component_classification.py, unsupported-webpart.inventory.json.
 """
 
 import json
@@ -19,6 +22,7 @@ import sys
 
 
 def run_classify(scripts_dir, inventory: dict, tmp_path) -> dict:
+    """Test helper: run classify."""
     inv_file = tmp_path / "page-inventory.json"
     inv_file.write_text(json.dumps(inventory), encoding="utf-8")
     out_file = tmp_path / "component-model.json"
@@ -32,6 +36,7 @@ def run_classify(scripts_dir, inventory: dict, tmp_path) -> dict:
 
 
 def _inventory():
+    """Test helper: inventory."""
     return {
         "detectionMethod": "multi",
         "pageType": "BlankWebPartPage",
@@ -55,6 +60,7 @@ def _inventory():
 
 
 def test_first_unconnected_listview_is_primary(scripts_dir, tmp_path):
+    """Verify first unconnected listview is primary."""
     model = run_classify(scripts_dir, _inventory(), tmp_path)
     primary = [c for c in model["components"] if c["role"] == "Primary"]
     assert len(primary) == 1
@@ -62,12 +68,14 @@ def test_first_unconnected_listview_is_primary(scripts_dir, tmp_path):
 
 
 def test_additional_standalone_listview_is_secondary(scripts_dir, tmp_path):
+    """Verify additional standalone listview is secondary."""
     model = run_classify(scripts_dir, _inventory(), tmp_path)
     secondary = [c for c in model["components"] if c["role"] == "Secondary"]
     assert [c["listName"] for c in secondary] == ["Reference_Data"]
 
 
 def test_connected_consumer_is_child(scripts_dir, tmp_path):
+    """Verify connected consumer is child."""
     model = run_classify(scripts_dir, _inventory(), tmp_path)
     children = [c for c in model["components"] if c["role"] == "Child"]
     assert len(children) == 1
@@ -76,17 +84,20 @@ def test_connected_consumer_is_child(scripts_dir, tmp_path):
 
 
 def test_content_editor_role_is_banner(scripts_dir, tmp_path):
+    """Verify content editor role is banner."""
     model = run_classify(scripts_dir, _inventory(), tmp_path)
     assert len([c for c in model["components"] if c["role"] == "Banner"]) == 2
 
 
 def test_confidence_is_inherited_from_the_zone(scripts_dir, tmp_path):
+    """Verify confidence is inherited from the zone."""
     model = run_classify(scripts_dir, _inventory(), tmp_path)
     child = next(c for c in model["components"] if c["role"] == "Child")
     assert child["confidence"] == "manual-hint"
 
 
 def test_empty_inventory_produces_empty_model_and_empty_outcome(scripts_dir, tmp_path):
+    """Verify empty inventory produces empty model and empty outcome."""
     inv = _inventory()
     inv["zones"] = []
     model = run_classify(scripts_dir, inv, tmp_path)
@@ -96,6 +107,7 @@ def test_empty_inventory_produces_empty_model_and_empty_outcome(scripts_dir, tmp
 
 
 def test_all_zones_unsupported_reports_not_supported(scripts_dir, fixtures_dir, tmp_path):
+    """Verify all zones unsupported reports not supported."""
     inv = json.loads((fixtures_dir / "unsupported-webpart.inventory.json").read_text(encoding="utf-8"))
     model = run_classify(scripts_dir, inv, tmp_path)
     assert all(c["role"] == "Unknown" for c in model["components"])
@@ -104,6 +116,7 @@ def test_all_zones_unsupported_reports_not_supported(scripts_dir, fixtures_dir, 
 
 
 def test_some_zones_unsupported_reports_partial(scripts_dir, tmp_path):
+    """Verify some zones unsupported reports partial."""
     inv = _inventory()
     inv["zones"].append({"zoneId": "wpz_x", "webPartType": "SPUserCodeWebPart",
                          "detectionSource": "rendered-html"})
@@ -113,11 +126,13 @@ def test_some_zones_unsupported_reports_partial(scripts_dir, tmp_path):
 
 
 def test_fully_supported_inventory_reports_observed(scripts_dir, tmp_path):
+    """Verify fully supported inventory reports observed."""
     model = run_classify(scripts_dir, _inventory(), tmp_path)
     assert model["outcome"]["status"] == "Observed"
 
 
 def test_missing_input_file_fails_honestly(scripts_dir, tmp_path):
+    """Verify missing input file fails honestly."""
     result = subprocess.run(
         [sys.executable, str(scripts_dir / "component_classification.py"),
          "--input", str(tmp_path / "nope.json"), "--output", str(tmp_path / "o.json")],

@@ -1,7 +1,13 @@
 #!/usr/bin/env python
-"""
-emf_convert.py
+"""emf_convert.py
 ==============
+
+Purpose:
+    Converts legacy Enhanced Metafile (.emf) / Windows Metafile (.wmf) media extracted from an old Word document into .png, using the LibreOffice `soffice` CLI.
+
+Key Input Dependencies:
+    - subprocess
+    - pathlib
 
 Converts legacy Enhanced Metafile (.emf) / Windows Metafile (.wmf) media
 extracted from an old Word document into .png, using the LibreOffice
@@ -10,10 +16,6 @@ render .emf/.wmf directly, so these are converted at cleanup time and any
 markdown image reference pointing at the old file needs to be rewritten to
 the new .png (rewriting itself is the caller's job — this module only
 performs the conversion and reports the old->new filename mapping).
-
-Key Input Dependencies:
-    - `soffice` (LibreOffice) must be on PATH. Verified present at version
-      26.2.5.2 in this project's environment (see Task 0 baseline / DEPENDENCIES.md).
 
 Function Index:
     - convert_legacy_media(media_dir: Path) -> dict[str, str]
@@ -25,7 +27,9 @@ Function Index:
 Usage:
     from emf_convert import convert_legacy_media
     renamed = convert_legacy_media(Path("output/my-doc/images/media"))
-"""
+
+Key Functions Index:
+    - convert_legacy_media()"""
 
 import subprocess
 from pathlib import Path

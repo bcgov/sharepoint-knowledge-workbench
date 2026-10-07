@@ -2,6 +2,17 @@
 DESIGN SCAFFOLD — example shape only, not a working script, not yet wired to
 any real generation logic.
 
+Purpose:
+    Show the expected structure of a generated migration-wave provisioning
+    script without providing executable deployment logic.
+
+Key Input Dependencies:
+    - Illustrative provisioning types from sharepoint-site-build-and-publish.
+    - Computed wave object definitions from dependency-matrix.json at generation time.
+
+Function Index:
+    plan_wave_placeholder, main
+
 This is a STYLE REFERENCE for `scaffold-migration-wave-scripts` to follow —
 the agent step reads this to understand the expected shape of a generated
 wave script, then produces a NEW script per computed wave using real object

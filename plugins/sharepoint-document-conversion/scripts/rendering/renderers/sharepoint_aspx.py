@@ -1,6 +1,19 @@
-"""
-sharepoint_aspx.py
+"""sharepoint_aspx.py
 ===================
+
+Purpose:
+    Phase 6 Task 0.16 -- the `render-sharepoint-pages` skill.
+
+Key Input Dependencies:
+    - json
+    - re
+    - subprocess
+    - sys
+    - pathlib
+    - urllib.parse
+    - atomic_output
+    - render_result
+    - canonical_schema
 
 Phase 6 Task 0.16 -- the `render-sharepoint-pages` skill. A second concrete
 `Renderer` (see `renderers/protocol.py`), producing content staged for
@@ -52,7 +65,13 @@ the shared reasoning. Differences specific to this renderer:
   the pattern `push-aspx-experiment.ps1` proved: local paths first,
   tenant-URL rewrite as a separate, later step performed by the code
   that actually has a live connection.
-"""
+
+Key Functions Index:
+    - _rewrite_local_links()
+    - _rewrite_local_links._replace()
+    - _markdown_to_html_fragment()
+    - SharePointAspxRenderer.render()
+    - render_to_staging()"""
 
 import json
 import re
@@ -94,7 +113,9 @@ def _rewrite_local_links(content: str, known_chunk_ids: set) -> str:
     `.html` instead of `.md` since this renderer's pages are HTML
     fragments, not Markdown files. Preserves query parameters and fragments."""
 
+    # Replace every target occurrence while preserving the surrounding content.
     def _replace(match: "re.Match") -> str:
+        """Replace every target occurrence while preserving the surrounding content."""
         prefix, raw_target, suffix = match.group(1), match.group(2), match.group(3)
         if raw_target.startswith(("http://", "https://", "mailto:")):
             return match.group(0)
@@ -145,7 +166,9 @@ class SharePointAspxRenderer:
     name = "sharepoint-aspx"
     supported_manifest_versions = frozenset({_canonical_contracts.MANIFEST_SCHEMA_VERSION})
 
+    # Render canonical package chunks as SharePoint modern-page-ready ASPX artifacts and a page manifest.
     def render(self, package, output_dir: Path, template: "Any | None" = None) -> "contracts.RenderResult":
+        """Render canonical package chunks as SharePoint modern-page-ready ASPX artifacts and a page manifest."""
         output_dir = Path(output_dir)
         pages_dir = output_dir / "pages"
         media_dir = output_dir / "media"

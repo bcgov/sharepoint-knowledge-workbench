@@ -2,6 +2,16 @@
 assets
 ======
 
+Purpose:
+    Resolve paths to packaged page-modernization assets.
+
+Key Input Dependencies:
+    - The Python package location determined by this module's __file__.
+    - An asset name passed to asset_path().
+
+Function Index:
+    assets_dir, asset_path
+
 Packaged, non-Python data assets for `sharepoint-site-migration`.
 
 This directory is a real Python package (it has this `__init__.py`) purely so

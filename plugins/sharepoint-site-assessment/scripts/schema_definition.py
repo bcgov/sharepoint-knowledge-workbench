@@ -25,6 +25,31 @@ the same status is carried onto the resulting `SiteSchemaDefinition`, and any
 section that could not be read honestly contributes nothing to that
 definition's collections rather than being silently treated as "confirmed
 empty".
+
+Key Input Dependencies:
+    - Caller-supplied SharePoint discovery exports and the plugin-local schema/analysis modules used by this script.
+
+Function index:
+    - FieldDefinition
+    - FieldDefinition.to_dict
+    - FieldDefinition.from_dict
+    - ContentTypeDefinition
+    - ContentTypeDefinition.to_dict
+    - ContentTypeDefinition.from_dict
+    - ListDefinition
+    - ListDefinition.to_dict
+    - ListDefinition.from_dict
+    - SiteSchemaDefinition
+    - SiteSchemaDefinition.to_dict
+    - SiteSchemaDefinition.from_dict
+    - SiteSchemaDefinition.save
+    - SiteSchemaDefinition.load
+    - _field_from_item
+    - _content_type_from_item
+    - _fields_from_section
+    - _list_key_for_title
+    - _list_from_item
+    - generate_schema_definition
 """
 
 from __future__ import annotations
@@ -48,7 +73,9 @@ class FieldDefinition:
     read_only: bool = False
     group: str = ""
 
+    # Serialize the field's generic schema properties for comparison or publication.
     def to_dict(self) -> dict:
+        """Serialize field names, type, and behavioral flags as JSON-compatible values."""
         return {
             "internal_name": self.internal_name,
             "display_name": self.display_name,
@@ -59,8 +86,10 @@ class FieldDefinition:
             "group": self.group,
         }
 
+    # Reconstruct a field from its serialized schema properties.
     @staticmethod
     def from_dict(payload: dict) -> "FieldDefinition":
+        """Restore a field definition and default optional metadata absent from older payloads."""
         return FieldDefinition(
             internal_name=payload["internal_name"],
             display_name=payload.get("display_name", ""),
@@ -82,7 +111,9 @@ class ContentTypeDefinition:
     sealed: bool = False
     read_only: bool = False
 
+    # Serialize the content type's generic schema properties for comparison or publication.
     def to_dict(self) -> dict:
+        """Serialize the content-type name, identifier, group, and flags."""
         return {
             "name": self.name,
             "string_id": self.string_id,
@@ -91,8 +122,10 @@ class ContentTypeDefinition:
             "read_only": self.read_only,
         }
 
+    # Reconstruct a content type from its serialized schema properties.
     @staticmethod
     def from_dict(payload: dict) -> "ContentTypeDefinition":
+        """Restore a content-type definition with neutral defaults for optional metadata."""
         return ContentTypeDefinition(
             name=payload["name"],
             string_id=payload.get("string_id", ""),
@@ -122,7 +155,9 @@ class ListDefinition:
     fields: tuple = ()
     fields_status: SectionStatus = SectionStatus.UNAVAILABLE
 
+    # Serialize list metadata, nested fields, and their observed section status.
     def to_dict(self) -> dict:
+        """Serialize list identity, template flags, fields, and field-section status."""
         return {
             "key": self.key,
             "title": self.title,
@@ -134,8 +169,10 @@ class ListDefinition:
             "fields_status": self.fields_status.value,
         }
 
+    # Reconstruct a list and its nested definitions from serialized values.
     @staticmethod
     def from_dict(payload: dict) -> "ListDefinition":
+        """Restore list metadata and nested fields while preserving field-section status."""
         return ListDefinition(
             key=payload["key"],
             title=payload.get("title", ""),
@@ -158,7 +195,9 @@ class SiteSchemaDefinition:
     lists: tuple = ()
     status: SectionStatus = SectionStatus.UNAVAILABLE
 
+    # Serialize the complete schema and its overall observation status.
     def to_dict(self) -> dict:
+        """Serialize schema metadata, site columns, content types, and lists."""
         return {
             "label": self.label,
             "site_columns": [f.to_dict() for f in self.site_columns],
@@ -167,8 +206,10 @@ class SiteSchemaDefinition:
             "status": self.status.value,
         }
 
+    # Reconstruct the complete schema definition from serialized collections.
     @staticmethod
     def from_dict(payload: dict) -> "SiteSchemaDefinition":
+        """Restore nested schema definitions and retain the serialized observation outcome."""
         return SiteSchemaDefinition(
             label=payload["label"],
             site_columns=tuple(FieldDefinition.from_dict(f) for f in payload.get("site_columns", ())),
@@ -194,7 +235,9 @@ class SiteSchemaDefinition:
         return SiteSchemaDefinition.from_dict(payload)
 
 
+# Convert one exported field record to a portable field definition.
 def _field_from_item(item: dict) -> FieldDefinition:
+    """Convert one exported field record into its neutral declarative representation."""
     return FieldDefinition(
         internal_name=item.get("InternalName", ""),
         display_name=item.get("Title", ""),
@@ -206,7 +249,9 @@ def _field_from_item(item: dict) -> FieldDefinition:
     )
 
 
+# Convert one exported content-type record to a portable definition.
 def _content_type_from_item(item: dict) -> ContentTypeDefinition:
+    """Convert one exported content-type record into a portable definition."""
     return ContentTypeDefinition(
         name=item.get("Name", ""),
         string_id=item.get("StringId", ""),
@@ -216,7 +261,9 @@ def _content_type_from_item(item: dict) -> ContentTypeDefinition:
     )
 
 
+# Convert valid field records from a schema section while retaining their order.
 def _fields_from_section(section: SectionResult) -> tuple:
+    """Convert valid field records from an observed schema section in source order."""
     return tuple(_field_from_item(item) for item in section.items if isinstance(item, dict))
 
 
@@ -229,7 +276,9 @@ def _list_key_for_title(list_fields: dict, title: str) -> Optional[str]:
     return None
 
 
+# Build one list or library definition and attach its field-section evidence.
 def _list_from_item(item: dict, list_fields: dict) -> ListDefinition:
+    """Build one list or library definition and attach its field-section outcome."""
     title = item.get("Title", "")
     key = _list_key_for_title(list_fields, title)
     fields_section = list_fields.get(key) if key else None

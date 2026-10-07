@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Converts a downloaded classic ASPX page into clean BC Gov styled HTML.
+    Converts a downloaded classic ASPX page into clean design-system styled HTML.
 .DESCRIPTION
     Converts one local ASPX file to a separate HTML file, removes known legacy
     presentation artifacts, rejects common active markup, and protects existing output.

@@ -36,6 +36,14 @@ Key Input Dependencies:
     - link_rules.RewriteRuleset (caller-supplied path-segment rewrite rule)
     - a caller-injected ``executor(source_id, new_field_value)`` callable
       for real writes
+
+Function Index:
+    ImageReferenceClassification.to_dict, _extract_img_src, _has_img_tag,
+    _extract_filename, classify_field_images, FieldImageFix.to_dict,
+    FieldImageRemediationPlan.change_count, FieldImageRemediationPlan.fingerprint,
+    FieldImageRemediationPlan.confirmation_token, FieldImageRemediationPlan.to_dict,
+    FieldImageRemediationResult.to_dict, plan_field_image_remediation,
+    generate_gap_report, _gate, apply_field_image_remediation
 """
 
 from __future__ import annotations
@@ -88,6 +96,7 @@ class ImageReferenceClassification:
     matched_relative_url: str = ""
 
     def to_dict(self) -> dict[str, str]:
+        """Serialize the field-image classification and matched destination."""
         return {
             "status": self.status,
             "original_src": self.original_src,
@@ -97,15 +106,18 @@ class ImageReferenceClassification:
 
 
 def _extract_img_src(field_value: str) -> str | None:
+    """Return the first image source attribute found in the field value."""
     match = _IMG_SRC_PATTERN.search(field_value)
     return match.group(1) if match else None
 
 
 def _has_img_tag(field_value: str) -> bool:
+    """Report whether markup contains an image tag, including placeholders."""
     return bool(_IMG_TAG_PATTERN.search(field_value))
 
 
 def _extract_filename(src: str) -> str:
+    """Decode a URL-encoded image source and return its final path segment."""
     return unquote(src).rsplit("/", 1)[-1]
 
 
@@ -146,6 +158,7 @@ class FieldImageFix:
     new_field_value: str
 
     def to_dict(self) -> dict[str, str]:
+        """Serialize a proposed field-value replacement without dropping originals."""
         return {
             "source_id": self.source_id,
             "original_field_value": self.original_field_value,
@@ -166,10 +179,12 @@ class FieldImageRemediationPlan:
 
     @property
     def change_count(self) -> int:
+        """Count inventory-verified item changes in this plan."""
         return len(self.changed_items)
 
     @property
     def fingerprint(self) -> str:
+        """Hash changed item identities and values to bind confirmation."""
         digest = hashlib.sha256()
         for fix in self.changed_items:
             digest.update(fix.source_id.encode("utf-8"))
@@ -180,9 +195,11 @@ class FieldImageRemediationPlan:
 
     @property
     def confirmation_token(self) -> str:
+        """Return the apply token for these exact field-image fixes."""
         return f"APPLY-{self.change_count}-{self.fingerprint}"
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize classifications, proposed fixes, and authorization token."""
         return {
             "outcome": self.outcome,
             "change_count": self.change_count,
@@ -202,6 +219,7 @@ class FieldImageRemediationResult:
     failed: tuple[tuple[str, str], ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize apply evidence while retaining item-level failures."""
         return {
             "outcome": self.outcome,
             "dry_run": self.dry_run,
@@ -292,6 +310,7 @@ def generate_gap_report(plan: FieldImageRemediationPlan) -> str:
 
 
 def _gate(plan: FieldImageRemediationPlan, executor: Executor | None, confirm: str | None) -> None:
+    """Require a caller-supplied executor and token matching the current plan."""
     if executor is None:
         raise ExecutorRequired(
             "a real write requires an explicitly injected executor(source_id, new_field_value) "

@@ -12,6 +12,13 @@ rather than being silently labelled "Unknown" and forgotten.
 
 Layer: CLI entry point, invoked as a real subprocess by the pipeline (and by
 this plugin's own tests).
+
+Key Input Dependencies:
+    - Page-inventory JSON supplied with --input.
+    - outcomes.py shared page-modernization result vocabulary.
+
+Function Index:
+    _classify_zone, classify_zones, build_model, main
 """
 
 from __future__ import annotations
@@ -26,63 +33,56 @@ import outcomes
 _KNOWN_ZONE_TYPES = {"ContentEditor", "XsltListView"}
 
 
-def classify_zones(zones: "list[dict]") -> tuple:
-    """Returns (components, unsupported_types) where unsupported_types is
-    the sorted set of web part types this stage does not know how to
-    classify."""
-    components = []
-    unsupported_types: "set[str]" = set()
-    primary_assigned = False
+def _classify_zone(zone: dict, primary_assigned: bool) -> tuple[dict, bool, str | None]:
+    """Return one classified component, primary-view state, and unsupported type."""
+    webpart_type = zone.get("webPartType")
+    confidence = zone.get("confidence")
+    component = {
+        "type": webpart_type,
+        "zone": zone.get("zoneId"),
+        "confidence": confidence,
+        "evidence": {"detectionSource": zone.get("detectionSource")},
+    }
+    unsupported_type = None
 
-    for zone in zones:
-        webPartType = zone.get("webPartType")
-        confidence = zone.get("confidence")
-
-        if webPartType == "ContentEditor":
-            components.append({
-                "role": "Banner",
-                "type": webPartType,
-                "rawHtml": zone.get("rawHtml"),
-                "zone": zone.get("zoneId"),
-                "confidence": confidence,
-                "evidence": {"detectionSource": zone.get("detectionSource")},
-            })
-        elif webPartType == "XsltListView":
-            if zone.get("isConnectedConsumer"):
-                role = "Child"
-                variant = "connected-consumer"
-            elif not primary_assigned:
-                role = "Primary"
-                variant = "standalone"
-                primary_assigned = True
-            else:
-                role = "Secondary"
-                variant = "standalone"
-            components.append({
-                "role": role,
-                "type": webPartType,
-                "variant": variant,
-                "listName": zone.get("listName"),
-                "viewQuery": zone.get("viewQuery"),
-                "relationship": zone.get("relationship"),
-                "zone": zone.get("zoneId"),
-                "confidence": confidence,
-                "evidence": {"detectionSource": zone.get("detectionSource")},
-            })
+    if webpart_type == "ContentEditor":
+        component.update(role="Banner", rawHtml=zone.get("rawHtml"))
+    elif webpart_type == "XsltListView":
+        if zone.get("isConnectedConsumer"):
+            role, variant = "Child", "connected-consumer"
+        elif not primary_assigned:
+            role, variant = "Primary", "standalone"
+            primary_assigned = True
         else:
-            unsupported_types.add(webPartType)
-            components.append({
-                "role": "Unknown",
-                "type": webPartType,
-                "zone": zone.get("zoneId"),
-                "confidence": confidence,
-                "evidence": {"detectionSource": zone.get("detectionSource")},
-            })
+            role, variant = "Secondary", "standalone"
+        component.update(
+            role=role,
+            variant=variant,
+            listName=zone.get("listName"),
+            viewQuery=zone.get("viewQuery"),
+            relationship=zone.get("relationship"),
+        )
+    else:
+        component["role"] = "Unknown"
+        unsupported_type = webpart_type
+    return component, primary_assigned, unsupported_type
 
-    return components, sorted(t for t in unsupported_types if t)
+
+def classify_zones(zones: "list[dict]") -> tuple:
+    """Return classified components and sorted unsupported web-part types."""
+    components = []
+    unsupported_types: set[str] = set()
+    primary_assigned = False
+    for zone in zones:
+        component, primary_assigned, unsupported_type = _classify_zone(zone, primary_assigned)
+        components.append(component)
+        if unsupported_type:
+            unsupported_types.add(unsupported_type)
+    return components, sorted(unsupported_types)
 
 
 def build_model(inventory: dict) -> dict:
+    """Classify inventory zones and summarize unsupported types."""
     zones = inventory.get("zones", [])
     components, unsupported_types = classify_zones(zones)
 
@@ -105,6 +105,7 @@ def build_model(inventory: dict) -> dict:
 
 
 def main(argv: "list[str] | None" = None) -> int:
+    """Load a page inventory, classify its zones, and write the model JSON."""
     parser = argparse.ArgumentParser(description="Classify page-inventory zones into a component model.")
     parser.add_argument("--input", required=True)
     parser.add_argument("--output", required=True)

@@ -20,6 +20,10 @@ Layer: sharepoint-site-migration / stage 1 (project setup)
 
 Key Input Dependencies:
     - provisioning_outcomes.Outcome (symlinked from sharepoint-site-build-and-publish)
+
+Function Index:
+    ProjectPaths.to_dict, check_config_psd1, project_paths,
+    create_project_directories, setup_migration_project
 """
 
 from __future__ import annotations
@@ -63,6 +67,7 @@ class ProjectPaths:
     wave_guide: Path
 
     def to_dict(self) -> dict:
+        """Serialize all computed migration-project paths as strings."""
         return {
             "root": str(self.root),
             "export": str(self.export),

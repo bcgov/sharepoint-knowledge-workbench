@@ -1,0 +1,1 @@
+../../../references/schema-reconciliation/sharepoint-reconcile-site-schema-acceptance-criteria.md

@@ -1,6 +1,21 @@
-"""
-test_validate_canonical.py
+"""test_validate_canonical.py
 ============================
+
+Purpose:
+    Tests for scripts/assembly/validate_canonical.py -- the canonical-package validator (Task 10).
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - pathlib
+    - pytest
+    - canonical_schema
+    - hashing
+    - package
+    - validate_canonical
+    - chunking
+    - identity_core
+    - plan_verification
 
 Tests for scripts/assembly/validate_canonical.py -- the canonical-package validator
 (Task 10). Builds real staged packages via `package.build_canonical_package`
@@ -10,7 +25,76 @@ resulting `ValidationReport` status and issue codes.
 
 Fixture heading/product names are synthetic placeholders (e.g. "Widget
 Setup", "Gadget Alpha").
-"""
+
+Key Functions Index:
+    - _anchor()
+    - _confirmed_plan()
+    - _slice()
+    - _build_simple_package()
+    - _codes()
+    - test_pass_on_a_clean_package_with_cleaned_markdown_supplied()
+    - test_warn_when_cleaned_markdown_not_supplied()
+    - test_fail_when_manifest_missing()
+    - test_report_carries_source_sha256_and_plan_id()
+    - test_fail_on_malformed_manifest_json()
+    - test_fail_on_manifest_missing_required_field()
+    - test_fail_on_unsupported_manifest_schema_version()
+    - test_fail_on_malformed_sidecar_json()
+    - test_fail_on_plan_fingerprint_mismatch_tampered_plan()
+    - test_fail_on_source_fingerprint_mismatch()
+    - test_fail_on_chunk_count_mismatch()
+    - test_fail_on_duplicate_chunk_id()
+    - test_fail_on_duplicate_content_path()
+    - test_fail_on_duplicate_metadata_path()
+    - test_fail_on_duplicate_source_order()
+    - test_fail_on_missing_chunk_content_file()
+    - test_fail_on_missing_sidecar_file()
+    - test_fail_on_orphan_chunk_file()
+    - test_fail_on_orphan_sidecar_file()
+    - test_fail_on_orphan_media_file()
+    - test_fail_on_chunk_id_mismatch_between_manifest_and_sidecar()
+    - test_fail_on_content_hash_mismatch()
+    - test_chunk_sidecar_plan_id_mismatch_is_detected()
+    - test_chunk_sidecar_source_sha256_mismatch_is_detected()
+    - test_fail_on_empty_chunk()
+    - test_warn_on_heading_missing_from_chunk_content()
+    - _build_minimal_valid_package()
+    - _load_plan_used_to_build()
+    - test_producer_path_content_comparison_skip_is_now_an_error()
+    - test_fixture_provenance_content_comparison_skip_is_not_an_error()
+    - test_fail_on_content_loss_detected_by_aggregate_comparison()
+    - test_fail_on_content_duplication_detected_by_aggregate_comparison()
+    - test_pass_when_aggregate_matches_after_whitespace_normalization()
+    - test_pass_on_clean_package_with_image_despite_media_path_rewrite()
+    - test_fail_on_real_content_loss_still_detected_when_image_present()
+    - test_fail_on_real_content_duplication_still_detected_when_image_present()
+    - test_fail_on_unresolved_structural_anchor_manifest_chunk_not_in_plan()
+    - test_fail_on_raw_toc_artifact_in_chunk_content()
+    - test_fail_on_leftover_pandoc_attribute_artifact()
+    - test_fail_on_image_embedded_in_heading()
+    - test_fail_on_unsupported_legacy_media_reference_in_staged_content()
+    - test_fail_on_broken_local_document_link()
+    - test_pass_local_link_to_a_known_chunk_id()
+    - test_fail_on_broken_media_reference()
+    - test_fail_on_path_traversal_reference_in_staged_content()
+    - test_fail_on_absolute_path_reference_in_staged_content()
+    - test_write_validation_report_overwrites_placeholder()
+    - _build_grouped_package()
+    - _grouped_cleaned_markdown()
+    - test_validate_grouped_package_passes_when_every_anchor_assigned_once()
+    - test_validate_grouped_package_fails_when_an_anchor_is_missing()
+    - test_validate_grouped_package_fails_when_an_anchor_is_duplicated_across_topics()
+    - test_validate_grouped_package_fails_when_publication_map_missing()
+    - test_validate_grouped_package_fails_when_publication_map_order_has_gap()
+    - test_malformed_publication_map_is_a_controlled_validation_error()
+    - test_unexpected_publication_map_on_non_grouped_package_is_rejected()
+    - test_publication_map_chunk_id_diverging_from_topic_id_is_detected()
+    - test_validate_ungrouped_package_unaffected_by_new_grouped_checks()
+    - _plan_with_media_decision()
+    - test_pending_media_decision_is_blocking()
+    - test_reviewed_media_omission_is_not_blocking()
+    - test_no_media_decisions_is_not_blocking()
+    - test_content_loss_check_passes_when_compared_against_preamble_stripped_text()"""
 
 import json
 from pathlib import Path
@@ -26,7 +110,9 @@ from identity_core import make_chunk_id
 import plan_verification
 
 
+# Create a StructuralAnchor fixture with a stable identifier and heading path.
 def _anchor(path, occurrence=1, level=1):
+    """Create a StructuralAnchor fixture with a stable identifier and heading path."""
     return contracts.StructuralAnchor(
         stable_key=make_chunk_id(path, occurrence),
         heading_text=path[-1],
@@ -36,7 +122,9 @@ def _anchor(path, occurrence=1, level=1):
     )
 
 
+# Construct a confirmed ConversionPlan fixture from the source and selected anchors.
 def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked"):
+    """Construct a confirmed ConversionPlan fixture from the source and selected anchors."""
     source_fp = contracts.SourceFingerprint(
         path="sourcedocuments/widget.docx", sha256=source_sha256, size_bytes=123
     )
@@ -57,7 +145,9 @@ def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked"):
     return plan
 
 
+# Create a ChunkSlice fixture from its structural anchor and Markdown content.
 def _slice(anchor, content):
+    """Create a ChunkSlice fixture from its structural anchor and Markdown content."""
     return ChunkSlice(anchor=anchor, start_line=0, end_line=1, content=content)
 
 
@@ -81,7 +171,9 @@ def _build_simple_package(tmp_path):
     return plan, output_dir, a1, a2
 
 
+# Return the validation issue codes recorded in the current test result.
 def _codes(report, code=None):
+    """Return the validation issue codes recorded in the current test result."""
     if code is None:
         return [i.code for i in report.issues]
     return [i for i in report.issues if i.code == code]
@@ -92,6 +184,7 @@ def _codes(report, code=None):
 # ---------------------------------------------------------------------------
 
 def test_pass_on_a_clean_package_with_cleaned_markdown_supplied(tmp_path):
+    """Verify that processing succeeds on a clean package with cleaned Markdown supplied."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     cleaned = "# Widget Setup\n\nBody one.\n\n# Widget Configuration\n\nBody two.\n"
     report = vc.validate_canonical_package(
@@ -101,7 +194,9 @@ def test_pass_on_a_clean_package_with_cleaned_markdown_supplied(tmp_path):
     assert report.issues == []
 
 
+# Verify that processing warns when cleaned Markdown not supplied.
 def test_warn_when_cleaned_markdown_not_supplied(tmp_path):
+    """Verify that processing warns when cleaned Markdown not supplied."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     report = vc.validate_canonical_package(output_dir, plan)
     # For real producer-path packages (manifest.generator.plugin=="docx-to-content"),
@@ -110,7 +205,9 @@ def test_warn_when_cleaned_markdown_not_supplied(tmp_path):
     assert any(i.code == "content_comparison_skipped" and i.severity == "error" for i in report.issues)
 
 
+# Verify that the operation fails when manifest missing.
 def test_fail_when_manifest_missing(tmp_path):
+    """Verify that the operation fails when manifest missing."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "manifest.json").unlink()
     report = vc.validate_canonical_package(output_dir, plan)
@@ -118,7 +215,9 @@ def test_fail_when_manifest_missing(tmp_path):
     assert "manifest_missing" in _codes(report)
 
 
+# Verify report carries source SHA-256 and plan ID.
 def test_report_carries_source_sha256_and_plan_id(tmp_path):
+    """Verify report carries source SHA-256 and plan ID."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     report = vc.validate_canonical_package(output_dir, plan)
     assert report.source_sha256 == plan.source.sha256
@@ -130,6 +229,7 @@ def test_report_carries_source_sha256_and_plan_id(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_malformed_manifest_json(tmp_path):
+    """Verify that the operation fails when malformed manifest JSON."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "manifest.json").write_text("{not valid json")
     report = vc.validate_canonical_package(output_dir, plan)
@@ -137,7 +237,9 @@ def test_fail_on_malformed_manifest_json(tmp_path):
     assert "malformed_json" in _codes(report)
 
 
+# Verify that the operation fails when manifest missing required field.
 def test_fail_on_manifest_missing_required_field(tmp_path):
+    """Verify that the operation fails when manifest missing required field."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     del data["chunk_count"]
@@ -147,7 +249,9 @@ def test_fail_on_manifest_missing_required_field(tmp_path):
     assert "missing_required_field" in _codes(report)
 
 
+# Verify that the operation fails when unsupported manifest schema version.
 def test_fail_on_unsupported_manifest_schema_version(tmp_path):
+    """Verify that the operation fails when unsupported manifest schema version."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     data["schema_version"] = "99.9"
@@ -157,7 +261,9 @@ def test_fail_on_unsupported_manifest_schema_version(tmp_path):
     assert "schema_version_unsupported" in _codes(report)
 
 
+# Verify that the operation fails when malformed sidecar JSON.
 def test_fail_on_malformed_sidecar_json(tmp_path):
+    """Verify that the operation fails when malformed sidecar JSON."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
     meta_path.write_text("{broken")
@@ -171,6 +277,7 @@ def test_fail_on_malformed_sidecar_json(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_plan_fingerprint_mismatch_tampered_plan(tmp_path):
+    """Verify that the operation fails when plan fingerprint mismatch tampered plan."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     tampered = contracts.ConversionPlan.from_dict(plan.to_dict())
     tampered.strategy = "single"  # mutate content without recomputing plan_id
@@ -179,7 +286,9 @@ def test_fail_on_plan_fingerprint_mismatch_tampered_plan(tmp_path):
     assert "plan_fingerprint_mismatch" in _codes(report)
 
 
+# Verify that the operation fails when source fingerprint mismatch.
 def test_fail_on_source_fingerprint_mismatch(tmp_path):
+    """Verify that the operation fails when source fingerprint mismatch."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     source_file = tmp_path / "widget.docx"
     source_file.write_bytes(b"different bytes than the plan's recorded sha256")
@@ -193,6 +302,7 @@ def test_fail_on_source_fingerprint_mismatch(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_chunk_count_mismatch(tmp_path):
+    """Verify that the operation fails when chunk count mismatch."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     data["chunk_count"] = 999
@@ -207,6 +317,7 @@ def test_fail_on_chunk_count_mismatch(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_duplicate_chunk_id(tmp_path):
+    """Verify that the operation fails when duplicate chunk ID."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     data["chunks"][1]["chunk_id"] = data["chunks"][0]["chunk_id"]
@@ -216,7 +327,9 @@ def test_fail_on_duplicate_chunk_id(tmp_path):
     assert "duplicate_chunk_id" in _codes(report)
 
 
+# Verify that the operation fails when duplicate content path.
 def test_fail_on_duplicate_content_path(tmp_path):
+    """Verify that the operation fails when duplicate content path."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     data["chunks"][1]["content_file"] = data["chunks"][0]["content_file"]
@@ -225,7 +338,9 @@ def test_fail_on_duplicate_content_path(tmp_path):
     assert "duplicate_content_path" in _codes(report)
 
 
+# Verify that the operation fails when duplicate metadata path.
 def test_fail_on_duplicate_metadata_path(tmp_path):
+    """Verify that the operation fails when duplicate metadata path."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     data["chunks"][1]["metadata_file"] = data["chunks"][0]["metadata_file"]
@@ -234,7 +349,9 @@ def test_fail_on_duplicate_metadata_path(tmp_path):
     assert "duplicate_metadata_path" in _codes(report)
 
 
+# Verify that the operation fails when duplicate source order.
 def test_fail_on_duplicate_source_order(tmp_path):
+    """Verify that the operation fails when duplicate source order."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     data["chunks"][1]["source_order"] = data["chunks"][0]["source_order"]
@@ -248,6 +365,7 @@ def test_fail_on_duplicate_source_order(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_missing_chunk_content_file(tmp_path):
+    """Verify that the operation fails when missing chunk content file."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "chunks" / f"{a1.stable_key}.md").unlink()
     report = vc.validate_canonical_package(output_dir, plan)
@@ -255,7 +373,9 @@ def test_fail_on_missing_chunk_content_file(tmp_path):
     assert "missing_chunk_file" in _codes(report)
 
 
+# Verify that the operation fails when missing sidecar file.
 def test_fail_on_missing_sidecar_file(tmp_path):
+    """Verify that the operation fails when missing sidecar file."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "chunks" / f"{a1.stable_key}.meta.json").unlink()
     report = vc.validate_canonical_package(output_dir, plan)
@@ -263,7 +383,9 @@ def test_fail_on_missing_sidecar_file(tmp_path):
     assert "missing_sidecar_file" in _codes(report)
 
 
+# Verify that the operation fails when orphan chunk file.
 def test_fail_on_orphan_chunk_file(tmp_path):
+    """Verify that the operation fails when orphan chunk file."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "chunks" / "unknown-chunk.md").write_text("# Orphan\n")
     report = vc.validate_canonical_package(output_dir, plan)
@@ -271,7 +393,9 @@ def test_fail_on_orphan_chunk_file(tmp_path):
     assert "orphan_chunk_file" in _codes(report)
 
 
+# Verify that the operation fails when orphan sidecar file.
 def test_fail_on_orphan_sidecar_file(tmp_path):
+    """Verify that the operation fails when orphan sidecar file."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "chunks" / "unknown-chunk.meta.json").write_text("{}")
     report = vc.validate_canonical_package(output_dir, plan)
@@ -279,7 +403,9 @@ def test_fail_on_orphan_sidecar_file(tmp_path):
     assert "orphan_sidecar_file" in _codes(report)
 
 
+# Verify that the operation fails when orphan media file.
 def test_fail_on_orphan_media_file(tmp_path):
+    """Verify that the operation fails when orphan media file."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "media").mkdir(exist_ok=True)
     (output_dir / "media" / "unreferenced.png").write_bytes(b"bytes")
@@ -293,6 +419,7 @@ def test_fail_on_orphan_media_file(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_chunk_id_mismatch_between_manifest_and_sidecar(tmp_path):
+    """Verify that the operation fails when chunk ID mismatch between manifest and sidecar."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
     meta = json.loads(meta_path.read_text())
@@ -308,6 +435,7 @@ def test_fail_on_chunk_id_mismatch_between_manifest_and_sidecar(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_content_hash_mismatch(tmp_path):
+    """Verify that the operation fails when content hash mismatch."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     content_path = output_dir / "chunks" / f"{a1.stable_key}.md"
     content_path.write_text("# Widget Setup\n\nTampered body!\n")
@@ -316,7 +444,9 @@ def test_fail_on_content_hash_mismatch(tmp_path):
     assert "content_hash_mismatch" in _codes(report)
 
 
+# Verify chunk sidecar plan ID mismatch is detected.
 def test_chunk_sidecar_plan_id_mismatch_is_detected(tmp_path):
+    """Verify chunk sidecar plan ID mismatch is detected."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
     meta_data = json.loads(meta_path.read_text())
@@ -329,7 +459,9 @@ def test_chunk_sidecar_plan_id_mismatch_is_detected(tmp_path):
     assert any(i.code == "chunk_plan_id_mismatch" for i in report.issues)
 
 
+# Verify chunk sidecar source SHA-256 mismatch is detected.
 def test_chunk_sidecar_source_sha256_mismatch_is_detected(tmp_path):
+    """Verify chunk sidecar source SHA-256 mismatch is detected."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
     meta_data = json.loads(meta_path.read_text())
@@ -347,6 +479,7 @@ def test_chunk_sidecar_source_sha256_mismatch_is_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_empty_chunk(tmp_path):
+    """Verify that the operation fails when empty chunk."""
     a1 = _anchor(["Widget Setup"])
     plan = _confirmed_plan([a1])
     sliced = SlicedDocument(preamble="", chunks=[_slice(a1, "   \n")])
@@ -362,6 +495,7 @@ def test_fail_on_empty_chunk(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_warn_on_heading_missing_from_chunk_content(tmp_path):
+    """Verify that processing warns on heading missing from chunk content."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     content_path = output_dir / "chunks" / f"{a1.stable_key}.md"
     content_path.write_text("Body one, but the heading line got dropped.\n")
@@ -461,13 +595,17 @@ def _build_minimal_valid_package(tmp_path, generator_plugin: str = "docx-to-cont
     return output_dir
 
 
+# Load the confirmed plan fixture used to assemble the canonical package.
 def _load_plan_used_to_build(package_dir):
+    """Load the confirmed plan fixture used to assemble the canonical package."""
     tmp_path = Path(package_dir).parent
     data = json.loads((tmp_path / "plan.json").read_text())
     return contracts.ConversionPlan.from_dict(data)
 
 
+# Verify producer path content comparison skip is now an error.
 def test_producer_path_content_comparison_skip_is_now_an_error(tmp_path):
+    """Verify producer path content comparison skip is now an error."""
     package_dir = _build_minimal_valid_package(tmp_path)  # generator.plugin == "docx-to-content"
     plan = _load_plan_used_to_build(package_dir)
     # cleaned_markdown_text omitted -- this package's own manifest records
@@ -482,7 +620,9 @@ def test_producer_path_content_comparison_skip_is_now_an_error(tmp_path):
     )
 
 
+# Verify fixture provenance content comparison skip is not an error.
 def test_fixture_provenance_content_comparison_skip_is_not_an_error(tmp_path):
+    """Verify fixture provenance content comparison skip is not an error."""
     package_dir = _build_minimal_valid_package(tmp_path, generator_plugin="hand-authored-fixture")
     plan = _load_plan_used_to_build(package_dir)
     report = vc.validate_canonical_package(package_dir, plan)
@@ -491,7 +631,9 @@ def test_fixture_provenance_content_comparison_skip_is_not_an_error(tmp_path):
         i.code == "content_comparison_skipped" for i in report.issues
     )
 
+# Verify that the operation fails when content loss detected by aggregate comparison.
 def test_fail_on_content_loss_detected_by_aggregate_comparison(tmp_path):
+    """Verify that the operation fails when content loss detected by aggregate comparison."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     cleaned = (
         "# Widget Setup\n\nBody one.\n\n"
@@ -505,7 +647,9 @@ def test_fail_on_content_loss_detected_by_aggregate_comparison(tmp_path):
     assert "content_loss_or_duplication" in _codes(report)
 
 
+# Verify that the operation fails when content duplication detected by aggregate comparison.
 def test_fail_on_content_duplication_detected_by_aggregate_comparison(tmp_path):
+    """Verify that the operation fails when content duplication detected by aggregate comparison."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     # cleaned text is only the first chunk's content -- reconstructed
     # aggregate (both chunks) has extra content relative to "original".
@@ -517,7 +661,9 @@ def test_fail_on_content_duplication_detected_by_aggregate_comparison(tmp_path):
     assert "content_loss_or_duplication" in _codes(report)
 
 
+# Verify that processing succeeds when aggregate matches after whitespace normalization.
 def test_pass_when_aggregate_matches_after_whitespace_normalization(tmp_path):
+    """Verify that processing succeeds when aggregate matches after whitespace normalization."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     # Extra trailing whitespace / blank-line churn that normalization
     # should absorb without flagging content loss.
@@ -625,6 +771,7 @@ def test_fail_on_real_content_duplication_still_detected_when_image_present(tmp_
 # ---------------------------------------------------------------------------
 
 def test_fail_on_unresolved_structural_anchor_manifest_chunk_not_in_plan(tmp_path):
+    """Verify that the operation fails when unresolved structural anchor manifest chunk not in plan."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     data = json.loads((output_dir / "manifest.json").read_text())
     data["chunks"][0]["chunk_id"] = "chunk-id-not-in-plan-anchors"
@@ -656,6 +803,7 @@ def test_fail_on_unresolved_structural_anchor_manifest_chunk_not_in_plan(tmp_pat
 # ---------------------------------------------------------------------------
 
 def test_fail_on_raw_toc_artifact_in_chunk_content(tmp_path):
+    """Verify that the operation fails when raw TOC artifact in chunk content."""
     a1 = _anchor(["Widget Setup"])
     plan = _confirmed_plan([a1])
     content = "# Widget Setup\n\n[Introduction](#_Toc123456)\n\nBody.\n"
@@ -672,6 +820,7 @@ def test_fail_on_raw_toc_artifact_in_chunk_content(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_leftover_pandoc_attribute_artifact(tmp_path):
+    """Verify that the operation fails when leftover pandoc attribute artifact."""
     a1 = _anchor(["Widget Setup"])
     plan = _confirmed_plan([a1])
     content = "# Widget Setup\n\nSome text {.underline} remains.\n"
@@ -688,6 +837,7 @@ def test_fail_on_leftover_pandoc_attribute_artifact(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_image_embedded_in_heading(tmp_path):
+    """Verify that the operation fails when image embedded in heading."""
     a1 = _anchor(["Widget Setup"])
     plan = _confirmed_plan([a1])
     raw_media_dir = tmp_path / "raw_media"
@@ -707,6 +857,7 @@ def test_fail_on_image_embedded_in_heading(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_unsupported_legacy_media_reference_in_staged_content(tmp_path):
+    """Verify that the operation fails when unsupported legacy media reference in staged content."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "media").mkdir(exist_ok=True)
     (output_dir / "media" / "legacy.emf").write_bytes(b"not-a-real-emf")
@@ -731,6 +882,7 @@ def test_fail_on_unsupported_legacy_media_reference_in_staged_content(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_broken_local_document_link(tmp_path):
+    """Verify that the operation fails when broken local document link."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
     meta = json.loads(meta_path.read_text())
@@ -741,7 +893,9 @@ def test_fail_on_broken_local_document_link(tmp_path):
     assert "broken_local_link" in _codes(report)
 
 
+# Verify pass local link to a known chunk ID.
 def test_pass_local_link_to_a_known_chunk_id(tmp_path):
+    """Verify pass local link to a known chunk ID."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     meta_path = output_dir / "chunks" / f"{a1.stable_key}.meta.json"
     meta = json.loads(meta_path.read_text())
@@ -756,6 +910,7 @@ def test_pass_local_link_to_a_known_chunk_id(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_broken_media_reference(tmp_path):
+    """Verify that the operation fails when broken media reference."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     content_path = output_dir / "chunks" / f"{a1.stable_key}.md"
     new_content = "# Widget Setup\n\n![missing](../media/does-not-exist.png)\n"
@@ -774,6 +929,7 @@ def test_fail_on_broken_media_reference(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_on_path_traversal_reference_in_staged_content(tmp_path):
+    """Verify that the operation fails when path traversal reference in staged content."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     content_path = output_dir / "chunks" / f"{a1.stable_key}.md"
     new_content = "# Widget Setup\n\n![escape](../../etc/passwd)\n"
@@ -787,7 +943,9 @@ def test_fail_on_path_traversal_reference_in_staged_content(tmp_path):
     assert "path_traversal_or_absolute_reference" in _codes(report)
 
 
+# Verify that the operation fails when absolute path reference in staged content.
 def test_fail_on_absolute_path_reference_in_staged_content(tmp_path):
+    """Verify that the operation fails when absolute path reference in staged content."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     content_path = output_dir / "chunks" / f"{a1.stable_key}.md"
     new_content = "# Widget Setup\n\n![escape](/etc/passwd)\n"
@@ -806,6 +964,7 @@ def test_fail_on_absolute_path_reference_in_staged_content(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_write_validation_report_overwrites_placeholder(tmp_path):
+    """Verify write validation report overwrites placeholder."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     placeholder = json.loads((output_dir / "validation.json").read_text())
     assert placeholder["status"] == "PENDING"
@@ -823,6 +982,7 @@ def test_write_validation_report_overwrites_placeholder(tmp_path):
 # ---------------------------------------------------------------------------
 
 def _build_grouped_package(tmp_path):
+    """Build a grouped canonical package fixture with its publication map."""
     file_access = _anchor(["File Access"], level=1)
     how_to_seal = _anchor(["File Access", "How to Seal a File"], level=2)
     overview = _anchor(["Overview"], level=1)
@@ -842,7 +1002,9 @@ def _build_grouped_package(tmp_path):
     return plan, output_dir
 
 
+# Combine the cleaned Markdown expected for the grouped test package.
 def _grouped_cleaned_markdown():
+    """Combine the cleaned Markdown expected for the grouped test package."""
     return (
         "# File Access\n\nIntro to file access.\n\n"
         "## How to Seal a File\n\nSteps to seal a file.\n\n"
@@ -850,7 +1012,9 @@ def _grouped_cleaned_markdown():
     )
 
 
+# Verify validate grouped package passes when every anchor assigned once.
 def test_validate_grouped_package_passes_when_every_anchor_assigned_once(tmp_path):
+    """Verify validate grouped package passes when every anchor assigned once."""
     plan, output_dir = _build_grouped_package(tmp_path)
     report = vc.validate_canonical_package(
         output_dir, plan, cleaned_markdown_text=_grouped_cleaned_markdown()
@@ -858,7 +1022,9 @@ def test_validate_grouped_package_passes_when_every_anchor_assigned_once(tmp_pat
     assert report.status == "PASS", report.issues
 
 
+# Verify validate grouped package fails when an anchor is missing.
 def test_validate_grouped_package_fails_when_an_anchor_is_missing(tmp_path):
+    """Verify validate grouped package fails when an anchor is missing."""
     plan, output_dir = _build_grouped_package(tmp_path)
     meta_path = next((output_dir / "chunks").glob("*.meta.json"))
     meta = json.loads(meta_path.read_text())
@@ -874,7 +1040,9 @@ def test_validate_grouped_package_fails_when_an_anchor_is_missing(tmp_path):
     assert "unassigned_structural_anchor" in _codes(report)
 
 
+# Verify validate grouped package fails when an anchor is duplicated across topics.
 def test_validate_grouped_package_fails_when_an_anchor_is_duplicated_across_topics(tmp_path):
+    """Verify validate grouped package fails when an anchor is duplicated across topics."""
     plan, output_dir = _build_grouped_package(tmp_path)
     meta_paths = sorted((output_dir / "chunks").glob("*.meta.json"))
     metas = [json.loads(p.read_text()) for p in meta_paths]
@@ -888,7 +1056,9 @@ def test_validate_grouped_package_fails_when_an_anchor_is_duplicated_across_topi
     assert "duplicate_structural_anchor_assignment" in _codes(report)
 
 
+# Verify validate grouped package fails when publication map missing.
 def test_validate_grouped_package_fails_when_publication_map_missing(tmp_path):
+    """Verify validate grouped package fails when publication map missing."""
     plan, output_dir = _build_grouped_package(tmp_path)
     (output_dir / "publication-map.json").unlink()
     report = vc.validate_canonical_package(output_dir, plan)
@@ -896,7 +1066,9 @@ def test_validate_grouped_package_fails_when_publication_map_missing(tmp_path):
     assert "missing_publication_map" in _codes(report)
 
 
+# Verify validate grouped package fails when publication map order has gap.
 def test_validate_grouped_package_fails_when_publication_map_order_has_gap(tmp_path):
+    """Verify validate grouped package fails when publication map order has gap."""
     plan, output_dir = _build_grouped_package(tmp_path)
     pub_map_path = output_dir / "publication-map.json"
     data = json.loads(pub_map_path.read_text())
@@ -907,7 +1079,9 @@ def test_validate_grouped_package_fails_when_publication_map_order_has_gap(tmp_p
     assert "publication_map_order_invalid" in _codes(report)
 
 
+# Verify malformed publication map is a controlled validation error.
 def test_malformed_publication_map_is_a_controlled_validation_error(tmp_path):
+    """Verify malformed publication map is a controlled validation error."""
     plan, output_dir = _build_grouped_package(tmp_path)
     (output_dir / "publication-map.json").write_text("{not valid json")
 
@@ -917,7 +1091,9 @@ def test_malformed_publication_map_is_a_controlled_validation_error(tmp_path):
     assert any(i.code == "malformed_publication_map" for i in report.issues)
 
 
+# Verify rejection of unexpected publication map on non grouped package is.
 def test_unexpected_publication_map_on_non_grouped_package_is_rejected(tmp_path):
+    """Verify rejection of unexpected publication map on non grouped package is."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     (output_dir / "publication-map.json").write_text(json.dumps({
         "schema_version": "1.0",
@@ -931,7 +1107,9 @@ def test_unexpected_publication_map_on_non_grouped_package_is_rejected(tmp_path)
     assert any(i.code == "unexpected_publication_map" for i in report.issues)
 
 
+# Verify publication map chunk ID diverging from topic ID is detected.
 def test_publication_map_chunk_id_diverging_from_topic_id_is_detected(tmp_path):
+    """Verify publication map chunk ID diverging from topic ID is detected."""
     plan, output_dir = _build_grouped_package(tmp_path)
     pub_map_path = output_dir / "publication-map.json"
     data = json.loads(pub_map_path.read_text())
@@ -948,7 +1126,9 @@ def test_publication_map_chunk_id_diverging_from_topic_id_is_detected(tmp_path):
     assert any(i.code == "publication_map_chunk_mismatch" for i in report.issues)
 
 
+# Verify validate ungrouped package unaffected by new grouped checks.
 def test_validate_ungrouped_package_unaffected_by_new_grouped_checks(tmp_path):
+    """Verify validate ungrouped package unaffected by new grouped checks."""
     plan, output_dir, a1, a2 = _build_simple_package(tmp_path)
     cleaned = "# Widget Setup\n\nBody one.\n\n# Widget Configuration\n\nBody two.\n"
     report = vc.validate_canonical_package(
@@ -964,6 +1144,7 @@ def test_validate_ungrouped_package_unaffected_by_new_grouped_checks(tmp_path):
 # ---------------------------------------------------------------------------
 
 def _plan_with_media_decision(record):
+    """Build a confirmed plan with the requested media disposition."""
     source_fp = contracts.SourceFingerprint(
         path="sourcedocuments/widget.docx", sha256="b" * 64, size_bytes=123
     )
@@ -985,7 +1166,9 @@ def _plan_with_media_decision(record):
     return plan
 
 
+# Verify pending media decision is blocking.
 def test_pending_media_decision_is_blocking():
+    """Verify pending media decision is blocking."""
     plan = _plan_with_media_decision({
         "source_media_id": "image1.png",
         "classification": "requires-human-review",
@@ -995,7 +1178,9 @@ def test_pending_media_decision_is_blocking():
     assert any(i.code == "unclassified_media" for i in issues)
 
 
+# Verify reviewed media omission is not blocking.
 def test_reviewed_media_omission_is_not_blocking():
+    """Verify reviewed media omission is not blocking."""
     plan = _plan_with_media_decision({
         "source_media_id": "image1.png",
         "classification": "obsolete-source-layout-artifact",
@@ -1006,7 +1191,9 @@ def test_reviewed_media_omission_is_not_blocking():
     assert issues == []
 
 
+# Verify no media decisions is not blocking.
 def test_no_media_decisions_is_not_blocking():
+    """Verify no media decisions is not blocking."""
     source_fp = contracts.SourceFingerprint(
         path="sourcedocuments/widget.docx", sha256="b" * 64, size_bytes=123
     )
@@ -1038,6 +1225,7 @@ def test_no_media_decisions_is_not_blocking():
 # ---------------------------------------------------------------------------
 
 def test_content_loss_check_passes_when_compared_against_preamble_stripped_text(tmp_path):
+    """Verify content loss check passes when compared against preamble stripped text."""
     a1 = _anchor(["Widget Setup"])
     plan = _confirmed_plan([a1])
     preamble = "**Widget Manual**\n\n**Version 1.0**\n\n"

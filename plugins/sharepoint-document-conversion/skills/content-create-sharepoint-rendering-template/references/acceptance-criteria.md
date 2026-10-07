@@ -1,0 +1,1 @@
+../../../references/rendering/content-create-sharepoint-rendering-template-acceptance-criteria.md

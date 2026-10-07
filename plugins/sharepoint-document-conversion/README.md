@@ -34,6 +34,33 @@ Every workflow is local or read-only; nothing in this package writes to a tenant
 - `content-validate-rendered-output` -- Validates a staged rendered-output directory (Markdown or ASPX) against the canonical package it was rendered from, and promotes it atomically on PASS. Use after rendering and before accepting or publishing a render....
 - `content-validate-rendering-template` -- Validates a RenderingTemplate (from the Markdown or ASPX template-creation skills) for schema, placeholder, required-section and format-profile correctness. Use before relying on a template. Checks the template...
 
+## Plugin structure
+
+Shared scripts and references live at the plugin root in namespace folders; each skill links to them with file-level symlinks.
+
+```text
+sharepoint-document-conversion/
+├── .claude-plugin/plugin.json   # Plugin manifest
+├── assets/                      # Rendering templates and static assets
+├── evaluations/                 # Evaluation fixtures
+├── references/                  # Contracts, interfaces and acceptance criteria by namespace
+│   ├── extraction/
+│   ├── structure-analysis/
+│   ├── assembly/
+│   ├── rendering/
+│   └── source-packages/
+├── scripts/                     # Canonical Python implementation by namespace
+│   ├── extraction/
+│   ├── structure-analysis/
+│   ├── assembly/
+│   ├── rendering/
+│   └── editorial-review/
+├── skills/<skill-name>/         # SKILL.md plus symlinked scripts/ and references/
+├── tests/                       # Namespace test suites (run via tests/run_namespaces.py)
+├── plugin.yaml
+└── pyproject.toml
+```
+
 ## Previous identities
 
 Skill and plugin names changed in the seven-domain migration (issue #6). Old names are not retained as aliases.

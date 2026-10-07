@@ -1,3 +1,14 @@
+"""
+Purpose: Verify page-inventory collector fields against the recorded fixture schema.
+
+Key Input Dependencies:
+    - pytest, the plugin module under test, and temporary JSON fixtures created by the test cases.
+
+Function index:
+    - test_collector_output_fields_match_fixture_schema
+    - test_collector_webpart_fields_match_fixture_schema
+"""
+
 import json
 import re
 from pathlib import Path
@@ -6,7 +17,9 @@ FIXTURE = Path(__file__).parent / "fixtures" / "page-inventory.json"
 COLLECTOR = Path(__file__).parent.parent / "scripts" / "collect-sharepoint-page-inventory.ps1"
 
 
+# Collector output fields match fixture schema.
 def test_collector_output_fields_match_fixture_schema():
+    """Collector output fields match fixture schema."""
     fixture_records = json.loads(FIXTURE.read_text(encoding="utf-8"))
     fixture_fields = set(fixture_records[0].keys())
 
@@ -21,7 +34,9 @@ def test_collector_output_fields_match_fixture_schema():
     )
 
 
+# Collector webpart fields match fixture schema.
 def test_collector_webpart_fields_match_fixture_schema():
+    """Collector webpart fields match fixture schema."""
     fixture_records = json.loads(FIXTURE.read_text(encoding="utf-8"))
     fixture_wp_fields = set(fixture_records[1]["WebParts"][0].keys())  # links.aspx has WebParts
 

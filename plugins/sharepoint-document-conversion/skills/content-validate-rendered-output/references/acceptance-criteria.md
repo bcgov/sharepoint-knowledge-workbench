@@ -1,0 +1,1 @@
+../../../references/rendering/content-validate-rendered-output-acceptance-criteria.md

@@ -1,0 +1,1 @@
+../../../references/schema-reconciliation/sharepoint-plan-content-type-changes-acceptance-criteria.md

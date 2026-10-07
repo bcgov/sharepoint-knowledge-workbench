@@ -1,0 +1,1 @@
+../../../references/provisioning/sharepoint-create-list-acceptance-criteria.md

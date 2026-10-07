@@ -11,6 +11,19 @@ Layer: sharepoint-schema / plugin-local tests
 
 Key Input Dependencies:
     - duplicate_fields, schema_export (modules under test)
+
+Function index:
+    - _export
+    - _load
+    - test_detects_two_internal_names_sharing_one_display_name
+    - test_single_internal_name_repeated_is_ambiguity_not_a_duplicate
+    - test_builtin_columns_are_excluded
+    - test_builtin_exclusion_list_is_caller_configurable
+    - test_read_only_columns_are_excluded
+    - test_fields_without_a_display_name_are_surfaced_not_guessed
+    - test_missing_export_reports_unavailable_not_a_clean_pass
+    - test_unreadable_list_yields_partial
+    - test_module_exposes_no_remediation_or_write_capability
 """
 
 import json
@@ -24,7 +37,9 @@ from duplicate_fields import find_duplicate_fields  # noqa: E402
 from schema_export import SectionStatus, load_schema_export  # noqa: E402
 
 
+# Create and return a neutral schema-export fixture at the requested test path.
 def _export(root: Path, list_fields):
+    """Create and return a neutral schema-export fixture at the requested test path."""
     for name, fields in list_fields.items():
         path = root / "lists" / name / "fields.json"
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -32,11 +47,15 @@ def _export(root: Path, list_fields):
     return root
 
 
+# Load a schema export fixture with the test label and default layout.
 def _load(tmp_path, name, list_fields):
+    """Load a schema export fixture with the test label and default layout."""
     return load_schema_export(_export(tmp_path / name, list_fields), label=name)
 
 
+# Detects two internal names sharing one display name.
 def test_detects_two_internal_names_sharing_one_display_name(tmp_path):
+    """Detects two internal names sharing one display name."""
     report = find_duplicate_fields(_load(tmp_path, "a", {
         "Records": [
             {"InternalName": "issued", "Title": "Issued", "ReadOnlyField": False},
@@ -50,7 +69,9 @@ def test_detects_two_internal_names_sharing_one_display_name(tmp_path):
     assert group.internal_names == ("issued", "issued0")
 
 
+# Single internal name repeated is ambiguity not a duplicate.
 def test_single_internal_name_repeated_is_ambiguity_not_a_duplicate(tmp_path):
+    """Single internal name repeated is ambiguity not a duplicate."""
     report = find_duplicate_fields(_load(tmp_path, "b", {
         "Records": [
             {"InternalName": "issued", "Title": "Issued", "ReadOnlyField": False},
@@ -61,7 +82,9 @@ def test_single_internal_name_repeated_is_ambiguity_not_a_duplicate(tmp_path):
     assert report.ambiguities
 
 
+# Builtin columns are excluded.
 def test_builtin_columns_are_excluded(tmp_path):
+    """Builtin columns are excluded."""
     report = find_duplicate_fields(_load(tmp_path, "c", {
         "Records": [
             {"InternalName": "Title", "Title": "Name", "ReadOnlyField": False},
@@ -71,7 +94,9 @@ def test_builtin_columns_are_excluded(tmp_path):
     assert report.groups == ()
 
 
+# Builtin exclusion list is caller configurable.
 def test_builtin_exclusion_list_is_caller_configurable(tmp_path):
+    """Builtin exclusion list is caller configurable."""
     export = _load(tmp_path, "d", {
         "Records": [
             {"InternalName": "Title", "Title": "Name", "ReadOnlyField": False},
@@ -82,7 +107,9 @@ def test_builtin_exclusion_list_is_caller_configurable(tmp_path):
     assert find_duplicate_fields(export, builtin_internal_names=()).groups
 
 
+# Read only columns are excluded.
 def test_read_only_columns_are_excluded(tmp_path):
+    """Read only columns are excluded."""
     report = find_duplicate_fields(_load(tmp_path, "e", {
         "Records": [
             {"InternalName": "calc", "Title": "Total", "ReadOnlyField": True},
@@ -92,7 +119,9 @@ def test_read_only_columns_are_excluded(tmp_path):
     assert report.groups == ()
 
 
+# Fields without a display name are surfaced not guessed.
 def test_fields_without_a_display_name_are_surfaced_not_guessed(tmp_path):
+    """Fields without a display name are surfaced not guessed."""
     report = find_duplicate_fields(_load(tmp_path, "f", {
         "Records": [{"InternalName": "orphan", "ReadOnlyField": False}]
     }))
@@ -100,13 +129,17 @@ def test_fields_without_a_display_name_are_surfaced_not_guessed(tmp_path):
     assert report.ambiguities
 
 
+# Missing export reports unavailable not a clean pass.
 def test_missing_export_reports_unavailable_not_a_clean_pass(tmp_path):
+    """Missing export reports unavailable not a clean pass."""
     report = find_duplicate_fields(load_schema_export(tmp_path / "gone", label="gone"))
     assert report.status is SectionStatus.UNAVAILABLE
     assert report.groups == ()
 
 
+# Unreadable list yields partial.
 def test_unreadable_list_yields_partial(tmp_path):
+    """Unreadable list yields partial."""
     root = _export(tmp_path / "g", {"Ok": [{"InternalName": "a", "Title": "A"}]})
     bad = root / "lists" / "Bad" / "fields.json"
     bad.parent.mkdir(parents=True, exist_ok=True)

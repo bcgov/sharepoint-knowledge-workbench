@@ -1,0 +1,1 @@
+../../../references/sharepoint-audit-onprem-schema-drift-acceptance-criteria.md

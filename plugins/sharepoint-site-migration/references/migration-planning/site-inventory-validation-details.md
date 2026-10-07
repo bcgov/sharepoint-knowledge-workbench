@@ -33,7 +33,7 @@ result = validate_export_directory(export_dir)
 
 A single `site-inventory.json` inside the export directory:
 `{"lists": [{"name": ..., "fields": [{"name": ..., "type": ..., "lookupList": "..."}]}]}`, with `lookupList` required only on `type: "Lookup"` fields. The
-full JSON Schema is `assets/migration-planning/site-inventory-export-schema.json`.
+full JSON Schema is `assets/site-inventory-export-schema.json`.
 
 ## Honest outcomes
 

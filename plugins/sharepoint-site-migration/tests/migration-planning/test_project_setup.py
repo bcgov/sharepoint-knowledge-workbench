@@ -1,6 +1,10 @@
 """Tests for project_setup.py -- stage 1 (initialize-migration-project):
 confirms a repository-root config.psd1 with a Connection block exists (never
-fabricates one), then creates a per-migration working directory. No tenant I/O."""
+fabricates one), then creates a per-migration working directory. No tenant I/O.
+
+Purpose: Tests for project_setup.py -- stage 1 (initialize-migration-project): confirms a repository-root config.psd1 with a Connection block exists (never fabricates one), then creates a per-migration working directory.
+Key Input Dependencies: project_setup, provisioning_outcomes.
+"""
 
 from __future__ import annotations
 
@@ -21,17 +25,20 @@ from provisioning_outcomes import Outcome
 
 class TestCheckConfigPsd1:
     def test_missing_file_is_failed(self, tmp_path):
+        """Verify missing file is failed."""
         result = check_config_psd1(tmp_path)
         assert result.outcome == Outcome.FAILED
         assert "workbench-initialize-connection-config" in result.message
 
     def test_file_without_connection_block_is_failed(self, tmp_path):
+        """Verify file without connection block is failed."""
         (tmp_path / "config.psd1").write_text("@{\n    Defaults = @{}\n}\n")
         result = check_config_psd1(tmp_path)
         assert result.outcome == Outcome.FAILED
         assert "Connection" in result.message
 
     def test_file_with_connection_block_is_observed(self, tmp_path):
+        """Verify file with connection block is observed."""
         (tmp_path / "config.psd1").write_text(
             "@{\n    Connection = @{\n        SiteUrl = 'https://contoso.sharepoint.com'\n    }\n}\n"
         )
@@ -41,6 +48,7 @@ class TestCheckConfigPsd1:
 
 class TestProjectPaths:
     def test_computes_expected_layout(self, tmp_path):
+        """Verify computes expected layout."""
         paths = project_paths(tmp_path, "acme-migration")
         assert paths.root == tmp_path / "runs" / "sharepoint-migration-planning" / "acme-migration"
         assert paths.export == paths.root / "export"
@@ -51,6 +59,7 @@ class TestProjectPaths:
 
 class TestCreateProjectDirectories:
     def test_creates_root_export_and_generated_scripts_dirs(self, tmp_path):
+        """Verify creates root export and generated scripts dirs."""
         paths = project_paths(tmp_path, "acme-migration")
         create_project_directories(paths)
         assert paths.root.is_dir()
@@ -58,6 +67,7 @@ class TestCreateProjectDirectories:
         assert paths.generated_scripts.is_dir()
 
     def test_idempotent(self, tmp_path):
+        """Verify idempotent."""
         paths = project_paths(tmp_path, "acme-migration")
         create_project_directories(paths)
         create_project_directories(paths)  # must not raise
@@ -66,6 +76,7 @@ class TestCreateProjectDirectories:
 
 class TestSetupMigrationProject:
     def test_fails_without_config_psd1_and_creates_no_directory(self, tmp_path):
+        """Verify fails without config psd1 and creates no directory."""
         result = setup_migration_project(
             tmp_path,
             source_site_url="https://contoso.sharepoint.com/sites/old",
@@ -77,6 +88,7 @@ class TestSetupMigrationProject:
         assert not (tmp_path / "runs").exists()
 
     def test_succeeds_with_valid_config_psd1(self, tmp_path):
+        """Verify succeeds with valid config psd1."""
         (tmp_path / "config.psd1").write_text("@{\n    Connection = @{\n        SiteUrl = 'x'\n    }\n}\n")
         result = setup_migration_project(
             tmp_path,
@@ -90,6 +102,7 @@ class TestSetupMigrationProject:
         assert result.paths.export.is_dir()
 
     def test_missing_required_arguments_fail_honestly(self, tmp_path):
+        """Verify missing required arguments fail honestly."""
         (tmp_path / "config.psd1").write_text("@{\n    Connection = @{}\n}\n")
         result = setup_migration_project(
             tmp_path, source_site_url="", target_site_url="https://x", project_slug="slug"

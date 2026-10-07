@@ -1,6 +1,14 @@
-"""
-structured_content_rendering.py
+"""structured_content_rendering.py
 ===============================
+
+Purpose:
+    Public interface for the `structured-content-rendering` plugin: consumes an already-promoted `canonical-package` (and, for the "grouped" strategy, its `publication-map`) from disk and produces a validated, atomically-promoted `rendered-output-profile` (multipage markdown).
+
+Key Input Dependencies:
+    - sys
+    - pathlib
+    - canonical_package
+    - renderers
 
 Public interface for the `structured-content-rendering` plugin: consumes an
 already-promoted `canonical-package` (and, for the "grouped" strategy,
@@ -10,7 +18,9 @@ atomically-promoted `rendered-output-profile` (multipage markdown).
 This plugin is the sole producer of `rendered-output-profile`;
 `structured-content-assembly` never imports this module -- it only writes the
 canonical package this function's caller loads.
-"""
+
+Key Functions Index:
+    - render()"""
 
 from __future__ import annotations
 

@@ -13,6 +13,17 @@ Layer: sharepoint-schema / plugin-local tests
 
 Key Input Dependencies:
     - calculated_columns, schema_export (modules under test)
+
+Function index:
+    - _export
+    - _load
+    - test_finds_calculated_field_with_formula_and_referenced_fields
+    - test_non_calculated_fields_are_ignored
+    - test_missing_formula_is_surfaced_not_fabricated
+    - test_formula_with_no_bracketed_references_yields_empty_tuple
+    - test_missing_export_reports_unavailable_not_a_clean_pass
+    - test_unreadable_list_yields_partial
+    - test_module_exposes_no_remediation_or_write_capability
 """
 
 import json
@@ -26,7 +37,9 @@ from calculated_columns import find_calculated_columns  # noqa: E402
 from schema_export import SectionStatus, load_schema_export  # noqa: E402
 
 
+# Create and return a neutral schema-export fixture at the requested test path.
 def _export(root: Path, list_fields):
+    """Create and return a neutral schema-export fixture at the requested test path."""
     for name, fields in list_fields.items():
         path = root / "lists" / name / "fields.json"
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -34,11 +47,15 @@ def _export(root: Path, list_fields):
     return root
 
 
+# Load a schema export fixture with the test label and default layout.
 def _load(tmp_path, name, list_fields):
+    """Load a schema export fixture with the test label and default layout."""
     return load_schema_export(_export(tmp_path / name, list_fields), label=name)
 
 
+# Finds calculated field with formula and referenced fields.
 def test_finds_calculated_field_with_formula_and_referenced_fields(tmp_path):
+    """Finds calculated field with formula and referenced fields."""
     report = find_calculated_columns(_load(tmp_path, "a", {
         "Records": [
             {"InternalName": "total", "Title": "Total", "TypeAsString": "Calculated",
@@ -55,7 +72,9 @@ def test_finds_calculated_field_with_formula_and_referenced_fields(tmp_path):
     assert column.referenced_fields == ("Quantity", "UnitPrice")
 
 
+# Non calculated fields are ignored.
 def test_non_calculated_fields_are_ignored(tmp_path):
+    """Non calculated fields are ignored."""
     report = find_calculated_columns(_load(tmp_path, "b", {
         "Records": [
             {"InternalName": "qty", "Title": "Quantity", "TypeAsString": "Number"},
@@ -65,7 +84,9 @@ def test_non_calculated_fields_are_ignored(tmp_path):
     assert report.columns == ()
 
 
+# Missing formula is surfaced not fabricated.
 def test_missing_formula_is_surfaced_not_fabricated(tmp_path):
+    """Missing formula is surfaced not fabricated."""
     report = find_calculated_columns(_load(tmp_path, "c", {
         "Records": [
             {"InternalName": "total", "Title": "Total", "TypeAsString": "Calculated"},
@@ -78,7 +99,9 @@ def test_missing_formula_is_surfaced_not_fabricated(tmp_path):
     assert report.ambiguities
 
 
+# Formula with no bracketed references yields empty tuple.
 def test_formula_with_no_bracketed_references_yields_empty_tuple(tmp_path):
+    """Formula with no bracketed references yields empty tuple."""
     report = find_calculated_columns(_load(tmp_path, "d", {
         "Records": [
             {"InternalName": "today", "Title": "Today", "TypeAsString": "Calculated",
@@ -88,13 +111,17 @@ def test_formula_with_no_bracketed_references_yields_empty_tuple(tmp_path):
     assert report.columns[0].referenced_fields == ()
 
 
+# Missing export reports unavailable not a clean pass.
 def test_missing_export_reports_unavailable_not_a_clean_pass(tmp_path):
+    """Missing export reports unavailable not a clean pass."""
     report = find_calculated_columns(load_schema_export(tmp_path / "gone", label="gone"))
     assert report.status is SectionStatus.UNAVAILABLE
     assert report.columns == ()
 
 
+# Unreadable list yields partial.
 def test_unreadable_list_yields_partial(tmp_path):
+    """Unreadable list yields partial."""
     root = _export(tmp_path / "e", {"Ok": [{"InternalName": "a", "Title": "A", "TypeAsString": "Text"}]})
     bad = root / "lists" / "Bad" / "fields.json"
     bad.parent.mkdir(parents=True, exist_ok=True)

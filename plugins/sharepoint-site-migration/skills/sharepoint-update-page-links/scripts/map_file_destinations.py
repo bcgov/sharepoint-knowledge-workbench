@@ -1,0 +1,1 @@
+../../../scripts/link-remediation/map_file_destinations.py

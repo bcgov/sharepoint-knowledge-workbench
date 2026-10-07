@@ -1,6 +1,20 @@
-"""
-validate_rendered.py
+"""validate_rendered.py
 ======================
+
+Purpose:
+    Task 14 -- the render validator (spec Section 9, "Render validation must detect") and the atomic-promotion wiring Task 13's `render_to_staging` deliberately left undone (it stages a render but never promotes -- see its module docstring).
+
+Key Input Dependencies:
+    - json
+    - re
+    - sys
+    - pathlib
+    - urllib.parse
+    - atomic_output
+    - render_result
+    - canonical_schema.canonical_package
+    - path_safety
+    - renderers
 
 Task 14 -- the render validator (spec Section 9, "Render validation must
 detect") and the atomic-promotion wiring Task 13's `render_to_staging`
@@ -58,7 +72,28 @@ Function Index:
         -> validate_rendered_output -> write renderer-validation.json ->
         promote() only on PASS. Mirrors `convert.convert_and_promote`'s
         shape/naming.
-"""
+
+Key Functions Index:
+    - _error()
+    - write_render_result()
+    - write_rendered_validation_report()
+    - _check_index_and_pages_exist()
+    - _check_index_links()
+    - _check_index_completeness()
+    - _check_page_completeness()
+    - _check_page_references()
+    - _check_source_content_staleness()
+    - _check_page_traceability()
+    - validate_rendered_output()
+    - _aspx_check_manifest_and_pages_exist()
+    - _aspx_load_page_manifest()
+    - _aspx_check_page_completeness()
+    - _aspx_check_page_references()
+    - _aspx_check_source_content_staleness()
+    - _aspx_check_page_traceability()
+    - validate_aspx_rendered_output()
+    - render_and_promote_aspx()
+    - render_and_promote()"""
 
 import json
 import re
@@ -90,7 +125,9 @@ _LINK_REF = re.compile(r"(?<!!)\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 _IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 
 
+# Create a rendered-output validation error with its code, message, and affected path.
 def _error(code: str, message: str, path: "str | None" = None) -> "ValidationIssue":
+    """Create a rendered-output validation error with its code, message, and affected path."""
     return ValidationIssue(severity="error", code=code, message=message, path=path)
 
 
@@ -124,6 +161,7 @@ def write_rendered_validation_report(report: "ValidationReport", rendered_dir: P
 # ---------------------------------------------------------------------------
 
 def _check_index_and_pages_exist(rendered_dir: Path) -> list:
+    """Verify that the rendered index and every page declared by the manifest exist in the output tree."""
     issues = []
     if not (rendered_dir / "index.md").exists():
         issues.append(_error("missing_index", "index.md does not exist", "index.md"))
@@ -137,6 +175,7 @@ def _check_index_and_pages_exist(rendered_dir: Path) -> list:
 # ---------------------------------------------------------------------------
 
 def _check_index_links(rendered_dir: Path) -> list:
+    """Resolve each local link in the Markdown index and report links to missing pages or media."""
     index_path = rendered_dir / "index.md"
     if not index_path.exists():
         return []
@@ -198,6 +237,7 @@ def _check_index_completeness(rendered_dir: Path) -> list:
 # ---------------------------------------------------------------------------
 
 def _check_page_completeness(rendered_dir: Path, package) -> list:
+    """Compare rendered Markdown pages with the canonical chunk manifest and report missing or orphan pages."""
     pages_dir = rendered_dir / "pages"
     if not pages_dir.is_dir():
         return []
@@ -239,6 +279,7 @@ def _check_page_completeness(rendered_dir: Path, package) -> list:
 # ---------------------------------------------------------------------------
 
 def _check_page_references(rendered_dir: Path, package) -> list:
+    """Validate rendered-page links and media references for existence, path safety, and correct page-relative targets."""
     pages_dir = rendered_dir / "pages"
     if not pages_dir.is_dir():
         return []
@@ -312,6 +353,7 @@ def _check_page_references(rendered_dir: Path, package) -> list:
 # ---------------------------------------------------------------------------
 
 def _check_source_content_staleness(rendered_dir: Path, package) -> list:
+    """Compare rendered page content and recorded source hashes with the canonical package to detect stale output."""
     result_path = rendered_dir / "render-result.json"
     if not result_path.exists():
         return [_error(
@@ -349,6 +391,7 @@ def _check_source_content_staleness(rendered_dir: Path, package) -> list:
 # ---------------------------------------------------------------------------
 
 def _check_page_traceability(rendered_dir: Path, package) -> list:
+    """Confirm that each rendered page can be traced to the canonical source chunk recorded in its manifest."""
     pages_dir = rendered_dir / "pages"
     if not pages_dir.is_dir():
         return []
@@ -420,7 +463,9 @@ def validate_rendered_output(rendered_dir: Path, package) -> "ValidationReport":
 _ASPX_IMG_SRC = re.compile(r'src="([^"]+)"')
 
 
+# Verify that the ASPX page manifest and every declared SharePoint page artifact exist.
 def _aspx_check_manifest_and_pages_exist(rendered_dir: Path) -> list:
+    """Verify that the ASPX page manifest and every declared SharePoint page artifact exist."""
     issues = []
     if not (rendered_dir / "page-manifest.json").exists():
         issues.append(_error(
@@ -431,7 +476,9 @@ def _aspx_check_manifest_and_pages_exist(rendered_dir: Path) -> list:
     return issues
 
 
+# Load and validate page-manifest.json for the staged SharePoint ASPX output.
 def _aspx_load_page_manifest(rendered_dir: Path):
+    """Load and validate page-manifest.json for the staged SharePoint ASPX output."""
     manifest_path = rendered_dir / "page-manifest.json"
     if not manifest_path.exists():
         return None
@@ -441,7 +488,9 @@ def _aspx_load_page_manifest(rendered_dir: Path):
         return None
 
 
+# Compare staged ASPX pages with page-manifest entries and report missing or extra artifacts.
 def _aspx_check_page_completeness(rendered_dir: Path, package) -> list:
+    """Compare staged ASPX pages with page-manifest entries and report missing or extra artifacts."""
     pages_dir = rendered_dir / "pages"
     if not pages_dir.is_dir():
         return []
@@ -478,7 +527,9 @@ def _aspx_check_page_completeness(rendered_dir: Path, package) -> list:
     return issues
 
 
+# Validate links and media references embedded in each staged ASPX page for safe, resolvable targets.
 def _aspx_check_page_references(rendered_dir: Path) -> list:
+    """Validate links and media references embedded in each staged ASPX page for safe, resolvable targets."""
     pages_dir = rendered_dir / "pages"
     if not pages_dir.is_dir():
         return []
@@ -512,15 +563,19 @@ def _aspx_check_page_references(rendered_dir: Path) -> list:
     return issues
 
 
+# Compare ASPX page content and source hashes with the canonical package to detect stale publication artifacts.
 def _aspx_check_source_content_staleness(rendered_dir: Path, package) -> list:
     # Identical policy to the Markdown check -- factored separately (not
     # shared) because each caller's error `path` context stays scoped to
     # its own renderer's output, matching this module's existing
     # per-format-section convention.
+    """Compare ASPX page content and source hashes with the canonical package to detect stale publication artifacts."""
     return _check_source_content_staleness(rendered_dir, package)
 
 
+# Verify that each ASPX artifact records traceable lineage to its canonical source chunk.
 def _aspx_check_page_traceability(rendered_dir: Path, package) -> list:
+    """Verify that each ASPX artifact records traceable lineage to its canonical source chunk."""
     pages_dir = rendered_dir / "pages"
     if not pages_dir.is_dir():
         return []

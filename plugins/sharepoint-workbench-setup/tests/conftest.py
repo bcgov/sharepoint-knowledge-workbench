@@ -1,3 +1,14 @@
+"""
+Purpose:
+    Make the plugin scripts available to pytest modules during test collection.
+
+Key Input Dependencies:
+    - The plugin scripts/ directory containing imported test modules.
+
+Function Index:
+    None (no functions are defined in this module).
+"""
+
 import sys
 from pathlib import Path
 

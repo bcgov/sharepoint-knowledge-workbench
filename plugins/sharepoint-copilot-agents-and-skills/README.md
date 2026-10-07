@@ -23,6 +23,24 @@ Skills author local files, inspect tenant state, or perform live operations acco
 - `sharepoint-restore-agents` and `sharepoint-restore-native-skills` — restore backed-up artifacts under their documented controls.
 - `sharepoint-update-agent-package` — update a local agent package without tenant I/O.
 
+## Plugin structure
+
+Shared scripts and references live at the plugin root; each skill links to them with file-level symlinks.
+
+```text
+sharepoint-copilot-agents-and-skills/
+├── .claude-plugin/plugin.json   # Plugin manifest
+├── assets/templates/            # Agent and skill authoring templates
+├── references/                  # Shared references and per-skill acceptance criteria
+├── scripts/                     # Canonical PowerShell scripts used by the skills
+├── skills/<skill-name>/         # SKILL.md plus symlinked scripts/ and references/
+├── tests/                       # Plugin manifest and unit tests
+├── config.psd1.example          # Connection config template
+├── deployment-manifest.example.json
+├── plugin.yaml
+└── pyproject.toml
+```
+
 ## Previous identities
 
 Skill and plugin names changed in the seven-domain migration for issue #6. The old names are migration provenance, not installable aliases.

@@ -1,6 +1,14 @@
-"""
-drift_detection.py
+"""drift_detection.py
 ====================
+
+Purpose:
+    Phase 6 Task 8 -- compares the `repository-claude` runtime's actual structural behavior for a Task 5 common-evaluation-set case against that case's structural expectations, and flags drift.
+
+Key Input Dependencies:
+    - sys
+    - dataclasses
+    - pathlib
+    - review_manual_topics
 
 Phase 6 Task 8 -- compares the `repository-claude` runtime's actual
 structural behavior for a Task 5 common-evaluation-set case against
@@ -16,7 +24,10 @@ grading (does the review text actually satisfy
 `expected_semantic_behaviours`) is a separate, larger undertaking --
 see `docs/superpowers/plans/phase-6-tasks-1-12-evidence/
 task-6-baseline-evaluation-findings.md`'s open items.
-"""
+
+Key Functions Index:
+    - run_case_against_repository_claude()
+    - detect_drift()"""
 
 import sys
 from dataclasses import dataclass

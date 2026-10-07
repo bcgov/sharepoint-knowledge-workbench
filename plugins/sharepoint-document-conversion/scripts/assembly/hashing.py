@@ -1,6 +1,13 @@
-"""
-hashing.py
+"""hashing.py
 ==========
+
+Purpose:
+    Deterministic canonical-JSON serialization and SHA-256 fingerprinting for the docx-to-content contract dataclasses (see scripts/contracts.py).
+
+Key Input Dependencies:
+    - hashlib
+    - json
+    - typing
 
 Deterministic canonical-JSON serialization and SHA-256 fingerprinting for the
 docx-to-content contract dataclasses (see scripts/contracts.py).
@@ -15,7 +22,10 @@ output.
 own `hashing.py` in Phase 4.5 Wave 3, alongside the ConversionPlan type
 itself -- see
 docs/superpowers/plans/phase-4-5-evidence/wave-3-analysis-plan-split-decision.md.
-"""
+
+Key Functions Index:
+    - canonical_json_bytes()
+    - content_hash()"""
 
 import hashlib
 import json

@@ -4554,6 +4554,642 @@
       "dst": "plugins/sharepoint-site-migration/skills/sharepoint-validate-page-modernization/references/bulk-content-link-workflow.md",
       "strategy": "symlink",
       "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/scripts/link-remediation/map_file_destinations.py",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-page-links/scripts/map_file_destinations.py",
+      "strategy": "symlink",
+      "description": "Destination mapping script for sharepoint-update-page-links"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/scripts/link-remediation/generate_link_rewrite_plan.py",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-page-links/scripts/generate_link_rewrite_plan.py",
+      "strategy": "symlink",
+      "description": "Link rewrite planning script for sharepoint-update-page-links"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/link-extraction-and-mapping-pipeline.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-page-links/references/link-extraction-and-mapping-pipeline.md",
+      "strategy": "symlink",
+      "description": "Link extraction and mapping pipeline reference for sharepoint-update-page-links"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/link-extraction-and-mapping-pipeline.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-extract-links/references/link-extraction-and-mapping-pipeline.md",
+      "strategy": "symlink",
+      "description": "Link extraction and mapping pipeline reference for sharepoint-extract-links"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/sharepoint-extract-links-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-extract-links/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for sharepoint-extract-links"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/sharepoint-update-page-links-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-page-links/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for sharepoint-update-page-links"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/page-modernization/sharepoint-analyze-classic-pages-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-analyze-classic-pages/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/migration-planning/sharepoint-analyze-migration-dependencies-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-analyze-migration-dependencies/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/legacy-aspx-to-html-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-legacy-aspx-to-html/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/page-modernization-execution/sharepoint-convert-page-library-to-modern-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-page-library-to-modern/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/page-modernization-execution/sharepoint-convert-page-to-modern-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-convert-page-to-modern/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/page-modernization/sharepoint-create-page-preview-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-create-page-preview/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/page-modernization/sharepoint-generate-modernization-report-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-generate-modernization-report/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/migration-planning/sharepoint-initialize-migration-project-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-initialize-migration-project/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/content-migration/sharepoint-migrate-list-content-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-migrate-list-content/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/migration-planning/sharepoint-normalize-migration-inventory-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-normalize-migration-inventory/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/migration-planning/sharepoint-plan-migration-waves-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-plan-migration-waves/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/page-modernization/sharepoint-plan-page-modernization-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-plan-page-modernization/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/migration-planning/sharepoint-scaffold-migration-wave-scripts-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-scaffold-migration-wave-scripts/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/sharepoint-update-links-in-documents-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-links-in-documents/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/sharepoint-update-rich-text-image-links-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-update-rich-text-image-links/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/link-remediation/sharepoint-validate-link-integrity-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-validate-link-integrity/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-site-migration/references/page-modernization-execution/sharepoint-validate-page-modernization-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-migration/skills/sharepoint-validate-page-modernization/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Canonical acceptance criteria for the skill"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-backup-agents-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-backup-agents/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-backup-agents"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-backup-native-skills-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-backup-native-skills/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-backup-native-skills"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-create-agent-package-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-create-agent-package/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-agent-package"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-create-agent-package-from-template-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-create-agent-package-from-template/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-agent-package-from-template"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-create-agent-template-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-create-agent-template/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-agent-template"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-create-native-skill-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-create-native-skill/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-native-skill"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-deploy-native-skill-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-deploy-native-skill/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-deploy-native-skill"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-inspect-agent-knowledge-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-inspect-agent-knowledge/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-inspect-agent-knowledge"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-prepare-agentassets-library-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-prepare-agentassets-library/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-prepare-agentassets-library"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-restore-agents-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-restore-agents/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-restore-agents"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-restore-native-skills-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-restore-native-skills/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-restore-native-skills"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-undeploy-native-skill-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-undeploy-native-skill/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-undeploy-native-skill"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-update-agent-package-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-update-agent-package/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-update-agent-package"
+    },
+    {
+      "src": "plugins/sharepoint-copilot-agents-and-skills/references/sharepoint-verify-native-skill-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-copilot-agents-and-skills/skills/sharepoint-verify-native-skill/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-verify-native-skill"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/structure-analysis/content-analyze-document-structure-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-analyze-document-structure/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-analyze-document-structure"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/assembly/content-assemble-structured-content-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-assemble-structured-content/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-assemble-structured-content"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/content-compare-rendered-output-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-compare-rendered-output/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-compare-rendered-output"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/rendering/content-create-markdown-rendering-template-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-create-markdown-rendering-template/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-create-markdown-rendering-template"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/rendering/content-create-sharepoint-rendering-template-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-create-sharepoint-rendering-template/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-create-sharepoint-rendering-template"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/extraction/content-extract-docx-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-extract-docx/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-extract-docx"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/rendering/content-render-markdown-pages-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-render-markdown-pages/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-render-markdown-pages"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/rendering/content-render-sharepoint-pages-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-render-sharepoint-pages/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-render-sharepoint-pages"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/content-review-manual-topic-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-review-manual-topic/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-review-manual-topic"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/rendering/content-validate-rendered-output-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-validate-rendered-output/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-validate-rendered-output"
+    },
+    {
+      "src": "plugins/sharepoint-document-conversion/references/rendering/content-validate-rendering-template-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-document-conversion/skills/content-validate-rendering-template/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for content-validate-rendering-template"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-analyze-custom-forms-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-analyze-custom-forms/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-analyze-custom-forms"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-analyze-page-inventory-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-analyze-page-inventory/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-analyze-page-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-analyze-permissions-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-analyze-permissions/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-analyze-permissions"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-analyze-site-navigation-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-analyze-site-navigation/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-analyze-site-navigation"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-analyze-webpart-behavior-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-analyze-webpart-behavior/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-analyze-webpart-behavior"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-audit-managed-metadata-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-audit-managed-metadata/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-audit-managed-metadata"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-audit-onprem-schema-drift-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-audit-onprem-schema-drift/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-audit-onprem-schema-drift"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-collect-site-inventory-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-collect-site-inventory/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-collect-site-inventory"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-compare-schema-exports-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-compare-schema-exports/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-compare-schema-exports"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-extract-calculated-columns-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-extract-calculated-columns/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-extract-calculated-columns"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-extract-choice-columns-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-extract-choice-columns/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-extract-choice-columns"
+    },
+    {
+      "src": "plugins/sharepoint-site-assessment/references/sharepoint-generate-assessment-reports-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-assessment/skills/sharepoint-generate-assessment-reports/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-generate-assessment-reports"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-add-list-column-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-add-list-column/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-add-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-add-list-item-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-add-list-item/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-add-list-item"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/sharepoint-apply-page-publication-plan-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-apply-page-publication-plan/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-apply-page-publication-plan"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-apply-provisioning-plan-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-apply-provisioning-plan/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-apply-provisioning-plan"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/sharepoint-compare-publication-state-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-compare-publication-state/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-compare-publication-state"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/sharepoint-compare-schema-definitions-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-compare-schema-definitions/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-compare-schema-definitions"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-configure-column-formatting-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-configure-column-formatting/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-configure-column-formatting"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-configure-library-settings-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-configure-library-settings/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-configure-library-settings"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-create-content-type-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-content-type/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-create-document-library-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-document-library/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-document-library"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-create-list-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-list/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-list"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-create-list-view-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-list-view/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-list-view"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-create-site-column-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-site-column/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-create-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-detach-content-type-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-detach-content-type/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-detach-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/sharepoint-download-file-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-download-file/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-download-file"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/sharepoint-generate-schema-definition-from-export-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-generate-schema-definition-from-export/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-generate-schema-definition-from-export"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/schema-reconciliation/sharepoint-plan-column-changes-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-plan-column-changes/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-plan-column-changes"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/schema-reconciliation/sharepoint-plan-content-type-changes-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-plan-content-type-changes/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-plan-content-type-changes"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/sharepoint-plan-page-publication-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-plan-page-publication/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-plan-page-publication"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/sharepoint-publish-html-page-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-html-page/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-publish-html-page"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/sharepoint-publish-markdown-files-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-markdown-files/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-publish-markdown-files"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/schema-reconciliation/sharepoint-reconcile-calendar-list-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-reconcile-calendar-list/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-reconcile-calendar-list"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/schema-reconciliation/sharepoint-reconcile-site-schema-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-reconcile-site-schema/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-reconcile-site-schema"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-remove-content-type-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-remove-content-type/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-remove-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-remove-list-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-remove-list/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-remove-list"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-remove-list-column-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-remove-list-column/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-remove-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/sharepoint-remove-publication-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-remove-publication/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-remove-publication"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-remove-site-column-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-remove-site-column/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-remove-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/sharepoint-scaffold-schema-definition-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-scaffold-schema-definition/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-scaffold-schema-definition"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-update-content-type-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-update-content-type/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-update-content-type"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-update-list-column-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-update-list-column/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-update-list-column"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-update-list-settings-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-update-list-settings/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-update-list-settings"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/provisioning/sharepoint-update-site-column-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-update-site-column/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-update-site-column"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/references/content-publication/sharepoint-validate-publication-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-validate-publication/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-validate-publication"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/references/sharepoint-deploy-spfx-solution-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-deploy-spfx-solution/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-deploy-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/references/sharepoint-package-spfx-solution-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-package-spfx-solution/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-package-spfx-solution"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/references/sharepoint-publish-spfx-package-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-publish-spfx-package/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-publish-spfx-package"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/references/sharepoint-request-site-collection-app-catalog-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-request-site-collection-app-catalog/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-request-site-collection-app-catalog"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/references/sharepoint-scaffold-spfx-master-detail-webpart-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-scaffold-spfx-master-detail-webpart/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-scaffold-spfx-master-detail-webpart"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/references/sharepoint-scaffold-spfx-react-webpart-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-scaffold-spfx-react-webpart/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-scaffold-spfx-react-webpart"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/references/sharepoint-scaffold-spfx-webpart-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-scaffold-spfx-webpart/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for sharepoint-scaffold-spfx-webpart"
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/references/workbench-initialize-connection-config-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-workbench-setup/skills/workbench-initialize-connection-config/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for workbench-initialize-connection-config"
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/references/workbench-initialize-document-workflow-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-workbench-setup/skills/workbench-initialize-document-workflow/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for workbench-initialize-document-workflow"
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/references/workbench-request-app-registration-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-workbench-setup/skills/workbench-request-app-registration/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for workbench-request-app-registration"
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/references/workbench-resolve-document-paths-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-workbench-setup/skills/workbench-resolve-document-paths/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for workbench-resolve-document-paths"
+    },
+    {
+      "src": "plugins/sharepoint-workbench-setup/references/workbench-validate-sharepoint-connection-acceptance-criteria.md",
+      "dst": "plugins/sharepoint-workbench-setup/skills/workbench-validate-sharepoint-connection/references/acceptance-criteria.md",
+      "strategy": "symlink",
+      "description": "Acceptance criteria for workbench-validate-sharepoint-connection"
     }
   ]
 }

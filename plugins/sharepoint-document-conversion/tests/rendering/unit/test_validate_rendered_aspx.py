@@ -1,6 +1,19 @@
-"""
-test_validate_rendered_aspx.py
+"""test_validate_rendered_aspx.py
 ================================
+
+Purpose:
+    Tests for the ASPX extension of `renderers.validate_rendered` (Phase 6 Task 0.16's `validate-rendered-output` skill, extended to also validate `render-sharepoint-pages` output -- `validate_aspx_rendered_output` and `render_and_promote_aspx`).
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - shutil
+    - pathlib
+    - pytest
+    - atomic_output
+    - canonical_schema
+    - canonical_package
+    - renderers
 
 Tests for the ASPX extension of `renderers.validate_rendered` (Phase 6
 Task 0.16's `validate-rendered-output` skill, extended to also validate
@@ -9,7 +22,23 @@ Task 0.16's `validate-rendered-output` skill, extended to also validate
 pattern: build a synthetic package, produce a real staged ASPX render
 via `sharepoint_aspx.render_to_staging`, then corrupt one specific thing
 before validating -- proving each detection in isolation.
-"""
+
+Key Functions Index:
+    - _metadata()
+    - _manifest_chunk()
+    - _build_synthetic_package()
+    - _staged_render()
+    - test_valid_render_passes()
+    - test_missing_page_manifest_detected()
+    - test_missing_pages_dir_detected()
+    - test_missing_page_file_detected()
+    - test_orphan_page_detected()
+    - test_broken_media_reference_detected()
+    - test_source_content_stale_detected()
+    - test_tampered_page_content_not_traceable()
+    - test_render_and_promote_aspx_promotes_on_pass()
+    - test_render_and_promote_aspx_does_not_promote_on_fail()
+    - test_render_and_promote_aspx_does_not_promote_on_fail._always_fail()"""
 
 import json
 import shutil
@@ -35,6 +64,7 @@ OTHER_SHA = "b" * 64
 # ---------------------------------------------------------------------------
 
 def _metadata(chunk_id, heading_path, order, content, local_links=None):
+    """Build chunk metadata with the fields required by the rendering test."""
     return ck_contracts.ChunkMetadata(
         schema_version=ck_contracts.MANIFEST_SCHEMA_VERSION,
         chunk_id=chunk_id,
@@ -52,7 +82,9 @@ def _metadata(chunk_id, heading_path, order, content, local_links=None):
     )
 
 
+# Build a manifest chunk record for the rendered test package.
 def _manifest_chunk(chunk_id, heading_path, order):
+    """Build a manifest chunk record for the rendered test package."""
     return ck_contracts.ManifestChunk(
         chunk_id=chunk_id,
         content_file=f"chunks/{chunk_id}.md",
@@ -62,7 +94,9 @@ def _manifest_chunk(chunk_id, heading_path, order):
     )
 
 
+# Build a synthetic canonical package for renderer integration tests.
 def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
+    """Build a synthetic canonical package for renderer integration tests."""
     package_dir = tmp_path / "canonical-content"
     media_dir = package_dir / "media"
     media_dir.mkdir(parents=True)
@@ -104,7 +138,9 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
     )
 
 
+# Create staged ASPX output and its page manifest for validation tests.
 def _staged_render(tmp_path, pkg):
+    """Create staged ASPX output and its page manifest for validation tests."""
     result, staging_dir = spx.render_to_staging(pkg, tmp_path / "out")
     vr.write_render_result(result, staging_dir)
     return staging_dir
@@ -116,6 +152,7 @@ def _staged_render(tmp_path, pkg):
 
 @requires_pandoc
 def test_valid_render_passes(tmp_path):
+    """Verify valid render passes."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -130,6 +167,7 @@ def test_valid_render_passes(tmp_path):
 
 @requires_pandoc
 def test_missing_page_manifest_detected(tmp_path):
+    """Verify missing page manifest detected."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -141,8 +179,10 @@ def test_missing_page_manifest_detected(tmp_path):
     assert any(i.code == "missing_page_manifest" for i in report.issues)
 
 
+# Verify missing pages dir detected.
 @requires_pandoc
 def test_missing_pages_dir_detected(tmp_path):
+    """Verify missing pages dir detected."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -154,8 +194,10 @@ def test_missing_pages_dir_detected(tmp_path):
     assert any(i.code == "missing_pages_dir" for i in report.issues)
 
 
+# Verify missing page file detected.
 @requires_pandoc
 def test_missing_page_file_detected(tmp_path):
+    """Verify missing page file detected."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -171,8 +213,10 @@ def test_missing_page_file_detected(tmp_path):
     assert any(i.code == "missing_page" for i in report.issues)
 
 
+# Verify orphan page detected.
 @requires_pandoc
 def test_orphan_page_detected(tmp_path):
+    """Verify orphan page detected."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -190,6 +234,7 @@ def test_orphan_page_detected(tmp_path):
 
 @requires_pandoc
 def test_broken_media_reference_detected(tmp_path):
+    """Verify broken media reference detected."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["A"], "# A\n\n![alt](../media/diagram.png)\n", [])],
@@ -208,6 +253,7 @@ def test_broken_media_reference_detected(tmp_path):
 
 @requires_pandoc
 def test_source_content_stale_detected(tmp_path):
+    """Verify source content stale detected."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -222,8 +268,10 @@ def test_source_content_stale_detected(tmp_path):
     assert any(i.code == "source_content_stale" for i in report.issues)
 
 
+# Verify tampered page content not traceable.
 @requires_pandoc
 def test_tampered_page_content_not_traceable(tmp_path):
+    """Verify tampered page content not traceable."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -242,6 +290,7 @@ def test_tampered_page_content_not_traceable(tmp_path):
 
 @requires_pandoc
 def test_render_and_promote_aspx_promotes_on_pass(tmp_path):
+    """Verify render and promote ASPX promotes on pass."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -254,8 +303,10 @@ def test_render_and_promote_aspx_promotes_on_pass(tmp_path):
     assert (final_dir / "page-manifest.json").exists()
 
 
+# Verify render and promote ASPX does not promote on fail.
 @requires_pandoc
 def test_render_and_promote_aspx_does_not_promote_on_fail(tmp_path, monkeypatch):
+    """Verify render and promote ASPX does not promote on fail."""
     pkg = _build_synthetic_package(
         tmp_path, [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
     )
@@ -263,7 +314,9 @@ def test_render_and_promote_aspx_does_not_promote_on_fail(tmp_path, monkeypatch)
 
     original = vr.validate_aspx_rendered_output
 
+    # Raise the configured exception to exercise renderer rollback behavior.
     def _always_fail(staging_dir, package):
+        """Raise the configured exception to exercise renderer rollback behavior."""
         report = original(staging_dir, package)
         report.status = "FAIL"
         return report

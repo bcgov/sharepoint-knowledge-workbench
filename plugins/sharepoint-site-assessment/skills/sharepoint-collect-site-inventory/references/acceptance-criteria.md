@@ -1,0 +1,1 @@
+../../../references/sharepoint-collect-site-inventory-acceptance-criteria.md

@@ -1,7 +1,12 @@
 #!/usr/bin/env python
-"""
-footnotes.py
+"""footnotes.py
 ============
+
+Purpose:
+    Detects and removes orphaned footnote markers left over from pandoc conversion: a `[^label]` reference in the body text with no matching `[^label]: definition` line anywhere in the document, or vice versa (a definition with no matching reference).
+
+Key Input Dependencies:
+    - re
 
 Detects and removes orphaned footnote markers left over from pandoc
 conversion: a `[^label]` reference in the body text with no matching
@@ -20,7 +25,10 @@ Function Index:
 Usage:
     from pandoc.footnotes import clean_orphaned_footnotes
     cleaned = clean_orphaned_footnotes(raw_markdown_text)
-"""
+
+Key Functions Index:
+    - clean_orphaned_footnotes()
+    - clean_orphaned_footnotes._strip_unmatched_reference()"""
 
 import re
 
@@ -52,7 +60,9 @@ def clean_orphaned_footnotes(markdown_text: str) -> str:
 
     matched_labels = definition_labels & reference_labels
 
+    # Remove Pandoc footnote-reference markers that have no corresponding footnote definition.
     def _strip_unmatched_reference(match: "re.Match[str]") -> str:
+        """Remove Pandoc footnote-reference markers that have no corresponding footnote definition."""
         label = match.group(1)
         if label in matched_labels:
             return match.group(0)

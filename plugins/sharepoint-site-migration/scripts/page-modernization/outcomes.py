@@ -8,6 +8,12 @@ statuses below rather than collapsing a failure into an empty success.
 
 Layer: shared utility module, imported by every other stage script in this
 plugin's flat `scripts/page-modernization/` directory.
+
+Key Input Dependencies:
+    - Caller-provided outcome status, detail text, and optional count data.
+
+Function Index:
+    make_outcome, validate_outcome, is_failure
 """
 
 from __future__ import annotations

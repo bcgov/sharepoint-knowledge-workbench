@@ -1,6 +1,17 @@
-"""
-chunking.py
+"""chunking.py
 ===========
+
+Purpose:
+    Reconciles a CONFIRMED `ConversionPlan`'s `chunk_anchors` (computed during analysis, against RAW pandoc markdown -- Task 6/`analyze_structure.py`) against a CLEANED document's actual heading structure (after Task 2's pandoc cleanup pipeline has run), then slices the cleaned markdown into per-chunk content strings using the reconciled positions.
+
+Key Input Dependencies:
+    - re
+    - sys
+    - dataclasses
+    - pathlib
+    - identity_core
+    - pandoc_cleanup.heading_emphasis
+    - pandoc_cleanup.images
 
 Reconciles a CONFIRMED `ConversionPlan`'s `chunk_anchors` (computed during
 analysis, against RAW pandoc markdown -- Task 6/`analyze_structure.py`)
@@ -37,7 +48,14 @@ single-strategy plan can still carry more than one anchor; a chunked plan's
 anchor list is built the exact same way), so this module treats
 `chunk_anchors` uniformly -- "single" is simply whatever anchors happen to
 be recorded, including exactly one.
-"""
+
+Key Functions Index:
+    - _normalize_heading_text()
+    - iter_heading_matches()
+    - parse_headings_with_lines()
+    - reconcile_anchors()
+    - slice_chunks()
+    - reconcile_and_slice()"""
 
 import re
 import sys
@@ -63,7 +81,9 @@ from pandoc_cleanup.images import fix_glued_images  # noqa: E402
 _HEADING_LINE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 
 
+# Normalize heading text by collapsing whitespace and removing Markdown markers.
 def _normalize_heading_text(text: str) -> str:
+    """Normalize heading text by collapsing whitespace and removing Markdown markers."""
     synthetic_line = f"# {text}\n"
     stripped = strip_whole_heading_emphasis(synthetic_line)
     stripped = fix_glued_images(stripped)
@@ -71,7 +91,9 @@ def _normalize_heading_text(text: str) -> str:
     return first_line[2:].rstrip()
 
 
+# Yield each structural heading match with its parsed title, level, and source position.
 def iter_heading_matches(markdown_text: str):
+    """Yield each structural heading match with its parsed title, level, and source position."""
     stack = []  # list of (level, text)
     occurrence_counts = {}  # tuple(path) -> count seen so far
 

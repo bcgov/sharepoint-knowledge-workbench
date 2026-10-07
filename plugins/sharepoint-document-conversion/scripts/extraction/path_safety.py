@@ -1,6 +1,12 @@
-"""
-path_safety.py
+"""path_safety.py
 ================
+
+Purpose:
+    Shared path-safety primitive for resolving a (possibly URL-encoded, possibly relative-with-'..') reference found in generated markdown content against a `base_dir` while enforcing that the resolved path never escapes a `root_dir` security boundary.
+
+Key Input Dependencies:
+    - pathlib
+    - urllib.parse
 
 Shared path-safety primitive for resolving a (possibly URL-encoded, possibly
 relative-with-'..') reference found in generated markdown content against a
@@ -31,7 +37,9 @@ covered by its own tests) -- only `validate_rendered.py` is wired to this
 shared helper for now; retrofitting `validate_canonical.py` onto it is a
 clean, in-scope follow-up but out of scope for this task's surgical-change
 budget.
-"""
+
+Key Functions Index:
+    - classify_reference()"""
 
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote

@@ -8,7 +8,7 @@ The **SharePoint Knowledge Workbench** is a public toolkit of reusable skills, t
 4. **Creating & Publishing Copilot Agents & Skills**: Authoring, validating, deploying, and managing SharePoint Copilot agents (`.agent` packages) and native Copilot Studio skills in SharePoint.
 5. **Content Maintenance, Continuous Improvement & Document Decomposition**: Breaking huge documents and legacy manuals (Word/PDF) into modular, maintainable subpages in SharePoint, continuously improved and supported by Copilot agents and skills (**Content + Template + Renderer = Published Output**).
 
-The repository is organized into **7 independently installable domain plugins** under `plugins/` (106 skills). Each plugin is one domain with functional groups inside it, and has its own tests, tools, and skill definitions.
+The repository is organized into **7 independently installable domain plugins** under `plugins/` (107 skills). Each plugin is one domain with functional groups inside it, and has its own tests, tools, and skill definitions.
 
 ---
 
@@ -83,8 +83,8 @@ Each plugin is one user-facing domain. Functional groups organize its skills; th
    - *Create and configure SharePoint objects*: `sharepoint-add-list-column`, `sharepoint-add-list-item`, `sharepoint-apply-provisioning-plan`, `sharepoint-compare-schema-definitions`, `sharepoint-configure-column-formatting`, `sharepoint-configure-library-settings`, `sharepoint-create-content-type`, `sharepoint-create-document-library`, `sharepoint-create-list`, `sharepoint-create-list-view`, `sharepoint-create-site-column`, `sharepoint-detach-content-type`, `sharepoint-generate-schema-definition-from-export`, `sharepoint-plan-column-changes`, `sharepoint-plan-content-type-changes`, `sharepoint-reconcile-calendar-list`, `sharepoint-reconcile-site-schema`, `sharepoint-remove-content-type`, `sharepoint-remove-list`, `sharepoint-remove-list-column`, `sharepoint-remove-site-column`, `sharepoint-scaffold-schema-definition`, `sharepoint-update-content-type`, `sharepoint-update-list-column`, `sharepoint-update-list-settings`, `sharepoint-update-site-column`
    - *Publish and maintain SharePoint content*: `sharepoint-download-file`, `sharepoint-publish-html-page`, `sharepoint-apply-page-publication-plan`, `sharepoint-compare-publication-state`, `sharepoint-copy-page-between-sites`, `sharepoint-plan-page-publication`, `sharepoint-publish-markdown-files`, `sharepoint-remove-publication`, `sharepoint-validate-publication`
 
-5. **`sharepoint-site-migration`** (19 skills, 7 agents) — Plan and run site migration: waves, page modernization, list content, links.
-   - *Migrate and modernize SharePoint sites*: `sharepoint-analyze-classic-pages`, `sharepoint-analyze-migration-dependencies`, `sharepoint-audit-list-migration`, `sharepoint-convert-page-library-to-modern`, `sharepoint-convert-page-to-modern`, `sharepoint-create-page-preview`, `sharepoint-extract-links`, `sharepoint-generate-modernization-report`, `sharepoint-initialize-migration-project`, `sharepoint-migrate-list-content`, `sharepoint-normalize-migration-inventory`, `sharepoint-plan-migration-waves`, `sharepoint-plan-page-modernization`, `sharepoint-scaffold-migration-wave-scripts`, `sharepoint-update-links-in-documents`, `sharepoint-update-page-links`, `sharepoint-update-rich-text-image-links`, `sharepoint-validate-link-integrity`, `sharepoint-validate-page-modernization`
+5. **`sharepoint-site-migration`** (20 skills, 7 agents) — Plan and run site migration: waves, page modernization, list content, links.
+   - *Migrate and modernize SharePoint sites*: `sharepoint-analyze-classic-pages`, `sharepoint-analyze-migration-dependencies`, `sharepoint-audit-list-migration`, `sharepoint-convert-legacy-aspx-to-html`, `sharepoint-convert-page-library-to-modern`, `sharepoint-convert-page-to-modern`, `sharepoint-create-page-preview`, `sharepoint-extract-links`, `sharepoint-generate-modernization-report`, `sharepoint-initialize-migration-project`, `sharepoint-migrate-list-content`, `sharepoint-normalize-migration-inventory`, `sharepoint-plan-migration-waves`, `sharepoint-plan-page-modernization`, `sharepoint-scaffold-migration-wave-scripts`, `sharepoint-update-links-in-documents`, `sharepoint-update-page-links`, `sharepoint-update-rich-text-image-links`, `sharepoint-validate-link-integrity`, `sharepoint-validate-page-modernization`
 
 6. **`sharepoint-copilot-agents-and-skills`** (14 skills) — Author, deploy, verify, back up and restore Copilot agents and native skills.
    - *Agent and native skill lifecycle*: `sharepoint-backup-agents`, `sharepoint-backup-native-skills`, `sharepoint-create-agent-package`, `sharepoint-create-agent-package-from-template`, `sharepoint-create-agent-template`, `sharepoint-create-native-skill`, `sharepoint-deploy-native-skill`, `sharepoint-inspect-agent-knowledge`, `sharepoint-prepare-agentassets-library`, `sharepoint-restore-agents`, `sharepoint-restore-native-skills`, `sharepoint-undeploy-native-skill`, `sharepoint-update-agent-package`, `sharepoint-verify-native-skill`
@@ -111,9 +111,11 @@ adding new skill identities:
 3. `sharepoint-extract-links`: Python exports links and per-source coverage CSVs from static
    pages, Office external relationships and exported modern-page content. A separate Online
    read-only collector exports CanvasContent1, LayoutWebpartsContent and available classic fields.
-4. Existing conversion, rewrite, publishing and validation skills consume the discovery evidence.
-   Link inventories are captured before conversion and after publishing; actual destination
-   mappings and resolver-backed validation remain separate requirements.
+4. The existing `sharepoint-update-page-links` skill builds an explicit source-to-target file
+   map for each run and uses it to generate a reviewable link-rewrite plan. Source and destination
+   parameters drive routing; an optional workbook is only a read-only validation source. Links
+   outside the mapped scope remain explicitly unmapped. Link inventories are captured before
+   conversion and after publishing; resolver-backed validation remains a separate requirement.
 
 Online uses browser-based interactive authentication; new on-prem workflows prompt for credentials
 and never default to the current Windows session. Live scripts are run by the user. Python
