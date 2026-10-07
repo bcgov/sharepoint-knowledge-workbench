@@ -1,4 +1,10 @@
-"""
+"""Purpose:
+    Build device-code OAuth requests and validate SharePoint access through an injected transport.
+
+Key Input Dependencies:
+    - Connection mapping containing SiteUrl, TenantId, and ClientId
+    - Caller-injected HTTP client implementing the device-code, token, and context-info calls.
+
 app_registration_validation.py
 ================================
 
@@ -27,13 +33,33 @@ This module provides two things:
 
 No proprietary tenant URLs, client secrets, or private environment
 identifiers appear in this module.
+
+Function Index:
+    - AppRegistrationValidationError
+    - AppRegistrationValidationResult
+    - AppRegistrationValidationResult.to_dict
+    - decode_jwt_claims
+    - build_device_code_request
+    - build_token_poll_request
+    - build_context_info_request
+    - _require_fields
+    - _request_device_code
+    - _request_access_token
+    - _context_info_result
+    - validate_app_registration
+    - PermissionBoundaryResult
+    - PermissionBoundaryResult.to_dict
+    - _permission_boundary_detail
+    - validate_permission_boundary
+    - make_device_code_connector
+    - make_device_code_connector.connector
 """
 from __future__ import annotations
 
 import base64
 import json
 from dataclasses import dataclass
-from typing import Callable, Optional
+from typing import Callable, Optional, Tuple
 
 
 class AppRegistrationValidationError(Exception):
@@ -42,14 +68,18 @@ class AppRegistrationValidationError(Exception):
     reported as `AppRegistrationValidationResult(success=False, ...)`."""
 
 
+# Carry validation success, identity, application ID, and diagnostic details.
 @dataclass
 class AppRegistrationValidationResult:
+    """Carry validation success, identity, application ID, and diagnostic details."""
     success: bool
     signed_in_as: Optional[str] = None
     app_id: Optional[str] = None
     detail: str = ""
 
+    # Serialize this validation result and its public fields as a plain dictionary.
     def to_dict(self) -> dict:
+        """Serialize this validation result and its public fields as a plain dictionary."""
         return {
             "success": self.success,
             "signed_in_as": self.signed_in_as,
@@ -120,10 +150,82 @@ def build_context_info_request(connection: dict, access_token: str) -> dict:
     }
 
 
+# Raise a validation error when any required connection field is absent or empty.
 def _require_fields(connection: dict, fields: tuple) -> None:
+    """Raise a validation error when any required connection field is absent or empty."""
     missing = [f for f in fields if not connection.get(f)]
     if missing:
         raise AppRegistrationValidationError(f"connection is missing required field(s): {', '.join(missing)}")
+
+
+def _request_device_code(
+    connection: dict, http_client: object
+) -> Tuple[Optional[str], Optional[AppRegistrationValidationResult]]:
+    """Request a device code or return an honest failure result."""
+    request = build_device_code_request(connection)
+    try:
+        response = http_client.request_device_code(request["url"], request["body"])
+    except Exception as exc:  # noqa: BLE001 -- transport errors are partial results
+        return None, AppRegistrationValidationResult(success=False, detail=f"device code request failed: {exc}")
+
+    device_code = response.get("device_code")
+    if not device_code:
+        return None, AppRegistrationValidationResult(
+            success=False, detail="device code response missing device_code"
+        )
+    return device_code, None
+
+
+def _request_access_token(
+    connection: dict, device_code: str, http_client: object
+) -> Tuple[Optional[str], Optional[AppRegistrationValidationResult]]:
+    """Poll for an access token or return an honest failure result."""
+    request = build_token_poll_request(connection, device_code)
+    try:
+        response = http_client.poll_for_token(request["url"], request["body"])
+    except Exception as exc:  # noqa: BLE001 -- transport errors are partial results
+        return None, AppRegistrationValidationResult(success=False, detail=f"token acquisition failed: {exc}")
+
+    access_token = response.get("access_token")
+    if not access_token:
+        return None, AppRegistrationValidationResult(
+            success=False, detail="token response missing access_token"
+        )
+    return access_token, None
+
+
+def _context_info_result(
+    connection: dict,
+    access_token: str,
+    signed_in_as: Optional[str],
+    app_id: Optional[str],
+    http_client: object,
+) -> AppRegistrationValidationResult:
+    """Verify the token with SharePoint REST and preserve partial identity details."""
+    request = build_context_info_request(connection, access_token)
+    try:
+        response = http_client.get_context_info(request["url"], request["headers"])
+    except Exception as exc:  # noqa: BLE001 -- transport errors are partial results
+        return AppRegistrationValidationResult(
+            success=False,
+            signed_in_as=signed_in_as,
+            app_id=app_id,
+            detail=f"contextinfo call failed (permission denied or auth invalid): {exc}",
+        )
+
+    if not response.get("FormDigestValue"):
+        return AppRegistrationValidationResult(
+            success=False,
+            signed_in_as=signed_in_as,
+            app_id=app_id,
+            detail="contextinfo response missing FormDigestValue -- auth did not grant usable REST access",
+        )
+    return AppRegistrationValidationResult(
+        success=True,
+        signed_in_as=signed_in_as,
+        app_id=app_id,
+        detail="REST auth confirmed via _api/contextinfo digest",
+    )
 
 
 def validate_app_registration(connection: dict, http_client) -> AppRegistrationValidationResult:
@@ -142,25 +244,13 @@ def validate_app_registration(connection: dict, http_client) -> AppRegistrationV
       - `get_context_info(url, headers) -> dict` (must contain a truthy
         `FormDigestValue` on success)
     """
-    dc_request = build_device_code_request(connection)
-    try:
-        device_code_response = http_client.request_device_code(dc_request["url"], dc_request["body"])
-    except Exception as exc:  # noqa: BLE001 -- honest partial result, not a crash
-        return AppRegistrationValidationResult(success=False, detail=f"device code request failed: {exc}")
+    device_code, failure = _request_device_code(connection, http_client)
+    if failure:
+        return failure
 
-    device_code = device_code_response.get("device_code")
-    if not device_code:
-        return AppRegistrationValidationResult(success=False, detail="device code response missing device_code")
-
-    token_request = build_token_poll_request(connection, device_code)
-    try:
-        token_response = http_client.poll_for_token(token_request["url"], token_request["body"])
-    except Exception as exc:  # noqa: BLE001
-        return AppRegistrationValidationResult(success=False, detail=f"token acquisition failed: {exc}")
-
-    access_token = token_response.get("access_token")
-    if not access_token:
-        return AppRegistrationValidationResult(success=False, detail="token response missing access_token")
+    access_token, failure = _request_access_token(connection, device_code, http_client)
+    if failure:
+        return failure
 
     try:
         claims = decode_jwt_claims(access_token)
@@ -172,28 +262,12 @@ def validate_app_registration(connection: dict, http_client) -> AppRegistrationV
 
     signed_in_as = claims.get("upn") or claims.get("name")
     app_id = claims.get("appid")
-
-    context_request = build_context_info_request(connection, access_token)
-    try:
-        context_response = http_client.get_context_info(context_request["url"], context_request["headers"])
-    except Exception as exc:  # noqa: BLE001
-        return AppRegistrationValidationResult(
-            success=False, signed_in_as=signed_in_as, app_id=app_id,
-            detail=f"contextinfo call failed (permission denied or auth invalid): {exc}",
-        )
-
-    digest = context_response.get("FormDigestValue")
-    if not digest:
-        return AppRegistrationValidationResult(
-            success=False, signed_in_as=signed_in_as, app_id=app_id,
-            detail="contextinfo response missing FormDigestValue -- auth did not grant usable REST access",
-        )
-
-    detail = "REST auth confirmed via _api/contextinfo digest"
     if claim_error:
-        detail += f" (token claims could not be decoded: {claim_error})"
-
-    return AppRegistrationValidationResult(success=True, signed_in_as=signed_in_as, app_id=app_id, detail=detail)
+        result = _context_info_result(connection, access_token, signed_in_as, app_id, http_client)
+        if result.success:
+            result.detail += f" (token claims could not be decoded: {claim_error})"
+        return result
+    return _context_info_result(connection, access_token, signed_in_as, app_id, http_client)
 
 
 @dataclass
@@ -209,13 +283,42 @@ class PermissionBoundaryResult:
     unauthorized_result: AppRegistrationValidationResult
     detail: str = ""
 
+    # Serialize this validation result and its public fields as a plain dictionary.
     def to_dict(self) -> dict:
+        """Serialize this validation result and its public fields as a plain dictionary."""
         return {
             "boundary_proven": self.boundary_proven,
             "authorized_result": self.authorized_result.to_dict(),
             "unauthorized_result": self.unauthorized_result.to_dict(),
             "detail": self.detail,
         }
+
+
+def _permission_boundary_detail(
+    authorized_result: AppRegistrationValidationResult,
+    unauthorized_result: AppRegistrationValidationResult,
+) -> Tuple[bool, str]:
+    """Describe whether the two observed site outcomes prove the permission boundary."""
+    if authorized_result.success and not unauthorized_result.success:
+        return True, "boundary proven: authorized site succeeded, unauthorized site was denied"
+    if not authorized_result.success and not unauthorized_result.success:
+        detail = (
+            "boundary not proven: the authorized site also failed "
+            f"({authorized_result.detail!r}) -- registration or site permission is misconfigured, "
+            "not a boundary result"
+        )
+    elif authorized_result.success and unauthorized_result.success:
+        detail = (
+            "boundary not proven: the unauthorized site unexpectedly succeeded -- "
+            "this registration grants access beyond the signed-in user's actual permissions, "
+            "a real security finding, not a test failure"
+        )
+    else:
+        detail = (
+            "boundary not proven: the authorized site failed while the unauthorized site "
+            f"succeeded ({unauthorized_result.detail!r}) -- results are inverted from expectation"
+        )
+    return False, detail
 
 
 def validate_permission_boundary(
@@ -241,35 +344,9 @@ def validate_permission_boundary(
     """
     authorized_result = validate_app_registration(authorized_connection, http_client)
     unauthorized_result = validate_app_registration(unauthorized_connection, http_client)
-
-    if authorized_result.success and not unauthorized_result.success:
-        return PermissionBoundaryResult(
-            boundary_proven=True,
-            authorized_result=authorized_result,
-            unauthorized_result=unauthorized_result,
-            detail="boundary proven: authorized site succeeded, unauthorized site was denied",
-        )
-
-    if not authorized_result.success and not unauthorized_result.success:
-        detail = (
-            "boundary not proven: the authorized site also failed "
-            f"({authorized_result.detail!r}) -- registration or site permission is misconfigured, "
-            "not a boundary result"
-        )
-    elif authorized_result.success and unauthorized_result.success:
-        detail = (
-            "boundary not proven: the unauthorized site unexpectedly succeeded -- "
-            "this registration grants access beyond the signed-in user's actual permissions, "
-            "a real security finding, not a test failure"
-        )
-    else:
-        detail = (
-            "boundary not proven: the authorized site failed while the unauthorized site "
-            f"succeeded ({unauthorized_result.detail!r}) -- results are inverted from expectation"
-        )
-
+    boundary_proven, detail = _permission_boundary_detail(authorized_result, unauthorized_result)
     return PermissionBoundaryResult(
-        boundary_proven=False,
+        boundary_proven=boundary_proven,
         authorized_result=authorized_result,
         unauthorized_result=unauthorized_result,
         detail=detail,
@@ -284,7 +361,9 @@ def make_device_code_connector(http_client) -> "Callable[[dict], bool]":
     connection`'s "no autonomous production tenant writes/connections"
     property; the connector it returns is still opt-in only."""
 
+    # Return validation success through config_setup connector(connection) compatibility.
     def connector(connection: dict) -> bool:
+        """Return validation success through config_setup connector(connection) compatibility."""
         result = validate_app_registration(connection, http_client)
         return result.success
 

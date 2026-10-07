@@ -24,6 +24,9 @@ Layer: sharepoint-site-migration / stage 3b (wave script generation)
 
 Key Input Dependencies:
     - provisioning_outcomes.Outcome (symlinked from sharepoint-site-build-and-publish)
+
+Function Index:
+    generate_wave_scripts, _generate_wave_script, _generate_wave_guide
 """
 
 from __future__ import annotations
@@ -94,6 +97,7 @@ def generate_wave_scripts(matrix: Mapping[str, Any]) -> WaveGenerationResult:
 def _generate_wave_script(
     wave_number: int, wave_names: Sequence[str], objects_by_name: Mapping[str, Any]
 ) -> GeneratedWaveScript:
+    """Render one wave's source file using only names and types from the matrix."""
     object_lines = []
     for name in wave_names:
         obj = objects_by_name.get(name, {})
@@ -162,6 +166,7 @@ if __name__ == "__main__":
 
 
 def _generate_wave_guide(scripts: Sequence[GeneratedWaveScript]) -> str:
+    """Render sequential validate/deploy/revalidate instructions for the waves."""
     lines = [
         "# Wave Deployment Guide",
         "",

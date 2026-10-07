@@ -9,6 +9,14 @@ Purpose:
     the workbench schema specification.
 
 Layer: sharepoint-site-assessment / scripts (pure local transform).
+
+Key Input Dependencies:
+    - Caller-supplied SharePoint discovery exports and the plugin-local schema/analysis modules used by this script.
+
+Function index:
+    - create_empty_schema_definition
+    - scaffold_schema
+    - main
 """
 
 from __future__ import annotations
@@ -71,7 +79,9 @@ def scaffold_schema(
     return schema
 
 
+# Parse the command-line options, run the selected workflow, and report its outputs.
 def main(argv: Optional[List[str]] = None) -> int:
+    """Parse the command-line options, run the selected workflow, and report its outputs."""
     parser = argparse.ArgumentParser(
         description="Scaffold a declarative SharePoint SiteSchemaDefinition JSON template."
     )

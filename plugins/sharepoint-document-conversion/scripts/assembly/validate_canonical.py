@@ -1,6 +1,21 @@
-"""
-validate_canonical.py
+"""validate_canonical.py
 ======================
+
+Purpose:
+    The real canonical-package validator (spec Section 9, "Validation Policy").
+
+Key Input Dependencies:
+    - json
+    - re
+    - sys
+    - pathlib
+    - urllib.parse
+    - canonical_schema
+    - hashing
+    - pandoc_cleanup
+    - publication_map
+    - plan_verification
+    - pandoc_cleanup.toc
 
 The real canonical-package validator (spec Section 9, "Validation Policy").
 Runs against a STAGED `canonical-content/` package on disk (Task 9's
@@ -64,7 +79,30 @@ Function Index:
     - write_validation_report(report, package_dir) -> None
         Overwrites `<package_dir>/validation.json` with the real report,
         replacing package.py's PENDING placeholder.
-"""
+
+Key Functions Index:
+    - _issue()
+    - _error()
+    - _warning()
+    - _normalize_for_comparison()
+    - validate_canonical_package()
+    - write_validation_report()
+    - _load_manifest()
+    - _load_chunk_meta()
+    - _check_plan_and_source()
+    - _check_media_decisions()
+    - _check_manifest_consistency()
+    - _check_manifest_consistency._dupes()
+    - _load_and_check_chunks()
+    - _check_chunk_content()
+    - _check_raw_artifacts()
+    - _check_orphans()
+    - _check_unresolved_anchors()
+    - _check_anchor_assignment_completeness()
+    - _check_publication_map_consistency()
+    - _check_content_loss_and_duplication()
+    - _check_media_references()
+    - _check_staged_image_reference()"""
 
 import json
 import re
@@ -102,15 +140,21 @@ import plan_verification as plans  # noqa: E402 -- plugin-local duplicate of doc
 from pandoc_cleanup.toc import _BOOKMARK_ANCHOR_LINE, _TOC_LINK_LINE  # noqa: E402
 
 
+# Construct a ValidationIssue from the specified severity, code, message, and optional artifact path.
 def _issue(severity: str, code: str, message: str, path: "str | None" = None) -> "contracts.ValidationIssue":
+    """Construct a ValidationIssue from the specified severity, code, message, and optional artifact path."""
     return contracts.ValidationIssue(severity=severity, code=code, message=message, path=path)
 
 
+# Construct an error-severity ValidationIssue for a canonical-package validation failure.
 def _error(code: str, message: str, path: "str | None" = None) -> "contracts.ValidationIssue":
+    """Construct an error-severity ValidationIssue for a canonical-package validation failure."""
     return _issue("error", code, message, path)
 
 
+# Construct a warning-severity ValidationIssue for a non-blocking canonical-package finding.
 def _warning(code: str, message: str, path: "str | None" = None) -> "contracts.ValidationIssue":
+    """Construct a warning-severity ValidationIssue for a non-blocking canonical-package finding."""
     return _issue("warning", code, message, path)
 
 
@@ -238,6 +282,7 @@ def write_validation_report(report: "contracts.ValidationReport", package_dir: "
 # ---------------------------------------------------------------------------
 
 def _load_manifest(package_dir: "Path"):
+    """Load manifest.json and return its validated Manifest value or a structured missing/parse/schema issue."""
     manifest_path = package_dir / "manifest.json"
     if not manifest_path.exists():
         return None, [_error("manifest_missing", f"{manifest_path} does not exist")]
@@ -254,7 +299,9 @@ def _load_manifest(package_dir: "Path"):
     return manifest, []
 
 
+# Parse a chunk sidecar into ChunkMetadata and convert malformed JSON or schema data into validation issues.
 def _load_chunk_meta(meta_path: "Path"):
+    """Parse a chunk sidecar into ChunkMetadata and convert malformed JSON or schema data into validation issues."""
     try:
         raw = json.loads(meta_path.read_text())
     except json.JSONDecodeError as exc:
@@ -273,6 +320,7 @@ def _load_chunk_meta(meta_path: "Path"):
 # ---------------------------------------------------------------------------
 
 def _check_plan_and_source(plan: "contracts.ConversionPlan", source_path: "Path | None") -> list:
+    """Verify plan integrity and compare the optional source file fingerprint with the confirmed plan."""
     issues = []
     try:
         plans.verify_plan_integrity(plan)
@@ -295,6 +343,7 @@ def _check_plan_and_source(plan: "contracts.ConversionPlan", source_path: "Path 
 # ---------------------------------------------------------------------------
 
 def _check_media_decisions(plan: "contracts.ConversionPlan") -> list:
+    """Report unresolved or blocking media dispositions recorded in the conversion plan."""
     issues = []
     for record in (plan.media_decisions or []):
         if (
@@ -315,6 +364,7 @@ def _check_media_decisions(plan: "contracts.ConversionPlan") -> list:
 # ---------------------------------------------------------------------------
 
 def _check_manifest_consistency(manifest: "contracts.Manifest", plan: "contracts.ConversionPlan") -> list:
+    """Check chunk count, plan/source identity, and duplicate IDs, paths, and source-order values in the manifest."""
     issues = []
 
     if manifest.chunk_count != len(manifest.chunks):
@@ -333,7 +383,9 @@ def _check_manifest_consistency(manifest: "contracts.Manifest", plan: "contracts
             "manifest.json",
         ))
 
+    # Return the values that occur more than once while preserving their first duplicate occurrence.
     def _dupes(values):
+        """Return the values that occur more than once while preserving their first duplicate occurrence."""
         seen = set()
         dup = set()
         for v in values:
@@ -365,6 +417,7 @@ def _check_manifest_consistency(manifest: "contracts.Manifest", plan: "contracts
 # ---------------------------------------------------------------------------
 
 def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
+    """Validate manifested chunks and index their successfully parsed sidecars."""
     issues = []
     chunk_meta_by_id = {}
 
@@ -399,68 +452,78 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
             continue
         chunk_meta_by_id[chunk.chunk_id] = meta
 
-        if meta.chunk_id != chunk.chunk_id:
-            issues.append(_error(
-                "chunk_id_mismatch",
-                f"sidecar chunk_id={meta.chunk_id!r} does not match manifest "
-                f"chunk_id={chunk.chunk_id!r}",
-                chunk.metadata_file,
-            ))
-
         content = content_path.read_text()
-        actual_hash = hashing.content_hash(content.encode("utf-8"))
-        if actual_hash != meta.content_sha256:
-            issues.append(_error(
-                "content_hash_mismatch",
-                f"content_sha256 mismatch for {chunk.chunk_id!r}: "
-                f"manifest/sidecar recorded {meta.content_sha256!r}, "
-                f"actual content hashes to {actual_hash!r}",
-                chunk.content_file,
-            ))
-
-        # Cross-artifact lineage checks: ensure sidecar plan_id and source_sha256
-        # match the manifest's recorded values.
-        if meta.plan_id != manifest.plan_id:
-            issues.append(_error(
-                "chunk_plan_id_mismatch",
-                f"chunk {chunk.chunk_id!r} sidecar plan_id={meta.plan_id!r} "
-                f"does not match manifest plan_id={manifest.plan_id!r}",
-                chunk.metadata_file,
-            ))
-
-        if meta.source_sha256 != manifest.source.sha256:
-            issues.append(_error(
-                "chunk_source_sha256_mismatch",
-                f"chunk {chunk.chunk_id!r} sidecar source_sha256="
-                f"{meta.source_sha256!r} does not match manifest source "
-                f"sha256={manifest.source.sha256!r}",
-                chunk.metadata_file,
-            ))
-
-        if content.strip() == "":
-            issues.append(_error(
-                "empty_chunk", f"chunk {chunk.chunk_id!r} content is empty", chunk.content_file
-            ))
-
-        own_heading = (meta.source_heading_path or [None])[-1]
-        if own_heading is not None:
-            heading_lines = [
-                line.split(" ", 1)[1].strip() if " " in line else ""
-                for line in content.splitlines()
-                if re.match(r"^#{1,6}\s", line)
-            ]
-            if own_heading not in heading_lines:
-                issues.append(_warning(
-                    "heading_missing_from_content",
-                    f"chunk {chunk.chunk_id!r}'s own heading {own_heading!r} "
-                    "(last element of source_heading_path) was not found as "
-                    "a heading line in its own content",
-                    chunk.content_file,
-                ))
-
-        issues.extend(_check_raw_artifacts(chunk, content))
+        issues.extend(_check_chunk_content(chunk, manifest, meta, content))
 
     return chunk_meta_by_id, issues
+
+
+# External comment: Check the contents and lineage recorded for one package chunk.
+def _check_chunk_content(
+    chunk: "contracts.ManifestChunk",
+    manifest: "contracts.Manifest",
+    meta: "contracts.ChunkMetadata",
+    content: str,
+) -> list:
+    """Report identity, hash, lineage, heading, and raw-artifact issues."""
+    issues = []
+    if meta.chunk_id != chunk.chunk_id:
+        issues.append(_error(
+            "chunk_id_mismatch",
+            f"sidecar chunk_id={meta.chunk_id!r} does not match manifest "
+            f"chunk_id={chunk.chunk_id!r}",
+            chunk.metadata_file,
+        ))
+
+    actual_hash = hashing.content_hash(content.encode("utf-8"))
+    if actual_hash != meta.content_sha256:
+        issues.append(_error(
+            "content_hash_mismatch",
+            f"content_sha256 mismatch for {chunk.chunk_id!r}: "
+            f"manifest/sidecar recorded {meta.content_sha256!r}, "
+            f"actual content hashes to {actual_hash!r}",
+            chunk.content_file,
+        ))
+
+    # Cross-artifact lineage checks keep sidecar fingerprints tied to manifest.
+    if meta.plan_id != manifest.plan_id:
+        issues.append(_error(
+            "chunk_plan_id_mismatch",
+            f"chunk {chunk.chunk_id!r} sidecar plan_id={meta.plan_id!r} "
+            f"does not match manifest plan_id={manifest.plan_id!r}",
+            chunk.metadata_file,
+        ))
+    if meta.source_sha256 != manifest.source.sha256:
+        issues.append(_error(
+            "chunk_source_sha256_mismatch",
+            f"chunk {chunk.chunk_id!r} sidecar source_sha256="
+            f"{meta.source_sha256!r} does not match manifest source "
+            f"sha256={manifest.source.sha256!r}",
+            chunk.metadata_file,
+        ))
+    if content.strip() == "":
+        issues.append(_error(
+            "empty_chunk", f"chunk {chunk.chunk_id!r} content is empty",
+            chunk.content_file,
+        ))
+
+    own_heading = (meta.source_heading_path or [None])[-1]
+    if own_heading is not None:
+        heading_lines = [
+            line.split(" ", 1)[1].strip() if " " in line else ""
+            for line in content.splitlines()
+            if re.match(r"^#{1,6}\s", line)
+        ]
+        if own_heading not in heading_lines:
+            issues.append(_warning(
+                "heading_missing_from_content",
+                f"chunk {chunk.chunk_id!r}'s own heading {own_heading!r} "
+                "(last element of source_heading_path) was not found as "
+                "a heading line in its own content",
+                chunk.content_file,
+            ))
+    issues.extend(_check_raw_artifacts(chunk, content))
+    return issues
 
 
 # ---------------------------------------------------------------------------
@@ -468,6 +531,7 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
 # ---------------------------------------------------------------------------
 
 def _check_raw_artifacts(chunk: "contracts.ManifestChunk", content: str) -> list:
+    """Find raw Pandoc TOC, attribute, and legacy conversion artifacts that should not remain in staged chunk Markdown."""
     issues = []
 
     for line in content.splitlines():
@@ -504,6 +568,7 @@ def _check_raw_artifacts(chunk: "contracts.ManifestChunk", content: str) -> list
 # ---------------------------------------------------------------------------
 
 def _check_orphans(package_dir: "Path", manifest: "contracts.Manifest") -> list:
+    """Report unreferenced chunk, sidecar, and media files that are not declared by the package manifest."""
     issues = []
     chunks_dir = package_dir / "chunks"
     media_dir = package_dir / "media"
@@ -717,6 +782,7 @@ def _check_publication_map_consistency(
 def _check_content_loss_and_duplication(
     package_dir: "Path", manifest: "contracts.Manifest", cleaned_markdown_text: "str | None"
 ) -> list:
+    """Compare normalized staged chunk text with the cleaned source to detect missing or duplicated content."""
     is_independent_fixture = manifest.generator.plugin == _FIXTURE_GENERATOR_PLUGIN
     if cleaned_markdown_text is None:
         if is_independent_fixture:
@@ -765,6 +831,7 @@ def _check_content_loss_and_duplication(
 _IMAGE_REF = re.compile(r"!\[(?:[^\]\\]|\\.)*\]\(([^)]+)\)")
 
 
+# External comment: Validate staged Markdown media links and chunk-local links.
 def _check_media_references(
     package_dir: "Path", manifest: "contracts.Manifest", chunk_meta_by_id: dict
 ) -> list:
@@ -796,44 +863,9 @@ def _check_media_references(
 
         for match in _IMAGE_REF.finditer(content):
             raw_ref = match.group(1).strip()
-            if raw_ref.startswith(("http://", "https://")):
-                continue
-            ref = unquote(raw_ref)
-
-            if Path(ref).is_absolute() or ref.startswith("\\\\"):
-                issues.append(_error(
-                    "path_traversal_or_absolute_reference",
-                    f"media reference {raw_ref!r} in staged chunk content "
-                    "is an absolute path",
-                    chunk.content_file,
-                ))
-                continue
-
-            resolved = (chunks_dir / ref).resolve()
-            if package_dir_resolved != resolved and package_dir_resolved not in resolved.parents:
-                issues.append(_error(
-                    "path_traversal_or_absolute_reference",
-                    f"media reference {raw_ref!r} in staged chunk content "
-                    "resolves outside the package directory via '..' "
-                    "traversal",
-                    chunk.content_file,
-                ))
-                continue
-
-            if media_dir_resolved not in resolved.parents or not resolved.exists():
-                issues.append(_error(
-                    "broken_media_reference",
-                    f"media reference {raw_ref!r} in {chunk.content_file} does "
-                    f"not resolve to an existing file under media/",
-                    chunk.content_file,
-                ))
-            elif resolved.suffix.lower() in (".emf", ".wmf"):
-                issues.append(_error(
-                    "unsupported_legacy_media",
-                    f"media reference {raw_ref!r} in {chunk.content_file} "
-                    "resolves to an unsupported legacy (.emf/.wmf) file",
-                    chunk.content_file,
-                ))
+            issues.extend(_check_staged_image_reference(
+                raw_ref, chunk, chunks_dir, package_dir_resolved, media_dir_resolved
+            ))
 
         meta = chunk_meta_by_id.get(chunk.chunk_id)
         local_links = meta.local_links if meta is not None else []
@@ -851,3 +883,48 @@ def _check_media_references(
                 ))
 
     return issues
+
+
+# External comment: Validate one rewritten Markdown image target in the package.
+def _check_staged_image_reference(
+    raw_ref: str,
+    chunk: "contracts.ManifestChunk",
+    chunks_dir: "Path",
+    package_dir_resolved: "Path",
+    media_dir_resolved: "Path",
+) -> list:
+    """Report absolute, escaping, missing, or unsupported staged media refs."""
+    if raw_ref.startswith(("http://", "https://")):
+        return []
+    ref = unquote(raw_ref)
+    if Path(ref).is_absolute() or ref.startswith("\\\\"):
+        return [_error(
+            "path_traversal_or_absolute_reference",
+            f"media reference {raw_ref!r} in staged chunk content "
+            "is an absolute path",
+            chunk.content_file,
+        )]
+
+    resolved = (chunks_dir / ref).resolve()
+    if package_dir_resolved != resolved and package_dir_resolved not in resolved.parents:
+        return [_error(
+            "path_traversal_or_absolute_reference",
+            f"media reference {raw_ref!r} in staged chunk content "
+            "resolves outside the package directory via '..' traversal",
+            chunk.content_file,
+        )]
+    if media_dir_resolved not in resolved.parents or not resolved.exists():
+        return [_error(
+            "broken_media_reference",
+            f"media reference {raw_ref!r} in {chunk.content_file} does "
+            "not resolve to an existing file under media/",
+            chunk.content_file,
+        )]
+    if resolved.suffix.lower() in (".emf", ".wmf"):
+        return [_error(
+            "unsupported_legacy_media",
+            f"media reference {raw_ref!r} in {chunk.content_file} "
+            "resolves to an unsupported legacy (.emf/.wmf) file",
+            chunk.content_file,
+        )]
+    return []

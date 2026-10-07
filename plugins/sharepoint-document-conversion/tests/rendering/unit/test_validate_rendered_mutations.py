@@ -1,6 +1,15 @@
-"""
-test_validate_rendered_mutations.py
+"""test_validate_rendered_mutations.py
 ======================================
+
+Purpose:
+    Layer-3 mutation suite (Phase 2, spec Section 5.1): validate_rendered_output must be proven to catch corruption in the staged rendered-output directory -- an omitted-but-linked page, a page whose index link is wrong, and a validation report whose lineage fields don't match the package it claims to describe (the general form of the image239 lesson: a report that lies about what it checked).
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - pytest
+    - renderers
+    - test_validate_rendered
 
 Layer-3 mutation suite (Phase 2, spec Section 5.1): validate_rendered_output
 must be proven to catch corruption in the staged rendered-output directory
@@ -8,7 +17,15 @@ must be proven to catch corruption in the staged rendered-output directory
 validation report whose lineage fields don't match the package it claims
 to describe (the general form of the image239 lesson: a report that lies
 about what it checked).
-"""
+
+Key Functions Index:
+    - test_index_omitting_an_existing_page_is_detected()
+    - test_source_content_staleness_is_detected()
+    - test_renderer_rejects_unsupported_manifest_version()
+    - test_page_content_diverging_from_source_chunk_is_detected()
+    - test_index_completeness_survives_escaped_bracket_in_link_text()
+    - test_index_completeness_survives_url_encoded_page_filename()
+    - test_index_completeness_detects_duplicate_link_while_another_page_is_omitted()"""
 
 import json
 
@@ -52,6 +69,7 @@ def test_index_omitting_an_existing_page_is_detected(tmp_path):
     assert any(i.code == "page_not_linked_from_index" for i in report.issues)
 
 
+# Verify source content staleness is detected.
 def test_source_content_staleness_is_detected(tmp_path):
     # Round-3 review (GPT 5.6 blocking #7) caught that an earlier draft
     # named this test "wrong_manifest_version_claim" while it actually
@@ -59,6 +77,7 @@ def test_source_content_staleness_is_detected(tmp_path):
     # renderer manifest-version-compatibility case. Renamed to match what
     # it actually tests; the real manifest-version-compatibility case is
     # test_renderer_rejects_unsupported_manifest_version below.
+    """Verify source content staleness is detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, rendered_dir = _staged_render(tmp_path, pkg)
     render_result_path = rendered_dir / "render-result.json"
@@ -91,7 +110,9 @@ def test_renderer_rejects_unsupported_manifest_version(tmp_path):
         protocol.dispatch_render(MultipageMarkdownRenderer(), unsupported_package, tmp_path / "out")
 
 
+# Verify page content diverging from source chunk is detected.
 def test_page_content_diverging_from_source_chunk_is_detected(tmp_path):
+    """Verify page content diverging from source chunk is detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, rendered_dir = _staged_render(tmp_path, pkg)
     page_path = next((rendered_dir / "pages").glob("*.md"))
@@ -105,7 +126,9 @@ def test_page_content_diverging_from_source_chunk_is_detected(tmp_path):
 
 # Adversarial cases added in Step 4
 
+# Verify index completeness survives escaped bracket in link text.
 def test_index_completeness_survives_escaped_bracket_in_link_text(tmp_path):
+    """Verify index completeness survives escaped bracket in link text."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, rendered_dir = _staged_render(tmp_path, pkg)
     index_path = rendered_dir / "index.md"
@@ -129,7 +152,9 @@ def test_index_completeness_survives_escaped_bracket_in_link_text(tmp_path):
     )
 
 
+# Verify index completeness survives URL encoded page filename.
 def test_index_completeness_survives_url_encoded_page_filename(tmp_path):
+    """Verify index completeness survives URL encoded page filename."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, rendered_dir = _staged_render(tmp_path, pkg)
     index_path = rendered_dir / "index.md"
@@ -151,7 +176,9 @@ def test_index_completeness_survives_url_encoded_page_filename(tmp_path):
     assert not any(i.code == "page_not_linked_from_index" for i in report.issues)
 
 
+# Verify index completeness detects duplicate link while another page is omitted.
 def test_index_completeness_detects_duplicate_link_while_another_page_is_omitted(tmp_path):
+    """Verify index completeness detects duplicate link while another page is omitted."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, rendered_dir = _staged_render(tmp_path, pkg)
     pages_dir = rendered_dir / "pages"

@@ -59,6 +59,23 @@ Architectural patterns, PnPjs v4 singleton designs, and self-healing migration r
 - `sharepoint-scaffold-spfx-webpart` -- Guides scaffolding of any new, generic SPFx web part from scratch by confirming toolchain dependencies, interactively gathering the web part's requirements (name, purpose, data source, framework, configurability),...
 - `sharepoint-setup-spfx-hosted-workbench` -- Sets up and validates a local SPFx web part development workflow that can be tested in the SharePoint Online hosted workbench (workbench.aspx). Use when preparing an SPFx project to debug against localhost manifests...
 
+## Plugin structure
+
+Shared scripts and references live at the plugin root; each skill links to them with file-level symlinks.
+
+```text
+sharepoint-spfx-development/
+├── .claude-plugin/plugin.json   # Plugin manifest
+├── assets/                      # SPFx scaffolding templates
+├── references/                  # Shared references and per-skill acceptance criteria
+├── scripts/                     # Canonical scaffold, package and deploy scripts
+├── skills/<skill-name>/         # SKILL.md plus symlinked scripts/ and references/
+├── tests/                       # Plugin tests
+├── plugin.json
+├── plugin.yaml
+└── pyproject.toml
+```
+
 ## Previous identities
 
 Skill and plugin names changed in the seven-domain migration (issue #6). Old names are not retained as aliases.

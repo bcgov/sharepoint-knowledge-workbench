@@ -1,6 +1,12 @@
-"""
-render_result.py
+"""render_result.py
 =================
+
+Purpose:
+    Authoritative schema for the `rendered-output-profile` contract's `RenderResult` type (see docs/superpowers/specs/2026-07-25-docx-to-content-plugin-design-v3-ammendments.md section 8, Renderer Protocol).
+
+Key Input Dependencies:
+    - dataclasses
+    - typing
 
 Authoritative schema for the `rendered-output-profile` contract's
 `RenderResult` type (see
@@ -21,7 +27,11 @@ Design rules enforced here:
 - Every `from_dict` rejects a dict missing any required field (no silent
   defaulting) via `_require`.
 - `to_dict` always returns plain dicts/lists/str/int/None.
-"""
+
+Key Functions Index:
+    - _require()
+    - RenderResult.from_dict()
+    - RenderResult.to_dict()"""
 
 from dataclasses import dataclass
 from typing import Any
@@ -35,7 +45,9 @@ RENDER_RESULT_SCHEMA_VERSION = "1.0"
 SUPPORTED_SCHEMA_VERSION = RENDER_RESULT_SCHEMA_VERSION
 
 
+# Require the supplied value to be present in the supplied mapping.
 def _require(data: dict, field_name: str) -> Any:
+    """Require the supplied value to be present in the supplied mapping."""
     if field_name not in data:
         raise ValueError(f"missing required field: {field_name!r}")
     return data[field_name]
@@ -55,8 +67,10 @@ class RenderResult:
     errors: list
     warnings: list
 
+    # Validate and construct a RenderResult record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "RenderResult":
+        """Validate and construct a RenderResult record from a mapping."""
         return cls(
             renderer_name=_require(data, "renderer_name"),
             renderer_version=_require(data, "renderer_version"),
@@ -67,7 +81,9 @@ class RenderResult:
             warnings=list(_require(data, "warnings")),
         )
 
+    # Serialize a RenderResult record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a RenderResult record as a JSON-compatible mapping."""
         return {
             "renderer_name": self.renderer_name,
             "renderer_version": self.renderer_version,

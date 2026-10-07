@@ -1,4 +1,11 @@
-"""
+"""Purpose:
+    Build, validate, render, and write document-workflow and publication-profile data.
+
+Key Input Dependencies:
+    - Caller-provided document and publication profile values
+    - psd1_writer.render_document
+    - IMPLEMENTED_RENDERER_PROFILES
+
 document_workflow.py
 ======================
 
@@ -32,6 +39,16 @@ renderers (`multipage-markdown`, `sharepoint-aspx`) -- see that
 plugin's `renderers/protocol.py` registry. Not imported cross-plugin
 (each plugin installs standalone, per this repo's architecture); update
 this constant by hand when a new renderer is added there.
+
+Function Index:
+    - DocumentWorkflowError
+    - classify_renderer_requests
+    - _require_non_empty
+    - build_workflow_profile
+    - build_publication_profile
+    - render_workflow_psd1
+    - render_publication_profile_psd1
+    - write_document_workflow
 """
 
 from pathlib import Path
@@ -59,7 +76,9 @@ def classify_renderer_requests(requested: list) -> "tuple[list, list]":
     return supported, unsupported
 
 
+# Reject a blank or whitespace-only value for the named required field.
 def _require_non_empty(value: str, field_name: str) -> None:
+    """Reject a blank or whitespace-only value for the named required field."""
     if not value or not value.strip():
         raise DocumentWorkflowError(f"{field_name} must be a non-empty string")
 

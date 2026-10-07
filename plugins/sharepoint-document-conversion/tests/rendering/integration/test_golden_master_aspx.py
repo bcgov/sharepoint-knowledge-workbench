@@ -1,6 +1,17 @@
-"""
-test_golden_master_aspx.py
+"""test_golden_master_aspx.py
 ============================
+
+Purpose:
+    Phase 6 Task 0.16's ASPX golden-master fidelity proof, mirroring the Phase 2 Subphase 2.5.4 pattern already established for `render-markdown-pages` (see `docs/superpowers/plans/ phase-4-5-evidence/wave-6-golden-master-manifest.json`): render the REAL sample manual canonical package through `render-sharepoint-pages` and prove the fresh render is byte-identical to a recorded baseline, established once and committed at `runs/sample-manual/render-aspx/ rendered-output/`.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - shutil
+    - pathlib
+    - pytest
+    - canonical_package
+    - compare_rendered_output
+    - renderers.validate_rendered
 
 Phase 6 Task 0.16's ASPX golden-master fidelity proof, mirroring the
 Phase 2 Subphase 2.5.4 pattern already established for
@@ -17,7 +28,10 @@ canonical package (`runs/sample-manual/canonical-content/`, the same
 package `render-markdown-pages`'s own golden master was built from)
 and runs it through the full `render_and_promote_aspx` stage -> validate
 -> promote pipeline.
-"""
+
+Key Functions Index:
+    - test_real_sample_package_renders_and_validates_pass()
+    - test_fresh_render_matches_committed_golden_baseline()"""
 
 import shutil
 from pathlib import Path
@@ -41,9 +55,11 @@ requires_sample_evidence = pytest.mark.skipif(
 )
 
 
+# Verify real sample package renders and validates pass.
 @requires_pandoc
 @requires_sample_evidence
 def test_real_sample_package_renders_and_validates_pass(tmp_path):
+    """Verify real sample package renders and validates pass."""
     package = canonical_package.CanonicalPackage.load(_sample_CANONICAL_CONTENT)
     assert len(package.chunks) == 25
     assert len(list(package.media_dir.glob("*"))) == 319
@@ -57,6 +73,7 @@ def test_real_sample_package_renders_and_validates_pass(tmp_path):
     assert len(list((final_dir / "media").glob("*"))) == 319
 
 
+# Verify fresh render matches committed golden baseline.
 @requires_pandoc
 @requires_sample_evidence
 @pytest.mark.skipif(
@@ -64,6 +81,7 @@ def test_real_sample_package_renders_and_validates_pass(tmp_path):
     reason="golden-master baseline not yet recorded at runs/sample-manual/render-aspx/",
 )
 def test_fresh_render_matches_committed_golden_baseline(tmp_path):
+    """Verify fresh render matches committed golden baseline."""
     package = canonical_package.CanonicalPackage.load(_sample_CANONICAL_CONTENT)
     _, report, promoted, final_dir = render_and_promote_aspx(package, tmp_path / "out")
     assert report.status == "PASS", report.issues

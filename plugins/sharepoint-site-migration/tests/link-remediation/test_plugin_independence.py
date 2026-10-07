@@ -9,6 +9,8 @@ Purpose:
     dependency, no live tenant identifiers anywhere in the shipped tree.
 
 Layer: sharepoint-site-migration / tests
+
+Key Input Dependencies: agents/sharepoint-link-agent.md, agents/sharepoint-link-remediation-analysis-agent.md, SKILL.md, evals.json, task-success.json.
 """
 
 import re
@@ -102,6 +104,7 @@ def test_no_project_literal_anywhere_in_the_plugin(literal):
     # gate on innocent prose or, worse, train a future maintainer to relax it.
     # \b handles the alphanumeric literals; the dotted hostnames are matched
     # literally since \b does not behave usefully around dots.
+    """Verify no project literal anywhere in the plugin."""
     if re.fullmatch(r"[\w.-]+", literal) and "." in literal:
         pattern = re.compile(re.escape(literal), re.IGNORECASE)
     else:
@@ -144,6 +147,7 @@ def test_literal_matching_flags_real_literals_and_not_ordinary_words(
 
 @pytest.mark.parametrize("marker", SOURCE_REPO_MARKERS)
 def test_no_runtime_reference_to_the_source_repository(marker):
+    """Verify no runtime reference to the source repository."""
     offenders = []
     for path in _shipped_files():
         if path.suffix not in {".py", ".json", ".toml", ".yaml"}:
@@ -155,6 +159,7 @@ def test_no_runtime_reference_to_the_source_repository(marker):
 
 
 def test_no_guid_shaped_identifier_is_shipped():
+    """Verify no guid shaped identifier is shipped."""
     import re
 
     guid = re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.IGNORECASE)
@@ -168,6 +173,7 @@ def test_no_guid_shaped_identifier_is_shipped():
 
 
 def test_every_script_module_imports_with_no_third_party_dependency():
+    """Verify every script module imports with no third party dependency."""
     import importlib
     import sys
 

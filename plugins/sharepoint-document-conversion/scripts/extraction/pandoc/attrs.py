@@ -1,7 +1,12 @@
 #!/usr/bin/env python
-"""
-attrs.py
+"""attrs.py
 ========
+
+Purpose:
+    Strips leftover pandoc attribute syntax from markdown text produced by `pandoc -t markdown`.
+
+Key Input Dependencies:
+    - re
 
 Strips leftover pandoc attribute syntax from markdown text produced by
 `pandoc -t markdown`. Pandoc emits attribute blocks such as
@@ -21,7 +26,9 @@ Function Index:
 Usage:
     from pandoc.attrs import strip_pandoc_attrs
     cleaned = strip_pandoc_attrs(raw_markdown_text)
-"""
+
+Key Functions Index:
+    - strip_pandoc_attrs()"""
 
 import re
 

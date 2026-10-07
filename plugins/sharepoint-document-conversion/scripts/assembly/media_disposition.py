@@ -1,6 +1,13 @@
-"""
-media_disposition.py
+"""media_disposition.py
 =====================
+
+Purpose:
+    General media classification/disposition mechanism (Task 18), scoped to the concrete integration point that exists today: `SlicedDocument.preamble` (front-matter content before the first structural anchor's heading line -- see `chunking.py`), which is never copied into canonical output by `package.py`'s chunk-only builders.
+
+Key Input Dependencies:
+    - hashlib
+    - re
+    - pathlib
 
 General media classification/disposition mechanism (Task 18), scoped to
 the concrete integration point that exists today: `SlicedDocument.preamble`
@@ -26,7 +33,10 @@ Function Index:
         defaulting to classification="requires-human-review",
         disposition="requires-human-decision" -- objective signals only
         (position, file size, format), never an inferred final decision.
-"""
+
+Key Functions Index:
+    - _extract_media_refs()
+    - propose_media_decisions()"""
 
 import hashlib
 import re
@@ -61,7 +71,9 @@ DISPOSITIONS = frozenset(
 _IMAGE_REF = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
 
 
+# Extract local media references from the supplied Markdown text.
 def _extract_media_refs(text: str) -> list:
+    """Extract local media references from the supplied Markdown text."""
     refs = []
     for match in _IMAGE_REF.finditer(text):
         ref = match.group(2)

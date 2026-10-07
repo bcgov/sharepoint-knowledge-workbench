@@ -6,6 +6,9 @@ Contract tests for the honest partial-failure reporting vocabulary
 (Phase 9 plan Task 13): every stage must report one of
 Observed / Empty / Forbidden / Unavailable / NotSupported / Partial / Failed
 rather than collapsing a failure into an empty success.
+
+Purpose: Contract tests for the honest partial-failure reporting vocabulary (Phase 9 plan Task 13): every stage must report one of Observed / Empty / Forbidden / Unavailable / NotSupported / Partial / Failed rather than collapsing a failure into an empty success.
+Key Input Dependencies: outcomes.
 """
 
 import pytest
@@ -14,6 +17,7 @@ import outcomes
 
 
 def test_vocabulary_is_exactly_the_seven_required_statuses():
+    """Verify vocabulary is exactly the seven required statuses."""
     assert set(outcomes.OUTCOME_STATUSES) == {
         "Observed",
         "Empty",
@@ -26,6 +30,7 @@ def test_vocabulary_is_exactly_the_seven_required_statuses():
 
 
 def test_make_outcome_returns_status_detail_and_counts():
+    """Verify make outcome returns status detail and counts."""
     out = outcomes.make_outcome("Observed", "3 zones detected", counts={"zones": 3})
     assert out["status"] == "Observed"
     assert out["detail"] == "3 zones detected"
@@ -33,6 +38,7 @@ def test_make_outcome_returns_status_detail_and_counts():
 
 
 def test_make_outcome_rejects_a_status_outside_the_vocabulary():
+    """Verify make outcome rejects a status outside the vocabulary."""
     with pytest.raises(outcomes.OutcomeError):
         outcomes.make_outcome("Success", "not part of the vocabulary")
 
@@ -45,15 +51,18 @@ def test_make_outcome_requires_a_detail_for_every_non_observed_status():
 
 
 def test_validate_outcome_rejects_a_missing_status():
+    """Verify validate outcome rejects a missing status."""
     with pytest.raises(outcomes.OutcomeError):
         outcomes.validate_outcome({"detail": "no status key"})
 
 
 def test_validate_outcome_accepts_a_well_formed_outcome():
+    """Verify validate outcome accepts a well formed outcome."""
     outcomes.validate_outcome(outcomes.make_outcome("Empty", "no zones detected"))
 
 
 def test_is_failure_distinguishes_real_failure_from_honest_emptiness():
+    """Verify is failure distinguishes real failure from honest emptiness."""
     assert outcomes.is_failure(outcomes.make_outcome("Failed", "input unreadable")) is True
     assert outcomes.is_failure(outcomes.make_outcome("Unavailable", "source absent")) is True
     assert outcomes.is_failure(outcomes.make_outcome("Forbidden", "no permission")) is True

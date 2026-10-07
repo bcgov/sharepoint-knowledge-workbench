@@ -39,7 +39,7 @@ topic boundaries, and never writes structured content.
 
 ## Contract
 
-`references/extraction/contracts/normalized-source-document.md` describes the output shape. No repository-root or
+`references/contracts/normalized-source-document.md` describes the output shape. No repository-root or
 sibling-plugin lookup is required.
 
 ## External tools

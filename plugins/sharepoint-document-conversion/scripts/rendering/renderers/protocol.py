@@ -1,6 +1,14 @@
-"""
-protocol.py
+"""protocol.py
 ============
+
+Purpose:
+    The renderer side of the docx-to-content pipeline (Task 12; spec Section 8, "Renderer Protocol", and Section 7.3, "Renderer preconditions").
+
+Key Input Dependencies:
+    - pathlib
+    - typing
+    - render_result
+    - canonical_package
 
 The renderer side of the docx-to-content pipeline (Task 12; spec Section
 8, "Renderer Protocol", and Section 7.3, "Renderer preconditions").
@@ -35,7 +43,13 @@ Renderer registry: a simple name -> Renderer instance mapping. The CLI's
 be wired up in Task 13) will use `get_renderer(name)` to resolve the
 `--renderer` argument, catching `UnknownRendererError` and mapping it to
 the CLI's exit-code-4 `UsageError`.
-"""
+
+Key Functions Index:
+    - Renderer.render()
+    - RendererRegistry.__init__()
+    - RendererRegistry.register()
+    - RendererRegistry.get_renderer()
+    - dispatch_render()"""
 
 from pathlib import Path
 from typing import Protocol, runtime_checkable
@@ -56,7 +70,9 @@ class Renderer(Protocol):
     name: str
     supported_manifest_versions: frozenset
 
+    # Define the renderer interface that concrete format renderers implement for canonical packages.
     def render(self, package: CanonicalPackage, output_dir: Path) -> RenderResult:
+        """Define the renderer interface that concrete format renderers implement for canonical packages."""
         ...
 
 
@@ -79,13 +95,19 @@ class RendererRegistry:
     single module-level singleton) so tests can register fake renderers
     without polluting global state shared across the test suite."""
 
+    # Initialize the RendererRegistry instance with its configured dependencies.
     def __init__(self):
+        """Initialize the RendererRegistry instance with its configured dependencies."""
         self._renderers: dict = {}
 
+    # Register a renderer implementation under its declared output-format identifier.
     def register(self, renderer: "Renderer") -> None:
+        """Register a renderer implementation under its declared output-format identifier."""
         self._renderers[renderer.name] = renderer
 
+    # Return the registered renderer for an output format or report that no implementation exists.
     def get_renderer(self, name: str) -> "Renderer":
+        """Return the registered renderer for an output format or report that no implementation exists."""
         try:
             return self._renderers[name]
         except KeyError:

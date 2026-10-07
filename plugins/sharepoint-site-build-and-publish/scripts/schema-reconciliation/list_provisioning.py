@@ -38,6 +38,15 @@ Key Input Dependencies:
     - content_type_provisioning.ContentTypeDef / plan_content_type /
       plan_add_content_type_to_list
     - a caller-injected ``executor(step, detail)`` callable for real writes
+
+Function Index:
+    ListDef.to_dict, ListCreation.to_dict, ListDeletion.to_dict,
+    detect_duplicate_lists, ProvisioningPlan._write_items,
+    ProvisioningPlan.has_writes, ProvisioningPlan.fingerprint,
+    ProvisioningPlan.confirmation_token, ProvisioningPlan.to_dict,
+    ProvisioningResult.to_dict, plan_provisioning, _plan_list_actions,
+    _plan_outcome, _gate, _execute_provisioning_steps,
+    _provisioning_outcome, apply_provisioning, verify_deletion_complete
 """
 
 from __future__ import annotations
@@ -94,6 +103,7 @@ class ListDef:
     recreate: bool = False
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize list target settings for planned provisioning steps."""
         return {
             "title": self.title,
             "template": self.template,
@@ -146,6 +156,7 @@ class ListCreation:
     content_types: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the planned list creation and its schema metadata."""
         return {
             "title": self.title,
             "detail": self.detail,
@@ -162,6 +173,7 @@ class ListDeletion:
     blocking: bool = False
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the list deletion intent and whether it blocks apply."""
         return {"title": self.title, "reason": self.reason, "blocking": self.blocking}
 
 
@@ -196,6 +208,7 @@ class ProvisioningPlan:
     outcome: str = Outcome.EMPTY
 
     def _write_items(self) -> list[tuple[str, dict[str, Any]]]:
+        """Collect only actions that require writes, in their planned order."""
         items: list[tuple[str, dict[str, Any]]] = []
         for action in self.field_actions:
             if action.action in ("create", "repair"):
@@ -211,10 +224,12 @@ class ProvisioningPlan:
 
     @property
     def has_writes(self) -> bool:
+        """Return whether this plan contains any operation that would write."""
         return bool(self._write_items())
 
     @property
     def fingerprint(self) -> str:
+        """Hash ordered write details so changed plans invalidate old tokens."""
         digest = hashlib.sha256()
         for step, detail in self._write_items():
             digest.update(step.encode("utf-8"))
@@ -225,9 +240,11 @@ class ProvisioningPlan:
 
     @property
     def confirmation_token(self) -> str:
+        """Build the exact confirmation token required for real writes."""
         return f"APPLY-{len(self._write_items())}-{self.fingerprint}"
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize plan actions, findings, outcome, and its apply token."""
         return {
             "outcome": self.outcome,
             "confirmation_token": self.confirmation_token,
@@ -249,6 +266,7 @@ class ProvisioningResult:
     failed: Sequence[tuple[str, str]] = field(default_factory=tuple)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the apply outcome and per-step execution evidence."""
         return {
             "outcome": self.outcome,
             "dry_run": self.dry_run,
@@ -270,6 +288,30 @@ def plan_provisioning(schema: ProvisioningSchema, current: CurrentState) -> Prov
         content_type_actions.extend(plan_content_type(ct_def, current.content_types.get(ct_def.name)))
 
     blocking_findings = tuple(detect_duplicate_lists(schema, current))
+    list_creations, list_deletions = _plan_list_actions(schema, current, blocking_findings)
+    outcome = _plan_outcome(
+        blocking_findings,
+        field_actions,
+        content_type_actions,
+        list_creations,
+        list_deletions,
+    )
+    return ProvisioningPlan(
+        field_actions=field_actions,
+        content_type_actions=tuple(content_type_actions),
+        list_creations=tuple(list_creations),
+        list_deletions=tuple(list_deletions),
+        blocking_findings=blocking_findings,
+        outcome=outcome,
+    )
+
+
+def _plan_list_actions(
+    schema: ProvisioningSchema,
+    current: CurrentState,
+    blocking_findings: Sequence[str],
+) -> tuple[list[ListCreation], list[ListDeletion]]:
+    """Plan list create/recreate actions while excluding duplicate-title blocks."""
     blocked_titles = {
         finding.split("'")[1] for finding in blocking_findings
     }  # extract the quoted title
@@ -306,26 +348,26 @@ def plan_provisioning(schema: ProvisioningSchema, current: CurrentState) -> Prov
                     content_types=tuple(list_def.content_types),
                 )
             )
+    return list_creations, list_deletions
 
-    has_content = bool(field_actions or content_type_actions or list_creations or list_deletions)
+
+def _plan_outcome(
+    blocking_findings: Sequence[str],
+    field_actions: Sequence[FieldAction],
+    content_type_actions: Sequence[ContentTypeAction],
+    list_creations: Sequence[ListCreation],
+    list_deletions: Sequence[ListDeletion],
+) -> str:
+    """Choose the plan outcome from blocking findings and planned actions."""
     if blocking_findings:
-        outcome = Outcome.FAILED
-    elif has_content:
-        outcome = Outcome.OBSERVED
-    else:
-        outcome = Outcome.EMPTY
-
-    return ProvisioningPlan(
-        field_actions=field_actions,
-        content_type_actions=tuple(content_type_actions),
-        list_creations=tuple(list_creations),
-        list_deletions=tuple(list_deletions),
-        blocking_findings=blocking_findings,
-        outcome=outcome,
-    )
+        return Outcome.FAILED
+    if any((field_actions, content_type_actions, list_creations, list_deletions)):
+        return Outcome.OBSERVED
+    return Outcome.EMPTY
 
 
 def _gate(plan: ProvisioningPlan, executor: Executor | None, confirm: str | None) -> None:
+    """Refuse writes unless findings, executor, and plan-specific token are safe."""
     if plan.blocking_findings:
         raise DuplicateListsBlockProvisioning(
             "plan carries blocking findings (e.g. duplicate-titled lists) and "
@@ -342,6 +384,52 @@ def _gate(plan: ProvisioningPlan, executor: Executor | None, confirm: str | None
         raise ConfirmationRequired(
             f"confirmation token does not authorise this plan; expected {expected!r}"
         )
+
+
+def _execute_provisioning_steps(
+    items: Sequence[tuple[str, dict[str, Any]]], executor: Executor
+) -> tuple[list[tuple[str, dict[str, Any]]], list[tuple[str, str]], bool]:
+    """Run plan steps while blocking recreate after a failed list deletion."""
+    executed: list[tuple[str, dict[str, Any]]] = []
+    failed: list[tuple[str, str]] = []
+    failed_deletion_titles: set[str] = set()
+    forbidden = False
+
+    for step, detail in items:
+        if step == "list_creation":
+            title = detail.get("title", "")
+            if title in failed_deletion_titles:
+                failed.append((step, f"skipped creation of '{title}' because preceding deletion failed"))
+                continue
+        try:
+            executor(step, detail)
+        except PermissionError as exc:
+            forbidden = True
+            failed.append((step, f"forbidden: {exc}"))
+            if step == "list_deletion":
+                failed_deletion_titles.add(detail.get("title", ""))
+        except Exception as exc:  # noqa: BLE001 -- caller-supplied sink, any error is reportable
+            failed.append((step, str(exc)))
+            if step == "list_deletion":
+                failed_deletion_titles.add(detail.get("title", ""))
+        else:
+            executed.append((step, detail))
+    return executed, failed, forbidden
+
+
+def _provisioning_outcome(
+    executed: Sequence[tuple[str, dict[str, Any]]],
+    failed: Sequence[tuple[str, str]],
+    forbidden: bool,
+) -> str:
+    """Classify executor results without hiding partial or denied writes."""
+    if not executed and forbidden:
+        return Outcome.FORBIDDEN
+    if not executed and failed:
+        return Outcome.FAILED
+    if failed:
+        return Outcome.PARTIAL
+    return Outcome.OBSERVED
 
 
 def apply_provisioning(
@@ -368,40 +456,8 @@ def apply_provisioning(
     if not items:
         return ProvisioningResult(outcome=Outcome.EMPTY, dry_run=False)
 
-    executed: list[tuple[str, dict[str, Any]]] = []
-    failed: list[tuple[str, str]] = []
-    failed_deletion_titles: set[str] = set()
-    forbidden = False
-
-    for step, detail in items:
-        if step == "list_creation":
-            title = detail.get("title", "")
-            if title in failed_deletion_titles:
-                failed.append((step, f"skipped creation of '{title}' because preceding deletion failed"))
-                continue
-        try:
-            executor(step, detail)  # type: ignore[misc]
-        except PermissionError as exc:
-            forbidden = True
-            failed.append((step, f"forbidden: {exc}"))
-            if step == "list_deletion":
-                failed_deletion_titles.add(detail.get("title", ""))
-        except Exception as exc:  # noqa: BLE001 -- caller-supplied sink, any error is reportable
-            failed.append((step, str(exc)))
-            if step == "list_deletion":
-                failed_deletion_titles.add(detail.get("title", ""))
-        else:
-            executed.append((step, detail))
-
-    if not executed and forbidden:
-        outcome = Outcome.FORBIDDEN
-    elif not executed and failed:
-        outcome = Outcome.FAILED
-    elif failed:
-        outcome = Outcome.PARTIAL
-    else:
-        outcome = Outcome.OBSERVED
-
+    executed, failed, forbidden = _execute_provisioning_steps(items, executor)
+    outcome = _provisioning_outcome(executed, failed, forbidden)
     return ProvisioningResult(outcome=outcome, dry_run=False, executed=tuple(executed), failed=tuple(failed))
 
 

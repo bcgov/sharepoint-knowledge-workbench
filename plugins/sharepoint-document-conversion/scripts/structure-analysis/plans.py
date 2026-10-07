@@ -1,6 +1,16 @@
-"""
-plans.py
+"""plans.py
 ========
+
+Purpose:
+    Draft `ConversionPlan` construction (spec Section 6.2 / 7.1), plus (Task 7) explicit confirmation and the plan/source verification checks that later `convert`/`run` steps use as a precondition.
+
+Key Input Dependencies:
+    - sys
+    - datetime
+    - pathlib
+    - plan_schema
+    - plan_hashing
+    - plan_verification_core
 
 Draft `ConversionPlan` construction (spec Section 6.2 / 7.1), plus (Task 7)
 explicit confirmation and the plan/source verification checks that later
@@ -22,7 +32,11 @@ Function Index:
         symlink) so existing callers of `plans.verify_plan_against_source`
         etc. are unaffected. See
         docs/superpowers/plans/phase-4-5-evidence/wave-9-duplication-remediation-report.md.
-"""
+
+Key Functions Index:
+    - build_draft_plan()
+    - confirm_plan()
+    - apply_media_decision()"""
 
 import sys
 from datetime import datetime, timezone

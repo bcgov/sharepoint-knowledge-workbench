@@ -1,7 +1,12 @@
 #!/usr/bin/env python
-"""
-tables.py
+"""tables.py
 =========
+
+Purpose:
+    Fixes malformed markdown tables that pandoc can emit: a missing header separator row, or a separator row whose column count does not match the header row's column count.
+
+Key Input Dependencies:
+    - re
 
 Fixes malformed markdown tables that pandoc can emit: a missing header
 separator row, or a separator row whose column count does not match the
@@ -22,7 +27,12 @@ Function Index:
 Usage:
     from pandoc.tables import fix_malformed_tables
     cleaned = fix_malformed_tables(raw_markdown_text)
-"""
+
+Key Functions Index:
+    - _count_columns()
+    - _is_separator_row()
+    - _make_separator_row()
+    - fix_malformed_tables()"""
 
 import re
 
@@ -49,12 +59,16 @@ def _count_columns(row: str) -> int:
     return len(cells)
 
 
+# Recognize a Markdown table separator row by validating its pipe-delimited alignment cells.
 def _is_separator_row(row: str) -> bool:
+    """Recognize a Markdown table separator row by validating its pipe-delimited alignment cells."""
     cells = row.strip().strip("|").split("|")
     return all(_SEPARATOR_CELL.match(cell) for cell in cells) and len(cells) > 0
 
 
+# Build a Markdown table separator row with one alignment cell per supplied column.
 def _make_separator_row(column_count: int) -> str:
+    """Build a Markdown table separator row with one alignment cell per supplied column."""
     return "| " + " | ".join(["---"] * column_count) + " |"
 
 

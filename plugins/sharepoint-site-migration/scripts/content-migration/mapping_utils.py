@@ -7,8 +7,15 @@ Purpose:
     field values across source and target schemas during SharePoint migration passes.
 
 Layer: sharepoint-site-migration / mapping utilities
-"for utils"
 
+Key Input Dependencies:
+    - Caller-provided source-to-target field-name mapping.
+    - Optional caller-provided field transformation functions.
+
+Function Index:
+    map_field_names, transform_item_values
+
+Usage: Import these helpers when migrating caller-shaped field dictionaries.
 """
 
 from __future__ import annotations

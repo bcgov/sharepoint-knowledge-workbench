@@ -1,0 +1,1 @@
+../../../references/sharepoint-extract-choice-columns-acceptance-criteria.md

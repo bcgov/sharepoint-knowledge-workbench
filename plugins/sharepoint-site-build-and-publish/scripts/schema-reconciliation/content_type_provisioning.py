@@ -20,6 +20,11 @@ Layer: sharepoint-site-build-and-publish / content-type planning
 
 Key Input Dependencies:
     - none (standard library only)
+
+Function Index:
+    ContentTypeAction.to_dict, plan_content_type,
+    _plan_declared_field_links, _plan_unlink_actions,
+    plan_add_content_type_to_list
 """
 
 from __future__ import annotations
@@ -71,6 +76,7 @@ class ContentTypeAction:
     already_correct: bool = False
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize a planned content-type step and its drift status."""
         return {"step": self.step, "detail": self.detail, "already_correct": self.already_correct}
 
 
@@ -99,7 +105,16 @@ def plan_content_type(
         )
 
     links: Mapping[str, bool] = current.field_links if (current and exists) else {}
+    actions.extend(_plan_declared_field_links(ct_def, links))
+    actions.extend(_plan_unlink_actions(ct_def, links))
+    return actions
 
+
+def _plan_declared_field_links(
+    ct_def: ContentTypeDef, links: Mapping[str, bool]
+) -> list[ContentTypeAction]:
+    """Plan adding declared fields and reconciling their hidden state."""
+    actions: list[ContentTypeAction] = []
     for spec in ct_def.fields:
         if spec.field_name not in links:
             actions.append(
@@ -135,7 +150,14 @@ def plan_content_type(
                     already_correct=True,
                 )
             )
+    return actions
 
+
+def _plan_unlink_actions(
+    ct_def: ContentTypeDef, links: Mapping[str, bool]
+) -> list[ContentTypeAction]:
+    """Plan removal of explicitly retired field links still present."""
+    actions = []
     for name in ct_def.unlink_fields:
         if name in links:
             actions.append(
@@ -144,7 +166,6 @@ def plan_content_type(
                     f"unlink '{name}' from '{ct_def.name}' (no longer declared in schema)",
                 )
             )
-
     return actions
 
 

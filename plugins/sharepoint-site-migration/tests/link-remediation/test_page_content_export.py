@@ -1,4 +1,8 @@
-"""Modern page fields are exported with remote identity using mocked PnP reads."""
+"""Modern page fields are exported with remote identity using mocked PnP reads.
+
+Purpose: Modern page fields are exported with remote identity using mocked PnP reads.
+Key Input Dependencies: scripts/link-remediation/collect-sharepoint-page-content.ps1, fixtures/page-content-mocks.ps1.
+"""
 import json
 import shutil
 import subprocess
@@ -9,6 +13,7 @@ SCRIPT = Path(__file__).resolve().parents[2] / "scripts/link-remediation/collect
 
 
 def test_exports_canvas_and_webpart_fields(tmp_path):
+    """Verify exports canvas and webpart fields."""
     assert SCRIPT.exists(), "page-field collector is missing"
     harness = Path(__file__).parent / "fixtures/page-content-mocks.ps1"
     result = subprocess.run([shutil.which("pwsh"), "-NoProfile", "-File", str(harness),

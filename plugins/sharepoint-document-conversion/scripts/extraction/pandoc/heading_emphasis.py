@@ -1,7 +1,12 @@
 #!/usr/bin/env python
-"""
-heading_emphasis.py
+"""heading_emphasis.py
 ====================
+
+Purpose:
+    Normalizes headings whose ENTIRE text content is wrapped in a single matching pair of emphasis markers -- e.g.
+
+Key Input Dependencies:
+    - re
 
 Normalizes headings whose ENTIRE text content is wrapped in a single
 matching pair of emphasis markers -- e.g. `# **SAMPLE TOPIC**` -> `#
@@ -34,7 +39,11 @@ Function Index:
 Usage:
     from pandoc.heading_emphasis import strip_whole_heading_emphasis
     cleaned = strip_whole_heading_emphasis(raw_markdown_text)
-"""
+
+Key Functions Index:
+    - _fully_wrapped()
+    - strip_whole_heading_emphasis()
+    - strip_whole_heading_emphasis._strip()"""
 
 import re
 
@@ -105,7 +114,9 @@ def strip_whole_heading_emphasis(markdown_text: str) -> str:
     untouched rather than partially/incorrectly stripped.
     """
 
+    # Remove emphasis delimiters from heading text while preserving the heading content.
     def _strip(match: "re.Match[str]") -> str:
+        """Remove emphasis delimiters from heading text while preserving the heading content."""
         hashes, text = match.group(1), match.group(2)
         inner = _fully_wrapped(text)
         if inner is None:

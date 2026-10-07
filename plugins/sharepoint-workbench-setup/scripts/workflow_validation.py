@@ -1,4 +1,11 @@
-"""
+"""Purpose:
+    Validate parsed connection, workflow, and publication profile dictionaries.
+
+Key Input Dependencies:
+    - Parsed connection/workflow/publication dictionaries
+    - config_setup.validate_connection_answers
+    - document_workflow.IMPLEMENTED_RENDERER_PROFILES
+
 workflow_validation.py
 ========================
 
@@ -25,6 +32,16 @@ version may add that bridge directly; not attempted here.
 Every issue is `severity="error"` -- status is always `PASS` or `FAIL`,
 matching this repo's other validators' convention (e.g.
 `structured-content-rendering`'s `renderers/validate_rendered.py`).
+
+Function Index:
+    - ValidationIssue
+    - ValidationReport
+    - _error
+    - _report
+    - _check_required_keys
+    - validate_connection_config
+    - validate_document_workflow_profile
+    - validate_publication_profile
 """
 
 from dataclasses import dataclass, field
@@ -33,28 +50,38 @@ from config_setup import validate_connection_answers
 from document_workflow import IMPLEMENTED_RENDERER_PROFILES
 
 
+# Represent one configuration or profile validation error.
 @dataclass
 class ValidationIssue:
+    """Represent one configuration or profile validation error."""
     severity: str
     code: str
     message: str
 
 
+# Return the aggregate PASS/FAIL status and validation issues for one profile.
 @dataclass
 class ValidationReport:
+    """Return the aggregate PASS/FAIL status and validation issues for one profile."""
     status: str
     issues: list = field(default_factory=list)
 
 
+# Create one error-severity validation issue with the supplied code and message.
 def _error(code: str, message: str) -> "ValidationIssue":
+    """Create one error-severity validation issue with the supplied code and message."""
     return ValidationIssue(severity="error", code=code, message=message)
 
 
+# Build a PASS or FAIL report from the collected validation issues.
 def _report(issues: list) -> "ValidationReport":
+    """Build a PASS or FAIL report from the collected validation issues."""
     return ValidationReport(status="FAIL" if issues else "PASS", issues=issues)
 
 
+# Return one validation issue for each required key absent from the profile.
 def _check_required_keys(data: dict, required: "tuple[str, ...]") -> list:
+    """Return one validation issue for each required key absent from the profile."""
     issues = []
     for key in required:
         if key not in data:

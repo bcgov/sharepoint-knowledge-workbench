@@ -15,6 +15,24 @@ Key Input Dependencies:
 
 Critical runtime paths (filesystem resolution, JSON parsing) are exercised
 against real directories and real files -- never mocked.
+
+Function index:
+    - _write_json
+    - _minimal_export
+    - test_loads_a_neutral_export_and_reports_observed
+    - test_default_layout_assumes_no_project_scope_segment
+    - test_scope_segment_is_an_explicit_caller_parameter
+    - test_missing_export_root_is_unavailable_not_empty_success
+    - test_present_but_empty_section_is_empty_not_observed
+    - test_malformed_json_fails_honestly
+    - test_unreadable_file_is_forbidden_not_empty
+    - test_unsupported_section_shape_is_not_supported
+    - test_odata_value_envelope_is_supported
+    - test_one_unreadable_list_yields_partial_not_silent_loss
+    - test_duplicate_keys_within_one_export_are_surfaced_not_silently_collapsed
+    - test_document_libraries_directory_is_loaded_under_its_own_key
+    - test_load_does_not_write_anything_into_the_export
+    - test_section_status_wire_values_match_the_workbench_wide_outcome_convention
 """
 
 import json
@@ -34,12 +52,16 @@ from schema_export import (  # noqa: E402
 )
 
 
+# Write a JSON fixture under the supplied test directory.
 def _write_json(path: Path, payload) -> None:
+    """Write a JSON fixture under the supplied test directory."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload), encoding="utf-8")
 
 
+# Create the smallest valid schema-export fixture for loader tests.
 def _minimal_export(root: Path) -> Path:
+    """Create the smallest valid schema-export fixture for loader tests."""
     _write_json(
         root / "summary" / "site_columns.json",
         [{"InternalName": "Alpha", "TypeAsString": "Text", "Required": False, "Hidden": False}],
@@ -62,7 +84,9 @@ def _minimal_export(root: Path) -> Path:
     return root
 
 
+# Loads a neutral export and reports observed.
 def test_loads_a_neutral_export_and_reports_observed(tmp_path):
+    """Loads a neutral export and reports observed."""
     export = load_schema_export(_minimal_export(tmp_path / "left"), label="left")
 
     assert export.label == "left"
@@ -81,7 +105,9 @@ def test_default_layout_assumes_no_project_scope_segment(tmp_path):
     assert __import__("base64").b64decode("Y21hdA==").decode() not in json.dumps(layout.__dict__).lower()
 
 
+# Scope segment is an explicit caller parameter.
 def test_scope_segment_is_an_explicit_caller_parameter(tmp_path):
+    """Scope segment is an explicit caller parameter."""
     root = tmp_path / "scoped"
     _minimal_export(root / "site-a")
     export = load_schema_export(root, label="scoped", layout=ExportLayout(scope="site-a"))
@@ -89,7 +115,9 @@ def test_scope_segment_is_an_explicit_caller_parameter(tmp_path):
     assert "lists/Records" in export.list_fields
 
 
+# Missing export root is unavailable not empty success.
 def test_missing_export_root_is_unavailable_not_empty_success(tmp_path):
+    """Missing export root is unavailable not empty success."""
     export = load_schema_export(tmp_path / "does-not-exist", label="ghost")
     assert export.status is SectionStatus.UNAVAILABLE
     assert export.site_columns.status is SectionStatus.UNAVAILABLE
@@ -97,7 +125,9 @@ def test_missing_export_root_is_unavailable_not_empty_success(tmp_path):
     assert "not found" in export.site_columns.detail.lower()
 
 
+# Present but empty section is empty not observed.
 def test_present_but_empty_section_is_empty_not_observed(tmp_path):
+    """Present but empty section is empty not observed."""
     root = _minimal_export(tmp_path / "e")
     _write_json(root / "summary" / "site_columns.json", [])
     export = load_schema_export(root, label="e")
@@ -105,7 +135,9 @@ def test_present_but_empty_section_is_empty_not_observed(tmp_path):
     assert export.status is SectionStatus.PARTIAL
 
 
+# Malformed json fails honestly.
 def test_malformed_json_fails_honestly(tmp_path):
+    """Malformed json fails honestly."""
     root = _minimal_export(tmp_path / "m")
     (root / "summary" / "site_columns.json").write_text("{not json", encoding="utf-8")
     export = load_schema_export(root, label="m")
@@ -114,7 +146,9 @@ def test_malformed_json_fails_honestly(tmp_path):
     assert export.status is SectionStatus.PARTIAL
 
 
+# Unreadable file is forbidden not empty.
 def test_unreadable_file_is_forbidden_not_empty(tmp_path):
+    """Unreadable file is forbidden not empty."""
     if not hasattr(os, "geteuid") or os.geteuid() == 0:  # pragma: no cover
         pytest.skip("Windows or root ignores POSIX permission bits")
     root = _minimal_export(tmp_path / "p")
@@ -136,7 +170,9 @@ def test_unsupported_section_shape_is_not_supported(tmp_path):
     assert export.site_columns.status is SectionStatus.NOT_SUPPORTED
 
 
+# Odata value envelope is supported.
 def test_odata_value_envelope_is_supported(tmp_path):
+    """Odata value envelope is supported."""
     root = _minimal_export(tmp_path / "v")
     _write_json(
         root / "summary" / "site_columns.json",
@@ -147,7 +183,9 @@ def test_odata_value_envelope_is_supported(tmp_path):
     assert len(export.site_columns.items) == 1
 
 
+# One unreadable list yields partial not silent loss.
 def test_one_unreadable_list_yields_partial_not_silent_loss(tmp_path):
+    """One unreadable list yields partial not silent loss."""
     root = _minimal_export(tmp_path / "q")
     _write_json(
         root / "lists" / "Other" / "fields.json",
@@ -159,7 +197,9 @@ def test_one_unreadable_list_yields_partial_not_silent_loss(tmp_path):
     assert export.status is SectionStatus.PARTIAL
 
 
+# Duplicate keys within one export are surfaced not silently collapsed.
 def test_duplicate_keys_within_one_export_are_surfaced_not_silently_collapsed(tmp_path):
+    """Duplicate keys within one export are surfaced not silently collapsed."""
     root = _minimal_export(tmp_path / "d")
     _write_json(
         root / "summary" / "site_columns.json",
@@ -173,7 +213,9 @@ def test_duplicate_keys_within_one_export_are_surfaced_not_silently_collapsed(tm
     assert any("Alpha" in a for a in export.site_columns.ambiguities)
 
 
+# Document libraries directory is loaded under its own key.
 def test_document_libraries_directory_is_loaded_under_its_own_key(tmp_path):
+    """Document libraries directory is loaded under its own key."""
     root = _minimal_export(tmp_path / "lib")
     _write_json(
         root / "document_libraries" / "Docs" / "fields.json",
@@ -183,7 +225,9 @@ def test_document_libraries_directory_is_loaded_under_its_own_key(tmp_path):
     assert "document_libraries/Docs" in export.list_fields
 
 
+# Load does not write anything into the export.
 def test_load_does_not_write_anything_into_the_export(tmp_path):
+    """Load does not write anything into the export."""
     root = _minimal_export(tmp_path / "ro")
     before = sorted(p.relative_to(root).as_posix() for p in root.rglob("*"))
     load_schema_export(root, label="ro")

@@ -1,6 +1,15 @@
-"""
-dispositions.py
+"""dispositions.py
 ================
+
+Purpose:
+    Warning-disposition mechanism for a `contracts.ValidationReport` produced by `validate_canonical.py` (spec Section 9): "WARN cannot be promoted to accepted output until `warning-disposition.json` records each warning as accepted or resolved."
+
+Key Input Dependencies:
+    - json
+    - sys
+    - dataclasses
+    - pathlib
+    - canonical_schema
 
 Warning-disposition mechanism for a `contracts.ValidationReport` produced by
 `validate_canonical.py` (spec Section 9): "WARN cannot be promoted to
@@ -56,7 +65,11 @@ Function Index:
         contracts.ValidationIssue]). A report with status "FAIL" is never
         promotable regardless of dispositions (dispositions only ever
         cover WARN-level reviewable discrepancies, never errors).
-"""
+
+Key Functions Index:
+    - disposition_key()
+    - load_dispositions()
+    - apply_disposition()"""
 
 import json
 import sys

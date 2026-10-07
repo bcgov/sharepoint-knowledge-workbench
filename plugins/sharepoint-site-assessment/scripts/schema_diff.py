@@ -14,6 +14,22 @@ Both exports being compared are caller-labelled; no environment name
 surface ambiguity (duplicate or unkeyed items) rather than guessing, and
 an unavailable export propagates into the report's own status rather
 than silently producing a clean-looking, empty diff.
+
+Key Input Dependencies:
+    - Caller-supplied SharePoint discovery exports and the plugin-local schema/analysis modules used by this script.
+
+Function index:
+    - Changed
+    - NamedSetDiff
+    - ListComparison
+    - SchemaComparisonReport
+    - _index
+    - compare_named_sets
+    - compare_schema_exports
+    - compare_schema_definitions
+    - compare_definition_to_export
+    - _render_named_set_diff
+    - render_markdown
 """
 
 from __future__ import annotations
@@ -24,29 +40,37 @@ from schema_definition import SiteSchemaDefinition, generate_schema_definition
 from schema_export import SchemaExport, SectionStatus
 
 
+# Represent a changed schema property and its old and new values.
 @dataclass(frozen=True)
 class Changed:
+    """Represent a changed schema property and its old and new values."""
     key: str
     property: str
     left: object
     right: object
 
 
+# Represent added, removed, changed, and ambiguous named schema items.
 @dataclass(frozen=True)
 class NamedSetDiff:
+    """Represent added, removed, changed, and ambiguous named schema items."""
     only_left: tuple = ()
     only_right: tuple = ()
     changed: tuple = ()
     ambiguities: tuple = ()
 
 
+# Represent the field and content-type differences for one list.
 @dataclass(frozen=True)
 class ListComparison:
+    """Represent the field and content-type differences for one list."""
     fields: NamedSetDiff
 
 
+# Hold the full schema comparison and its evidence status.
 @dataclass(frozen=True)
 class SchemaComparisonReport:
+    """Hold the full schema comparison and its evidence status."""
     left_label: str
     right_label: str
     site_columns: NamedSetDiff
@@ -58,7 +82,9 @@ class SchemaComparisonReport:
     status: SectionStatus = SectionStatus.UNAVAILABLE
 
 
+# Index named schema items and retain duplicate-key evidence instead of silently collapsing it.
 def _index(items, key_property: str):
+    """Index named schema items and retain duplicate-key evidence instead of silently collapsing it."""
     index: dict = {}
     duplicates: set = set()
     missing_key = 0
@@ -304,7 +330,9 @@ def compare_definition_to_export(
     )
 
 
+# Render one named-set comparison, including additions, removals, and ambiguities.
 def _render_named_set_diff(diff: NamedSetDiff) -> list:
+    """Render one named-set comparison, including additions, removals, and ambiguities."""
     lines = []
     if diff.only_left:
         lines.append(f"- Only on the left: {', '.join(str(v) for v in diff.only_left)}")

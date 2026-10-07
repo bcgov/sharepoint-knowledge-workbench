@@ -12,6 +12,28 @@ and list item exports to extract all 7 legacy link surface types:
   5. List Item URL Columns & Hyperlink Fields
   6. Custom List Form Action Links (NewForm.aspx, EditForm.aspx)
   7. Hardcoded Subsite Web Part Connection Links
+
+Purpose:
+    Extract and classify legacy links from supplied SharePoint discovery exports.
+
+Key Input Dependencies:
+    - Caller-supplied links JSON/CSV or source-page exports, optional config.psd1, and bundled link-report templates.
+
+Function index:
+    - find_asset
+    - _is_engine_artifact
+    - _is_legacy_source_link
+    - _legacy_link_type
+    - _link_bucket
+    - extract_links_from_content
+    - source_host_markers
+    - rewrite_to_target
+    - analyze_links_data
+    - generate_link_report
+    - _scan_aspx_pages
+    - _scan_webpart_payload
+    - _render_master_catalog
+    - main
 """
 
 import argparse
@@ -35,7 +57,9 @@ def find_asset(name: str) -> Path:
     return here.parents[2] / "assets" / "templates" / name
 
 
+# Extract links from content.
 def extract_links_from_content(content_text: str, source_identifier: str) -> list:
+    """Extract links from content."""
     extracted = []
     # Pattern 1: Absolute and Relative Href/Src links
     url_matches = re.findall(r'(?:href|src|action|url)\s*=\s*["\']([^"\']+)["\']', content_text, re.IGNORECASE)
@@ -78,54 +102,73 @@ def rewrite_to_target(url: str, target_site_url: str) -> str:
     return f"{target_site_url.rstrip('/')}{path}" if target_site_url else path
 
 
+def _link_bucket(url: str, markers: list[str]) -> tuple[str, bool] | None:
+    """Return a counter bucket and legacy-source flag, or None for engine artifacts."""
+    if _is_engine_artifact(url):
+        return None
+    if not _is_legacy_source_link(url, markers):
+        return "external", False
+    return _legacy_link_type(url), True
+
+
+def _is_engine_artifact(url: str) -> bool:
+    """Identify standard SharePoint JavaScript and blank-image artifacts to omit."""
+    return any(marker in url for marker in ("blank.gif", "init.js", "sp.js", "corev15.css"))
+
+
+def _is_legacy_source_link(url: str, markers: list[str]) -> bool:
+    """Check whether a URL is on a known source host or uses a server-relative path."""
+    return any(marker in url.lower() for marker in markers) or url.startswith("/")
+
+
+def _legacy_link_type(url: str) -> str:
+    """Map a flagged legacy URL to the existing page, asset, form, or external counter."""
+    if "Pages" in url or url.endswith(".aspx"):
+        return "page"
+    if "Images" in url or "_catalogs" in url or url.endswith((".png", ".jpg", ".css", ".js")):
+        return "asset"
+    if "Forms" in url or "EditForm" in url:
+        return "form"
+    return "external"
+
+
+# Analyze links data.
 def analyze_links_data(links: list, site_url: str, source_hosts=()) -> dict:
+    """Deduplicate links and count legacy pages, assets, forms, and external links."""
     markers = source_host_markers(site_url, source_hosts)
     flagged = []
     seen = set()
-    url_count = 0
-    asset_count = 0
-    form_count = 0
-    external_count = 0
+    counts = {"page": 0, "asset": 0, "form": 0, "external": 0}
 
     for item in links:
         url = item.get("Url", "")
-        page = item.get("SourcePage", "Unknown")
-        key = f"{page}::{url}"
-
+        key = f"{item.get('SourcePage', 'Unknown')}::{url}"
         if key in seen:
             continue
         seen.add(key)
-
-        # Ignore standard SharePoint engine blank.gif / revision artifacts
-        if "blank.gif" in url or "init.js" in url or "sp.js" in url or "corev15.css" in url:
+        classification = _link_bucket(url, markers)
+        if classification is None:
             continue
-
-        if any(m in url.lower() for m in markers) or url.startswith("/"):
+        bucket, is_flagged = classification
+        if is_flagged:
             flagged.append(item)
-            if "Pages" in url or url.endswith(".aspx"):
-                url_count += 1
-            elif "Images" in url or "_catalogs" in url or url.endswith((".png", ".jpg", ".css", ".js")):
-                asset_count += 1
-            elif "Forms" in url or "EditForm" in url:
-                form_count += 1
-            else:
-                external_count += 1
-        else:
-            external_count += 1
+        counts[bucket] += 1
 
     return {
         "site_url": site_url,
         "total_links": len(seen),
         "flagged_links": len(flagged),
-        "url_count": url_count,
-        "asset_count": asset_count,
-        "form_count": form_count,
-        "external_count": external_count,
+        "url_count": counts["page"],
+        "asset_count": counts["asset"],
+        "form_count": counts["form"],
+        "external_count": counts["external"],
         "flagged_items": flagged
     }
 
 
+# Generate link report.
 def generate_link_report(summary: dict, site_name: str, target_site_url: str = "") -> str:
+    """Render the legacy-link summary, rewrite suggestions, and capped review matrix."""
     today_str = date.today().strftime("%Y-%m-%d")
 
     rows = []
@@ -158,7 +201,81 @@ def generate_link_report(summary: dict, site_name: str, target_site_url: str = "
         return f"# Legacy Link Inventory — {site_name}\n\nTotal Flagged: {summary['flagged_links']}\n\n{rows_txt}"
 
 
+def _scan_aspx_pages(target_root: Path) -> list[dict]:
+    """Extract links from downloaded ASPX files, reporting unreadable pages to stderr."""
+    links = []
+    aspx_dir = target_root / "all_aspx_pages"
+    if aspx_dir.exists():
+        for aspx_file in aspx_dir.glob("*.aspx"):
+            try:
+                content = aspx_file.read_text(encoding="utf-8", errors="ignore")
+                links.extend(extract_links_from_content(content, aspx_file.name))
+            except Exception as exc:
+                print(f"  [WARN] could not scan {aspx_file.name}: {exc}", file=sys.stderr)
+    return links
+
+
+def _scan_webpart_payload(target_root: Path) -> list[dict]:
+    """Extract links from the web-part content export when it is present and readable."""
+    links = []
+    wp_extract = target_root / "analysis" / "webpart_content_extract.json"
+    if wp_extract.exists():
+        try:
+            wp_data = json.loads(wp_extract.read_text(encoding="utf-8"))
+            for item in wp_data:
+                wp_html = item.get("Content", "")
+                src_page = item.get("PageUrl", "WebPart")
+                if wp_html:
+                    links.extend(extract_links_from_content(wp_html, f"WebPart::{src_page}"))
+        except Exception as exc:
+            print(f"  [WARN] could not read {wp_extract}: {exc}", file=sys.stderr)
+    return links
+
+
+def _render_master_catalog(
+    summary: dict, site_name: str, site_url: str, target_site_url: str
+) -> str | None:
+    """Fill the optional all-links template with observed links and report metrics."""
+    template = find_asset("ALL-UNIQUE-LINKS-FOR-REVIEW-template.md")
+    if not template.exists():
+        return None
+
+    catalog_rows = []
+    for idx, item in enumerate(summary["flagged_items"], 1):
+        page = item.get("SourcePage", "Page")
+        url = item.get("Url", "")
+        link_type = item.get("Type", "Link")
+        target = rewrite_to_target(url, target_site_url)
+        recommendation = "Automated URL Rewriting during Wave Publishing"
+        catalog_rows.append(
+            f"| {idx} | `{page}` | `{url}` | {link_type} | `{target}` | {recommendation} |"
+        )
+    catalog_text = "\n".join(catalog_rows) if catalog_rows else "| 1 | `None` | `N/A` | N/A | `N/A` | 🟢 No Legacy Links Discovered |"
+
+    content = template.read_text(encoding="utf-8")
+    replacements = {
+        "{{SITE_NAME}}": site_name,
+        "{{SITE_URL}}": site_url,
+        "{{DATE}}": date.today().strftime("%Y-%m-%d"),
+        "{{TOTAL_LINKS}}": str(summary["total_links"]),
+        "{{FLAGGED_LINKS}}": str(summary["flagged_links"]),
+        "{{URL_COUNT}}": str(summary["url_count"]),
+        "{{REL_COUNT}}": "unavailable",
+        "{{ASSET_COUNT}}": str(summary["asset_count"]),
+        "{{CEWP_COUNT}}": "unavailable",
+        "{{LIST_COL_COUNT}}": "unavailable",
+        "{{FORM_COUNT}}": str(summary["form_count"]),
+        "{{WP_CONN_COUNT}}": "unavailable",
+        "{{LINK_CATALOG_ROWS}}": catalog_text,
+    }
+    for placeholder, value in replacements.items():
+        content = content.replace(placeholder, value)
+    return content
+
+
+# Parse command-line options, analyze both export sources, and write the reports.
 def main() -> None:
+    """Analyze supplied discovery exports and write link-inventory reports."""
     p = argparse.ArgumentParser(description="Generate deep link analysis report across ASPX pages, Web Parts, and List items.")
     p.add_argument("--input", help="Path to links json/csv file")
     p.add_argument("--output-dir", help="Directory for output markdown files")
@@ -193,32 +310,8 @@ def main() -> None:
     out_dir = Path(out_dir_str)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    links_data = []
-
-    # 1. Deep scan of all downloaded ASPX files
-    aspx_dir = target_root / "all_aspx_pages"
-    if aspx_dir.exists():
-        for aspx_file in aspx_dir.glob("*.aspx"):
-            try:
-                content = aspx_file.read_text(encoding="utf-8", errors="ignore")
-                extracted = extract_links_from_content(content, aspx_file.name)
-                links_data.extend(extracted)
-            except Exception as exc:
-                print(f"  [WARN] could not scan {aspx_file.name}: {exc}", file=sys.stderr)
-
-    # 2. Deep scan of extracted Web Part content payloads
-    wp_extract = target_root / "analysis" / "webpart_content_extract.json"
-    if wp_extract.exists():
-        try:
-            wp_data = json.loads(wp_extract.read_text(encoding="utf-8"))
-            for item in wp_data:
-                wp_html = item.get("Content", "")
-                src_page = item.get("PageUrl", "WebPart")
-                if wp_html:
-                    extracted = extract_links_from_content(wp_html, f"WebPart::{src_page}")
-                    links_data.extend(extracted)
-        except Exception as exc:
-            print(f"  [WARN] could not read {wp_extract}: {exc}", file=sys.stderr)
+    links_data = _scan_aspx_pages(target_root)
+    links_data.extend(_scan_webpart_payload(target_root))
 
     summary = analyze_links_data(links_data, site_url, args.source_host)
     report_content = generate_link_report(summary, args.site_name, args.target_site_url)
@@ -228,42 +321,14 @@ def main() -> None:
     out_file.write_text(report_content, encoding="utf-8")
     print(f"  [OK] Saved Link Inventory : {out_file}")
 
-    # Generate Master Link Review Catalog
-    master_template = find_asset("ALL-UNIQUE-LINKS-FOR-REVIEW-template.md")
-    if master_template.exists():
-        today_str = date.today().strftime("%Y-%m-%d")
-        catalog_rows = []
-        for idx, item in enumerate(summary["flagged_items"], 1):
-            page = item.get("SourcePage", "Page")
-            url = item.get("Url", "")
-            l_type = item.get("Type", "Link")
-            spo_target = rewrite_to_target(url, args.target_site_url)
-            rec = "Automated URL Rewriting during Wave Publishing"
-
-            catalog_rows.append(f"| {idx} | `{page}` | `{url}` | {l_type} | `{spo_target}` | {rec} |")
-
-        catalog_txt = "\n".join(catalog_rows) if catalog_rows else "| 1 | `None` | `N/A` | N/A | `N/A` | 🟢 No Legacy Links Discovered |"
-
-        m_content = master_template.read_text(encoding="utf-8")
-        m_content = m_content.replace("{{SITE_NAME}}", args.site_name)
-        m_content = m_content.replace("{{SITE_URL}}", site_url)
-        m_content = m_content.replace("{{DATE}}", today_str)
-        m_content = m_content.replace("{{TOTAL_LINKS}}", str(summary["total_links"]))
-        m_content = m_content.replace("{{FLAGGED_LINKS}}", str(summary["flagged_links"]))
-        m_content = m_content.replace("{{URL_COUNT}}", str(summary["url_count"]))
-        m_content = m_content.replace("{{REL_COUNT}}", "unavailable")
-        m_content = m_content.replace("{{ASSET_COUNT}}", str(summary["asset_count"]))
-        m_content = m_content.replace("{{CEWP_COUNT}}", "unavailable")
-        m_content = m_content.replace("{{LIST_COL_COUNT}}", "unavailable")
-        m_content = m_content.replace("{{FORM_COUNT}}", str(summary["form_count"]))
-        m_content = m_content.replace("{{WP_CONN_COUNT}}", "unavailable")
-        m_content = m_content.replace("{{LINK_CATALOG_ROWS}}", catalog_txt)
-
+    master_content = _render_master_catalog(
+        summary, args.site_name, site_url, args.target_site_url
+    )
+    if master_content is not None:
         master_file = out_dir / "ALL-UNIQUE-LINKS-FOR-REVIEW.md"
-        master_file.write_text(m_content, encoding="utf-8")
+        master_file.write_text(master_content, encoding="utf-8")
         print(f"  [OK] Saved Master Link Catalog : {master_file}")
 
 
 if __name__ == "__main__":
     main()
-

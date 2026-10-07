@@ -51,6 +51,33 @@ specific -ConfirmToken.
 - `sharepoint-remove-publication` -- Builds a rollback plan reversing a prior publication's exact actions, scoped to one document, then a real PnP executor removes each target (Remove-PnPPage or Remove-PnPFile) with fail-loud removal verification. Use...
 - `sharepoint-validate-publication` -- Offline pre-upload schema validation of an UploadPackage against the target library schema, plus a read-only post-deployment presence check (Get-PnPPage or Get-PnPFile) confirming that a PublishPlan's targets landed...
 
+## Plugin structure
+
+Shared scripts and references live at the plugin root in namespace folders; each skill links to them with file-level symlinks.
+
+```text
+sharepoint-site-build-and-publish/
+├── .claude-plugin/plugin.json   # Plugin manifest
+├── agents/                      # Plugin agent definitions
+├── docs/                        # Plugin documentation
+├── references/                  # References and acceptance criteria by namespace
+│   ├── content-publication/
+│   ├── provisioning/
+│   ├── schema-reconciliation/
+│   └── source-packages/
+├── rules/                       # Plugin rules
+├── scripts/                     # Canonical implementation by namespace
+│   ├── calendar-executor/
+│   ├── content-publication/
+│   ├── provisioning/
+│   └── schema-reconciliation/
+├── skills/<skill-name>/         # SKILL.md plus symlinked scripts/ and references/
+├── tests/                       # Namespace test suites (run via tests/run_namespaces.py)
+├── plugin.json
+├── plugin.yaml
+└── pyproject.toml
+```
+
 ## Previous identities
 
 Skill and plugin names changed in the seven-domain migration (issue #6). Old names are not retained as aliases.

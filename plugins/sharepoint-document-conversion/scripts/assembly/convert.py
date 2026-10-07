@@ -1,6 +1,28 @@
-"""
-convert.py
+"""convert.py
 ==========
+
+Purpose:
+    Orchestrates the full `convert-document` pipeline (spec Section 7.2), through canonical package construction (validation/promotion are Tasks 10/11, NOT this module):
+
+Key Input Dependencies:
+    - re
+    - subprocess
+    - sys
+    - pathlib
+    - atomic_output
+    - chunking
+    - dispositions
+    - package
+    - validate_canonical
+    - canonical_schema
+    - pandoc_cleanup.attrs
+    - pandoc_cleanup.footnotes
+    - pandoc_cleanup.heading_emphasis
+    - pandoc_cleanup.images
+    - pandoc_cleanup.tables
+    - pandoc_cleanup.toc
+    - emf_convert
+    - plan_verification
 
 Orchestrates the full `convert-document` pipeline (spec Section 7.2),
 through canonical package construction (validation/promotion are Tasks
@@ -30,7 +52,15 @@ factored out as its own function so it is the only piece of this module
 that shells out, keeping `convert_document`'s own logic (precondition
 checks -> extraction -> cleanup -> legacy media -> reconcile/slice ->
 package) readable as a single top-to-bottom sequence.
-"""
+
+Key Functions Index:
+    - apply_cleanup_pipeline()
+    - _relativize_media_refs()
+    - _relativize_media_refs._replace()
+    - run_pandoc_extraction()
+    - _run_conversion_pipeline()
+    - convert_document()
+    - convert_and_promote()"""
 
 import re
 import subprocess
@@ -121,7 +151,9 @@ def _relativize_media_refs(markdown_text: str, staging_dir: Path) -> str:
     """
     staging_dir_str = str(Path(staging_dir).absolute())
 
+    # Replace every target occurrence while preserving the surrounding content.
     def _replace(match: "re.Match") -> str:
+        """Replace every target occurrence while preserving the surrounding content."""
         prefix, ref, suffix = match.group(1), match.group(2), match.group(3)
         if ref.startswith(("http://", "https://")):
             return match.group(0)

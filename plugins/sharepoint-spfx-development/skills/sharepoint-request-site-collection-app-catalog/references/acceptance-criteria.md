@@ -1,0 +1,1 @@
+../../../references/sharepoint-request-site-collection-app-catalog-acceptance-criteria.md

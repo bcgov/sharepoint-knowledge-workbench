@@ -2,6 +2,7 @@
 sharepoint_upload.py
 =====================
 
+Purpose:
 Executes a `PublishPlan` (a list of file-upload actions, built by
 `sharepoint_publish_plan.py`) against SharePoint Online by delegating each
 action to a caller-supplied `uploader` callable.
@@ -37,6 +38,13 @@ Example:
         return UploadResult(action=action, success=True)
 
     results = upload_pages(plan, uploader=my_uploader)
+
+Key Input Dependencies:
+    - PublishPlan and PublishAction records from sharepoint_publish_plan
+    - caller-injected uploader callable; no bundled tenant transport
+
+Function Index:
+    UploadResult.to_dict, upload_pages
 """
 from __future__ import annotations
 
@@ -57,6 +65,7 @@ class UploadResult:
     detail: str = ""
 
     def to_dict(self) -> dict:
+        """Serialize upload result details while retaining action identity."""
         return {
             "source_path": self.action.source_path,
             "target_library": self.action.target_library,
@@ -71,6 +80,7 @@ class UploadResult:
 Uploader = Callable[[PublishAction], UploadResult]
 
 
+# Execute an upload plan through the explicitly injected transport.
 def upload_pages(plan: PublishPlan, uploader: Optional[Uploader] = None) -> list:
     """Execute every action in `plan` via the injected `uploader` callable.
 

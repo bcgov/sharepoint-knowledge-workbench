@@ -1,0 +1,1 @@
+../../../references/schema-reconciliation/sharepoint-plan-column-changes-acceptance-criteria.md

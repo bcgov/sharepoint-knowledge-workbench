@@ -1,0 +1,1 @@
+../../../references/content-publication/sharepoint-compare-publication-state-acceptance-criteria.md

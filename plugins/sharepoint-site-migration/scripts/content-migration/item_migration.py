@@ -27,6 +27,12 @@ Layer: sharepoint-site-migration / item-level migration mechanism
 
 Key Input Dependencies:
     - provisioning_outcomes.Outcome (reused from sharepoint-site-build-and-publish)
+
+Function Index:
+    ItemMigrationPlan.all_items, ItemMigrationPlan.fingerprint,
+    ItemMigrationPlan.confirmation_token, ItemMigrationResult.to_dict,
+    plan_item_migration, _gate, _execute_items, _migration_outcome,
+    apply_item_migration
 """
 
 from __future__ import annotations
@@ -72,10 +78,12 @@ class ItemMigrationPlan:
 
     @property
     def all_items(self) -> tuple[MigrationItem, ...]:
+        """Return the plan's items flattened in their original batch order."""
         return tuple(item for batch in self.batches for item in batch)
 
     @property
     def fingerprint(self) -> str:
+        """Hash item IDs and field data to bind the plan token to its contents."""
         digest = hashlib.sha256()
         for batch in self.batches:
             digest.update(b"batch\0")
@@ -88,6 +96,7 @@ class ItemMigrationPlan:
 
     @property
     def confirmation_token(self) -> str:
+        """Build the write-authorization token for this exact migration plan."""
         return f"APPLY-{len(self.all_items)}-{len(self.batches)}-{self.fingerprint}"
 
 
@@ -103,6 +112,7 @@ class ItemMigrationResult:
     failed: Sequence[tuple[int, str]] = field(default_factory=tuple)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize migration evidence as JSON-compatible source/destination rows."""
         return {
             "outcome": self.outcome,
             "dry_run": self.dry_run,
@@ -125,6 +135,7 @@ def plan_item_migration(items: Sequence[MigrationItem], *, batch_size: int) -> I
 
 
 def _gate(plan: ItemMigrationPlan, executor: Executor | None, confirm: str | None) -> None:
+    """Require the caller's write executor and the plan-bound token."""
     if executor is None:
         raise ExecutorRequired(
             "a real write requires an explicitly injected executor(item) -> dest_id callable; "
@@ -135,6 +146,37 @@ def _gate(plan: ItemMigrationPlan, executor: Executor | None, confirm: str | Non
         raise ConfirmationRequired(
             f"confirmation token does not authorise this plan; expected {expected!r}"
         )
+
+
+def _execute_items(
+    items: Sequence[MigrationItem], executor: Executor | None, retry_attempts: int
+) -> tuple[list[tuple[int, int]], list[tuple[int, str]]]:
+    """Execute each item with bounded retries and collect successes and failures."""
+    migrated: list[tuple[int, int]] = []
+    failed: list[tuple[int, str]] = []
+    for item in items:
+        last_error: Exception | None = None
+        for _attempt in range(retry_attempts):
+            try:
+                dest_id = executor(item)  # type: ignore[misc]
+            except Exception as exc:  # noqa: BLE001 -- caller-supplied sink, any error is reportable
+                last_error = exc
+                continue
+            migrated.append((item.source_id, dest_id))
+            last_error = None
+            break
+        if last_error is not None:
+            failed.append((item.source_id, str(last_error)))
+    return migrated, failed
+
+
+def _migration_outcome(migrated: Sequence[tuple[int, int]], failed: Sequence[tuple[int, str]]) -> str:
+    """Classify complete, partial, and wholly failed execution evidence."""
+    if not migrated and failed:
+        return Outcome.FAILED
+    if failed:
+        return Outcome.PARTIAL
+    return Outcome.OBSERVED
 
 
 def apply_item_migration(
@@ -169,30 +211,8 @@ def apply_item_migration(
     if not items:
         return ItemMigrationResult(outcome=Outcome.EMPTY, dry_run=False)
 
-    migrated: list[tuple[int, int]] = []
-    failed: list[tuple[int, str]] = []
-
-    for item in items:
-        last_error: Exception | None = None
-        for _attempt in range(retry_attempts):
-            try:
-                dest_id = executor(item)  # type: ignore[misc]
-            except Exception as exc:  # noqa: BLE001 -- caller-supplied sink, any error is reportable
-                last_error = exc
-                continue
-            else:
-                migrated.append((item.source_id, dest_id))
-                last_error = None
-                break
-        if last_error is not None:
-            failed.append((item.source_id, str(last_error)))
-
-    if not migrated and failed:
-        outcome = Outcome.FAILED
-    elif failed:
-        outcome = Outcome.PARTIAL
-    else:
-        outcome = Outcome.OBSERVED
+    migrated, failed = _execute_items(items, executor, retry_attempts)
+    outcome = _migration_outcome(migrated, failed)
 
     return ItemMigrationResult(
         outcome=outcome, dry_run=False, migrated=tuple(migrated), failed=tuple(failed)

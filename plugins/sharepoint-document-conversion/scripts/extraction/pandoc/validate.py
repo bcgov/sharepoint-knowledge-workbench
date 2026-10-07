@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-"""
+"""Purpose:
+    pandoc/validate.py =========================
+
+Key Input Dependencies:
+    - re
+    - pathlib
+
 pandoc/validate.py
 =========================
 
@@ -17,10 +23,6 @@ pipeline should have already fixed:
   (c) images still embedded directly in heading lines, which means
       images.py either didn't run or missed something.
 
-Key Input Dependencies:
-    - `base_dir` (Path): directory relative image paths are resolved
-      against, to check the images actually exist on disk.
-
 Function Index:
     - validate_cleaned_markdown(markdown_text: str, base_dir: Path) -> dict
         Returns {"status": "PASS" | "FAIL", "errors": list[str]}.
@@ -30,7 +32,9 @@ Usage:
     result = validate_cleaned_markdown(cleaned_text, Path("output/my-doc"))
     if result["status"] == "FAIL":
         raise RuntimeError("\\n".join(result["errors"]))
-"""
+
+Key Functions Index:
+    - validate_cleaned_markdown()"""
 
 import re
 from pathlib import Path

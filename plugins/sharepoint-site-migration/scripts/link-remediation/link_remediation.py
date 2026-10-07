@@ -30,6 +30,14 @@ Usage:
     result = apply_remediation(plan, writer=my_writer,
                                dry_run=False,
                                confirm=plan.confirmation_token)
+
+Function Index:
+    RemediationChange.to_dict, DocumentRemediation.is_changed,
+    DocumentRemediation.to_dict, RemediationPlan.changed_documents,
+    RemediationPlan.change_count, RemediationPlan.fingerprint,
+    RemediationPlan.confirmation_token, RemediationPlan.rollback_token,
+    RemediationPlan.to_dict, RemediationResult.to_dict, plan_remediation,
+    _write_each, _gate, apply_remediation, rollback_remediation
 """
 
 from __future__ import annotations
@@ -65,6 +73,7 @@ class RemediationChange:
     rule_replacement: str
 
     def to_dict(self) -> dict[str, str]:
+        """Serialize a rule application without including document content."""
         return {
             "source": self.source,
             "rule_match": self.rule_match,
@@ -83,9 +92,11 @@ class DocumentRemediation:
 
     @property
     def is_changed(self) -> bool:
+        """Indicate whether one or more rules changed the document."""
         return bool(self.changes)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the document identity and applied rules."""
         return {
             "source": self.source,
             "changed": self.is_changed,
@@ -108,14 +119,17 @@ class RemediationPlan:
 
     @property
     def changed_documents(self) -> list[DocumentRemediation]:
+        """Return only documents with a changed body."""
         return [document for document in self.documents if document.is_changed]
 
     @property
     def change_count(self) -> int:
+        """Count documents the plan would write."""
         return len(self.changed_documents)
 
     @property
     def fingerprint(self) -> str:
+        """Hash changed document names and content for authorization binding."""
         digest = hashlib.sha256()
         for document in self.changed_documents:
             digest.update(document.source.encode("utf-8"))
@@ -126,13 +140,16 @@ class RemediationPlan:
 
     @property
     def confirmation_token(self) -> str:
+        """Create the plan-specific apply authorization token."""
         return f"APPLY-{self.change_count}-{self.fingerprint}"
 
     @property
     def rollback_token(self) -> str:
+        """Create a distinct token for restoring this plan's original content."""
         return f"ROLLBACK-{self.change_count}-{self.fingerprint}"
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the full plan and both write-gate tokens."""
         return {
             "outcome": self.outcome,
             "change_count": self.change_count,
@@ -156,6 +173,7 @@ class RemediationResult:
     changes: Sequence[RemediationChange] = field(default_factory=tuple)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize apply or rollback results and per-document failures."""
         return {
             "outcome": self.outcome,
             "dry_run": self.dry_run,
@@ -214,6 +232,7 @@ def _write_each(
     changes: Sequence[RemediationChange],
     skipped: Sequence[str],
 ) -> RemediationResult:
+    """Write targets independently and classify partial or complete failures."""
     applied: list[str] = []
     failed: list[tuple[str, str]] = []
     forbidden = False
@@ -249,6 +268,7 @@ def _write_each(
 
 
 def _gate(plan: RemediationPlan, writer: Writer | None, confirm: str | None, expected: str) -> None:
+    """Require an injected writer and the expected plan-bound token."""
     if writer is None:
         raise WriterRequired(
             "a real write requires an explicitly injected writer(source, content) callable; "

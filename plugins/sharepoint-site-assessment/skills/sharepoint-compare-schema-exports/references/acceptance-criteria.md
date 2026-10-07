@@ -1,0 +1,1 @@
+../../../references/sharepoint-compare-schema-exports-acceptance-criteria.md

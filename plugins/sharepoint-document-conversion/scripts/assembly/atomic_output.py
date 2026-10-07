@@ -1,6 +1,19 @@
-"""
-atomic_output.py
+"""atomic_output.py
 =================
+
+Purpose:
+    Shared staging/promotion mechanism (spec Section 13, "Output Safety and Reproducibility") for BOTH canonical-content packages (Task 9/10/11) and rendered output packages (Task 13/14).
+
+Key Input Dependencies:
+    - json
+    - os
+    - platform
+    - shutil
+    - subprocess
+    - sys
+    - uuid
+    - datetime
+    - pathlib
 
 Shared staging/promotion mechanism (spec Section 13, "Output Safety and
 Reproducibility") for BOTH canonical-content packages (Task 9/10/11) and
@@ -67,7 +80,13 @@ after validation of the STAGED package under `staging_dir` has already
 passed; a failed package's `staging_dir` is simply never passed to
 `promote()`, so it is left on disk untouched for diagnosis and
 `final_dir` is never even opened.
-"""
+
+Key Functions Index:
+    - _probe_version()
+    - create_staging_dir()
+    - promote()
+    - build_generator_info()
+    - write_generator_info()"""
 
 import json
 import os

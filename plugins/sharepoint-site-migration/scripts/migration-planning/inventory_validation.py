@@ -18,7 +18,13 @@ Purpose:
 Layer: sharepoint-site-migration / stage 2 (site inventory intake)
 
 Key Input Dependencies:
-    - provisioning_outcomes.Outcome (symlinked from sharepoint-site-build-and-publish)
+    - An export directory containing site-inventory.json.
+    - provisioning_outcomes.Outcome (symlinked from sharepoint-site-build-and-publish).
+
+Function Index:
+    InventoryValidationResult.to_dict, _lookup_targets,
+    _matrix_object_for_list, _matrix_objects_from_lists,
+    validate_export_directory
 """
 
 from __future__ import annotations
@@ -46,11 +52,80 @@ class InventoryValidationResult:
     matrix_objects: tuple[dict[str, Any], ...] = ()
 
     def to_dict(self) -> dict:
+        """Serialize the outcome, validation issues, and accepted matrix objects."""
         return {
             "outcome": self.outcome,
             "issues": list(self.issues),
             "matrix_objects": list(self.matrix_objects),
         }
+
+
+def _lookup_targets(list_name: str, fields: list, issues: list[str]) -> list[str]:
+    """Validate field records and collect each declared lookup target once."""
+    depends_on: list[str] = []
+    for field_index, raw_field in enumerate(fields):
+        if not isinstance(raw_field, dict):
+            issues.append(f"'{list_name}'.fields[{field_index}] is not an object")
+            continue
+        field_name = raw_field.get("name")
+        field_type = raw_field.get("type")
+        if not field_name or not field_type:
+            issues.append(f"'{list_name}'.fields[{field_index}] is missing required 'name'/'type'")
+            continue
+        if field_type != "Lookup":
+            continue
+        lookup_list = raw_field.get("lookupList")
+        if not lookup_list:
+            issues.append(
+                f"'{list_name}'.{field_name} is a Lookup field with no 'lookupList' target -- "
+                "cannot derive its dependency edge"
+            )
+        elif lookup_list not in depends_on:
+            depends_on.append(lookup_list)
+    return depends_on
+
+
+def _matrix_object_for_list(
+    index: int,
+    raw_list: object,
+    seen_names: set[str],
+    issues: list[str],
+) -> dict[str, Any] | None:
+    """Validate one exported list and build its dependency-matrix object."""
+    if not isinstance(raw_list, dict):
+        issues.append(f"lists[{index}] is not an object")
+        return None
+
+    name = raw_list.get("name")
+    if not name:
+        issues.append(f"lists[{index}] is missing required field 'name'")
+        return None
+    if name in seen_names:
+        issues.append(f"duplicate list name '{name}' in export")
+        return None
+    seen_names.add(name)
+
+    fields = raw_list.get("fields")
+    if not isinstance(fields, list):
+        issues.append(f"'{name}' is missing required field 'fields' (array)")
+        return None
+    return {
+        "name": name,
+        "objectType": "List",
+        "dependsOn": _lookup_targets(name, fields, issues),
+    }
+
+
+def _matrix_objects_from_lists(lists: list) -> tuple[list[str], list[dict[str, Any]]]:
+    """Validate exported list entries and return their issues and matrix rows."""
+    issues: list[str] = []
+    matrix_objects: list[dict[str, Any]] = []
+    seen_names: set[str] = set()
+    for index, raw_list in enumerate(lists):
+        matrix_object = _matrix_object_for_list(index, raw_list, seen_names, issues)
+        if matrix_object is not None:
+            matrix_objects.append(matrix_object)
+    return issues, matrix_objects
 
 
 def validate_export_directory(export_dir: "Path | str") -> InventoryValidationResult:
@@ -94,51 +169,7 @@ def validate_export_directory(export_dir: "Path | str") -> InventoryValidationRe
     if not lists:
         return InventoryValidationResult(outcome=Outcome.EMPTY, issues=(), matrix_objects=())
 
-    issues: list[str] = []
-    matrix_objects: list[dict[str, Any]] = []
-    seen_names: set[str] = set()
-
-    for index, raw_list in enumerate(lists):
-        if not isinstance(raw_list, dict):
-            issues.append(f"lists[{index}] is not an object")
-            continue
-
-        name = raw_list.get("name")
-        if not name:
-            issues.append(f"lists[{index}] is missing required field 'name'")
-            continue
-        if name in seen_names:
-            issues.append(f"duplicate list name '{name}' in export")
-            continue
-        seen_names.add(name)
-
-        fields = raw_list.get("fields")
-        if not isinstance(fields, list):
-            issues.append(f"'{name}' is missing required field 'fields' (array)")
-            continue
-
-        depends_on: list[str] = []
-        for field_index, raw_field in enumerate(fields):
-            if not isinstance(raw_field, dict):
-                issues.append(f"'{name}'.fields[{field_index}] is not an object")
-                continue
-            field_name = raw_field.get("name")
-            field_type = raw_field.get("type")
-            if not field_name or not field_type:
-                issues.append(f"'{name}'.fields[{field_index}] is missing required 'name'/'type'")
-                continue
-            if field_type == "Lookup":
-                lookup_list = raw_field.get("lookupList")
-                if not lookup_list:
-                    issues.append(
-                        f"'{name}'.{field_name} is a Lookup field with no 'lookupList' target -- "
-                        "cannot derive its dependency edge"
-                    )
-                    continue
-                if lookup_list not in depends_on:
-                    depends_on.append(lookup_list)
-
-        matrix_objects.append({"name": name, "objectType": "List", "dependsOn": depends_on})
+    issues, matrix_objects = _matrix_objects_from_lists(lists)
 
     if issues:
         return InventoryValidationResult(outcome=Outcome.FAILED, issues=tuple(issues), matrix_objects=())

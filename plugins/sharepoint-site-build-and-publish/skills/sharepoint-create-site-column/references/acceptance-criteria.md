@@ -1,0 +1,1 @@
+../../../references/provisioning/sharepoint-create-site-column-acceptance-criteria.md

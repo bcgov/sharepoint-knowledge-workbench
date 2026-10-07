@@ -13,6 +13,9 @@ view detection from a views export, consumer-zone creation from override
 
 Every test drives the real CLI over the real filesystem -- no mocks on the
 parsing or path-resolution path.
+
+Purpose: Stage 1 tests -- parse a classic SharePoint page (plus optional views export and override hints) into a neutral page inventory.
+Key Input Dependencies: outcomes, aspx_inventory.py, classic-page.views.json, classic-page.override.json.
 """
 
 import json
@@ -49,6 +52,7 @@ def build(scripts_dir, fixtures_dir, tmp_path, *, views=True, override=True, htm
 
 
 def test_content_editor_zones_detected_from_rendered_html(scripts_dir, fixtures_dir, tmp_path):
+    """Verify content editor zones detected from rendered html."""
     inv = build(scripts_dir, fixtures_dir, tmp_path)
     ce = [z for z in inv["zones"] if z["webPartType"] == "ContentEditor"]
     assert len(ce) == 3
@@ -56,6 +60,7 @@ def test_content_editor_zones_detected_from_rendered_html(scripts_dir, fixtures_
 
 
 def test_list_view_zone_detected_from_views_export(scripts_dir, fixtures_dir, tmp_path):
+    """Verify list view zone detected from views export."""
     inv = build(scripts_dir, fixtures_dir, tmp_path)
     lv = [z for z in inv["zones"] if z["webPartType"] == "XsltListView" and not z.get("isConnectedConsumer")]
     assert [z["listName"] for z in lv] == ["Project_Requests"]
@@ -63,6 +68,7 @@ def test_list_view_zone_detected_from_views_export(scripts_dir, fixtures_dir, tm
 
 
 def test_override_relationships_add_connected_consumer_zones(scripts_dir, fixtures_dir, tmp_path):
+    """Verify override relationships add connected consumer zones."""
     inv = build(scripts_dir, fixtures_dir, tmp_path)
     consumers = [z for z in inv["zones"] if z.get("isConnectedConsumer")]
     assert sorted(z["listName"] for z in consumers) == ["Request_Notes", "Request_Tasks"]
@@ -71,11 +77,13 @@ def test_override_relationships_add_connected_consumer_zones(scripts_dir, fixtur
 
 
 def test_source_page_is_recorded_from_the_cli_not_inferred(scripts_dir, fixtures_dir, tmp_path):
+    """Verify source page is recorded from the cli not inferred."""
     inv = build(scripts_dir, fixtures_dir, tmp_path)
     assert inv["sourcePage"] == "/team/Pages/My_Requests.aspx"
 
 
 def test_detection_method_is_multi_when_more_than_one_source_contributes(scripts_dir, fixtures_dir, tmp_path):
+    """Verify detection method is multi when more than one source contributes."""
     inv = build(scripts_dir, fixtures_dir, tmp_path)
     assert inv["detectionMethod"] == "multi"
     assert set(inv["detectionSources"]) == {"rendered-html", "views-json", "override-file"}
@@ -95,6 +103,7 @@ def test_malformed_page_with_no_zones_reports_empty_not_silent_success(scripts_d
 
 
 def test_html_only_run_reports_observed(scripts_dir, fixtures_dir, tmp_path):
+    """Verify html only run reports observed."""
     inv = build(scripts_dir, fixtures_dir, tmp_path, views=False, override=False)
     assert inv["outcome"]["status"] == "Observed"
     assert inv["outcome"]["counts"]["zones"] == 3
@@ -118,6 +127,7 @@ def test_provided_but_empty_views_export_reports_partial(scripts_dir, fixtures_d
 
 
 def test_missing_source_html_fails_honestly_with_nonzero_exit(scripts_dir, tmp_path):
+    """Verify missing source html fails honestly with nonzero exit."""
     out = tmp_path / "inv.json"
     result = run_inventory(
         scripts_dir, tmp_path,
@@ -130,6 +140,7 @@ def test_missing_source_html_fails_honestly_with_nonzero_exit(scripts_dir, tmp_p
 
 
 def test_malformed_views_json_fails_honestly(scripts_dir, fixtures_dir, tmp_path):
+    """Verify malformed views json fails honestly."""
     bad = tmp_path / "bad.json"
     bad.write_text("{not json", encoding="utf-8")
     out = tmp_path / "inv.json"
@@ -145,6 +156,7 @@ def test_malformed_views_json_fails_honestly(scripts_dir, fixtures_dir, tmp_path
 
 
 def test_inventory_outcome_validates_against_the_vocabulary(scripts_dir, fixtures_dir, tmp_path):
+    """Verify inventory outcome validates against the vocabulary."""
     import outcomes
     inv = build(scripts_dir, fixtures_dir, tmp_path)
     outcomes.validate_outcome(inv["outcome"])

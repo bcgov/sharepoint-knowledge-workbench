@@ -11,6 +11,9 @@ No test in this suite mocks file parsing, path resolution, or script
 execution -- `.agent/rules/test-driven-development.md`'s "Critical Runtime
 Paths -- No Mocking Allowed" section applies directly to this plugin, whose
 entire job is parsing files off disk.
+
+Purpose: Makes the plugin's flat `scripts/page-modernization/` directory importable for the plugin-local test suite without requiring an install, and exposes the shared paths every test module needs (scripts dir for subprocess CLI runs, packaged assets dir, neutral fixtures dir).
+Key Input Dependencies: pytest and the plugin directory tree.
 """
 
 import sys

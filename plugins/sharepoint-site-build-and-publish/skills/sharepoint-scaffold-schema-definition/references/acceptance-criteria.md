@@ -1,0 +1,1 @@
+../../../references/sharepoint-scaffold-schema-definition-acceptance-criteria.md

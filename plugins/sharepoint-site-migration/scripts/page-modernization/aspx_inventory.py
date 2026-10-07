@@ -11,6 +11,15 @@ a silent success.
 
 Layer: CLI entry point, invoked as a real subprocess by the pipeline (and by
 this plugin's own tests) -- no mocking of parsing or path resolution.
+
+Key Input Dependencies:
+    - Rendered source HTML supplied with --source-html.
+    - Optional views JSON and relationship-override JSON supplied by the caller.
+    - outcomes.py shared page-modernization result vocabulary.
+
+Function Index:
+    Zone.to_dict, _detect_content_editor_zones, _detect_views_zones,
+    _detect_override_zones, build_inventory, main
 """
 
 from __future__ import annotations
@@ -44,6 +53,7 @@ class Zone:
     confidence: "str | None" = None
 
     def to_dict(self) -> dict:
+        """Serialize detected zone attributes while omitting unknown values."""
         return {k: v for k, v in self.__dict__.items() if v is not None}
 
 
@@ -56,6 +66,7 @@ class Inventory:
 
 
 def _detect_content_editor_zones(html: str) -> "list[Zone]":
+    """Find rendered content-editor regions and retain their source HTML."""
     zones = []
     for i, match in enumerate(_CONTENT_EDITOR_RE.finditer(html), start=1):
         zones.append(Zone(
@@ -68,6 +79,7 @@ def _detect_content_editor_zones(html: str) -> "list[Zone]":
 
 
 def _detect_views_zones(views: "list[dict]", source_page: str) -> "list[Zone]":
+    """Select exported list views for the requested page as standalone zones."""
     zones = []
     for i, view in enumerate(views, start=1):
         if source_page and view.get("ServerRelativeUrl") != source_page:
@@ -84,6 +96,7 @@ def _detect_views_zones(views: "list[dict]", source_page: str) -> "list[Zone]":
 
 
 def _detect_override_zones(override: dict) -> "list[Zone]":
+    """Build connected-consumer zones from explicitly supplied relationships."""
     zones = []
     for relation in override.get("knownRelationships", []):
         listName = relation.get("consumerList")
@@ -107,6 +120,7 @@ def build_inventory(
     override: "dict | None",
     override_provided: bool,
 ) -> dict:
+    """Combine available evidence into an inventory and honest outcome."""
     warnings: "list[str]" = []
     zones: "list[Zone]" = []
     detection_sources: "set[str]" = set()
@@ -172,6 +186,7 @@ def build_inventory(
 
 
 def main(argv: "list[str] | None" = None) -> int:
+    """Read page evidence, build the inventory, and write the JSON result."""
     parser = argparse.ArgumentParser(description="Build a neutral page inventory from a classic SharePoint page.")
     parser.add_argument("--source-html", required=True)
     parser.add_argument("--source-page", default="")

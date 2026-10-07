@@ -9,8 +9,8 @@
 - [What this does not do](#what-this-does-not-do)
 
 Design provenance (source repository only; not needed at runtime): see the current
-[architecture overview](../../../architecture.md) and
-[seven-domain plugin and skill catalog](../../../docs/architecture/seven-domain-plugin-skill-catalog.md).
+architecture overview (`architecture.md` at the repository root) and the
+seven-domain plugin and skill catalog (`docs/architecture/seven-domain-plugin-skill-catalog.md`).
 
 ## Seam this closes
 

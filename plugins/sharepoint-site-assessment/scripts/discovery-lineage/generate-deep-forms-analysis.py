@@ -6,6 +6,18 @@ generate-deep-forms-analysis.py
 Parses custom list form extractions and generates deterministic
 form inventory and modernization disposition reports:
   1. CUSTOM-FORMS-INVENTORY-REPORT.md
+
+Purpose:
+    Summarize collected classic-form evidence into a deep-analysis report.
+
+Key Input Dependencies:
+    - Caller-supplied custom-form discovery JSON and the bundled report template under assets/templates/.
+
+Function index:
+    - find_asset
+    - analyze_forms_data
+    - generate_forms_report
+    - main
 """
 
 import argparse
@@ -27,7 +39,9 @@ def find_asset(name: str) -> Path:
     return here.parents[2] / "assets" / "templates" / name
 
 
+# Count custom, scripted, InfoPath, and out-of-the-box forms in the supplied inventory.
 def analyze_forms_data(forms: list, site_url: str) -> dict:
+    """Summarize form types and retain custom form records for reviewer follow-up."""
     custom_forms = []
     oob_count = 0
     script_count = 0
@@ -57,7 +71,9 @@ def analyze_forms_data(forms: list, site_url: str) -> dict:
     }
 
 
+# Fill the bundled forms template with observed counts and custom-form rows.
 def generate_forms_report(summary: dict, site_name: str) -> str:
+    """Render a custom-forms inventory report from the supplied summary."""
     today_str = date.today().strftime("%Y-%m-%d")
 
     rows = []
@@ -88,7 +104,9 @@ def generate_forms_report(summary: dict, site_name: str) -> str:
         return f"# Custom List Forms Inventory — {site_name}\n\nTotal Custom: {summary['custom_forms']}\n\n{rows_txt}"
 
 
+# Parse the command-line options, run the selected workflow, and report its outputs.
 def main() -> None:
+    """Parse the command-line options, run the selected workflow, and report its outputs."""
     p = argparse.ArgumentParser(description="Generate deep custom forms analysis report.")
     p.add_argument("--input", help="Path to forms json file")
     p.add_argument("--output-dir", help="Directory for output markdown files")

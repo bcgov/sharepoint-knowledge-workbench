@@ -1,0 +1,1 @@
+../../../references/rendering/content-render-markdown-pages-acceptance-criteria.md

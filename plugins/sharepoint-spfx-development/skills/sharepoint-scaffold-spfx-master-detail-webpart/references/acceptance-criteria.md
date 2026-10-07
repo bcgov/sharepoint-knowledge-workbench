@@ -1,0 +1,1 @@
+../../../references/sharepoint-scaffold-spfx-master-detail-webpart-acceptance-criteria.md

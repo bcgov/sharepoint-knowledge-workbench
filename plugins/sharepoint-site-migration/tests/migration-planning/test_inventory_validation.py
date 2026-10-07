@@ -1,7 +1,11 @@
 """Tests for inventory_validation.py -- stage 2 (normalize-migration-inventory),
 scoped to its buildable half: validates/normalizes an already-produced export
 directory's shape, preserving Lookup-field targets so stage 3a can build
-dependsOn edges. No live-tenant I/O, no data fabrication."""
+dependsOn edges. No live-tenant I/O, no data fabrication.
+
+Purpose: Tests for inventory_validation.py -- stage 2 (normalize-migration-inventory), scoped to its buildable half: validates/normalizes an already-produced export directory's shape, preserving Lookup-field targets so stage 3a can build dependsOn edges.
+Key Input Dependencies: inventory_validation, provisioning_outcomes.
+"""
 
 from __future__ import annotations
 
@@ -16,35 +20,41 @@ from provisioning_outcomes import Outcome
 
 
 def _write_inventory(export_dir: Path, data: dict) -> None:
+    """Test helper: write inventory."""
     export_dir.mkdir(parents=True, exist_ok=True)
     (export_dir / "site-inventory.json").write_text(json.dumps(data))
 
 
 class TestValidateExportDirectory:
     def test_missing_file_is_unavailable(self, tmp_path):
+        """Verify missing file is unavailable."""
         result = validate_export_directory(tmp_path)
         assert result.outcome == Outcome.UNAVAILABLE
         assert any("site-inventory.json" in issue for issue in result.issues)
 
     def test_malformed_json_is_failed(self, tmp_path):
+        """Verify malformed json is failed."""
         tmp_path.mkdir(parents=True, exist_ok=True)
         (tmp_path / "site-inventory.json").write_text("{not valid json")
         result = validate_export_directory(tmp_path)
         assert result.outcome == Outcome.FAILED
 
     def test_missing_lists_key_is_failed(self, tmp_path):
+        """Verify missing lists key is failed."""
         _write_inventory(tmp_path, {"foo": []})
         result = validate_export_directory(tmp_path)
         assert result.outcome == Outcome.FAILED
         assert any("lists" in issue for issue in result.issues)
 
     def test_empty_lists_is_empty_outcome(self, tmp_path):
+        """Verify empty lists is empty outcome."""
         _write_inventory(tmp_path, {"lists": []})
         result = validate_export_directory(tmp_path)
         assert result.outcome == Outcome.EMPTY
         assert result.matrix_objects == ()
 
     def test_valid_export_produces_matrix_objects_with_lookup_dependency(self, tmp_path):
+        """Verify valid export produces matrix objects with lookup dependency."""
         _write_inventory(
             tmp_path,
             {
@@ -69,6 +79,7 @@ class TestValidateExportDirectory:
         assert by_name["Orders"]["objectType"] == "List"
 
     def test_lookup_field_without_lookup_list_target_is_failed_not_fabricated(self, tmp_path):
+        """Verify lookup field without lookup list target is failed not fabricated."""
         _write_inventory(
             tmp_path,
             {
@@ -86,6 +97,7 @@ class TestValidateExportDirectory:
         assert result.matrix_objects == ()
 
     def test_duplicate_list_name_is_failed(self, tmp_path):
+        """Verify duplicate list name is failed."""
         _write_inventory(
             tmp_path,
             {
@@ -100,6 +112,7 @@ class TestValidateExportDirectory:
         assert any("duplicate" in issue.lower() for issue in result.issues)
 
     def test_list_missing_fields_key_is_failed(self, tmp_path):
+        """Verify list missing fields key is failed."""
         _write_inventory(tmp_path, {"lists": [{"name": "Orders"}]})
         result = validate_export_directory(tmp_path)
         assert result.outcome == Outcome.FAILED

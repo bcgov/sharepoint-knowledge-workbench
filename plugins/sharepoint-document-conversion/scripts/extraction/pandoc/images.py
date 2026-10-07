@@ -1,7 +1,12 @@
 #!/usr/bin/env python
-"""
-images.py
+"""images.py
 =========
+
+Purpose:
+    Fixes images that pandoc glues directly onto heading lines or list-item markers, in EITHER order:     - text-then-image: `## Some Heading ![](media/image1.png)` or       `- item text ![](media/image2.png)`     - image-then-text: `### ![](media/image12.png){...}**Bold Heading**`       or `- ![](media/image3.png) item text` with no separating blank line.
+
+Key Input Dependencies:
+    - re
 
 Fixes images that pandoc glues directly onto heading lines or list-item
 markers, in EITHER order:
@@ -26,7 +31,11 @@ Function Index:
 Usage:
     from pandoc.images import fix_glued_images
     cleaned = fix_glued_images(raw_markdown_text)
-"""
+
+Key Functions Index:
+    - fix_glued_images()
+    - fix_glued_images._split()
+    - fix_glued_images._split_leading_image()"""
 
 import re
 
@@ -79,11 +88,15 @@ def fix_glued_images(markdown_text: str) -> str:
     separation style as the text-then-image case.
     """
 
+    # Split a Pandoc Markdown line into image and non-image segments for normalization.
     def _split(match: "re.Match[str]") -> str:
+        """Split a Pandoc Markdown line into image and non-image segments for normalization."""
         prefix, image = match.group(1), match.group(2)
         return f"{prefix}\n\n{image}\n\n"
 
+    # Separate a leading image reference from the remaining text on its Markdown line.
     def _split_leading_image(match: "re.Match[str]") -> str:
+        """Separate a leading image reference from the remaining text on its Markdown line."""
         marker, image, text = match.group(1), match.group(2), match.group(3)
         return f"{marker} {text}\n\n{image}\n\n"
 

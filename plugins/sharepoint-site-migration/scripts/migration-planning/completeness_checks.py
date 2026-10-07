@@ -26,6 +26,12 @@ Layer: sharepoint-site-migration / dependency-graph analysis (stage 3a)
 Key Input Dependencies:
     - wave_planning.DeploymentObject (local to this plugin)
     - provisioning_outcomes.Outcome (symlinked from sharepoint-site-build-and-publish)
+
+Function Index:
+    CoverageCheckResult.orphans, CompletenessSummary.to_dict,
+    check_source_coverage, check_orphan_matrix_entries,
+    check_lookup_targets_exist, check_destination_name_collisions,
+    run_all_checks
 """
 
 from __future__ import annotations
@@ -49,6 +55,7 @@ class CoverageCheckResult:
 
     @property
     def orphans(self) -> tuple[str, ...]:
+        """Expose unmatched matrix names using the domain-specific term."""
         return self.missing
 
 
@@ -75,6 +82,7 @@ class CompletenessSummary:
     failed_check_names: tuple[str, ...] = field(default_factory=tuple)
 
     def to_dict(self) -> dict:
+        """Serialize the aggregate gate result and failed check identifiers."""
         return {
             "outcome": self.outcome,
             "all_passed": self.all_passed,

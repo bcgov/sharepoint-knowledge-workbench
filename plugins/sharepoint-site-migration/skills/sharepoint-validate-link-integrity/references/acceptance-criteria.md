@@ -1,0 +1,1 @@
+../../../references/link-remediation/sharepoint-validate-link-integrity-acceptance-criteria.md

@@ -6,6 +6,18 @@ generate-deep-nav-analysis.py
 Parses site navigation extractions and generates deterministic
 navigation architecture & chrome summary reports:
   1. SITE-NAVIGATION-CHROME-SUMMARY.md
+
+Purpose:
+    Summarize supplied navigation exports into an architecture review report.
+
+Key Input Dependencies:
+    - Caller-supplied navigation JSON and the bundled navigation report template under assets/templates/.
+
+Function index:
+    - find_asset
+    - analyze_nav_data
+    - generate_nav_report
+    - main
 """
 
 import argparse
@@ -28,7 +40,7 @@ def find_asset(name: str) -> Path:
 
 
 def analyze_nav_data(nav_data: dict, site_url: str, total_webs=None) -> dict:
-    """total_webs comes from a real web inventory (--web-count); navigation nodes are not webs, so it is otherwise unavailable."""
+    """Count navigation entries and retain only a caller-supplied web inventory count."""
     top_nav = nav_data.get("TopNav", [])
     quick_launch = nav_data.get("QuickLaunch", [])
 
@@ -42,7 +54,9 @@ def analyze_nav_data(nav_data: dict, site_url: str, total_webs=None) -> dict:
     }
 
 
+# Render the navigation summary and observed top-navigation entries.
 def generate_nav_report(summary: dict, site_name: str) -> str:
+    """Fill the bundled navigation template or produce its concise fallback report."""
     today_str = date.today().strftime("%Y-%m-%d")
 
     rows = []
@@ -72,7 +86,9 @@ def generate_nav_report(summary: dict, site_name: str) -> str:
         return f"# Site Navigation Architecture Summary — {site_name}\n\nTop Nav Nodes: {summary['top_nav_count']}\n\n{rows_txt}"
 
 
+# Parse the command-line options, run the selected workflow, and report its outputs.
 def main() -> None:
+    """Parse the command-line options, run the selected workflow, and report its outputs."""
     p = argparse.ArgumentParser(description="Generate deep site navigation analysis report.")
     p.add_argument("--input", help="Path to navigation json file")
     p.add_argument("--output-dir", help="Directory for output markdown files")

@@ -33,6 +33,15 @@ Key Input Dependencies:
     - link_rules.RewriteRuleset (caller-supplied)
     - a caller-injected ``executor(source, content: bytes)`` callable for real writes
     - an optional caller-injected ``pdf_handler`` for PDF support
+
+Function Index:
+    detect_document_format, DocumentRemediation.is_changed,
+    DocumentRemediation.to_dict, DocumentRemediationPlan.changed_documents,
+    DocumentRemediationPlan.change_count, DocumentRemediationPlan.fingerprint,
+    DocumentRemediationPlan.confirmation_token, DocumentRemediationPlan.to_dict,
+    DocumentRemediationResult.to_dict, _rewrite_ooxml,
+    _plan_one_document, plan_document_link_remediation, _gate,
+    apply_document_link_remediation
 """
 
 from __future__ import annotations
@@ -107,9 +116,11 @@ class DocumentRemediation:
 
     @property
     def is_changed(self) -> bool:
+        """Indicate whether this document has at least one proposed rewrite."""
         return bool(self.changes)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize document metadata without exposing binary content."""
         return {
             "source": self.source,
             "format": self.format,
@@ -129,14 +140,17 @@ class DocumentRemediationPlan:
 
     @property
     def changed_documents(self) -> list[DocumentRemediation]:
+        """Return only documents that have a proposed content change."""
         return [d for d in self.documents if d.is_changed]
 
     @property
     def change_count(self) -> int:
+        """Count documents that would be written by a real apply."""
         return len(self.changed_documents)
 
     @property
     def fingerprint(self) -> str:
+        """Hash changed document identities and content for token binding."""
         digest = hashlib.sha256()
         for document in self.changed_documents:
             digest.update(document.source.encode("utf-8"))
@@ -147,9 +161,11 @@ class DocumentRemediationPlan:
 
     @property
     def confirmation_token(self) -> str:
+        """Return the apply token bound to this plan's changed documents."""
         return f"APPLY-{self.change_count}-{self.fingerprint}"
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the plan, including per-document outcomes and gate token."""
         return {
             "outcome": self.outcome,
             "change_count": self.change_count,
@@ -168,6 +184,7 @@ class DocumentRemediationResult:
     failed: Sequence[tuple[str, str]] = field(default_factory=tuple)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize applied and failed writes as JSON-compatible evidence."""
         return {
             "outcome": self.outcome,
             "dry_run": self.dry_run,
@@ -194,6 +211,35 @@ def _rewrite_ooxml(content: bytes, ruleset: RewriteRuleset) -> tuple[bytes, list
     return output.getvalue(), changes
 
 
+def _plan_one_document(
+    source: str,
+    content: bytes,
+    ruleset: RewriteRuleset,
+    pdf_handler: PdfHandler | None,
+) -> tuple[DocumentRemediation, bool]:
+    """Plan one supported file rewrite and indicate unsupported formats."""
+    file_format = detect_document_format(content)
+    if file_format in _OOXML_FORMATS:
+        remediated, changes = _rewrite_ooxml(content, ruleset)
+        return DocumentRemediation(
+            source=source, format=file_format, original_content=content,
+            remediated_content=remediated, changes=tuple(changes),
+            outcome=Outcome.OBSERVED if changes else Outcome.EMPTY,
+        ), False
+    if file_format == "pdf" and pdf_handler is not None:
+        remediated, applied_rules = pdf_handler(content, ruleset)
+        changes = [rule.description or rule.match for rule in applied_rules]
+        return DocumentRemediation(
+            source=source, format=file_format, original_content=content,
+            remediated_content=remediated, changes=tuple(changes),
+            outcome=Outcome.OBSERVED if changes else Outcome.EMPTY,
+        ), False
+    return DocumentRemediation(
+        source=source, format=file_format, original_content=content,
+        remediated_content=content, changes=(), outcome=Outcome.NOT_SUPPORTED,
+    ), True
+
+
 def plan_document_link_remediation(
     documents: Mapping[str, bytes], ruleset: RewriteRuleset, *, pdf_handler: PdfHandler | None = None
 ) -> DocumentRemediationPlan:
@@ -208,35 +254,9 @@ def plan_document_link_remediation(
     any_not_supported = False
 
     for source, content in documents.items():
-        fmt = detect_document_format(content)
-
-        if fmt in _OOXML_FORMATS:
-            remediated, changes = _rewrite_ooxml(content, ruleset)
-            planned.append(
-                DocumentRemediation(
-                    source=source, format=fmt, original_content=content,
-                    remediated_content=remediated, changes=tuple(changes),
-                    outcome=Outcome.OBSERVED if changes else Outcome.EMPTY,
-                )
-            )
-        elif fmt == "pdf" and pdf_handler is not None:
-            remediated, applied_rules = pdf_handler(content, ruleset)
-            changes = [r.description or r.match for r in applied_rules]
-            planned.append(
-                DocumentRemediation(
-                    source=source, format=fmt, original_content=content,
-                    remediated_content=remediated, changes=tuple(changes),
-                    outcome=Outcome.OBSERVED if changes else Outcome.EMPTY,
-                )
-            )
-        else:
-            any_not_supported = True
-            planned.append(
-                DocumentRemediation(
-                    source=source, format=fmt, original_content=content,
-                    remediated_content=content, changes=(), outcome=Outcome.NOT_SUPPORTED,
-                )
-            )
+        document, unsupported = _plan_one_document(source, content, ruleset, pdf_handler)
+        planned.append(document)
+        any_not_supported = any_not_supported or unsupported
 
     if any_not_supported:
         outcome = Outcome.NOT_SUPPORTED
@@ -249,6 +269,7 @@ def plan_document_link_remediation(
 
 
 def _gate(plan: DocumentRemediationPlan, executor: Executor | None, confirm: str | None) -> None:
+    """Reject writes unless an executor and matching plan token are supplied."""
     if executor is None:
         raise ExecutorRequired(
             "a real write requires an explicitly injected executor(source, content) callable; "

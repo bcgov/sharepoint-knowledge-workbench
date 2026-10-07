@@ -1,4 +1,10 @@
-"""
+"""Purpose:
+    Build endpoint checks and report reachability using an explicitly injected connector.
+
+Key Input Dependencies:
+    - Connection mapping with SiteUrl
+    - Caller-injected connector(host, port) function; no built-in network transport.
+
 network_connectivity.py
 =========================
 
@@ -27,6 +33,13 @@ behind an injected connector, the same way `validate-app-registration`'s
 live-tenant check is opt-in. Both live in the `validate-workbench-
 environment` skill as companion capabilities, not merged into the same
 always-pure function.
+
+Function Index:
+    - NetworkConnectivityError
+    - build_endpoint_checklist
+    - NetworkConnectivityResult
+    - NetworkConnectivityResult.to_dict
+    - check_network_connectivity
 """
 from __future__ import annotations
 
@@ -82,14 +95,18 @@ def build_endpoint_checklist(connection: dict) -> list:
     ]
 
 
+# Summarize endpoint-check counts, required failures, optional failures, and overall reachability.
 @dataclass
 class NetworkConnectivityResult:
+    """Summarize endpoint-check counts, required failures, optional failures, and overall reachability."""
     success: bool
     required_failures: list = field(default_factory=list)
     optional_failures: list = field(default_factory=list)
     checked: int = 0
 
+    # Serialize this validation result and its public fields as a plain dictionary.
     def to_dict(self) -> dict:
+        """Serialize this validation result and its public fields as a plain dictionary."""
         return {
             "success": self.success,
             "required_failures": self.required_failures,

@@ -1,6 +1,12 @@
-"""
-compare_rendered_output.py
+"""compare_rendered_output.py
 ============================
+
+Purpose:
+    Phase 6 Task 0.16 -- the `compare-rendered-output` skill.
+
+Key Input Dependencies:
+    - dataclasses
+    - pathlib
 
 Phase 6 Task 0.16 -- the `compare-rendered-output` skill. Packages the
 golden-master comparison pattern used at Phase 2 Subphase 2.5.4 (proving
@@ -28,7 +34,11 @@ comparing a field it doesn't know is run-specific, at the cost of not
 catching a real regression that happens to live only in one of those
 two files' otherwise-stable fields. Any caller needing field-level
 comparison of those two files can still read and compare them directly.
-"""
+
+Key Functions Index:
+    - _error()
+    - _relative_files()
+    - compare_rendered_trees()"""
 
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -49,7 +59,9 @@ class ComparisonReport:
     issues: list = field(default_factory=list)
 
 
+# Create a failed rendered-output comparison result with the supplied discrepancy details.
 def _error(code: str, message: str) -> "ComparisonIssue":
+    """Create a failed rendered-output comparison result with the supplied discrepancy details."""
     return ComparisonIssue(severity="error", code=code, message=message)
 
 

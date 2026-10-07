@@ -1,0 +1,1 @@
+../../../references/link-remediation/sharepoint-extract-links-acceptance-criteria.md

@@ -1,6 +1,6 @@
 [
   {
-    "query": "Preview uploading dashboard.html to SitePages on the intranet DEV site.",
+    "query": "Preview uploading dashboard.html to SitePages on the DEV site.",
     "expected_behavior": [
       "Invokes scripts/spo-publish-html-page.ps1 -HtmlPath \".\\dashboard.html\" -TargetLibrary \"SitePages\" without -Execute",
       "Validates .html extension before attempting upload",

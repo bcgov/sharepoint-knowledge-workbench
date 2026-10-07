@@ -1,4 +1,13 @@
-"""The bulk downloader plans from inventory CSV without any tenant I/O."""
+"""The bulk downloader plans from inventory CSV without any tenant I/O.
+Purpose:
+    Verify inventory-driven bulk download planning and mocked retrieval behavior without tenant writes.
+
+Key Input Dependencies:
+    - The bulk-download PowerShell script, its fixture harness, CSV inventory shape, and pwsh when available.
+
+Function Index:
+    test_plan_preserves_duplicate_filenames_and_selects_page_formats, test_live_adapter_is_mocked_and_preserves_bytes_and_identity
+"""
 import csv
 import shutil
 import subprocess
@@ -9,7 +18,9 @@ import pytest
 SCRIPT = Path(__file__).resolve().parents[2] / "scripts/content-publication/download-sharepoint-inventory-files.ps1"
 
 
+# Verify the contract that plan preserves duplicate filenames and selects page formats.
 def test_plan_preserves_duplicate_filenames_and_selects_page_formats(tmp_path):
+    """Verify the contract that plan preserves duplicate filenames and selects page formats."""
     assert SCRIPT.exists(), "bulk download script is missing"
     config = tmp_path / "profile.psd1"
     config.write_text("@{ SiteUrl='https://example.test'; ClientId='client'; TenantId='tenant' }", encoding="utf-8")
@@ -30,8 +41,10 @@ def test_plan_preserves_duplicate_filenames_and_selects_page_formats(tmp_path):
     assert not any(output.rglob("*.aspx"))
 
 
+# Verify the contract that live adapter is mocked and preserves bytes and identity.
 @pytest.mark.parametrize("platform", ["OnPrem", "Online"])
 def test_live_adapter_is_mocked_and_preserves_bytes_and_identity(tmp_path, platform):
+    """Verify the contract that live adapter is mocked and preserves bytes and identity."""
     config = tmp_path / "profile.psd1"
     config.write_text("@{ SiteUrl='https://example.test'; ClientId='client'; TenantId='tenant' }", encoding="utf-8")
     inventory = tmp_path / "files.csv"

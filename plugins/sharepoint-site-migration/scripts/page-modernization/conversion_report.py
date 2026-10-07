@@ -13,6 +13,14 @@ design.
 
 Layer: CLI entry point, invoked as a real subprocess by the pipeline (and by
 this plugin's own tests).
+
+Key Input Dependencies:
+    - Page-conversion manifest JSON supplied with --manifest.
+    - outcomes.py shared page-modernization result vocabulary.
+
+Function Index:
+    _render_webpart_table, _render_gaps, _render_confidence,
+    render_conversion_report, main
 """
 
 from __future__ import annotations
@@ -32,6 +40,7 @@ _REQUIRED_FIELDS = (
 
 
 def _render_webpart_table(web_parts: "list[dict]") -> str:
+    """Render the source web-part classifications as a Markdown table."""
     header = "| Type | Source Zone | List | Gap Notice |\n|---|---|---|---|"
     rows = []
     for wp in web_parts:
@@ -44,12 +53,14 @@ def _render_webpart_table(web_parts: "list[dict]") -> str:
 
 
 def _render_gaps(gaps: "list[str]") -> str:
+    """Render every migration gap or an explicit no-gaps message."""
     if not gaps:
         return "No gaps recorded."
     return "\n".join(f"- {gap}" for gap in gaps)
 
 
 def _render_confidence(confidence: dict) -> str:
+    """Render confidence details or an explicit empty-state message."""
     if not confidence:
         return "_(no confidence data recorded)_"
     return "\n".join(f"- **{key}**: {value}" for key, value in confidence.items())
@@ -112,6 +123,7 @@ def render_conversion_report(manifest: dict) -> "tuple[str | None, dict]":
 
 
 def main(argv: "list[str] | None" = None) -> int:
+    """Load a conversion manifest and write its validated Markdown report."""
     parser = argparse.ArgumentParser(
         description="Render a Markdown disposition report from a PageConversionManifest."
     )

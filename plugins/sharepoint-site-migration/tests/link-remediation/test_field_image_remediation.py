@@ -4,7 +4,11 @@ update-page-links (blind rule-based page-body rewrite) and
 update-links-in-documents (Office/PDF file content): this module
 cross-references each item's embedded image reference against a real
 document-library inventory before proposing any fix, so a rewrite is only
-ever proposed for a confirmed-matching file, never a blind regex guess."""
+ever proposed for a confirmed-matching file, never a blind regex guess.
+
+Purpose: Tests for field_image_remediation.py -- inventory-verified remediation of embedded <img> references in a rich-text list field, distinct from both update-page-links (blind rule-based page-body rewrite) and update-links-in-documents (Office/PDF file content): this module cross-references each item's embedded image reference against a real document-library inventory before proposing any fix, so a rewrite is only ever proposed for a confirmed-matching file, never a blind regex guess.
+Key Input Dependencies: field_image_remediation, link_outcomes, link_rules.
+"""
 
 from __future__ import annotations
 
@@ -28,6 +32,7 @@ from link_rules import RewriteRuleset
 
 
 def _ruleset() -> RewriteRuleset:
+    """Test helper: ruleset."""
     return RewriteRuleset.from_dict(
         {"rules": [{"match": "/PublishingImages/", "replacement": "/Images1/"}]}
     )
@@ -35,14 +40,17 @@ def _ruleset() -> RewriteRuleset:
 
 class TestClassifyFieldImages:
     def test_no_img_tag_at_all(self):
+        """Verify no img tag at all."""
         result = classify_field_images({"1": "Just a text description"}, inventory={})
         assert result["1"].status == "no_img_tag"
 
     def test_img_tag_with_no_src_attribute(self):
+        """Verify img tag with no src attribute."""
         result = classify_field_images({"1": '<img alt="" style="margin:5px;" />'}, inventory={})
         assert result["1"].status == "img_no_src"
 
     def test_matched_when_filename_exists_in_inventory(self):
+        """Verify matched when filename exists in inventory."""
         html = '<img src="/sites/Demo/PublishingImages/Lists/Authors/EditForm/photo.jpg" />'
         result = classify_field_images({"1": html}, inventory={"photo.jpg": "/sites/Demo/Images1/photo.jpg"})
         assert result["1"].status == "matched"
@@ -50,16 +58,19 @@ class TestClassifyFieldImages:
         assert result["1"].matched_relative_url == "/sites/Demo/Images1/photo.jpg"
 
     def test_missing_when_filename_not_in_inventory(self):
+        """Verify missing when filename not in inventory."""
         html = '<img src="/sites/Demo/PublishingImages/photo.jpg" />'
         result = classify_field_images({"1": html}, inventory={})
         assert result["1"].status == "missing"
 
     def test_filename_matching_is_case_insensitive(self):
+        """Verify filename matching is case insensitive."""
         html = '<img src="/sites/Demo/PublishingImages/Photo.JPG" />'
         result = classify_field_images({"1": html}, inventory={"photo.jpg": "/x/photo.jpg"})
         assert result["1"].status == "matched"
 
     def test_url_encoded_filename_is_decoded_before_lookup(self):
+        """Verify url encoded filename is decoded before lookup."""
         html = '<img src="/sites/Demo/PublishingImages/My%20Photo.jpg" />'
         result = classify_field_images({"1": html}, inventory={"my photo.jpg": "/x/my photo.jpg"})
         assert result["1"].status == "matched"
@@ -67,10 +78,12 @@ class TestClassifyFieldImages:
 
 class TestPlanFieldImageRemediation:
     def test_empty_items_is_empty_outcome(self):
+        """Verify empty items is empty outcome."""
         plan = plan_field_image_remediation({}, inventory={}, ruleset=_ruleset())
         assert plan.outcome == Outcome.EMPTY
 
     def test_only_matched_items_get_a_proposed_fix(self):
+        """Verify only matched items get a proposed fix."""
         items = {
             "1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />',  # matched
             "2": '<img src="/sites/Demo/PublishingImages/gone.jpg" />',  # missing
@@ -86,6 +99,7 @@ class TestPlanFieldImageRemediation:
         assert "/PublishingImages/" not in fixed.new_field_value
 
     def test_rewrite_preserves_the_rest_of_the_html(self):
+        """Verify rewrite preserves the rest of the html."""
         items = {"1": '<p>Hi</p><img src="/sites/Demo/PublishingImages/photo.jpg" alt="me"/>'}
         plan = plan_field_image_remediation(
             items, inventory={"photo.jpg": "/sites/Demo/Images1/photo.jpg"}, ruleset=_ruleset()
@@ -94,6 +108,7 @@ class TestPlanFieldImageRemediation:
         assert 'alt="me"' in plan.changed_items[0].new_field_value
 
     def test_missing_and_broken_placeholder_items_are_reported_not_silently_dropped(self):
+        """Verify missing and broken placeholder items are reported not silently dropped."""
         items = {
             "1": '<img src="/sites/Demo/PublishingImages/gone.jpg" />',
             "2": '<img alt="" />',
@@ -104,6 +119,7 @@ class TestPlanFieldImageRemediation:
         assert plan.classifications["2"].status == "img_no_src"
 
     def test_outcome_observed_when_at_least_one_fix_is_proposed(self):
+        """Verify outcome observed when at least one fix is proposed."""
         items = {"1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />'}
         plan = plan_field_image_remediation(
             items, inventory={"photo.jpg": "/x/photo.jpg"}, ruleset=_ruleset()
@@ -111,6 +127,7 @@ class TestPlanFieldImageRemediation:
         assert plan.outcome == Outcome.OBSERVED
 
     def test_outcome_empty_when_no_fix_is_proposed(self):
+        """Verify outcome empty when no fix is proposed."""
         items = {"1": "plain text"}
         plan = plan_field_image_remediation(items, inventory={}, ruleset=_ruleset())
         assert plan.outcome == Outcome.EMPTY
@@ -118,6 +135,7 @@ class TestPlanFieldImageRemediation:
 
 class TestApplyFieldImageRemediation:
     def test_dry_run_by_default_performs_no_writes(self):
+        """Verify dry run by default performs no writes."""
         items = {"1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />'}
         plan = plan_field_image_remediation(
             items, inventory={"photo.jpg": "/x/photo.jpg"}, ruleset=_ruleset()
@@ -127,6 +145,7 @@ class TestApplyFieldImageRemediation:
         assert result.applied == ()
 
     def test_real_apply_without_executor_raises(self):
+        """Verify real apply without executor raises."""
         items = {"1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />'}
         plan = plan_field_image_remediation(
             items, inventory={"photo.jpg": "/x/photo.jpg"}, ruleset=_ruleset()
@@ -135,6 +154,7 @@ class TestApplyFieldImageRemediation:
             apply_field_image_remediation(plan, dry_run=False, executor=None, confirm=plan.confirmation_token)
 
     def test_real_apply_with_wrong_token_raises(self):
+        """Verify real apply with wrong token raises."""
         items = {"1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />'}
         plan = plan_field_image_remediation(
             items, inventory={"photo.jpg": "/x/photo.jpg"}, ruleset=_ruleset()
@@ -145,6 +165,7 @@ class TestApplyFieldImageRemediation:
             )
 
     def test_real_apply_writes_only_matched_items(self):
+        """Verify real apply writes only matched items."""
         items = {
             "1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />',
             "2": '<img src="/sites/Demo/PublishingImages/gone.jpg" />',
@@ -155,6 +176,7 @@ class TestApplyFieldImageRemediation:
         written = []
 
         def executor(source_id, value):
+            """Test double for executor used by the enclosing test."""
             written.append(source_id)
 
         result = apply_field_image_remediation(
@@ -166,6 +188,7 @@ class TestApplyFieldImageRemediation:
 
 class TestGenerateGapReport:
     def test_report_states_counts_for_every_status(self):
+        """Verify report states counts for every status."""
         items = {
             "1": '<img src="/sites/Demo/PublishingImages/photo.jpg" />',  # matched
             "2": '<img src="/sites/Demo/PublishingImages/gone.jpg" />',  # missing
@@ -192,6 +215,7 @@ class TestGenerateGapReport:
         assert "gone.jpg" in report
 
     def test_report_names_every_proposed_fix_individually(self):
+        """Verify report names every proposed fix individually."""
         items = {"7": '<img src="/sites/Demo/PublishingImages/photo.jpg" />'}
         plan = plan_field_image_remediation(
             items, inventory={"photo.jpg": "/x/photo.jpg"}, ruleset=_ruleset()
@@ -200,6 +224,7 @@ class TestGenerateGapReport:
         assert "7" in report
 
     def test_report_on_empty_plan_states_nothing_to_do(self):
+        """Verify report on empty plan states nothing to do."""
         plan = plan_field_image_remediation({}, inventory={}, ruleset=_ruleset())
         report = generate_gap_report(plan)
         assert "Total items" in report

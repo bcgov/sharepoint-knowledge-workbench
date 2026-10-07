@@ -1,13 +1,25 @@
-"""
+"""Purpose:
+    Prevent tracked repository content and paths from depending on an original consumer environment.
+
+Key Input Dependencies:
+    - Git tracked-file listing
+    - Repository file contents and paths, excluding local temp/ and .agents/ data.
+
 test_repo_has_no_consumer_context.py
 
-Purpose:
+Background:
     This repository is generic and public: nothing in a tracked file may depend on the site, organization or domain it was first
     used on. The banned terms are stored base64-encoded so that this file does not itself contain them. A match fails the test and
     names the file and line; fix it by using a neutral example (fake host, generic list names) or by moving the content to a
     gitignored location (temp/ or a local config).
 
 Layer: plugins/sharepoint-workbench-setup -- tests (repository guard)
+
+Function Index:
+    - decode
+    - tracked_files
+    - test_no_tracked_file_depends_on_the_original_site_context
+    - test_no_tracked_file_or_folder_name_carries_the_original_site_context
 """
 
 import base64
@@ -21,7 +33,9 @@ import pytest
 ROOT = Path(__file__).resolve().parents[3]
 
 
+# Decode the encoded terms used by the repository-genericity checks.
 def decode(items):
+    """Decode the encoded terms used by the repository-genericity checks."""
     return [base64.b64decode(x).decode() for x in items]
 
 
@@ -42,7 +56,9 @@ ALLOWED = {
 }
 
 
+# Return git-tracked repository paths after excluding local-only artifacts.
 def tracked_files():
+    """Return git-tracked repository paths after excluding local-only artifacts."""
     if shutil.which("git") is None:
         pytest.skip("git not available")
     out = subprocess.run(["git", "-C", str(ROOT), "ls-files", "-z"], capture_output=True, text=True)
@@ -51,7 +67,9 @@ def tracked_files():
     return [p for p in out.stdout.split("\0") if p and not p.startswith(("temp/", ".agents/")) and p != "LICENSE"]
 
 
+# No tracked file content contains a banned consumer-specific term outside the documented allowlist.
 def test_no_tracked_file_depends_on_the_original_site_context():
+    """No tracked file content contains a banned consumer-specific term outside the documented allowlist."""
     patterns = [(t, re.compile(r"(?<![A-Za-z0-9])" + re.escape(t) + r"(?![A-Za-z0-9])", re.IGNORECASE)) for t in BANNED_ANY_CASE]
     patterns += [(t, re.compile(r"(?<![A-Za-z0-9])" + re.escape(t) + r"(?![A-Za-z0-9])")) for t in BANNED_CAPITALISED]
     offenders = []
@@ -70,7 +88,9 @@ def test_no_tracked_file_depends_on_the_original_site_context():
     assert not offenders, "consumer-specific context found:\n" + "\n".join(offenders[:40])
 
 
+# No tracked file or folder path contains a banned consumer-specific term.
 def test_no_tracked_file_or_folder_name_carries_the_original_site_context():
+    """No tracked file or folder path contains a banned consumer-specific term."""
     patterns = [re.compile(r"(?<![A-Za-z0-9])" + re.escape(t) + r"(?![A-Za-z0-9])", re.IGNORECASE) for t in BANNED_ANY_CASE]
     patterns += [re.compile(r"(?<![A-Za-z0-9])" + re.escape(t) + r"(?![A-Za-z0-9])") for t in BANNED_CAPITALISED]
     names = subprocess.run(["git", "-C", str(ROOT), "ls-files", "-z"], capture_output=True, text=True).stdout.split("\0")

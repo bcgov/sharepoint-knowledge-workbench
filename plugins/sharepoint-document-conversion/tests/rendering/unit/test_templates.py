@@ -1,6 +1,14 @@
-"""
-test_templates.py
+"""test_templates.py
 ==================
+
+Purpose:
+    Tests for `templates` (Phase 6 Task 0.16): the shared module backing the `create-markdown-rendering-template` and `create-sharepoint-rendering-template` skills.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - pathlib
+    - pytest
+    - templates
 
 Tests for `templates` (Phase 6 Task 0.16): the shared module backing the
 `create-markdown-rendering-template` and `create-sharepoint-rendering-template`
@@ -14,7 +22,16 @@ output for markdown, Phase 3.0 Sec.15's tenant experiment for ASPX).
 Distinct from the *agent/native-skill* template system Task 0.7/0.8 owns
 (agent instructions, answer formatting) -- these are page/document-layout
 templates only.
-"""
+
+Key Functions Index:
+    - test_create_markdown_template_generic_profile()
+    - test_create_markdown_template_standard_manual_profile()
+    - test_create_aspx_template_generic_profile()
+    - test_create_aspx_template_standard_manual_profile()
+    - test_unknown_profile_raises()
+    - test_unknown_format_raises()
+    - test_load_rendering_template_round_trips()
+    - test_load_missing_sidecar_raises()"""
 
 from pathlib import Path
 
@@ -23,7 +40,9 @@ import pytest
 import templates
 
 
+# Verify create Markdown template generic profile.
 def test_create_markdown_template_generic_profile(tmp_path):
+    """Verify create Markdown template generic profile."""
     dest = tmp_path / "my-template.md"
     tpl = templates.create_rendering_template(
         profile="generic", fmt="markdown", output_path=dest,
@@ -40,7 +59,9 @@ def test_create_markdown_template_generic_profile(tmp_path):
     assert sidecar.exists()
 
 
+# Verify create Markdown template standard manual profile.
 def test_create_markdown_template_standard_manual_profile(tmp_path):
+    """Verify create Markdown template standard manual profile."""
     dest = tmp_path / "standard-manual-template.md"
     tpl = templates.create_rendering_template(
         profile="standard-manual", fmt="markdown", output_path=dest,
@@ -50,7 +71,9 @@ def test_create_markdown_template_standard_manual_profile(tmp_path):
     assert "{{body}}" in tpl.content
 
 
+# Verify create ASPX template generic profile.
 def test_create_aspx_template_generic_profile(tmp_path):
+    """Verify create ASPX template generic profile."""
     dest = tmp_path / "my-template.html"
     tpl = templates.create_rendering_template(
         profile="generic", fmt="aspx", output_path=dest,
@@ -62,7 +85,9 @@ def test_create_aspx_template_generic_profile(tmp_path):
     assert "<html" not in tpl.content  # fragment only, no page wrapper
 
 
+# Verify create ASPX template standard manual profile.
 def test_create_aspx_template_standard_manual_profile(tmp_path):
+    """Verify create ASPX template standard manual profile."""
     dest = tmp_path / "standard-manual-template.html"
     tpl = templates.create_rendering_template(
         profile="standard-manual", fmt="aspx", output_path=dest,
@@ -71,21 +96,27 @@ def test_create_aspx_template_standard_manual_profile(tmp_path):
     assert tpl.format == "aspx"
 
 
+# Verify unknown profile raises.
 def test_unknown_profile_raises():
+    """Verify unknown profile raises."""
     with pytest.raises(templates.UnknownTemplateProfileError):
         templates.create_rendering_template(
             profile="nonexistent", fmt="markdown", output_path=Path("/tmp/x.md"),
         )
 
 
+# Verify unknown format raises.
 def test_unknown_format_raises():
+    """Verify unknown format raises."""
     with pytest.raises(templates.UnknownTemplateFormatError):
         templates.create_rendering_template(
             profile="generic", fmt="pdf", output_path=Path("/tmp/x.pdf"),
         )
 
 
+# Verify load rendering template round trips.
 def test_load_rendering_template_round_trips(tmp_path):
+    """Verify load rendering template round trips."""
     dest = tmp_path / "my-template.md"
     created = templates.create_rendering_template(
         profile="generic", fmt="markdown", output_path=dest,
@@ -97,7 +128,9 @@ def test_load_rendering_template_round_trips(tmp_path):
     assert loaded.content == created.content
 
 
+# Verify load missing sidecar raises.
 def test_load_missing_sidecar_raises(tmp_path):
+    """Verify load missing sidecar raises."""
     dest = tmp_path / "orphan.md"
     dest.write_text("## {{title}}\n\n{{body}}\n")
     with pytest.raises(templates.MissingTemplateMetadataError):

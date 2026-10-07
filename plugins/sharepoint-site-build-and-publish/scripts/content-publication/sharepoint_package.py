@@ -2,12 +2,22 @@
 sharepoint_package.py
 ======================
 
+Purpose:
 Assembles a package-only SharePoint UploadPackage from an already
 ACCEPTED Phase 2 canonical-content package plus its rendered-output
 sibling. Never performs any SharePoint tenant I/O -- output is a plain
 directory a human uploads through the SharePoint UI. Phase 3 plan Task
 3.2.1. See docs/superpowers/specs/phase-3-governed-sharepoint-knowledge-pilot-spec.md
 Section 6 (target schema) and Section 8 (package-only deployment contract).
+
+Key Input Dependencies:
+    - accepted canonical package directory readable by canonical_package
+    - rendered pages/<topic_id>.md and optional media/ sibling directory
+    - standard-library json, shutil, dataclasses, and pathlib
+
+Function Index:
+    UploadEntry.from_dict, UploadEntry.to_dict, UploadPackage.to_dict,
+    UploadPackage.load, build_upload_package, _copy_topic_pages
 """
 
 import json
@@ -44,6 +54,7 @@ class UploadEntry:
 
     @classmethod
     def from_dict(cls, data: dict) -> "UploadEntry":
+        """Create an upload entry from its persisted manifest fields."""
         return cls(
             topic_id=data["topic_id"],
             title=data["title"],
@@ -55,6 +66,7 @@ class UploadEntry:
         )
 
     def to_dict(self) -> dict:
+        """Serialize an entry using the upload-manifest field names."""
         return {
             "topic_id": self.topic_id,
             "title": self.title,
@@ -75,6 +87,7 @@ class UploadPackage:
     root_dir: Path
 
     def to_dict(self) -> dict:
+        """Serialize package metadata and entries without local root_dir."""
         return {
             "schema_version": self.schema_version,
             "package_identity": self.package_identity,
@@ -84,6 +97,7 @@ class UploadPackage:
 
     @classmethod
     def load(cls, root_dir: Path) -> "UploadPackage":
+        """Load upload-manifest.json and resolve its package root directory."""
         root_dir = Path(root_dir)
         manifest_path = root_dir / "upload-manifest.json"
         data = json.loads(manifest_path.read_text())
@@ -96,6 +110,7 @@ class UploadPackage:
         )
 
 
+# Assemble rendered topic pages and metadata without accessing SharePoint.
 def build_upload_package(canonical_dir: Path, render_dir: Path, output_dir: Path) -> UploadPackage:
     """Assemble an UploadPackage at output_dir from an already-ACCEPTED
     canonical package at canonical_dir and its rendered-output sibling at
@@ -122,12 +137,32 @@ def build_upload_package(canonical_dir: Path, render_dir: Path, output_dir: Path
             "publication-map-backed strategy"
         )
 
-    chunks_by_id = {chunk.metadata.chunk_id: chunk for chunk in loaded.chunks}
-
     topics_dir = output_dir / "topics"
     media_dir = output_dir / "media"
     topics_dir.mkdir(parents=True, exist_ok=True)
 
+    entries = _copy_topic_pages(loaded, render_dir, output_dir)
+    render_media_dir = render_dir / "media"
+    if render_media_dir.exists():
+        shutil.copytree(render_media_dir, media_dir, dirs_exist_ok=True)
+
+    pkg = UploadPackage(
+        schema_version=UPLOAD_MANIFEST_SCHEMA_VERSION,
+        package_identity=loaded.publication_map.package_identity,
+        source_document_sha256=loaded.manifest.source.sha256,
+        entries=entries,
+        root_dir=output_dir,
+    )
+    (output_dir / "upload-manifest.json").write_text(
+        json.dumps(pkg.to_dict(), indent=2, sort_keys=True)
+    )
+    return pkg
+
+
+# Copy ordered topic files and return the matching upload-manifest entries.
+def _copy_topic_pages(loaded: canonical_package.CanonicalPackage, render_dir: Path, output_dir: Path) -> list[UploadEntry]:
+    """Copy publication-ordered rendered topics and assemble their manifest records."""
+    chunks_by_id = {chunk.metadata.chunk_id: chunk for chunk in loaded.chunks}
     entries = []
     for pub_entry in sorted(loaded.publication_map.entries, key=lambda e: e.order):
         chunk = chunks_by_id.get(pub_entry.chunk_id)
@@ -156,19 +191,4 @@ def build_upload_package(canonical_dir: Path, render_dir: Path, output_dir: Path
             source_document_sha256=loaded.manifest.source.sha256,
             content_path=dest_content_path,
         ))
-
-    render_media_dir = render_dir / "media"
-    if render_media_dir.exists():
-        shutil.copytree(render_media_dir, media_dir, dirs_exist_ok=True)
-
-    pkg = UploadPackage(
-        schema_version=UPLOAD_MANIFEST_SCHEMA_VERSION,
-        package_identity=loaded.publication_map.package_identity,
-        source_document_sha256=loaded.manifest.source.sha256,
-        entries=entries,
-        root_dir=output_dir,
-    )
-    (output_dir / "upload-manifest.json").write_text(
-        json.dumps(pkg.to_dict(), indent=2, sort_keys=True)
-    )
-    return pkg
+    return entries

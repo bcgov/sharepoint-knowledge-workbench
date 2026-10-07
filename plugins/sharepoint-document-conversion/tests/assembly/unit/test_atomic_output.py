@@ -1,6 +1,16 @@
-"""
-test_atomic_output.py
+"""test_atomic_output.py
 ======================
+
+Purpose:
+    Tests for scripts/assembly/atomic_output.py (Task 11): unique staging directories, atomic directory-replacement promotion, diagnostic retention on failure, and reproducibility of generator-info metadata.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - pathlib
+    - unittest
+    - pytest
+    - atomic_output
 
 Tests for scripts/assembly/atomic_output.py (Task 11): unique staging directories,
 atomic directory-replacement promotion, diagnostic retention on failure,
@@ -23,7 +33,20 @@ The full-pipeline reproducibility test (using `analyze_structure`) lives
 in docx-to-content's test suite instead, since `analyze_structure` is that
 transitional plugin's own orchestrator, not an installable dependency of
 this plugin.
-"""
+
+Key Functions Index:
+    - test_create_staging_dir_is_unique_and_fresh()
+    - test_create_staging_dir_uses_prefix()
+    - test_promote_moves_staging_into_final_when_final_absent()
+    - test_failed_validation_leaves_prior_accepted_output_unchanged()
+    - test_successful_validation_replaces_not_overlays_old_output()
+    - test_stale_files_from_earlier_run_disappear()
+    - test_promote_restores_original_final_dir_if_rename_fails()
+    - test_promote_restores_original_final_dir_if_rename_fails.flaky_rename()
+    - _fake_probe_version()
+    - test_build_generator_info_reuses_probe_version_helper()
+    - test_build_generator_info_requires_explicit_plugin_name()
+    - test_write_generator_info_is_deterministic_json_utf8()"""
 
 import json
 from pathlib import Path
@@ -42,6 +65,7 @@ REPEATED_HEADINGS_DOCX = FIXTURES / "repeated_headings.docx"
 # ---------------------------------------------------------------------------
 
 def test_create_staging_dir_is_unique_and_fresh(tmp_path):
+    """Verify create staging dir is unique and fresh."""
     d1 = atomic_output.create_staging_dir(tmp_path)
     d2 = atomic_output.create_staging_dir(tmp_path)
     assert d1 != d2
@@ -50,7 +74,9 @@ def test_create_staging_dir_is_unique_and_fresh(tmp_path):
     assert d1.parent == tmp_path
 
 
+# Verify create staging dir uses prefix.
 def test_create_staging_dir_uses_prefix(tmp_path):
+    """Verify create staging dir uses prefix."""
     d = atomic_output.create_staging_dir(tmp_path, prefix="canonical")
     assert d.name.startswith("canonical-")
 
@@ -60,6 +86,7 @@ def test_create_staging_dir_uses_prefix(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_promote_moves_staging_into_final_when_final_absent(tmp_path):
+    """Verify promote moves staging into final when final absent."""
     staging = tmp_path / "staging-1"
     staging.mkdir()
     (staging / "file.txt").write_text("hello")
@@ -101,7 +128,9 @@ def test_failed_validation_leaves_prior_accepted_output_unchanged(tmp_path):
     assert (staging_v2_fail / "manifest.json").read_text() == '{"v": "broken"}'
 
 
+# Verify successful validation replaces not overlays old output.
 def test_successful_validation_replaces_not_overlays_old_output(tmp_path):
+    """Verify successful validation replaces not overlays old output."""
     final_dir = tmp_path / "final"
 
     staging_v1 = tmp_path / "staging-v1"
@@ -160,7 +189,9 @@ def test_promote_restores_original_final_dir_if_rename_fails(tmp_path, monkeypat
     real_rename = atomic_output.os.rename
     call_count = {"n": 0}
 
+    # Simulate a rename that initially fails and succeeds on the configured retry.
     def flaky_rename(src, dst):
+        """Simulate a rename that initially fails and succeeds on the configured retry."""
         call_count["n"] += 1
         if call_count["n"] == 2:
             raise OSError("simulated failure")
@@ -180,10 +211,13 @@ def test_promote_restores_original_final_dir_if_rename_fails(tmp_path, monkeypat
 # ---------------------------------------------------------------------------
 
 def _fake_probe_version(name):
+    """Return the fake version response configured by dependency-probe tests."""
     return {"pandoc": "pandoc 3.1", "soffice": None}[name]
 
 
+# Verify build generator info reuses probe version helper.
 def test_build_generator_info_reuses_probe_version_helper():
+    """Verify build generator info reuses probe version helper."""
     with mock.patch.object(atomic_output, "_probe_version", side_effect=_fake_probe_version) as mock_probe:
         info = atomic_output.build_generator_info("structured-content-assembly", plugin_version="0.1.0")
 
@@ -195,15 +229,19 @@ def test_build_generator_info_reuses_probe_version_helper():
     assert "python_version" in info
 
 
+# Verify build generator info requires explicit plugin name.
 def test_build_generator_info_requires_explicit_plugin_name():
     # plugin identity is data supplied by the caller, not a hardcoded
     # default, since this module is shared as one canonical
     # implementation across multiple plugins.
+    """Verify build generator info requires explicit plugin name."""
     with pytest.raises(TypeError):
         atomic_output.build_generator_info()
 
 
+# Verify write generator info is deterministic JSON UTF-8.
 def test_write_generator_info_is_deterministic_json_utf8(tmp_path):
+    """Verify write generator info is deterministic JSON UTF-8."""
     with mock.patch.object(atomic_output, "_probe_version", side_effect=_fake_probe_version):
         record1 = atomic_output.write_generator_info(
             tmp_path, "structured-content-assembly", run_timestamp="2026-01-01T00:00:00Z"

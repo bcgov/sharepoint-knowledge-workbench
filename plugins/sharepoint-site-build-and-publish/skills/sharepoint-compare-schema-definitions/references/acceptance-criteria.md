@@ -1,0 +1,1 @@
+../../../references/sharepoint-compare-schema-definitions-acceptance-criteria.md

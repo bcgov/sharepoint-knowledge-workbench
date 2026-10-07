@@ -17,6 +17,8 @@ Purpose:
     contract's own verification.
 
 Layer: sharepoint-schema / plugin-local tests
+
+Key Input Dependencies: plugin.yaml, SKILL.md.
 """
 
 import re
@@ -36,6 +38,7 @@ def _declared_skills(plugin_yaml_text: str) -> set[str]:
 
 
 def test_plugin_yaml_skills_matches_skills_directory():
+    """Verify plugin yaml skills matches skills directory."""
     declared = _declared_skills((PLUGIN_ROOT / "plugin.yaml").read_text(encoding="utf-8"))
     on_disk = {
         p.name

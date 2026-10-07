@@ -1,14 +1,14 @@
 @{
     # Template for the local, git-ignored config-spo-{dev,test,prod}.psd1 files.
     # Each file holds exactly one SPO target and one SP2016 source:
-    #   dev  -> SPO https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV   + SP2016 PROD https://csb.jag.gov.bc.ca/
-    #   test -> SPO https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-TEST  + SP2016 PROD https://csb.jag.gov.bc.ca/
-    #   prod -> SPO https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET       + SP2016 PROD https://csb.jag.gov.bc.ca/
+    #   dev  -> SPO https://contoso.sharepoint.com/sites/example-site-dev   + SP2016 PROD https://sp2016.contoso.local/
+    #   test -> SPO https://contoso.sharepoint.com/sites/example-site-test  + SP2016 PROD https://sp2016.contoso.local/
+    #   prod -> SPO https://contoso.sharepoint.com/sites/example-site       + SP2016 PROD https://sp2016.contoso.local/
     # Fill TenantId/ClientId from the Entra app registration. Never add secrets.
     # Connection.* is the SharePoint Online target (the only site scripts connect to for SPO work).
     Connection = @{
         Environment        = "dev"
-        SiteUrl            = "https://bcgov.sharepoint.com/sites/AG-CSB-INTRANET-DEV"
+        SiteUrl            = "https://contoso.sharepoint.com/sites/example-site-dev"
         TenantId           = "00000000-0000-0000-0000-000000000000"
         ClientId           = "00000000-0000-0000-0000-000000000000"
         # Interactive, DeviceCode, or Certificate
@@ -18,20 +18,20 @@
         # Required only when AuthenticationMode = "Certificate"
         CertificateThumbprint = ""
         # SharePoint tenant admin URL (optional, tenant-scoped operations)
-        TenantAdminUrl        = "https://bcgov-admin.sharepoint.com"
+        TenantAdminUrl        = "https://contoso-admin.sharepoint.com"
     }
     # SharePoint 2016 source paired with this target. Read-only; Windows authentication.
     Source = @{
         Platform              = "SharePoint2016"
         Environment           = "prod"
-        SiteUrl               = "https://csb.jag.gov.bc.ca/"
+        SiteUrl               = "https://sp2016.contoso.local/"
         ReadOnly              = $true
         AuthenticationMode    = "Integrated"
         UseDefaultCredentials = $true
         Sites                 = @{
-            Main       = "https://csb.jag.gov.bc.ca/"
-            Sheriff    = "https://csb.jag.gov.bc.ca/Sheriff/"
-            CourtAdmin = "https://csb.jag.gov.bc.ca/CourtAdmin/"
+            Main       = "https://sp2016.contoso.local/"
+            SubsiteA   = "https://sp2016.contoso.local/subsite-a/"
+            SubsiteB   = "https://sp2016.contoso.local/subsite-b/"
         }
     }
     Safety = @{

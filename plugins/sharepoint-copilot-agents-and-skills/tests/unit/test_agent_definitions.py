@@ -1,7 +1,14 @@
-"""
+"""Purpose:
+    Validate agent frontmatter, genericity, capability links, and manifest registration.
+
+Key Input Dependencies:
+    - agents/*.md
+    - plugin.yaml
+    - plugins/*/skills/* and plugins/*/agents/* for capability references
+
 test_agent_definitions.py -- Orchestration contract for a plugin's `agents/` definitions.
 
-Purpose:
+Background:
     Generic agent-contract test, symlinked into every plugin that owns
     routing/analysis agents (originally centralized here in
     sharepoint-copilot-agents-and-skills; decentralized 2026-08-08 per an external
@@ -31,10 +38,25 @@ Purpose:
 
 Layer: Plugin tests (unit) -- canonical source, symlinked elsewhere
 
-Key Input Dependencies:
+Additional Input Context:
     - <this plugin's own>/agents/*.md
     - <this plugin's own>/plugin.yaml
     - plugins/*/skills/*, plugins/*/agents/* (capability-reference resolution)
+
+Function Index:
+    - _find_plugin_root
+    - _agent_files
+    - _declared_agent_names
+    - _frontmatter
+    - _body
+    - _known_capability_names
+    - _declared_unavailable
+    - test_plugin_yaml_agents_matches_agents_directory
+    - test_agent_frontmatter_schema
+    - test_agent_has_no_project_literals
+    - test_agent_has_no_source_repository_coupling
+    - test_agent_has_no_dangling_capability_references
+    - test_agent_declares_honest_unavailability_section
 """
 
 from __future__ import annotations
@@ -97,11 +119,15 @@ INLINE_CODE = re.compile(r"`([^`]+)`")
 NOT_AVAILABLE_HEADING = "## Not available in this workbench"
 
 
+# Return the current plugin agent definition Markdown files in stable name order.
 def _agent_files() -> list[Path]:
+    """Return the current plugin agent definition Markdown files in stable name order."""
     return sorted(AGENTS_DIR.glob("*.md")) if AGENTS_DIR.is_dir() else []
 
 
+# Read the plugin manifest and return its declared agent names.
 def _declared_agent_names() -> set[str]:
+    """Read the plugin manifest and return its declared agent names."""
     manifest = (PLUGIN_ROOT / "plugin.yaml").read_text(encoding="utf-8")
     match = re.search(r"^agents:\n((?:[ \t]+-.*\n?)*)", manifest, re.MULTILINE)
     if not match:
@@ -127,12 +153,16 @@ def _frontmatter(text: str) -> dict[str, str]:
     return fields
 
 
+# Return an agent definition body with its YAML frontmatter removed.
 def _body(text: str) -> str:
+    """Return an agent definition body with its YAML frontmatter removed."""
     match = FRONTMATTER.match(text)
     return text[match.end():] if match else text
 
 
+# Collect plugin, skill, and agent names used to validate routed capability references.
 def _known_capability_names() -> set[str]:
+    """Collect plugin, skill, and agent names used to validate routed capability references."""
     names: set[str] = set()
     for plugin_dir in PLUGINS_DIR.iterdir():
         if not plugin_dir.is_dir():
@@ -156,7 +186,9 @@ def _declared_unavailable(body: str) -> set[str]:
     return {token for token in INLINE_CODE.findall(section) if "-" in token}
 
 
+# The manifest's agent names match the Markdown definitions shipped in agents/.
 def test_plugin_yaml_agents_matches_agents_directory():
+    """The manifest's agent names match the Markdown definitions shipped in agents/."""
     declared = _declared_agent_names()
     on_disk = {p.stem for p in _agent_files()}
     assert declared == on_disk, (
@@ -166,8 +198,10 @@ def test_plugin_yaml_agents_matches_agents_directory():
     )
 
 
+# Every agent definition has required frontmatter and matching filename and plugin identities.
 @pytest.mark.parametrize("path", _agent_files(), ids=lambda p: p.stem)
 def test_agent_frontmatter_schema(path: Path):
+    """Every agent definition has required frontmatter and matching filename and plugin identities."""
     fields = _frontmatter(path.read_text(encoding="utf-8"))
     missing = [f for f in REQUIRED_FRONTMATTER_FIELDS if not fields.get(f)]
     assert not missing, f"{path.name}: missing/empty frontmatter fields {missing}"
@@ -175,22 +209,28 @@ def test_agent_frontmatter_schema(path: Path):
     assert fields["plugin"] == PLUGIN_NAME, f"{path.name}: `plugin` must be {PLUGIN_NAME!r}"
 
 
+# Agent definitions contain no deployment-specific project literals.
 @pytest.mark.parametrize("path", _agent_files(), ids=lambda p: p.stem)
 def test_agent_has_no_project_literals(path: Path):
+    """Agent definitions contain no deployment-specific project literals."""
     hits = sorted(set(FORBIDDEN_LITERALS.findall(path.read_text(encoding="utf-8"))))
     assert not hits, f"{path.name}: forbidden project literals {hits}"
 
 
+# Agent definitions contain no source-repository paths, tenant URLs, or literal GUIDs.
 @pytest.mark.parametrize("path", _agent_files(), ids=lambda p: p.stem)
 def test_agent_has_no_source_repository_coupling(path: Path):
+    """Agent definitions contain no source-repository paths, tenant URLs, or literal GUIDs."""
     text = path.read_text(encoding="utf-8")
     assert not FORBIDDEN_PATH_PATTERNS.search(text), f"{path.name}: source-repository path"
     assert not GUID.search(text), f"{path.name}: literal GUID"
     assert not TENANT_URL.search(text), f"{path.name}: tenant URL"
 
 
+# Every routed capability resolves locally or is explicitly declared unavailable.
 @pytest.mark.parametrize("path", _agent_files(), ids=lambda p: p.stem)
 def test_agent_has_no_dangling_capability_references(path: Path):
+    """Every routed capability resolves locally or is explicitly declared unavailable."""
     body = _body(path.read_text(encoding="utf-8"))
     known = _known_capability_names() | _declared_unavailable(body)
     referenced = {

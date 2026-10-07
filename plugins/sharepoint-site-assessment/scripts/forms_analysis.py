@@ -22,6 +22,13 @@ Provenance:
     Extracted from the originating SharePoint migration repository's custom list
     form analysis script at the pinned source commit. See
     docs/reports/phase-9-reusable-sharepoint-plugin-extraction/provenance.md.
+
+Function index:
+    - load_rules
+    - _classify
+    - analyse
+    - generate_report
+    - run
 """
 
 from __future__ import annotations
@@ -42,7 +49,9 @@ def load_rules(rules_path: str | Path) -> dict:
     return json.loads(Path(rules_path).read_text(encoding="utf-8"))
 
 
+# Classify one form record from caller-supplied rules and retain unmatched items for review.
 def _classify(form: dict) -> str:
+    """Classify one form record from caller-supplied rules and retain unmatched items for review."""
     if not form.get("isCustomized", False):
         return "outOfBox"
     if form.get("hasScript", False):

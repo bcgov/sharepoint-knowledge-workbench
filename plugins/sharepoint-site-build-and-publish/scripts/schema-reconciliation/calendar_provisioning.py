@@ -34,6 +34,14 @@ Layer: sharepoint-site-build-and-publish / calendar planning and gated apply
 Key Input Dependencies:
     - provisioning_outcomes.Outcome
     - a caller-injected ``executor(step, detail)`` callable for real writes
+
+Function Index:
+    ListCreationStep.to_dict, ListLocalFieldStep.to_dict,
+    ModernViewCreationStep.to_dict, CalendarProvisioningPlan._write_items,
+    CalendarProvisioningPlan.fingerprint,
+    CalendarProvisioningPlan.confirmation_token,
+    CalendarProvisioningPlan.to_dict, CalendarProvisioningResult.to_dict,
+    plan_calendar_list, _gate, _calendar_apply_outcome, apply_calendar_list
 """
 
 from __future__ import annotations
@@ -89,6 +97,7 @@ class ListCreationStep:
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the generic-list creation step for the executor."""
         return {"title": self.title, "template": self.template, "description": self.description}
 
 
@@ -98,6 +107,7 @@ class ListLocalFieldStep:
     field_type: str
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize one list-local date field creation step."""
         return {"internal_name": self.internal_name, "field_type": self.field_type}
 
 
@@ -108,6 +118,7 @@ class ModernViewCreationStep:
     view_type2: str = "MODERNCALENDAR"
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the modern calendar view creation step."""
         return {
             "title": self.title,
             "view_type_kind": self.view_type_kind,
@@ -128,6 +139,7 @@ class CalendarProvisioningPlan:
     outcome: str = Outcome.OBSERVED
 
     def _write_items(self) -> list[tuple[str, dict[str, Any]]]:
+        """Return the ordered operations covered by this plan's token."""
         items: list[tuple[str, dict[str, Any]]] = [("list_creation", self.list_creation.to_dict())]
         for f in self.list_local_fields:
             items.append(("list_local_field", f.to_dict()))
@@ -136,6 +148,7 @@ class CalendarProvisioningPlan:
 
     @property
     def fingerprint(self) -> str:
+        """Hash ordered write details to bind confirmation to this plan."""
         digest = hashlib.sha256()
         for step, detail in self._write_items():
             digest.update(step.encode("utf-8"))
@@ -146,9 +159,11 @@ class CalendarProvisioningPlan:
 
     @property
     def confirmation_token(self) -> str:
+        """Return the stable apply token derived from this plan's operations."""
         return f"APPLY-{len(self._write_items())}-{self.fingerprint}"
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize calendar plan, steps, outcome, and apply token."""
         return {
             "outcome": self.outcome,
             "confirmation_token": self.confirmation_token,
@@ -168,6 +183,7 @@ class CalendarProvisioningResult:
     failed: Sequence[tuple[str, str]] = field(default_factory=tuple)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize execution status and each successful or failed step."""
         return {
             "outcome": self.outcome,
             "dry_run": self.dry_run,
@@ -203,7 +219,10 @@ def plan_calendar_list(list_def: CalendarListDef) -> CalendarProvisioningPlan:
     )
 
 
+# Refuse a real apply unless the caller provides the executor and exact token.
+# Document the  gate test helper's role.
 def _gate(plan: CalendarProvisioningPlan, executor: Executor | None, confirm: str | None) -> None:
+    """Document the  gate test helper's role."""
     if executor is None:
         raise ExecutorRequired(
             "a real write requires an explicitly injected executor(step, detail) callable; "
@@ -214,6 +233,21 @@ def _gate(plan: CalendarProvisioningPlan, executor: Executor | None, confirm: st
         raise ConfirmationRequired(
             f"confirmation token does not authorise this plan; expected {expected!r}"
         )
+
+
+def _calendar_apply_outcome(
+    executed: Sequence[tuple[str, dict[str, Any]]],
+    failed: Sequence[tuple[str, str]],
+    forbidden: bool,
+) -> str:
+    """Classify calendar execution results without masking failures or denials."""
+    if not executed and forbidden:
+        return Outcome.FORBIDDEN
+    if not executed and failed:
+        return Outcome.FAILED
+    if failed:
+        return Outcome.PARTIAL
+    return Outcome.OBSERVED
 
 
 def apply_calendar_list(
@@ -247,14 +281,7 @@ def apply_calendar_list(
         else:
             executed.append((step, detail))
 
-    if not executed and forbidden:
-        outcome = Outcome.FORBIDDEN
-    elif not executed and failed:
-        outcome = Outcome.FAILED
-    elif failed:
-        outcome = Outcome.PARTIAL
-    else:
-        outcome = Outcome.OBSERVED
+    outcome = _calendar_apply_outcome(executed, failed, forbidden)
 
     return CalendarProvisioningResult(
         outcome=outcome, dry_run=False, executed=tuple(executed), failed=tuple(failed)

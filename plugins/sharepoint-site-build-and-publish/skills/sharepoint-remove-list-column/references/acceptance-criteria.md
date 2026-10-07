@@ -1,0 +1,1 @@
+../../../references/provisioning/sharepoint-remove-list-column-acceptance-criteria.md

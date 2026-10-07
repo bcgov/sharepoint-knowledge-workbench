@@ -1,4 +1,20 @@
-"""Executable tests for create-sharepoint-agent.ps1, run via pwsh (zero tenant I/O)."""
+"""Purpose:
+    Exercise local SharePoint agent JSON creation and its validation safeguards.
+
+Key Input Dependencies:
+    - scripts/create-sharepoint-agent.ps1
+    - PowerShell (pwsh) when available
+
+Executable tests for create-sharepoint-agent.ps1, run via pwsh (zero tenant I/O).
+
+Function Index:
+    - run_script
+    - test_writes_valid_agent_json
+    - test_requires_at_least_one_knowledge_source
+    - test_refuses_to_overwrite_without_flag
+    - test_both_instruction_sources_rejected
+    - test_custom_list_and_folder_capability_types
+"""
 import json
 import shutil
 import subprocess
@@ -12,7 +28,9 @@ pwsh = shutil.which("pwsh")
 pytestmark = pytest.mark.skipif(pwsh is None, reason="pwsh not installed")
 
 
+# Run the agent-creation PowerShell script with the supplied arguments.
 def run_script(args: list[str]) -> subprocess.CompletedProcess:
+    """Run the agent-creation PowerShell script with the supplied arguments."""
     return subprocess.run(
         [pwsh, "-NoProfile", "-NonInteractive", "-File", str(SCRIPT), *args],
         capture_output=True,
@@ -20,7 +38,9 @@ def run_script(args: list[str]) -> subprocess.CompletedProcess:
     )
 
 
+# The command writes valid agent JSON with the requested name and knowledge-source URL.
 def test_writes_valid_agent_json(tmp_path):
+    """The command writes valid agent JSON with the requested name and knowledge-source URL."""
     out = tmp_path / "example-agent.agent"
     result = run_script([
         "-AgentName", "Example Agent",
@@ -39,7 +59,9 @@ def test_writes_valid_agent_json(tmp_path):
     assert urls == ["https://example.sharepoint.com/sites/test/Shared Documents"]
 
 
+# Agent creation rejects an empty knowledge-source list before writing output.
 def test_requires_at_least_one_knowledge_source(tmp_path):
+    """Agent creation rejects an empty knowledge-source list before writing output."""
     out = tmp_path / "x.agent"
     result = subprocess.run(
         [pwsh, "-NoProfile", "-NonInteractive", "-Command",
@@ -51,7 +73,9 @@ def test_requires_at_least_one_knowledge_source(tmp_path):
     assert not out.exists()
 
 
+# An existing agent file is preserved unless overwrite is explicitly authorized.
 def test_refuses_to_overwrite_without_flag(tmp_path):
+    """An existing agent file is preserved unless overwrite is explicitly authorized."""
     out = tmp_path / "x.agent"
     out.write_text("existing")
     result = run_script([
@@ -63,7 +87,9 @@ def test_refuses_to_overwrite_without_flag(tmp_path):
     assert out.read_text() == "existing"
 
 
+# Agent creation rejects simultaneous inline and file-based instruction sources.
 def test_both_instruction_sources_rejected(tmp_path):
+    """Agent creation rejects simultaneous inline and file-based instruction sources."""
     instr = tmp_path / "instr.md"
     instr.write_text("file instructions")
     out = tmp_path / "x.agent"
@@ -77,7 +103,9 @@ def test_both_instruction_sources_rejected(tmp_path):
     assert not out.exists()
 
 
+# A custom list URL is emitted as a List capability with its list name.
 def test_custom_list_and_folder_capability_types(tmp_path):
+    """A custom list URL is emitted as a List capability with its list name."""
     out = tmp_path / "list-test.agent"
     result = run_script([
         "-AgentName", "List Agent",

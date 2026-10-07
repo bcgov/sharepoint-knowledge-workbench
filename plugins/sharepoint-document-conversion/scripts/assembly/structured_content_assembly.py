@@ -1,6 +1,14 @@
-"""
-structured_content_assembly.py
+"""structured_content_assembly.py
 ================================
+
+Purpose:
+    Public interface for the `structured-content-assembly` plugin (renamed from `canonical-knowledge` in the post-Wave-9 naming refactor): consumes a *confirmed* `analysis-plan` v1 dict (produced by `document-structure-analysis`'s `recommend_from_normalized` + a human confirmation step) and the original source `.docx`, and produces `canonical-package` + `publication-map` v1 artifacts via `convert.convert_and_promote`.
+
+Key Input Dependencies:
+    - sys
+    - pathlib
+    - convert
+    - canonical_schema.analysis_plan
 
 Public interface for the `structured-content-assembly` plugin (renamed
 from `canonical-knowledge` in the post-Wave-9 naming refactor): consumes
@@ -14,7 +22,9 @@ This plugin is the sole producer of both contracts;
 `structured-content-rendering` never imports this module directly -- it
 consumes the promoted package this function's caller writes to
 `output_dir`.
-"""
+
+Key Functions Index:
+    - build_canonical_package()"""
 
 from __future__ import annotations
 

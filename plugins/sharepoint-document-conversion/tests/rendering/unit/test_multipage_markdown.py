@@ -1,6 +1,22 @@
-"""
-test_multipage_markdown.py
+"""test_multipage_markdown.py
 ===========================
+
+Purpose:
+    Tests for `renderers.multipage_markdown` (Task 13): the first concrete `Renderer` implementation.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - dataclasses
+    - json
+    - shutil
+    - pathlib
+    - pytest
+    - re
+    - atomic_output
+    - render_result
+    - canonical_schema
+    - canonical_package
+    - renderers
 
 Tests for `renderers.multipage_markdown` (Task 13): the first concrete
 `Renderer` implementation. Spec Section 7.3 ("render-content") requires
@@ -20,7 +36,31 @@ brief asks for ("using already-loaded fixtures/canonical packages from
 earlier tasks' test infrastructure"). One real end-to-end test at the
 bottom exercises the full pipeline against the `repeated_headings.docx`
 fixture via `convert.convert_and_promote` + `CanonicalPackage.load()`.
-"""
+
+Key Functions Index:
+    - _extract_media_refs()
+    - _metadata()
+    - _manifest_chunk()
+    - _build_synthetic_package()
+    - _build_synthetic_grouped_package()
+    - test_renderer_satisfies_protocol()
+    - test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant()
+    - test_single_chunk_package_renders_one_page_and_index()
+    - test_chunked_package_uses_same_render_method_as_single()
+    - test_index_follows_manifest_order_not_alphabetical()
+    - test_index_reflects_heading_hierarchy_with_shared_top_level_group()
+    - test_media_copied_and_relative_reference_form_is_unchanged()
+    - test_internal_local_link_rewritten_to_page_relative_target()
+    - test_external_links_are_left_untouched()
+    - test_repeated_leaf_heading_under_different_parents_produces_distinct_links()
+    - test_module_source_has_no_docx_or_analysis_or_plan_access()
+    - test_render_produces_correct_output_with_no_docx_or_analysis_or_plan_on_disk()
+    - test_render_to_staging_writes_to_a_fresh_staging_dir_without_promoting()
+    - test_render_to_staging_uses_atomic_output_create_staging_dir()
+    - test_render_to_staging_uses_atomic_output_create_staging_dir._spy()
+    - test_render_uses_publication_map_order_when_present()
+    - test_render_falls_back_to_manifest_order_when_no_publication_map()
+    - test_rewrite_local_links_preserves_query_and_fragment()"""
 
 import dataclasses
 import json
@@ -67,6 +107,7 @@ FAKE_SHA = "a" * 64
 # ---------------------------------------------------------------------------
 
 def _metadata(chunk_id, heading_path, order, content, local_links=None):
+    """Build chunk metadata with the fields required by the rendering test."""
     return ck_contracts.ChunkMetadata(
         schema_version=ck_contracts.MANIFEST_SCHEMA_VERSION,
         chunk_id=chunk_id,
@@ -84,7 +125,9 @@ def _metadata(chunk_id, heading_path, order, content, local_links=None):
     )
 
 
+# Build a manifest chunk record for the rendered test package.
 def _manifest_chunk(chunk_id, heading_path, order):
+    """Build a manifest chunk record for the rendered test package."""
     return ck_contracts.ManifestChunk(
         chunk_id=chunk_id,
         content_file=f"chunks/{chunk_id}.md",
@@ -174,17 +217,20 @@ def _build_synthetic_grouped_package(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_renderer_satisfies_protocol():
+    """Verify renderer satisfies protocol."""
     renderer = mpm.MultipageMarkdownRenderer()
     assert isinstance(renderer, protocol.Renderer)
     assert renderer.name == "multipage-markdown"
     assert ck_contracts.MANIFEST_SCHEMA_VERSION in renderer.supported_manifest_versions
 
 
+# Verify renderer supported versions tracks manifest constant not plan constant.
 def test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant():
     # Temporarily set contracts.MANIFEST_SCHEMA_VERSION and reload the
     # multipage_markdown module to ensure the renderer's supported_manifest_versions
     # is derived from that constant. Restore both the constant and the module
     # after the check to avoid leaking state to other tests.
+    """Verify renderer supported versions tracks manifest constant not plan constant."""
     import importlib
     from canonical_schema import canonical_package as _contracts
 
@@ -206,6 +252,7 @@ def test_renderer_supported_versions_tracks_manifest_constant_not_plan_constant(
 # ---------------------------------------------------------------------------
 
 def test_single_chunk_package_renders_one_page_and_index(tmp_path):
+    """Verify single chunk package renders one page and index."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["Getting Started"], "# Getting Started\n\nHello.\n", [])],
@@ -223,8 +270,10 @@ def test_single_chunk_package_renders_one_page_and_index(tmp_path):
     assert "pages/chunk-a.md" in index_text
 
 
+# Verify chunked package uses same render method as single.
 def test_chunked_package_uses_same_render_method_as_single(tmp_path):
     # Same MultipageMarkdownRenderer.render -- no special-casing for N==1.
+    """Verify chunked package uses same render method as single."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -249,6 +298,7 @@ def test_index_follows_manifest_order_not_alphabetical(tmp_path):
     # "zzz-first" is manifest-first but alphabetically last; "aaa-second"
     # is manifest-second but alphabetically first. If the renderer sorted
     # alphabetically or by filesystem listing, aaa would appear first.
+    """Verify index follows manifest order not alphabetical."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -268,6 +318,7 @@ def test_index_follows_manifest_order_not_alphabetical(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_index_reflects_heading_hierarchy_with_shared_top_level_group(tmp_path):
+    """Verify index reflects heading hierarchy with shared top level group."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -298,6 +349,7 @@ def test_index_reflects_heading_hierarchy_with_shared_top_level_group(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_media_copied_and_relative_reference_form_is_unchanged(tmp_path):
+    """Verify media copied and relative reference form is unchanged."""
     content = "# Widget\n\n![diagram](../media/diagram.png)\n"
     pkg = _build_synthetic_package(
         tmp_path,
@@ -318,6 +370,7 @@ def test_media_copied_and_relative_reference_form_is_unchanged(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_internal_local_link_rewritten_to_page_relative_target(tmp_path):
+    """Verify internal local link rewritten to page relative target."""
     content_a = "# A\n\nSee [Details](chunks/chunk-b.md) for more.\n"
     content_b = "# B\n\nBack to [A](chunks/chunk-a.md).\n"
     pkg = _build_synthetic_package(
@@ -338,7 +391,9 @@ def test_internal_local_link_rewritten_to_page_relative_target(tmp_path):
     assert "chunks/chunk-a.md" not in page_b
 
 
+# Verify external links are left untouched.
 def test_external_links_are_left_untouched(tmp_path):
+    """Verify external links are left untouched."""
     content = "# A\n\nSee [docs](https://example.com/x) and [anchor](#top).\n"
     pkg = _build_synthetic_package(tmp_path, [("chunk-a", ["A"], content, [])])
     output_dir = tmp_path / "rendered"
@@ -354,6 +409,7 @@ def test_external_links_are_left_untouched(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_repeated_leaf_heading_under_different_parents_produces_distinct_links(tmp_path):
+    """Verify repeated leaf heading under different parents produces distinct links."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -380,6 +436,7 @@ def test_repeated_leaf_heading_under_different_parents_produces_distinct_links(t
 # ---------------------------------------------------------------------------
 
 def test_module_source_has_no_docx_or_analysis_or_plan_access():
+    """Verify module source has no DOCX or analysis or plan access."""
     import ast
     import inspect
 
@@ -405,10 +462,12 @@ def test_module_source_has_no_docx_or_analysis_or_plan_access():
         assert forbidden not in staging_body
 
 
+# Verify render produces correct output with no DOCX or analysis or plan on disk.
 def test_render_produces_correct_output_with_no_docx_or_analysis_or_plan_on_disk(tmp_path):
     # Nothing under tmp_path is a .docx, analysis/ dir, or conversion-plan
     # file -- only the synthetic CanonicalPackage's own directory tree
     # (which itself never had a .docx/analysis/plan written to it either).
+    """Verify render produces correct output with no DOCX or analysis or plan on disk."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["Getting Started"], "# Getting Started\n\nHello.\n", [])],
@@ -429,6 +488,7 @@ def test_render_produces_correct_output_with_no_docx_or_analysis_or_plan_on_disk
 # ---------------------------------------------------------------------------
 
 def test_render_to_staging_writes_to_a_fresh_staging_dir_without_promoting(tmp_path):
+    """Verify render to staging writes to a fresh staging dir without promoting."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["Getting Started"], "# Getting Started\n\nHello.\n", [])],
@@ -447,11 +507,15 @@ def test_render_to_staging_writes_to_a_fresh_staging_dir_without_promoting(tmp_p
     assert other_entries == []
 
 
+# Verify render to staging uses atomic output create staging dir.
 def test_render_to_staging_uses_atomic_output_create_staging_dir(tmp_path, monkeypatch):
+    """Verify render to staging uses atomic output create staging dir."""
     calls = []
     real_create_staging_dir = atomic_output.create_staging_dir
 
+    # Record calls to the wrapped renderer while preserving its return value.
     def _spy(output_root, prefix="staging"):
+        """Record calls to the wrapped renderer while preserving its return value."""
         calls.append((output_root, prefix))
         return real_create_staging_dir(output_root, prefix=prefix)
 
@@ -479,6 +543,7 @@ def test_render_to_staging_uses_atomic_output_create_staging_dir(tmp_path, monke
 # ---------------------------------------------------------------------------
 
 def test_render_uses_publication_map_order_when_present(tmp_path):
+    """Verify render uses publication map order when present."""
     pkg = _build_synthetic_grouped_package(tmp_path)
     output_dir = tmp_path / "rendered"
     result = mpm.MultipageMarkdownRenderer().render(pkg, output_dir)
@@ -492,7 +557,9 @@ def test_render_uses_publication_map_order_when_present(tmp_path):
     assert (output_dir / "pages" / "beta--11111111.md").exists()
 
 
+# Verify render falls back to manifest order when no publication map.
 def test_render_falls_back_to_manifest_order_when_no_publication_map(tmp_path):
+    """Verify render falls back to manifest order when no publication map."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -509,7 +576,9 @@ def test_render_falls_back_to_manifest_order_when_no_publication_map(tmp_path):
     assert index_text.index("Intro") < index_text.index("Details")
 
 
+# Verify rewrite local links preserves query and fragment.
 def test_rewrite_local_links_preserves_query_and_fragment():
+    """Verify rewrite local links preserves query and fragment."""
     content = "[See Alpha](chunks/alpha.md?filter=1#summary) and [Beta](chunks/beta.md#section)"
     known = {"alpha", "beta"}
     rewritten = mpm._rewrite_local_links(content, known)

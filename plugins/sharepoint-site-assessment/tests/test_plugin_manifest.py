@@ -17,6 +17,13 @@ Purpose:
     contract's own verification.
 
 Layer: sharepoint-schema / plugin-local tests
+
+Key Input Dependencies:
+    - pytest, the plugin module under test, and temporary JSON fixtures created by the test cases.
+
+Function index:
+    - _declared_skills
+    - test_plugin_yaml_skills_matches_skills_directory
 """
 
 import re
@@ -35,7 +42,9 @@ def _declared_skills(plugin_yaml_text: str) -> set[str]:
     return {line.strip().lstrip("-").strip() for line in match.group(1).splitlines() if line.strip()}
 
 
+# Plugin yaml skills matches skills directory.
 def test_plugin_yaml_skills_matches_skills_directory():
+    """Plugin yaml skills matches skills directory."""
     declared = _declared_skills((PLUGIN_ROOT / "plugin.yaml").read_text(encoding="utf-8"))
     on_disk = {
         p.name

@@ -5,6 +5,15 @@ test_sharepoint_cli.py
 Tests for scripts/content-publication/sharepoint_cli.py -- the human-facing CLI wrapping
 sharepoint_package/sharepoint_dry_run/sharepoint_reconcile. Phase 3 plan
 Task 3.3.6.
+
+Purpose:
+    Verify CLI dry-run exit codes reflect upload-package validation results.
+
+Key Input Dependencies:
+    - The plugin's CLI entry point and temporary UploadPackage fixtures.
+
+Function Index:
+    test_dry_run_subcommand_exits_zero_on_pass, test_dry_run_subcommand_exits_one_on_fail
 """
 
 import json
@@ -13,7 +22,9 @@ from pathlib import Path
 import sharepoint_cli as cli
 
 
+# Verify the contract that dry run subcommand exits zero on pass.
 def test_dry_run_subcommand_exits_zero_on_pass(tmp_path, capsys):
+    """Verify the contract that dry run subcommand exits zero on pass."""
     topics_dir = tmp_path / "pkg" / "topics"
     topics_dir.mkdir(parents=True)
     (topics_dir / "a--1111.md").write_text("content")
@@ -38,7 +49,9 @@ def test_dry_run_subcommand_exits_zero_on_pass(tmp_path, capsys):
     assert '"status": "PASS"' in out
 
 
+# Verify the contract that dry run subcommand exits one on fail.
 def test_dry_run_subcommand_exits_one_on_fail(tmp_path, capsys):
+    """Verify the contract that dry run subcommand exits one on fail."""
     manifest = {
         "schema_version": "1.0",
         "package_identity": "sha256:deadbeef",

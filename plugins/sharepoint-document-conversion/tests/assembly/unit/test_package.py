@@ -1,6 +1,18 @@
-"""
-test_package.py
+"""test_package.py
 ================
+
+Purpose:
+    Tests for scripts/assembly/package.py — the canonical-content package builder (chunk/sidecar writing, media inventory/copy/rewrite, manifest assembly).
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - pytest
+    - canonical_schema
+    - package
+    - topic_boundary_core
+    - chunking
+    - identity_core
 
 Tests for scripts/assembly/package.py — the canonical-content package builder
 (chunk/sidecar writing, media inventory/copy/rewrite, manifest assembly).
@@ -12,7 +24,37 @@ input, since package.py's contract is "already-sliced chunk content in" ->
 "canonical package on disk out" and does not itself invoke pandoc or the
 cleanup pipeline. Fixture heading/product names are synthetic placeholders (e.g.
 "Widget Setup", "Gadget Alpha").
-"""
+
+Key Functions Index:
+    - _anchor()
+    - _confirmed_plan()
+    - _slice()
+    - test_one_sidecar_per_chunk_and_no_orphans()
+    - test_chunk_id_reused_from_anchor_stable_key_not_recomputed()
+    - test_hashes_plan_id_source_hash_schema_version_and_ordering()
+    - test_manifest_ordering_independent_of_filesystem_listing_order()
+    - test_media_copied_once_and_referenced_from_multiple_chunks()
+    - test_duplicate_media_names_different_content_disambiguated()
+    - test_relative_path_rewriting_scheme()
+    - test_url_encoded_and_space_containing_media_refs()
+    - test_alt_text_with_escaped_brackets_still_recognized_as_media_ref()
+    - test_absolute_media_path_rejected()
+    - test_dotdot_traversal_media_path_rejected()
+    - test_windows_drive_letter_absolute_path_rejected()
+    - test_windows_unc_path_rejected()
+    - test_windows_backslash_traversal_rejected()
+    - test_unconverted_legacy_media_remaining_is_rejected()
+    - test_missing_media_file_is_rejected()
+    - _two_topic_sliced_document()
+    - test_build_grouped_canonical_package_produces_one_file_per_topic()
+    - test_grouped_topic_content_preserves_all_anchor_content_losslessly()
+    - test_grouped_chunk_metadata_lists_every_folded_anchor()
+    - test_grouped_package_writes_publication_map()
+    - test_grouped_package_identity_is_not_double_prefixed()
+    - test_grouped_publication_map_chunk_id_is_not_a_path()
+    - test_grouped_every_anchor_assigned_exactly_once()
+    - test_grouped_package_uses_confirmed_topic_roots_for_mixed_level_document()
+    - test_grouped_package_raises_when_confirmed_roots_no_longer_reconcile()"""
 
 import json
 
@@ -26,7 +68,9 @@ from chunking import ChunkSlice, SlicedDocument
 from identity_core import make_chunk_id
 
 
+# Create a StructuralAnchor fixture with a stable identifier and heading path.
 def _anchor(path, occurrence=1, level=1):
+    """Create a StructuralAnchor fixture with a stable identifier and heading path."""
     return plan_contracts.StructuralAnchor(
         stable_key=make_chunk_id(path, occurrence),
         heading_text=path[-1],
@@ -36,7 +80,9 @@ def _anchor(path, occurrence=1, level=1):
     )
 
 
+# Construct a confirmed ConversionPlan fixture from the source and selected anchors.
 def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked", confirmed_topic_roots=None):
+    """Construct a confirmed ConversionPlan fixture from the source and selected anchors."""
     source_fp = plan_contracts.SourceFingerprint(
         path="sourcedocuments/widget.docx", sha256=source_sha256, size_bytes=123
     )
@@ -56,7 +102,9 @@ def _confirmed_plan(chunk_anchors, source_sha256="b" * 64, strategy="chunked", c
     )
 
 
+# Create a ChunkSlice fixture from its structural anchor and Markdown content.
 def _slice(anchor, content):
+    """Create a ChunkSlice fixture from its structural anchor and Markdown content."""
     return ChunkSlice(anchor=anchor, start_line=0, end_line=1, content=content)
 
 
@@ -65,6 +113,7 @@ def _slice(anchor, content):
 # ---------------------------------------------------------------------------
 
 def test_one_sidecar_per_chunk_and_no_orphans(tmp_path):
+    """Verify one sidecar per chunk and no orphans."""
     a1 = _anchor(["Widget Setup"])
     a2 = _anchor(["Widget Configuration"])
     plan = _confirmed_plan([a1, a2])
@@ -94,6 +143,7 @@ def test_one_sidecar_per_chunk_and_no_orphans(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_chunk_id_reused_from_anchor_stable_key_not_recomputed(tmp_path):
+    """Verify chunk ID reused from anchor stable key not recomputed."""
     anchor = _anchor(["Widget Setup"])
     plan = _confirmed_plan([anchor])
     sliced = SlicedDocument(
@@ -112,6 +162,7 @@ def test_chunk_id_reused_from_anchor_stable_key_not_recomputed(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_hashes_plan_id_source_hash_schema_version_and_ordering(tmp_path):
+    """Verify hashes plan ID source hash schema version and ordering."""
     a1 = _anchor(["Alpha"])
     a2 = _anchor(["Beta"])
     a3 = _anchor(["Gamma"])
@@ -153,10 +204,12 @@ def test_hashes_plan_id_source_hash_schema_version_and_ordering(tmp_path):
         assert meta.content_sha256 == expected
 
 
+# Verify manifest ordering independent of filesystem listing order.
 def test_manifest_ordering_independent_of_filesystem_listing_order(tmp_path):
     # Chunk IDs chosen so that lexicographic filesystem order (Alpha before
     # Zeta) is the REVERSE of the plan's declared chunk_anchors order, to
     # prove ordering is not derived from glob()/listdir() results.
+    """Verify manifest ordering independent of filesystem listing order."""
     a_last = _anchor(["Alpha Last In Plan"])
     a_first = _anchor(["Zeta First In Plan"])
     plan = _confirmed_plan([a_first, a_last])
@@ -179,6 +232,7 @@ def test_manifest_ordering_independent_of_filesystem_listing_order(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_media_copied_once_and_referenced_from_multiple_chunks(tmp_path):
+    """Verify media copied once and referenced from multiple chunks."""
     a1 = _anchor(["Alpha"])
     a2 = _anchor(["Beta"])
     plan = _confirmed_plan([a1, a2])
@@ -210,6 +264,7 @@ def test_media_copied_once_and_referenced_from_multiple_chunks(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_duplicate_media_names_different_content_disambiguated(tmp_path):
+    """Verify duplicate media names different content disambiguated."""
     a1 = _anchor(["Alpha"])
     a2 = _anchor(["Beta"])
     plan = _confirmed_plan([a1, a2])
@@ -259,6 +314,7 @@ def test_duplicate_media_names_different_content_disambiguated(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_relative_path_rewriting_scheme(tmp_path):
+    """Verify relative path rewriting scheme."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"
@@ -284,6 +340,7 @@ def test_relative_path_rewriting_scheme(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_url_encoded_and_space_containing_media_refs(tmp_path):
+    """Verify URL encoded and space containing media refs."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"
@@ -338,6 +395,7 @@ def test_alt_text_with_escaped_brackets_still_recognized_as_media_ref(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_absolute_media_path_rejected(tmp_path):
+    """Verify rejection of absolute media path."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"
@@ -352,7 +410,9 @@ def test_absolute_media_path_rejected(tmp_path):
         package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
 
 
+# Verify rejection of dotdot traversal media path.
 def test_dotdot_traversal_media_path_rejected(tmp_path):
+    """Verify rejection of dotdot traversal media path."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "sub" / "raw_media"
@@ -368,7 +428,9 @@ def test_dotdot_traversal_media_path_rejected(tmp_path):
         package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
 
 
+# Verify rejection of windows drive letter absolute path.
 def test_windows_drive_letter_absolute_path_rejected(tmp_path):
+    """Verify rejection of windows drive letter absolute path."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"
@@ -383,7 +445,9 @@ def test_windows_drive_letter_absolute_path_rejected(tmp_path):
         package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
 
 
+# Verify rejection of windows UNC path.
 def test_windows_unc_path_rejected(tmp_path):
+    """Verify rejection of windows UNC path."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"
@@ -398,7 +462,9 @@ def test_windows_unc_path_rejected(tmp_path):
         package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
 
 
+# Verify rejection of windows backslash traversal.
 def test_windows_backslash_traversal_rejected(tmp_path):
+    """Verify rejection of windows backslash traversal."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "sub" / "raw_media"
@@ -418,6 +484,7 @@ def test_windows_backslash_traversal_rejected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_unconverted_legacy_media_remaining_is_rejected(tmp_path):
+    """Verify rejection of unconverted legacy media remaining is."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"
@@ -436,7 +503,9 @@ def test_unconverted_legacy_media_remaining_is_rejected(tmp_path):
         package.build_canonical_package(plan, sliced, raw_media_dir, output_dir)
 
 
+# Verify rejection of missing media file is.
 def test_missing_media_file_is_rejected(tmp_path):
+    """Verify rejection of missing media file is."""
     anchor = _anchor(["Alpha"])
     plan = _confirmed_plan([anchor])
     raw_media_dir = tmp_path / "raw_media"
@@ -456,6 +525,7 @@ def test_missing_media_file_is_rejected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def _two_topic_sliced_document():
+    """Build a SlicedDocument containing two topic roots and their source slices."""
     file_access = _anchor(["File Access"], level=1)
     how_to_seal = _anchor(["File Access", "How to Seal a File"], level=2)
     overview = _anchor(["Overview"], level=1)
@@ -471,7 +541,9 @@ def _two_topic_sliced_document():
     return plan, sliced
 
 
+# Verify build grouped canonical package produces one file per topic.
 def test_build_grouped_canonical_package_produces_one_file_per_topic(tmp_path):
+    """Verify build grouped canonical package produces one file per topic."""
     plan, sliced = _two_topic_sliced_document()
     manifest = package.build_grouped_canonical_package(
         plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
@@ -481,7 +553,9 @@ def test_build_grouped_canonical_package_produces_one_file_per_topic(tmp_path):
     assert {c.source_heading_path[0] for c in manifest.chunks} == {"File Access", "Overview"}
 
 
+# Verify grouped topic content preserves all anchor content losslessly.
 def test_grouped_topic_content_preserves_all_anchor_content_losslessly(tmp_path):
+    """Verify grouped topic content preserves all anchor content losslessly."""
     plan, sliced = _two_topic_sliced_document()
     manifest = package.build_grouped_canonical_package(
         plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
@@ -495,7 +569,9 @@ def test_grouped_topic_content_preserves_all_anchor_content_losslessly(tmp_path)
             assert chunk_slice.content.strip() in combined
 
 
+# Verify grouped chunk metadata lists every folded anchor.
 def test_grouped_chunk_metadata_lists_every_folded_anchor(tmp_path):
+    """Verify grouped chunk metadata lists every folded anchor."""
     plan, sliced = _two_topic_sliced_document()
     manifest = package.build_grouped_canonical_package(
         plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
@@ -514,7 +590,9 @@ def test_grouped_chunk_metadata_lists_every_folded_anchor(tmp_path):
     assert anchor_keys == expected_keys
 
 
+# Verify grouped package writes publication map.
 def test_grouped_package_writes_publication_map(tmp_path):
+    """Verify grouped package writes publication map."""
     plan, sliced = _two_topic_sliced_document()
     package.build_grouped_canonical_package(
         plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
@@ -526,7 +604,9 @@ def test_grouped_package_writes_publication_map(tmp_path):
     assert data["entries"][0]["order"] == 0
 
 
+# Verify grouped package identity is not double prefixed.
 def test_grouped_package_identity_is_not_double_prefixed(tmp_path):
+    """Verify grouped package identity is not double prefixed."""
     anchor = _anchor(["Alpha"], level=1)
     plan = _confirmed_plan([anchor], strategy="grouped")
     raw_media_dir = tmp_path / "raw_media"
@@ -543,7 +623,9 @@ def test_grouped_package_identity_is_not_double_prefixed(tmp_path):
     assert not pub_map_data["package_identity"].startswith("sha256:sha256:")
 
 
+# Verify grouped publication map chunk ID is not a path.
 def test_grouped_publication_map_chunk_id_is_not_a_path(tmp_path):
+    """Verify grouped publication map chunk ID is not a path."""
     anchor = _anchor(["Alpha"], level=1)
     plan = _confirmed_plan([anchor], strategy="grouped")
     raw_media_dir = tmp_path / "raw_media"
@@ -563,7 +645,9 @@ def test_grouped_publication_map_chunk_id_is_not_a_path(tmp_path):
     assert "parent_topic_id" not in entry
 
 
+# Verify grouped every anchor assigned exactly once.
 def test_grouped_every_anchor_assigned_exactly_once(tmp_path):
+    """Verify grouped every anchor assigned exactly once."""
     plan, sliced = _two_topic_sliced_document()
     manifest = package.build_grouped_canonical_package(
         plan, sliced, raw_media_dir=tmp_path / "raw_media", output_dir=tmp_path / "out"
@@ -592,6 +676,7 @@ def test_grouped_package_uses_confirmed_topic_roots_for_mixed_level_document(tmp
     # once "Overview" -- wait, order here is File Access first). What
     # matters is that the *confirmed* root set, not a level==1-only
     # assumption, decides which headings are roots.
+    """Verify grouped package uses confirmed topic roots for mixed level document."""
     file_access = _anchor(["File Access"], level=2)
     how_to_seal = _anchor(["File Access", "How to Seal a File"], level=3)
     overview = _anchor(["Overview"], level=1)
@@ -619,10 +704,12 @@ def test_grouped_package_uses_confirmed_topic_roots_for_mixed_level_document(tmp
     assert {c.source_heading_path[0] for c in manifest.chunks} == {"File Access", "Overview"}
 
 
+# Verify grouped package raises when confirmed roots no longer reconcile.
 def test_grouped_package_raises_when_confirmed_roots_no_longer_reconcile(tmp_path):
     # A confirmed root set referencing a heading path/occurrence that no
     # longer exists in the current headings must fail loudly, not
     # silently fall back to recomputing a (possibly different) heuristic.
+    """Verify grouped package raises when confirmed roots no longer reconcile."""
     file_access = _anchor(["File Access"], level=1)
     confirmed_topic_roots = [
         {"source_heading_path": ["Some Other Heading"], "occurrence": 1},

@@ -1,6 +1,14 @@
-"""
-plan_hashing.py
+"""plan_hashing.py
 ================
+
+Purpose:
+    Deterministic canonical-JSON serialization and SHA-256 fingerprinting for this plugin's `ConversionPlan` contract (see `plan_schema/analysis_plan.py`).
+
+Key Input Dependencies:
+    - hashlib
+    - json
+    - typing
+    - plan_verification_core
 
 Deterministic canonical-JSON serialization and SHA-256 fingerprinting for
 this plugin's `ConversionPlan` contract (see `plan_schema/analysis_plan.py`).
@@ -17,7 +25,10 @@ separators=(",", ":"))`: sort_keys guarantees identical key ordering
 regardless of dict insertion order, and the compact separators remove
 whitespace variance. The same logical payload always produces byte-identical
 output.
-"""
+
+Key Functions Index:
+    - canonical_json_bytes()
+    - content_hash()"""
 
 import hashlib
 import json

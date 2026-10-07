@@ -17,6 +17,10 @@ Key Input Dependencies:
 Usage:
     from link_extraction import extract_links_from_paths
     inventory = extract_links_from_paths(["exported/page.aspx"])
+
+Function Index:
+    ExtractedLink.to_dict, LinkInventory.from_links, LinkInventory.to_dict,
+    classify, extract_links_from_text, extract_links_from_paths
 """
 
 from __future__ import annotations
@@ -51,6 +55,7 @@ class ExtractedLink:
     kind: str
 
     def to_dict(self) -> dict[str, str]:
+        """Serialize the link occurrence's source, URL, and classification."""
         return {"source": self.source, "url": self.url, "kind": self.kind}
 
 
@@ -70,6 +75,7 @@ class LinkInventory:
         *,
         sources_attempted: int | None = None,
     ) -> "LinkInventory":
+        """Build an inventory with outcome derived from links and read problems."""
         links = list(links)
         problems = list(problems)
         if sources_attempted is not None and problems and len(problems) == sources_attempted:
@@ -83,6 +89,7 @@ class LinkInventory:
         return cls(links=links, problems=problems, outcome=outcome)
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the inventory and preserve each extracted link record."""
         return {
             "outcome": self.outcome,
             "link_count": len(self.links),

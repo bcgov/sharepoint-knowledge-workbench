@@ -17,6 +17,11 @@ Usage:
     from link_rules import load_ruleset
     ruleset = load_ruleset("my-environment-rules.json")
     new_url, applied = ruleset.apply(old_url)
+
+Function Index:
+    RewriteRule.apply, RewriteRule.to_dict, RewriteRuleset.from_dict,
+    RewriteRuleset.apply, RewriteRuleset.matches, RewriteRuleset.to_dict,
+    load_ruleset
 """
 
 from __future__ import annotations
@@ -45,11 +50,13 @@ class RewriteRule:
     description: str = ""
 
     def apply(self, url: str) -> tuple[str, bool]:
+        """Apply this literal case-insensitive substitution to one URL."""
         pattern = re.compile(re.escape(self.match), re.IGNORECASE)
         rewritten, count = pattern.subn(lambda _: self.replacement, url)
         return rewritten, count > 0
 
     def to_dict(self) -> dict[str, str]:
+        """Serialize the rule fields for the external ruleset format."""
         return {"match": self.match, "replacement": self.replacement, "description": self.description}
 
 
@@ -62,6 +69,7 @@ class RewriteRuleset:
 
     @classmethod
     def from_dict(cls, payload: Mapping[str, Any]) -> "RewriteRuleset":
+        """Validate and construct an ordered ruleset from a parsed JSON object."""
         if not isinstance(payload, Mapping):
             raise RulesetError("ruleset must be an object with a 'rules' list")
         raw_rules = payload.get("rules")
@@ -105,6 +113,7 @@ class RewriteRuleset:
         return [rule for rule in self.rules if rule.apply(text)[1]]
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the ordered rules for JSON output."""
         return {"rules": [rule.to_dict() for rule in self.rules]}
 
 

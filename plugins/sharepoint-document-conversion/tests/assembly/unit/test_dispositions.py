@@ -1,6 +1,15 @@
-"""
-test_dispositions.py
+"""test_dispositions.py
 =====================
+
+Purpose:
+    Tests for scripts/assembly/dispositions.py -- the warning-disposition completeness mechanism (Task 10).
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - pytest
+    - canonical_schema
+    - dispositions
 
 Tests for scripts/assembly/dispositions.py -- the warning-disposition completeness
 mechanism (Task 10). Verifies the brief's required failing-test scenario:
@@ -10,7 +19,22 @@ behavior.
 
 Fixture data is synthetic (contracts.ValidationReport/ValidationIssue
 constructed directly).
-"""
+
+Key Functions Index:
+    - _report()
+    - _warning()
+    - _error()
+    - test_disposition_key_combines_code_and_path()
+    - test_disposition_key_handles_missing_path()
+    - test_warn_blocks_promotion_without_any_disposition_file()
+    - test_warn_blocks_promotion_with_incomplete_disposition_file()
+    - test_warn_promotable_with_complete_disposition_file()
+    - test_fail_never_promotable_even_with_dispositions_covering_warnings()
+    - test_pass_with_no_warnings_is_promotable_without_any_disposition_file()
+    - test_load_dispositions_missing_file_returns_empty_dict()
+    - test_load_dispositions_raises_on_malformed_json()
+    - test_load_dispositions_raises_on_missing_top_level_key()
+    - test_load_dispositions_raises_on_invalid_status_value()"""
 
 import json
 
@@ -20,17 +44,23 @@ from canonical_schema import canonical_package as contracts
 import dispositions as disp
 
 
+# Construct a ValidationReport fixture from the requested issues and status.
 def _report(issues, status="WARN"):
+    """Construct a ValidationReport fixture from the requested issues and status."""
     return contracts.ValidationReport(
         status=status, issues=issues, source_sha256="a" * 64, plan_id="sha256:" + "b" * 64
     )
 
 
+# Create a warning-severity ValidationIssue with the supplied code and message.
 def _warning(code="heading_missing_from_content", path="chunks/x.md"):
+    """Create a warning-severity ValidationIssue with the supplied code and message."""
     return contracts.ValidationIssue(severity="warning", code=code, message="msg", path=path)
 
 
+# Create an error-severity ValidationIssue with the supplied code and message.
 def _error(code="content_hash_mismatch", path="chunks/x.md"):
+    """Create an error-severity ValidationIssue with the supplied code and message."""
     return contracts.ValidationIssue(severity="error", code=code, message="msg", path=path)
 
 
@@ -39,11 +69,14 @@ def _error(code="content_hash_mismatch", path="chunks/x.md"):
 # ---------------------------------------------------------------------------
 
 def test_disposition_key_combines_code_and_path():
+    """Verify disposition key combines code and path."""
     issue = _warning(code="heading_missing_from_content", path="chunks/abc.md")
     assert disp.disposition_key(issue) == "heading_missing_from_content|chunks/abc.md"
 
 
+# Verify disposition key handles missing path.
 def test_disposition_key_handles_missing_path():
+    """Verify disposition key handles missing path."""
     issue = contracts.ValidationIssue(severity="warning", code="content_comparison_skipped", message="m", path=None)
     assert disp.disposition_key(issue) == "content_comparison_skipped|"
 
@@ -54,13 +87,16 @@ def test_disposition_key_handles_missing_path():
 # ---------------------------------------------------------------------------
 
 def test_warn_blocks_promotion_without_any_disposition_file(tmp_path):
+    """Verify warn blocks promotion without any disposition file."""
     report = _report([_warning()])
     result = disp.apply_disposition(report, tmp_path / "warning-disposition.json")
     assert result.promotable is False
     assert len(result.undispositioned) == 1
 
 
+# Verify warn blocks promotion with incomplete disposition file.
 def test_warn_blocks_promotion_with_incomplete_disposition_file(tmp_path):
+    """Verify warn blocks promotion with incomplete disposition file."""
     w1 = _warning(code="heading_missing_from_content", path="chunks/a.md")
     w2 = _warning(code="content_comparison_skipped", path=None)
     report = _report([w1, w2])
@@ -82,7 +118,9 @@ def test_warn_blocks_promotion_with_incomplete_disposition_file(tmp_path):
     assert [disp.disposition_key(w) for w in result.undispositioned] == [disp.disposition_key(w2)]
 
 
+# Verify warn promotable with complete disposition file.
 def test_warn_promotable_with_complete_disposition_file(tmp_path):
+    """Verify warn promotable with complete disposition file."""
     w1 = _warning(code="heading_missing_from_content", path="chunks/a.md")
     w2 = _warning(code="content_comparison_skipped", path=None)
     report = _report([w1, w2])
@@ -109,6 +147,7 @@ def test_warn_promotable_with_complete_disposition_file(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_fail_never_promotable_even_with_dispositions_covering_warnings(tmp_path):
+    """Verify fail never promotable even with dispositions covering warnings."""
     w1 = _warning()
     e1 = _error()
     report = _report([w1, e1], status="FAIL")
@@ -126,7 +165,9 @@ def test_fail_never_promotable_even_with_dispositions_covering_warnings(tmp_path
     assert result.promotable is False
 
 
+# Verify pass with no warnings is promotable without any disposition file.
 def test_pass_with_no_warnings_is_promotable_without_any_disposition_file(tmp_path):
+    """Verify pass with no warnings is promotable without any disposition file."""
     report = _report([], status="PASS")
     result = disp.apply_disposition(report, tmp_path / "warning-disposition.json")
     assert result.promotable is True
@@ -138,24 +179,31 @@ def test_pass_with_no_warnings_is_promotable_without_any_disposition_file(tmp_pa
 # ---------------------------------------------------------------------------
 
 def test_load_dispositions_missing_file_returns_empty_dict(tmp_path):
+    """Verify load dispositions missing file returns empty dict."""
     assert disp.load_dispositions(tmp_path / "nope.json") == {}
 
 
+# Verify load dispositions raises on malformed JSON.
 def test_load_dispositions_raises_on_malformed_json(tmp_path):
+    """Verify load dispositions raises on malformed JSON."""
     path = tmp_path / "warning-disposition.json"
     path.write_text("{not valid json")
     with pytest.raises(disp.DispositionError):
         disp.load_dispositions(path)
 
 
+# Verify load dispositions raises on missing top level key.
 def test_load_dispositions_raises_on_missing_top_level_key(tmp_path):
+    """Verify load dispositions raises on missing top level key."""
     path = tmp_path / "warning-disposition.json"
     path.write_text(json.dumps({"not_dispositions": {}}))
     with pytest.raises(disp.DispositionError):
         disp.load_dispositions(path)
 
 
+# Verify load dispositions raises on invalid status value.
 def test_load_dispositions_raises_on_invalid_status_value(tmp_path):
+    """Verify load dispositions raises on invalid status value."""
     path = tmp_path / "warning-disposition.json"
     path.write_text(json.dumps({
         "dispositions": {

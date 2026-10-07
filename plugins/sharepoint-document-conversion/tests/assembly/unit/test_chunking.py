@@ -1,6 +1,15 @@
-"""
-test_chunking.py
+"""test_chunking.py
 ================
+
+Purpose:
+    Tests for scripts/assembly/chunking.py (Task 8): reconciling a CONFIRMED plan's `chunk_anchors` (computed during analysis, against RAW pandoc markdown) against a CLEANED document's actual heading structure, then slicing the cleaned markdown into per-chunk content using the reconciled positions.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - pytest
+    - identity_core
+    - chunking
+    - canonical_schema.analysis_plan
 
 Tests for scripts/assembly/chunking.py (Task 8): reconciling a CONFIRMED plan's
 `chunk_anchors` (computed during analysis, against RAW pandoc markdown)
@@ -9,7 +18,21 @@ cleaned markdown into per-chunk content using the reconciled positions.
 
 Fixture heading names are synthetic placeholders (e.g. "Section Alpha",
 "Widget Setup").
-"""
+
+Key Functions Index:
+    - _anchor_from_heading()
+    - _anchors_for()
+    - test_anchors_resolve_after_cleanup_shifts_line_numbers()
+    - test_reconcile_and_slice_produces_contiguous_chunks()
+    - test_missing_anchor_raises_rather_than_truncates()
+    - test_duplicate_ambiguous_anchor_raises()
+    - test_changed_heading_level_still_resolves_by_path_and_occurrence()
+    - test_repeated_occurrence_anchors_match_distinct_instances()
+    - test_all_cleaned_lines_reconstructed_with_no_loss_or_duplication()
+    - test_preamble_before_first_heading_is_excluded_from_chunks()
+    - test_single_anchor_plan_handled_uniformly_as_one_chunk()
+    - test_anchor_identity_survives_whole_heading_emphasis_normalization()
+    - test_anchor_identity_survives_glued_image_normalization()"""
 
 import pytest
 
@@ -25,7 +48,9 @@ from chunking import (
 from canonical_schema.analysis_plan import StructuralAnchor
 
 
+# Create a StructuralAnchor from the parsed heading and its occurrence.
 def _anchor_from_heading(h: dict) -> StructuralAnchor:
+    """Create a StructuralAnchor from the parsed heading and its occurrence."""
     return StructuralAnchor(
         stable_key=identity.make_chunk_id(h["path"], h["occurrence"]),
         heading_text=h["text"],
@@ -35,7 +60,9 @@ def _anchor_from_heading(h: dict) -> StructuralAnchor:
     )
 
 
+# Build ordered StructuralAnchor fixtures from the supplied heading paths.
 def _anchors_for(markdown_text: str) -> list:
+    """Build ordered StructuralAnchor fixtures from the supplied heading paths."""
     return [_anchor_from_heading(h) for h in parse_headings_with_lines(markdown_text)]
 
 
@@ -65,7 +92,9 @@ CLEANED_DOC = (
 )
 
 
+# Verify anchors resolve after cleanup shifts line numbers.
 def test_anchors_resolve_after_cleanup_shifts_line_numbers():
+    """Verify anchors resolve after cleanup shifts line numbers."""
     anchors = _anchors_for(RAW_DOC)
     reconciled = reconcile_anchors(anchors, CLEANED_DOC)
 
@@ -75,7 +104,9 @@ def test_anchors_resolve_after_cleanup_shifts_line_numbers():
     ]
 
 
+# Verify reconcile and slice produces contiguous chunks.
 def test_reconcile_and_slice_produces_contiguous_chunks():
+    """Verify reconcile and slice produces contiguous chunks."""
     anchors = _anchors_for(RAW_DOC)
     sliced = reconcile_and_slice(anchors, CLEANED_DOC)
 
@@ -92,6 +123,7 @@ def test_reconcile_and_slice_produces_contiguous_chunks():
 # ---------------------------------------------------------------------------
 
 def test_missing_anchor_raises_rather_than_truncates():
+    """Verify missing anchor raises rather than truncates."""
     anchors = _anchors_for(RAW_DOC)
     # Cleaned doc lost "Widget Setup" entirely (simulating a cleanup defect
     # eating a heading) -- reconciliation must fail loudly, not skip it.
@@ -112,6 +144,7 @@ def test_missing_anchor_raises_rather_than_truncates():
 # ---------------------------------------------------------------------------
 
 def test_duplicate_ambiguous_anchor_raises():
+    """Verify duplicate ambiguous anchor raises."""
     raw = (
         "# Overview\n"
         "Body one.\n"
@@ -136,6 +169,7 @@ def test_duplicate_ambiguous_anchor_raises():
 # ---------------------------------------------------------------------------
 
 def test_changed_heading_level_still_resolves_by_path_and_occurrence():
+    """Verify changed heading level still resolves by path and occurrence."""
     raw = (
         "# Section Alpha\n"
         "## Widget Setup\n"
@@ -162,6 +196,7 @@ def test_changed_heading_level_still_resolves_by_path_and_occurrence():
 # ---------------------------------------------------------------------------
 
 def test_repeated_occurrence_anchors_match_distinct_instances():
+    """Verify repeated occurrence anchors match distinct instances."""
     raw = (
         "# Section Alpha\n"
         "## Notes\n"
@@ -200,6 +235,7 @@ def test_repeated_occurrence_anchors_match_distinct_instances():
 # ---------------------------------------------------------------------------
 
 def test_all_cleaned_lines_reconstructed_with_no_loss_or_duplication():
+    """Verify all cleaned lines reconstructed with no loss or duplication."""
     anchors = _anchors_for(RAW_DOC)
     sliced = reconcile_and_slice(anchors, CLEANED_DOC)
 
@@ -207,7 +243,9 @@ def test_all_cleaned_lines_reconstructed_with_no_loss_or_duplication():
     assert reconstructed == CLEANED_DOC
 
 
+# Verify preamble before first heading is excluded from chunks.
 def test_preamble_before_first_heading_is_excluded_from_chunks():
+    """Verify preamble before first heading is excluded from chunks."""
     raw = "# Section Alpha\nBody.\n"
     anchors = _anchors_for(raw)
     cleaned = "Some preamble line kept verbatim.\n# Section Alpha\nBody.\n"
@@ -229,6 +267,7 @@ def test_preamble_before_first_heading_is_excluded_from_chunks():
 # ---------------------------------------------------------------------------
 
 def test_single_anchor_plan_handled_uniformly_as_one_chunk():
+    """Verify single anchor plan handled uniformly as one chunk."""
     raw = "# Only Section\nAll content lives here.\n"
     anchors = _anchors_for(raw)
     assert len(anchors) == 1
@@ -253,6 +292,7 @@ def test_single_anchor_plan_handled_uniformly_as_one_chunk():
 # ---------------------------------------------------------------------------
 
 def test_anchor_identity_survives_whole_heading_emphasis_normalization():
+    """Verify anchor identity survives whole heading emphasis normalization."""
     from pandoc_cleanup.heading_emphasis import strip_whole_heading_emphasis
 
     raw = (
@@ -298,6 +338,7 @@ def test_anchor_identity_survives_whole_heading_emphasis_normalization():
 # ---------------------------------------------------------------------------
 
 def test_anchor_identity_survives_glued_image_normalization():
+    """Verify anchor identity survives glued image normalization."""
     from pandoc_cleanup.images import fix_glued_images
 
     raw = (

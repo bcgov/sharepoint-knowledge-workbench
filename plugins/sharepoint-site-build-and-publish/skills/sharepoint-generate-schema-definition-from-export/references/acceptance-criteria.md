@@ -1,0 +1,1 @@
+../../../references/sharepoint-generate-schema-definition-from-export-acceptance-criteria.md

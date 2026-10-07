@@ -6,6 +6,20 @@ Tests for scripts/content-publication/sharepoint_package.py — assembles an Upl
 (SharePoint-ready topic files + manifest) from an already-promoted
 CanonicalPackage and its rendered-output sibling. Package-only: this
 module never talks to a SharePoint tenant. Task 3.2.1 (Phase 3 plan).
+
+Purpose:
+    Verify canonical and rendered content is assembled into an ordered upload package.
+
+Key Input Dependencies:
+    - Canonical package fixtures, rendered pages, and upload-package builder modules.
+
+Function Index:
+    test_upload_entry_round_trips_through_dict, test_upload_package_to_dict_has_schema_version_and_entries,
+    _write_grouped_fixture, _write_grouped_canonical_artifacts,
+    _write_grouped_validation_and_publication_map,
+    test_build_upload_package_produces_one_entry_per_topic,
+    test_build_upload_package_rejects_non_grouped_strategy,
+    test_build_upload_package_raises_on_missing_rendered_page
 """
 
 import json
@@ -16,7 +30,9 @@ import pytest
 import sharepoint_package as sp
 
 
+# Verify the contract that upload entry round trips through dict.
 def test_upload_entry_round_trips_through_dict():
+    """Verify the contract that upload entry round trips through dict."""
     entry = sp.UploadEntry(
         topic_id="widget-setup--aaaa1111",
         title="WIDGET SETUP",
@@ -30,7 +46,9 @@ def test_upload_entry_round_trips_through_dict():
     assert sp.UploadEntry.from_dict(data) == entry
 
 
+# Verify the contract that upload package to dict has schema version and entries.
 def test_upload_package_to_dict_has_schema_version_and_entries():
+    """Verify the contract that upload package to dict has schema version and entries."""
     entry = sp.UploadEntry(
         topic_id="widget-setup--aaaa1111",
         title="WIDGET SETUP",
@@ -66,7 +84,18 @@ def _write_grouped_fixture(tmp_path):
     chunk_id = "widget-setup--aaaa1111"
     content = "# Widget Setup\n\nHow to set up a widget.\n"
     content_sha = __import__("hashlib").sha256(content.encode()).hexdigest()
+    _write_grouped_canonical_artifacts(canonical_dir, chunk_id, source_sha, content, content_sha)
+    (render_dir / "pages" / f"{chunk_id}.md").write_text(
+        "# WIDGET SETUP\n\nHow to set up a widget.\n"
+    )
+    return canonical_dir, render_dir, chunk_id
 
+
+# Write a self-consistent canonical package for the upload package tests.
+def _write_grouped_canonical_artifacts(
+    canonical_dir: Path, chunk_id: str, source_sha: str, content: str, content_sha: str
+) -> None:
+    """Write chunk content and the canonical package manifest fixture."""
     (canonical_dir / "chunks" / f"{chunk_id}.md").write_text(content)
     (canonical_dir / "chunks" / f"{chunk_id}.json").write_text(json.dumps({
         "schema_version": "1.0",
@@ -102,6 +131,15 @@ def _write_grouped_fixture(tmp_path):
         "media": [],
         "validation_report": "validation.json",
     }))
+
+    _write_grouped_validation_and_publication_map(canonical_dir, chunk_id, source_sha)
+
+
+# Write the validation report and mapping that make the package publishable.
+def _write_grouped_validation_and_publication_map(
+    canonical_dir: Path, chunk_id: str, source_sha: str
+) -> None:
+    """Write passing validation and the topic-to-chunk publication mapping."""
     (canonical_dir / "validation.json").write_text(json.dumps({
         "status": "PASS",
         "issues": [],
@@ -115,13 +153,11 @@ def _write_grouped_fixture(tmp_path):
             "chunk_id": chunk_id, "title": "WIDGET SETUP", "order": 0, "topic_id": chunk_id,
         }],
     }))
-    (render_dir / "pages" / f"{chunk_id}.md").write_text(
-        "# WIDGET SETUP\n\nHow to set up a widget.\n"
-    )
-    return canonical_dir, render_dir, chunk_id
 
 
+# Verify the contract that build upload package produces one entry per topic.
 def test_build_upload_package_produces_one_entry_per_topic(tmp_path):
+    """Verify the contract that build upload package produces one entry per topic."""
     canonical_dir, render_dir, chunk_id = _write_grouped_fixture(tmp_path)
     output_dir = tmp_path / "upload-package"
 
@@ -140,7 +176,9 @@ def test_build_upload_package_produces_one_entry_per_topic(tmp_path):
     assert reloaded.entries[0].topic_id == chunk_id
 
 
+# Verify the contract that build upload package rejects non grouped strategy.
 def test_build_upload_package_rejects_non_grouped_strategy(tmp_path):
+    """Verify the contract that build upload package rejects non grouped strategy."""
     canonical_dir, render_dir, chunk_id = _write_grouped_fixture(tmp_path)
     manifest_path = canonical_dir / "manifest.json"
     manifest = json.loads(manifest_path.read_text())
@@ -152,7 +190,9 @@ def test_build_upload_package_rejects_non_grouped_strategy(tmp_path):
         sp.build_upload_package(canonical_dir, render_dir, tmp_path / "out")
 
 
+# Verify the contract that build upload package raises on missing rendered page.
 def test_build_upload_package_raises_on_missing_rendered_page(tmp_path):
+    """Verify the contract that build upload package raises on missing rendered page."""
     canonical_dir, render_dir, chunk_id = _write_grouped_fixture(tmp_path)
     (render_dir / "pages" / f"{chunk_id}.md").unlink()
 

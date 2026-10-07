@@ -1,6 +1,13 @@
-"""
-templates.py
+"""templates.py
 =============
+
+Purpose:
+    Shared module backing the `create-markdown-rendering-template` and `create-sharepoint-rendering-template` skills.
+
+Key Input Dependencies:
+    - json
+    - dataclasses
+    - pathlib
 
 Shared module backing the `create-markdown-rendering-template` and
 `create-sharepoint-rendering-template` skills.
@@ -24,7 +31,13 @@ Starter templates are authored at the plugin root and packaged within
     assets/templates/solutions/standard-manual/markdown/page.template.md
     assets/templates/generic/aspx/page.template.html
     assets/templates/solutions/standard-manual/aspx/page.template.html
-"""
+
+Key Functions Index:
+    - RenderingTemplate.to_metadata_dict()
+    - _sidecar_path()
+    - _starter_path()
+    - create_rendering_template()
+    - load_rendering_template()"""
 
 import json
 from dataclasses import dataclass
@@ -78,7 +91,9 @@ class RenderingTemplate:
     content: str
     path: Path
 
+    # Serialize a RenderingTemplate into the JSON-compatible metadata stored beside rendered pages.
     def to_metadata_dict(self) -> dict:
+        """Serialize a RenderingTemplate into the JSON-compatible metadata stored beside rendered pages."""
         return {
             "schema_version": self.schema_version,
             "profile": self.profile,
@@ -86,11 +101,15 @@ class RenderingTemplate:
         }
 
 
+# Resolve the metadata sidecar path associated with a rendering-template file.
 def _sidecar_path(output_path: Path) -> Path:
+    """Resolve the metadata sidecar path associated with a rendering-template file."""
     return output_path.with_suffix(output_path.suffix + ".meta.json")
 
 
+# Select the canonical starter template path for the requested page-structure profile.
 def _starter_path(profile: str, fmt: str) -> Path:
+    """Select the canonical starter template path for the requested page-structure profile."""
     if profile not in _PROFILE_DIRS:
         raise UnknownTemplateProfileError(
             f"unknown template profile: {profile!r} (known: {sorted(_PROFILE_DIRS)})"

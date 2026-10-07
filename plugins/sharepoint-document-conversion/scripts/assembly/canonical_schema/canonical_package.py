@@ -1,4 +1,12 @@
-"""Authoritative schema for the `canonical-package` contract: `Manifest`,
+"""Purpose:
+    Authoritative schema for the `canonical-package` contract: `Manifest`, `ManifestChunk`, `ManifestGenerator`, `ManifestSourceFingerprint`, `ChunkMetadata`, and the `ValidationIssue`/`ValidationReport` types used by this package's own `validation.json`.
+
+Key Input Dependencies:
+    - dataclasses
+    - typing
+    - canonical_schema.shared
+
+Authoritative schema for the `canonical-package` contract: `Manifest`,
 `ManifestChunk`, `ManifestGenerator`, `ManifestSourceFingerprint`,
 `ChunkMetadata`, and the `ValidationIssue`/`ValidationReport` types used by
 this package's own `validation.json`.
@@ -6,7 +14,23 @@ this package's own `validation.json`.
 `structured-content-assembly` is the sole producer of this contract -- this module
 is the single source of truth for its wire format, packaged inside this
 plugin so the plugin installs and runs standalone.
-"""
+
+Key Functions Index:
+    - ManifestSourceFingerprint.from_dict()
+    - ManifestSourceFingerprint.to_dict()
+    - ChunkMetadata.from_dict()
+    - ChunkMetadata.to_dict()
+    - ManifestChunk.from_dict()
+    - ManifestChunk.to_dict()
+    - ManifestGenerator.from_dict()
+    - ManifestGenerator.to_dict()
+    - Manifest.from_dict()
+    - Manifest.to_dict()
+    - ValidationIssue.from_dict()
+    - ValidationIssue.to_dict()
+    - ValidationReport.from_dict()
+    - ValidationReport.to_dict()
+    - validate()"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -25,11 +49,15 @@ class ManifestSourceFingerprint:
     path: str
     sha256: str
 
+    # Validate and construct a ManifestSourceFingerprint record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "ManifestSourceFingerprint":
+        """Validate and construct a ManifestSourceFingerprint record from a mapping."""
         return cls(path=require(data, "path"), sha256=require(data, "sha256"))
 
+    # Serialize a ManifestSourceFingerprint record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a ManifestSourceFingerprint record as a JSON-compatible mapping."""
         return {"path": self.path, "sha256": self.sha256}
 
 
@@ -56,8 +84,10 @@ class ChunkMetadata:
     # anchor already identified by chunk_id.
     anchors: Optional[list] = None
 
+    # Validate and construct a ChunkMetadata record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "ChunkMetadata":
+        """Validate and construct a ChunkMetadata record from a mapping."""
         schema_version = check_schema_version(data, CHUNK_METADATA_SCHEMA_VERSION, "ChunkMetadata")
         return cls(
             schema_version=schema_version,
@@ -76,7 +106,9 @@ class ChunkMetadata:
             anchors=data.get("anchors"),
         )
 
+    # Serialize a ChunkMetadata record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a ChunkMetadata record as a JSON-compatible mapping."""
         result = {
             "schema_version": self.schema_version,
             "chunk_id": self.chunk_id,
@@ -105,8 +137,10 @@ class ManifestChunk:
     source_order: int
     source_heading_path: list
 
+    # Validate and construct a ManifestChunk record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "ManifestChunk":
+        """Validate and construct a ManifestChunk record from a mapping."""
         return cls(
             chunk_id=require(data, "chunk_id"),
             content_file=require(data, "content_file"),
@@ -115,7 +149,9 @@ class ManifestChunk:
             source_heading_path=list(require(data, "source_heading_path")),
         )
 
+    # Serialize a ManifestChunk record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a ManifestChunk record as a JSON-compatible mapping."""
         return {
             "chunk_id": self.chunk_id,
             "content_file": self.content_file,
@@ -130,14 +166,18 @@ class ManifestGenerator:
     plugin: str
     plugin_version: str
 
+    # Validate and construct a ManifestGenerator record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "ManifestGenerator":
+        """Validate and construct a ManifestGenerator record from a mapping."""
         return cls(
             plugin=require(data, "plugin"),
             plugin_version=require(data, "plugin_version"),
         )
 
+    # Serialize a ManifestGenerator record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a ManifestGenerator record as a JSON-compatible mapping."""
         return {"plugin": self.plugin, "plugin_version": self.plugin_version}
 
 
@@ -155,8 +195,10 @@ class Manifest:
     media: list
     validation_report: str
 
+    # Validate and construct a Manifest record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "Manifest":
+        """Validate and construct a Manifest record from a mapping."""
         schema_version = check_schema_version(data, MANIFEST_SCHEMA_VERSION, "Manifest")
         return cls(
             schema_version=schema_version,
@@ -172,7 +214,9 @@ class Manifest:
             validation_report=require(data, "validation_report"),
         )
 
+    # Serialize a Manifest record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a Manifest record as a JSON-compatible mapping."""
         return {
             "schema_version": self.schema_version,
             "generator": self.generator.to_dict(),
@@ -195,8 +239,10 @@ class ValidationIssue:
     message: str
     path: Optional[str] = None
 
+    # Validate and construct a ValidationIssue record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "ValidationIssue":
+        """Validate and construct a ValidationIssue record from a mapping."""
         return cls(
             severity=require(data, "severity"),
             code=require(data, "code"),
@@ -204,7 +250,9 @@ class ValidationIssue:
             path=data.get("path"),
         )
 
+    # Serialize a ValidationIssue record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a ValidationIssue record as a JSON-compatible mapping."""
         return {
             "severity": self.severity,
             "code": self.code,
@@ -220,8 +268,10 @@ class ValidationReport:
     source_sha256: str
     plan_id: str
 
+    # Validate and construct a ValidationReport record from a mapping.
     @classmethod
     def from_dict(cls, data: dict) -> "ValidationReport":
+        """Validate and construct a ValidationReport record from a mapping."""
         return cls(
             status=require(data, "status"),
             issues=[ValidationIssue.from_dict(i) for i in require(data, "issues")],
@@ -229,7 +279,9 @@ class ValidationReport:
             plan_id=require(data, "plan_id"),
         )
 
+    # Serialize a ValidationReport record as a JSON-compatible mapping.
     def to_dict(self) -> dict:
+        """Serialize a ValidationReport record as a JSON-compatible mapping."""
         return {
             "status": self.status,
             "issues": [i.to_dict() for i in self.issues],

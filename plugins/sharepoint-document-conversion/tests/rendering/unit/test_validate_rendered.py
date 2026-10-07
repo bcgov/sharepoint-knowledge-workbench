@@ -1,6 +1,20 @@
-"""
-test_validate_rendered.py
+"""test_validate_rendered.py
 ===========================
+
+Purpose:
+    Tests for `renderers.validate_rendered` (Task 14): the render validator and `render_and_promote` wiring.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - re
+    - shutil
+    - pathlib
+    - pytest
+    - atomic_output
+    - canonical_schema
+    - canonical_package
+    - renderers
 
 Tests for `renderers.validate_rendered` (Task 14): the render validator and
 `render_and_promote` wiring. Covers every detection in spec Section 9,
@@ -12,7 +26,30 @@ Most tests build a synthetic `CanonicalPackage` (same helper pattern as
 `test_multipage_markdown.py`) and a real staged render via
 `multipage_markdown.render_to_staging`, then corrupt one specific thing
 before validating -- proving each detection in isolation.
-"""
+
+Key Functions Index:
+    - _extract_media_refs()
+    - _metadata()
+    - _manifest_chunk()
+    - _build_synthetic_package()
+    - _staged_render()
+    - test_clean_render_passes()
+    - test_missing_index_detected()
+    - test_missing_pages_dir_detected()
+    - test_broken_index_link_detected()
+    - test_missing_page_detected()
+    - test_orphan_page_detected()
+    - test_page_count_mismatch_detected()
+    - test_broken_local_link_in_page_detected()
+    - test_broken_media_reference_in_page_detected()
+    - test_absolute_media_reference_in_page_detected()
+    - test_traversal_media_reference_in_page_detected()
+    - test_missing_render_result_detected()
+    - test_source_content_staleness_detected()
+    - test_page_content_not_traceable_detected()
+    - test_render_and_promote_promotes_on_pass()
+    - test_prior_accepted_render_survives_failed_new_render()
+    - test_stale_pages_from_prior_render_do_not_survive_promotion()"""
 
 import json
 import re
@@ -54,6 +91,7 @@ OTHER_SHA = "b" * 64
 # ---------------------------------------------------------------------------
 
 def _metadata(chunk_id, heading_path, order, content, local_links=None):
+    """Build chunk metadata with the fields required by the rendering test."""
     return contracts.ChunkMetadata(
         schema_version=contracts.MANIFEST_SCHEMA_VERSION,
         chunk_id=chunk_id,
@@ -71,7 +109,9 @@ def _metadata(chunk_id, heading_path, order, content, local_links=None):
     )
 
 
+# Build a manifest chunk record for the rendered test package.
 def _manifest_chunk(chunk_id, heading_path, order):
+    """Build a manifest chunk record for the rendered test package."""
     return contracts.ManifestChunk(
         chunk_id=chunk_id,
         content_file=f"chunks/{chunk_id}.md",
@@ -81,7 +121,9 @@ def _manifest_chunk(chunk_id, heading_path, order):
     )
 
 
+# Build a synthetic canonical package for renderer integration tests.
 def _build_synthetic_package(tmp_path, chunk_specs, with_media=True, source_sha=FAKE_SHA):
+    """Build a synthetic canonical package for renderer integration tests."""
     package_dir = tmp_path / "canonical-content"
     media_dir = package_dir / "media"
     media_dir.mkdir(parents=True)
@@ -143,6 +185,7 @@ TWO_CHUNK_SPECS = [
 # ---------------------------------------------------------------------------
 
 def test_clean_render_passes(tmp_path):
+    """Verify clean render passes."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
 
@@ -156,6 +199,7 @@ def test_clean_render_passes(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_missing_index_detected(tmp_path):
+    """Verify missing index detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     (staging_dir / "index.md").unlink()
@@ -165,7 +209,9 @@ def test_missing_index_detected(tmp_path):
     assert any(i.code == "missing_index" for i in report.issues)
 
 
+# Verify missing pages dir detected.
 def test_missing_pages_dir_detected(tmp_path):
+    """Verify missing pages dir detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     shutil.rmtree(staging_dir / "pages")
@@ -180,6 +226,7 @@ def test_missing_pages_dir_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_broken_index_link_detected(tmp_path):
+    """Verify broken index link detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     index_path = staging_dir / "index.md"
@@ -196,6 +243,7 @@ def test_broken_index_link_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_missing_page_detected(tmp_path):
+    """Verify missing page detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     (staging_dir / "pages" / "chunk-b.md").unlink()
@@ -205,7 +253,9 @@ def test_missing_page_detected(tmp_path):
     assert any(i.code == "missing_page" for i in report.issues)
 
 
+# Verify orphan page detected.
 def test_orphan_page_detected(tmp_path):
+    """Verify orphan page detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     (staging_dir / "pages" / "chunk-orphan.md").write_text("# Orphan\n")
@@ -220,6 +270,7 @@ def test_orphan_page_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_page_count_mismatch_detected(tmp_path):
+    """Verify page count mismatch detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     (staging_dir / "pages" / "extra-page.md").write_text("# Extra\n")
@@ -234,6 +285,7 @@ def test_page_count_mismatch_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_broken_local_link_in_page_detected(tmp_path):
+    """Verify broken local link in page detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     page_a = staging_dir / "pages" / "chunk-a.md"
@@ -244,7 +296,9 @@ def test_broken_local_link_in_page_detected(tmp_path):
     assert any(i.code == "broken_local_link" for i in report.issues)
 
 
+# Verify broken media reference in page detected.
 def test_broken_media_reference_in_page_detected(tmp_path):
+    """Verify broken media reference in page detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     page_b = staging_dir / "pages" / "chunk-b.md"
@@ -260,6 +314,7 @@ def test_broken_media_reference_in_page_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_absolute_media_reference_in_page_detected(tmp_path):
+    """Verify absolute media reference in page detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     page_b = staging_dir / "pages" / "chunk-b.md"
@@ -270,7 +325,9 @@ def test_absolute_media_reference_in_page_detected(tmp_path):
     assert any(i.code == "path_traversal_or_absolute_reference" for i in report.issues)
 
 
+# Verify traversal media reference in page detected.
 def test_traversal_media_reference_in_page_detected(tmp_path):
+    """Verify traversal media reference in page detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     page_b = staging_dir / "pages" / "chunk-b.md"
@@ -288,6 +345,7 @@ def test_traversal_media_reference_in_page_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_missing_render_result_detected(tmp_path):
+    """Verify missing render result detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     output_root = tmp_path / "rendered_out_missing_result"
     result, staging_dir = mpm.render_to_staging(pkg, output_root)
@@ -298,7 +356,9 @@ def test_missing_render_result_detected(tmp_path):
     assert any(i.code == "missing_render_result" for i in report.issues)
 
 
+# Verify source content staleness detected.
 def test_source_content_staleness_detected(tmp_path):
+    """Verify source content staleness detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS, source_sha=FAKE_SHA)
     _, staging_dir = _staged_render(tmp_path, pkg)
 
@@ -331,6 +391,7 @@ def test_source_content_staleness_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_page_content_not_traceable_detected(tmp_path):
+    """Verify page content not traceable detected."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     _, staging_dir = _staged_render(tmp_path, pkg)
     page_a = staging_dir / "pages" / "chunk-a.md"
@@ -346,6 +407,7 @@ def test_page_content_not_traceable_detected(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_render_and_promote_promotes_on_pass(tmp_path):
+    """Verify render and promote promotes on pass."""
     pkg = _build_synthetic_package(tmp_path, TWO_CHUNK_SPECS)
     output_root = tmp_path / "out"
 
@@ -405,6 +467,7 @@ def test_prior_accepted_render_survives_failed_new_render(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_stale_pages_from_prior_render_do_not_survive_promotion(tmp_path):
+    """Verify stale pages from prior render do not survive promotion."""
     pkg_v1 = _build_synthetic_package(
         tmp_path / "v1",
         [

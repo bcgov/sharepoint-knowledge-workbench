@@ -1,6 +1,23 @@
-"""
-test_sharepoint_aspx.py
+"""test_sharepoint_aspx.py
 ========================
+
+Purpose:
+    Tests for `renderers.sharepoint_aspx` (Phase 6 Task 0.16): the second concrete `Renderer`, producing SharePoint modern-page-ready artifacts (HTML fragments + a page-manifest.json) rather than a raw `.aspx` file -- see `renderers/sharepoint_aspx.py`'s module docstring for why (Phase 3.0 Sec.15: raw `.aspx` upload is `Access denied`; `Add-PnPPage`/ `Add-PnPPageTextPart` is the confirmed working route).
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - dataclasses
+    - inspect
+    - json
+    - shutil
+    - pathlib
+    - unittest
+    - pytest
+    - atomic_output
+    - render_result
+    - canonical_schema
+    - canonical_package
+    - renderers
 
 Tests for `renderers.sharepoint_aspx` (Phase 6 Task 0.16): the second
 concrete `Renderer`, producing SharePoint modern-page-ready artifacts
@@ -13,7 +30,21 @@ Mirrors `test_multipage_markdown.py`'s synthetic-package-builder pattern
 so these tests run fast and don't need a real .docx/pandoc extraction
 pipeline -- only the renderer's own pandoc Markdown->HTML subprocess call
 needs a real `pandoc` on PATH (skipped if unavailable).
-"""
+
+Key Functions Index:
+    - _metadata()
+    - _manifest_chunk()
+    - _build_synthetic_package()
+    - _build_synthetic_grouped_package()
+    - test_renderer_satisfies_protocol()
+    - test_render_signature_has_no_docx_or_plan_parameter()
+    - test_module_never_imports_docx_or_analysis_modules()
+    - test_single_chunk_renders_page_and_manifest()
+    - test_media_copied_into_render_media_dir()
+    - test_local_links_rewritten_to_html_not_md()
+    - test_publication_map_order_overrides_manifest_order()
+    - test_render_to_staging_leaves_output_unpromoted()
+    - test_missing_pandoc_raises_conversion_error()"""
 
 import dataclasses
 import inspect
@@ -43,6 +74,7 @@ FAKE_SHA = "a" * 64
 # ---------------------------------------------------------------------------
 
 def _metadata(chunk_id, heading_path, order, content, local_links=None):
+    """Build chunk metadata with the fields required by the rendering test."""
     return ck_contracts.ChunkMetadata(
         schema_version=ck_contracts.MANIFEST_SCHEMA_VERSION,
         chunk_id=chunk_id,
@@ -60,7 +92,9 @@ def _metadata(chunk_id, heading_path, order, content, local_links=None):
     )
 
 
+# Build a manifest chunk record for the rendered test package.
 def _manifest_chunk(chunk_id, heading_path, order):
+    """Build a manifest chunk record for the rendered test package."""
     return ck_contracts.ManifestChunk(
         chunk_id=chunk_id,
         content_file=f"chunks/{chunk_id}.md",
@@ -70,7 +104,9 @@ def _manifest_chunk(chunk_id, heading_path, order):
     )
 
 
+# Build a synthetic canonical package for renderer integration tests.
 def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
+    """Build a synthetic canonical package for renderer integration tests."""
     package_dir = tmp_path / "canonical-content"
     media_dir = package_dir / "media"
     media_dir.mkdir(parents=True)
@@ -112,7 +148,9 @@ def _build_synthetic_package(tmp_path, chunk_specs, with_media=True):
     )
 
 
+# Build a grouped canonical package with its ordered publication map.
 def _build_synthetic_grouped_package(tmp_path):
+    """Build a grouped canonical package with its ordered publication map."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -143,20 +181,25 @@ def _build_synthetic_grouped_package(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_renderer_satisfies_protocol():
+    """Verify renderer satisfies protocol."""
     renderer = spx.SharePointAspxRenderer()
     assert isinstance(renderer, protocol.Renderer)
     assert renderer.name == "sharepoint-aspx"
     assert ck_contracts.MANIFEST_SCHEMA_VERSION in renderer.supported_manifest_versions
 
 
+# Verify render signature has no DOCX or plan parameter.
 def test_render_signature_has_no_docx_or_plan_parameter():
+    """Verify render signature has no DOCX or plan parameter."""
     sig = inspect.signature(spx.SharePointAspxRenderer.render)
     params = list(sig.parameters)
     assert "docx" not in params and "plan" not in params
     assert params[:3] == ["self", "package", "output_dir"]
 
 
+# Verify module never imports DOCX or analysis modules.
 def test_module_never_imports_docx_or_analysis_modules():
+    """Verify module never imports DOCX or analysis modules."""
     source = Path(spx.__file__).read_text(encoding="utf-8")
     for forbidden in ("import analyze_structure", "import plans", "import convert"):
         assert forbidden not in source
@@ -168,6 +211,7 @@ def test_module_never_imports_docx_or_analysis_modules():
 
 @requires_pandoc
 def test_single_chunk_renders_page_and_manifest(tmp_path):
+    """Verify single chunk renders page and manifest."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["Getting Started"], "# Getting Started\n\nHello.\n", [])],
@@ -196,8 +240,10 @@ def test_single_chunk_renders_page_and_manifest(tmp_path):
     }]
 
 
+# Verify media copied into render media dir.
 @requires_pandoc
 def test_media_copied_into_render_media_dir(tmp_path):
+    """Verify media copied into render media dir."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["Diagrams"], "# Diagrams\n\n![alt](../media/diagram.png)\n", [])],
@@ -211,8 +257,10 @@ def test_media_copied_into_render_media_dir(tmp_path):
     assert "../media/diagram.png" in html
 
 
+# Verify local links rewritten to HTML not md.
 @requires_pandoc
 def test_local_links_rewritten_to_html_not_md(tmp_path):
+    """Verify local links rewritten to HTML not md."""
     pkg = _build_synthetic_package(
         tmp_path,
         [
@@ -228,8 +276,10 @@ def test_local_links_rewritten_to_html_not_md(tmp_path):
     assert "chunks/chunk-b.md" not in html
 
 
+# Verify publication map order overrides manifest order.
 @requires_pandoc
 def test_publication_map_order_overrides_manifest_order(tmp_path):
+    """Verify publication map order overrides manifest order."""
     pkg = _build_synthetic_grouped_package(tmp_path)
     output_dir = tmp_path / "rendered"
     spx.SharePointAspxRenderer().render(pkg, output_dir)
@@ -240,8 +290,10 @@ def test_publication_map_order_overrides_manifest_order(tmp_path):
     ]
 
 
+# Verify render to staging leaves output unpromoted.
 @requires_pandoc
 def test_render_to_staging_leaves_output_unpromoted(tmp_path):
+    """Verify render to staging leaves output unpromoted."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["A"], "# A\n\nBody.\n", [])],
@@ -259,6 +311,7 @@ def test_render_to_staging_leaves_output_unpromoted(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_missing_pandoc_raises_conversion_error(tmp_path):
+    """Verify missing pandoc raises conversion error."""
     pkg = _build_synthetic_package(
         tmp_path,
         [("chunk-a", ["A"], "# A\n\nBody.\n", [])],

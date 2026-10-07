@@ -1,0 +1,1 @@
+../../../references/sharepoint-restore-native-skills-acceptance-criteria.md

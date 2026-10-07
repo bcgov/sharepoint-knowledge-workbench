@@ -1,6 +1,14 @@
-"""
-dependencies.py
+"""dependencies.py
 ================
+
+Purpose:
+    Dependency probing for this plugin's two external system tools: `pandoc` (always required) and `soffice`/LibreOffice (required only when a document contains legacy `.emf`/`.wmf` media that needs conversion).
+
+Key Input Dependencies:
+    - shutil
+    - subprocess
+    - dataclasses
+    - typing
 
 Dependency probing for this plugin's two external system tools: `pandoc`
 (always required) and `soffice`/LibreOffice (required only when a document
@@ -9,7 +17,13 @@ contains legacy `.emf`/`.wmf` media that needs conversion).
 Uses `shutil.which()` to locate an executable on PATH and
 `subprocess.run([exe, "--version"])` to report its version — no
 third-party dependency-detection libraries.
-"""
+
+Key Functions Index:
+    - MissingDependencyError.__init__()
+    - _probe()
+    - probe_pandoc()
+    - probe_soffice()
+    - require_soffice_if_needed()"""
 
 import shutil
 import subprocess
@@ -28,7 +42,9 @@ class DependencyStatus:
 class MissingDependencyError(RuntimeError):
     """Raised when a required external tool is not available on PATH."""
 
+    # Initialize the MissingDependencyError instance with its configured dependencies.
     def __init__(self, dependency_name: str, message: Optional[str] = None):
+        """Initialize the MissingDependencyError instance with its configured dependencies."""
         self.dependency_name = dependency_name
         super().__init__(
             message
@@ -36,7 +52,9 @@ class MissingDependencyError(RuntimeError):
         )
 
 
+# Run a dependency version probe and return its availability, version, and diagnostic details.
 def _probe(name: str, version_flag: str = "--version") -> DependencyStatus:
+    """Run a dependency version probe and return its availability, version, and diagnostic details."""
     path = shutil.which(name)
     if path is None:
         return DependencyStatus(name=name, available=False, path=None, version=None)
@@ -58,11 +76,15 @@ def _probe(name: str, version_flag: str = "--version") -> DependencyStatus:
     return DependencyStatus(name=name, available=True, path=path, version=version)
 
 
+# Check that Pandoc is installed and meets the configured minimum version for DOCX extraction.
 def probe_pandoc() -> DependencyStatus:
+    """Check that Pandoc is installed and meets the configured minimum version for DOCX extraction."""
     return _probe("pandoc")
 
 
+# Check that LibreOffice is available for the configured document-conversion fallback.
 def probe_soffice() -> DependencyStatus:
+    """Check that LibreOffice is available for the configured document-conversion fallback."""
     return _probe("soffice")
 
 

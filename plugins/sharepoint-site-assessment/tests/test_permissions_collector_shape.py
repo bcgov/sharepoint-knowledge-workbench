@@ -1,3 +1,14 @@
+"""
+Purpose: Verify permissions collector output shapes against representative fixtures.
+
+Key Input Dependencies:
+    - pytest, the plugin module under test, and temporary JSON fixtures created by the test cases.
+
+Function index:
+    - test_collector_base_fields_match_fixture_schema
+    - test_collector_supports_both_object_and_list_variants
+"""
+
 import json
 import re
 from pathlib import Path
@@ -6,7 +17,9 @@ FIXTURE = Path(__file__).parent / "fixtures" / "permissions-flat.json"
 COLLECTOR = Path(__file__).parent.parent / "scripts" / "collect-sharepoint-permissions.ps1"
 
 
+# Collector base fields match fixture schema.
 def test_collector_base_fields_match_fixture_schema():
+    """Collector base fields match fixture schema."""
     fixture_records = json.loads(FIXTURE.read_text(encoding="utf-8"))
     base_fields = {"webUrl", "principalTitle", "permissionLevels"}
 
@@ -25,7 +38,9 @@ def test_collector_base_fields_match_fixture_schema():
     assert fixture_all_keys - base_fields <= {"objectTitle", "listName"}
 
 
+# Collector supports both object and list variants.
 def test_collector_supports_both_object_and_list_variants():
+    """Collector supports both object and list variants."""
     collector_source = COLLECTOR.read_text(encoding="utf-8")
     assert '"objectTitle"' in collector_source or "objectTitle" in collector_source
     assert '"listName"' in collector_source or "listName" in collector_source

@@ -1,0 +1,1 @@
+../../../references/content-publication/sharepoint-publish-markdown-files-acceptance-criteria.md

@@ -13,6 +13,15 @@ function call -- so a malformed or hostile rule is recorded in
 
 Layer: CLI entry point, invoked as a real subprocess by the pipeline (and by
 this plugin's own tests).
+
+Key Input Dependencies:
+    - Component-model JSON supplied with --input.
+    - Layout rules JSON supplied with --rules or bundled in assets/layout-rules.json.
+
+Function Index:
+    _eval_boolean, _eval_comparison, _eval_binary, _eval_name,
+    _eval_constant, _eval_node, safe_eval_condition, _compute_counts,
+    select_layout, main
 """
 
 from __future__ import annotations
@@ -50,42 +59,68 @@ class UnsafeConditionError(ValueError):
     """Raised when a rule condition contains a node this evaluator refuses to evaluate."""
 
 
+def _eval_boolean(node: ast.BoolOp, variables: dict):
+    """Evaluate supported boolean operands using the existing eager semantics."""
+    op = _BOOL_OPS.get(type(node.op))
+    if op is None:
+        raise UnsafeConditionError(f"unsupported boolean operator: {type(node.op).__name__}")
+    values = [_eval_node(value, variables) for value in node.values]
+    result = values[0]
+    for value in values[1:]:
+        result = op(result, value)
+    return result
+
+
+def _eval_comparison(node: ast.Compare, variables: dict):
+    """Evaluate a chained comparison, stopping after its first false pair."""
+    left = _eval_node(node.left, variables)
+    for operator, comparator in zip(node.ops, node.comparators):
+        compare = _CMP_OPS.get(type(operator))
+        if compare is None:
+            raise UnsafeConditionError(f"unsupported comparison operator: {type(operator).__name__}")
+        right = _eval_node(comparator, variables)
+        if not compare(left, right):
+            return False
+        left = right
+    return True
+
+
+def _eval_binary(node: ast.BinOp, variables: dict):
+    """Evaluate an explicitly supported arithmetic expression."""
+    op = _BIN_OPS.get(type(node.op))
+    if op is None:
+        raise UnsafeConditionError(f"unsupported binary operator: {type(node.op).__name__}")
+    return op(_eval_node(node.left, variables), _eval_node(node.right, variables))
+
+
+def _eval_name(node: ast.Name, variables: dict):
+    """Resolve a rule variable or reject an undeclared name."""
+    if node.id not in variables:
+        raise UnsafeConditionError(f"unknown variable: {node.id}")
+    return variables[node.id]
+
+
+def _eval_constant(node: ast.Constant):
+    """Return a primitive literal accepted by the rule-expression grammar."""
+    if isinstance(node.value, (int, float, bool, str)) or node.value is None:
+        return node.value
+    raise UnsafeConditionError(f"unsupported constant type: {type(node.value).__name__}")
+
+
 def _eval_node(node: ast.AST, variables: dict):
+    """Dispatch a parsed expression node to its restricted evaluator."""
     if isinstance(node, ast.Expression):
         return _eval_node(node.body, variables)
     if isinstance(node, ast.BoolOp):
-        op = _BOOL_OPS.get(type(node.op))
-        if op is None:
-            raise UnsafeConditionError(f"unsupported boolean operator: {type(node.op).__name__}")
-        values = [_eval_node(v, variables) for v in node.values]
-        result = values[0]
-        for v in values[1:]:
-            result = op(result, v)
-        return result
+        return _eval_boolean(node, variables)
     if isinstance(node, ast.Compare):
-        left = _eval_node(node.left, variables)
-        for op, comparator in zip(node.ops, node.comparators):
-            cmp_fn = _CMP_OPS.get(type(op))
-            if cmp_fn is None:
-                raise UnsafeConditionError(f"unsupported comparison operator: {type(op).__name__}")
-            right = _eval_node(comparator, variables)
-            if not cmp_fn(left, right):
-                return False
-            left = right
-        return True
+        return _eval_comparison(node, variables)
     if isinstance(node, ast.BinOp):
-        op = _BIN_OPS.get(type(node.op))
-        if op is None:
-            raise UnsafeConditionError(f"unsupported binary operator: {type(node.op).__name__}")
-        return op(_eval_node(node.left, variables), _eval_node(node.right, variables))
+        return _eval_binary(node, variables)
     if isinstance(node, ast.Name):
-        if node.id not in variables:
-            raise UnsafeConditionError(f"unknown variable: {node.id}")
-        return variables[node.id]
+        return _eval_name(node, variables)
     if isinstance(node, ast.Constant):
-        if isinstance(node.value, (int, float, bool, str)) or node.value is None:
-            return node.value
-        raise UnsafeConditionError(f"unsupported constant type: {type(node.value).__name__}")
+        return _eval_constant(node)
     raise UnsafeConditionError(f"unsupported expression node: {type(node).__name__}")
 
 
@@ -100,6 +135,7 @@ def safe_eval_condition(condition: str, variables: dict):
 
 
 def _compute_counts(components: "list[dict]") -> dict:
+    """Count component roles and types used by the layout-rule variables."""
     primary_count = sum(1 for c in components if c.get("role") == "Primary")
     secondary_count = sum(1 for c in components if c.get("role") == "Secondary")
     child_count = sum(1 for c in components if c.get("role") == "Child")
@@ -119,6 +155,7 @@ def _compute_counts(components: "list[dict]") -> dict:
 
 
 def select_layout(components: "list[dict]", rules: dict, rules_source: str) -> dict:
+    """Choose the first safe matching layout rule and report skipped rules."""
     counts = _compute_counts(components)
     skipped_rules = []
     selected = None
@@ -168,6 +205,7 @@ def select_layout(components: "list[dict]", rules: dict, rules_source: str) -> d
 
 
 def main(argv: "list[str] | None" = None) -> int:
+    """Read a component model and rules, then write one layout decision."""
     parser = argparse.ArgumentParser(description="Select a modern layout for a classified component model.")
     parser.add_argument("--input", required=True)
     parser.add_argument("--rules")

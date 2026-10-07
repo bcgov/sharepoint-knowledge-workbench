@@ -1,13 +1,37 @@
-"""
-test_validate_canonical_mutations.py
+"""test_validate_canonical_mutations.py
 ======================================
+
+Purpose:
+    Layer-1 mutation suite (Phase 2, spec Section 5.1): takes a known-good canonical package, deliberately corrupts it one way at a time, and asserts validate_canonical_package's status/issue-code for each -- proving the validator actually catches each corruption, not just "doesn't currently fail by accident." Each test name states the artifact/field mutated.
+
+Key Input Dependencies:
+    - pytest and the plugin-local tests in this namespace
+    - json
+    - importlib.util
+    - pathlib
+    - validate_canonical
 
 Layer-1 mutation suite (Phase 2, spec Section 5.1): takes a known-good
 canonical package, deliberately corrupts it one way at a time, and asserts
 validate_canonical_package's status/issue-code for each -- proving the
 validator actually catches each corruption, not just "doesn't currently
 fail by accident." Each test name states the artifact/field mutated.
-"""
+
+Key Functions Index:
+    - test_deleted_media_file_is_detected()
+    - test_absolute_media_reference_is_detected()
+    - test_removed_publication_map_entry_is_detected()
+    - test_duplicate_publication_map_entry_is_detected()
+    - test_non_contiguous_publication_map_order_is_detected()
+    - test_manifest_plan_id_mismatch_is_detected()
+    - test_duplicate_manifest_chunk_content_path_is_detected()
+    - test_orphan_media_file_is_detected()
+    - test_encoded_traversal_media_reference_is_detected()
+    - test_malformed_chunk_sidecar_json_is_a_controlled_validation_error()
+    - test_publication_map_order_as_string_is_a_controlled_validation_error()
+    - test_empty_publication_map_entries_for_nonempty_grouped_package_is_detected()
+    - test_deleted_media_file_detection_actually_depends_on_check_media_references()
+    - test_content_comparison_skip_detection_actually_depends_on_its_own_check()"""
 
 import json
 import importlib.util
@@ -32,7 +56,9 @@ except Exception:
     _load_plan_used_to_build = _mod._load_plan_used_to_build
 
 
+# Verify deleted media file is detected.
 def test_deleted_media_file_is_detected(tmp_path):
+    """Verify deleted media file is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, with_media=True)
     media_file = next((package_dir / "media").iterdir())
     media_file.unlink()
@@ -44,7 +70,9 @@ def test_deleted_media_file_is_detected(tmp_path):
     assert any(i.code == "broken_media_reference" for i in report.issues)
 
 
+# Verify absolute media reference is detected.
 def test_absolute_media_reference_is_detected(tmp_path):
+    """Verify absolute media reference is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, with_media=True)
     chunk_path = next((package_dir / "chunks").glob("*.md"))
     text = chunk_path.read_text()
@@ -57,7 +85,9 @@ def test_absolute_media_reference_is_detected(tmp_path):
     assert any(i.code == "path_traversal_or_absolute_reference" for i in report.issues)
 
 
+# Verify removed publication map entry is detected.
 def test_removed_publication_map_entry_is_detected(tmp_path):
+    """Verify removed publication map entry is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, strategy="grouped")
     pub_map_path = package_dir / "publication-map.json"
     data = json.loads(pub_map_path.read_text())
@@ -71,7 +101,9 @@ def test_removed_publication_map_entry_is_detected(tmp_path):
     assert any(i.code == "publication_map_chunk_mismatch" for i in report.issues)
 
 
+# Verify duplicate publication map entry is detected.
 def test_duplicate_publication_map_entry_is_detected(tmp_path):
+    """Verify duplicate publication map entry is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, strategy="grouped")
     pub_map_path = package_dir / "publication-map.json"
     data = json.loads(pub_map_path.read_text())
@@ -88,7 +120,9 @@ def test_duplicate_publication_map_entry_is_detected(tmp_path):
     )
 
 
+# Verify non contiguous publication map order is detected.
 def test_non_contiguous_publication_map_order_is_detected(tmp_path):
+    """Verify non contiguous publication map order is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, strategy="grouped")
     pub_map_path = package_dir / "publication-map.json"
     data = json.loads(pub_map_path.read_text())
@@ -102,7 +136,9 @@ def test_non_contiguous_publication_map_order_is_detected(tmp_path):
     assert any(i.code == "publication_map_order_invalid" for i in report.issues)
 
 
+# Verify manifest plan ID mismatch is detected.
 def test_manifest_plan_id_mismatch_is_detected(tmp_path):
+    """Verify manifest plan ID mismatch is detected."""
     package_dir = _build_minimal_valid_package(tmp_path)
     manifest_path = package_dir / "manifest.json"
     data = json.loads(manifest_path.read_text())
@@ -116,12 +152,14 @@ def test_manifest_plan_id_mismatch_is_detected(tmp_path):
     assert any(i.code == "plan_fingerprint_mismatch" for i in report.issues)
 
 
+# Verify duplicate manifest chunk content path is detected.
 def test_duplicate_manifest_chunk_content_path_is_detected(tmp_path):
     # Round-3 review (GPT 5.6 blocking #6) caught that a single-chunk
     # fixture makes `data["chunks"][0] == data["chunks"][-1]` the SAME
     # entry -- overwriting a path with itself introduces no duplicate and
     # proves nothing. This fixture must have >= 2 chunks with genuinely
     # different paths BEFORE the mutation, asserted explicitly.
+    """Verify duplicate manifest chunk content path is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, chunk_count=2)
     manifest_path = package_dir / "manifest.json"
     data = json.loads(manifest_path.read_text())
@@ -139,7 +177,9 @@ def test_duplicate_manifest_chunk_content_path_is_detected(tmp_path):
     assert any(i.code == "duplicate_content_path" for i in report.issues)
 
 
+# Verify orphan media file is detected.
 def test_orphan_media_file_is_detected(tmp_path):
+    """Verify orphan media file is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, with_media=True)
     (package_dir / "media" / "orphan.png").write_bytes(b"not-referenced")
 
@@ -150,7 +190,9 @@ def test_orphan_media_file_is_detected(tmp_path):
     assert any(i.code == "orphan_media_file" for i in report.issues)
 
 
+# Verify encoded traversal media reference is detected.
 def test_encoded_traversal_media_reference_is_detected(tmp_path):
+    """Verify encoded traversal media reference is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, with_media=True)
     chunk_path = next((package_dir / "chunks").glob("*.md"))
     text = chunk_path.read_text()
@@ -162,7 +204,9 @@ def test_encoded_traversal_media_reference_is_detected(tmp_path):
     assert report.status == "FAIL"
 
 
+# Verify malformed chunk sidecar JSON is a controlled validation error.
 def test_malformed_chunk_sidecar_json_is_a_controlled_validation_error(tmp_path):
+    """Verify malformed chunk sidecar JSON is a controlled validation error."""
     package_dir = _build_minimal_valid_package(tmp_path)
     meta_path = next((package_dir / "chunks").glob("*.meta.json"))
     meta_path.write_text("{not valid json")
@@ -174,7 +218,9 @@ def test_malformed_chunk_sidecar_json_is_a_controlled_validation_error(tmp_path)
     assert any(i.code == "malformed_json" for i in report.issues)
 
 
+# Verify publication map order as string is a controlled validation error.
 def test_publication_map_order_as_string_is_a_controlled_validation_error(tmp_path):
+    """Verify publication map order as string is a controlled validation error."""
     package_dir = _build_minimal_valid_package(tmp_path, strategy="grouped")
     pub_map_path = package_dir / "publication-map.json"
     data = json.loads(pub_map_path.read_text())
@@ -187,7 +233,9 @@ def test_publication_map_order_as_string_is_a_controlled_validation_error(tmp_pa
     assert report.status == "FAIL"
 
 
+# Verify empty publication map entries for nonempty grouped package is detected.
 def test_empty_publication_map_entries_for_nonempty_grouped_package_is_detected(tmp_path):
+    """Verify empty publication map entries for nonempty grouped package is detected."""
     package_dir = _build_minimal_valid_package(tmp_path, strategy="grouped", chunk_count=2)
     pub_map_path = package_dir / "publication-map.json"
     data = json.loads(pub_map_path.read_text())

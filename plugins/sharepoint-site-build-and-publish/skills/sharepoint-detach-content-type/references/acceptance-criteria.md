@@ -1,0 +1,1 @@
+../../../references/provisioning/sharepoint-detach-content-type-acceptance-criteria.md

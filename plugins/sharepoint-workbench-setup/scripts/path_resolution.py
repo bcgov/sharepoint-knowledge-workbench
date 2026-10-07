@@ -1,4 +1,11 @@
-"""
+"""Purpose:
+    Resolve configured downstream invocations to real export paths without executing them.
+
+Key Input Dependencies:
+    - DocumentId, connection, workflow-profile, and publication-profile mappings
+    - <workbench_root>/sharepoint-exports/<DocumentId>/* files
+    - DOWNSTREAM_INVOCATIONS registry
+
 path_resolution.py
 ====================
 
@@ -52,6 +59,18 @@ no conditional branching on profile contents beyond `DocumentId`
 matching, no state machine, no execution ordering. If a caller needs
 that kind of orchestration, this module has been outgrown by design
 (see the design spec's "What this deliberately does NOT do").
+
+Function Index:
+    - InvocationSpec
+    - ResolvedInvocation
+    - ResolvedInvocation.missing_args
+    - PathResolutionResult
+    - _spec_for
+    - _validate_document_id
+    - _resolve_invocation
+    - _overall_status
+    - resolve_workbench_paths
+    - format_invocations
 """
 
 from __future__ import annotations
@@ -66,8 +85,10 @@ from pathlib import Path
 # skill's own SKILL.md "Usage" section.
 # ---------------------------------------------------------------------------
 
+# Define a downstream plugin/skill target and the export filenames its invocation requires.
 @dataclass(frozen=True)
 class InvocationSpec:
+    """Define a downstream plugin/skill target and the export filenames its invocation requires."""
     plugin: str
     skill: str
     export_subdir: str
@@ -192,8 +213,10 @@ DOWNSTREAM_INVOCATIONS: "tuple[InvocationSpec, ...]" = (
 # Resolution result shapes
 # ---------------------------------------------------------------------------
 
+# Record one downstream skill status, its existing argument paths, and missing exports.
 @dataclass
 class ResolvedInvocation:
+    """Record one downstream skill status, its existing argument paths, and missing exports."""
     plugin: str
     skill: str
     status: str  # "AVAILABLE" | "PARTIAL" | "UNAVAILABLE"
@@ -210,18 +233,68 @@ class ResolvedInvocation:
         ]
 
 
+# Summarize the resolution status and invocations for one document.
 @dataclass
 class PathResolutionResult:
+    """Summarize the resolution status and invocations for one document."""
     document_id: str
     overall_status: str  # "PASS" | "PARTIAL" | "EMPTY"
     invocations: "list[ResolvedInvocation]" = field(default_factory=list)
 
 
+# Return the registry specification for the requested plugin and skill pair.
 def _spec_for(plugin: str, skill: str) -> InvocationSpec:
+    """Return the registry specification for the requested plugin and skill pair."""
     for spec in DOWNSTREAM_INVOCATIONS:
         if spec.plugin == plugin and spec.skill == skill:
             return spec
     raise KeyError(f"no registry entry for {plugin}/{skill}")
+
+
+def _validate_document_id(document_id: str, profile_name: str, profile: dict) -> None:
+    """Reject a profile that explicitly names a different document."""
+    profile_document_id = profile.get("Document", {}).get("DocumentId")
+    if profile_document_id and profile_document_id != document_id:
+        raise ValueError(
+            f"document_id={document_id!r} does not match {profile_name}'s "
+            f"Document.DocumentId={profile_document_id!r}"
+        )
+
+
+def _resolve_invocation(spec: InvocationSpec, export_root: Path) -> ResolvedInvocation:
+    """Resolve one registry entry against the filesystem and report missing files."""
+    subdir = export_root / spec.export_subdir
+    args = {}
+    missing = []
+    for path_entry in spec.required_paths:
+        candidate = subdir / path_entry["filename"]
+        if candidate.exists():
+            args[path_entry["arg"]] = candidate
+        else:
+            missing.append(path_entry["filename"])
+
+    if not missing:
+        status = "AVAILABLE"
+    elif args:
+        status = "PARTIAL"
+    else:
+        status = "UNAVAILABLE"
+    return ResolvedInvocation(
+        plugin=spec.plugin,
+        skill=spec.skill,
+        status=status,
+        args=args,
+        missing=missing,
+    )
+
+
+def _overall_status(invocations: list[ResolvedInvocation]) -> str:
+    """Summarize per-invocation statuses without inventing availability."""
+    if all(invocation.status == "AVAILABLE" for invocation in invocations):
+        return "PASS"
+    if all(invocation.status == "UNAVAILABLE" for invocation in invocations):
+        return "EMPTY"
+    return "PARTIAL"
 
 
 # ---------------------------------------------------------------------------
@@ -254,50 +327,12 @@ def resolve_workbench_paths(
     overall result is `PASS` (every invocation `AVAILABLE`), `EMPTY`
     (no invocation has anything present), or `PARTIAL` otherwise.
     """
-    workflow_document_id = workflow_profile.get("Document", {}).get("DocumentId")
-    if workflow_document_id and workflow_document_id != document_id:
-        raise ValueError(
-            f"document_id={document_id!r} does not match workflow_profile's "
-            f"Document.DocumentId={workflow_document_id!r}"
-        )
-    publication_document_id = publication_profile.get("Document", {}).get("DocumentId")
-    if publication_document_id and publication_document_id != document_id:
-        raise ValueError(
-            f"document_id={document_id!r} does not match publication_profile's "
-            f"Document.DocumentId={publication_document_id!r}"
-        )
+    _validate_document_id(document_id, "workflow_profile", workflow_profile)
+    _validate_document_id(document_id, "publication_profile", publication_profile)
 
     export_root = Path(workbench_root) / "sharepoint-exports" / document_id
-
-    invocations = []
-    for spec in DOWNSTREAM_INVOCATIONS:
-        subdir = export_root / spec.export_subdir
-        args = {}
-        missing = []
-        for path_entry in spec.required_paths:
-            candidate = subdir / path_entry["filename"]
-            if candidate.exists():
-                args[path_entry["arg"]] = candidate
-            else:
-                missing.append(path_entry["filename"])
-
-        if not missing:
-            status = "AVAILABLE"
-        elif args:
-            status = "PARTIAL"
-        else:
-            status = "UNAVAILABLE"
-
-        invocations.append(ResolvedInvocation(
-            plugin=spec.plugin, skill=spec.skill, status=status, args=args, missing=missing,
-        ))
-
-    if all(inv.status == "AVAILABLE" for inv in invocations):
-        overall_status = "PASS"
-    elif all(inv.status == "UNAVAILABLE" for inv in invocations):
-        overall_status = "EMPTY"
-    else:
-        overall_status = "PARTIAL"
+    invocations = [_resolve_invocation(spec, export_root) for spec in DOWNSTREAM_INVOCATIONS]
+    overall_status = _overall_status(invocations)
 
     return PathResolutionResult(
         document_id=document_id, overall_status=overall_status, invocations=invocations,

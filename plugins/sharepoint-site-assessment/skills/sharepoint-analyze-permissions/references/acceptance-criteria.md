@@ -1,0 +1,1 @@
+../../../references/sharepoint-analyze-permissions-acceptance-criteria.md

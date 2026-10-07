@@ -16,6 +16,16 @@ the caller. A field whose `Choices` property is entirely absent has an
 unknown option set and is reported as such (`choices_known is False`,
 with an ambiguity recorded) rather than being silently treated as having
 zero choices.
+
+Key Input Dependencies:
+    - Caller-supplied SharePoint discovery exports and the plugin-local schema/analysis modules used by this script.
+
+Function index:
+    - ChoiceField
+    - ChoiceFieldInventory
+    - _extract_choices
+    - inventory_choice_fields
+    - to_overrides_mapping
 """
 
 from __future__ import annotations
@@ -28,8 +38,10 @@ from schema_export import SchemaExport, SectionStatus
 _CHOICE_TYPES = ("Choice", "MultiChoice")
 
 
+# Represent one Choice or MultiChoice field and whether its option set was observed.
 @dataclass(frozen=True)
 class ChoiceField:
+    """Represent one Choice or MultiChoice field and whether its option set was observed."""
     list_key: str
     internal_name: str
     type_as_string: str
@@ -37,14 +49,18 @@ class ChoiceField:
     choices_known: bool
 
 
+# Report choice fields, unknown option sets, and the overall inventory status.
 @dataclass(frozen=True)
 class ChoiceFieldInventory:
+    """Report choice fields, unknown option sets, and the overall inventory status."""
     fields: tuple = ()
     ambiguities: tuple = ()
     status: SectionStatus = SectionStatus.UNAVAILABLE
 
 
+# Read supported SharePoint choice envelopes without confusing unknown choices with an empty set.
 def _extract_choices(item: dict):
+    """Read supported SharePoint choice envelopes without confusing unknown choices with an empty set."""
     if "Choices" not in item:
         return (), False
     raw = item["Choices"]

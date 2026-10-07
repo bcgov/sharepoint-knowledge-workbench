@@ -33,6 +33,11 @@ Layer: sharepoint-site-build-and-publish / deployment-order planning
 
 Key Input Dependencies:
     - provisioning_outcomes.Outcome (shared honest-outcome vocabulary)
+
+Function Index:
+    DeploymentObject.to_dict, WavePlan.to_dict, _index_objects,
+    _ready_object_names, plan_waves
+
 """
 
 from __future__ import annotations
@@ -74,6 +79,7 @@ class DeploymentObject:
     depends_on: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the deployment object's name, type, and dependency names."""
         return {
             "name": self.name,
             "object_type": self.object_type,
@@ -93,6 +99,7 @@ class WavePlan:
     outcome: str = Outcome.EMPTY
 
     def to_dict(self) -> dict[str, Any]:
+        """Serialize the complete ordered plan and any blocking findings."""
         return {
             "outcome": self.outcome,
             "stages": [[obj.to_dict() for obj in stage] for stage in self.stages],
@@ -100,15 +107,10 @@ class WavePlan:
         }
 
 
-def plan_waves(objects: Sequence[DeploymentObject]) -> WavePlan:
-    """Compute a deployment wave plan from a caller-supplied list of
-    ``DeploymentObject``s via Kahn's algorithm. Never raises for a bad input
-    graph -- an unresolved dependency or a cycle is reported honestly as a
-    ``Outcome.FAILED`` plan with ``blocking_findings`` describing exactly
-    what is wrong, never silently dropped, guessed, or mis-ordered."""
-    if not objects:
-        return WavePlan(stages=(), blocking_findings=(), outcome=Outcome.EMPTY)
-
+def _index_objects(
+    objects: Sequence[DeploymentObject],
+) -> tuple[dict[str, DeploymentObject], list[str]]:
+    """Index unique object names and report duplicate or unresolved references."""
     blocking_findings: list[str] = []
     seen_names: set[str] = set()
     by_name: dict[str, DeploymentObject] = {}
@@ -120,15 +122,37 @@ def plan_waves(objects: Sequence[DeploymentObject]) -> WavePlan:
         else:
             seen_names.add(obj.name)
             by_name[obj.name] = obj
-
     for obj in objects:
-        for dep in obj.depends_on:
-            if dep not in by_name:
+        for dependency in obj.depends_on:
+            if dependency not in by_name:
                 blocking_findings.append(
-                    f"UNRESOLVED DEPENDENCY: '{obj.name}' depends on '{dep}', which is "
+                    f"UNRESOLVED DEPENDENCY: '{obj.name}' depends on '{dependency}', which is "
                     "not present in the supplied object list"
                 )
+    return by_name, blocking_findings
 
+
+def _ready_object_names(
+    remaining: dict[str, DeploymentObject], placed: set[str]
+) -> list[str]:
+    """Return sorted unplaced names whose dependencies are already satisfied."""
+    return sorted(
+        name
+        for name, obj in remaining.items()
+        if all(dependency in placed for dependency in obj.depends_on)
+    )
+
+
+def plan_waves(objects: Sequence[DeploymentObject]) -> WavePlan:
+    """Compute a deployment wave plan from a caller-supplied list of
+    ``DeploymentObject``s via Kahn's algorithm. Never raises for a bad input
+    graph -- an unresolved dependency or a cycle is reported honestly as a
+    ``Outcome.FAILED`` plan with ``blocking_findings`` describing exactly
+    what is wrong, never silently dropped, guessed, or mis-ordered."""
+    if not objects:
+        return WavePlan(stages=(), blocking_findings=(), outcome=Outcome.EMPTY)
+
+    by_name, blocking_findings = _index_objects(objects)
     if blocking_findings:
         return WavePlan(stages=(), blocking_findings=tuple(blocking_findings), outcome=Outcome.FAILED)
 
@@ -138,11 +162,7 @@ def plan_waves(objects: Sequence[DeploymentObject]) -> WavePlan:
     placed: set[str] = set()
 
     while remaining:
-        ready = sorted(
-            name
-            for name, obj in remaining.items()
-            if all(dep in placed for dep in obj.depends_on)
-        )
+        ready = _ready_object_names(remaining, placed)
         if not ready:
             cycle_members = sorted(remaining.keys())
             blocking_findings.append(

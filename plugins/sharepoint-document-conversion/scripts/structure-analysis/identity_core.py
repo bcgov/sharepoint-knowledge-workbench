@@ -1,6 +1,13 @@
-"""
-identity_core.py
+"""identity_core.py
 =================
+
+Purpose:
+    Stable structural chunk identity (spec Section 6.6, "Stable chunk identity").
+
+Key Input Dependencies:
+    - hashlib
+    - re
+    - unicodedata
 
 Stable structural chunk identity (spec Section 6.6, "Stable chunk
 identity"). A chunk ID must not depend on ordinal position alone. It is
@@ -31,7 +38,13 @@ Self-contained (stdlib-only hashing) rather than importing
 `document-structure-analysis`'s own `plan_hashing.py`, so this module can be
 symlinked into another plugin without pulling in a second cross-plugin
 dependency.
-"""
+
+Key Functions Index:
+    - _content_hash()
+    - _slugify_component()
+    - normalize_heading_path()
+    - make_chunk_id()
+    - make_topic_id()"""
 
 import hashlib
 import re
@@ -40,7 +53,9 @@ import unicodedata
 _HASH_LENGTH = 8
 
 
+# Compute the SHA-256 digest of the supplied source content.
 def _content_hash(data: bytes) -> str:
+    """Compute the SHA-256 digest of the supplied source content."""
     return hashlib.sha256(data).hexdigest()
 
 

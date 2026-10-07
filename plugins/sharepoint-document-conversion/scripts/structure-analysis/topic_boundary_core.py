@@ -1,6 +1,12 @@
-"""
-topic_boundary_core.py
+"""topic_boundary_core.py
 ========================
+
+Purpose:
+    Deterministic topic-boundary computation for the "grouped" chunking strategy (including mixed-level logical-root detection).
+
+Key Input Dependencies:
+    - dataclasses
+    - identity_core
 
 Deterministic topic-boundary computation for the "grouped" chunking
 strategy (including mixed-level logical-root detection).
@@ -31,7 +37,12 @@ is the convert-time function that consumes an explicit, human-confirmed
 root set (persisted on the plan) instead of recomputing the heuristic --
 convert must never independently re-derive a classification the human
 never saw.
-"""
+
+Key Functions Index:
+    - classify_headings()
+    - _boundaries_from_flags()
+    - compute_topic_boundaries()
+    - compute_topic_boundaries_from_roots()"""
 
 from dataclasses import dataclass, field
 
@@ -144,7 +155,9 @@ def classify_headings(headings: list) -> list:
     return results
 
 
+# Create ordered TopicBoundary records from classified headings and their physical-boundary flags.
 def _boundaries_from_flags(headings: list, physical_boundary_flags: list) -> list:
+    """Create ordered TopicBoundary records from classified headings and their physical-boundary flags."""
     boundaries = []
     current = None
     for heading, is_root in zip(headings, physical_boundary_flags):
