@@ -14,7 +14,7 @@ Plans promotion of an existing SharePoint Online Site Page from a source SPO sit
 ## Steps
 
 1. Confirm the source site URL, target site URL, page library, source page name, target page name and overwrite expectation.
-2. Build the page-to-page copy plan with `scripts/page-modernization-execution/spo-page-copy-plan.ps1`: `-SourcePageUrl` and `-TargetPageUrl` (full URLs under `/SitePages/`); `-Overwrite` only when the target page may be replaced.
+2. Build the page-to-page copy plan with `scripts/page-modernization-execution/spo-copy-page.ps1`: `-SourcePageUrl` and `-TargetPageUrl` (full URLs under `/SitePages/`); `-Overwrite` only when the target page may be replaced.
 3. Present the generated plan and the recommended human-run execution approach.
 4. Do not run live tenant write commands automatically.
 

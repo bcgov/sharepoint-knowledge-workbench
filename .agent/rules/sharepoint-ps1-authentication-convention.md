@@ -14,7 +14,7 @@ follow their own documented certificate flow instead, not this one.
 
 Reference implementation:
 `plugins/sharepoint-workbench-setup/scripts/test-spo-connection.ps1` (baseline) and
-`plugins/sharepoint-site-migration/scripts/page-modernization-execution/spo-page-copy-plan.ps1` (baseline +
+`plugins/sharepoint-site-migration/scripts/page-modernization-execution/spo-copy-page.ps1` (baseline +
 `TenantAdminUrl`).
 
 ### The pattern
@@ -52,7 +52,7 @@ Reference implementation:
 
 ### Why
 
-**Incident (2026-08-11):** `spo-page-copy-plan.ps1`'s `-Execute` path called `Copy-PnPPage` after
+**Incident (2026-08-11):** `spo-copy-page.ps1`'s `-Execute` path called `Copy-PnPPage` after
 connecting only to the source site, with no `-TenantAdminUrl`. It failed against the real tenant
 (`<tenant>.sharepoint.com`) with "Unable to connect to the SharePoint Online Admin Center ... Attempted
 to perform an unauthorized operation" — not a script logic bug, but a missing standard-auth

@@ -89,7 +89,7 @@ During real tenant validation, the following cmdlet discrepancies were identifie
 1. **`Publish-PnPPage` vs `Set-PnPPage -Publish`**:
    - **Discrepancy**: PnP.PowerShell has no standalone `Publish-PnPPage` cmdlet. Publishing a modern page requires `Set-PnPPage -Identity "<page>" -Publish` (or `Save-PnPPage -Publish`).
    - **Affected plugin files**:
-     - `plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-upload-plan.ps1` (Line 131)
+     - `plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-publish-modern-page.ps1` (Line 131)
      - `plugins/sharepoint-site-build-and-publish/scripts/content-publication/sharepoint_upload.py`
      - Associated `SKILL.md` docstrings.
 
@@ -144,8 +144,8 @@ Every `.ps1` script across the 16 plugins will be aligned using the 3-step stand
 - [ ] `spo-detach-content-type.ps1` — Add explicit connection parameter overrides.
 
 ### 9.3. `plugins/sharepoint-site-build-and-publish`
-- [x] `spo-upload-plan.ps1` — Replaced invalid `Publish-PnPPage` with `Set-PnPPage -Identity "<page>" -Publish` and added `finally { Disconnect-PnPOnline }`.
-- [ ] `spo-publish-markdown-plan.ps1` — Add explicit connection overrides and verify checkout/checkin discipline.
+- [x] `spo-publish-modern-page.ps1` — Replaced invalid `Publish-PnPPage` with `Set-PnPPage -Identity "<page>" -Publish` and added `finally { Disconnect-PnPOnline }`.
+- [ ] `spo-upload-file.ps1` — Add explicit connection overrides and verify checkout/checkin discipline.
 - [ ] `spo-validate-publication-deployment.ps1` — Add explicit connection parameter overrides.
 - [ ] `spo-rollback-publication.ps1` — Add explicit connection parameter overrides.
 - [ ] `Get-WorkbenchConnectionConfig.ps1` — Ensure multi-tier path probing (`$PWD`, parent directories).

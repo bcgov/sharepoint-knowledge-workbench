@@ -2,8 +2,8 @@
 
 Producer: `sharepoint-document-conversion`'s SharePointAspxRenderer writes `page-manifest.json` plus one HTML fragment per
 page (a golden copy of its real output is in fixtures/rendered-output/). Planner: `build_page_publish_plan_from_render`.
-Executor: `spo-upload-plan.ps1`, which injects each action's source_path file, unchanged, into a text web part.
-The Markdown flow (`build_markdown_publish_plan`, `spo-publish-markdown-plan.ps1`) is a separate route and is unchanged.
+Executor: `spo-publish-modern-page.ps1`, which injects each action's source_path file, unchanged, into a text web part.
+The Markdown flow (`build_markdown_publish_plan`, `spo-upload-file.ps1`) is a separate route and is unchanged.
 
 Purpose:
     Verify the renderer manifest, publish planner, and upload executor preserve the page-publication contract.
@@ -33,8 +33,8 @@ from sharepoint_publish_plan import (  # noqa: E402
 )
 
 GOLDEN = Path(__file__).resolve().parents[1] / "fixtures" / "rendered-output"
-EXECUTOR = PACKAGE / "scripts" / "content-publication" / "spo-upload-plan.ps1"
-MARKDOWN_EXECUTOR = PACKAGE / "scripts" / "content-publication" / "spo-publish-markdown-plan.ps1"
+EXECUTOR = PACKAGE / "scripts" / "content-publication" / "spo-publish-modern-page.ps1"
+MARKDOWN_EXECUTOR = PACKAGE / "scripts" / "content-publication" / "spo-upload-file.ps1"
 requires_pwsh = pytest.mark.skipif(shutil.which("pwsh") is None, reason="pwsh not installed")
 
 

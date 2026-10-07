@@ -2,7 +2,7 @@
   {
     "query": "Promote the Page.aspx on https://tenant.sharepoint.com/sites/Test to https://tenant.sharepoint.com/sites/Prod as Page-copy.aspx.",
     "expected_behavior": [
-      "Builds the plan with scripts/spo-page-copy-plan.ps1 -SourcePageUrl ... -TargetPageUrl ... and no -Execute",
+      "Builds the plan with scripts/spo-copy-page.ps1 -SourcePageUrl ... -TargetPageUrl ... and no -Execute",
       "Identifies this as a cross-site copy and describes the Copy-PnPFile to the target SitePages folder followed by Rename-PnPFile",
       "Does not run any live tenant write itself and leaves the real run (-Execute -ConfirmToken COPY-SPO-PAGE) to the user"
     ]

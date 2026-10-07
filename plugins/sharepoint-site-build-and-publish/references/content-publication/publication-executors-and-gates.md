@@ -20,8 +20,8 @@ executors are the only scripts that touch a tenant, and every write is gated.
 
 | Executor (`scripts/content-publication/`) | Consumes | Does | Write gate |
 |---|---|---|---|
-| `spo-upload-plan.ps1` | `PublishPlan.to_dict()` JSON | `Add-PnPPage`, `Add-PnPPageTextPart`, `Publish-PnPPage` per action (page creation from pre-rendered HTML fragments); has `-Overwrite` | dry run by default; `-Execute -ConfirmToken UPLOAD-SPO-PLAN` |
-| `spo-publish-markdown-plan.ps1` | `PublishPlan` JSON | Verifies the target document library, resolves/creates and confirms the target folder, then calls `Add-PnPFile`; wraps an overwrite in `Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType MajorCheckIn` | dry run by default; `-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN` |
+| `spo-publish-modern-page.ps1` | `PublishPlan.to_dict()` JSON | `Add-PnPPage`, `Add-PnPPageTextPart`, `Publish-PnPPage` per action (page creation from pre-rendered HTML fragments); has `-Overwrite` | dry run by default; `-Execute -ConfirmToken UPLOAD-SPO-PLAN` |
+| `spo-upload-file.ps1` | `PublishPlan` JSON | Verifies the target document library, resolves/creates and confirms the target folder, then calls `Add-PnPFile`; wraps an overwrite in `Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType MajorCheckIn` | dry run by default; `-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN` |
 | `spo-rollback-publication.ps1` | `RollbackPlan` JSON | `Remove-PnPPage` for a `SitePages` target, `Remove-PnPFile` for a document-library target; verifies absence after each removal and throws if a target is still present | dry run by default; `-Execute -ConfirmToken ROLLBACK-SPO-PLAN` |
 | `spo-validate-publication-deployment.ps1` | `PublishPlan` JSON | read-only presence check: `Get-PnPPage` for `SitePages`, `Get-PnPFile` for a library target; `OBSERVED`/`EMPTY` per target, overall `PASS`/`FAIL` | none (read-only, always live) |
 

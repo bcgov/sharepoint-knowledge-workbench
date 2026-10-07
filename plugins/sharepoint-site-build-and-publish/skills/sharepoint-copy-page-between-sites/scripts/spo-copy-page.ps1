@@ -1,0 +1,1 @@
+../../../../sharepoint-site-migration/scripts/page-modernization-execution/spo-copy-page.ps1

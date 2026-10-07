@@ -41,7 +41,7 @@ the per-action plan only.
 Required with -Execute. Must be PUBLISH-SPO-MARKDOWN.
 
 .EXAMPLE
-.\spo-publish-markdown-plan.ps1 -PlanPath plan.json -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken PUBLISH-SPO-MARKDOWN
+.\spo-upload-file.ps1 -PlanPath plan.json -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken PUBLISH-SPO-MARKDOWN
 #>
 
 [CmdletBinding()]

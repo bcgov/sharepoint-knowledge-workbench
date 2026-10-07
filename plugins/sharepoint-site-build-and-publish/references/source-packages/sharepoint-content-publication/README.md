@@ -17,24 +17,24 @@ plugins/sharepoint-content-publication/
 │   ├── canonical_package.py / dispositions.py / hashing.py / publication_map.py  # symlinked from structured-content-assembly
 │   ├── sharepoint_cli.py / sharepoint_dry_run.py / sharepoint_package.py /
 │   │   sharepoint_publish_plan.py / sharepoint_reconcile.py / sharepoint_upload.py  # planning-only Python
-│   ├── spo-page-copy-plan.ps1           # real executor: Copy-PnPFile + Rename-PnPFile
-│   ├── spo-upload-plan.ps1              # real executor: Add-PnPPage/Add-PnPPageTextPart/Publish-PnPPage
+│   ├── spo-copy-page.ps1           # real executor: Copy-PnPFile + Rename-PnPFile
+│   ├── spo-publish-modern-page.ps1              # real executor: Add-PnPPage/Add-PnPPageTextPart/Publish-PnPPage
 │   ├── spo-convert-page-to-modern.ps1   # real executor: ConvertTo-PnPPage + caller-supplied field mapping
 │   ├── spo-convert-pages-bulk.ps1       # real executor: subprocess-per-page orchestrator, resumable manifest
 │   ├── spo-validate-page-conversion.ps1 # real, read-only post-run validator
-│   ├── spo-publish-markdown-plan.ps1    # real executor: Add-PnPFile + checkout/checkin discipline
+│   ├── spo-upload-file.ps1    # real executor: Add-PnPFile + checkout/checkin discipline
 │   ├── spo-rollback-publication.ps1     # real executor: Remove-PnPPage/Remove-PnPFile + fail-loud verification
 │   └── spo-validate-publication-deployment.ps1 # real, read-only post-deployment presence check
 ├── agents/
 │   └── sharepoint-validation-agent.md
 └── skills/
-    ├── copy-spo-page-between-sites/    # + real executor (spo-page-copy-plan.ps1)
-    ├── upload-content/                 # + real executor (spo-upload-plan.ps1, page-creation path only)
+    ├── copy-spo-page-between-sites/    # + real executor (spo-copy-page.ps1)
+    ├── upload-content/                 # + real executor (spo-publish-modern-page.ps1, page-creation path only)
     ├── convert-page-to-modern/
     ├── execute-page-bulk-migration/
     ├── validate-page-migration/
-    ├── publish-aspx-to-sharepoint/     # plan built here, real executor is upload-content's spo-upload-plan.ps1
-    ├── publish-markdown-to-sharepoint/ # + real executor (spo-publish-markdown-plan.ps1)
+    ├── publish-aspx-to-sharepoint/     # plan built here, real executor is upload-content's spo-publish-modern-page.ps1
+    ├── publish-markdown-to-sharepoint/ # + real executor (spo-upload-file.ps1)
     ├── reconcile-sharepoint-publication/
     ├── rollback-sharepoint-publication/ # + real executor (spo-rollback-publication.ps1)
     └── validate-sharepoint-publication/ # + real executor (spo-validate-publication-deployment.ps1)
@@ -57,9 +57,9 @@ tenant writes "remain gated behind Stage 3.4.3's unapproved write-identity decis
 framing was stale/incorrect -- Stage 3.4.3 concerns a separate, not-yet-approved write identity
 question that never actually blocked this plugin's other real executors (all of which already ran
 under the ordinary interactive `Connect-PnPOnline` convention). Fixed: `publish-aspx-to-sharepoint`
-now correctly points at its real executor (`upload-content`'s `spo-upload-plan.ps1`, which already
+now correctly points at its real executor (`upload-content`'s `spo-publish-modern-page.ps1`, which already
 existed); `publish-markdown-to-sharepoint` and `rollback-sharepoint-publication` gained real new
-executors (`spo-publish-markdown-plan.ps1`, `spo-rollback-publication.ps1`).
+executors (`spo-upload-file.ps1`, `spo-rollback-publication.ps1`).
 `validate-sharepoint-publication`'s honestly-documented post-deployment gap is also now closed
 (`spo-validate-publication-deployment.ps1`, read-only, no confirmation token needed). See
 `.agent/map-debt.md`'s 2026-08-17 entry for the full incident and fix.
@@ -69,7 +69,7 @@ executors (`spo-publish-markdown-plan.ps1`, `spo-rollback-publication.ps1`).
 - `Copy-PnPPage`'s `-SourceSite`/`-DestinationSite` parameter set does not
   exist in current PnP.PowerShell, and cross-site-collection copy via that
   cmdlet requires SharePoint Administrator/admin-center access that
-  `Copy-PnPFile` does not. `spo-page-copy-plan.ps1` uses `Copy-PnPFile` +
+  `Copy-PnPFile` does not. `spo-copy-page.ps1` uses `Copy-PnPFile` +
   `Rename-PnPFile` instead, confirmed against the real installed module's
   `Get-Help` output, not assumed.
 - `ConvertTo-PnPPage`'s `-UrlMappingFile`/`-SkipUrlRewriting` only apply to

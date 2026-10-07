@@ -5,7 +5,7 @@ description: Builds a human-actionable publish plan mapping rendered Markdown an
 allowed-tools: Bash, Read
 examples:
   - "python3 -c \"import sys; sys.path.insert(0, 'scripts'); from sharepoint_publish_plan import build_markdown_publish_plan; print(build_markdown_publish_plan('doc-1', 'rendered/', 'KnowledgeLibrary', 'Manual'))\""
-  - "pwsh -File scripts/spo-publish-markdown-plan.ps1 -PlanPath plan.json -SiteUrl \"https://tenant.sharepoint.com/sites/Test\""
+  - "pwsh -File scripts/spo-upload-file.ps1 -PlanPath plan.json -SiteUrl \"https://tenant.sharepoint.com/sites/Test\""
 ---
 
 # Publish Markdown to SharePoint
@@ -22,7 +22,7 @@ Build a `PublishPlan` (source file to target library, folder and filename) and u
 
 ## Constraints
 
-- Planning performs zero tenant I/O. The executor `scripts/spo-publish-markdown-plan.ps1` is dry-run by default and writes
+- Planning performs zero tenant I/O. The executor `scripts/spo-upload-file.ps1` is dry-run by default and writes
   nothing without `-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`. A real run is a live tenant write that the user runs.
 - Overwriting an existing file uses `Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType MajorCheckIn` around
   `Add-PnPFile`.
@@ -45,7 +45,7 @@ plan = build_markdown_publish_plan(document_id, source_dir, target_library, targ
 ## Workflow
 
 1. Build the plan from `document_id`, the rendered source directory, `target_library` and `target_folder`.
-2. Save `plan` as JSON and run the executor as a dry run: `pwsh -File scripts/spo-publish-markdown-plan.ps1 -PlanPath plan.json`.
+2. Save `plan` as JSON and run the executor as a dry run: `pwsh -File scripts/spo-upload-file.ps1 -PlanPath plan.json`.
 3. After the user confirms, rerun with `-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`.
 
 ## Verification

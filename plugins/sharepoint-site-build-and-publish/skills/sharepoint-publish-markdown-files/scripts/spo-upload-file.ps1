@@ -1,0 +1,1 @@
+../../../scripts/content-publication/spo-upload-file.ps1

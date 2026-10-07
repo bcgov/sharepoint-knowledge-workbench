@@ -2,7 +2,7 @@
   {
     "query": "Create the modern pages from this PublishPlan JSON on https://tenant.sharepoint.com/sites/Test.",
     "expected_behavior": [
-      "Dry runs scripts/spo-upload-plan.ps1 -PlanPath plan.json -SiteUrl first",
+      "Dry runs scripts/spo-publish-modern-page.ps1 -PlanPath plan.json -SiteUrl first",
       "Explains a real run needs -Execute -ConfirmToken UPLOAD-SPO-PLAN and that the user runs it",
       "Describes the Add-PnPPage, Add-PnPPageTextPart and Publish-PnPPage sequence"
     ]
@@ -20,7 +20,7 @@
     "expected_behavior": [
       "Explains this skill only creates pages from HTML fragments",
       "Routes file and asset upload to sharepoint-publish-markdown-files",
-      "Does not misuse spo-upload-plan.ps1 for files"
+      "Does not misuse spo-publish-modern-page.ps1 for files"
     ]
   }
 ]
