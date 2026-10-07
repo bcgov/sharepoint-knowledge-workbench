@@ -14,7 +14,7 @@
 | `spo-convert-page-to-modern.ps1` | `sharepoint-convert-page-to-modern` | `ConvertTo-PnPPage` for one classic page, then stamps caller-supplied field values | `-Execute -ConfirmToken CONVERT-SPO-PAGE` |
 | `spo-convert-pages-bulk.ps1` | `sharepoint-convert-page-library-to-modern` | one `spo-convert-page-to-modern.ps1` subprocess per page, with a manifest, resume and throttle, then validation | `-Execute -ConfirmToken CONVERT-SPO-PAGES-BULK` |
 | `spo-validate-page-conversion.ps1` | `sharepoint-validate-page-modernization` | read-only re-query of the live site against a run manifest | none (read-only) |
-| `spo-page-copy-plan.ps1` | `sharepoint-copy-page-between-sites` | builds a page copy plan; with `-Execute`, runs `Copy-PnPFile` (and `Rename-PnPFile` cross-site) | `-Execute -ConfirmToken COPY-SPO-PAGE` |
+| `spo-copy-page.ps1` | `sharepoint-copy-page-between-sites` | builds a page copy plan; with `-Execute`, runs `Copy-PnPFile` (and `Rename-PnPFile` cross-site) | `-Execute -ConfirmToken COPY-SPO-PAGE` |
 
 Common parameters: `-SiteUrl`, `-ConfigPath`, `-ClientId`, `-TenantId`, `-TenantAdminUrl` (the copy script takes full page URLs instead of `-SiteUrl`). The conversion, bulk and validation
 scripts also take `-TargetLibrary` (default `Site Pages`), `-FieldMapping` and `-LiteralFieldValues`.

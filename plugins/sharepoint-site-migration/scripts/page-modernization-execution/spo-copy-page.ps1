@@ -75,7 +75,7 @@ Runs the PnP.PowerShell copy/rename commands. Omit this to print the plan only.
 Required with -Execute. Must be COPY-SPO-PAGE.
 
 .EXAMPLE
-.\spo-page-copy-plan.ps1 -SourcePageUrl "https://tenant.sharepoint.com/sites/Test/SitePages/Page.aspx" -TargetPageUrl "https://tenant.sharepoint.com/sites/Prod/SitePages/Page-copy.aspx"
+.\spo-copy-page.ps1 -SourcePageUrl "https://tenant.sharepoint.com/sites/Test/SitePages/Page.aspx" -TargetPageUrl "https://tenant.sharepoint.com/sites/Prod/SitePages/Page-copy.aspx"
 #>
 
 [CmdletBinding()]

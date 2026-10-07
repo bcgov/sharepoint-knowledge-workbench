@@ -1490,10 +1490,10 @@
       "description": "Get-WorkbenchConnectionConfig link"
     },
     {
-      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-publish-markdown-plan.ps1",
-      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-markdown-files/scripts/spo-publish-markdown-plan.ps1",
+      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-upload-file.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-markdown-files/scripts/spo-upload-file.ps1",
       "strategy": "symlink",
-      "description": "spo-publish-markdown-plan script link"
+      "description": "spo-upload-file script link"
     },
     {
       "src": "plugins/sharepoint-workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1",
@@ -1502,10 +1502,10 @@
       "description": ""
     },
     {
-      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-upload-plan.ps1",
-      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-apply-page-publication-plan/scripts/spo-upload-plan.ps1",
+      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-publish-modern-page.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-apply-page-publication-plan/scripts/spo-publish-modern-page.ps1",
       "strategy": "symlink",
-      "description": ""
+      "description": "spo-publish-modern-page script link"
     },
     {
       "src": "plugins/sharepoint-copilot-agents-and-skills/tests/unit/test_agent_definitions.py",
@@ -2048,10 +2048,10 @@
       "description": ""
     },
     {
-      "src": "plugins/sharepoint-site-migration/scripts/page-modernization-execution/spo-page-copy-plan.ps1",
-      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-copy-page-between-sites/scripts/spo-page-copy-plan.ps1",
+      "src": "plugins/sharepoint-site-migration/scripts/page-modernization-execution/spo-copy-page.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-copy-page-between-sites/scripts/spo-copy-page.ps1",
       "strategy": "symlink",
-      "description": ""
+      "description": "spo-copy-page script link"
     },
     {
       "src": "plugins/sharepoint-site-migration/scripts/page-modernization-execution/Get-WorkbenchConnectionConfig.ps1",
@@ -5190,6 +5190,12 @@
       "dst": "plugins/sharepoint-workbench-setup/skills/workbench-validate-sharepoint-connection/references/acceptance-criteria.md",
       "strategy": "symlink",
       "description": "Acceptance criteria for workbench-validate-sharepoint-connection"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-create-folder.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-document-library/scripts/spo-create-folder.ps1",
+      "strategy": "symlink",
+      "description": "Folder creator for the document-library skill"
     }
   ]
 }

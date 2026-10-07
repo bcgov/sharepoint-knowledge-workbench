@@ -3,7 +3,8 @@
     "query": "Publish the rendered Markdown in ./rendered to the Knowledge library, folder Manual, for document 'manual-1'.",
     "expected_behavior": [
       "Builds the plan with build_markdown_publish_plan('manual-1', './rendered', 'Knowledge', 'Manual')",
-      "Dry runs scripts/spo-publish-markdown-plan.ps1 -PlanPath first, without -Execute",
+      "Dry runs scripts/spo-upload-file.ps1 -PlanPath first, without -Execute",
+      "Before upload, verifies the target document library and resolves and confirms the target folder, creating missing folders",
       "Leaves the real run (-Execute -ConfirmToken PUBLISH-SPO-MARKDOWN) to the user"
     ]
   },

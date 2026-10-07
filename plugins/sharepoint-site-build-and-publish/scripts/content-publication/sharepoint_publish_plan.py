@@ -66,7 +66,7 @@ class PublishAction:
 class PublishPlan:
     document_id: str
     actions: list = field(default_factory=list)  # list[PublishAction]
-    # What every action's source_path contains: "html-fragment" (renderer output; the only format spo-upload-plan.ps1
+    # What every action's source_path contains: "html-fragment" (renderer output; the only format spo-publish-modern-page.ps1
     # accepts), "markdown" (the legacy Markdown->page plan; the HTML executor refuses it), or "" (unspecified/legacy).
     source_format: str = ""
 
@@ -128,7 +128,7 @@ def build_aspx_publish_plan(document_id: str, source_dir: Path, target_site_rela
     if not actions:
         raise PlanError(f"source_dir '{source_dir}' contains no .md files to convert to page plan entries.")
 
-    # Source files are Markdown. spo-upload-plan.ps1 publishes HTML fragments and refuses this plan; use
+    # Source files are Markdown. spo-publish-modern-page.ps1 publishes HTML fragments and refuses this plan; use
     # build_page_publish_plan_from_render for the renderer's real output.
     return PublishPlan(document_id=document_id, actions=actions, source_format="markdown")
 
@@ -237,7 +237,7 @@ def build_page_publish_plan_from_render(document_id: str, rendered_dir: Path,
     media_refs}]}) written by `sharepoint-document-conversion`'s SharePointAspxRenderer, and the HTML
     fragments it points at. Action order is the manifest order (the renderer already applied the
     publication map); each page's identity is its chunk_id (`<chunk_id>.aspx`); `source_path` is the
-    absolute path of the HTML fragment, which is exactly what spo-upload-plan.ps1 injects into a text web part.
+    absolute path of the HTML fragment, which is exactly what spo-publish-modern-page.ps1 injects into a text web part.
     Media referenced by a fragment is recorded per action (`media_refs`) but is not uploaded or rewritten here.
     Markdown output is a different flow: see build_markdown_publish_plan. Raises PlanError on any contract breach.
     """

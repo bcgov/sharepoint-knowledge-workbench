@@ -40,7 +40,7 @@ this to print the per-action plan only.
 Required with -Execute. Must be UPLOAD-SPO-PLAN.
 
 .EXAMPLE
-.\spo-upload-plan.ps1 -PlanPath plan.json -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken UPLOAD-SPO-PLAN
+.\spo-publish-modern-page.ps1 -PlanPath plan.json -SiteUrl "https://tenant.sharepoint.com/sites/Test" -Execute -ConfirmToken UPLOAD-SPO-PLAN
 #>
 
 [CmdletBinding()]
@@ -98,7 +98,7 @@ if (-not $plan.actions -or $plan.actions.Count -eq 0) {
 # action must point at a pre-rendered HTML fragment. A Markdown-source plan would publish raw Markdown as page text.
 $planHasFormat = $plan.PSObject.Properties.Name -contains 'source_format'
 if ($planHasFormat -and $plan.source_format -eq 'markdown') {
-    throw "Plan at '$PlanPath' has source_format 'markdown'. spo-upload-plan.ps1 publishes pre-rendered HTML fragments only; build the plan from the renderer output with build_page_publish_plan_from_render (or publish Markdown files with spo-publish-markdown-plan.ps1)."
+    throw "Plan at '$PlanPath' has source_format 'markdown'. spo-publish-modern-page.ps1 publishes pre-rendered HTML fragments only; build the plan from the renderer output with build_page_publish_plan_from_render (or publish Markdown files with spo-upload-file.ps1)."
 }
 
 if ($Execute) {

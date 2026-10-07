@@ -2,8 +2,8 @@
 
 Producer: `sharepoint-document-conversion`'s SharePointAspxRenderer writes `page-manifest.json` plus one HTML fragment per
 page (a golden copy of its real output is in fixtures/rendered-output/). Planner: `build_page_publish_plan_from_render`.
-Executor: `spo-upload-plan.ps1`, which injects each action's source_path file, unchanged, into a text web part.
-The Markdown flow (`build_markdown_publish_plan`, `spo-publish-markdown-plan.ps1`) is a separate route and is unchanged.
+Executor: `spo-publish-modern-page.ps1`, which injects each action's source_path file, unchanged, into a text web part.
+The Markdown flow (`build_markdown_publish_plan`, `spo-upload-file.ps1`) is a separate route and is unchanged.
 
 Purpose:
     Verify the renderer manifest, publish planner, and upload executor preserve the page-publication contract.
@@ -12,7 +12,7 @@ Key Input Dependencies:
     - Rendered-output fixture, page-manifest.json contract, planner module, and pwsh for gated executor tests.
 
 Function Index:
-    rendered, _manifest, _write_manifest, test_plan_follows_manifest_order_not_filename_order, test_actions_point_at_the_real_html_fragments_with_page_identities, test_media_references_are_recorded_not_dropped, test_plan_declares_html_fragment_source_format_and_round_trips_json, test_contract_breaches_are_refused, test_markdown_only_output_is_rejected_with_a_pointer_to_the_markdown_flow, test_markdown_flow_is_unchanged_and_unmarked, test_legacy_markdown_to_page_plan_is_marked_markdown, _run_executor, test_executor_dry_run_accepts_the_planned_html_fragments_and_reports_media, test_executor_refuses_a_markdown_source_plan, test_executor_still_accepts_a_legacy_plan_without_source_format
+    rendered, _manifest, _write_manifest, test_plan_follows_manifest_order_not_filename_order, test_actions_point_at_the_real_html_fragments_with_page_identities, test_media_references_are_recorded_not_dropped, test_plan_declares_html_fragment_source_format_and_round_trips_json, test_contract_breaches_are_refused, test_markdown_only_output_is_rejected_with_a_pointer_to_the_markdown_flow, test_markdown_flow_is_unchanged_and_unmarked, test_legacy_markdown_to_page_plan_is_marked_markdown, _run_executor, _run_markdown_executor, test_markdown_executor_dry_run_plans_library_check_and_missing_folder_creation, test_executor_dry_run_accepts_the_planned_html_fragments_and_reports_media, test_executor_refuses_a_markdown_source_plan, test_executor_still_accepts_a_legacy_plan_without_source_format
 """
 import json
 import shutil
@@ -33,7 +33,8 @@ from sharepoint_publish_plan import (  # noqa: E402
 )
 
 GOLDEN = Path(__file__).resolve().parents[1] / "fixtures" / "rendered-output"
-EXECUTOR = PACKAGE / "scripts" / "content-publication" / "spo-upload-plan.ps1"
+EXECUTOR = PACKAGE / "scripts" / "content-publication" / "spo-publish-modern-page.ps1"
+MARKDOWN_EXECUTOR = PACKAGE / "scripts" / "content-publication" / "spo-upload-file.ps1"
 requires_pwsh = pytest.mark.skipif(shutil.which("pwsh") is None, reason="pwsh not installed")
 
 
@@ -161,6 +162,48 @@ def _run_executor(plan_path, tmp_path):
         ["pwsh", "-NoProfile", "-File", str(EXECUTOR), "-PlanPath", str(plan_path), "-ConfigPath", str(config)],
         capture_output=True, text=True, timeout=120,
     )
+
+
+# Run the Markdown executor in its default dry-run mode.
+def _run_markdown_executor(plan_path, tmp_path):
+    """Run the Markdown executor in its default dry-run mode."""
+    config = tmp_path / "config.psd1"
+    config.write_text(
+        "@{ Connection = @{ SiteUrl = 'https://example.invalid/sites/t'; ClientId = 'c'; TenantId = 't' }; "
+        "Authentication = @{ TenantAdminUrl = 'https://example-admin.invalid' } }", encoding="utf-8")
+    return subprocess.run(
+        ["pwsh", "-NoProfile", "-File", str(MARKDOWN_EXECUTOR), "-PlanPath", str(plan_path), "-ConfigPath", str(config)],
+        capture_output=True, text=True, timeout=120,
+    )
+
+
+# Verify the Markdown dry run plans library verification and nested folder creation.
+@requires_pwsh
+def test_markdown_executor_dry_run_plans_library_check_and_missing_folder_creation(tmp_path):
+    """Verify the Markdown dry run plans library verification and nested folder creation."""
+    plan_path = tmp_path / "plan.json"
+    plan_path.write_text(json.dumps({
+        "document_id": "assets",
+        "actions": [{
+            "source_path": str(tmp_path / "font.woff2"),
+            "target_library": "SiteAssets",
+            "target_folder": "shared/fonts/bc",
+            "target_filename": "font.woff2",
+        }],
+    }), encoding="utf-8")
+
+    result = _run_markdown_executor(plan_path, tmp_path)
+
+    assert result.returncode == 0, result.stderr
+    summary = json.loads(result.stdout)
+    actions = summary["actions"]
+    action = actions[0] if isinstance(actions, list) else actions
+    assert summary["safety"]["tenant_io"] == "none"
+    assert action["verify_library"] == 'Get-PnPList -Identity "SiteAssets"'
+    assert action["resolve_target_folder"] == (
+        'Resolve-PnPFolder -SiteRelativePath "SiteAssets/shared/fonts/bc"'
+    )
+    assert action["verify_target_folder"] == 'Get-PnPFolder -Url "SiteAssets/shared/fonts/bc"'
 
 
 # Verify the contract that executor dry run accepts the planned html fragments and reports media.
