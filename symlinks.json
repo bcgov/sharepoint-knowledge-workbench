@@ -5190,6 +5190,12 @@
       "dst": "plugins/sharepoint-workbench-setup/skills/workbench-validate-sharepoint-connection/references/acceptance-criteria.md",
       "strategy": "symlink",
       "description": "Acceptance criteria for workbench-validate-sharepoint-connection"
+    },
+    {
+      "src": "plugins/sharepoint-site-build-and-publish/scripts/content-publication/spo-create-folder.ps1",
+      "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-document-library/scripts/spo-create-folder.ps1",
+      "strategy": "symlink",
+      "description": "Folder creator for the document-library skill"
     }
   ]
 }
