@@ -1,7 +1,10 @@
-param([string]$Script, [string]$InventoryCsv, [string]$ConfigPath, [string]$OutputDir, [string]$Platform)
+param([string]$Script, [string]$InventoryCsv, [string]$ConfigPath, [string]$OutputDir, [string]$Platform,
+      [switch]$Fail401, [string]$CallLog)
 $ErrorActionPreference = 'Stop'
 function Invoke-WebRequest {
     [CmdletBinding()] param($Uri, $OutFile, [switch]$UseBasicParsing, $Credential)
+    if ($CallLog) { Add-Content -LiteralPath $CallLog -Value $Uri }
+    if ($Fail401) { throw 'Response status code does not indicate success: 401 (Unauthorized).' }
     if (-not $Credential) { throw 'Interactive/explicit credentials are required' }
     if ($Uri -notmatch '/_api/web/GetFileByServerRelativeUrl.+/\$value$') { throw 'Stored file bytes must use REST value endpoint' }
     'mock page' | Set-Content -LiteralPath $OutFile

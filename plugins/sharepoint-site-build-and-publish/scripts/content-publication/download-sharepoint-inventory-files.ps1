@@ -41,6 +41,7 @@ $rows = @(Import-Csv -LiteralPath $InventoryCsv | Where-Object { $_.FileExtensio
 $outputRoot = [IO.Path]::GetFullPath($OutputDir)
 $records = [System.Collections.Generic.List[object]]::new()
 $failed = 0
+$authFailed = $false
 foreach ($row in $rows) {
     $localPath = ''
     $status = 'PLANNED'
@@ -75,18 +76,32 @@ foreach ($row in $rows) {
         $status = 'FAILED'
         $message = $_.Exception.Message
         Write-Warning "Download '$($row.FileUrl)': $message"
+        # Repeating a rejected credential on every file locks the domain account, so stop at the first auth failure.
+        if ($message -match '\b401\b|Unauthorized|logon failure|credentials? (were|was) not supplied') { $authFailed = $true }
     }
     $records.Add([pscustomobject][ordered]@{
         FileUrl = $row.FileUrl; WebUrl = $row.WebUrl; LibraryTitle = $row.LibraryTitle
         FileName = $row.FileName; RelativePath = $row.RelativePath
         LocalPath = $localPath; Status = $status; Message = $message
     })
+    if ($authFailed) {
+        $remaining = @($rows | Select-Object -Skip $records.Count)
+        foreach ($skipped in $remaining) {
+            $records.Add([pscustomobject][ordered]@{
+                FileUrl = $skipped.FileUrl; WebUrl = $skipped.WebUrl; LibraryTitle = $skipped.LibraryTitle
+                FileName = $skipped.FileName; RelativePath = $skipped.RelativePath
+                LocalPath = ''; Status = 'NOT_ATTEMPTED'; Message = 'Skipped after authentication failure.'
+            })
+        }
+        break
+    }
 }
 New-Item -ItemType Directory -Path $outputRoot -Force | Out-Null
 $manifest = Join-Path $outputRoot 'downloads.csv'
 if ($records.Count) { $records | Export-Csv -LiteralPath $manifest -NoTypeInformation -Encoding utf8 }
 else { '"FileUrl","WebUrl","LibraryTitle","FileName","RelativePath","LocalPath","Status","Message"' | Set-Content -LiteralPath $manifest -Encoding utf8 }
 Write-Host "Wrote $($records.Count) download record(s) to $manifest; failures: $failed."
+if ($authFailed) { throw 'Authentication failed; aborted after the first rejected request to avoid locking the account. Verify the password, then re-run.' }
 if ($failed) { throw 'Some files could not be planned/downloaded; inspect downloads.csv.' }
 }
 finally {

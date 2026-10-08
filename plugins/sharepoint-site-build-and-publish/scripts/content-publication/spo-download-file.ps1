@@ -234,7 +234,10 @@ if ($isSp2016) {
     try {
         Invoke-WebRequest @reqArgs
     } catch {
-        if (($_.Exception.Message -match "401" -or ($_.Exception.Response -and $_.Exception.Response.StatusCode -eq 401)) -and -not $Credential) {
+        # Connection-level exceptions have no Response property; reading it under strict mode would mask the real error.
+        $httpResponse = $_.Exception.PSObject.Properties['Response']
+        $is401 = $_.Exception.Message -match "401" -or ($httpResponse -and $httpResponse.Value -and $httpResponse.Value.StatusCode -eq 401)
+        if ($is401 -and -not $Credential) {
             Write-Host "Integrated authentication returned 401 Unauthorized. Prompting for credentials..." -ForegroundColor Yellow
             $Credential = Get-Credential -Message "Enter credentials for SP2016 request ($sourceSite)"
             $reqArgs.Remove("UseDefaultCredentials")
