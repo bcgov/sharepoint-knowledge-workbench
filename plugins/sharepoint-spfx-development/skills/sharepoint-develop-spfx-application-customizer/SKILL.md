@@ -49,5 +49,5 @@ The UI appears once per page (including after in-app navigation), keyboard and s
 ## References
 
 - [Workflow and rules](references/application-customizer-workflow.md): read for scaffolding, debugging, placeholders and registration.
-- [Navigation menu pattern](references/navigation-menu-pattern.md): read when building a mega-menu from Quick Launch.
+- [Navigation menu pattern](references/navigation-menu-pattern.md): read when building a mega-menu from Quick Launch, including B.C. Government design alignment (tokens, BC Sans, React component compatibility). For B.C. sites also use the `bc-gov-design-system` and `bc-gov-react` skills if installed.
 - [Validation checklist](references/validation-checklist.md) and [acceptance criteria](references/acceptance-criteria.md): read when verifying.
