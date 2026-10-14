@@ -27,6 +27,7 @@ Modern SharePoint Online out-of-the-box List Web Parts do not support query para
 8. **`setup-spfx-hosted-workbench`**: Prepares and validates a local SPFx project for hosted SharePoint Online `/_layouts/15/workbench.aspx` testing, including toolchain verification, dev certificate trust, and canonical hosted debug URL generation.
 9. **`develop-spfx-form-customizer`**: Scaffolds, implements, tests, packages, deploys, associates, validates, and rolls back an SPFx Form Customizer extension for custom New/Edit/Display forms with URL-driven related-item lookups (`?SelectedID=...`).
 10. **`develop-spfx-listview-command-set`**: Scaffolds command-bar extensions that open URLs, act on selected rows, or host SPFx-owned React dialogs and panels; includes list-scoped registration, validation, and rollback.
+11. **`develop-spfx-application-customizer`**: Scaffolds site-wide Application Customizers (Top/Bottom placeholders, e.g. a QuickLaunch-driven mega-menu); registration is a dry-run-by-default custom action (`-Execute` plus confirmation token) with verify and remove.
 
 ## Reference Documentation
 
@@ -49,6 +50,7 @@ Architectural patterns, PnPjs v4 singleton designs, and self-healing migration r
 ### Develop, package, deploy and activate
 
 - `sharepoint-deploy-spfx-solution` -- Provides PnP PowerShell runbooks and scripts to upload, deploy and verify .sppkg packages in Site Collection or Tenant App Catalogs. Use after packaging an SPFx solution, to get it into an App Catalog and confirm it...
+- `sharepoint-develop-spfx-application-customizer` -- Scaffolds, implements, packages, registers, validates and removes an SPFx Application Customizer for site-wide page chrome such as a mega-menu in the Top or Bottom placeholder. Use for navigation bars, banners and footers; not for web parts, list command bars or item forms.
 - `sharepoint-develop-spfx-form-customizer` -- Scaffolds, implements, tests, packages, deploys, associates, validates and rolls back an SPFx Form Customizer extension for SharePoint Online list New, Edit and Display forms. Use when a list needs a customized item...
 - `sharepoint-develop-spfx-listview-command-set` -- Scaffolds, implements, packages, deploys, registers, validates and removes an SPFx ListView Command Set for SharePoint list or library command bars, including commands that open URLs or host React dialogs and panels....
 - `sharepoint-package-spfx-solution` -- Automates production SPFx solution builds using Heft and Webpack and verifies .sppkg package integrity, for both web parts and Form Customizers. Use when an SPFx solution is ready to be built into a deployable package.

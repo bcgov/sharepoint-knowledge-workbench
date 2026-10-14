@@ -423,6 +423,7 @@
     "sharepoint-spfx-development": {
       "skills": {
         "sharepoint-deploy-spfx-solution": true,
+        "sharepoint-develop-spfx-application-customizer": true,
         "sharepoint-develop-spfx-form-customizer": true,
         "sharepoint-develop-spfx-listview-command-set": true,
         "sharepoint-package-spfx-solution": true,

@@ -5196,6 +5196,18 @@
       "dst": "plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-document-library/scripts/spo-create-folder.ps1",
       "strategy": "symlink",
       "description": "Folder creator for the document-library skill"
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/scripts/check-spfx-toolchain.ps1",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-develop-spfx-application-customizer/scripts/check-spfx-toolchain.ps1",
+      "strategy": "symlink",
+      "description": ""
+    },
+    {
+      "src": "plugins/sharepoint-spfx-development/scripts/register-application-customizer.ps1",
+      "dst": "plugins/sharepoint-spfx-development/skills/sharepoint-develop-spfx-application-customizer/scripts/register-application-customizer.ps1",
+      "strategy": "symlink",
+      "description": ""
     }
   ]
 }
