@@ -36,6 +36,7 @@ FieldDef data needed to actually submit a typed Add-PnPField call):
           "xml": null,
           "type": "Text",
           "display_name": "Department",
+          "group": "Custom Columns",
           "required": false,
           "choices": []
         },
@@ -54,9 +55,10 @@ Design seam, documented honestly rather than assumed: FieldAction.to_dict()
 keys -- only `internal_name`/`action`/`reason`/`xml`. A typed (non-raw-XML)
 "create" action cannot be replayed against Add-PnPField from FieldAction
 alone; the caller producing this plan JSON must augment each action dict
-with the originating FieldDef's `type`/`display_name`/`required`/`choices`
-fields (mirroring how FieldDef.to_dict() already carries them) before
-handing it to this script. Only `action == "create"` items are ever
+with the originating FieldDef's `type`/`display_name`/`group`/`required`/
+`choices` fields (mirroring how FieldDef.to_dict() already carries them)
+before handing it to this script. If `group` is omitted or empty, typed
+fields use `Custom Columns`. Only `action == "create"` items are ever
 submitted; "exists" and "repair" actions are reported but not acted on --
 `field_needs_type_repair` detection has no destructive remove/recreate
 counterpart on the Python side, so this script never removes a live field
@@ -208,12 +210,17 @@ if ($Execute) {
                 Add-PnPFieldFromXml -FieldXml $action.xml -ErrorAction Stop | Out-Null
             }
             else {
+                $group = "Custom Columns"
+                if ($action.PSObject.Properties["group"] -and
+                    -not [string]::IsNullOrWhiteSpace([string]$action.group)) {
+                    $group = $action.group
+                }
                 $addParameters = @{
                     Type         = $action.type
                     InternalName = $action.internal_name
                     DisplayName  = if ($action.display_name) { $action.display_name } else { $action.internal_name }
                     Required     = [bool]$action.required
-                    Group        = "Custom Columns"
+                    Group        = $group
                     ErrorAction  = "Stop"
                 }
                 if ($action.choices -and $action.choices.Count -gt 0) {
@@ -252,9 +259,14 @@ if ($Execute) {
 }
 else {
     $actionPlans = foreach ($action in $createActions) {
+        $group = "Custom Columns"
+        if ($action.PSObject.Properties["group"] -and
+            -not [string]::IsNullOrWhiteSpace([string]$action.group)) {
+            $group = $action.group
+        }
         [ordered]@{
             internal_name = $action.internal_name
-            action        = if ($action.xml) { "Add-PnPFieldFromXml -FieldXml <raw XML from plan>" } else { "Add-PnPField -Type $($action.type) -InternalName `"$($action.internal_name)`" -DisplayName `"$($action.display_name)`" -Required:$([bool]$action.required)" }
+            action        = if ($action.xml) { "Add-PnPFieldFromXml -FieldXml <raw XML from plan>" } else { "Add-PnPField -Type $($action.type) -InternalName `"$($action.internal_name)`" -DisplayName `"$($action.display_name)`" -Group `"$group`" -Required:$([bool]$action.required)" }
         }
     }
 
