@@ -67,7 +67,7 @@ param(
 
     [string]$SiteUrl,
 
-    [string]$ConfigPath = (Join-Path $PSScriptRoot "..\..\..\config.psd1"),
+    [string]$ConfigPath = (Join-Path $PSScriptRoot "..\..\..\..\config.psd1"),
 
     [string]$ClientId,
 
@@ -113,7 +113,13 @@ $folderUrl = if ($TargetFolder) {
     $TargetLibrary.Trim('/')
 }
 
-$targetServerRelativeUrl = "$folderUrl/$finalFileName"
+$targetSiteRelativeUrl = "$folderUrl/$finalFileName"
+$siteServerRelativePath = ([System.Uri]$SiteUrl).AbsolutePath.TrimEnd('/')
+$targetServerRelativeUrl = if ($siteServerRelativePath) {
+    "$siteServerRelativePath/$targetSiteRelativeUrl"
+} else {
+    "/$targetSiteRelativeUrl"
+}
 
 if (-not $Execute) {
     Write-Host "`n[DRY RUN] Planned HTML publication action:" -ForegroundColor Yellow
@@ -160,29 +166,41 @@ try {
     if ($existingFile) {
         Write-Host "Target file already exists. Checking out '$targetServerRelativeUrl'..." -ForegroundColor Yellow
         try {
-            Set-PnPFileCheckedOut -Url $targetServerRelativeUrl -ErrorAction SilentlyContinue
+            Set-PnPFileCheckedOut -Url $targetServerRelativeUrl -ErrorAction Stop
         } catch {
             Write-Host "Checkout note: $($_.Exception.Message)" -ForegroundColor Gray
         }
     }
 
-    Write-Host "Uploading '$HtmlPath' -> '$targetServerRelativeUrl'..." -ForegroundColor Cyan
-    $uploaded = Add-PnPFile -Path $HtmlPath -Folder $folderUrl -NewFileName $finalFileName -ErrorAction Stop
+    Write-Host "Uploading '$HtmlPath' -> '$targetSiteRelativeUrl'..." -ForegroundColor Cyan
+    # Upload first, then check in separately. SharePoint rejects Add-PnPFile -Publish when the
+    # destination is already checked out, including a checkout left by an earlier failed run.
+    $uploaded = Add-PnPFile -Path $HtmlPath -Folder $folderUrl -NewFileName $finalFileName `
+        -ErrorAction Stop
 
-    if ($existingFile) {
-        Write-Host "Checking in '$targetServerRelativeUrl'..." -ForegroundColor Cyan
+    $getVersion = {
+        $item = Get-PnPFile -Url $targetServerRelativeUrl -AsListItem -ErrorAction Stop
+        [string]$item["_UIVersionString"]
+    }
+    $version = & $getVersion
+
+    if ($version -notmatch '^\d+\.0$') {
+        Write-Host "Version is '$version' (draft). Attempting major check-in..." -ForegroundColor Yellow
         try {
-            Set-PnPFileCheckedIn -Url $targetServerRelativeUrl -CheckinType MajorCheckIn -Comment $CheckinComment -ErrorAction SilentlyContinue
+            Set-PnPFileCheckedIn -Url $targetServerRelativeUrl -CheckinType MajorCheckIn -Comment $CheckinComment -ErrorAction Stop
         } catch {
             Write-Host "Checkin note: $($_.Exception.Message)" -ForegroundColor Gray
         }
+        $version = & $getVersion
     }
 
-    # Verify presence
-    $verified = Get-PnPFile -Url $targetServerRelativeUrl -ErrorAction Stop
-    $viewUrl = "$($SiteUrl.TrimEnd('/'))/$($targetServerRelativeUrl.TrimStart('/'))"
+    if ($version -notmatch '^\d+\.0$') {
+        throw "Uploaded '$targetServerRelativeUrl' but it is still draft version '$version'. Publish it manually in the SharePoint UI, or check the library's versioning/approval settings."
+    }
 
-    Write-Host "HTML page published successfully!" -ForegroundColor Green
+    $viewUrl = "$($SiteUrl.TrimEnd('/'))/$($targetSiteRelativeUrl.TrimStart('/'))"
+
+    Write-Host "HTML page published successfully (version $version)!" -ForegroundColor Green
     Write-Host "Direct Browser URL: $viewUrl" -ForegroundColor Yellow
 
     return [PSCustomObject]@{
@@ -190,6 +208,7 @@ try {
         SiteUrl                 = $SiteUrl
         TargetServerRelativeUrl = $targetServerRelativeUrl
         BrowserUrl              = $viewUrl
+        Version                 = $version
         Status                  = "PUBLISHED"
     }
 }
