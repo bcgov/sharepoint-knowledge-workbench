@@ -9,8 +9,8 @@
 - Dry-run by default: running without `-Execute` prints the target server-relative URL and upload plan without modifying tenant state.
 - Real writes require `-Execute -ConfirmToken PUBLISH-SPO-HTML`.
 - Enforces `.html` or `.htm` file extensions.
-- Uses checkout/checkin discipline (`Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType MajorCheckIn`) when replacing existing files.
-- Verifies post-upload presence and outputs the clean browser URL.
+- Uses checkout/checkin discipline (`Set-PnPFileCheckedOut` / `Set-PnPFileCheckedIn -CheckinType MajorCheckIn`) when replacing existing files and when promoting a new upload from draft to a major version.
+- Verifies the resulting `_UIVersionString` is a major version, then outputs the clean browser URL.
 
 ## Verification passes
 
