@@ -12,6 +12,11 @@ checkout/checkin (Set-PnPFileCheckedOut / Set-PnPFileCheckedIn
 -CheckinType MajorCheckIn) around any overwrite of an existing file. By
 default performs no SharePoint tenant I/O; -Execute plus -ConfirmToken
 PUBLISH-SPO-MARKDOWN runs the real writes.
+An action may carry `values` (field internal name -> value) that are set on the
+file's list item at upload (Add-PnPFile -Values). A value written as
+{"lookup_list": "<list title>", "lookup_value": "<title>", "lookup_field": "Title"}
+is resolved to that lookup item's ID before the upload; an unmatched title stops
+the run before the file is uploaded.
 Prints Started, Finished and Elapsed (hh:mm:ss) to stderr; stdout stays pure JSON.
 
 .PARAMETER PlanPath
@@ -114,6 +119,24 @@ if ($Execute) {
     if ($TenantAdminUrl) { $connectParameters["TenantAdminUrl"] = $TenantAdminUrl }
     Connect-PnPOnline @connectParameters
 
+    $lookupCache = @{}
+    # Resolve a lookup item ID from its title; each lookup list is read once per run.
+    function Resolve-LookupItemId {
+        param([string]$ListTitle, [string]$Field, [string]$Value)
+        $key = "$ListTitle|$Field"
+        if (-not $lookupCache.ContainsKey($key)) {
+            $map = @{}
+            foreach ($item in @(Get-PnPListItem -List $ListTitle -Fields $Field -PageSize 500)) {
+                $map[[string]$item.FieldValues[$Field]] = [int]$item.Id
+            }
+            $lookupCache[$key] = $map
+        }
+        if (-not $lookupCache[$key].ContainsKey($Value)) {
+            throw "Lookup value '$Value' not found in list '$ListTitle' (field '$Field'); no file was uploaded."
+        }
+        return $lookupCache[$key][$Value]
+    }
+
     $results = foreach ($action in $plan.actions) {
         if (-not (Test-Path -LiteralPath $action.source_path)) {
             throw "source_path '$($action.source_path)' does not exist -- refusing to upload nothing."
@@ -145,12 +168,28 @@ if ($Execute) {
             }
         }
 
+        $uploadParams = @{ Path = $action.source_path; Folder = $targetFolder; NewFileName = $action.target_filename }
+        if ($action.PSObject.Properties.Name -contains 'values' -and $action.values) {
+            $values = @{}
+            foreach ($prop in $action.values.PSObject.Properties) {
+                $value = $prop.Value
+                if ($value -is [pscustomobject] -and $value.PSObject.Properties.Name -contains 'lookup_list') {
+                    $lookupField = if ($value.PSObject.Properties.Name -contains 'lookup_field' -and $value.lookup_field) { [string]$value.lookup_field } else { "Title" }
+                    $values[$prop.Name] = Resolve-LookupItemId -ListTitle $value.lookup_list -Field $lookupField -Value ([string]$value.lookup_value)
+                }
+                else {
+                    $values[$prop.Name] = $value
+                }
+            }
+            $uploadParams["Values"] = $values
+        }
+
         $existingFile = Get-PnPFile -Url $targetServerRelativeUrl -ErrorAction SilentlyContinue
         if ($existingFile) {
             Set-PnPFileCheckedOut -Url $targetServerRelativeUrl
         }
 
-        Add-PnPFile -Path $action.source_path -Folder $targetFolder -NewFileName $action.target_filename | Out-Null
+        Add-PnPFile @uploadParams | Out-Null
 
         if ($existingFile) {
             Set-PnPFileCheckedIn -Url $targetServerRelativeUrl -CheckinType MajorCheckIn
@@ -188,7 +227,8 @@ else {
                 "Get-PnPFolder -Url `"$targetFolder`""
             }
             checkout_if_exists = "Set-PnPFileCheckedOut -Url `"$targetFolder/$($action.target_filename)`""
-            upload = "Add-PnPFile -Path `"$($action.source_path)`" -Folder `"$targetFolder`" -NewFileName `"$($action.target_filename)`""
+            upload = "Add-PnPFile -Path `"$($action.source_path)`" -Folder `"$targetFolder`" -NewFileName `"$($action.target_filename)`"" + $(if ($action.PSObject.Properties.Name -contains 'values' -and $action.values) { " -Values (see values)" } else { "" })
+            values = if ($action.PSObject.Properties.Name -contains 'values') { $action.values } else { $null }
             checkin_if_existed = "Set-PnPFileCheckedIn -Url `"$targetFolder/$($action.target_filename)`" -CheckinType MajorCheckIn"
         }
     }
