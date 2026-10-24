@@ -66,7 +66,7 @@ The core decomposition pipeline breaks huge documents (Word/PDF manuals) into mo
 
 ## 3. What the 11 Domain Skills and 9 Subagents Do
 
-The 108 legacy micro-skills are consolidated into 11 domain hubs under `plugins/sharepoint-workbench/skills/`:
+The 108 legacy micro-skills are consolidated into 11 domain hubs under `plugins/sharepoint-workbench/.apm/skills/`:
 
 1. **`setting-up-sharepoint-workbench`** — Access, connection, project/document configuration, path resolution, and live tenant readiness.
    - *Modes*: `init-connection`, `validate-connection`, `workflow-intake`, `resolve-paths`, `app-registration`
@@ -138,7 +138,7 @@ To protect production and DEV environments from accidental changes, tenant-writi
 To keep the codebase clean, consistent, and easy to maintain across multiple projects:
 
 1. **Use Built-In Skills (Avoid Throwaway Scripts)**:
-   - Always run the existing parameterized scripts in `plugins/sharepoint-workbench/skills/` rather than writing one-off `.ps1` scripts for standard tasks.
+   - Always run the existing parameterized scripts in `plugins/sharepoint-workbench/.apm/skills/` rather than writing one-off `.ps1` scripts for standard tasks.
 2. **Flexible Parameters & Automatic Configuration**:
    - Every script automatically resolves the active `config.psd1` file.
    - You can also pass direct command-line overrides (`-SiteUrl "https://..."` or `-ClientId "..."`) to target any site without changing configuration files.

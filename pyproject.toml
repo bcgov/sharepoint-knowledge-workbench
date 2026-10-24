@@ -1,0 +1,3 @@
+[tool.pytest.ini_options]
+testpaths = ["plugins/sharepoint-workbench/tests"]
+norecursedirs = [".git", ".tox", ".env", "venv", ".venv", "dist", "build", "node_modules", ".worktrees"]

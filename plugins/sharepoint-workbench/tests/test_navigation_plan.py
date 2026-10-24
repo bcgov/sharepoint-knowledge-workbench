@@ -11,7 +11,9 @@ from pathlib import Path
 
 import openpyxl
 
-SCRIPT = Path(__file__).resolve().parents[1] / "skills" / "managing-sharepoint-navigation" / "scripts" / "navigation_plan.py"
+_plugin_dir = Path(__file__).resolve().parents[1]
+_skills_dir = _plugin_dir / ".apm" / "skills" if (_plugin_dir / ".apm" / "skills").exists() else _plugin_dir / "skills"
+SCRIPT = _skills_dir / "managing-sharepoint-navigation" / "scripts" / "navigation_plan.py"
 sys.path.insert(0, str(SCRIPT.parent))
 import navigation_plan as nav  # noqa: E402
 
