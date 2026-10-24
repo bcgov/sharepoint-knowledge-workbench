@@ -60,9 +60,9 @@ Before triggering an autonomous self-evolution cycle, all 4 criteria must be sat
 7. **Fix Forward, Never Skip**: Fix failures at source immediately and update rules/playbooks. Never skip, work around, or add blind retries.
 8. **Synchronize Templates on Rule/Strategy Changes**: Update matching templates, generator configs, and prompts when core rules or strategies change.
 9. **Refine Prompt Templates on Ingesting Outputs**: Evaluate external model outputs and update prompt templates to guard against observed gaps.
-10. **Synchronize Manifests & Reinstall Cleanly on Deletion**: Remove deleted assets from `symlinks.json` and reinstall via `plugin_add.py <plugin-path> -y`.
+10. **Synchronize Manifests on Component Changes**: Ensure `apm.yml`, `plugin.yaml`, and `.claude-plugin/plugin.json` accurately reflect all components.
 11. **Pre-Deletion Git History Check**: Run `git log --follow -- <file>` before proposing any file deletion.
-12. **Hub First, Spoke Second**: New skill assets must land in plugin root (`plugins/<plugin>/scripts/`, etc.) and symlink into skill folders via `symlink_manager.py`. Run `audit_plugin_structure.py`.
+12. **Self-Contained Hub Assets (No Symlinks)**: Each skill spoke in `plugins/sharepoint-workbench/skills/` is fully self-contained with inlined resources and modal dispatch. Never create cross-directory symlinks.
 13. **Asymmetric Persistence via Worktree Transfer**: On 3rd attempt failure in isolated worktree, roll back code, but export Layer 2 insights, negative constraints, and debt records to main checkout before worktree teardown.
 14. **Evolution Integrity Receipts**: Autonomous evolution commits require a programmatic pre-commit receipt (`EVO-INTEGRITY-<cycle_id>-<hash>`) binding staged tree, verifier exit code, and trace manifest.
 

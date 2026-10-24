@@ -59,10 +59,7 @@ See [INSTALL.md](INSTALL.md) for installation and consumer integration options, 
 
 ### File and link inventories for migration
 
-The existing `sharepoint-collect-site-inventory`, `sharepoint-download-file` and
-`sharepoint-extract-links` skills now support recursive CSV file inventories, selected bulk
-downloads, and offline Python link inventories for static HTML/HTM/ASPX and Office documents.
-An Online collector exports modern-page stored fields for the same Python analysis.
+The `assessing-sharepoint-sites` and `migrating-sharepoint-sites` skills support recursive CSV file inventories, selected bulk downloads, and offline Python link inventories for static HTML/HTM/ASPX and Office documents. An Online collector exports modern-page stored fields for the same Python analysis.
 
 ```powershell
 # User-run file inventory: choose the target and destination folder.
@@ -72,87 +69,47 @@ pwsh -File plugins/sharepoint-workbench/skills/assessing-sharepoint-sites/script
 python plugins/sharepoint-workbench/skills/modernizing-sharepoint-pages/scripts/link-remediation/export_link_inventory.py --manifest-csv ./downloads/downloads.csv --output-dir ./links
 ```
 
-The collector writes `files.csv`, including source site/subsite, container/library, path,
-filename, extension and metadata; it also writes library/error CSVs and a status manifest.
-Online hostnames select interactive browser sign-in; on-prem prompts for credentials.
-No file contents are downloaded by the inventory collector. Link extraction retains original
-source URLs and reports failed/unsupported sources. PDFs and script-generated links require
-additional coverage. The existing link-remediation skills now support explicit per-run
-source-to-target mapping and deterministic link-rewrite planning. An optional workbook can be
-checked read-only against the supplied mapping; it does not choose destinations. These offline
-plans do not write to SharePoint. No new skill identities were added.
+The collector writes `files.csv`, including source site/subsite, container/library, path, filename, extension and metadata; it also writes library/error CSVs and a status manifest. Online hostnames select interactive browser sign-in; on-prem prompts for credentials. No file contents are downloaded by the inventory collector. Link extraction retains original source URLs and reports failed/unsupported sources.
 
-See the [bulk content/link workflow](plugins/sharepoint-workbench/skills/modernizing-sharepoint-pages/references/bulk-content-link-workflow.md)
-for download, modern-field export, conversion, rewrite, publishing and validation stages.
+See the [bulk content/link workflow](plugins/sharepoint-workbench/skills/modernizing-sharepoint-pages/references/bulk-content-link-workflow.md) for download, modern-field export, conversion, rewrite, publishing and validation stages.
 
 ### 1. Prerequisite (SharePoint use cases only): request an app registration
 
-Skip this step if you only need the [document-conversion pipeline](#-content-conversion-workstream-architecture--workflow)
-(no live SharePoint tenant access). Any use case that connects to a real tenant
-(`validate-sharepoint-connection`'s live network/auth checks, `sharepoint-site-build-and-publish`,
-live discovery/migration work) needs an Entra ID app registration your tenant administrator
-creates — request it before starting.
+Skip this step if you only need the [document-conversion pipeline](#-content-conversion-workstream-architecture--workflow) (no live SharePoint tenant access). Any use case that connects to a real tenant (`setting-up-sharepoint-workbench`'s live network/auth checks, `publishing-sharepoint-pages`, live discovery/migration work) needs an Entra ID app registration your tenant administrator creates — request it before starting.
 
-**Two distinct registration types exist for two distinct purposes** — an unattended, App-Only/
-certificate registration for scheduled jobs (no signed-in user, no MFA), and an interactive/
-delegated registration for human-operator provisioning and migration work (requires an M365 E3/E5
-licence, browser/device-code sign-in). Both use `Sites.Selected` (Graph and SharePoint,
-Application permission type) — not the broader `AllSites.*` grants — which grants zero site access
-by itself; a tenant administrator must separately grant your specific sites via
-`Grant-PnPAzureADAppSitePermission` after admin consent. **Do not treat the PnP grant tier
-(`Read`/`Write`/`Manage`/`FullControl`) as a reliable predictor of what operations will succeed**
-— production testing showed a `write`-tier grant sufficient for full content/schema provisioning
-(lists, libraries, pages, items, files, site columns, content types), contrary to an earlier,
-disproven assumption.
+**Two distinct registration types exist for two distinct purposes** — an unattended, App-Only/certificate registration for scheduled jobs (no signed-in user, no MFA), and an interactive/delegated registration for human-operator provisioning and migration work (requires an M365 E3/E5 licence, browser/device-code sign-in). Both use `Sites.Selected` (Graph and SharePoint, Application permission type) — not the broader `AllSites.*` grants — which grants zero site access by itself; a tenant administrator must separately grant your specific sites via `Grant-PnPAzureADAppSitePermission` after admin consent.
 
-The `sharepoint-workbench-setup` plugin's `request-app-registration` skill (step 3 below) walks through both
-types end to end — which one to request, the fillable service-request templates, the Entra API
-permission/admin-consent/Enterprise-Application steps, the PnP site-level grant, populating
-`config.psd1` with the new registration, and validating it against the live tenant. See
-[`plugins/sharepoint-workbench-setup/references/effective-permissions-matrix.md`](plugins/sharepoint-workbench-setup/references/effective-permissions-matrix.md)
-for the full permission model and empirical findings.
+The `setting-up-sharepoint-workbench` skill walks through both types end to end via mode `app-registration`. See [`plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/references/effective-permissions-matrix.md`](plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/references/effective-permissions-matrix.md) for the full permission model and empirical findings.
 
-Once approved, record the **Application (client) ID** and **Directory (tenant) ID** — both are
-needed by `initialize-connection-config` (step 3 below).
+Once approved, record the **Application (client) ID** and **Directory (tenant) ID** — both are needed by `init-connection`.
 
-### 2. Install all plugins
+### 2. Install the Unified Workbench Package
 
-From a clone of this repository:
+Install the workbench using **APM** (Agent Package Manager) across your active agent harnesses:
 
 ```bash
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add --all --yes
+# Install globally for Claude, Copilot, Codex, and Antigravity
+apm install @sharepoint/sharepoint-workbench --global --target claude,copilot,codex,antigravity
+
+# Or install locally in your active repository
+apm install @sharepoint/sharepoint-workbench --target claude,copilot,codex,antigravity
 ```
 
-This fetches the cross-platform plugin installer (hosted in the sibling `agent-plugins-skills`
-marketplace repo, run ephemerally via `uvx` — no local install needed) and points it at the
-current directory (this repo, defaulting `source` to `.`), installing all 7 plugins listed in
-[`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json). Add `--dry-run` first to
-preview without writing anything, or drop `--all` to pick plugins interactively.
+Alternatively, install via native Claude Code marketplace:
+```text
+/plugin marketplace add richfrem/sharepoint-knowledge-workbench
+/plugin install sharepoint-workbench@sharepoint-knowledge-workbench
+```
 
 ### 3. Run workbench setup
 
-`sharepoint-workbench-setup`'s 5 skills, in this order (see
-[`plugins/sharepoint-workbench/README.md`](plugins/sharepoint-workbench/README.md) for full detail on each):
+`setting-up-sharepoint-workbench` provides 5 focused modes:
 
-1. **`request-app-registration`** — pure guidance, no I/O: generates a filled service-request
-   document for your tenant/cloud administrator, and provides the generalized step-by-step sequence
-   (Entra API permissions, admin consent, Enterprise Application user assignment, and the separate
-   PnP PowerShell site-level grant) for once it's approved.
-2. **`initialize-connection-config`** — writes the root, git-ignored `config.psd1` (site URL,
-   tenant ID, client ID from step 1, auth mode). Generating the file never connects to anything by
-   itself.
-3. **`initialize-document-workflow`** — interactive intake wizard; writes a document-workflow
-   profile and a publication profile for your source document.
-4. **`validate-sharepoint-connection`** — **this is the connection test.** Validates what steps
-   2-3 wrote (always PASS or FAIL, never a soft warning), confirms the app registration from step 1
-   actually authenticates against the live tenant (OAuth2 device-code flow + a real
-   `_api/contextinfo` REST call, plus a permission-boundary proof), and provides real,
-   `pwsh`-runnable network-reachability and interactive-authentication scripts. Zero tenant I/O
-   unless you explicitly run one of those live scripts yourself.
-5. **`resolve-document-paths`** — once you're moving into a SharePoint-analysis use case
-   (discovery, schema, link-remediation, page-modernization), resolves your document ID and the
-   profiles from steps 2-3 into the concrete arguments those plugins need. Prints invocations; never
-   executes them.
+1. **`app-registration`** — Generates fillable service requests and approval guides for tenant administrators.
+2. **`init-connection`** — Writes the root, git-ignored `config.psd1` (site URL, tenant ID, client ID, auth mode).
+3. **`workflow-intake`** — Interactive intake wizard; configures document-workflow profiles and publication targets.
+4. **`validate-connection`** — Validates connection parameters, executes live tenant auth probes, and tests permission boundaries.
+5. **`resolve-paths`** — Resolves document IDs and execution profiles into concrete tool parameters.
 
 ---
 
@@ -195,52 +152,46 @@ The repository maintains formal Mermaid architecture diagrams in [docs/diagrams/
 
 ## 🛠️ Active Implementation & Tools
 
-The repository ships **7 independently installable domain plugins** (104 skills, 9 agents) under `plugins/`. One domain is one plugin; functional groups inside a plugin organize its skills.
+The repository ships **1 unified domain plugin** (`@sharepoint/sharepoint-workbench`) under `plugins/sharepoint-workbench/`, comprising **11 domain skills** and **9 specialized subagents**:
 
-- **[`sharepoint-workbench-setup`](plugins/sharepoint-workbench/README.md)** (5 skills) — access, connection, project/document configuration, path resolution and readiness.
-  - *Access, project/document configuration, path resolution and readiness*: `workbench-initialize-connection-config`, `workbench-initialize-document-workflow`, `workbench-request-app-registration`, `workbench-resolve-document-paths`, `workbench-validate-sharepoint-connection`
-- **[`sharepoint-document-conversion`](plugins/sharepoint-workbench/README.md)** (11 skills) — extract, analyze, assemble, render and editorially review manual content.
-  - *Assemble a content package*: `content-assemble-structured-content`
-  - *Editorial topic review*: `content-review-manual-topic`
-  - *Extract source content*: `content-extract-docx`
-  - *Organize topics and pages*: `content-analyze-document-structure`
-  - *Render and check output*: `content-compare-rendered-output`, `content-create-markdown-rendering-template`, `content-create-sharepoint-rendering-template`, `content-render-markdown-pages`, `content-render-sharepoint-pages`, `content-validate-rendered-output`, `content-validate-rendering-template`
-- **[`sharepoint-site-assessment`](plugins/sharepoint-workbench/README.md)** (12 skills, 1 agent) — read-only inventory, analysis and assessment of classic/modern sites.
-  - *Inventory, analysis and read-only assessment*: `sharepoint-analyze-custom-forms`, `sharepoint-analyze-page-inventory`, `sharepoint-analyze-permissions`, `sharepoint-analyze-site-navigation`, `sharepoint-analyze-webpart-behavior`, `sharepoint-audit-managed-metadata`, `sharepoint-audit-onprem-schema-drift`, `sharepoint-collect-site-inventory`, `sharepoint-compare-schema-exports`, `sharepoint-extract-calculated-columns`, `sharepoint-extract-choice-columns`, `sharepoint-generate-assessment-reports`
-- **[`sharepoint-site-build-and-publish`](plugins/sharepoint-workbench/README.md)** (35 skills, 1 agent) — create/configure SharePoint objects and publish content (dry-run-first writers).
-  - *Create and configure SharePoint objects*: `sharepoint-add-list-column`, `sharepoint-add-list-item`, `sharepoint-apply-provisioning-plan`, `sharepoint-compare-schema-definitions`, `sharepoint-configure-column-formatting`, `sharepoint-configure-library-settings`, `sharepoint-create-content-type`, `sharepoint-create-document-library`, `sharepoint-create-list`, `sharepoint-create-list-view`, `sharepoint-create-site-column`, `sharepoint-detach-content-type`, `sharepoint-generate-schema-definition-from-export`, `sharepoint-plan-column-changes`, `sharepoint-plan-content-type-changes`, `sharepoint-reconcile-calendar-list`, `sharepoint-reconcile-site-schema`, `sharepoint-remove-content-type`, `sharepoint-remove-list`, `sharepoint-remove-list-column`, `sharepoint-remove-site-column`, `sharepoint-scaffold-schema-definition`, `sharepoint-update-content-type`, `sharepoint-update-list-column`, `sharepoint-update-list-settings`, `sharepoint-update-site-column`
-  - *Publish and maintain SharePoint content*: `sharepoint-apply-page-publication-plan`, `sharepoint-compare-publication-state`, `sharepoint-copy-page-between-sites`, `sharepoint-plan-page-publication`, `sharepoint-publish-markdown-files`, `sharepoint-remove-publication`, `sharepoint-validate-publication`
-- **[`sharepoint-site-migration`](plugins/sharepoint-workbench/README.md)** (20 skills, 7 agents) — plan and run site migration: waves, page modernization, list content, links.
-  - *Migrate and modernize SharePoint sites*: `sharepoint-analyze-classic-pages`, `sharepoint-analyze-migration-dependencies`, `sharepoint-audit-list-migration`, `sharepoint-convert-legacy-aspx-to-html`, `sharepoint-convert-page-library-to-modern`, `sharepoint-convert-page-to-modern`, `sharepoint-create-page-preview`, `sharepoint-extract-links`, `sharepoint-generate-modernization-report`, `sharepoint-initialize-migration-project`, `sharepoint-migrate-list-content`, `sharepoint-normalize-migration-inventory`, `sharepoint-plan-migration-waves`, `sharepoint-plan-page-modernization`, `sharepoint-scaffold-migration-wave-scripts`, `sharepoint-update-links-in-documents`, `sharepoint-update-page-links`, `sharepoint-update-rich-text-image-links`, `sharepoint-validate-link-integrity`, `sharepoint-validate-page-modernization`
-- **[`sharepoint-copilot-agents-and-skills`](plugins/sharepoint-workbench/README.md)** (1 skill) — author, deploy, verify, back up and restore Copilot agents and native skills through `managing-sharepoint-copilot-agents-and-skills`.
-- **[`sharepoint-spfx-development`](plugins/sharepoint-workbench/README.md)** (1 skill) — SPFx scaffolding, packaging and both delivery routes through `developing-spfx-solutions`.
+### The 11 Domain Skills (`plugins/sharepoint-workbench/skills/`)
 
-Previous names: skill and plugin names changed in the seven-domain migration (issue #6). See each plugin README ("Previous identities") and [`docs/architecture/seven-domain-plugin-skill-catalog.md`](docs/architecture/seven-domain-plugin-skill-catalog.md).
+- **[`setting-up-sharepoint-workbench`](plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/SKILL.md)** — Access, connection configuration, project intake profiles, path resolution, and live tenant verification.
+- **[`assessing-sharepoint-sites`](plugins/sharepoint-workbench/skills/assessing-sharepoint-sites/SKILL.md)** — Read-only site inventory, schema drift analysis, calculated/choice column extraction, and assessment reporting.
+- **[`converting-sharepoint-documents`](plugins/sharepoint-workbench/skills/converting-sharepoint-documents/SKILL.md)** — Document decomposition: extraction, structure analysis, package assembly, dual-target rendering, and editorial review.
+- **[`managing-sharepoint-schema`](plugins/sharepoint-workbench/skills/managing-sharepoint-schema/SKILL.md)** — Declarative schema planning and reconciliation (site columns, content types, schema diffing, and scaffolding).
+- **[`managing-sharepoint-lists-and-libraries`](plugins/sharepoint-workbench/skills/managing-sharepoint-lists-and-libraries/SKILL.md)** — Provision and manage SharePoint lists, document libraries, list views, and calendar lists.
+- **[`managing-sharepoint-navigation`](plugins/sharepoint-workbench/skills/managing-sharepoint-navigation/SKILL.md)** — Declarative navigation management, Excel/CSV sync, structure extraction, and validation.
+- **[`publishing-sharepoint-pages`](plugins/sharepoint-workbench/skills/publishing-sharepoint-pages/SKILL.md)** — Modern page publishing, static ASPX asset upload, Markdown publication, dynamic ASPX page migration, and state verification.
+- **[`modernizing-sharepoint-pages`](plugins/sharepoint-workbench/skills/modernizing-sharepoint-pages/SKILL.md)** — Classic-to-modern page transformation, web part modernization, page previews, and design-system compliance.
+- **[`migrating-sharepoint-sites`](plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/SKILL.md)** — End-to-end migration execution: dependency waves, list content migration, link remediation, and wave scaffolding.
+- **[`developing-spfx-solutions`](plugins/sharepoint-workbench/skills/developing-spfx-solutions/SKILL.md)** — SPFx solution scaffolding, React/master-detail web parts, extensions, packaging, and App Catalog deployment.
+- **[`managing-sharepoint-copilot-agents-and-skills`](plugins/sharepoint-workbench/skills/managing-sharepoint-copilot-agents-and-skills/SKILL.md)** — Author, deploy, verify, back up, and restore Copilot Studio agents and native SharePoint skills.
+
+### The 9 Specialized Subagents (`plugins/sharepoint-workbench/agents/`)
+
+- `sharepoint-discovery-agent`, `sharepoint-deployment-planning-agent`, `sharepoint-deployment-sequencing-agent`, `sharepoint-content-migration-sequencing-agent`, `sharepoint-modernization-agent`, `sharepoint-webpart-modernization-analysis-agent`, `sharepoint-link-agent`, `sharepoint-link-remediation-analysis-agent`, `sharepoint-validation-agent`.
 
 ---
 
-## 🌐 Additional Use Cases: SharePoint Migration & Modernization Engineering
+## 🌐 Use Cases: SharePoint Migration & Modernization Engineering
 
-The document-conversion pipeline above (Master Architecture & Workflow) is this repository's founding use case and remains its primary reference architecture. Phase 9 added general-purpose SharePoint migration/modernization engineering, decoupled from document conversion, across the SharePoint domain plugins listed above.
-
-Full use-case overviews (what it is, when to use it, workflow at a glance) live under [`docs/use-cases/`](docs/use-cases/README.md), one doc per use case, each linking down to its plugin's own README for full technical detail.
-
-| Use case | Overview | Plugin | What it does |
+| Use case | Overview | Skill Hub | What it does |
 |---|---|---|---|
-| **Document conversion & decomposition** | [overview](docs/use-cases/sharepoint-document-conversion.md) | [`sharepoint-document-conversion`](plugins/sharepoint-workbench/README.md) | Extract, analyze, assemble and render Word manuals into governed Markdown / SharePoint pages, with single-topic editorial review. |
-| **Site assessment & schema comparison** | [overview](docs/use-cases/sharepoint-site-assessment-discovery.md) | [`sharepoint-site-assessment`](plugins/sharepoint-workbench/README.md) | Read-only analysis of exported or live classic SharePoint inventories, schema export comparison, choice/calculated-column and permission analysis. |
-| **Schema reconciliation** | [overview](docs/use-cases/sharepoint-site-assessment-schema.md) | [`sharepoint-site-build-and-publish`](plugins/sharepoint-workbench/README.md) | Declarative, pure planning of site columns, content types, lists and calendar lists, plus schema-definition generation and comparison. |
-| **Tenant provisioning** | [overview](docs/use-cases/sharepoint-site-build-and-publish-provisioning.md) | [`sharepoint-site-build-and-publish`](plugins/sharepoint-workbench/README.md) | Real PnP executors for site columns, list columns, content types, views, items, libraries, sites, branding and taxonomy. |
-| **Tenant publication** | [overview](docs/use-cases/sharepoint-site-build-and-publish-content.md) | [`sharepoint-site-build-and-publish`](plugins/sharepoint-workbench/README.md) | Markdown and page publication plans, state comparison and removal against a live tenant. |
-| **Classic-to-modern page conversion** | [overview](docs/use-cases/sharepoint-site-migration-page-modernization.md) | [`sharepoint-site-migration`](plugins/sharepoint-workbench/README.md) | Classic page analysis, modernization planning, single/library conversion, validation and reports. |
-| **Link & embedded-reference remediation** | [overview](docs/use-cases/sharepoint-site-migration-link-remediation.md) | [`sharepoint-site-migration`](plugins/sharepoint-workbench/README.md) | Extraction, update and validation of page/document links and rich-text image links. |
-| **Content migration** | [overview](docs/use-cases/sharepoint-site-migration-content.md) | [`sharepoint-site-migration`](plugins/sharepoint-workbench/README.md) | Item-level list content migration with two-pass lookup-ID re-linking. |
-| **Migration wave planning** | [overview](docs/use-cases/sharepoint-site-migration-planning.md) | [`sharepoint-site-migration`](plugins/sharepoint-workbench/README.md) | Dependency-graph analysis, migration wave planning and wave script scaffolding. |
-| **SPFx web part development** | (no overview doc) | [`sharepoint-spfx-development`](plugins/sharepoint-workbench/README.md) | Web part scaffolding, packaging and App Catalog / direct-publication delivery. |
-| **Workbench/connection setup** | [overview](docs/use-cases/sharepoint-workbench-setup.md) | [`sharepoint-workbench-setup`](plugins/sharepoint-workbench/README.md) | Connection config, document-workflow and publication-profile setup shared by the other use cases. |
-| **Agent & native-skill lifecycle** | [overview](docs/use-cases/sharepoint-copilot-agents-and-skills.md) | [`sharepoint-copilot-agents-and-skills`](plugins/sharepoint-workbench/README.md) | Create/update/deploy/verify/undeploy/backup/restore for SharePoint Copilot agents and native skills. |
+| **Document conversion & decomposition** | [overview](docs/use-cases/sharepoint-document-conversion.md) | [`converting-sharepoint-documents`](plugins/sharepoint-workbench/skills/converting-sharepoint-documents/SKILL.md) | Extract, analyze, assemble and render Word manuals into governed Markdown / SharePoint pages. |
+| **Site assessment & schema comparison** | [overview](docs/use-cases/sharepoint-site-assessment-discovery.md) | [`assessing-sharepoint-sites`](plugins/sharepoint-workbench/skills/assessing-sharepoint-sites/SKILL.md) | Read-only analysis of classic SharePoint inventories, schema drift, calculated columns, and permissions. |
+| **Schema reconciliation** | [overview](docs/use-cases/sharepoint-site-assessment-schema.md) | [`managing-sharepoint-schema`](plugins/sharepoint-workbench/skills/managing-sharepoint-schema/SKILL.md) | Declarative planning and reconciliation of site columns, content types, and schema exports. |
+| **Tenant provisioning** | [overview](docs/use-cases/sharepoint-site-build-and-publish-provisioning.md) | [`managing-sharepoint-lists-and-libraries`](plugins/sharepoint-workbench/skills/managing-sharepoint-lists-and-libraries/SKILL.md) | Real PnP executors for lists, libraries, columns, content types, views, and items. |
+| **Tenant publication** | [overview](docs/use-cases/sharepoint-site-build-and-publish-content.md) | [`publishing-sharepoint-pages`](plugins/sharepoint-workbench/skills/publishing-sharepoint-pages/SKILL.md) | Markdown and page publication plans, dynamic ASPX migration, static ASPX asset uploads. |
+| **Classic-to-modern page conversion** | [overview](docs/use-cases/sharepoint-site-migration-page-modernization.md) | [`modernizing-sharepoint-pages`](plugins/sharepoint-workbench/skills/modernizing-sharepoint-pages/SKILL.md) | Classic page analysis, modernization planning, single/library conversion, validation and reports. |
+| **Link remediation** | [overview](docs/use-cases/sharepoint-site-migration-link-remediation.md) | [`migrating-sharepoint-sites`](plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/SKILL.md) | Extraction, URL updating and validation of page/document links and rich-text image links. |
+| **Content migration** | [overview](docs/use-cases/sharepoint-site-migration-content.md) | [`migrating-sharepoint-sites`](plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/SKILL.md) | Item-level list content migration with two-pass lookup-ID re-linking. |
+| **Migration wave planning** | [overview](docs/use-cases/sharepoint-site-migration-planning.md) | [`migrating-sharepoint-sites`](plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/SKILL.md) | Dependency-graph analysis, migration wave planning and wave script scaffolding. |
+| **SPFx web part development** | (no overview doc) | [`developing-spfx-solutions`](plugins/sharepoint-workbench/skills/developing-spfx-solutions/SKILL.md) | Web part scaffolding, packaging and App Catalog / direct-publication delivery. |
+| **Workbench setup** | [overview](docs/use-cases/sharepoint-workbench-setup.md) | [`setting-up-sharepoint-workbench`](plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/SKILL.md) | Connection config, document-workflow and publication-profile setup shared by the other use cases. |
+| **Agent & native-skill lifecycle** | [overview](docs/use-cases/sharepoint-copilot-agents-and-skills.md) | [`managing-sharepoint-copilot-agents-and-skills`](plugins/sharepoint-workbench/skills/managing-sharepoint-copilot-agents-and-skills/SKILL.md) | Create/update/deploy/verify/undeploy/backup/restore for SharePoint Copilot agents and native skills. |
 
-Each plugin installs and runs standalone. The single-source plugins (`sharepoint-workbench-setup`, `sharepoint-site-assessment`, `sharepoint-copilot-agents-and-skills`, `sharepoint-spfx-development`) can be installed in editable Python mode (`pip install -e plugins/<name>`); the consolidated plugins keep one flat-module namespace per original implementation, run their scripts from the namespace folder and test with `python3 plugins/<name>/tests/run_namespaces.py`. Most write-capable modules across this set share one safety contract: planning is pure (no I/O), apply is dry-run by default, and a real tenant write requires both an explicitly injected executor and a plan-derived confirmation token. A few preserved scripts use a different gate or none (see [architecture.md](architecture.md) section 4) — check each script's own parameters. For the full architectural picture (including which decisions were made, which remain design scaffolds, and cross-plugin dependencies), see [start-here.md](start-here.md)'s "Phase 9" section and [`docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md`](docs/vision/ai-assisted-structured-knowledge-workbench-broader-plan.md)'s "Scope-expansion update" note.
+The unified package is installable via APM (`apm install @sharepoint/sharepoint-workbench`). Most write-capable modules across this set share one safety contract: planning is pure (no I/O), apply is dry-run by default, and a real tenant write requires both an explicitly injected executor and a plan-derived confirmation token. For full technical details and transition records, see [`docs/plans/master_migration_inventory.csv`](docs/plans/master_migration_inventory.csv).
 
 ---
 

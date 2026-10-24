@@ -77,7 +77,7 @@ Never skip hooks with `--no-verify` unless the user explicitly requests it.
 ### 9. Commit only what is asked & required
 - Commit only files within the task scope.
 - Auto-modified files like `.DS_Store` or `uv.lock` should not be committed unless relevant.
-- When `skills-lock.json` or `symlinks.json` changes as a direct result of adding/modifying skills or plugins, commit them together with the changes.
+- When `apm.yml`, `plugin.yaml`, or `.claude-plugin/plugin.json` changes as a direct result of adding/modifying skills or plugins, commit them together with the changes.
 
 ### 10. Evolution Integrity Gate — update map-debt BEFORE committing core logic
 Any commit that touches files under `plugins/`, `src/`, or `py_services/` **must** do one of the following before `git commit`:

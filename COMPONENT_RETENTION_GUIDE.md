@@ -70,7 +70,7 @@ This document catalogs which skills, rules, and agents should be enabled (`true`
 ### D. `dev-utils` (Core Developer Utilities)
 | Skill | Status | Rationale |
 |---|---|---|
-| `symlink-manager` | **`true`** | **Critical**: Audits and restores repository symlinks across Windows/Linux. |
+| `symlink-manager` | `false` | Retired: superseded by APM standalone package architecture (zero symlinks). |
 | `github-issue-agent` | **`true`** | Logs GitHub issues for bugs and friction events. |
 | `github-issue-prioritizer` | **`true`** | Ranks issue priorities. |
 | `context-bundler` | **`true`** | Bundles documentation/code for LLM context. |
@@ -143,7 +143,7 @@ This document catalogs which skills, rules, and agents should be enabled (`true`
 | `github-issue-logging-policy.md` | **`true`** | Standardizes friction and bug reporting to GitHub issues. |
 | `self-evolution-policy.md` | **`true`** | Enforces the 3-attempt ceiling and pre-completion checklist gate. |
 | `git-operations.md` | **`true`** | Prohibits unverified pushes and direct commits to main. |
-| `symlink-cross-platform.md` | **`true`** | Enforces file-level symlink rules across Windows and POSIX. |
+| `symlink-cross-platform.md` | `false` | Retired: superseded by APM standalone package architecture (zero symlinks). |
 | `coding-conventions.md` | **`true`** | Standardizes Python and markdown formatting. |
 | `dependency-management.md` | **`true`** | Governs virtual environment and requirements hygiene. |
 | `config-driven-constants-over-hardcoding.md` | `false` | Optional rule for externalizing constant values. |

@@ -31,7 +31,7 @@ globs: ["plugins/**/SKILL.md", "plugins/**/scripts/**/*.py", "plugins/**/*.md"]
 
 ## 2. Separation of Concerns & Loose Coupling
 
-1. **Pluggable Independence**: If a user installs a skill via `plugin_add.py` or `uvx`, that skill MUST function completely in isolation. It cannot crash or halt because another plugin is uninstalled or missing.
+1. **Pluggable Independence**: If a user installs a skill via `apm`, `plugin_add.py`, or legacy installers, that skill MUST function completely in isolation. It cannot crash or halt because another plugin is uninstalled or missing.
 2. **Agent Delegation over Code Interfaces**: If a plugin requires coordination with another plugin, it must do so via Natural Language agent instructions (e.g., *"Please invoke the `<plugin>-agent` to..."*) rather than hardcoded Python imports, hidden filesystem state manipulations, or rigid cross-plugin bindings.
 3. **Cross-Plugin Wire Contracts**: Sharing schemas, references, assets, or executable contract helpers through installer-materialized hard copies is permitted. Cross-plugin Python runtime imports or cross-plugin directory symlinks are strictly forbidden.
 
@@ -69,46 +69,19 @@ Resource placement is determined strictly by **purpose**, not file extension:
 
 ---
 
-## 5. Mandatory Symlink Workflow & Cross-Platform Protocol
+## 5. Hub-First Self-Contained Skills & Zero-Symlink Policy
 
-**NEVER create symlinks with `ln -s` directly.**  
-**NEVER create real file copies where a symlink should exist.**
+**All skills in `plugins/sharepoint-workbench/skills/` are fully self-contained.**  
+The repository has completely retired the legacy `symlinks.json` mechanism in favor of native APM distribution.
 
-All symlink creation, repair, and auditing must go through `.agents/skills/symlink-manager/scripts/symlink_manager.py` and be recorded in `symlinks.json`.
-
-1. **File-Level Symlinks ONLY**:
-   All shared resources within or across plugins must use **file-level symlinks ONLY**. Directory-level symlinks are strictly forbidden because installation bridges drop them or fail on cross-platform checkouts.
-2. **Zero Manual `ln -s`**:
-   Never invoke `ln -s` directly in the shell. Direct calls bypass the manifest, causing links to fail or disappear on fresh checkouts.
-3. **Canonical Source Locations**:
-   | Resource Type | Canonical Master Copy | Installed / Spoke Location |
-   |---|---|---|
-   | Python scripts | `plugins/<plugin-name>/scripts/` | `plugins/<plugin-name>/skills/<skill>/scripts/` |
-   | References / docs | `plugins/<plugin-name>/references/` | `plugins/<plugin-name>/skills/<skill>/references/` |
-   | Assets / templates | `plugins/<plugin-name>/assets/` | `plugins/<plugin-name>/skills/<skill>/assets/` |
-4. **Required 5-Step Symlink Workflow**:
-   - **Step 1: Diagnose first**
-     ```bash
-     python3 .agents/skills/symlink-manager/scripts/symlink_manager.py diagnose
-     ```
-     Identify every `? regular file (not a link)` and `✗ broken symlink` before touching anything.
-   - **Step 2: Remove real-file imposters**
-     If a file that should be a symlink is a regular file copy, delete the imposter first:
-     ```bash
-     rm -f path/to/real-file-that-should-be-symlink
-     ```
-   - **Step 3: Register link in manifest (`symlinks.json`)**
-     Record the canonical source and skill target via `symlink_manager.py` or formatted entry:
-     `{ "src": "canonical/source.py", "dst": "skill/scripts/source.py", "strategy": "symlink", "description": "..." }`
-   - **Step 4: Restore all from manifest**
-     ```bash
-     python3 .agents/skills/symlink-manager/scripts/symlink_manager.py restore
-     ```
-   - **Step 5: Verify clean status**
-     ```bash
-     python3 .agents/skills/symlink-manager/scripts/symlink_manager.py diagnose
-     ```
-     Ensure zero `? regular file` or `✗ broken symlink` entries remain before committing.
+1. **Zero Symlinks**:
+   Never create file or directory symlinks. All shared resources are either centralized at plugin root or inlined into the corresponding modal skill hubs.
+2. **Self-Contained Content**:
+   Every resource, script, and reference a skill requires must be located within that skill's directory tree (`scripts/`, `references/`, `assets/`) or referenced cleanly via relative path to sibling skills.
+3. **Modal Dispatch Architecture**:
+   To keep skills lightweight and context-efficient, each `SKILL.md` contains concise entrypoint instructions under 100 lines and routes execution to dedicated markdown playbooks under `references/modes/<mode>.md`.
+4. **Manifest Synchronization**:
+   All skills and agents are declared in `plugins/sharepoint-workbench/apm.yml`, `plugin.yaml`, and `.claude-plugin/plugin.json`.
 
 ---
 
