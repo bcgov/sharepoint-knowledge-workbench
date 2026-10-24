@@ -1,1 +1,0 @@
-../../../references/choice-fields-details.md

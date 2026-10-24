@@ -1,1 +1,0 @@
-../../../scripts/structure-analysis/identity.py

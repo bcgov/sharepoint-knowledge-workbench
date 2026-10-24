@@ -1,1 +1,0 @@
-../../../scripts/collect-sharepoint-custom-forms.ps1

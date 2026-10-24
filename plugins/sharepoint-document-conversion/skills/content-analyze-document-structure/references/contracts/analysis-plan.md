@@ -1,1 +1,0 @@
-../../../../references/structure-analysis/contracts/analysis-plan.md

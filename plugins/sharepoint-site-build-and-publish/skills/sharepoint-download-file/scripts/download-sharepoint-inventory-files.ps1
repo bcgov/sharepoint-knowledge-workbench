@@ -1,1 +1,0 @@
-../../../scripts/content-publication/download-sharepoint-inventory-files.ps1

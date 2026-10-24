@@ -1,1 +1,0 @@
-../../../../../../assets/rendering/templates/generic/markdown/page.template.md

@@ -1,1 +1,0 @@
-../../../scripts/page-modernization/component_mapping.py

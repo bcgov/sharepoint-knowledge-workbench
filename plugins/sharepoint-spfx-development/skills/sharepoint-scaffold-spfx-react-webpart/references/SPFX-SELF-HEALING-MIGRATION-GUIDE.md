@@ -1,1 +1,0 @@
-../../../references/SPFX-SELF-HEALING-MIGRATION-GUIDE.md

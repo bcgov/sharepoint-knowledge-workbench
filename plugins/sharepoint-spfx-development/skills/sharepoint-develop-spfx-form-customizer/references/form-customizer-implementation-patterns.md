@@ -1,1 +1,0 @@
-../../../references/form-customizer-implementation-patterns.md

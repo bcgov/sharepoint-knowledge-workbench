@@ -1,1 +1,0 @@
-../../../scripts/deploy-spfx-package.ps1

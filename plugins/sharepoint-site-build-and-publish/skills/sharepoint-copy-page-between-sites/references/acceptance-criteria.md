@@ -1,1 +1,0 @@
-../../../../sharepoint-site-migration/references/page-modernization-execution/sharepoint-copy-page-between-sites-acceptance-criteria.md

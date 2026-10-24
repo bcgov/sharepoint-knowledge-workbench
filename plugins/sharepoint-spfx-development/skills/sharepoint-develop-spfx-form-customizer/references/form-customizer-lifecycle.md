@@ -1,1 +1,0 @@
-../../../references/form-customizer-lifecycle.md

@@ -1,1 +1,0 @@
-../../../assets/migration-planning/wave-guide-template.md

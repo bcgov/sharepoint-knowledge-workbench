@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "Expected shape of site-inventory.json inside an export directory accepted by normalize-migration-inventory. Produced today by a human (or an out-of-workbench script) exporting a source site's lists and fields -- this workbench has no live-tenant collector yet (sharepoint-collection, Part A, is design-only). The critical field this schema exists to capture is lookupList on Lookup-type fields, which stage 3a (analyze-migration-dependencies) needs to build dependsOn edges and which existing sharepoint-site-assessment/sharepoint-schema exports do not currently record.",
+  "title": "SharePoint Site Inventory Export",
+  "type": "object",
+  "required": ["lists"],
+  "properties": {
+    "lists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "fields"],
+        "properties": {
+          "name": { "type": "string", "description": "The list's title -- becomes the matrix object's name." },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "type"],
+              "properties": {
+                "name": { "type": "string" },
+                "type": { "type": "string", "description": "e.g. 'Text', 'Number', 'Lookup'." },
+                "lookupList": {
+                  "type": "string",
+                  "description": "Required when type is 'Lookup': the name of the list this field points at. This is the relationship stage 3a's dependsOn edges are built from."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

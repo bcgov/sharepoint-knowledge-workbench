@@ -1,1 +1,0 @@
-../../../references/sharepoint-extract-calculated-columns-acceptance-criteria.md

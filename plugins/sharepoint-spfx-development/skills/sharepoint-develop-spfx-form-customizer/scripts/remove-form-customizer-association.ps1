@@ -1,1 +1,0 @@
-../../../scripts/remove-form-customizer-association.ps1

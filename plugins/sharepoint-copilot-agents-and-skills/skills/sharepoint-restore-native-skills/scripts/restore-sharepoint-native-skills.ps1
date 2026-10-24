@@ -1,1 +1,0 @@
-../../../scripts/restore-sharepoint-native-skills.ps1

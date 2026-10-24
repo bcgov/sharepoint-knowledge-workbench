@@ -1,1 +1,0 @@
-../../../scripts/collect-sharepoint-site-navigation.ps1

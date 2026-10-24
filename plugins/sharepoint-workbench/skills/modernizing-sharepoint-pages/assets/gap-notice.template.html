@@ -1,0 +1,11 @@
+<div style="background:#f2f2f2;border-left:4px solid #767676;padding:12px 16px;font-family:sans-serif;">
+<strong>Related panels are not available on this page.</strong><br>
+{{ notice_intro }}<br>
+Modern SharePoint pages do not support the classic web part connection framework,
+so this filtering behaviour was not carried over.<br><br>
+To view the related records:<br>
+{% for item in not_migrated -%}
+&nbsp;&nbsp;&rarr; Open the <em>{{ item.listName }}</em> list{% if item.relationship %} and filter by the field described in: {{ item.relationship }}{% endif %}<br>
+{% endfor -%}
+{% if backlog_reference %}<br>See the modernization backlog reference: {{ backlog_reference }}{% endif %}
+</div>

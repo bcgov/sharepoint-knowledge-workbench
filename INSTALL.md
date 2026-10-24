@@ -1,167 +1,155 @@
-﻿# Repository Installation — Central Authority
+# Repository Installation & Lifecycle — Central Authority
 
-This document defines the single, authoritative suite of installation methods for all domain plugins, skills, and agents in the **SharePoint Knowledge Workbench** ecosystem (`richfrem/sharepoint-knowledge-workbench`).
+This document defines how to install, configure, update, and manage plugins and skills in the **SharePoint Knowledge Workbench** (`@sharepoint/sharepoint-workbench`), as well as how to pair it with governance extensions from the universal **Agent Plugins & Skills** monorepo (`agent-plugins-skills`).
+
+All packages are managed with [APM](https://github.com/microsoft/apm) (Agent Package Manager). APM copies skills, subagents, and tools directly into your active agent harness directories (`.claude/`, `.agents/`, `~/.gemini/antigravity-cli/`), maintains manifests and lockfiles, and handles updates and rollbacks natively across Windows, macOS, and Linux with zero symlinks.
 
 ---
 
-## Consumer Installation (Bootstrapping)
+## 📦 Option 1: APM Package Management (Recommended)
 
-These commands are for consumers and project repositories (e.g. migration pilots, document conversion runs) who want to add plugins seamlessly *without* cloning the workbench repo. The single `.agents/` environment directory is **not committed** to your repo. It will be empty by default. Run one of the installers below to deploy plugins.
+### 1. Install the APM CLI
 
-### Option 1: `uvx` — Modern Python Standard (Recommended)
+If APM is not already installed on your workstation:
 
-If you have [uv](https://docs.astral.sh/uv/) installed, you get instantaneous, isolated installations natively cross-platform without Node.js.
-
+**macOS / Linux:**
 ```bash
-# Interactive picker
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench
-
-# Install everything non-interactively (no prompts)
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench --all -y
-
-# Install a specific domain plugin directly (e.g., sharepoint-document-conversion or sharepoint-site-assessment)
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench/plugins/sharepoint-document-conversion -y
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench/plugins/sharepoint-site-assessment -y
-
-# Preview what will be installed without writing any files
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench --dry-run
-```
-
-### Option 2: Fallback Bootstrap (Zero Tooling Assumptions)
-
-If you don't use `uv`, you can install purely using standard Python tooling without cloning the repo.
-
-**Mac / Linux:**
-```bash
-curl -sL https://raw.githubusercontent.com/richfrem/agent-plugins-skills/main/bootstrap.py | python - richfrem/sharepoint-knowledge-workbench
+curl -sSL https://aka.ms/apm-unix | sh -s -- @v0.33.0
 ```
 
 **Windows (PowerShell):**
 ```powershell
-Invoke-RestMethod https://raw.githubusercontent.com/richfrem/agent-plugins-skills/main/bootstrap.py | python - richfrem/sharepoint-knowledge-workbench
+irm https://aka.ms/apm-windows | iex
 ```
 
-### Subsequent Installations
-
-Because `uvx` and `bootstrap.py` execute ephemerally, you simply repeat the same command to add new plugins later. There is no local state to manage outside of your `.agents/` folder.
+Verify the installation:
+```bash
+apm --version
+```
 
 ---
 
-## Alternative: Agent Plugin Marketplace (Claude Code / Copilot)
+### 2. Install the SharePoint Knowledge Workbench
 
-If you are using **Claude Code** (2.1.81+) or the **Copilot Plugin CLI**, you can add this repository as a native marketplace and install plugins without leaving your terminal session:
+#### A. Global Install (Recommended for Workstations)
+Make workbench skills and agents available across all your coding projects:
+
+```bash
+# Install globally for all supported agent harnesses (Claude, Copilot, Codex, Antigravity)
+apm install @sharepoint/sharepoint-workbench --global --target claude,copilot,codex,antigravity
+
+# Or install directly from a local clone of this repository:
+apm install ./plugins/sharepoint-workbench --global --target claude,copilot,codex,antigravity
+```
+
+The global installation writes directly to your workstation profile directories:
+```text
+APM state & cache:           ~/.apm/                              (Windows: %USERPROFILE%\.apm\)
+Claude Code skills:          ~/.claude/skills/
+Copilot & Codex skills:      ~/.agents/skills/                    (shared)
+Antigravity (agy) skills:    ~/.gemini/antigravity-cli/skills/
+```
+
+#### B. Project-Local Install (For Consumer Repositories & Pilots)
+To install the workbench into a specific migration pilot or project repository (e.g. `jag-csb-intranet`):
+
+```bash
+cd <path-to-consumer-repo>
+
+# Install the unified workbench package
+apm install @sharepoint/sharepoint-workbench --target claude,copilot,codex,antigravity
+```
+
+This creates a local `apm.yml` and `apm.lock.yaml` in the project root, and provisions skills to `.claude/skills/` and `.agents/skills/`.
+
+---
+
+### 3. Install Companion Governance Skills (`agent-plugins-skills`)
+
+For repository governance, issue tracking, and agent lifecycle tooling, install companion packages from the sibling `agent-plugins-skills` repository:
+
+```bash
+# Clone and materialize the companion monorepo if needed
+git clone https://github.com/richfrem/agent-plugins-skills.git
+cd agent-plugins-skills
+python3 plugins/agent-extension-authoring/skills/packaging-with-apm/scripts/materialize_copies.py
+
+# Install core developer utilities and agent OS globally
+apm install ./plugins/agent-agentic-os --global --target claude,copilot,codex,antigravity
+apm install ./plugins/dev-utils --global --target claude,copilot,codex,antigravity
+apm install ./plugins/cli-agents --global --target claude,copilot,codex,antigravity
+```
+
+---
+
+### 4. Updating & Managing Installed Packages
+
+```bash
+# List all installed APM packages and active client skills
+apm list
+
+# Update the workbench package to the latest version
+apm update @sharepoint/sharepoint-workbench
+
+# Uninstall the workbench package
+apm uninstall @sharepoint/sharepoint-workbench --global
+```
+
+---
+
+## 🔌 Option 2: Native Agent Plugin Marketplace (Claude Code / Copilot)
+
+If you are using **Claude Code** (2.1.81+) or the **GitHub Copilot CLI**, you can install directly via the marketplace:
 
 ### Claude Code Syntax
 ```text
-# Add this repository to your known marketplaces
+# Add this repository as a marketplace
 /plugin marketplace add richfrem/sharepoint-knowledge-workbench
 
-# Open the interactive TUI to browse, discover, and install plugins
-/plugin
-
-# Or install a specific domain plugin directly
-/plugin install sharepoint-document-conversion@sharepoint-knowledge-workbench
-/plugin install sharepoint-site-assessment@sharepoint-knowledge-workbench
-/plugin install sharepoint-site-build-and-publish@sharepoint-knowledge-workbench
+# Install the unified plugin
+/plugin install sharepoint-workbench@sharepoint-knowledge-workbench
 ```
 
 ### Copilot CLI Syntax
 ```bash
-# Add this repository as a known marketplace
+# Add this repository as a marketplace
 copilot plugin marketplace add richfrem/sharepoint-knowledge-workbench
 
-# Browse, discover, and install plugins via TUI
-copilot plugin
-
-# Install a specific plugin directly (slugified marketplace ID)
-copilot plugin install sharepoint-document-conversion@richfrem-sharepoint-knowledge-workbench
+# Install the unified plugin
+copilot plugin install sharepoint-workbench@richfrem-sharepoint-knowledge-workbench
 ```
 
-> [!NOTE]
-> **Gemini CLI**: The `gemini extensions install` command installs the entire repository as a raw context bundle, not as discrete addressable plugins. For Gemini CLI, use **`uvx`** (Option 1 above) which correctly deploys individual plugins and skills into your `.agents/` folder.
-
 ---
 
-## Alternative: npx skills CLI (Mac / Linux only)
+## 🛠️ Local Development (Contributors & Maintainers)
 
-> [!NOTE]
-> **`npx skills add` installs skills only** — no commands, agents, or hooks. It also only works correctly on Mac/Linux (Git symlinks check out as plain-text files on Windows). For full plugin deployment on any platform, use `uvx` or `bootstrap.py`.
-
-### Standard Commands
-```bash
-# Install a specific skill collection from this workbench
-npx skills add richfrem/sharepoint-knowledge-workbench
-
-# Install a specific plugin from the repository
-npx skills add richfrem/sharepoint-knowledge-workbench/plugins/sharepoint-document-conversion
-
-# Update all installed skills across all agents
-npx skills update
-```
-
-> [!CAUTION] 
-> **Broken Symlinks on Windows:** `npx skills add` fails on Windows because it fails to dereference Git symlinks correctly. Use `uvx` or `bootstrap.py` for full platform-agnostic deployment.
-
----
-
-## Installer Comparison
-
-| Method | Platform | Full Plugin | GitHub source | Notes |
-|---|---|---|---|---|
-| `uvx` ★ | **All** (Win/Mac/Linux) | ✅ skills + agents + commands + hooks | ✅ `owner/repo` | Recommended default |
-| `bootstrap.py` | **All** (Win/Mac/Linux) | ✅ full | ✅ `owner/repo` | Zero-dependency fallback |
-| Marketplace CLI ★ | **Claude / Copilot** | ✅ skills + agents + commands + hooks | ✅ | Native TUI / Marketplace |
-| `npx skills add` | Mac/Linux only | ❌ skills only | ✅ | No Python required |
-
----
-
-## Local Development (For Developers & Contributors)
-
-If you have cloned this repository locally to develop or contribute to plugins:
+For developers working directly on the workbench skills and scripts:
 
 ```bash
 git clone https://github.com/richfrem/sharepoint-knowledge-workbench.git
 cd sharepoint-knowledge-workbench
 
-# Install local plugin-installer skill into your environment if needed
-python .agents/skills/plugin-installer/scripts/plugin_add.py ./plugins --all -y
+# Install in editable Python mode:
+pip install -e plugins/sharepoint-workbench
 
-# Or install the single-source plugins in editable Python mode:
-pip install -e plugins/sharepoint-workbench-setup
-pip install -e plugins/sharepoint-site-assessment
-pip install -e plugins/sharepoint-copilot-agents-and-skills
-pip install -e plugins/sharepoint-spfx-development
-# The consolidated plugins (document conversion, build/publish, migration) bundle several flat-module implementations in namespace
-# folders and are not importable as one distribution; run their tests with:
-#   python3 plugins/sharepoint-document-conversion/tests/run_namespaces.py
+# Run unit and integration tests:
+pytest plugins/sharepoint-workbench/tests/
 
-# Alternatively, you can use uvx locally against the repository:
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add ./plugins --all -y
+# Audit all skills against authoring standards:
+for d in plugins/sharepoint-workbench/skills/*; do
+  python3 <path-to-authoring-skills>/scripts/audit_skill.py "$d" --mode source
+done
+
+# Audit all 9 subagents:
+python3 <path-to-authoring-subagents>/scripts/audit_sub_agent.py plugins/sharepoint-workbench --all
 ```
 
 ---
 
-## Upgrading from the previous 16-plugin layout
+## 🔄 Upgrading from Legacy Layouts
 
-The repository now ships seven plugins (see [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json)). Old plugin names (for example
-`content-rendering`, `sharepoint-discovery`, `workbench-setup`) and 58 skill names are no longer published and no aliases are kept. The
-old-to-new mapping is in [`docs/architecture/seven-domain-plugin-skill-catalog.md`](docs/architecture/seven-domain-plugin-skill-catalog.md).
-
-**Procedure (tested against disposable projects; results in the implementation evidence):** remove the old plugins first, then install the new ones.
-
-* `plugin-add` / bridge installer: `plugin_remove.py --all -y` (or `--plugins <old names>`), then `plugin-add richfrem/sharepoint-knowledge-workbench --all -y`.
-  A fresh install after removal is byte-identical to a clean install of the seven plugins, and reinstalling the old plugins restores the original state.
-* Claude Code marketplace: `/plugin uninstall <old>@sharepoint-knowledge-workbench` for each old plugin, update the marketplace, then install the seven new plugins.
-
-**Do not** install the new plugins over the old ones or remove the old ones afterwards:
-
-* Installing over the old set leaves 58 stale skill directories (the old names of renamed skills) next to the new ones, so both the old and the new
-  skill are discoverable.
-* Removing the old plugins *after* installing a consolidated plugin deletes the skills both claim (the 46 unchanged skill names): in the
-  document-conversion merge test 7 of its 11 skills disappeared. Re-run the install to restore them.
-* The bridge installer is not atomic: a process killed mid-install can leave a partially copied skill and a lock file that disagrees with `.agents/`; re-running the
-  install converges to the correct state.
-* Uninstalling does not remove rule text the installer injected into `CLAUDE.md`/`AGENTS.md`. After an upgrade, delete stale
-  `<!-- plugin: <old plugin> / <rule> -->` blocks by hand (or install with `--no-append-rules-to-ide-files`).
-* If the marketplace is updated in place while old plugins stay installed, Claude Code lists them as `failed to load: Plugin <old> not found in marketplace`;
-  uninstall them. `plugin uninstall` also leaves the plugin cache on disk.
+The repository has completely retired the legacy 7-plugin and 108 micro-skill architecture:
+1. **Unified Hub**: All 108 micro-skills are now consolidated into 11 domain hubs under `plugins/sharepoint-workbench/skills/` using modal execution (`references/modes/<mode>.md`).
+2. **Zero Symlinks**: `symlinks.json`, `skills-lock.json`, `plugin-sources.json`, and `plugin-retention.json` have been retired. All skills are self-contained.
+3. **Traceability**: See [`docs/plans/master_migration_inventory.csv`](docs/plans/master_migration_inventory.csv) for the complete 1:1 old-to-new mapping.
+4. **Consumer Guidance**: See [`docs/plans/csb_intranet_sp_migration_refactor_plan.md`](docs/plans/csb_intranet_sp_migration_refactor_plan.md) for downstream migration steps.

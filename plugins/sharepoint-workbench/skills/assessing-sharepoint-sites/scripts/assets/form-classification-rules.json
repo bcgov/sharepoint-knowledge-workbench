@@ -1,0 +1,7 @@
+{
+  "strategies": {
+    "outOfBox": "No action required -- standard list form carries over as-is.",
+    "script": "Custom code detected -- plan a replacement (e.g. a low-code form or a custom web part).",
+    "infopath": "Custom layout without script -- plan a replacement form (e.g. a low-code form)."
+  }
+}

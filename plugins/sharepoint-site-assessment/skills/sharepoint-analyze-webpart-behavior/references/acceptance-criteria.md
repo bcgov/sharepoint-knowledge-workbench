@@ -1,1 +1,0 @@
-../../../references/sharepoint-analyze-webpart-behavior-acceptance-criteria.md

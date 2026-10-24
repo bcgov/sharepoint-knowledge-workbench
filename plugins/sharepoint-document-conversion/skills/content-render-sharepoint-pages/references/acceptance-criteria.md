@@ -1,1 +1,0 @@
-../../../references/rendering/content-render-sharepoint-pages-acceptance-criteria.md

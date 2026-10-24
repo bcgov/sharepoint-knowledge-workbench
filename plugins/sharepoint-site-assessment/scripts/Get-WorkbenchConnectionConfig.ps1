@@ -1,1 +1,0 @@
-../../sharepoint-workbench-setup/scripts/Get-WorkbenchConnectionConfig.ps1

@@ -1,1 +1,0 @@
-../../../scripts/schema-reconciliation/content_type_provisioning.py

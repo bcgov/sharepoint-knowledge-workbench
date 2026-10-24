@@ -1,1 +1,0 @@
-../../../scripts/structure-analysis/document_structure_analysis.py

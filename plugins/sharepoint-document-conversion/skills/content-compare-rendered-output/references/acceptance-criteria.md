@@ -1,1 +1,0 @@
-../../../references/content-compare-rendered-output-acceptance-criteria.md

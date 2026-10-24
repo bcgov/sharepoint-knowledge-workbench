@@ -1,1 +1,0 @@
-../../../scripts/provisioning/spo-trigger-reindex.ps1

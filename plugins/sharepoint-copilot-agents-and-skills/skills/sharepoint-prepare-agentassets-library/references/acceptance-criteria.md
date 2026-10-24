@@ -1,1 +1,0 @@
-../../../references/sharepoint-prepare-agentassets-library-acceptance-criteria.md

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sharepoint-content-migration"
+version = "0.1.0-alpha.1"
+description = "Item-level SharePoint content migration mechanism: batched migration with retry, and the two-pass lookup-ID re-link technique. Planning is pure; a real apply is dry-run by default and requires both an explicitly injected executor and a plan-derived confirmation token."
+requires-python = ">=3.10"
+# No runtime dependency on any other workbench distribution -- provisioning_outcomes.py is
+# included via a managed file-level symlink (symlinks.json), matching sharepoint-content-
+# publication's and sharepoint-migration-planning's proven pattern for the same isolation
+# requirement (plugin-architecture-policy.md 1.3).
+dependencies = []
+
+[tool.setuptools]
+py-modules = [
+    "id_mapping",
+    "item_migration",
+    "provisioning_outcomes",
+]
+
+[tool.setuptools.package-dir]
+"" = "scripts"

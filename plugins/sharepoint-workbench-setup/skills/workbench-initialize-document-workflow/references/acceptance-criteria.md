@@ -1,1 +1,0 @@
-../../../references/workbench-initialize-document-workflow-acceptance-criteria.md

@@ -5,7 +5,7 @@ description: >
   found during the Phase 9 exhaustive source audit as already-generic
   guidance with no project-specific content.
 globs:
-  - "plugins/sharepoint-site-migration/**/*"
+  - "plugins/sharepoint-migration-planning/**/*"
 ---
 
 # Rule: Deployment Decision Principles
@@ -35,7 +35,7 @@ count.
 If an object's entire migration logic is simple and low-volume, a person
 configuring it directly in SharePoint Online may take less time and carry
 less risk than a developer building and testing a generated script for it.
-`scaffold-migration-wave-scripts` should recommend manual handling for
+`generate-sharepoint-wave-scripts` should recommend manual handling for
 these cases rather than generating a script anyway "for completeness."
 
 ## Applying these principles to stage sequencing
@@ -45,7 +45,7 @@ these cases rather than generating a script anyway "for completeness."
   generic capability covers it, and it is low-complexity), recommend
   manual handling and say so explicitly — never generate an in-flight
   script for a capability that has not actually been designed or tested.
-- If a source object maps 1:1 to an existing `sharepoint-site-build-and-publish`
+- If a source object maps 1:1 to an existing `sharepoint-provisioning`
   capability (a list, a field, a content type, a calendar), the generated
   wave script should call that capability directly — never reimplement
   provisioning logic that already exists.

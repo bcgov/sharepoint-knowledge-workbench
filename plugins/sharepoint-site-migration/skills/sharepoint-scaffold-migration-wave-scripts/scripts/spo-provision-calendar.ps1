@@ -1,1 +1,0 @@
-../../../../sharepoint-site-build-and-publish/scripts/calendar-executor/spo-provision-calendar.ps1

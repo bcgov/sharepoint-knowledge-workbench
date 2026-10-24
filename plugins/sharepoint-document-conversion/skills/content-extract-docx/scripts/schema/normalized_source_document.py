@@ -1,1 +1,0 @@
-../../../../scripts/extraction/schema/normalized_source_document.py

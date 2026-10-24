@@ -1,0 +1,26 @@
+[
+  {
+    "id": "eval-1-positive",
+    "type": "positive",
+    "prompt": "Modernize this classic SharePoint ASPX page to a modern client-side page",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-2-positive",
+    "type": "positive",
+    "prompt": "Extract webparts and images from this classic ASPX page",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-3-positive",
+    "type": "positive",
+    "prompt": "Remediate page links and document links for modern SharePoint",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-4-negative",
+    "type": "negative",
+    "prompt": "Create an SPFx Application Customizer",
+    "should_trigger": false
+  }
+]

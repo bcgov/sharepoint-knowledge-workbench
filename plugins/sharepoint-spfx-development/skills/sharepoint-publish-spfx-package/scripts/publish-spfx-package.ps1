@@ -1,1 +1,0 @@
-../../../scripts/publish-spfx-package.ps1

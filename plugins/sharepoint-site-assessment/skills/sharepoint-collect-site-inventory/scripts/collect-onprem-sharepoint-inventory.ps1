@@ -1,1 +1,0 @@
-../../../scripts/collect-onprem-sharepoint-inventory.ps1

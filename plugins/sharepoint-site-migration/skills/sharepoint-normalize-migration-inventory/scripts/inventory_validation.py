@@ -1,1 +1,0 @@
-../../../scripts/migration-planning/inventory_validation.py

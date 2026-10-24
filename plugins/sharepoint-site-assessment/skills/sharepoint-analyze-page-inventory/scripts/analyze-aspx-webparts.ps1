@@ -1,1 +1,0 @@
-../../../scripts/discovery-lineage/analyze-aspx-webparts.ps1

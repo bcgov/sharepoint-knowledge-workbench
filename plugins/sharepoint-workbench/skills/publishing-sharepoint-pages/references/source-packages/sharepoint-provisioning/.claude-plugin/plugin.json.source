@@ -1,0 +1,18 @@
+{
+    "name": "sharepoint-provisioning",
+    "version": "0.1.0-alpha.1",
+    "description": "Real PnP.PowerShell tenant-write executors for site columns, list columns, content types, views, items, libraries, sites, branding, navigation, permissions, and taxonomy. Consumes plan JSON from sharepoint-schema-reconciliation modules or direct plans. Every script is dry-run by default, gated behind -Execute plus an operation-specific -ConfirmToken.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keyworders": [
+        "sharepoint",
+        "provisioning",
+        "pnp-powershell",
+        "site-columns",
+        "content-types",
+        "lists"
+    ]
+}

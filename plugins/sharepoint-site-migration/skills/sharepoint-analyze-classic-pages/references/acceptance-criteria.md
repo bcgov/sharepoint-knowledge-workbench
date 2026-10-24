@@ -1,1 +1,0 @@
-../../../references/page-modernization/sharepoint-analyze-classic-pages-acceptance-criteria.md

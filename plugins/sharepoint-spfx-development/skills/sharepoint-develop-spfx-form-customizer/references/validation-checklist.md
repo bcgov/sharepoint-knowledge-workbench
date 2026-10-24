@@ -1,1 +1,0 @@
-../../../references/validation-checklist.md

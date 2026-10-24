@@ -1,0 +1,60 @@
+{
+  "description": "Canvas shapes for the modern page title banner (Banner web part in the title zone plus the zone theme control). Copied from DEV CourtAdmin/Accessibility-Resources (hand-built by the web team), exported 2026-10-23 with scripts/migration/export-modern-page.ps1. Placeholders are filled by ConvertTo-SpoCanvasWithTitleBanner in publish-spo-page.ps1.",
+  "bannerWebPartId": "cbe7b0a9-3504-44dd-a3a3-0e5cacd07788",
+  "titleRegionTitle": "Title Region",
+  "bannerControl": {
+    "canvasDataVersion": "1.0",
+    "controlData": {
+      "position": { "layoutIndex": 1, "zoneIndex": 1, "zoneId": "{zoneId}", "sectionIndex": 1, "sectionFactor": 0, "controlIndex": 1 },
+      "id": "{controlId}",
+      "controlType": 3,
+      "isFromSectionTemplate": false,
+      "addedFromPersistedData": true,
+      "webPartId": "cbe7b0a9-3504-44dd-a3a3-0e5cacd07788",
+      "reservedWidth": 1465,
+      "reservedHeight": 173
+    },
+    "webPartDataVersion": "1.7",
+    "webPartData": {
+      "id": "cbe7b0a9-3504-44dd-a3a3-0e5cacd07788",
+      "instanceId": "{controlId}",
+      "title": "Banner",
+      "description": "Show a banner with title and author information",
+      "audiences": [],
+      "hideOn": { "mobile": false },
+      "serverProcessedContent": { "htmlStrings": {}, "searchablePlainTexts": {}, "imageSources": {}, "links": {} },
+      "dataVersion": "1.7",
+      "properties": {
+        "title": "{title}",
+        "imageSourceType": 4,
+        "layoutType": "{layoutType}",
+        "textAlignment": "{textAlignment}",
+        "showTopicHeader": false,
+        "showPublishDate": true,
+        "topicHeader": "",
+        "authorByline": [],
+        "authors": [],
+        "isFullWidth": true,
+        "enableGradientEffect": true,
+        "isDecorative": true,
+        "customContentDropSupport": "disabled",
+        "htmlTitle": "{htmlTitle}",
+        "showTimeToRead": false,
+        "headingLevel": 1
+      },
+      "containsDynamicDataSource": false
+    },
+    "componentId": "cbe7b0a9-3504-44dd-a3a3-0e5cacd07788"
+  },
+  "zoneThemeControl": {
+    "canvasDataVersion": "1.0",
+    "controlData": { "controlType": 14 },
+    "webPartDataVersion": "1.0",
+    "webPartData": {
+      "properties": { "zoneThemeIndex": {} },
+      "serverProcessedContent": { "htmlStrings": {}, "searchablePlainTexts": {}, "imageSources": {}, "links": {} },
+      "dataVersion": "1.0"
+    }
+  },
+  "titleHtml": "<h1><span class=\"fontSizeBannerTitle\">{title}</span></h1>"
+}

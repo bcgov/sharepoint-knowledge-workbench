@@ -1,1 +1,0 @@
-../../../references/sharepoint-scaffold-spfx-react-webpart-acceptance-criteria.md

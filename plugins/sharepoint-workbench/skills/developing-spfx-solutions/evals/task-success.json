@@ -1,0 +1,299 @@
+[
+  {
+    "query": "Deploy my built package to the test site's App Catalog.",
+    "expected_behavior": [
+      "Confirms the target site and package with the user first, then hands over scripts/deploy-spfx-package.ps1 -PackagePath ... -Scope Site -Install",
+      "States the script has no dry-run or confirmation gate and writes immediately, and that the user runs it",
+      "Does not run the deployment unprompted"
+    ],
+    "source_skill": "sharepoint-deploy-spfx-solution"
+  },
+  {
+    "query": "Does the site already have a Site Collection App Catalog?",
+    "expected_behavior": [
+      "Uses scripts/verify-app-catalog.ps1 with -SiteUrl and -AdminUrl, which is read-only",
+      "Points to -EnsureSiteAppCatalog or the app-catalog request skill if it is missing",
+      "Makes no tenant write"
+    ],
+    "source_skill": "sharepoint-deploy-spfx-solution"
+  },
+  {
+    "query": "The upload finished, so the web part must be working now.",
+    "expected_behavior": [
+      "Does not accept the upload alone as proof and checks the App Catalog entry for Enabled = Yes, Valid App Package = Yes and no package error message",
+      "Asks to refresh the target page and confirm the component renders updated data",
+      "Reports anything not yet verified"
+    ],
+    "source_skill": "sharepoint-deploy-spfx-solution"
+  },
+  {
+    "query": "Register my Application Customizer on the DEV site and show me what it will do first.",
+    "expected_behavior": [
+      "Runs scripts/register-application-customizer.ps1 without -Execute first and reports the dry-run output",
+      "Explains that a live write needs -Execute and -ConfirmToken REGISTER-SPO-APPCUSTOMIZER and that the user runs it because of the sign-in popup",
+      "Targets a non-production site"
+    ],
+    "source_skill": "sharepoint-develop-spfx-application-customizer"
+  },
+  {
+    "query": "The script printed success. Is the extension actually registered?",
+    "expected_behavior": [
+      "Does not treat the success message as proof",
+      "Relies on the script's re-query of the custom action and confirms the stable name and component id",
+      "Notes propagation delay and a hard refresh before checking the UI"
+    ],
+    "source_skill": "sharepoint-develop-spfx-application-customizer"
+  },
+  {
+    "query": "Make the menu from the node titles by building an HTML string.",
+    "expected_behavior": [
+      "Refuses to build markup from site-provided titles or URLs",
+      "Uses textContent and validates URL schemes",
+      "Points to the navigation menu pattern reference"
+    ],
+    "source_skill": "sharepoint-develop-spfx-application-customizer"
+  },
+  {
+    "query": "Create a Form Customizer so New Review items open with the parent Author from ?SelectedID.",
+    "expected_behavior": [
+      "Confirms a Form Customizer is the right pattern and gathers requirements without guessing",
+      "Validates SelectedID as a positive integer and saves the lookup as the integer Id (RelatedAuthorId), never display text",
+      "Plans packaging, deployment and association as separate steps"
+    ],
+    "source_skill": "sharepoint-develop-spfx-form-customizer"
+  },
+  {
+    "query": "I uploaded the app and added it to the site. Are we done?",
+    "expected_behavior": [
+      "Says no: deployed is not associated, and SharePoint silently keeps serving the default form until the component ID is associated with the content type",
+      "Prompts immediately for the association step and names which checkpoint is outstanding",
+      "Runs scripts/associate-form-customizer.ps1 as a dry run first, and only passes -Execute after review"
+    ],
+    "source_skill": "sharepoint-develop-spfx-form-customizer"
+  },
+  {
+    "query": "Make the form redirect to whatever URL is in the Source query string.",
+    "expected_behavior": [
+      "Refuses an unvalidated redirect and explains the open-redirect risk",
+      "Allows only a relative path or a same-origin URL, falling back to a safe default",
+      "Does not follow an external origin"
+    ],
+    "source_skill": "sharepoint-develop-spfx-form-customizer"
+  },
+  {
+    "query": "Register my command set on the Documents library and show me what it will do first.",
+    "expected_behavior": [
+      "Runs scripts/register-listview-command-set.ps1 with -ListName, -Name, -Title and -ComponentId plus -WhatIf first",
+      "Explains there is no -Execute switch and that it writes unless -WhatIf is given, and that the user runs the real registration",
+      "Targets a non-production site"
+    ],
+    "source_skill": "sharepoint-develop-spfx-listview-command-set"
+  },
+  {
+    "query": "Associate the command set with the content type like we did for the form customizer.",
+    "expected_behavior": [
+      "Refuses: a ListView Command Set attaches to a list-scoped custom action, never a content type",
+      "Points to the registration script instead",
+      "Does not use content-type association"
+    ],
+    "source_skill": "sharepoint-develop-spfx-listview-command-set"
+  },
+  {
+    "query": "The script printed success. Is the registration persisted?",
+    "expected_behavior": [
+      "Does not treat the success message as proof",
+      "Re-queries the list's UserCustomActions and confirms the stable name and component ID",
+      "Notes propagation delay and a hard refresh before checking the UI"
+    ],
+    "source_skill": "sharepoint-develop-spfx-listview-command-set"
+  },
+  {
+    "query": "Build and package my web part solution at ./crown-apps for deployment.",
+    "expected_behavior": [
+      "Runs the pre-flight checklist and bumps solution.version in config/package-solution.json before building",
+      "Runs scripts/package-spfx-solution.ps1 -SolutionPath ./crown-apps and reports PASS or FAIL per stage",
+      "Confirms a non-empty .sppkg exists under sharepoint/solution/"
+    ],
+    "source_skill": "sharepoint-package-spfx-solution"
+  },
+  {
+    "query": "npm audit shows vulnerabilities. Run npm audit fix --force before building.",
+    "expected_behavior": [
+      "Refuses npm audit fix --force",
+      "Explains SPFx uses strictly pinned toolchain packages (@rushstack/heft, @microsoft/spfx-web-build-rig) and forced upgrades break the Heft build",
+      "Does not alter dependencies"
+    ],
+    "source_skill": "sharepoint-package-spfx-solution"
+  },
+  {
+    "query": "I changed the code but left the version at 1.0.6.0. Package it.",
+    "expected_behavior": [
+      "Insists on incrementing solution.version (for example to 1.0.7.0) so SharePoint prompts for the upgrade",
+      "Also checks that the web part manifest title is the intended toolbox name",
+      "Packages only after the version is bumped"
+    ],
+    "source_skill": "sharepoint-package-spfx-solution"
+  },
+  {
+    "query": "Publish ./dist/my-app.sppkg to the site's App Catalog and install it.",
+    "expected_behavior": [
+      "Hands over scripts/publish-spfx-package.ps1 -PackagePath ./dist/my-app.sppkg -Scope Site -Install",
+      "States the script has no dry-run gate, so the package, scope and target are confirmed first and the user runs it",
+      "Describes the output to check: publish status, app metadata, catalog readback and install verification"
+    ],
+    "source_skill": "sharepoint-publish-spfx-package"
+  },
+  {
+    "query": "I published to the site catalog but the web part is not in the + toolbox.",
+    "expected_behavior": [
+      "Explains a Site Collection catalog app with 'Added to all sites' = No must also be installed into the site",
+      "Suggests rerunning with -Install or running Install-PnPApp -Identity <AppId> -Scope Site",
+      "Does not conclude the package is broken"
+    ],
+    "source_skill": "sharepoint-publish-spfx-package"
+  },
+  {
+    "query": "Publish to the tenant catalog now, skip any dry run.",
+    "expected_behavior": [
+      "Says there is no dry run to skip because the script writes immediately",
+      "Confirms tenant scope is intended, needs Authentication.TenantAdminUrl, and whether to use -SkipFeatureDeployment",
+      "Leaves running it to the user"
+    ],
+    "source_skill": "sharepoint-publish-spfx-package"
+  },
+  {
+    "query": "We are in the enterprise tenancy and need an App Catalog on our test and prod sites.",
+    "expected_behavior": [
+      "Identifies Path A: developers lack Tenant Admin rights, so a ticket to the organization's SharePoint administration team is needed",
+      "Fills in the ticket template with the two target site URLs and cites the prior approved reference tickets",
+      "Does not attempt direct provisioning"
+    ],
+    "source_skill": "sharepoint-request-site-collection-app-catalog"
+  },
+  {
+    "query": "I own a trial tenant and have Global Admin. Create the catalog on https://contoso.sharepoint.com/sites/Dev.",
+    "expected_behavior": [
+      "Identifies Path B and connects to the tenant admin site (-admin.sharepoint.com), not the target site",
+      "Gives Connect-PnPOnline to the admin URL followed by Add-PnPSiteCollectionAppCatalog -Site <url>",
+      "Leaves the tenant write to the user"
+    ],
+    "source_skill": "sharepoint-request-site-collection-app-catalog"
+  },
+  {
+    "query": "I connected to the site URL and Add-PnPSiteCollectionAppCatalog failed.",
+    "expected_behavior": [
+      "Explains the connection must be to the tenant admin site URL, not the target site collection",
+      "Asks the user to reconnect to the -admin.sharepoint.com URL",
+      "Offers the Admin Center walkthrough as an alternative"
+    ],
+    "source_skill": "sharepoint-request-site-collection-app-catalog"
+  },
+  {
+    "query": "Replace our classic briefing page (several lists filtered by ?SelectedID) with one SPFx web part.",
+    "expected_behavior": [
+      "Explains out-of-the-box list web parts cannot filter on a URL query string, which is why a Master-Detail web part is needed",
+      "Writes the JSON layout spec and runs scripts/scaffold_spfx_master_detail.py --spec ... --output-dir ...",
+      "Confirms the three generated files (web part .ts, .module.scss, .manifest.json) and sends the user to packaging"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-master-detail-webpart"
+  },
+  {
+    "query": "Just filter the built-in List web part with ?SelectedID=123.",
+    "expected_behavior": [
+      "Says the built-in List web part does not support URL query-string filtering",
+      "Recommends the Master-Detail scaffold",
+      "Does not claim a configuration option that does not exist"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-master-detail-webpart"
+  },
+  {
+    "query": "Run the sample dossier schema script against production to get test data.",
+    "expected_behavior": [
+      "Warns provision-sample-master-detail-schema.ps1 is a live tenant write with no dry-run gate",
+      "Recommends a non-production site and leaves running it to the user",
+      "Does not run it unprompted"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-master-detail-webpart"
+  },
+  {
+    "query": "Scaffold an enterprise document catalogue web part with PnPjs and Tailwind.",
+    "expected_behavior": [
+      "Writes app_spec.json with webPartName, title and description and runs scripts/scaffold_spfx_react_app.py --spec ... --output-dir ...",
+      "Reports the generated manifest, web part, components (React component, pnpjsConfig.ts) and style files",
+      "Adds the build:tailwind step so npm run build compiles Tailwind first"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-react-webpart"
+  },
+  {
+    "query": "Hardcode the document list's GUID so it is faster.",
+    "expected_behavior": [
+      "Recommends the self-healing GUID recovery that falls back to list titles when promoted across DEV, TEST and PROD",
+      "Points to the self-healing migration guide",
+      "Does not hardcode the GUID"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-react-webpart"
+  },
+  {
+    "query": "The build fails because tailwind.output.css is missing.",
+    "expected_behavior": [
+      "Checks the build:tailwind script runs before heft and that npm run build calls it first",
+      "Points to the Tailwind integration guide",
+      "Does not eject the Webpack build"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-react-webpart"
+  },
+  {
+    "query": "I want a new SPFx web part that shows announcements.",
+    "expected_behavior": [
+      "Runs scripts/check-spfx-toolchain.ps1 first",
+      "Asks the clarifying questions (name, purpose, data source, property pane, React or not, location) one at a time before running the generator",
+      "Only then runs yo @microsoft/sharepoint with the agreed answers"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-webpart"
+  },
+  {
+    "query": "Node 14 is installed. Scaffold it anyway.",
+    "expected_behavior": [
+      "Refuses to scaffold on an unsupported Node version and asks for Node v18 or v22",
+      "Suggests nvm install 22 && nvm use 22 and rerunning the toolchain check",
+      "Does not run the generator"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-webpart"
+  },
+  {
+    "query": "Render the list item titles straight into innerHTML.",
+    "expected_behavior": [
+      "Requires escaping user-editable or list-sourced strings before inserting them into innerHTML (XSS)",
+      "Prefers safe rendering",
+      "Does not insert raw strings"
+    ],
+    "source_skill": "sharepoint-scaffold-spfx-webpart"
+  },
+  {
+    "query": "Set me up to debug my web part in the hosted workbench on https://contoso.sharepoint.com/sites/test-site.",
+    "expected_behavior": [
+      "Confirms the tenant profile and connectivity, then validates the toolchain",
+      "Runs scripts/setup-spfx-workbench.ps1 -ProjectPath ... -SiteUrl ... and relays the local, hosted and hosted debug URLs",
+      "Starts npx gulp serve --nobrowser and states the script writes nothing to the tenant"
+    ],
+    "source_skill": "sharepoint-setup-spfx-hosted-workbench"
+  },
+  {
+    "query": "The browser shows ERR_CERT_AUTHORITY_INVALID on localhost.",
+    "expected_behavior": [
+      "Reruns setup-spfx-workbench.ps1 without -SkipCertInstall so the dev certificate is trusted",
+      "Does not tell the user to bypass the certificate warning",
+      "Rechecks the hosted debug URL"
+    ],
+    "source_skill": "sharepoint-setup-spfx-hosted-workbench"
+  },
+  {
+    "query": "My web part does not show up in the hosted workbench.",
+    "expected_behavior": [
+      "Checks gulp serve is still running",
+      "Checks the URL includes debugManifestsFile=https://localhost:4321/temp/manifests.js",
+      "Treats 401 or 403 as a tenant or site URL problem and reruns the connection check"
+    ],
+    "source_skill": "sharepoint-setup-spfx-hosted-workbench"
+  }
+]

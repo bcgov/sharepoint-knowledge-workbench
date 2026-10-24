@@ -1,1 +1,0 @@
-../../../references/link-remediation/sharepoint-update-page-links-acceptance-criteria.md

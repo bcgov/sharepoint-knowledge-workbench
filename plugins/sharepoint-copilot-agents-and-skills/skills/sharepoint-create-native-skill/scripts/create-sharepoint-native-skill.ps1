@@ -1,1 +1,0 @@
-../../../scripts/create-sharepoint-native-skill.ps1

@@ -1,0 +1,12 @@
+{
+  "name": "sharepoint-schema-reconciliation",
+  "version": "1.0.0",
+  "description": "Declarative, JSON-schema-driven SharePoint site-column, content-type, and list/library provisioning reconciliation. Zero tenant I/O.",
+  "author": "SharePoint Knowledge Workbench",
+  "skills": [
+    "sharepoint-provision-content-types",
+    "sharepoint-provision-fields",
+    "sharepoint-provision-list",
+    "sharepoint-provision-modern-calendar-list"
+  ]
+}

@@ -1,1 +1,0 @@
-../../../scripts/extraction/path_safety.py

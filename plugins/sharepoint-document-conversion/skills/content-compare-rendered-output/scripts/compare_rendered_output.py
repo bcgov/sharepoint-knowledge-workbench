@@ -1,1 +1,0 @@
-../../../scripts/rendering/compare_rendered_output.py

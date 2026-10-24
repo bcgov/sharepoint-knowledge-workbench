@@ -1,1 +1,0 @@
-../../../references/effective-permissions-matrix.md

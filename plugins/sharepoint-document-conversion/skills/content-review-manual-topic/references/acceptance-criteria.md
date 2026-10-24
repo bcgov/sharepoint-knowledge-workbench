@@ -1,1 +1,0 @@
-../../../references/content-review-manual-topic-acceptance-criteria.md

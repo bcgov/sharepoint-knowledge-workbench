@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-update-site-column-acceptance-criteria.md

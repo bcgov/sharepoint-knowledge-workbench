@@ -1,1 +1,0 @@
-../../../scripts/discovery-lineage/generate-master-discovery-meta-review.py

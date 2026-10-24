@@ -1,1 +1,0 @@
-../../../references/sharepoint-analyze-site-navigation-acceptance-criteria.md

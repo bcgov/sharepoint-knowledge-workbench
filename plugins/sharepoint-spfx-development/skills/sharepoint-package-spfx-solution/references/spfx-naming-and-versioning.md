@@ -1,1 +1,0 @@
-../../../references/spfx-naming-and-versioning.md

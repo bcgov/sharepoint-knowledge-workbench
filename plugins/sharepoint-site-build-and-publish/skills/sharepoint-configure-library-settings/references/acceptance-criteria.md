@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-configure-library-settings-acceptance-criteria.md

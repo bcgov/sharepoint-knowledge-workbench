@@ -1,1 +1,0 @@
-../../../../sharepoint-site-assessment/references/schema-diff-modes.md

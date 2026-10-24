@@ -1,0 +1,22 @@
+name: sharepoint-migration-planning
+version: 0.1.0-alpha.1
+status: implemented
+description: "Plans a SharePoint site migration end-to-end: interactively confirms source/target site setup and a repository-root config.psd1 (setup-sharepoint-migration-project), accepts and validates an already-produced source-site export directory including lookup-column targets (discover-sharepoint-site-inventory), deterministically derives the object dependency graph and computes deployment wave order (wave_planning.py, moved here from sharepoint-provisioning 2026-08-08 -- see plan-sharepoint-deployment-waves's provenance), then generates site-specific wave deployment scripts and a human wave guide (generate-sharepoint-wave-scripts). Sits between sharepoint-collection (raw live-tenant discovery, not yet built) and sharepoint-provisioning (execution, which now consumes a computed wave plan as input)."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - sharepoint-analyze-sharepoint-dependency-graph
+  - sharepoint-discover-sharepoint-site-inventory
+  - sharepoint-generate-sharepoint-wave-scripts
+  - sharepoint-plan-sharepoint-deployment-waves
+  - sharepoint-setup-sharepoint-migration-project
+agents:
+  - sharepoint-deployment-planning-agent
+  - sharepoint-deployment-sequencing-agent
+
+
+

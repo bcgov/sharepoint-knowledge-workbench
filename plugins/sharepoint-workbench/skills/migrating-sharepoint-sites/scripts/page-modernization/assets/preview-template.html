@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ page_title }} — Modernization Preview</title>
+<style>
+  :root { --edge: #444444; --accent: #767676; }
+  body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f5f5f5; }
+  .banner-bar { background: var(--accent); height: 4px; }
+  .banner { background: var(--edge); color: #ffffff; padding: 12px 32px; }
+  .container { max-width: 1200px; margin: 32px auto; background: #ffffff; padding: 40px; border-radius: 8px; }
+  h2 { color: var(--edge); border-bottom: 2px solid var(--accent); padding-bottom: 6px; }
+  .section { margin-bottom: 32px; }
+  .list-placeholder { background: #f0f0f0; border: 1px dashed #aaaaaa; padding: 16px; border-radius: 4px; color: #555555; }
+  .gap-notice { background: #f2f2f2; border-left: 4px solid #767676; padding: 12px 16px; }
+  .env-warning { background: #f2f2f2; border: 1px solid #999999; padding: 8px 12px; font-size: 0.85rem; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<div class="banner-bar"></div>
+<div class="banner"><h1>{{ page_title }} — Modernization Preview ({{ source_env }})</h1></div>
+<div class="container">
+  <div class="env-warning">Preview built from the <strong>{{ source_env }}</strong> source environment. Validate against the production source before upload.</div>
+  {% for section in sections %}
+  <div class="section">
+    {% if section.webPart.type == "TextWebPart" and not section.webPart.isGapNotice %}
+      {{ section.webPart.content | safe }}
+    {% elif section.webPart.type == "ListWebPart" %}
+      <div class="list-placeholder">
+        <strong>List web part: {{ section.webPart.listName }}</strong><br>
+        View: {{ section.webPart.viewName }}<br>
+        <em>The list view's own query controls what this web part shows; verify it in the target site.</em>
+      </div>
+    {% elif section.webPart.isGapNotice %}
+      {{ section.webPart.content | safe }}
+    {% endif %}
+  </div>
+  {% endfor %}
+  {% if gaps %}
+  <hr>
+  <h2>Gaps ({{ gaps | length }})</h2>
+  <ul>{% for g in gaps %}<li>{{ g }}</li>{% endfor %}</ul>
+  {% endif %}
+</div>
+</body>
+</html>

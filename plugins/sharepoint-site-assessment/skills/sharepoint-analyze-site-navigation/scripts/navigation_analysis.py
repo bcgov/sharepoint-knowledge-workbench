@@ -1,1 +1,0 @@
-../../../scripts/navigation_analysis.py

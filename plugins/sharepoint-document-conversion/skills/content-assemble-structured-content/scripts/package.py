@@ -1,1 +1,0 @@
-../../../scripts/assembly/package.py

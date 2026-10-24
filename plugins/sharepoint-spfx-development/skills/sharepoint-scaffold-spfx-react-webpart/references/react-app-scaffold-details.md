@@ -1,1 +1,0 @@
-../../../references/react-app-scaffold-details.md

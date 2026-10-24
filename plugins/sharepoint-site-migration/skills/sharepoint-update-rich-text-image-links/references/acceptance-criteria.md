@@ -1,1 +1,0 @@
-../../../references/link-remediation/sharepoint-update-rich-text-image-links-acceptance-criteria.md

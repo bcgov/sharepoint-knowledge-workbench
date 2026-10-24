@@ -1,1 +1,0 @@
-../../../scripts/content-publication/spo-create-folder.ps1

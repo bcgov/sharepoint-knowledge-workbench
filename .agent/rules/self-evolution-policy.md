@@ -6,7 +6,7 @@ globs: ["**/*"]
 
 ## Self-Evolution & Self-Healing Policy
 
-**Full context and execution protocol -> `.agent/skills/self-evolution/SKILL.md` (if available)**  
+**Gated changes to skills, rules and agents go through the control plane -> `os-control-intake`**  
 **Skill/directory deletion rules -> `.agent/rules/destructive-action-guard.md` (Part 1)**
 
 Governs responses when any tool call, subprocess, automation step, selector query, script, workflow, or sub-agent encounters failure or friction. Agents must treat failures as evolution events governed by graph state machines (via `agent-orchestration:graph-execution` and `agent-orchestration:select-loop-strategy`) and 3-Layer Filesystem Memory.
@@ -54,7 +54,7 @@ Before triggering an autonomous self-evolution cycle, all 4 criteria must be sat
    - **Auto-approved**: New functions/exports, fallback routines/selectors, appending diffs for modified functions.
    - **Confirmation Gated**: Renaming or moving files.
    - **Hard Gated (Requires explicit human permission)**: Deletions of any file, function, skill, rule, manifest, eval, or reference.
-   - Composes with `graph-planning-superpowers-policy.md`'s Supreme Law Human Gate.
+   - Composes with `engineering-lifecycle-policy.md`'s Supreme Law Cryptographic Human Gate.
 5. **The Absorption Fallacy - always wrong**: Never conclude an asset is "redundant", "consolidated", or "superseded" and delete it autonomously. Flag overlap; never delete.
 6. **One Logical Fix at a Time**: Apply one clean fix per execution pass; never bundle independent repairs.
 7. **Fix Forward, Never Skip**: Fix failures at source immediately and update rules/playbooks. Never skip, work around, or add blind retries.
@@ -62,7 +62,7 @@ Before triggering an autonomous self-evolution cycle, all 4 criteria must be sat
 9. **Refine Prompt Templates on Ingesting Outputs**: Evaluate external model outputs and update prompt templates to guard against observed gaps.
 10. **Synchronize Manifests & Reinstall Cleanly on Deletion**: Remove deleted assets from `symlinks.json` and reinstall via `plugin_add.py <plugin-path> -y`.
 11. **Pre-Deletion Git History Check**: Run `git log --follow -- <file>` before proposing any file deletion.
-12. **Hub First, Spoke Second**: New skill assets must land in plugin root (`plugins/<plugin>/scripts/`, etc.) and symlink into skill folders via `symlink_manager.py`. Run `audit_plugin_structure.py`.
+12. **Hub First, Spoke Second**: New skill assets must land in plugin root (`plugins/<plugin>/scripts/`, etc.) and be listed for each skill in the copy manifest (`symlinks.json`, `strategy: "copy"`), then materialized with `materialize_copies.py`; never create symlinks. Run `audit_plugin_structure.py`.
 13. **Asymmetric Persistence via Worktree Transfer**: On 3rd attempt failure in isolated worktree, roll back code, but export Layer 2 insights, negative constraints, and debt records to main checkout before worktree teardown.
 14. **Evolution Integrity Receipts**: Autonomous evolution commits require a programmatic pre-commit receipt (`EVO-INTEGRITY-<cycle_id>-<hash>`) binding staged tree, verifier exit code, and trace manifest.
 

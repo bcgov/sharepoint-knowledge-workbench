@@ -1,1 +1,0 @@
-../../../scripts/provisioning/spo-remove-page-webpart.ps1

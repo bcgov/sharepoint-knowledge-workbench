@@ -1,1 +1,0 @@
-../../../references/sharepoint-publish-html-page-acceptance-criteria.md

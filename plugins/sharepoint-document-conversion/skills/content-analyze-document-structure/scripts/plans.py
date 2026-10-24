@@ -1,1 +1,0 @@
-../../../scripts/structure-analysis/plans.py

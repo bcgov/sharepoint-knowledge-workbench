@@ -1,1 +1,0 @@
-../../../scripts/content-publication/spo-download-file.ps1

@@ -1,1 +1,0 @@
-../../../references/extraction/content-extract-docx-acceptance-criteria.md

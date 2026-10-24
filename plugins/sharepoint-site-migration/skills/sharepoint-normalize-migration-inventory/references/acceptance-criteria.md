@@ -1,1 +1,0 @@
-../../../references/migration-planning/sharepoint-normalize-migration-inventory-acceptance-criteria.md

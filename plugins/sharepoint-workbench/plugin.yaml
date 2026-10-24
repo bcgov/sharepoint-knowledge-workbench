@@ -1,0 +1,15 @@
+name: sharepoint-workbench
+description: "Unified SharePoint Knowledge Workbench: setup, discovery, document conversion, SPFx development, list and library management, page publishing, schema IA, navigation sync, modern page transformation, data migration, and Copilot agents."
+version: 1.0.0
+skills:
+  - assessing-sharepoint-sites
+  - converting-sharepoint-documents
+  - developing-spfx-solutions
+  - managing-sharepoint-copilot-agents-and-skills
+  - managing-sharepoint-lists-and-libraries
+  - managing-sharepoint-navigation
+  - managing-sharepoint-schema
+  - migrating-sharepoint-sites
+  - modernizing-sharepoint-pages
+  - publishing-sharepoint-pages
+  - setting-up-sharepoint-workbench

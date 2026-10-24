@@ -1,1 +1,0 @@
-../../../references/page-modernization-execution/sharepoint-convert-page-to-modern-acceptance-criteria.md

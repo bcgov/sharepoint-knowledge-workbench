@@ -1,1 +1,0 @@
-../../../references/migration-planning/sharepoint-analyze-migration-dependencies-acceptance-criteria.md

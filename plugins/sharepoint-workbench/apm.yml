@@ -1,0 +1,10 @@
+name: '@sharepoint/sharepoint-workbench'
+version: 1.0.0
+description: 'Unified SharePoint Knowledge Workbench: setup, discovery, document conversion, SPFx development, list and library management, page publishing, schema IA, navigation sync, modern page transformation, data migration, and Copilot agents.'
+author: 'SharePoint Knowledge Workbench Contributors'
+targets:
+  - claude
+  - copilot
+  - codex
+  - antigravity
+dependencies: {}

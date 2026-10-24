@@ -1,0 +1,49 @@
+{
+  "lists": [
+    "Orders",
+    "OrderLines",
+    "Customers"
+  ],
+  "exclude_lists": [],
+  "id_pattern": "^[A-Za-z][A-Za-z0-9]*_[0-9]{4}_[0-9]+$",
+  "key_columns": [
+    "Title"
+  ],
+  "lookups": {
+    "Orders": {
+      "Customer": [
+        "CustomerId",
+        "Customers"
+      ]
+    },
+    "OrderLines": {
+      "Order": [
+        "OrderId",
+        "Orders"
+      ],
+      "Reviewer": [
+        "ReviewerId",
+        "Customers"
+      ]
+    }
+  },
+  "identity_mapping": {
+    "list": "Customers",
+    "tiers": [
+      {
+        "name": "T1_ExactKey",
+        "columns": [
+          "Title"
+        ]
+      },
+      {
+        "name": "T2_NameAndDate",
+        "columns": [
+          "LastName",
+          "FirstName",
+          "BirthDate"
+        ]
+      }
+    ]
+  }
+}

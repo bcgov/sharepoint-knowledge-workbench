@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-remove-site-column-acceptance-criteria.md

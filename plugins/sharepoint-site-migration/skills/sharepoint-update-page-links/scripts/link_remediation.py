@@ -1,1 +1,0 @@
-../../../scripts/link-remediation/link_remediation.py

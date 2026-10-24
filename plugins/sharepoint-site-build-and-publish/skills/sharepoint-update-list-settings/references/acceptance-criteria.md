@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-update-list-settings-acceptance-criteria.md

@@ -1,1 +1,0 @@
-../../../references/sharepoint-update-agent-package-acceptance-criteria.md

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "eval-1-positive",
+    "type": "positive",
+    "prompt": "Publish this dynamic classic ASPX page to modern SharePoint Online",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-2-positive",
+    "type": "positive",
+    "prompt": "Publish static ASPX library file as clean HTML to SharePoint document library",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-3-positive",
+    "type": "positive",
+    "prompt": "Sanitize and convert this webpart HTML package to CKEditor 5 RTE markup",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-4-positive",
+    "type": "positive",
+    "prompt": "Publish markdown documentation to a modern SharePoint page",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-5-negative",
+    "type": "negative",
+    "prompt": "Create an SPFx web part React project",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-6-negative",
+    "type": "negative",
+    "prompt": "Create a new document library in SharePoint",
+    "should_trigger": false
+  }
+]

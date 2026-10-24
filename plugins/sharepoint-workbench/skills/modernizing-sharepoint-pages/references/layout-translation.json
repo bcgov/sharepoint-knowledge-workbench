@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "LR-001",
+      "condition": "primaryCount == 1 AND nonPrimaryCount <= 2",
+      "layout": "Home",
+      "sectionTemplate": "OneColumn",
+      "rationale": "Single primary list with few or no secondary elements"
+    },
+    {
+      "id": "LR-002",
+      "condition": "primaryCount == 1 AND nonPrimaryCount > 2",
+      "layout": "Home",
+      "sectionTemplate": "TwoColumn",
+      "rationale": "Single primary list with multiple secondary panels"
+    },
+    {
+      "id": "LR-003",
+      "condition": "primaryCount == 0 AND contentEditorCount > 0",
+      "layout": "Article",
+      "sectionTemplate": "OneColumn",
+      "rationale": "Content-only page with no list views"
+    },
+    {
+      "id": "LR-004",
+      "condition": "summaryLinksCount > 0",
+      "layout": "Home",
+      "sectionTemplate": "OneColumn",
+      "rationale": "Portal/navigation page — always Home layout"
+    }
+  ]
+}

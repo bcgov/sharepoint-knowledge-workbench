@@ -11,8 +11,9 @@ agent or a native (SharePoint-deployed, not repository-Claude) skill.
 
 ## Workflow at a glance
 
-14 skills covering the full agent/native-skill lifecycle (the manual-topic editorial review skill that used to ship here now lives in `sharepoint-document-conversion`) — see the plugin README for the complete
-list. This plugin does **not** own domain-routing agents (those were decentralized to their owning
+One self-contained hub skill covers the full agent/native-skill lifecycle (the manual-topic
+editorial review skill that used to ship here now lives in `sharepoint-document-conversion`) —
+see the plugin README for the complete mode list. This plugin does **not** own domain-routing agents (those were decentralized to their owning
 domain plugins in 2026-08 — e.g. the link-remediation routing agent lives in
 `sharepoint-site-migration`, not here); it owns only the lifecycle tooling that creates, deploys,
 and manages agents/skills across all domains.

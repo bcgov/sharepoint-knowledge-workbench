@@ -1,1 +1,0 @@
-../../../sharepoint-document-conversion/scripts/assembly/canonical_package.py

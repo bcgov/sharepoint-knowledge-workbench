@@ -1,1 +1,0 @@
-../../../scripts/collect-sharepoint-content-inventory.ps1

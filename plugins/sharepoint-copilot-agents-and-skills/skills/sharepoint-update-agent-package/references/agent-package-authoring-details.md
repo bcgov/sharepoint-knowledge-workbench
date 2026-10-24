@@ -1,1 +1,0 @@
-../../../references/agent-package-authoring-details.md

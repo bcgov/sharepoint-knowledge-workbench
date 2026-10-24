@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-migration-planning",
+    "version": "0.1.0-alpha.1",
+    "description": "Plans a SharePoint site migration end-to-end across four implemented skills: project setup (config.psd1 confirmation + working directory), site-inventory export validation (lookup-target normalization), deterministic dependency-graph analysis and wave-order computation (Stage 3a), and generated wave deployment scripts plus a human wave guide (Stage 3b). Plus wave-order planning as its own standalone skill.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "migration-planning",
+        "dependency-graph",
+        "deployment-waves"
+    ]
+}

@@ -1,1 +1,0 @@
-../../../assets/migration-planning/wave-script-template.example.py

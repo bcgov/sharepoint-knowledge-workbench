@@ -1,1 +1,0 @@
-../../../references/content-publication/sharepoint-validate-publication-acceptance-criteria.md

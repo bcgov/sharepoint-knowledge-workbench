@@ -1,1 +1,0 @@
-../../../scripts/deploy-and-verify-skill.ps1

@@ -1,1 +1,0 @@
-../../../scripts/link-remediation/generate_link_rewrite_plan.py

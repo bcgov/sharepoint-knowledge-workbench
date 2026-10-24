@@ -1,1 +1,0 @@
-../../../scripts/link-remediation/spo-remediate-page-links.ps1

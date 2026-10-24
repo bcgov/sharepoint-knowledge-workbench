@@ -1,1 +1,0 @@
-../../../scripts/page-modernization/preview_composition.py

@@ -1,1 +1,0 @@
-../../../references/master-detail-scaffold-details.md

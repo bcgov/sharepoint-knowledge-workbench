@@ -1,1 +1,0 @@
-../../../references/content-publication/sharepoint-plan-page-publication-acceptance-criteria.md

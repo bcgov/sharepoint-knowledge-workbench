@@ -1,1 +1,0 @@
-../../../scripts/inventory-skills.ps1

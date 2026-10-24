@@ -1,1 +1,0 @@
-../../../scripts/content-migration/spo-migrate-list-items.ps1

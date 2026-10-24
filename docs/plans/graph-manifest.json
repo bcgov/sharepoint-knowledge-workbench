@@ -1,0 +1,135 @@
+{
+  "version": "1.0",
+  "name": "sharepoint-workbench-consolidation-graph",
+  "description": "Directed Acyclic Graph (DAG) Plan for APM consolidation and skill re-homing in sharepoint-knowledge-workbench",
+  "target_repo": "/Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench",
+  "target_branch": "feat/apm-migration-and-skill-consolidation",
+  "orchestrator": "antigravity",
+  "worker": {
+    "engine": "copilot-cli",
+    "model": "gpt-5.6-luna",
+    "alias": "luna",
+    "reasoning_effort": "medium",
+    "execution_mode": "copilot -p <prompt> --allow-all-tools -C <target_repo>"
+  },
+  "stages": [
+    {
+      "id": "stage-1-setup-and-rules",
+      "name": "Wave 1: Workbench Setup & Stale Rule Pruning",
+      "jobs": [
+        {
+          "id": "job-wave-1",
+          "plugin": "plugins/sharepoint-workbench-setup",
+          "action": "consolidate_skills",
+          "source_skills": [
+            "workbench-initialize-connection-config",
+            "workbench-initialize-document-workflow",
+            "workbench-request-app-registration",
+            "workbench-resolve-document-paths",
+            "workbench-validate-sharepoint-connection"
+          ],
+          "target_skill": "setting-up-sharepoint-workbench",
+          "modes": [
+            "init-connection",
+            "validate-connection",
+            "app-registration",
+            "resolve-paths",
+            "workflow-intake"
+          ],
+          "rule_cleanup": [
+            "rm -f .agent/rules/graph-planning-superpowers-policy.md",
+            "rm -f .agent/rules/symlink-cross-platform.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-2-inspection-and-conversion",
+      "name": "Waves 2 & 3: Site Assessment & Document Conversion",
+      "depends_on": ["stage-1-setup-and-rules"],
+      "jobs": [
+        {
+          "id": "job-wave-2",
+          "plugin": "plugins/sharepoint-site-assessment",
+          "action": "consolidate_skills",
+          "target_skill": "assessing-sharepoint-sites",
+          "source_skills_count": 12
+        },
+        {
+          "id": "job-wave-3",
+          "plugin": "plugins/sharepoint-document-conversion",
+          "action": "consolidate_skills",
+          "target_skill": "converting-sharepoint-documents",
+          "source_skills_count": 11
+        }
+      ]
+    },
+    {
+      "id": "stage-3-build-and-migration",
+      "name": "Waves 4 & 5: Site Build/Publish & Migration",
+      "depends_on": ["stage-2-inspection-and-conversion"],
+      "jobs": [
+        {
+          "id": "job-wave-4",
+          "plugin": "plugins/sharepoint-site-build-and-publish",
+          "action": "consolidate_skills",
+          "target_skills": [
+            "managing-sharepoint-schema",
+            "publishing-sharepoint-content"
+          ],
+          "source_skills_count": 35
+        },
+        {
+          "id": "job-wave-5",
+          "plugin": "plugins/sharepoint-site-migration",
+          "action": "consolidate_skills",
+          "target_skills": [
+            "migrating-sharepoint-sites",
+            "modernizing-sharepoint-pages"
+          ],
+          "source_skills_count": 20
+        }
+      ]
+    },
+    {
+      "id": "stage-4-spfx-and-copilot",
+      "name": "Waves 6 & 7: SPFx Development & Copilot Agents",
+      "depends_on": ["stage-3-build-and-migration"],
+      "jobs": [
+        {
+          "id": "job-wave-6",
+          "plugin": "plugins/sharepoint-spfx-development",
+          "action": "consolidate_skills",
+          "target_skill": "developing-spfx-solutions",
+          "source_skills_count": 11
+        },
+        {
+          "id": "job-wave-7",
+          "plugin": "plugins/sharepoint-copilot-agents-and-skills",
+          "action": "consolidate_skills",
+          "target_skill": "managing-sharepoint-copilot-agents",
+          "source_skills_count": 14
+        }
+      ]
+    },
+    {
+      "id": "stage-5-apm-packaging-and-manifest-retirement",
+      "name": "Wave 8: Final APM Packaging & Manifest Retirement",
+      "depends_on": ["stage-4-spfx-and-copilot"],
+      "jobs": [
+        {
+          "id": "job-wave-8-apm",
+          "action": "finalize_apm",
+          "purge_manifests": [
+            "symlinks.json",
+            "plugin-sources.json",
+            "plugin-retention.json",
+            "skills-lock.json"
+          ],
+          "create_manifest": "apm.yml",
+          "verify": "apm compile && apm list"
+        }
+      ]
+    }
+  ]
+}

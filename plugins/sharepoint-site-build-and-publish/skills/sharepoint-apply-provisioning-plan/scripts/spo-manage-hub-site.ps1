@@ -1,1 +1,0 @@
-../../../scripts/provisioning/spo-manage-hub-site.ps1

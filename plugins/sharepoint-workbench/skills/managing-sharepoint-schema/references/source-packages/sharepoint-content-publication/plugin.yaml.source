@@ -1,0 +1,22 @@
+name: sharepoint-content-publication
+version: 0.1.0-alpha.1
+description: "SharePoint tenant publication tooling: packages a rendered publication output, dry-runs the upload plan, reconciles it against live tenant state, and uploads content safely. Gated behind -Execute and confirmation tokens."
+author: Richard Fremmerlid
+kind: backend
+platforms:
+  - linux
+  - macos
+  - windows
+skills:
+  - sharepoint-publish-aspx-to-sharepoint
+  - sharepoint-publish-markdown-to-sharepoint
+  - sharepoint-reconcile-sharepoint-publication
+  - sharepoint-rollback-sharepoint-publication
+  - sharepoint-upload-content
+  - sharepoint-validate-publication
+agents:
+  - sharepoint-validation-agent
+
+
+
+

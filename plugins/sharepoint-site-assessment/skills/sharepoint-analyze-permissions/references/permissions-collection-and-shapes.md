@@ -1,1 +1,0 @@
-../../../references/permissions-collection-and-shapes.md

@@ -1,1 +1,0 @@
-../../../references/rendering/validate-rendered-output-details.md
