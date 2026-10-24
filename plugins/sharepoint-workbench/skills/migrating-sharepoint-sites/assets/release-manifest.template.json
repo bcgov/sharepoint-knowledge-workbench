@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseManifest",
+  "description": "Schema and template for a pinned release candidate evaluated by evaluate-release-readiness.ps1",
+  "type": "object",
+  "required": [
+    "releaseId",
+    "packageDigest",
+    "objectScope",
+    "dependencies",
+    "testAcceptance",
+    "verifierFindings",
+    "approvedExceptions",
+    "sensitiveAccessChecks",
+    "recoveryRehearsal"
+  ],
+  "properties": {
+    "releaseId": {
+      "type": "string",
+      "description": "Unique identifier for this release candidate, e.g. REL-WAVE-1-20261001"
+    },
+    "packageDigest": {
+      "type": "string",
+      "description": "Cryptographic digest of the packaged release assets (e.g. sha256:...)"
+    },
+    "objectScope": {
+      "type": "array",
+      "description": "List of object identifiers (pages, lists, assets) included in this release. Must be non-empty.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "List of prerequisite components or tasks. Every dependency must be COMPLETE unless covered by approvedExceptions.",
+      "items": {
+        "type": "object",
+        "required": ["id", "state"],
+        "properties": {
+          "id": { "type": "string" },
+          "state": { "type": "string", "enum": ["COMPLETE", "IN_PROGRESS", "BLOCKED", "NOT_STARTED"] }
+        }
+      }
+    },
+    "testAcceptance": {
+      "type": "array",
+      "description": "Acceptance test results. Every in-scope object must have environment='test', accepted=true, and a non-blank approvedBy.",
+      "items": {
+        "type": "object",
+        "required": ["objectId", "environment", "accepted", "approvedBy", "outcome"],
+        "properties": {
+          "objectId": { "type": "string" },
+          "environment": { "type": "string", "enum": ["test", "dev", "prod"] },
+          "accepted": { "type": "boolean" },
+          "approvedBy": { "type": "string" },
+          "outcome": { "type": "string" }
+        }
+      }
+    },
+    "verifierFindings": {
+      "type": "array",
+      "description": "Verifier matrix findings. All CRITICAL severity findings must have passed=true unless covered by approvedExceptions.",
+      "items": {
+        "type": "object",
+        "required": ["objectId", "severity", "passed"],
+        "properties": {
+          "objectId": { "type": "string" },
+          "severity": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"] },
+          "passed": { "type": "boolean" }
+        }
+      }
+    },
+    "approvedExceptions": {
+      "type": "array",
+      "description": "Explicit sign-offs for known blockers or incomplete checks.",
+      "items": {
+        "type": "object",
+        "required": ["checkId", "approvedBy", "approvedAt"],
+        "properties": {
+          "checkId": { "type": "string" },
+          "approvedBy": { "type": "string" },
+          "approvedAt": { "type": "string", "format": "date-time" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "sensitiveAccessChecks": {
+      "type": "array",
+      "description": "Access persona verification. Every check must have passed=true.",
+      "items": {
+        "type": "object",
+        "required": ["objectId", "passed"],
+        "properties": {
+          "objectId": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "persona": { "type": "string" }
+        }
+      }
+    },
+    "recoveryRehearsal": {
+      "type": "object",
+      "description": "Proof of recovery rehearsal. Must be performed=true and validUntil must be in the future.",
+      "required": ["performed", "performedAt", "validUntil"],
+      "properties": {
+        "performed": { "type": "boolean" },
+        "performedAt": { "type": "string", "format": "date-time" },
+        "validUntil": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,1 +1,0 @@
-../../../references/validation-config-and-profiles.md

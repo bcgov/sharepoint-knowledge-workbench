@@ -1,1 +1,0 @@
-../../../../../../../../../assets/templates/spfx-project-reference/src/webparts/selectedIdFilter/loc/mystrings.d.ts

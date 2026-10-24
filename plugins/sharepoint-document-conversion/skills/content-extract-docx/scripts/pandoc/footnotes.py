@@ -1,1 +1,0 @@
-../../../../scripts/extraction/pandoc/footnotes.py

@@ -1,1 +1,0 @@
-../../../scripts/migration-planning/wave_script_generation.py

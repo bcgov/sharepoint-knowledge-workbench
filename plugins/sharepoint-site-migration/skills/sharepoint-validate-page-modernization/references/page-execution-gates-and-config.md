@@ -1,1 +1,0 @@
-../../../references/page-modernization-execution/page-execution-gates-and-config.md

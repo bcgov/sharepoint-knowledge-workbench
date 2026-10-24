@@ -4,7 +4,7 @@ description: >
   is this repository's own TDD rule applied to infrastructure provisioning,
   not a separate convention invented for SharePoint deployment.
 globs:
-  - "plugins/sharepoint-site-migration/**/*"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*"
 ---
 
 # Rule: Test-Driven Wave Deployment

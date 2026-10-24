@@ -1,1 +1,0 @@
-../../../references/app-registration-provenance.md

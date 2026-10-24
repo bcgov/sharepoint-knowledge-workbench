@@ -1,1 +1,0 @@
-../assembly/publication_map.py

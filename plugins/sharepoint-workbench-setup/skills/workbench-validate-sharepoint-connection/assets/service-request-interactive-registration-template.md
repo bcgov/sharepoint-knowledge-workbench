@@ -1,1 +1,0 @@
-../../../assets/service-request-interactive-registration-template.md

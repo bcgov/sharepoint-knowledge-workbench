@@ -1,1 +1,0 @@
-../../../scripts/provisioning/spo-remove-list-column.ps1

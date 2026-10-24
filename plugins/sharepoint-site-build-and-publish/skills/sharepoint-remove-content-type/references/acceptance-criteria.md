@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-remove-content-type-acceptance-criteria.md

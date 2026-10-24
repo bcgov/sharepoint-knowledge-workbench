@@ -1,1 +1,0 @@
-../../../sharepoint-document-conversion/scripts/assembly/dispositions.py

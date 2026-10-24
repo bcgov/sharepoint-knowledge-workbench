@@ -1,1 +1,0 @@
-../../../scripts/assembly/publication_map.py

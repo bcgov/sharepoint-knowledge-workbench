@@ -1,1 +1,0 @@
-../../../references/SPFX-PNPJS-V4-CROSS-SITE-ARCHITECTURE.md

@@ -1,1 +1,0 @@
-../../../scripts/restore-sharepoint-agents.ps1

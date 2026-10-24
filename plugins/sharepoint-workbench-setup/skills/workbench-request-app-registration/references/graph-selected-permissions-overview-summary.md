@@ -1,1 +1,0 @@
-../../../references/graph-selected-permissions-overview-summary.md

@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-configure-column-formatting-acceptance-criteria.md

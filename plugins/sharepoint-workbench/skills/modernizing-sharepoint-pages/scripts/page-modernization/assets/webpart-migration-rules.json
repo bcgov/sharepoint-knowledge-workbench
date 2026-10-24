@@ -1,0 +1,109 @@
+{
+  "_comment": "Migration approach rules for each web part category produced by analyze-aspx-webparts.ps1. Edit approach values before running analyse_aspx_content.py. Valid approaches: directly-convertible | replace-ootb | custom-exception",
+  "version": "1.0.0",
+  "webPartRules": [
+    {
+      "category": "ListView",
+      "typePattern": "XsltListViewWebPart|ListViewWebPart",
+      "approach": "replace-ootb",
+      "modernEquivalent": "List web part (SPO built-in)",
+      "notes": "Standalone list views map directly. Connected consumer web parts (filtered by row selection) have no OOTB SPO equivalent — mark NOT_MIGRATED and design detail-page separately."
+    },
+    {
+      "category": "ListForm",
+      "typePattern": "ListFormWebPart",
+      "approach": "replace-ootb",
+      "modernEquivalent": "Default SPO list form (auto-generated)",
+      "notes": "List forms are auto-generated in SPO. These pages typically do not need to be migrated as modern pages — the SPO list's built-in NewForm/EditForm/DispForm replaces them."
+    },
+    {
+      "category": "CEWP",
+      "typePattern": "ContentEditorWebPart",
+      "approach": "directly-convertible",
+      "modernEquivalent": "Text web part or Embed web part",
+      "notes": "Plain HTML/text → Text web part. If it contains custom JavaScript, evaluate whether the JS is still needed in SPO before converting."
+    },
+    {
+      "category": "SEWP",
+      "typePattern": "ScriptEditorWebPart",
+      "approach": "custom-exception",
+      "modernEquivalent": "SPFx web part (requires justification and approval)",
+      "notes": "Script Editor is blocked in modern SPO. Any SEWP with business-critical JavaScript must be rebuilt as a reviewed and approved SPFx component."
+    },
+    {
+      "category": "SummaryLink",
+      "typePattern": "SummaryLinkWebPart",
+      "approach": "replace-ootb",
+      "modernEquivalent": "Quick links web part",
+      "notes": "Link collections map to Quick Links. Review link targets for broken URL remediation."
+    },
+    {
+      "category": "TOC",
+      "typePattern": "TableOfContentsWebPart",
+      "approach": "replace-ootb",
+      "modernEquivalent": "Quick links web part or page anchor links",
+      "notes": "Auto-generated TOC has no direct SPO equivalent. Rebuild as Quick Links or remove if navigation provides sufficient structure."
+    },
+    {
+      "category": "Image",
+      "typePattern": "ImageWebPart",
+      "approach": "directly-convertible",
+      "modernEquivalent": "Image web part",
+      "notes": "Direct equivalent exists. Ensure image asset URLs are updated as part of link remediation."
+    },
+    {
+      "category": "PageViewer",
+      "typePattern": "PageViewerWebPart",
+      "approach": "replace-ootb",
+      "modernEquivalent": "Embed web part (iframe)",
+      "notes": "Modern Embed web part can iframe external content. On-prem URLs embedded here will be unreachable from SPO — review each URL."
+    },
+    {
+      "category": "Media",
+      "typePattern": "MediaWebPart",
+      "approach": "replace-ootb",
+      "modernEquivalent": "File viewer or Stream web part",
+      "notes": "Depends on the media type and where it is hosted. Evaluate per instance."
+    },
+    {
+      "category": "Sandbox",
+      "typePattern": "SPUserCodeWebPart",
+      "approach": "custom-exception",
+      "modernEquivalent": "SPFx web part (requires justification and approval)",
+      "notes": "Sandbox solutions are completely blocked in SPO. Requires full SPFx rewrite. Must be explicitly justified with cost and support plan."
+    },
+    {
+      "category": "UserTasks",
+      "typePattern": "UserTasksWebPart",
+      "approach": "replace-ootb",
+      "modernEquivalent": "Planner web part or remove (tasks not used)",
+      "notes": "SP2016 My Tasks is not present in modern SPO. Evaluate whether task tracking is actually used before deciding to replace."
+    },
+    {
+      "category": "Other",
+      "typePattern": ".*",
+      "approach": "custom-exception",
+      "modernEquivalent": "Unknown — manual review required",
+      "notes": "Unrecognised web part type. Must be identified and classified manually before migration proceeds."
+    }
+  ],
+  "complexityWeights": {
+    "hasConnectedWebParts": 3,
+    "hasSEWP": 3,
+    "hasSandbox": 3,
+    "hasCEWP": 1,
+    "webPartCount": 0.5,
+    "customExceptionCount": 2
+  },
+  "complexityThresholds": {
+    "low": 3,
+    "medium": 6,
+    "high": 10
+  },
+  "dispositionHints": {
+    "ListForm": "Keep — SPO list form auto-generated, no page migration needed",
+    "RootPage": "Review — evaluate whether this portal/default page has content worth migrating",
+    "CustomForm": "Review — may be a custom workflow form; check if workflow is still active",
+    "SitePage": "Review — apply Keep/Merge/Archive/Delete disposition manually based on content value"
+  }
+}

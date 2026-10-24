@@ -1,1 +1,0 @@
-../../../scripts/provisioning/spo-detach-content-type-from-list.ps1

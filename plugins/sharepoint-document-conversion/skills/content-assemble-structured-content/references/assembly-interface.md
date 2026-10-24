@@ -1,1 +1,0 @@
-../../../references/assembly/assembly-interface.md

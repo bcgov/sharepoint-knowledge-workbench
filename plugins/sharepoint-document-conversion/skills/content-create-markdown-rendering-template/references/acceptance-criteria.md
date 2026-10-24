@@ -1,1 +1,0 @@
-../../../references/rendering/content-create-markdown-rendering-template-acceptance-criteria.md

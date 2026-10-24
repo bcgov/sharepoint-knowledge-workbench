@@ -1,0 +1,16 @@
+{
+    "name": "sharepoint-content-migration",
+    "version": "0.1.0-alpha.1",
+    "description": "Item-level SharePoint content migration and fidelity auditing: batched migration with retry, two-pass lookup-ID relinking, and SP2016-to-SPO list-content and lookup reconciliation. Planning and auditing are read-oriented; real writes remain explicitly gated.",
+    "author": {
+        "name": "Richard Fremmerlid"
+    },
+    "repository": "https://github.com/richfrem/sharepoint-knowledge-workbench",
+    "license": "MIT",
+    "keywords": [
+        "sharepoint",
+        "content-migration",
+        "list-items",
+        "lookup-fields"
+    ]
+}

@@ -1,1 +1,0 @@
-../../../scripts/link-remediation/spo-remediate-field-image-references.ps1

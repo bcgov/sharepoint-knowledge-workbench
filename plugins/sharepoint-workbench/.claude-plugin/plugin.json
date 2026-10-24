@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/claude-plugin-manifest.json",
+  "name": "sharepoint-workbench",
+  "version": "1.0.0",
+  "description": "Unified SharePoint Knowledge Workbench: setup, discovery, document conversion, SPFx development, list and library management, page publishing, schema IA, navigation sync, modern page transformation, data migration, and Copilot agents.",
+  "author": {
+    "name": "SharePoint Knowledge Workbench Contributors"
+  }
+}

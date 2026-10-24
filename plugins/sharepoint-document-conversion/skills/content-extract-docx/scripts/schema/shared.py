@@ -1,1 +1,0 @@
-../../../../scripts/extraction/schema/shared.py

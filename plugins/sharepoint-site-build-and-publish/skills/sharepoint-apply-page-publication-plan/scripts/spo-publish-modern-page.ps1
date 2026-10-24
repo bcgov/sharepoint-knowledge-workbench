@@ -1,1 +1,0 @@
-../../../scripts/content-publication/spo-publish-modern-page.ps1

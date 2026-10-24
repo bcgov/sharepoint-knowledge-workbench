@@ -1,1 +1,0 @@
-../../../scripts/collect-onprem-sharepoint-aspx-pages.ps1

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SharePointNavigationHierarchy",
+  "description": "Structural schema for SharePoint Online navigation export/sync",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "Top Level": {
+        "type": "string",
+        "description": "Level 1 menu title"
+      },
+      "2nd Level": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Level 2 submenu title"
+      },
+      "3rd Level": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Level 3 leaf title"
+      },
+      "Url": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Target URL (site-relative or absolute)"
+      },
+      "OpenInNewTab": {
+        "type": "string",
+        "enum": [
+          "Y",
+          "N"
+        ],
+        "default": "N"
+      },
+      "Enabled": {
+        "type": "string",
+        "enum": [
+          "Y",
+          "N"
+        ],
+        "default": "Y"
+      }
+    },
+    "required": [
+      "Top Level"
+    ]
+  }
+}

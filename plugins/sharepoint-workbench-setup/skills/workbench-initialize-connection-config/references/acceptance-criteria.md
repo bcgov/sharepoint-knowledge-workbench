@@ -1,1 +1,0 @@
-../../../references/workbench-initialize-connection-config-acceptance-criteria.md

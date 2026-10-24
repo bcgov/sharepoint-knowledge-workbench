@@ -1,1 +1,0 @@
-../../references/legacy-aspx-to-html-acceptance-criteria.md

@@ -1,1 +1,0 @@
-../../../scripts/check-spfx-toolchain.ps1

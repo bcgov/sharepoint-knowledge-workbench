@@ -1,1 +1,0 @@
-../../../references/rendering/content-validate-rendering-template-acceptance-criteria.md

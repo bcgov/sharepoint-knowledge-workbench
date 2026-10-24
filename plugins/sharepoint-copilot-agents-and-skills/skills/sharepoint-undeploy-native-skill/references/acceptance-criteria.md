@@ -1,1 +1,0 @@
-../../../references/sharepoint-undeploy-native-skill-acceptance-criteria.md

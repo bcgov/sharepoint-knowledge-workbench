@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-remove-list-acceptance-criteria.md

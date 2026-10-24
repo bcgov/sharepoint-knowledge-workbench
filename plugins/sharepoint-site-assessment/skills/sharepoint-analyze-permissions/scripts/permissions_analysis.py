@@ -1,1 +1,0 @@
-../../../scripts/permissions_analysis.py

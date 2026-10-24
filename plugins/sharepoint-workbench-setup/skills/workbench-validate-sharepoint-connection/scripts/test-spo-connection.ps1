@@ -1,1 +1,0 @@
-../../../scripts/test-spo-connection.ps1

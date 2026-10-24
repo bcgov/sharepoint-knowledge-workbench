@@ -1,1 +1,0 @@
-../../../references/content-publication/sharepoint-download-file-acceptance-criteria.md

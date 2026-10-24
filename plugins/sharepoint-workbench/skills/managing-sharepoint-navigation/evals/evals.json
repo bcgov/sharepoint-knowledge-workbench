@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eval-1-positive",
+    "type": "positive",
+    "prompt": "I want to sync the SharePoint navigation menu from our Excel file to dev",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-2-positive",
+    "type": "positive",
+    "prompt": "Export the live QuickLaunch navigation from our SharePoint site to a JSON snapshot",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-3-positive",
+    "type": "positive",
+    "prompt": "Diff my navigation workbook against SharePoint Online to generate navigation operations",
+    "should_trigger": true
+  },
+  {
+    "id": "eval-4-negative",
+    "type": "negative",
+    "prompt": "Deploy an SPFx solution to the App Catalog",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-5-negative",
+    "type": "negative",
+    "prompt": "Create a new document library in SharePoint Online",
+    "should_trigger": false
+  }
+]

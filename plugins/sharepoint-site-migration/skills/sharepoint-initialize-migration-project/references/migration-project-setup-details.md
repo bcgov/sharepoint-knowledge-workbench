@@ -1,1 +1,0 @@
-../../../references/migration-planning/migration-project-setup-details.md

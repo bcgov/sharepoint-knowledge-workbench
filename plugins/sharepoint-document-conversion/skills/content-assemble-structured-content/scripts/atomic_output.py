@@ -1,1 +1,0 @@
-../../../scripts/assembly/atomic_output.py

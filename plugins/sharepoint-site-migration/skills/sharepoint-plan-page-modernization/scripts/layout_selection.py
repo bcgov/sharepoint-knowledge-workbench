@@ -1,1 +1,0 @@
-../../../scripts/page-modernization/layout_selection.py

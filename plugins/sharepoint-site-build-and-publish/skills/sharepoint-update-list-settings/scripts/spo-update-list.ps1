@@ -1,1 +1,0 @@
-../../../scripts/provisioning/spo-update-list.ps1

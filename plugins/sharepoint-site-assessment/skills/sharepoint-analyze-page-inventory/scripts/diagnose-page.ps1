@@ -1,1 +1,0 @@
-../../../scripts/discovery-lineage/diagnose-page.ps1

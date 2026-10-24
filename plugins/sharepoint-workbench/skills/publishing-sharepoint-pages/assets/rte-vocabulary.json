@@ -1,0 +1,208 @@
+{
+  "_comment": "Allow-list for SharePoint Text web part inner HTML. 'confirmed_ck5' = seen in stored HTML of a CK5 page (contentVersion 5); 'stored_other' = seen in stored page HTML of a CK4 page or unknown editor version; 'transformer' = emitted by PnP HtmlTransformator; 'tenant' = harvested from your own captures by rte_lint.py harvest. See references/markup-vocabulary.md.",
+  "tags": {
+    "confirmed_ck5": [
+      "p",
+      "div",
+      "figure",
+      "table",
+      "colgroup",
+      "col",
+      "tbody",
+      "tr",
+      "td"
+    ],
+    "stored_other": [
+      "h2",
+      "h3",
+      "h4",
+      "span",
+      "strong",
+      "blockquote",
+      "pre",
+      "ul",
+      "li"
+    ],
+    "transformer": [
+      "em",
+      "u",
+      "s",
+      "sup",
+      "sub",
+      "a",
+      "br",
+      "ol"
+    ]
+  },
+  "div_requires_class": [
+    "canvasRteResponsiveTable",
+    "tableWrapper",
+    "imagePlugin"
+  ],
+  "classes": {
+    "confirmed_ck5": [
+      "noSpacingAbove",
+      "spacingBelow",
+      "imagePlugin",
+      "table",
+      "tableLeftAlign",
+      "canvasRteResponsiveTable",
+      "ck-table-resized"
+    ],
+    "stored_other": [
+      "fontSizeXLargePlus",
+      "fontColorRed"
+    ],
+    "transformer": [
+      "fontSizeSmall",
+      "fontSizeMedium",
+      "fontSizeMediumPlus",
+      "fontSizeXxLarge",
+      "fontSizeXxxLarge",
+      "fontSizeXxLargePlus",
+      "fontSizeSuper",
+      "fontColorRedDark",
+      "fontColorYellow",
+      "fontColorYellowLight",
+      "fontColorGreenLight",
+      "fontColorGreen",
+      "fontColorBlueLight",
+      "fontColorBlue",
+      "fontColorBlueDark",
+      "fontColorPurple",
+      "fontColorThemeSecondary",
+      "fontColorThemePrimary",
+      "fontColorThemeDarkAlt",
+      "fontColorThemeDark",
+      "fontColorThemeDarker",
+      "highlightColorMaroon",
+      "highlightColorRed",
+      "highlightColorYellow",
+      "highlightColorGreen",
+      "highlightColorAqua",
+      "highlightColorBlue",
+      "highlightColorDarkBlue",
+      "highlightColorPurple",
+      "tableWrapper",
+      "tableCenterAlign",
+      "tableRightAlign",
+      "simpleTableStyleNeutral",
+      "borderHeaderTableStyleNeutral",
+      "filledHeaderTableStyleNeutral",
+      "bandedRowTableStyleNeutral",
+      "filledHeaderTableStyleTheme",
+      "bandedRowTableStyleTheme"
+    ]
+  },
+  "styles": {
+    "block": [
+      "text-align",
+      "margin-left"
+    ],
+    "inline": [
+      "width",
+      "text-align"
+    ],
+    "by_class": {
+      "imagePlugin": [
+        "background-color",
+        "position"
+      ]
+    },
+    "by_tag": {
+      "col": [
+        "width"
+      ],
+      "td": [
+        "width",
+        "text-align"
+      ],
+      "figure": [
+        "width"
+      ]
+    }
+  },
+  "attributes": {
+    "any": [
+      "class",
+      "style"
+    ],
+    "a": [
+      "href",
+      "data-interception"
+    ],
+    "table": [
+      "title"
+    ],
+    "p": [
+      "data-text-type"
+    ],
+    "imagePlugin": [
+      "data-alignment",
+      "data-imageurl",
+      "data-uploading",
+      "data-width",
+      "data-height",
+      "data-imagenaturalwidth",
+      "data-imagenaturalheight",
+      "data-widthpercentage",
+      "data-siteid",
+      "data-webid",
+      "data-listid",
+      "data-uniqueid",
+      "data-alttext",
+      "data-captiontext",
+      "data-isoverlaytextenabled",
+      "data-linkurl"
+    ]
+  },
+  "tenant": {
+    "tags": [
+      "thead",
+      "th",
+      "code",
+      "figure"
+    ],
+    "classes": [
+      "customCells",
+      "lightBackground",
+      "rteTableBackgroundTransparent",
+      "borderHeaderTableStyleTheme",
+      "simpleTableStyleNeutral",
+      "customListStyle",
+      "fontSizeXLargePlus",
+      "spacingBelow"
+    ],
+    "styles": [
+      "td:background-color",
+      "td:color",
+      "td:border-left",
+      "td:border-top",
+      "td:border-right",
+      "td:border-bottom",
+      "td:border",
+      "th:background-color",
+      "th:color",
+      "th:border-left",
+      "th:border-top",
+      "th:border-right",
+      "th:border-bottom",
+      "th:border",
+      "span:color",
+      "span:background-color",
+      "p:line-height",
+      "p:margin-bottom",
+      "figure:width"
+    ],
+    "attributes": [
+      "a:target",
+      "a:rel",
+      "th:scope",
+      "li:data-list-item-id",
+      "p:data-text-type",
+      "table:title",
+      "figure:title"
+    ]
+  },
+  "_captured": "tenant section = markup read back with Get-PnPPage from DEV page RTE-Capture after editor save (2026-10-21). See references/text-webpart-capture-and-verify.md."
+}

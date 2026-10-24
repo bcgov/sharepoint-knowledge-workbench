@@ -1,1 +1,0 @@
-../../../scripts/schema-reconciliation/list_provisioning.py

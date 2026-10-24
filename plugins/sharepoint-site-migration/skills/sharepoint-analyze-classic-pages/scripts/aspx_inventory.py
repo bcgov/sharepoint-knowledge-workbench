@@ -1,1 +1,0 @@
-../../../scripts/page-modernization/aspx_inventory.py

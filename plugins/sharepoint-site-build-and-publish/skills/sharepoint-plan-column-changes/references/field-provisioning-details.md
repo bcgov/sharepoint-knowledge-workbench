@@ -1,1 +1,0 @@
-../../../references/schema-reconciliation/field-provisioning-details.md

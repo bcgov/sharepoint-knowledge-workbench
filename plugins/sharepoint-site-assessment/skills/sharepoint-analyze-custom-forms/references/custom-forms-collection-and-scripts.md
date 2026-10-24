@@ -1,1 +1,0 @@
-../../../references/custom-forms-collection-and-scripts.md

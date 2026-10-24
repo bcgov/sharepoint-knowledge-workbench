@@ -1,1 +1,0 @@
-../../../references/migration-planning/sharepoint-initialize-migration-project-acceptance-criteria.md

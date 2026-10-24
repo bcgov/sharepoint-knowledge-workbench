@@ -1,1 +1,0 @@
-../../../references/sharepoint-generate-assessment-reports-acceptance-criteria.md

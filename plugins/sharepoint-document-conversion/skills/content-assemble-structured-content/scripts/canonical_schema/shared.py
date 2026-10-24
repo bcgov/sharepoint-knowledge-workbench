@@ -1,1 +1,0 @@
-../../../../scripts/assembly/canonical_schema/shared.py

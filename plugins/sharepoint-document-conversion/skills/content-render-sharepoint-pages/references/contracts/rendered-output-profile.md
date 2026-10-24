@@ -1,1 +1,0 @@
-../../../../references/rendering/contracts/rendered-output-profile.md

@@ -3,8 +3,8 @@ description: >
   Schema/dependency definitions for a SharePoint migration must live in JSON,
   never hardcoded inside generated or hand-written deployment scripts.
 globs:
-  - "plugins/sharepoint-site-migration/**/*.py"
-  - "plugins/sharepoint-site-migration/assets/migration-planning/*.json"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*.py"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/assets/*.json"
 ---
 
 # Rule: Schema-Driven SharePoint Deployment
@@ -23,7 +23,7 @@ run, not on a separately-maintained copy someone forgot to update.
 Any object that needs ordered deployment relative to other objects
 declares its dependencies **by name**, in the same shared schema structure
 used for planning and validation (this plugin's generalized
-`DeploymentObject.depends_on`, see `plugins/sharepoint-site-migration/scripts/migration-planning/wave_planning.py`) -- never by
+`DeploymentObject.depends_on`, see `plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/scripts/wave_planning.py`) -- never by
 having its position hand-encoded into a separate, fixed-order orchestrator
 step list. A dependency is "this object depends on that named object," not
 "this object belongs in stage N" -- the latter requires a human to keep the

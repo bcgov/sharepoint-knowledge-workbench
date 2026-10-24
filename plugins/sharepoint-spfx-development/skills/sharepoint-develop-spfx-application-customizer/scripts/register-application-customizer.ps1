@@ -1,1 +1,0 @@
-../../../scripts/register-application-customizer.ps1

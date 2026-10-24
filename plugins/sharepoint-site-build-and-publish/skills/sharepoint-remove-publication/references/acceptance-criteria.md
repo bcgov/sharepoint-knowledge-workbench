@@ -1,1 +1,0 @@
-../../../references/content-publication/sharepoint-remove-publication-acceptance-criteria.md

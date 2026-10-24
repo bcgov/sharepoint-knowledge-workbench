@@ -1,1 +1,0 @@
-../../../scripts/link-remediation/export_link_inventory.py

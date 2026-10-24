@@ -1,1 +1,0 @@
-../../../scripts/page-modernization-execution/spo-convert-pages-bulk.ps1

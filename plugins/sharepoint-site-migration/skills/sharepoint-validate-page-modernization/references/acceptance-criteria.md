@@ -1,1 +1,0 @@
-../../../references/page-modernization-execution/sharepoint-validate-page-modernization-acceptance-criteria.md

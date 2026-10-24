@@ -1,1 +1,0 @@
-../../../../scripts/structure-analysis/plan_schema/shared.py

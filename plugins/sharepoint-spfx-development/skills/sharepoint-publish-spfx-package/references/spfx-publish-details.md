@@ -1,1 +1,0 @@
-../../../references/spfx-publish-details.md

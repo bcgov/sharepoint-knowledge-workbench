@@ -1,1 +1,0 @@
-../../../../scripts/assembly/canonical_schema/analysis_plan.py

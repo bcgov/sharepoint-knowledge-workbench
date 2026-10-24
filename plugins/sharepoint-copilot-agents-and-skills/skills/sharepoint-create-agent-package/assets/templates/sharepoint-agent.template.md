@@ -1,1 +1,0 @@
-../../../../assets/templates/sharepoint-agent.template.md

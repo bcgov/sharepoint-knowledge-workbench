@@ -1,1 +1,0 @@
-../../../scripts/reconcile-deployed-skill.ps1

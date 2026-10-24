@@ -1,1 +1,0 @@
-../../../references/inventory-collectors.md

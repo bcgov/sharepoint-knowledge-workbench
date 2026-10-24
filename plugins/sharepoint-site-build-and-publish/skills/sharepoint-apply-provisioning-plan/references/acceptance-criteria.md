@@ -1,1 +1,0 @@
-../../../references/provisioning/sharepoint-apply-provisioning-plan-acceptance-criteria.md

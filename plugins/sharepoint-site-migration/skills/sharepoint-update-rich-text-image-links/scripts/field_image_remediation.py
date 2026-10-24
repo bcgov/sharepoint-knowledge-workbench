@@ -1,1 +1,0 @@
-../../../scripts/link-remediation/field_image_remediation.py

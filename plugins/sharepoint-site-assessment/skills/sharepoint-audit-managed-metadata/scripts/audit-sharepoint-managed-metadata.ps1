@@ -1,1 +1,0 @@
-../../../scripts/audit-sharepoint-managed-metadata.ps1

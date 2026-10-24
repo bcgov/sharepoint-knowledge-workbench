@@ -1,1 +1,0 @@
-../../../scripts/provisioning/spo-add-list-item.ps1

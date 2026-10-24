@@ -1,1 +1,0 @@
-../../../scripts/discovery-lineage/generate-deep-nav-analysis.py

@@ -1,1 +1,0 @@
-../../../scripts/collect-sharepoint-schema-export.ps1

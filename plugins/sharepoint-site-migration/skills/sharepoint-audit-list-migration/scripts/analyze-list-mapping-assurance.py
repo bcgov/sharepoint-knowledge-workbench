@@ -1,1 +1,0 @@
-../../../scripts/content-migration/content-audit/analyze-list-mapping-assurance.py

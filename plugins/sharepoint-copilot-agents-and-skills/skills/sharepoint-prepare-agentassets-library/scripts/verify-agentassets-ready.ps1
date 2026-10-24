@@ -1,1 +1,0 @@
-../../../scripts/verify-agentassets-ready.ps1

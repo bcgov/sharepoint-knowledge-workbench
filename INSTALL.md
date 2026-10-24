@@ -20,8 +20,7 @@ uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richf
 uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench --all -y
 
 # Install a specific domain plugin directly (e.g., sharepoint-document-conversion or sharepoint-site-assessment)
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench/plugins/sharepoint-document-conversion -y
-uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench/plugins/sharepoint-site-assessment -y
+apm install @sharepoint/sharepoint-workbench --target claude,copilot,codex,antigravity
 
 # Preview what will be installed without writing any files
 uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add richfrem/sharepoint-knowledge-workbench --dry-run
@@ -93,7 +92,7 @@ copilot plugin install sharepoint-document-conversion@richfrem-sharepoint-knowle
 npx skills add richfrem/sharepoint-knowledge-workbench
 
 # Install a specific plugin from the repository
-npx skills add richfrem/sharepoint-knowledge-workbench/plugins/sharepoint-document-conversion
+apm install @sharepoint/sharepoint-workbench
 
 # Update all installed skills across all agents
 npx skills update
@@ -127,13 +126,10 @@ cd sharepoint-knowledge-workbench
 python .agents/skills/plugin-installer/scripts/plugin_add.py ./plugins --all -y
 
 # Or install the single-source plugins in editable Python mode:
-pip install -e plugins/sharepoint-workbench-setup
-pip install -e plugins/sharepoint-site-assessment
-pip install -e plugins/sharepoint-copilot-agents-and-skills
-pip install -e plugins/sharepoint-spfx-development
+pip install -e plugins/sharepoint-workbench
 # The consolidated plugins (document conversion, build/publish, migration) bundle several flat-module implementations in namespace
 # folders and are not importable as one distribution; run their tests with:
-#   python3 plugins/sharepoint-document-conversion/tests/run_namespaces.py
+#   pytest plugins/sharepoint-workbench/tests/
 
 # Alternatively, you can use uvx locally against the repository:
 uvx --from git+https://github.com/richfrem/agent-plugins-skills plugin-add ./plugins --all -y

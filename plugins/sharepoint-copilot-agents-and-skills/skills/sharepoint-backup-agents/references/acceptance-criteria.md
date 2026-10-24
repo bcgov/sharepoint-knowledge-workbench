@@ -1,1 +1,0 @@
-../../../references/sharepoint-backup-agents-acceptance-criteria.md

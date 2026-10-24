@@ -3,7 +3,7 @@
 **Repository Target:** `sharepoint-knowledge-workbench` (`../sharepoint-knowledge-workbench`)  
 **Parent Foundation:** `agent-plugins-skills` (`docs/plans/apm_migration_plan.md` §14)  
 **Active Feature Branch:** `feat/apm-migration-and-skill-consolidation` (in `sharepoint-knowledge-workbench`)  
-**Status:** DRAFT / READY FOR EXECUTION  
+**Status:** IN PROGRESS (Waves 1, 2, 3, 6 Completed & Verified)  
 **Date:** 2026-10-23  
 
 ---
@@ -14,8 +14,8 @@ The objective is to modernize `sharepoint-knowledge-workbench` by applying the b
 
 ```mermaid
 flowchart LR
-    A["Current State<br/>108 Micro-Skills<br/>783 Broken Symlinks<br/>739 symlinks.json entries<br/>Local .agents/ duplicates"] --> B["Step-by-Step Execution<br/>7 Plugin Waves<br/>Resource Inlining<br/>Modal Dispatch (SKILL.md)<br/>Stale Rule Cleanup"]
-    B --> C["Target State<br/>9–12 Self-Contained Skills<br/>0 Symlinks<br/>Clean apm.yml<br/>Global Platform Reuse"]
+    A["Current State<br/>108 Micro-Skills<br/>783 Broken Symlinks<br/>739 symlinks.json entries<br/>Local .agents/ duplicates"] --> B["Calibrated Execution<br/>7 Plugin Waves<br/>Resource Inlining<br/>Modal Dispatch (SKILL.md)<br/>Cross-Repo Ingestion from JAG"]
+    B --> C["Target State<br/>1 Unified Plugin<br/>10 Intent-Aligned Skills<br/>0 Symlinks<br/>Clean apm.yml"]
 ```
 
 ### The 5 Strategic Pillars:
@@ -23,168 +23,234 @@ flowchart LR
    Downstream projects do not vendor or locally duplicate the core Agentic OS, dev-utils, memory, authoring, or orchestration plugins. All 30 platform skills are consumed directly from the global workstation profile (`~/.apm/apm.yml`).
 2. **Eliminate All Symlinks via Self-Contained Spokes:**
    The 783 relative symlinks (`../../../references/...`, `../../../scripts/...`) inside skills break when APM installs them. Every script and reference needed by a skill moves **directly into that skill's own directory** (`plugins/<plugin>/skills/<skill>/scripts/` and `references/`).
-3. **Consolidate 108 Micro-Skills into Cohesive Domain Hubs:**
-   Group single-verb micro-tasks (e.g., 35 list/column CRUD skills) into cohesive domain hubs with modal execution (`SKILL.md` under 100 lines dispatching to `references/modes/<mode>.md`).
-4. **Clean Stale Governance Rules:**
-   Prune outdated rules in `.agent/rules/` inherited from earlier versions (e.g., remove `graph-planning-superpowers-policy.md`, repoint `agent-scaffolders` to `agent-extension-authoring`, retire symlink rules).
-5. **Standardize on APM:**
-   Retire `symlinks.json`, `plugin-sources.json`, `plugin-retention.json`, and `skills-lock.json`. Govern the project's SharePoint plugins through a native `apm.yml`.
+3. **Consolidate 108 Micro-Skills into 10 Intent-Aligned Hubs (Avoid Overcollapsing):**
+   Group single-verb micro-tasks into domain hubs with modal execution (`SKILL.md` under 100 lines dispatching to `references/modes/<mode>.md`). Ensure high-frequency user intents (e.g., *"create document library"*, *"publish page"*, *"create copilot agent"*) have dedicated, unmistakable skills rather than being buried in monolithic black boxes.
+4. **Cross-Repository Ingestion from Consuming Repositories (`external-sp-migration-project`):**
+   Absorb proven generic SharePoint engines (CKEditor 5 HTML sanitization, declarative navigation sync, webpart mapping catalogs, and resumable migration ledgers) from `external-sp-migration-project` into the canonical workbench so downstream projects can consume them via APM.
+5. **Standardize on APM in a Unified Plugin:**
+   Retire `symlinks.json`, `plugin-sources.json`, `plugin-retention.json`, and `skills-lock.json`. Unify into a single `sharepoint-workbench` plugin governed by a native `apm.yml`.
 
 ---
 
-## 2. Zero Functional Loss & 1:1 Parity Guarantee
+## 2. Zero Functional Loss & Feature Parity Protocol
 
 Consolidation does **NOT** rewrite, delete, or degrade any underlying automation or script capability.
 
 ### 2.1 The Scripts Stay 100% Identical
-- All PowerShell (`.ps1`) and Python (`.py`) scripts (e.g., `New-SharePointList.ps1`, `extract_docx.py`, `Get-WorkbenchConnectionConfig.ps1`) remain intact with identical arguments, parameters, return codes, and business logic.
-- They simply move from plugin-root into the skill's `scripts/` folder (or stay in plugin root if truly shared), eliminating the broken relative symlinks.
+- All PowerShell (`.ps1`) and Python (`.py`) scripts (e.g., `New-SharePointList.ps1`, `extract_docx.py`, `Get-WorkbenchConnectionConfig.ps1`, `publish-spo-page.ps1`) remain intact with identical arguments, parameters, return codes, and business logic.
+- They move from plugin-root into the skill's `scripts/` folder, eliminating broken relative symlinks.
 
-### 2.2 What Actually Changes: The Front Door (Routing Layer)
-- **Old (Fragmented):** 108 separate `SKILL.md` files. Each file is a thin wrapper over a single script, with 4–10 broken symlinks pointing outside the skill folder.
-- **Consolidated (Modal Hub):** One authoritative domain `SKILL.md` acting as a **modal dispatcher**:
-  - The detailed instructions, parameter guides, and examples from each old `SKILL.md` become verbatim reference files in `references/modes/<mode-name>.md`.
-  - The agent triggers the skill and selects the exact mode needed.
+### 2.2 The 3-Link Awareness Chain: Why Capabilities Are Never Lost
+When an engineer asks an agent to perform a specific action (e.g., *"create document library"*, *"publish page"*, *"add choice column"*), the agent navigates a 3-link chain:
 
 ```
-Old Layout (5 Fragmented Skills):
-├── skills/workbench-initialize-connection-config/SKILL.md -> (symlink ../../../scripts/Get-WorkbenchConnectionConfig.ps1)
-├── skills/workbench-validate-sharepoint-connection/SKILL.md -> (symlink ../../../scripts/Test-SharePointConnection.ps1)
-├── skills/workbench-request-app-registration/SKILL.md -> (symlink ../../../scripts/request_app_registration.py)
-├── skills/workbench-resolve-document-paths/SKILL.md -> (symlink ../../../scripts/resolve_document_paths.py)
-└── skills/workbench-initialize-document-workflow/SKILL.md -> (symlink ../../../scripts/initialize_workflow.py)
-
-Consolidated Layout (1 Self-Contained Skill: setting-up-sharepoint-workbench):
-├── SKILL.md  (concise router under 100 lines describing available modes)
-├── scripts/
-│   ├── Get-WorkbenchConnectionConfig.ps1
-│   ├── Test-SharePointConnection.ps1
-│   ├── request_app_registration.py
-│   ├── resolve_document_paths.py
-│   └── initialize_workflow.py
-└── references/
-    └── modes/
-        ├── init-connection.md      (preserves verbatim old SKILL.md instructions)
-        ├── validate-connection.md  (preserves verbatim old SKILL.md instructions)
-        ├── app-registration.md     (preserves verbatim old SKILL.md instructions)
-        ├── resolve-paths.md        (preserves verbatim old SKILL.md instructions)
-        └── workflow-intake.md      (preserves verbatim old SKILL.md instructions)
+[User Prompt: 'Create document library Invoices with versioning']
+      │
+      ▼ (Link 1: Top-Level Frontmatter Match)
+[SKILL.md YAML description]  <-- Matches 'create document library', 'add library'
+      │
+      ▼ (Link 2: In-Skill Disambiguation Table)
+[SKILL.md Router Table]      <-- Points directly to references/modes/create-library.md
+      │
+      ▼ (Link 3: Full Procedural Instruction)
+[references/modes/<mode>.md] <-- Contains exact flags, PowerShell parameters, edge cases, examples
 ```
-**Net Result:** 0 broken symlinks, 0 broken scripts, 100% functional parity, and 80% less menu clutter.
+
+1. **Top-Level YAML Frontmatter (`description`):** Broad and descriptive. Explicitly enumerates all primary verbs, nouns, and aliases so the LLM triggers the right skill without hesitation.
+2. **Router Table in `SKILL.md`:** A crisp lookup table mapping user intent to mode instructions.
+3. **Mode Reference (`references/modes/*.md`):** Contains the verbatim micro-skill instructions, exact script parameters, constraints, examples, and verification rules.
+
+### 2.3 Interactive Wizard Skills (Human-in-the-Loop Pipelines)
+Unlike simple CLI runners, skills that absorb former orchestrator agents are built as **Interactive Wizard Skills** with guided multi-turn intake and explicit confirmation gates:
+- **`converting-sharepoint-documents`:** DOCX parse ➡️ AST structure analysis ➡️ **`[Human Gate: Confirm Heading Splits]`** ➡️ Canonical assembly ➡️ Template render ➡️ **`[Human Gate: Review Rendered Topics]`**.
+- **`modernizing-sharepoint-pages`:** Exported ASPX intake ➡️ Webpart scan ➡️ **`[Human Gate: Web Part Mapping Decision — SPFx vs Text]`** ➡️ Canvas layout plan ➡️ Dry-run preview ➡️ **`[Human Gate: Review Rendered Page before SPO publish]`**.
+- **`migrating-sharepoint-sites`:** Dependency discovery ➡️ Matrix completeness check ➡️ Topological sort ➡️ **`[Human Gate: Confirm Deployment Order]`** ➡️ Batch list/item migration with resumable ledger.
+- **`assessing-sharepoint-sites`:** Interactive intake (Site URL, credentials, traversal depth) ➡️ Scope confirmation ➡️ Non-destructive scan ➡️ Assessment report.
 
 ---
 
-## 3. Resource Re-homing: Eliminating Plugin-Root Drift & Symlinks
+## 3. Wave 4: Complete 35-Skill Mapping Table (`sharepoint-site-build-and-publish`)
 
-### The Root Cause:
-In the legacy layout, shared scripts and references were authored at plugin roots:
-- `plugins/<plugin>/scripts/` (~398 scripts total across the 7 plugins)
-- `plugins/<plugin>/references/` (~218 references total)
-Skills only contained symlinks pointing back to them. When installed by APM, those symlinks become dead pointers.
+To prevent overcollapsing and guarantee that operations like *"create document library"*, *"publish page"*, and *"add list column"* never cross-cannibalize or get lost, the 35 micro-skills in `sharepoint-site-build-and-publish` map to **3 distinct, intent-aligned skills**:
+1. **`managing-sharepoint-lists-and-libraries`** (Containers & List-level operations)
+2. **`publishing-sharepoint-pages`** (Web content publishing & page deployment)
+3. **`managing-sharepoint-schema`** (Site collection information architecture & PnP provisioning)
 
-### The Re-homing Decision Matrix:
-| Resource Type | Current Location | Target Location | Migration Rule |
-| :--- | :--- | :--- | :--- |
-| **Operation-Specific Script** (e.g. `export_choice_columns.py`) | `plugins/<plugin>/scripts/` | `plugins/<plugin>/skills/<hub-skill>/scripts/` | **Move directly into skill.** Eliminates symlink; makes skill self-contained under APM. |
-| **Domain Reference / Criteria** (e.g. `*-acceptance-criteria.md`) | `plugins/<plugin>/references/` | `plugins/<plugin>/skills/<hub-skill>/references/` | **Move directly into skill.** Absorbed into skill modes and verification checklists. |
-| **Shared Foundation Library** (e.g. `PnPWrapper.ps1`, `Get-WorkbenchConnectionConfig.ps1`) | `plugins/<plugin>/scripts/` | `plugins/<plugin>/scripts/` | **Retain as canonical plugin utility.** Invoked relatively or packaged cleanly; never symlinked. |
-| **Plugin Architecture Manifest** | `plugins/<plugin>/.claude-plugin/plugin.json` | Same | **Update** to list only consolidated hub skills. |
-
----
-
-## 4. Wave-by-Wave Skill Consolidation Blueprint
-
-Total repository reduction: **108 micro-skills $\rightarrow$ 9–12 cohesive domain skills across 7 plugins**.
-
-### Wave 1: `sharepoint-workbench-setup` (5 skills $\rightarrow$ 1 skill)
-- **Current (5 skills, 47 symlinks):** `workbench-initialize-connection-config`, `workbench-initialize-document-workflow`, `workbench-request-app-registration`, `workbench-resolve-document-paths`, `workbench-validate-sharepoint-connection`.
-- **Target Skill:** `setting-up-sharepoint-workbench`
-- **Re-homed Resources:**
-  - Moves `Get-WorkbenchConnectionConfig.ps1`, `request_app_registration.py`, `resolve_document_paths.py`, `initialize_workflow.py` into skill `scripts/`.
-  - Re-homes 5 acceptance criteria files into `references/`.
-- **Modes:** `init-connection`, `validate-auth`, `register-app`, `resolve-paths`, `workflow-intake`.
-
-### Wave 2: `sharepoint-site-assessment` (12 skills $\rightarrow$ 1 skill)
-- **Current (12 skills, 81 symlinks):** Inventory, permissions, page inventory, site navigation, schema drift, metadata, choice columns, calculated columns, forms, webparts, compare exports, reports.
-- **Target Skill:** `assessing-sharepoint-sites`
-- **Re-homed Resources:**
-  - Moves assessment collectors and drift diff scripts from `plugins/sharepoint-site-assessment/scripts/` into skill `scripts/`.
-  - Re-homes discovery templates and acceptance criteria into `references/`.
-- **Modes:** `inventory`, `permissions`, `drift-audit`, `forms-webparts`, `calculated-choice`, `report`.
-
-### Wave 3: `sharepoint-document-conversion` (11 skills $\rightarrow$ 1 skill)
-- **Current (11 skills, 180 symlinks):** DOCX extract, document structure analysis, structured content assembly, rendering templates (MD & SP), page rendering (MD & SP), validation, output comparison, manual topic review.
-- **Target Skill:** `converting-sharepoint-documents`
-- **Re-homed Resources:**
-  - Inlines extraction engine, AST structure analyzer, Jinja templates, and rendering validators into skill directory.
-  - Eliminates 180 symlinks pointing to `references/assembly/` and `references/rendering/`.
-- **Modes:** `extract`, `analyze`, `template`, `render-markdown`, `render-sharepoint`, `compare-validate`.
-
-### Wave 4: `sharepoint-site-build-and-publish` (35 skills $\rightarrow$ 2 skills)
-- **Current (35 skills, 183 symlinks):**
-  - Schema CRUD: 23 skills (columns, content types, lists, views, items, list settings, schema reconciliation).
-  - Publishing: 12 skills (publication plans, markdown-to-SP publishing, HTML publishing, page validation, copy pages).
-- **Target Skills:**
-  1. `managing-sharepoint-schema` (absorbs 23 schema/list CRUD micro-skills):
-     - Modes: `columns`, `content-types`, `lists`, `views`, `settings`, `reconcile`.
-  2. `publishing-sharepoint-content` (absorbs 12 publishing micro-skills):
-     - Modes: `plan`, `publish-markdown`, `publish-html`, `publish-pages`, `validate`, `copy-site`.
-- **Re-homed Resources:**
-  - Moves PowerShell provisioning scripts and publication plan generators directly into the 2 skills.
-
-### Wave 5: `sharepoint-site-migration` (20 skills $\rightarrow$ 2 skills)
-- **Current (20 skills, 152 symlinks):**
-  - Migration planning/content: 10 skills (legacy ASPX, dependency analysis, wave planning, list migration).
-  - Page modernization: 10 skills (page conversion, link extraction/rewriting, rich text image replacement, previews).
-- **Target Skills:**
-  1. `migrating-sharepoint-sites` (absorbs 10 migration workflow skills):
-     - Modes: `inventory-normalize`, `dependency-analysis`, `wave-plan`, `migrate-lists`.
-  2. `modernizing-sharepoint-pages` (absorbs 10 page transformation skills):
-     - Modes: `aspx-to-html`, `convert-modern`, `rewrite-links`, `image-replacement`, `preview`.
-- **Re-homed Resources:**
-  - Inlines URL rewrites, ASPX parsers, and modernization scripts into the respective skills.
-
-### Wave 6: `sharepoint-spfx-development` (11 skills $\rightarrow$ 1 skill)
-- **Current (11 skills, 73 symlinks):** Webparts, master-detail, extensions, application/form customizers, toolchain, packaging, deploy.
-- **Target Skill:** `developing-spfx-solutions`
-- **Re-homed Resources:**
-  - Inlines SPFx Yeoman generators, Gulp wrappers, and App Catalog deployment PowerShell scripts into skill.
-- **Modes:** `toolchain-check`, `scaffold-webpart`, `scaffold-extension`, `serve-workbench`, `package`, `deploy`.
-
-### Wave 7: `sharepoint-copilot-agents-and-skills` (14 skills $\rightarrow$ 1 skill)
-- **Current (14 skills, 67 symlinks):** Agent templates, packaging, native skills deployment, backup, restore, verify, inspect.
-- **Target Skill:** `managing-sharepoint-copilot-agents`
-- **Re-homed Resources:**
-  - Moves agent packaging manifests, AgentAssets synchronization scripts, and tenant backup tools into skill.
-- **Modes:** `create-agent`, `package`, `native-skill`, `backup-restore`, `inspect-knowledge`.
+| # | Current Micro-Skill | Proposed Consolidated Skill | Internal Reference File | Trigger Keywords in YAML / Router | Backing Script / Operation |
+|:---|:---|:---|:---|:---|:---|
+| 1 | `sharepoint-create-list` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/create-list.md` | `"create list"`, `"new list"`, `"custom list"` | `New-PnPList` |
+| 2 | `sharepoint-remove-list` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/remove-list.md` | `"delete list"`, `"remove list"` | `Remove-PnPList` |
+| 3 | `sharepoint-create-document-library` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/create-library.md` | `"create document library"`, `"new library"` | `New-PnPList -Template DocumentLibrary` |
+| 4 | `sharepoint-configure-library-settings` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/library-settings.md` | `"library versioning"`, `"require checkout"` | `Set-PnPList` |
+| 5 | `sharepoint-update-list-settings` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/list-settings.md` | `"update list settings"`, `"list title"` | `Set-PnPList` |
+| 6 | `sharepoint-add-list-column` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/add-list-column.md` | `"add list column"`, `"add column to list"` | `Add-PnPField -List` |
+| 7 | `sharepoint-update-list-column` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/update-list-column.md` | `"update list column"`, `"modify column"` | `Set-PnPField -List` |
+| 8 | `sharepoint-remove-list-column` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/remove-list-column.md` | `"remove list column"`, `"delete column"` | `Remove-PnPField -List` |
+| 9 | `sharepoint-create-list-view` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/create-list-view.md` | `"create list view"`, `"new view"`, `"filter view"` | `Add-PnPView` |
+| 10 | `sharepoint-add-list-item` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/add-list-item.md` | `"add list item"`, `"insert row"`, `"new item"` | `Add-PnPListItem` |
+| 11 | `sharepoint-reconcile-calendar-list` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/reconcile-calendar.md` | `"calendar list"`, `"reconcile calendar"` | `reconcile_calendar_list.py` |
+| 12 | `sharepoint-download-file` | **`managing-sharepoint-lists-and-libraries`** | `references/modes/file-transfer.md` | `"download file"`, `"upload file"`, `"get file"` | `Get-PnPFile` / `Add-PnPFile` |
+| 13 | `sharepoint-publish-markdown-files` | **`publishing-sharepoint-pages`** | `references/modes/publish-markdown.md` | `"publish markdown"`, `"deploy markdown pages"` | `publish_markdown_files.py` |
+| 14 | `sharepoint-publish-html-page` | **`publishing-sharepoint-pages`** | `references/modes/publish-html-page.md` | `"publish html page"`, `"upload static page"` | `publish_html_page.py` |
+| 15 | `sharepoint-copy-page-between-sites` | **`publishing-sharepoint-pages`** | `references/modes/copy-page.md` | `"copy page"`, `"duplicate page across sites"` | `Copy-PnPFile` |
+| 16 | `sharepoint-plan-page-publication` | **`publishing-sharepoint-pages`** | `references/modes/plan-publication.md` | `"plan page publication"`, `"publication diff"` | `plan_page_publication.py` |
+| 17 | `sharepoint-apply-page-publication-plan`| **`publishing-sharepoint-pages`** | `references/modes/apply-publication.md` | `"apply publication plan"`, `"deploy pages"` | `apply_page_publication_plan.py` |
+| 18 | `sharepoint-validate-publication` | **`publishing-sharepoint-pages`** | `references/modes/validate-publication.md` | `"validate publication"`, `"check page health"`| `validate_publication.py` |
+| 19 | `sharepoint-compare-publication-state` | **`publishing-sharepoint-pages`** | `references/modes/compare-publication.md` | `"compare publication state"`, `"page drift"` | `compare_publication_state.py` |
+| 20 | `sharepoint-remove-publication` | **`publishing-sharepoint-pages`** | `references/modes/remove-publication.md` | `"unpublish page"`, `"remove published page"` | `Remove-PnPFile` |
+| 21 | `sharepoint-create-site-column` | **`managing-sharepoint-schema`** | `references/modes/create-site-column.md` | `"create site column"`, `"new site column"` | `Add-PnPSiteColumn` |
+| 22 | `sharepoint-update-site-column` | **`managing-sharepoint-schema`** | `references/modes/update-site-column.md` | `"update site column"`, `"modify site column"`| `Set-PnPField` |
+| 23 | `sharepoint-remove-site-column` | **`managing-sharepoint-schema`** | `references/modes/remove-site-column.md` | `"remove site column"`, `"delete site column"`| `Remove-PnPField` |
+| 24 | `sharepoint-create-content-type` | **`managing-sharepoint-schema`** | `references/modes/create-content-type.md` | `"create content type"`, `"new site content type"`| `Add-PnPContentType` |
+| 25 | `sharepoint-update-content-type` | **`managing-sharepoint-schema`** | `references/modes/update-content-type.md` | `"update content type"`, `"add column to content type"`| `Set-PnPContentType` |
+| 26 | `sharepoint-remove-content-type` | **`managing-sharepoint-schema`** | `references/modes/remove-content-type.md` | `"remove content type"`, `"delete content type"`| `Remove-PnPContentType` |
+| 27 | `sharepoint-detach-content-type` | **`managing-sharepoint-schema`** | `references/modes/detach-content-type.md` | `"detach content type"`, `"unbind content type"`| `Remove-PnPContentTypeFromList` |
+| 28 | `sharepoint-configure-column-formatting`| **`managing-sharepoint-schema`** | `references/modes/column-formatting.md` | `"column formatting"`, `"custom json formatter"`| `Set-PnPField -CustomFormatter` |
+| 29 | `sharepoint-plan-column-changes` | **`managing-sharepoint-schema`** | `references/modes/plan-columns.md` | `"plan column changes"`, `"column diff"` | `plan_column_changes.py` |
+| 30 | `sharepoint-plan-content-type-changes` | **`managing-sharepoint-schema`** | `references/modes/plan-content-types.md` | `"plan content type changes"` | `plan_content_type_changes.py` |
+| 31 | `sharepoint-compare-schema-definitions` | **`managing-sharepoint-schema`** | `references/modes/compare-schema.md` | `"compare schema"`, `"schema diff"` | `compare_schema_definitions.py` |
+| 32 | `sharepoint-scaffold-schema-definition` | **`managing-sharepoint-schema`** | `references/modes/scaffold-schema.md` | `"scaffold schema"`, `"new schema definition"` | `scaffold_schema_definition.py` |
+| 33 | `sharepoint-reconcile-site-schema` | **`managing-sharepoint-schema`** | `references/modes/reconcile-schema.md` | `"reconcile schema"`, `"sync site schema"` | `reconcile_site_schema.py` |
+| 34 | `sharepoint-generate-schema-definition-from-export` | **`managing-sharepoint-schema`** | `references/modes/export-schema.md` | `"export schema"`, `"generate schema definition"`| `generate_schema_from_export.py` |
+| 35 | `sharepoint-apply-provisioning-plan` | **`managing-sharepoint-schema`** | `references/modes/apply-provisioning.md` | `"apply provisioning plan"`, `"provision site"`| `Apply-PnPProvisioningTemplate` |
 
 ---
 
-## 5. Stale Rule Cleanup Protocol (`.agent/rules/`)
+## 4. Wave 7: Copilot Agents & Skills (`managing-sharepoint-copilot-agents-and-skills`)
 
-Before or during the wave migrations, clean up legacy governance rules in `sharepoint-knowledge-workbench/.agent/rules/`:
+In Microsoft 365 Copilot for SharePoint, an **Agent** (declarative assistant grounded in knowledge) and a **Skill** (action/API capability extension) are unified under the single domain hub: **`managing-sharepoint-copilot-agents-and-skills`**, organized internally into two distinct tracks:
 
-1. **Delete Obsolete Files:**
-   - Remove `.agent/rules/graph-planning-superpowers-policy.md` (superseded by `engineering-lifecycle-policy.md`).
-   - Remove `.agent/rules/symlink-cross-platform.md` (superseded by zero-symlink APM policy).
-2. **Update Stale Citations:**
-   - `git-operations.md`: Remove references to `plugins/agent-scaffolders`, `skills-lock.json`, and `symlinks.json`.
-   - `pre-push-audit.md`: Repoint `plugins/agent-scaffolders` to `plugins/agent-extension-authoring/skills/authoring-skills/scripts/audit_skill.py`.
-   - `self-evolution-policy.md`: Clean references to `graph-planning-superpowers-policy.md` and `symlinks.json`.
-   - `plugin-architecture-policy.md`: Align with self-contained spoke packaging.
+### Track A: Declarative Copilot Agents
+- **Scope (8 skills):** `sharepoint-create-agent-package`, `sharepoint-create-agent-package-from-template`, `sharepoint-create-agent-template`, `sharepoint-inspect-agent-knowledge`, `sharepoint-prepare-agentassets-library`, `sharepoint-backup-agents`, `sharepoint-restore-agents`, `sharepoint-update-agent-package`.
+- **Triggers:** `"create copilot agent"`, `"package agent"`, `"ground agent on library"`, `"prepare agentassets"`, `"backup agents"`, `"restore agents"`.
+- **Modes:** `create-agent`, `apply-template`, `configure-knowledge`, `provision-agentassets`, `backup-restore-agents`.
+
+### Track B: Native Copilot Skills (Action Extensions)
+- **Scope (6 skills):** `sharepoint-create-native-skill`, `sharepoint-deploy-native-skill`, `sharepoint-verify-native-skill`, `sharepoint-undeploy-native-skill`, `sharepoint-backup-native-skills`, `sharepoint-restore-native-skills`.
+- **Triggers:** `"create copilot skill"`, `"deploy native skill"`, `"verify skill probe"`, `"undeploy skill"`, `"rollback skill"`, `"backup native skills"`.
+- **Modes:** `scaffold-skill`, `deploy-skill`, `verify-skill-probe`, `undeploy-rollback-skill`, `backup-restore-skills`.
 
 ---
 
-## 6. Execution Waves & Milestones
+## 5. Wave 5: Page Modernization vs. Data Migration (`sharepoint-site-migration`)
 
-| Wave | Target Scope | Skill Reduction | Status |
-| :--- | :--- | :--- | :--- |
-| **Prep** | Purge `.agents/`, create feature branch, document analysis | — | **DONE** |
-| **Wave 1** | `sharepoint-workbench-setup` | 5 $\rightarrow$ 1 | **READY TO EXECUTE** |
-| **Wave 2** | `sharepoint-site-assessment` | 12 $\rightarrow$ 1 | Queued |
-| **Wave 3** | `sharepoint-document-conversion` | 11 $\rightarrow$ 1 | Queued |
-| **Wave 4** | `sharepoint-site-build-and-publish` | 35 $\rightarrow$ 2 | Queued |
-| **Wave 5** | `sharepoint-site-migration` | 20 $\rightarrow$ 2 | Queued |
-| **Wave 6** | `sharepoint-spfx-development` | 11 $\rightarrow$ 1 | Queued |
-| **Wave 7** | `sharepoint-copilot-agents-and-skills` | 14 $\rightarrow$ 1 | Queued |
-| **Post** | Retire `symlinks.json`, `plugin-sources.json`, `skills-lock.json` | — | Queued |
+The 20 micro-skills in `sharepoint-site-migration` split naturally along the boundary between **editorial UX page transformation** and **bulk data engineering**:
+
+### 5.1 `modernizing-sharepoint-pages` (10 skills)
+- **Scope:** Classic ASPX parsing, web part transformations, modern page rendering, image extraction, and page-level link repair.
+- **Modes:** `aspx-to-html`, `convert-modern`, `rewrite-links`, `image-replacement`, `preview`, `validate-modernization`.
+- **Interactive Character:** Absorbs `sharepoint-modernization-agent` and `sharepoint-webpart-modernization-analysis-agent` for guided web part disposition decisions.
+
+### 5.2 `migrating-sharepoint-sites` (10 skills)
+- **Scope:** Migration inventory, dependency graphs, batch list item migration, wave scaffolding, and document link rewriting.
+- **Modes:** `inventory-normalize`, `dependency-analysis`, `wave-plan`, `migrate-lists`, `audit-migration`.
+- **Interactive Character:** Absorbs `sharepoint-deployment-planning-agent` and `sharepoint-deployment-sequencing-agent` for topological ordering and completeness gates.
+
+---
+
+## 6. Cross-Repository Ingestion from Consuming Repositories (`external-sp-migration-project`)
+
+Analysis of `/Users/richardfremmerlid/Projects/external-sp-migration-project/plugins/sp-migration/skills/` reveals high-value, battle-tested SharePoint engines that belong in the canonical workbench.
+
+### 6.1 Generic Engines Moving to the Workbench Now
+1. **CKEditor 5 HTML Sanitization & Linter (`sp-text-webpart-html`):**
+   - Ingests `sp_text_webpart_html.py`, `convert-package-to-rte.ps1`, `assets/rte-vocabulary.json`, and all 6 reference guides into **`publishing-sharepoint-pages`** and **`modernizing-sharepoint-pages`**.
+   - Solves modern SharePoint CKEditor 5 dropping custom HTML and formatting on page edit.
+2. **Declarative Navigation Provisioning (`sp-navigation-sync`):**
+   - Ingests `export-spo-navigation.ps1`, `sync-spo-navigation.ps1`, `navigation_plan.py`, and acceptance criteria into **`publishing-sharepoint-pages`** (as `mode: sync-navigation`).
+   - Adds missing export, diff, dry-run, and idempotent PnP top/quick-launch menu provisioning.
+3. **Classic-to-Modern Webpart Catalog (`sp-dynamic-aspx-page-migration` core):**
+   - Ingests `spo-webparts.json`, `dynamic-page-webpart-mapping.md`, `dynamic-page-layout-and-columns.md`, and `extract-page-images.ps1` into **`modernizing-sharepoint-pages`**.
+   - Canonical reference mapping classic webparts (Content Editor, Script Editor, Summary Links, List View) to modern client-side webparts and canvas sections.
+4. **Resumable Library Migration Ledger (`sp-document-library-upload` core):**
+   - Ingests `library_migration_ledger.py` and `migration_status_tracker.py` into **`migrating-sharepoint-sites`**.
+5. **Modern Page Publication Engine (`sp-page-publish`):**
+   - Ingests `publish-spo-page.ps1` into **`publishing-sharepoint-pages`**.
+
+### 6.2 Project-Specific Skills Staying in `external-sp-migration-project`
+These 4 skills remain strictly inside `external-sp-migration-project` because they are tightly coupled to project governance, specific spreadsheets, and release gates:
+- `sp-migration-register-reconcile` (coupled to Consumer Jira/register)
+- `sp-migration-release-readiness` (coupled to Consumer cutover go/no-go criteria)
+- `sp-migration-wave-execution` (coupled to Consumer wave batch folders and schedules)
+- `sp-page-inventory` (coupled to `source-sp-tenant.example.com` manifest format and `page-migration-tracker.xlsx`)
+
+---
+
+## 7. Master Status & Execution Waves
+
+| Wave | Plugin Scope | Source Micro-Skills | Target Consolidated Hubs | Status | Verification Result |
+| :---: | :--- | :---: | :--- | :---: | :--- |
+| **1** | `sharepoint-workbench-setup` | 5 | `setting-up-sharepoint-workbench` | **DONE** | 96 tests passed |
+| **2** | `sharepoint-site-assessment` | 12 | `assessing-sharepoint-sites` | **DONE** | 179 tests passed |
+| **3** | `sharepoint-document-conversion` | 11 | `converting-sharepoint-documents` | **DONE** | 175 tests passed |
+| **6** | `sharepoint-spfx-development` | 11 | `developing-spfx-solutions` | **DONE** | 10 tests passed |
+| **7** | `sharepoint-copilot-agents-and-skills` | 14 | `managing-sharepoint-copilot-agents-and-skills` | **DONE** | 28 passed, 5 skipped (100% green); unified 2-track hub |
+| **5** | `sharepoint-site-migration` | 20 | • `modernizing-sharepoint-pages`<br>• `migrating-sharepoint-sites` | **DONE** | 500 tests passed (100% green); inlines webpart catalog & ledger |
+| **4** | `sharepoint-site-build-and-publish` | 35 | • `managing-sharepoint-lists-and-libraries`<br>• `publishing-sharepoint-pages`<br>• `managing-sharepoint-schema` | **RUNNING** | Active task-1298; inlines 35 micro-skills into 3 domain hubs |
+| **Post**| Unified Packaging & Ingestion | — | Unified `plugins/sharepoint-workbench` & `apm.yml`, ingest `managing-sharepoint-navigation` | Queued | Final release validation |
+
+---
+
+## 8. Summary of Final 11-Skill Target Inventory (Unified Plugin)
+
+When all waves complete, the unified `sharepoint-workbench` plugin will contain **11 sharp, self-contained domain skills**:
+
+1. **`setting-up-sharepoint-workbench`** (Auth, connections, profiles)
+2. **`assessing-sharepoint-sites`** (Discovery, permissions, webpart scan, audit report)
+3. **`converting-sharepoint-documents`** (Interactive Word/PDF ➡️ AST ➡️ render wizard)
+4. **`developing-spfx-solutions`** (SPFx toolchain, scaffolding, packaging, app catalog)
+5. **`managing-sharepoint-lists-and-libraries`** (Lists, document libraries, views, settings, files)
+6. **`publishing-sharepoint-pages`** (Modern pages, HTML/markdown deployment, CKEditor 5 RTE formatting)
+7. **`managing-sharepoint-schema`** (Site columns, site content types, column formatting, PnP templates)
+8. **`managing-sharepoint-navigation`** (Dedicated declarative Excel ↔ SPO menu sync from external migration project)
+9. **`modernizing-sharepoint-pages`** (Interactive classic ASPX ➡️ modern canvas conversion wizard with `spo-webparts.json`)
+10. **`migrating-sharepoint-sites`** (Interactive dependency sequencing ➡️ wave ledger data migration)
+11. **`managing-sharepoint-copilot-agents-and-skills`** (Copilot declarative agents, knowledge grounding, native skill actions)
+
+Plus **1 sub-agent**:
+* **`sharepoint-validation-agent`** (Adversarial read-only reviewer for audit reports).
+
+---
+
+## 9. Documentation, Link Integrity & Master Migration Inventory
+
+Just as executed in `agent-plugins-skills` (PR #723), all historical names of skills, scripts, plugins, resources, and assets must be tracked in a master migration inventory:
+
+1. **Master Migration Inventory (`docs/plans/master_migration_inventory.csv`):**
+   - Records every retired micro-skill path, its new consolidated skill spoke path, and the mode reference file.
+   - Records all re-homed scripts and assets.
+2. **Deterministic Cross-File Reference Audit:**
+   - Execute a comprehensive regex sweep across all `.md`, `.py`, `.ps1`, `.json`, and `.mmd` Mermaid diagrams in the repository.
+   - Repoint all stale micro-skill paths (e.g. `plugins/.../skills/sharepoint-create-list/SKILL.md`) to the new consolidated spoke paths (e.g. `plugins/.../skills/managing-sharepoint-lists-and-libraries/references/modes/create-list.md`).
+   - Verify zero dead links using `plugins/agent-extension-authoring/skills/authoring-skills/scripts/audit_skill.py`.
+
+---
+
+## 10. Pre-Completion & Reference Parity Verification Gate
+
+Before any wave is marked complete, it must satisfy the 4-point verification contract:
+
+1. **Feature & Reference Parity:**
+   - Every single source micro-skill has a verbatim mode instruction file under `references/modes/<mode>.md`.
+   - All associated assets, templates, and schemas are materialized with zero symlinks.
+2. **Interactive Wizard Fidelity:**
+   - Multi-turn skills (`converting-sharepoint-documents`, `modernizing-sharepoint-pages`, `migrating-sharepoint-sites`) retain explicit user confirmation gates and dry-run preview steps.
+3. **Broad YAML Triggering:**
+   - Frontmatter `description` contains all primary natural-language keywords and command aliases from the merged skills.
+4. **Test Suite Verification:**
+   - 100% of pytest test suites pass without regression.
+
+---
+
+## 11. Active Execution State & Session Handoff Brief
+
+If this task is handed off to a subsequent agent session:
+- **Active Branch:** `feat/apm-migration-and-skill-consolidation` in `sharepoint-knowledge-workbench`.
+- **Completed Waves:** Waves 1, 2, 3, 5, 6, 7 are verified and 100% green (1,009 passed tests total across completed plugins).
+- **Active Wave:** Wave 4 (`sharepoint-site-build-and-publish`) is running under task-1298.
+- **Immediate Next Actions upon Wave 4 completion:**
+  1. Audit Wave 4 results (run `pytest plugins/sharepoint-site-build-and-publish/tests/` and verify the 3 hubs).
+  2. Ingest `managing-sharepoint-navigation` and `sp-text-webpart-html` assets from `../jag-csb-intranet`.
+  3. Fold the completed skills into the unified plugin directory: `plugins/sharepoint-workbench/`.
+  4. Generate root `apm.yml` and retire `symlinks.json`, `plugin-sources.json`, `plugin-retention.json`.
+  5. Run the master migration inventory cross-file sweep and open the PR!

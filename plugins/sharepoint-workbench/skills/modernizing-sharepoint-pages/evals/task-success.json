@@ -1,0 +1,9 @@
+[
+  {
+    "id": "ts-1",
+    "task": "Modernize classic page",
+    "expected_behavior": [
+      "Generates modern canvas plan with mapped web parts and extracted images"
+    ]
+  }
+]

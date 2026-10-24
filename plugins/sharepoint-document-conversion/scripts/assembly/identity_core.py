@@ -1,1 +1,0 @@
-../structure-analysis/identity_core.py

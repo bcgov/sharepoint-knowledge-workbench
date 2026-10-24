@@ -1,1 +1,0 @@
-../../../scripts/structure-analysis/topic_grouping.py

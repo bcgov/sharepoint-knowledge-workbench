@@ -1,1 +1,0 @@
-../../../references/sharepoint-scaffold-spfx-listview-command-set-list-scoped-registration.md

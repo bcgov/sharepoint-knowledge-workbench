@@ -1,1 +1,0 @@
-../../../scripts/audit-onprem-sharepoint-managed-metadata.ps1

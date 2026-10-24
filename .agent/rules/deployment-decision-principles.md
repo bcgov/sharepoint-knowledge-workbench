@@ -5,7 +5,7 @@ description: >
   found during the Phase 9 exhaustive source audit as already-generic
   guidance with no project-specific content.
 globs:
-  - "plugins/sharepoint-site-migration/**/*"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*"
 ---
 
 # Rule: Deployment Decision Principles

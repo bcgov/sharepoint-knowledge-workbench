@@ -1,1 +1,0 @@
-../../../references/sharepoint-create-agent-package-from-template-acceptance-criteria.md

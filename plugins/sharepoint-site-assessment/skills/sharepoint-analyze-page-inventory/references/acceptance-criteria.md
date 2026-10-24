@@ -1,1 +1,0 @@
-../../../references/sharepoint-analyze-page-inventory-acceptance-criteria.md

@@ -1,1 +1,0 @@
-../../../scripts/app_registration_request.py

@@ -1,1 +1,0 @@
-../../../references/page-inventory-collection-and-scripts.md

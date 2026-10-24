@@ -1,1 +1,0 @@
-../../../../references/extraction/contracts/normalized-source-document.md

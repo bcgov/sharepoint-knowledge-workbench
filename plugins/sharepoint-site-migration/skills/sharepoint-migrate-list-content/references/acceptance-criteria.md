@@ -1,1 +1,0 @@
-../../../references/content-migration/sharepoint-migrate-list-content-acceptance-criteria.md

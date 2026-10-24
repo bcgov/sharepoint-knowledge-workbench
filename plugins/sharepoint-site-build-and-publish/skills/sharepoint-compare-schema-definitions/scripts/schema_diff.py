@@ -1,1 +1,0 @@
-../../../../sharepoint-site-assessment/scripts/schema_diff.py

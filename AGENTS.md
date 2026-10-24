@@ -61,7 +61,7 @@ The ecosystem is composed of **7 independently-installable domain plugins** loca
 - **`sharepoint-site-build-and-publish`** (33 skills): create/configure SharePoint objects and publish content (dry-run-first writers).
 - **`sharepoint-site-migration`** (19 skills): plan and run site migration: waves, page modernization, list content, links.
 - **`sharepoint-copilot-agents-and-skills`** (14 skills): author, deploy, verify, back up and restore Copilot agents and native skills.
-- **`sharepoint-spfx-development`** (10 skills): SPFx scaffolding, packaging and both delivery routes.
+- **`sharepoint-spfx-development`** (1 skill): SPFx scaffolding, packaging and both delivery routes through `developing-spfx-solutions`.
 - Consolidated plugins (`sharepoint-document-conversion`, `sharepoint-site-build-and-publish`, `sharepoint-site-migration`) keep each original implementation in its own namespace folder under `scripts/`, `tests/` and `references/`; their tests run one namespace per process via `tests/run_namespaces.py`.
 
 Each plugin is self-contained with its own tests, packaging, and skill definitions.
@@ -105,20 +105,20 @@ Consumer documents, intake files, run outputs, and project-specific tests are ma
 - **Interactive Scripts & Tenant Writes**:
   - **The user runs interactive/tenant-facing scripts** in their own terminal session (especially those requiring browser-based authentication or tenant writes). Agents must output the exact commands for the user to run rather than launching interactive scripts asynchronously in the background.
 - **Connectivity & Environment Validation Requirement**:
-  - Always verify connection first using `plugins/sharepoint-workbench-setup/skills/workbench-validate-sharepoint-connection/scripts/test-spo-connection.ps1` or `test-network-connectivity.ps1` after switching profiles or before starting a sequence of tenant operations.
+  - Always verify connection first using `plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/scripts/test-spo-connection.ps1` or `test-network-connectivity.ps1` after switching profiles or before starting a sequence of tenant operations.
 
 ### Canonical Skills Over Custom Scripts (Do Not Recreate Ad-Hoc Scripts)
 
 - **Mandatory Policy**: Never write throwaway, ad-hoc `.ps1` scripts in `temp/` or project roots for standard SharePoint tasks (e.g. provisioning lists, creating views, packaging SPFx solutions, deploying packages, or uploading content).
 - **Use Canonical Skills with Parameters**: Always invoke the existing parameterized scripts in `plugins/` (and mirrored in `.agents/skills/`):
-  - **Environment Connectivity Check**: `pwsh -File plugins/sharepoint-workbench-setup/skills/workbench-validate-sharepoint-connection/scripts/test-spo-connection.ps1`
-  - **Network & Auth Connectivity Check**: `pwsh -File plugins/sharepoint-workbench-setup/skills/workbench-validate-sharepoint-connection/scripts/test-network-connectivity.ps1`
-  - **Build & Package SPFx**: `pwsh -File plugins/sharepoint-spfx-development/skills/sharepoint-package-spfx-solution/scripts/package-spfx-solution.ps1 -SolutionPath <path>`
-  - **Deploy SPFx Package**: `pwsh -File plugins/sharepoint-spfx-development/skills/sharepoint-deploy-spfx-solution/scripts/deploy-spfx-package.ps1 -PackagePath <path> [-Scope Site|Tenant] [-Install]`
-  - **Publish SPFx Directly**: `pwsh -File plugins/sharepoint-spfx-development/skills/sharepoint-publish-spfx-package/scripts/publish-spfx-package.ps1 -PackagePath <path>`
-  - **List Provisioning**: `pwsh -File plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-list/scripts/spo-provision-list.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PROVISION-SPO-LIST`
-  - **View Configuration**: `pwsh -File plugins/sharepoint-site-build-and-publish/skills/sharepoint-create-list-view/scripts/spo-provision-list-view.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PROVISION-SPO-LIST-VIEW`
-  - **Markdown Publishing**: `pwsh -File plugins/sharepoint-site-build-and-publish/skills/sharepoint-publish-markdown-files/scripts/spo-upload-file.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`
+  - **Environment Connectivity Check**: `pwsh -File plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/scripts/test-spo-connection.ps1`
+  - **Network & Auth Connectivity Check**: `pwsh -File plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/scripts/test-network-connectivity.ps1`
+  - **Build & Package SPFx**: `pwsh -File plugins/sharepoint-workbench/skills/developing-spfx-solutions/scripts/package-spfx-solution.ps1 -SolutionPath <path>`
+  - **Deploy SPFx Package**: `pwsh -File plugins/sharepoint-workbench/skills/developing-spfx-solutions/scripts/deploy-spfx-package.ps1 -PackagePath <path> [-Scope Site|Tenant] [-Install]`
+  - **Publish SPFx Directly**: `pwsh -File plugins/sharepoint-workbench/skills/developing-spfx-solutions/scripts/publish-spfx-package.ps1 -PackagePath <path>`
+  - **List Provisioning**: `pwsh -File plugins/sharepoint-workbench/skills/managing-sharepoint-lists-and-libraries/scripts/spo-provision-list.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PROVISION-SPO-LIST`
+  - **View Configuration**: `pwsh -File plugins/sharepoint-workbench/skills/managing-sharepoint-lists-and-libraries/scripts/spo-provision-list-view.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PROVISION-SPO-LIST-VIEW`
+  - **Markdown Publishing**: `pwsh -File plugins/sharepoint-workbench/skills/publishing-sharepoint-pages/scripts/spo-upload-file.ps1 -PlanPath <plan.json> -Execute -ConfirmToken PUBLISH-SPO-MARKDOWN`
 - All canonical scripts feature multi-tier `config.psd1` discovery and support direct CLI overrides (`-SiteUrl`, `-ClientId`, `-TenantId`, `-ConfigPath`).
 
 ### Sub-agent usage
@@ -1352,7 +1352,7 @@ description: >
   found during the Phase 9 exhaustive source audit as already-generic
   guidance with no project-specific content.
 globs:
-  - "plugins/sharepoint-site-migration/**/*"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*"
 ---
 
 # Rule: Deployment Decision Principles
@@ -1408,13 +1408,13 @@ description: >
   Schema/dependency definitions for a SharePoint migration must live in JSON,
   never hardcoded inside generated or hand-written deployment scripts.
 globs:
-  - "plugins/sharepoint-site-migration/**/*.py"
-  - "plugins/sharepoint-site-migration/assets/migration-planning/*.json"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*.py"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/assets/*.json"
 ---
 
 # Rule: Schema-Driven SharePoint Deployment
 
-Same principle already established in `plugins/sharepoint-site-build-and-publish/rules/
+Same principle already established in `plugins/sharepoint-workbench/skills/managing-sharepoint-schema/
 schema-driven-sharepoint-deployment.md` — kept as a plugin-local copy here because this plugin is
 the one that actually authors deployment scripts. If the two drift, treat that as a defect to
 reconcile, not two independent rules.
@@ -1451,7 +1451,7 @@ description: >
   is this repository's own TDD rule applied to infrastructure provisioning,
   not a separate convention invented for SharePoint deployment.
 globs:
-  - "plugins/sharepoint-site-migration/**/*"
+  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*"
 ---
 
 # Rule: Test-Driven Wave Deployment
@@ -1504,7 +1504,7 @@ run, not on a separately-maintained copy someone forgot to update.
 Any object that needs ordered deployment relative to other objects
 declares its dependencies **by name**, in the same shared schema structure
 used for planning and validation (this plugin's generalized
-`DeploymentObject.depends_on`, see `plugins/sharepoint-site-migration/scripts/migration-planning/wave_planning.py`) -- never by
+`DeploymentObject.depends_on`, see `plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/scripts/wave_planning.py`) -- never by
 having its position hand-encoded into a separate, fixed-order orchestrator
 step list. A dependency is "this object depends on that named object," not
 "this object belongs in stage N" -- the latter requires a human to keep the

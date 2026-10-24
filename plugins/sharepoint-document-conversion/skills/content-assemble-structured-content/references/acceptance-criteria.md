@@ -1,1 +1,0 @@
-../../../references/assembly/content-assemble-structured-content-acceptance-criteria.md

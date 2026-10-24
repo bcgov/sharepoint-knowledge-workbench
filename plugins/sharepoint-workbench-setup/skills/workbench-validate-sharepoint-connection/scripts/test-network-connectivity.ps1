@@ -1,1 +1,0 @@
-../../../scripts/test-network-connectivity.ps1

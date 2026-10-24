@@ -1,1 +1,0 @@
-../../../references/sharepoint-package-spfx-solution-acceptance-criteria.md

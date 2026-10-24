@@ -1,1 +1,0 @@
-../../../references/sharepoint-deploy-spfx-solution-acceptance-criteria.md
