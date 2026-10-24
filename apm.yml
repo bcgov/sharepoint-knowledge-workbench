@@ -7,4 +7,7 @@ targets:
   - copilot
   - codex
   - antigravity
-dependencies: {}
+dependencies:
+  apm:
+    - ./plugins/sharepoint-workbench
+  mcp: []

@@ -14,7 +14,8 @@ import sys
 from pathlib import Path
 
 PLUGIN = Path(__file__).resolve().parents[1]
-SKILL = PLUGIN / "skills" / "publishing-sharepoint-pages"
+SKILLS_DIR = PLUGIN / ".apm" / "skills" if (PLUGIN / ".apm" / "skills").exists() else PLUGIN / "skills"
+SKILL = SKILLS_DIR / "publishing-sharepoint-pages"
 SCRIPT = SKILL / "scripts" / "sp_text_webpart_html.py"
 VOCAB = SKILL / "assets" / "rte-vocabulary.json"
 sys.path.insert(0, str(SCRIPT.parent))

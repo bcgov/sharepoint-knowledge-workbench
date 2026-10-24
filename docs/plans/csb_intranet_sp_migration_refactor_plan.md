@@ -38,9 +38,13 @@ Use this matrix to translate existing skills and operator commands to their mode
 
 ## 3. Step-by-Step Refactor Roadmap for `jag-csb-intranet`
 
-### Phase 1: APM Package Dependency Configuration
-1. Open `/Users/richardfremmerlid/Projects/jag-csb-intranet/apm.yml` (create if absent).
-2. Declare dependency on the unified package:
+### Phase 1: APM Package Dependency Configuration & Git Hygiene
+1. Create a feature branch in `jag-csb-intranet`:
+   ```bash
+   cd /Users/richardfremmerlid/Projects/jag-csb-intranet
+   git checkout -b feat/apm-migration-and-sp-workbench-adoption
+   ```
+2. Create `/Users/richardfremmerlid/Projects/jag-csb-intranet/apm.yml`:
    ```yaml
    name: '@jag/csb-intranet'
    version: 1.0.0
@@ -49,22 +53,44 @@ Use this matrix to translate existing skills and operator commands to their mode
    ```
 3. Install package locally for agent harnesses:
    ```bash
-   apm install @sharepoint/sharepoint-workbench --target claude,copilot,codex,antigravity
+   apm install /Users/richardfremmerlid/Projects/sharepoint-knowledge-workbench/plugins/sharepoint-workbench --target claude,copilot,codex,antigravity
+   ```
+4. Update `.gitignore` in `jag-csb-intranet` to exclude ephemeral deployed client harnesses and modules:
+   ```gitignore
+   # APM Client Harnesses & Deployed Agents (ephemeral local copies)
+   .agents/
+   .claude/skills/
+   .codex/
+   .github/agents/
+   apm_modules/
    ```
 
 ### Phase 2: Preserve Local Consumer State & Data Assets
-Ensure these consumer-specific paths remain intact in `jag-csb-intranet`:
+Ensure these consumer-specific paths remain strictly intact in `jag-csb-intranet`:
 - `inventory/` (e.g., `navigation-menu.xlsx`, `page-migration-tracker.xlsx`, `ledgers/`).
 - `context/` (control plane modes, human signing keys).
 - `config*.psd1` (tenant credentials and site URLs).
 
-### Phase 3: Update `AGENTS.md` and Operator Prompt Routing
+### Phase 3: Purge Legacy Manifests & In-Repo Micro-Skills
+1. Delete `symlinks.json` (eliminates 25 KB of legacy copy manifest):
+   ```bash
+   git rm symlinks.json
+   ```
+2. Retire redundant `plugins/sp-migration/` folder:
+   ```bash
+   git rm -rf plugins/sp-migration
+   ```
+3. Replace `PLUGIN-INSTALL.md` with modern `INSTALL.md` describing `apm install`.
+
+### Phase 4: Update `AGENTS.md` and Operator Prompt Routing
 1. Update `jag-csb-intranet/AGENTS.md` to reference the 11 consolidated skills rather than `sp-*`.
 2. Add a quick reference table in `docs/migration-quickstart.md` linking familiar tasks to the new skill names.
+3. Sync all 23 governance rules in `.agent/rules/` with upstream `agent-plugins-skills`.
 
-### Phase 4: Deprecate and Retire `plugins/sp-migration/`
+### Phase 5: Verification & Pull Request
 1. Verify that all automated workflows and tests in `jag-csb-intranet` resolve cleanly against the installed `@sharepoint/sharepoint-workbench` skills.
-2. Remove the redundant `plugins/sp-migration/` folder and update `PLUGIN-INSTALL.md`.
+2. Run dry-run migration and navigation diff commands.
+3. Commit cleanly, push, and open Pull Request for merge.
 
 ---
 

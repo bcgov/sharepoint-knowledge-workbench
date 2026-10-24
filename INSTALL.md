@@ -136,7 +136,7 @@ pip install -e plugins/sharepoint-workbench
 pytest plugins/sharepoint-workbench/tests/
 
 # Audit all skills against authoring standards:
-for d in plugins/sharepoint-workbench/skills/*; do
+for d in plugins/sharepoint-workbench/.apm/skills/*; do
   python3 <path-to-authoring-skills>/scripts/audit_skill.py "$d" --mode source
 done
 
@@ -149,7 +149,7 @@ python3 <path-to-authoring-subagents>/scripts/audit_sub_agent.py plugins/sharepo
 ## 🔄 Upgrading from Legacy Layouts
 
 The repository has completely retired the legacy 7-plugin and 108 micro-skill architecture:
-1. **Unified Hub**: All 108 micro-skills are now consolidated into 11 domain hubs under `plugins/sharepoint-workbench/skills/` using modal execution (`references/modes/<mode>.md`).
+1. **Unified Hub**: All 108 micro-skills are now consolidated into 11 domain hubs under `plugins/sharepoint-workbench/.apm/skills/` using modal execution (`references/modes/<mode>.md`).
 2. **Zero Symlinks**: `symlinks.json`, `skills-lock.json`, `plugin-sources.json`, and `plugin-retention.json` have been retired. All skills are self-contained.
 3. **Traceability**: See [`docs/plans/master_migration_inventory.csv`](docs/plans/master_migration_inventory.csv) for the complete 1:1 old-to-new mapping.
 4. **Consumer Guidance**: See [`docs/plans/csb_intranet_sp_migration_refactor_plan.md`](docs/plans/csb_intranet_sp_migration_refactor_plan.md) for downstream migration steps.

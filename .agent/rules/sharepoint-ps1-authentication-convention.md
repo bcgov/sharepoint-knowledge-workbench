@@ -9,12 +9,12 @@ globs: ["*.ps1"]
 **Applies to every live-tenant `.ps1` script in this repo** (`plugins/*/scripts/*.ps1`,
 `plugins/*/skills/*/scripts/*.ps1`) **except scripts that explicitly document Certificate/App-Only
 auth** (e.g. an unattended cert-based service script built per
-`plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/references/app-registration-overview.md`'s App-Only scenario) — those
+`plugins/sharepoint-workbench/.apm/skills/setting-up-sharepoint-workbench/references/app-registration-overview.md`'s App-Only scenario) — those
 follow their own documented certificate flow instead, not this one.
 
 Reference implementation:
-`plugins/sharepoint-workbench/skills/setting-up-sharepoint-workbench/scripts/test-spo-connection.ps1` (baseline) and
-`plugins/sharepoint-workbench/skills/publishing-sharepoint-pages/scripts/spo-copy-page.ps1` (baseline +
+`plugins/sharepoint-workbench/.apm/skills/setting-up-sharepoint-workbench/scripts/test-spo-connection.ps1` (baseline) and
+`plugins/sharepoint-workbench/.apm/skills/publishing-sharepoint-pages/scripts/spo-copy-page.ps1` (baseline +
 `TenantAdminUrl`).
 
 ### The pattern
