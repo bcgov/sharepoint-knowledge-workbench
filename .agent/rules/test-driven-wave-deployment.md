@@ -4,7 +4,7 @@ description: >
   is this repository's own TDD rule applied to infrastructure provisioning,
   not a separate convention invented for SharePoint deployment.
 globs:
-  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*"
+  - "plugins/sharepoint-migration-planning/**/*"
 ---
 
 # Rule: Test-Driven Wave Deployment
@@ -24,7 +24,7 @@ deployment instead of application code.
 
 ## Why this matters for generated wave scripts
 
-`scaffold-migration-wave-scripts` produces a deploy script **and** must produce (or reference) a
+`generate-sharepoint-wave-scripts` produces a deploy script **and** must produce (or reference) a
 matching validation step for every wave — a generated wave script with no way to independently
 verify it worked is not a complete deliverable, the same way implementation code with no test is
 not complete under this repository's TDD rule.

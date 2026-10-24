@@ -3,11 +3,11 @@ description: >
   Schema/dependency definitions for a SharePoint migration must live in JSON,
   never hardcoded inside generated or hand-written deployment scripts.
 globs:
-  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/**/*.py"
-  - "plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/assets/*.json"
+  - "plugins/sharepoint-migration-planning/**/*.py"
+  - "plugins/sharepoint-migration-planning/assets/*.json"
 ---
 
-# Rule: Schema-Driven SharePoint Deployment
+## Core principle
 
 Every schema/deployment-object definition (site columns, content types,
 lists, or any other deployable object type) lives in a caller-supplied JSON
@@ -23,7 +23,7 @@ run, not on a separately-maintained copy someone forgot to update.
 Any object that needs ordered deployment relative to other objects
 declares its dependencies **by name**, in the same shared schema structure
 used for planning and validation (this plugin's generalized
-`DeploymentObject.depends_on`, see `plugins/sharepoint-workbench/skills/migrating-sharepoint-sites/scripts/wave_planning.py`) -- never by
+`DeploymentObject.depends_on`, see `scripts/wave_planning.py`) -- never by
 having its position hand-encoded into a separate, fixed-order orchestrator
 step list. A dependency is "this object depends on that named object," not
 "this object belongs in stage N" -- the latter requires a human to keep the
@@ -46,7 +46,7 @@ a human -- turns that class of bug into a planning-time failure (an
 unresolved dependency or a cycle, reported honestly) rather than a
 run-time surprise against a live tenant.
 
-## Iron laws
+## Deliberately out of scope for this rule
 
 1. **No hardcoded object definitions inside a generated wave script.** Every list/field/
    content-type name a generated script touches must come from `dependency-matrix.json`, never be
@@ -55,8 +55,8 @@ run-time surprise against a live tenant.
    and its test derive their expectations from different sources, they can drift from each other
    silently — this was the specific failure mode `dependency-matrix.json`'s design is meant to
    prevent.
-3. **Wave order is computed, never hand-assigned.** `analyze-migration-dependencies` derives
-   order via topological sort (`sharepoint-site-migration`'s own `wave_planning.py`) from
+3. **Wave order is computed, never hand-assigned.** `analyze-sharepoint-dependency-graph` derives
+   order via topological sort (`sharepoint-migration-planning`'s own `wave_planning.py`) from
    declared dependencies — it is never a human-maintained sequence of stage numbers.
 4. **A dependency is declared by name, not by wave number.** Referring to "whatever ran in an
    earlier stage" instead of a specific named object is exactly the kind of coupling that goes

@@ -15,27 +15,27 @@ Run the following checks from the repository root:
 1. **Workspace Coding Conventions Audit**:
    Ensure all file headers, Purpose, Key Input Dependencies, and function docstrings match codebase policies:
    ```bash
-   python3 plugins/dev-utils/scripts/workspace_conventions_auditor.py
+   python3 plugins/dev-utils/skills/enforcing-coding-conventions/scripts/workspace_conventions_auditor.py
    ```
 
 2. **Compliance Audit**:
    ```bash
-   python plugins/agent-scaffolders/scripts/audit.py --path plugins/<plugin-name>
+   python plugins/agent-extension-authoring/skills/authoring-plugins/scripts/audit.py --path plugins/<plugin-name>
    ```
 
 3. **Structural Audit**:
    Verify symlink and resource compliance:
    ```bash
-   python plugins/agent-scaffolders/scripts/audit_plugin_structure.py plugins/<plugin-name>
+   python plugins/agent-extension-authoring/skills/authoring-plugins/scripts/audit_plugin_structure.py plugins/<plugin-name>
    ```
 
-4. **Cross-Platform Symlink Check**:
+4. **Copy-Manifest Drift Check**:
    ```bash
-   python .agents/skills/symlink-manager/scripts/symlink_manager.py diagnose
+   python3 plugins/agent-extension-authoring/skills/packaging-with-apm/scripts/materialize_copies.py --check
    ```
 
 ## Resolution Action
 
 If any errors, missing references, or duplicate files are reported:
 - Resolve them immediately before proposing a commit or push.
-- Move duplicates to the plugin root `references/` folder and symlink them back to the individual skills using `symlink_manager.py`.
+- Move duplicates to the plugin root `references/` folder and list them for the individual skills in the copy manifest (`symlinks.json`, `strategy: "copy"`), then run `materialize_copies.py`.
