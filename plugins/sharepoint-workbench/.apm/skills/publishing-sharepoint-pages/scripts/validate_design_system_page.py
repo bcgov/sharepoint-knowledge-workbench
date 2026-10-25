@@ -31,7 +31,8 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-CSS_FILE = "design-system-design-system/colors_and_type.css"
+CSS_FILE = "colors_and_type.css"
+CSS_FILE_ALIASES = ("colors_and_type.css", "bc-gov-design-system", "design-system-design-system")
 ACK_TEXT = "acknowledges the territories of First Nations"
 ACTIVE_TAGS = {"script", "iframe", "object", "embed", "form"}
 PARITY_KEYS = ("table", "tr", "cell", "li", "a_href")
@@ -132,7 +133,7 @@ def result(name: str, ok: bool, detail: str = "") -> dict:
 
 
 def check_chrome(p: Page) -> list[dict]:
-    css_link = any(t == "link" and CSS_FILE in a.get("href", "") for t, a in p.tags)
+    css_link = any(t == "link" and any(cf in a.get("href", "") for cf in CSS_FILE_ALIASES) for t, a in p.tags)
     css_link = css_link or INLINE_TOKEN_MARKER in p.style
     logo = any(t == "img" and "bc-logo" in a.get("src", "") for t, a in p.tags)
     return [
