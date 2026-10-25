@@ -63,6 +63,7 @@ param(
     [string[]]$HeaderSubtext,
     [string]$HeaderLogoUrl,
     [ValidateSet("None", "Administration")][string]$PageHeaderStyle = "None",
+    [int]$PageHeaderZoneThemeIndex = 3,
     [string]$PageTitle,
     [string]$BreadcrumbSection,
     [string]$BreadcrumbSectionUrl
@@ -897,6 +898,7 @@ function New-SpPageWave1DryRun {
         [string[]]$HeaderSubtext,
         [string]$HeaderLogoUrl,
         [ValidateSet("None", "Administration")][string]$PageHeaderStyle = "None",
+        [int]$PageHeaderZoneThemeIndex = 3,
         [string]$PageTitle,
         [string]$BreadcrumbSection,
         [string]$BreadcrumbSectionUrl
@@ -1291,7 +1293,7 @@ function New-SpPageWave1DryRun {
             TextAlignment = "Left"
             ShowPublishDate = $true
             ShowAuthor = $false
-            ZoneThemeIndex = 3
+            ZoneThemeIndex = $PageHeaderZoneThemeIndex
         }
     }
     $parent = Split-Path -Parent $OutputPath
@@ -1326,6 +1328,7 @@ if ($MyInvocation.InvocationName -ne ".") {
         -HeaderSubtext $HeaderSubtext `
         -HeaderLogoUrl $HeaderLogoUrl `
         -PageHeaderStyle $PageHeaderStyle `
+        -PageHeaderZoneThemeIndex $PageHeaderZoneThemeIndex `
         -PageTitle $PageTitle `
         -BreadcrumbSection $BreadcrumbSection `
         -BreadcrumbSectionUrl $BreadcrumbSectionUrl

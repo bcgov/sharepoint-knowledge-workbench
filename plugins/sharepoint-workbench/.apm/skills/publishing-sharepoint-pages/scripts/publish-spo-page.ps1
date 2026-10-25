@@ -564,13 +564,11 @@ function Get-SpoInlineImageDimensions {
     $intrinsicHeight = 0
     if (-not [string]::IsNullOrWhiteSpace($ImagePath) -and
         (Test-Path -LiteralPath $ImagePath -PathType Leaf)) {
-        Add-Type -AssemblyName System.Drawing
-        $image = [System.Drawing.Image]::FromFile($ImagePath)
-        try {
-            $intrinsicWidth = $image.Width
-            $intrinsicHeight = $image.Height
-        } finally {
-            $image.Dispose()
+        # Header-byte read keeps this cross-platform (System.Drawing/GDI+ is Windows only).
+        $pixelSize = Get-SpoImagePixelSize -Bytes ([System.IO.File]::ReadAllBytes($ImagePath))
+        if ($pixelSize) {
+            $intrinsicWidth = $pixelSize.Width
+            $intrinsicHeight = $pixelSize.Height
         }
     }
     if ($width -eq 0 -and $height -eq 0) {
@@ -791,12 +789,32 @@ function Get-SpoInlineImageContainingWidth {
     return $BaseWidth
 }
 
+function Get-SpoSectionColumnWidth {
+    # Pixel width of a section column, used as the base for inline-image sizing.
+    [CmdletBinding()]
+    param(
+        [string]$SectionTemplate,
+        [int]$Column = 1,
+        [int]$FullWidth = 1271
+    )
+
+    $fraction = switch ($SectionTemplate) {
+        "TwoColumn"      { 1 / 2 }
+        "ThreeColumn"    { 1 / 3 }
+        "TwoColumnLeft"  { if ($Column -eq 1) { 2 / 3 } else { 1 / 3 } }
+        "TwoColumnRight" { if ($Column -eq 1) { 1 / 3 } else { 2 / 3 } }
+        default          { 1 }
+    }
+    return [int][math]::Round($FullWidth * $fraction)
+}
+
 function ConvertTo-SpoPageInlineImages {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)][AllowEmptyString()][string]$Html,
         [Parameter(Mandatory = $true)][string]$SiteUrl,
-        [Parameter(Mandatory = $true)][AllowEmptyCollection()][object[]]$ImageMetadata
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][object[]]$ImageMetadata,
+        [int]$BaseWidth = 1271
     )
 
     $replaceImage = {
@@ -820,7 +838,8 @@ function ConvertTo-SpoPageInlineImages {
 
         $containerWidth = Get-SpoInlineImageContainingWidth `
             -Html $currentHtml `
-            -ImageIndex $imageIndex
+            -ImageIndex $imageIndex `
+            -BaseWidth $BaseWidth
         $sizing = Get-SpoInlineImageSizing `
             -ImageTag $tag `
             -ImagePath $(if ($asset.PSObject.Properties["LocalPath"]) {
@@ -1483,10 +1502,17 @@ function Publish-SpoPage {
         $componentOrder = if ($columnOrders.ContainsKey($orderKey)) { $columnOrders[$orderKey] } else { 1 }
         $columnOrders[$orderKey] = $componentOrder + 1
         if ([string]$component.OutputType -eq "TextWebPart") {
+            $columnTemplate = if ($package.Target.PSObject.Properties["Sections"] -and
+                @($package.Target.Sections).Count -ge $sectionNumber) {
+                [string]@($package.Target.Sections)[$sectionNumber - 1]
+            } else {
+                $sectionTemplate
+            }
             $textHtml = ConvertTo-SpoPageInlineImages `
                 -Html (ConvertTo-SpoPageHtml -Html ([string]$component.Html) -SiteUrl $SiteUrl -PageServerRelativeUrl $pageFullServerUrl) `
                 -SiteUrl $SiteUrl `
-                -ImageMetadata $inlineImageMetadata
+                -ImageMetadata $inlineImageMetadata `
+                -BaseWidth (Get-SpoSectionColumnWidth -SectionTemplate $columnTemplate -Column $column)
             Add-PnPPageTextPart -Page $page -Text $textHtml -Section $sectionNumber -Column $column -Order $componentOrder `
                 -ErrorAction Stop | Out-Null
         } elseif ([string]$component.OutputType -eq "SpfxWebPart") {
