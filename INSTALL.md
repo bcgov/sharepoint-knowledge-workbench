@@ -116,6 +116,22 @@ apm uninstall <absolute-path-to-clone>/plugins/sharepoint-workbench --global
 
 ---
 
+### 6. Troubleshooting on Windows
+
+**`Failed to resolve transitive dep ... [WinError 3] The system cannot find the path specified`**, with paths under `%LOCALAPPDATA%\apm\cache\git\checkouts_v1\...`
+- Cause: this happens when APM installs from a GitHub reference (for example `bcgov/sharepoint-knowledge-workbench`) instead of a local folder. Its git cache folder plus the workbench's deep skill paths go over Windows' 260-character path limit. In one failing log the source paths were 256 to 315 characters, so all 11 skills failed.
+- Fix: install from a clone at a short path (for example `C:\src\sharepoint-knowledge-workbench`) using the absolute-path command in section 3. If you must install from GitHub, enable long paths first: run as administrator `New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem -Name LongPathsEnabled -Value 1 -PropertyType DWORD -Force`, run `git config --global core.longpaths true`, then restart your terminal. Long paths are not guaranteed to fix it; a short clone path is the reliable option.
+- If another project's plugin lists this repository as a git dependency, that project's install hits the same limit. Point it at a local clone, or enable long paths.
+- A failed install is safe to retry: APM restores `apm.yml` and commits nothing.
+
+**`Access denied` on `.apm-resolution-staging`:** add `--parallel-downloads 0`. If an earlier install was interrupted, delete `%USERPROFILE%\.apm\apm_modules\.apm-resolution-staging` and `%USERPROFILE%\.apm\.apm-lifecycle.lock` and run it again.
+
+**`N files skipped -- local files exist, not managed by APM`:** a skill folder already exists that APM did not create. Add `--force` to overwrite it.
+
+**Relative path rejected on `--global`:** use the absolute path (section 3A).
+
+---
+
 ## 🔌 Option 2: Native Agent Plugin Marketplace (Claude Code / Copilot)
 
 If you are using **Claude Code** (2.1.81+) or the **GitHub Copilot CLI**, you can install directly via the marketplace:
