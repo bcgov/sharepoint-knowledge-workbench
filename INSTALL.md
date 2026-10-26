@@ -99,7 +99,7 @@ cd agent-plugins-skills
 apm install "$PWD\plugins\agent-agentic-os" "$PWD\plugins\dev-utils" --global --target claude,copilot,codex,agy --parallel-downloads 0
 ```
 
-To install every `agent-plugins-skills` plugin in one command, run this from the clone (Windows, PowerShell):
+To install every `agent-plugins-skills` plugin in one command, run this from your `agent-plugins-skills` clone (Windows, PowerShell):
 
 ```powershell
 $plugins = Get-ChildItem plugins -Directory | Where-Object { Test-Path "$($_.FullName)\apm.yml" } | ForEach-Object { $_.FullName }
