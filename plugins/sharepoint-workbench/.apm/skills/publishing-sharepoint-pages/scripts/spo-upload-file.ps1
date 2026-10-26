@@ -43,6 +43,10 @@ Verifies the target library, creates and confirms missing target folders,
 and runs the real Add-PnPFile / checkout-checkin calls. Omit this to print
 the per-action plan only.
 
+.PARAMETER Overwrite
+Allows replacing an existing target whose size differs from the local file.
+Without it, a size mismatch is an error; a same-size existing file is skipped.
+
 .PARAMETER ConfirmToken
 Required with -Execute. Must be PUBLISH-SPO-MARKDOWN.
 
@@ -66,6 +70,8 @@ param(
     [string]$TenantAdminUrl,
 
     [switch]$Execute,
+
+    [switch]$Overwrite,
 
     [string]$ConfirmToken
 )
@@ -184,12 +190,46 @@ if ($Execute) {
             $uploadParams["Values"] = $values
         }
 
-        $existingFile = Get-PnPFile -Url $targetServerRelativeUrl -ErrorAction SilentlyContinue
+        # Remote size of the target file, or $null when it does not exist (checked before and after any upload failure).
+        $getRemoteSize = {
+            $item = Get-PnPFile -Url $targetServerRelativeUrl -AsListItem -ErrorAction SilentlyContinue
+            if ($item) { [int64]$item.FieldValues["File_x0020_Size"] } else { $null }
+        }
+        $localSize = (Get-Item -LiteralPath $action.source_path).Length
+        $remoteSize = & $getRemoteSize
+        $existingFile = $null -ne $remoteSize
+
+        if ($existingFile -and $remoteSize -eq $localSize) {
+            [pscustomobject]@{
+                source_path          = $action.source_path
+                target_url           = $targetServerRelativeUrl
+                target_folder_verified = $true
+                overwrote            = $false
+                skipped_existing     = $true
+                success              = $true
+            }
+            continue
+        }
+        if ($existingFile -and -not $Overwrite) {
+            throw "Target '$targetServerRelativeUrl' already exists with a different size (remote $remoteSize, local $localSize). Rerun with -Overwrite to replace it."
+        }
+
         if ($existingFile) {
             Set-PnPFileCheckedOut -Url $targetServerRelativeUrl
         }
 
-        Add-PnPFile @uploadParams | Out-Null
+        $uploaded = $false
+        for ($attempt = 1; $attempt -le 2 -and -not $uploaded; $attempt++) {
+            try {
+                Add-PnPFile @uploadParams | Out-Null
+                $uploaded = $true
+            }
+            catch {
+                # A timeout can occur after the file already landed; verify before retrying or failing.
+                if ((& $getRemoteSize) -eq $localSize) { $uploaded = $true }
+                elseif ($attempt -ge 2) { throw }
+            }
+        }
 
         if ($existingFile) {
             Set-PnPFileCheckedIn -Url $targetServerRelativeUrl -CheckinType MajorCheckIn
@@ -199,7 +239,8 @@ if ($Execute) {
             source_path          = $action.source_path
             target_url           = $targetServerRelativeUrl
             target_folder_verified = $true
-            overwrote            = [bool]$existingFile
+            overwrote            = $existingFile
+            skipped_existing     = $false
             success              = $true
         }
     }
