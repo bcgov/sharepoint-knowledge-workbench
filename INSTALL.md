@@ -50,7 +50,45 @@ apm --version
 
 ---
 
-### 2. Get the repository
+### 2. Install from GitHub or get a local clone
+
+A clone is optional. From the consuming project's root, install the workbench directly from GitHub:
+
+```bash
+apm install https://github.com/bcgov/sharepoint-knowledge-workbench --target claude,copilot,codex,agy
+```
+
+The root `apm.yml` includes the workbench and all level 1 dependencies listed above. The root URL
+therefore selects the full collection; no separate level 1 installation is needed for that selection.
+To select only the workbench plugin (for example, when level 1 tools are already installed globally),
+use APM's `owner/repo/subdirectory` shorthand:
+
+```bash
+apm install bcgov/sharepoint-knowledge-workbench/plugins/sharepoint-workbench --target codex,copilot
+```
+
+Use the shorthand for plugin subdirectories: APM 0.33.0 treats extra path segments in an HTTPS URL
+as part of the repository name rather than a plugin path. For user-wide availability, add `--global`:
+
+```bash
+apm install https://github.com/bcgov/sharepoint-knowledge-workbench --global --target claude,copilot,codex,agy
+```
+
+Unpinned commands select the default branch when initially resolved. For reproducible installs,
+append an existing tag or commit SHA after the complete package path (replace the placeholder):
+
+```bash
+apm install "https://github.com/bcgov/sharepoint-knowledge-workbench#<tag-or-commit>" --target claude,copilot,codex,agy
+apm install "bcgov/sharepoint-knowledge-workbench/plugins/sharepoint-workbench#<tag-or-commit>" --target codex,copilot
+```
+
+Select multiple harnesses with commas; repeating `--target` retains only its last value. Other targets
+include `gemini`, `cursor`, `opencode` and `windsurf`; use `apm install --help` for the full list.
+On Windows, add `--parallel-downloads 0`. If GitHub cache paths exceed Windows' path limit, use the
+short-clone fallback in [Troubleshooting on Windows](#6-troubleshooting-on-windows).
+Do not install the same workbench package from both GitHub and a local clone in the same scope.
+
+#### Clone-based alternative
 
 ```bash
 git clone https://github.com/bcgov/sharepoint-knowledge-workbench.git
@@ -110,6 +148,19 @@ This creates a local `apm.yml` and `apm.lock.yaml` in the project root and provi
 
 ### 4. Install the level 1 dependencies first (`agent-plugins-skills`, `bc-gov-design-system`)
 
+If you selected the root GitHub package in section 2, its manifest already includes these dependencies.
+When installing only the workbench plugin, install the level 1 packages separately. A clone is optional:
+
+```bash
+apm install https://github.com/richfrem/bc-gov-design-system https://github.com/richfrem/agent-plugins-skills --global --target claude,copilot,codex,agy
+```
+
+Append `#<tag-or-commit>` to each package for reproducible pins. To select individual governance plugins,
+use `richfrem/agent-plugins-skills/plugins/<plugin-name>`. See the companion repository's
+[INSTALL.md](https://github.com/richfrem/agent-plugins-skills/blob/main/INSTALL.md) for details.
+The clone-based alternative follows.
+
+
 Install these **before** the workbench when going global (see "Dependencies and install order"). Install the design system from its clone, with its absolute path, then the `agent-plugins-skills` plugins. Its plugins are installed the same way, from a clone, with absolute paths; there is no separate build step. See that repository's `INSTALL.md` for the full list and per-skill selection.
 
 ```bash
@@ -139,6 +190,15 @@ apm install $(for d in "$PWD"/plugins/*/; do [ -f "$d/apm.yml" ] && echo "${d%/}
 ---
 
 ### 5. Updating & Managing Installed Packages
+
+For a GitHub installation, reinstall the same package path with the desired new or previous pin to
+update or roll back. Replace the placeholder with an existing ref; omit `--global` for project scope:
+
+```bash
+apm install "https://github.com/bcgov/sharepoint-knowledge-workbench#<new-or-previous-tag-or-commit>" --global --target claude,copilot,codex,agy
+```
+
+For a clone-based installation, use the existing commands below:
 
 ```bash
 # List all installed APM packages and active client skills
