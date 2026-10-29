@@ -4,6 +4,27 @@ This document defines how to install, configure, update, and manage plugins and 
 
 All packages are managed with [APM](https://github.com/microsoft/apm) (Agent Package Manager). APM copies skills and subagents from `plugins/sharepoint-workbench/.apm/` into your agent harness folders (`.claude/`, `.agents/`, `~/.gemini/antigravity-cli/`), keeps a manifest and lockfile, and handles updates and removal on Windows, macOS and Linux with no symlinks and no build step.
 
+## Dependencies and install order
+
+The workbench is a **level 2** package. It sits on two level 1 sources, which have no dependencies of their own:
+
+| Level | Package | Repository |
+|---|---|---|
+| 1 | `bc-gov-design-system` | [`richfrem/bc-gov-design-system`](https://github.com/richfrem/bc-gov-design-system) |
+| 1 | the six `agent-plugins-skills` plugins | [`richfrem/agent-plugins-skills`](https://github.com/richfrem/agent-plugins-skills) |
+| 2 | `sharepoint-workbench` (this repo) | this repo |
+
+`plugins/sharepoint-workbench/apm.yml` declares no dependencies, so installing that package alone never pulls anything extra. The **root `apm.yml`** of this repo lists everything needed: the workbench plugin (`./plugins/sharepoint-workbench`) and the level 1 packages it builds on (from GitHub). Install according to the scope you choose:
+
+- **Global (default):** install level 1 first (section 4), then the workbench (section 3). Both go into `~/.apm/apm.yml`. To install the workbench and everything in the root `apm.yml` with one command from the repo root: `apm install --global "$PWD" --target claude,copilot,codex,agy --parallel-downloads 0` (untested end to end; the level 1 packages come from GitHub, not from your local clones). Don't run a plain `apm install` for a global setup; it installs into the project.
+- **Project:** run `apm install` at the repo root. It installs everything listed in the root `apm.yml` into the project, so no separate workbench step is needed. Don't also install any of them globally.
+
+Check what is already global first:
+
+```bash
+apm deps list --global
+```
+
 ---
 
 ## 📦 Option 1: APM Package Management (Recommended)
@@ -87,11 +108,14 @@ This creates a local `apm.yml` and `apm.lock.yaml` in the project root and provi
 
 ---
 
-### 4. Install Companion Governance Skills (`agent-plugins-skills`)
+### 4. Install the level 1 dependencies first (`agent-plugins-skills`, `bc-gov-design-system`)
 
-For repository governance, issue tracking, and agent lifecycle tooling, install packages from the sibling [`agent-plugins-skills`](https://github.com/richfrem/agent-plugins-skills) repository. Its plugins are installed the same way, from a clone, with absolute paths; there is no separate build step. See that repository's `INSTALL.md` for the full list and per-skill selection.
+Install these **before** the workbench when going global (see "Dependencies and install order"). Install the design system from its clone, with its absolute path, then the `agent-plugins-skills` plugins. Its plugins are installed the same way, from a clone, with absolute paths; there is no separate build step. See that repository's `INSTALL.md` for the full list and per-skill selection.
 
 ```bash
+# Windows (PowerShell): the design system, from your clone of bc-gov-design-system
+apm install "<path-to-clone>\bc-gov-design-system" --global --target claude,copilot,codex,agy --parallel-downloads 0
+
 git clone https://github.com/richfrem/agent-plugins-skills.git
 cd agent-plugins-skills
 

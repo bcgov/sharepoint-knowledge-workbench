@@ -10,4 +10,11 @@ targets:
 dependencies:
   apm:
     - ./plugins/sharepoint-workbench
+    - richfrem/bc-gov-design-system
+    - richfrem/agent-plugins-skills/plugins/agent-agentic-os
+    - richfrem/agent-plugins-skills/plugins/agent-exploration-cycle
+    - richfrem/agent-plugins-skills/plugins/agent-extension-authoring
+    - richfrem/agent-plugins-skills/plugins/agent-memory
+    - richfrem/agent-plugins-skills/plugins/agent-orchestration
+    - richfrem/agent-plugins-skills/plugins/dev-utils
   mcp: []
