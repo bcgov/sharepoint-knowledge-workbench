@@ -29,7 +29,43 @@ apm --version
 
 ---
 
-### 2. Get the repository
+### 2. Install from GitHub or get a local clone
+
+A clone is optional. From the consuming project's root, install the workbench directly from GitHub:
+
+```bash
+apm install https://github.com/bcgov/sharepoint-knowledge-workbench --target claude,copilot,codex,agy
+```
+
+The root `apm.yml` includes the unified `plugins/sharepoint-workbench` package. To select that
+plugin directly, use APM's `owner/repo/subdirectory` shorthand:
+
+```bash
+apm install bcgov/sharepoint-knowledge-workbench/plugins/sharepoint-workbench --target codex,copilot
+```
+
+Use the shorthand for plugin subdirectories: APM 0.33.0 treats extra path segments in an HTTPS URL
+as part of the repository name rather than a plugin path. For user-wide availability, add `--global`:
+
+```bash
+apm install https://github.com/bcgov/sharepoint-knowledge-workbench --global --target claude,copilot,codex,agy
+```
+
+Unpinned commands select the default branch when initially resolved. For reproducible installs,
+append an existing tag or commit SHA after the complete package path (replace the placeholder):
+
+```bash
+apm install "https://github.com/bcgov/sharepoint-knowledge-workbench#<tag-or-commit>" --target claude,copilot,codex,agy
+apm install "bcgov/sharepoint-knowledge-workbench/plugins/sharepoint-workbench#<tag-or-commit>" --target codex,copilot
+```
+
+Select multiple harnesses with commas; repeating `--target` retains only its last value. Other targets
+include `gemini`, `cursor`, `opencode` and `windsurf`; use `apm install --help` for the full list.
+On Windows, add `--parallel-downloads 0`. If GitHub cache paths exceed Windows' path limit, use the
+short-clone fallback in [Troubleshooting on Windows](#6-troubleshooting-on-windows).
+Do not install the same workbench package from both GitHub and a local clone in the same scope.
+
+#### Clone-based alternative
 
 ```bash
 git clone https://github.com/bcgov/sharepoint-knowledge-workbench.git
@@ -89,7 +125,16 @@ This creates a local `apm.yml` and `apm.lock.yaml` in the project root and provi
 
 ### 4. Install Companion Governance Skills (`agent-plugins-skills`)
 
-For repository governance, issue tracking, and agent lifecycle tooling, install packages from the sibling [`agent-plugins-skills`](https://github.com/richfrem/agent-plugins-skills) repository. Its plugins are installed the same way, from a clone, with absolute paths; there is no separate build step. See that repository's `INSTALL.md` for the full list and per-skill selection.
+For repository governance, issue tracking, and agent lifecycle tooling, install packages from the sibling [`agent-plugins-skills`](https://github.com/richfrem/agent-plugins-skills) repository. Its plugins can also be installed directly from GitHub, without a clone or separate build step:
+
+```bash
+apm install https://github.com/richfrem/agent-plugins-skills --global --target claude,copilot,codex,agy
+```
+
+For selected companion plugins, use `richfrem/agent-plugins-skills/plugins/<plugin-name>` instead.
+Append `#<tag-or-commit>` for a reproducible pin. See that repository's
+[INSTALL.md](https://github.com/richfrem/agent-plugins-skills/blob/main/INSTALL.md) for the full list
+and per-skill selection. Alternatively, install from a local clone with absolute paths:
 
 ```bash
 git clone https://github.com/richfrem/agent-plugins-skills.git
@@ -115,6 +160,15 @@ apm install $(for d in "$PWD"/plugins/*/; do [ -f "$d/apm.yml" ] && echo "${d%/}
 ---
 
 ### 5. Updating & Managing Installed Packages
+
+For a GitHub installation, reinstall the same package path with the desired new or previous pin to
+update or roll back. Replace the placeholder with an existing ref; omit `--global` for project scope:
+
+```bash
+apm install "https://github.com/bcgov/sharepoint-knowledge-workbench#<new-or-previous-tag-or-commit>" --global --target claude,copilot,codex,agy
+```
+
+For a clone-based installation, use the existing commands below:
 
 ```bash
 # List all installed APM packages and active client skills
