@@ -1296,6 +1296,13 @@ function New-SpPageWave1DryRun {
             ZoneThemeIndex = $PageHeaderZoneThemeIndex
         }
     }
+    # The SPO page Title field must follow the title the banner/band shows, not the file name; the
+    # package step copies plan.PageTitle to Target.PageTitle and the publisher applies it with Set-PnPPage -Title.
+    if (-not [string]::IsNullOrWhiteSpace($PageTitle)) {
+        $plan["PageTitle"] = $PageTitle
+    } elseif ($hasHeader) {
+        $plan["PageTitle"] = $HeaderText
+    }
     $parent = Split-Path -Parent $OutputPath
     if (-not (Test-Path -LiteralPath $parent -PathType Container)) {
         New-Item -ItemType Directory -Path $parent -Force | Out-Null
