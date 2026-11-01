@@ -1148,7 +1148,7 @@ function New-SpPageWave1DryRun {
             $wpTitle = [string]$webpart.WebPartTitle
             $body = $content
             if (-not [string]::IsNullOrWhiteSpace($wpTitle) -and
-                $wpTitle -notin @("Content Editor", "ContentEditorWebPart") -and
+                $wpTitle -notmatch '^(Content Editor( \d+)?|ContentEditorWebPart)$' -and
                 $body -notmatch '(?is)^\s*(<[^>]+>)*\s*<h[1-3]') {
                 $body = "<h3>$([System.Net.WebUtility]::HtmlEncode($wpTitle))</h3>" + $body
             }
