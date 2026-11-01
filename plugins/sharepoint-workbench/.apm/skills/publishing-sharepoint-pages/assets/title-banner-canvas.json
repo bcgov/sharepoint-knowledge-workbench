@@ -40,7 +40,7 @@
         "customContentDropSupport": "disabled",
         "htmlTitle": "{htmlTitle}",
         "showTimeToRead": false,
-        "headingLevel": 1
+        "headingLevel": 2
       },
       "containsDynamicDataSource": false
     },
@@ -56,5 +56,5 @@
       "dataVersion": "1.0"
     }
   },
-  "titleHtml": "<h1><span class=\"fontSizeBannerTitle\">{title}</span></h1>"
+  "titleHtml": "<h2><span class=\"fontSizeXxLarge\">{title}</span></h2>"
 }
