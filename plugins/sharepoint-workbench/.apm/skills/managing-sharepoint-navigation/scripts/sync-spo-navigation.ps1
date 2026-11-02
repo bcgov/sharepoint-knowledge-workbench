@@ -100,7 +100,7 @@ function Invoke-NavOp {
             }
             $Ids[$key] = [int]$created.Id
         }
-        'prune' { Remove-PnPNavigationNode -Identity $Op.id -Force }
+        'prune' { Remove-PnPNavigationNode -Identity ([int]$Op.id) -Force }
     }
 }
 
