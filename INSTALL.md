@@ -16,7 +16,7 @@ The workbench is a **level 2** package. It sits on two level 1 sources, which ha
 
 `plugins/sharepoint-workbench/apm.yml` declares no dependencies, so installing that package alone never pulls anything extra. The **root `apm.yml`** of this repo lists everything needed: the workbench plugin (`./plugins/sharepoint-workbench`) and the level 1 packages it builds on (from GitHub). Install according to the scope you choose:
 
-- **Global (default):** install level 1 first (section 4), then the workbench (section 3). Both go into `~/.apm/apm.yml`. To install the workbench and everything in the root `apm.yml` with one command from the repo root: `apm install --global "$PWD" --target claude,copilot,codex,agy --parallel-downloads 0` (untested end to end; the level 1 packages come from GitHub, not from your local clones). Don't run a plain `apm install` for a global setup; it installs into the project.
+- **Global (default):** install level 1 first (section 4), then the workbench plugin folder `"$PWD\plugins\sharepoint-workbench"` (section 3). Both go into `~/.apm/apm.yml`. Do **not** pass the repo root `"$PWD"` to `apm install --global` (it copies the entire repository root including `temp/` and `.git/` and conflicts with local plugin paths), and don't run a plain `apm install` for a global setup (it installs into the project).
 - **Project:** run `apm install` at the repo root. It installs everything listed in the root `apm.yml` into the project, so no separate workbench step is needed. Don't also install any of them globally.
 
 Check what is already global first:
