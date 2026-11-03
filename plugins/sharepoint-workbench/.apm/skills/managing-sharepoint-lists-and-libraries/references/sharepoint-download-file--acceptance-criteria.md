@@ -12,7 +12,7 @@
 - By default does not overwrite existing local files unless `-Overwrite` is passed.
 - Requires PnP.PowerShell module with delegated/interactive or app-only authentication configured.
 - Bulk route: `download-sharepoint-inventory-files.ps1 -InventoryCsv <files.csv> -ConfigPath <profile.psd1> -OutputDir <folder>`. Default extensions: `html,htm,aspx`; `-Extensions 'html,htm,aspx,docx,xlsx,pptx,pdf'` selects more formats.
-- Bulk execution requires `-Execute -ConfirmToken DOWNLOAD-SHAREPOINT-INVENTORY-FILES`. Preview writes only `downloads.csv`; live calls are user-run. Online signs in interactively; on-prem prompts once (or accepts `-Credential`); bulk never uses default session credentials.
+- Bulk execution requires `-Execute -ConfirmToken DOWNLOAD-SHAREPOINT-INVENTORY-FILES`. Preview writes only `downloads.csv`; live calls are user-run. Online signs in interactively once per web and reuses that connection for every file; on-prem prompts once (or accepts `-Credential`); bulk never uses default session credentials.
 - Bulk preserves remote identity in `downloads.csv` and uses hash directories to prevent duplicate filenames colliding. On-prem `-RawFile` downloads stored bytes through REST. Downloaded `.aspx` files alone do not export modern-page stored fields.
 
 ## Verification passes

@@ -31,7 +31,7 @@ a recursive inventory CSV. Use the bulk route for local Python page/document lin
   -ConfigPath <profile.psd1> -OutputDir <folder>`. Default extensions: `html,htm,aspx`;
   `-Extensions 'html,htm,aspx,docx,xlsx,pptx,pdf'` selects more formats.
 - Bulk execution requires `-Execute -ConfirmToken DOWNLOAD-SHAREPOINT-INVENTORY-FILES`.
-  Preview writes only `downloads.csv`; live calls are user-run. Online signs in interactively;
+  Preview writes only `downloads.csv`; live calls are user-run. Online signs in interactively once per web and reuses that connection for every file;
   on-prem prompts once (or accepts `-Credential`); bulk never uses default session credentials.
 - Bulk preserves remote identity in `downloads.csv` and uses hash directories to prevent
   duplicate filenames colliding. On-prem `-RawFile` downloads stored bytes through REST.
