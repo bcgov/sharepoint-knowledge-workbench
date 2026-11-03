@@ -60,6 +60,11 @@ Overrides ConfigPath TenantId.
 .PARAMETER TenantAdminUrl
 Overrides ConfigPath Authentication.TenantAdminUrl.
 
+.PARAMETER Connection
+Online only: an existing PnP connection (from Connect-PnPOnline -ReturnConnection).
+When supplied, the script neither connects nor disconnects, so a bulk caller signs in
+once per batch instead of once per file. The caller owns the connection.
+
 .PARAMETER Execute
 Executes the live download. Omit this to print the planned action only.
 
@@ -103,6 +108,8 @@ param(
     [string]$TenantId,
 
     [string]$TenantAdminUrl,
+
+    [object]$Connection,
 
     [switch]$Execute,
 
@@ -252,24 +259,28 @@ if ($isSp2016) {
         throw "PnP.PowerShell with Get-PnPFile is required. Install/import PnP.PowerShell before executing."
     }
 
-    $connectParameters = @{
-        Url         = $SiteUrl
-        ClientId    = $ClientId
-        Tenant      = $TenantId
-        Interactive = $true
-    }
-    if ($TenantAdminUrl) { $connectParameters["TenantAdminUrl"] = $TenantAdminUrl }
+    $ownsConnection = -not $Connection
+    if ($ownsConnection) {
+        $connectParameters = @{
+            Url              = $SiteUrl
+            ClientId         = $ClientId
+            Tenant           = $TenantId
+            Interactive      = $true
+            ReturnConnection = $true
+        }
+        if ($TenantAdminUrl) { $connectParameters["TenantAdminUrl"] = $TenantAdminUrl }
 
-    Write-Host "Connecting to SharePoint Online: $SiteUrl..." -ForegroundColor Cyan
-    Connect-PnPOnline @connectParameters
+        Write-Host "Connecting to SharePoint Online: $SiteUrl..." -ForegroundColor Cyan
+        $Connection = Connect-PnPOnline @connectParameters
+    }
 
     try {
         Write-Host "Downloading '$targetUrl' to '$destinationFilePath'..." -ForegroundColor Cyan
         $pnpFileUrl = if ($targetUrl -like 'http*://*') { ([uri]$targetUrl).AbsolutePath } else { $targetUrl }
-        Get-PnPFile -Url $pnpFileUrl -Path $resolvedDestDir -FileName $targetFileName -AsFile -Force -ErrorAction Stop | Out-Null
+        Get-PnPFile -Url $pnpFileUrl -Path $resolvedDestDir -FileName $targetFileName -AsFile -Force -Connection $Connection -ErrorAction Stop | Out-Null
     }
     finally {
-        Disconnect-PnPOnline -ErrorAction SilentlyContinue
+        if ($ownsConnection) { Disconnect-PnPOnline -Connection $Connection -ErrorAction SilentlyContinue }
     }
 }
 

@@ -4,6 +4,8 @@ Plans or downloads selected files from a recursive inventory CSV, preserving sou
 .DESCRIPTION
 Uses the existing canonical spo-download-file.ps1 for each selected file. Both
 Online and on-prem are supported; Auto uses standard SharePoint Online hostnames.
+Online live runs sign in once per distinct WebUrl and pass that connection to every
+file (no per-file prompts); connections are closed when the run ends.
 Dry-run writes only downloads.csv locally. Real downloads require -Execute and
 -ConfirmToken DOWNLOAD-SHAREPOINT-INVENTORY-FILES. No tenant writes.
 Hash-keyed local directories prevent equal filenames in different subsites colliding.
@@ -42,6 +44,9 @@ $outputRoot = [IO.Path]::GetFullPath($OutputDir)
 $records = [System.Collections.Generic.List[object]]::new()
 $failed = 0
 $authFailed = $false
+$onlineConnections = @{}
+$onlineConfig = $null
+try {
 foreach ($row in $rows) {
     $localPath = ''
     $status = 'PLANNED'
@@ -68,6 +73,24 @@ foreach ($row in $rows) {
             if (-not $Credential) { throw 'On-prem credentials were not supplied.' }
         }
         if ($Credential) { $arguments.Credential = $Credential }
+        if ($Execute -and $chosenPlatform -eq 'Online') {
+            if (-not $onlineConnections.ContainsKey($row.WebUrl)) {
+                if (-not $onlineConfig) {
+                    . (Join-Path $PSScriptRoot 'Get-WorkbenchConnectionConfig.ps1')
+                    $onlineConfig = Get-WorkbenchConnectionConfig -Path $ConfigPath
+                }
+                $connectParameters = @{
+                    Url = $row.WebUrl; ClientId = $onlineConfig.ClientId; Tenant = $onlineConfig.TenantId
+                    Interactive = $true; ReturnConnection = $true
+                }
+                if ($onlineConfig.TenantAdminUrl) { $connectParameters.TenantAdminUrl = $onlineConfig.TenantAdminUrl }
+                Write-Host "Connecting to SharePoint Online once for $($row.WebUrl)..." -ForegroundColor Cyan
+                # A failed sign-in stops the run rather than prompting again for every remaining file.
+                try { $onlineConnections[$row.WebUrl] = Connect-PnPOnline @connectParameters }
+                catch { $authFailed = $true; throw }
+            }
+            $arguments.Connection = $onlineConnections[$row.WebUrl]
+        }
         if ($Execute) { $arguments.ConfirmToken = 'DOWNLOAD-SPO-FILE' }
         & (Join-Path $PSScriptRoot 'spo-download-file.ps1') @arguments | Out-Null
         if ($Execute) { $status = 'DOWNLOADED' }
@@ -95,6 +118,10 @@ foreach ($row in $rows) {
         }
         break
     }
+}
+}
+finally {
+    foreach ($connection in $onlineConnections.Values) { Disconnect-PnPOnline -Connection $connection -ErrorAction SilentlyContinue }
 }
 New-Item -ItemType Directory -Path $outputRoot -Force | Out-Null
 $manifest = Join-Path $outputRoot 'downloads.csv'
