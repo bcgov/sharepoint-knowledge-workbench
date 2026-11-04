@@ -29,9 +29,20 @@ examples:
 
 ## Status
 
-Implemented: the structure-quality assessment, per-document and batch overrides, the page map, trust metadata, the
-notice, and the provenance, staleness and verbatim-slice validators. **Not implemented yet:** the provider interface,
-decomposition, summaries, indexes and evaluation mode. Do not offer generation until those land.
+Implemented: the structure-quality assessment, overrides, page map, trust metadata, notice and validators (step 1), and
+agent-mediated decomposition (step 2): consent gate, request/response files, retries, partial completion, verbatim topic
+files and staleness checks. **Not implemented yet:** summaries, indexes, relations, the example package and the
+evaluation mode. Do not offer those until they land.
+
+## Agent-mediated generation
+
+No code here calls a model. `decompose.py` writes `ai-navigation/requests/NNN.json`; the host agent, once the user has
+approved, reads each request and writes its JSON answer (`{"topics": [{"start", "title", "uncertain"}]}`), which
+`apply_response` validates (starts must be listed block edges, so tables are never split). A bad answer is retried up to
+3 times per window, then that window is reported failed while the rest still publish. `write_topics` writes verbatim
+slices to `ai-navigation/topics/`; `validate_topics` and `is_generation_stale` check the result. `generation.json`
+records model, prompt version, timestamp, source and extraction hashes. Consent is stored by `record_consent` in
+`enrichment-state.json`; `build_requests` refuses to run without it. The provider sees the document text.
 
 ## Quick start
 
@@ -72,5 +83,5 @@ Run `pytest plugins/sharepoint-workbench/tests/test_enrichment_foundations.py`.
 
 ## References
 
-- `scripts/enrichment/structure_quality.py`, `scripts/enrichment/provenance.py`
+- `scripts/enrichment/structure_quality.py`, `scripts/enrichment/provenance.py`, `scripts/enrichment/decompose.py`
 - [content-extract-pdf.md](content-extract-pdf.md) for `raw/page_map.json`

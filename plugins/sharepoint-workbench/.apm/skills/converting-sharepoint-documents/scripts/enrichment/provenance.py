@@ -125,12 +125,14 @@ def parse_front_matter(text: str):
     return meta, text[end + 5:]
 
 
-def validate_ai_artifact(path: Path, extracted_text: str, page_count: int, current_source_sha256: str = None) -> list:
+def validate_ai_artifact(path: Path, extracted_text: str, page_count: int, current_source_sha256: str = None,
+                         link_roots=()) -> list:
     """Problems found in one AI-generated file, as [{code, message}]; empty means it passes.
 
     Checks: front matter present and required keys set; trust flags (`discovery_only`, `authoritative: false`);
     visible notice; `source_pages` inside 1..page_count; relative links resolve; and, when
-    `current_source_sha256` is given, that the artifact is not stale."""
+    `current_source_sha256` is given, that the artifact is not stale. `link_roots` are extra directories to resolve
+    relative links against (verbatim slices keep the extraction's `media/...` links, which live beside `extracted.md`)."""
     path = Path(path)
     text = path.read_text(encoding="utf-8")
     meta, body = parse_front_matter(text)
@@ -156,7 +158,7 @@ def validate_ai_artifact(path: Path, extracted_text: str, page_count: int, curre
             and 1 <= pages[0] <= pages[1] <= page_count):
         bad("bad_source_pages", f"source_pages {pages!r} is not [first, last] within 1..{page_count}")
     for target in _LINK.findall(body):
-        if not (path.parent / target).exists():
+        if not any((root / target).exists() for root in (path.parent, *map(Path, link_roots))):
             bad("broken_link", f"link target does not exist: {target}")
     if current_source_sha256 and meta.get("source_sha256") != current_source_sha256:
         bad("stale", "generated from a different source version than the current one")
