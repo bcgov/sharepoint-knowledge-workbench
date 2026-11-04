@@ -403,9 +403,11 @@ def _check_page_traceability(rendered_dir: Path, package) -> list:
         page_path = pages_dir / f"{chunk.metadata.chunk_id}.md"
         if not page_path.exists():
             continue  # already reported by _check_page_completeness
-        expected = mpm._rewrite_local_links(chunk.content, known_ids)
+        expected_variants = {
+            mpm.expected_page_content(package, chunk, known_ids, mode) for mode in mpm.CONTEXT_MODES
+        }
         actual = page_path.read_text(encoding="utf-8")
-        if actual != expected:
+        if actual not in expected_variants:
             issues.append(_error(
                 "page_content_not_traceable",
                 f"pages/{chunk.metadata.chunk_id}.md content does not match "
