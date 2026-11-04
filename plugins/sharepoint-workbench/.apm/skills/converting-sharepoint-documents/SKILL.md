@@ -41,6 +41,7 @@ editorial review.
 | Mode | Purpose | Instructions |
 |---|---|---|
 | `extract` | Extract DOCX text, tables, images, headings, defects, and statistics. | [mode](references/modes/content-extract-docx.md) |
+| `extract-pdf` | Extract a text-layer PDF (PyMuPDF) into the same contract, with heading page numbers. | [mode](references/modes/content-extract-pdf.md) |
 | `analyze` | Analyze document structure, heading hierarchy, boundaries, and conversion plan. | [mode](references/modes/content-analyze-document-structure.md) |
 | `assemble` | Assemble a confirmed plan into a canonical structured content package. | [mode](references/modes/content-assemble-structured-content.md) |
 | `template-md` | Create and validate Markdown rendering templates. | [create](references/modes/content-create-markdown-rendering-template.md), [validate](references/modes/content-validate-rendering-template.md) |
