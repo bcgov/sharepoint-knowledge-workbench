@@ -70,6 +70,10 @@ from pathlib import Path
 _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
+# The pandoc cleanup steps live with extraction (`extraction/pandoc`).
+_EXTRACTION_DIR = str(_THIS_DIR.parent / "extraction")
+if _EXTRACTION_DIR not in sys.path:
+    sys.path.insert(0, _EXTRACTION_DIR)
 
 import atomic_output  # noqa: E402
 import chunking  # noqa: E402
@@ -77,12 +81,12 @@ import dispositions  # noqa: E402
 import package  # noqa: E402
 import validate_canonical  # noqa: E402
 from canonical_schema import analysis_plan as contracts  # noqa: E402
-from pandoc_cleanup.attrs import strip_pandoc_attrs  # noqa: E402
-from pandoc_cleanup.footnotes import clean_orphaned_footnotes  # noqa: E402
-from pandoc_cleanup.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
-from pandoc_cleanup.images import fix_glued_images  # noqa: E402
-from pandoc_cleanup.tables import fix_malformed_tables  # noqa: E402
-from pandoc_cleanup.toc import strip_raw_toc  # noqa: E402
+from pandoc.attrs import strip_pandoc_attrs  # noqa: E402
+from pandoc.footnotes import clean_orphaned_footnotes  # noqa: E402
+from pandoc.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
+from pandoc.images import fix_glued_images  # noqa: E402
+from pandoc.tables import fix_malformed_tables  # noqa: E402
+from pandoc.toc import strip_raw_toc  # noqa: E402
 
 import emf_convert  # noqa: E402 -- plugin-local copy (self-contained, no cross-plugin dependency)
 import plan_verification as plans  # noqa: E402 -- plugin-local duplicate of document-structure-analysis's verify/require checks, see wave-4-structured-content-assembly-split-decision.md
@@ -199,6 +203,22 @@ def run_pandoc_extraction(source: Path, staging_dir: Path) -> Path:
     return extracted_md
 
 
+def run_extraction(source: Path, staging_dir: Path) -> Path:
+    """Extract `source` into `staging_dir` (`extracted.md` + `media/`) and return the Markdown path:
+    PDFs go through `pdf_extraction`, everything else through pandoc."""
+    if Path(source).suffix.lower() != ".pdf":
+        return run_pandoc_extraction(source, staging_dir)
+    extraction_dir = str(_THIS_DIR.parent / "extraction")
+    if extraction_dir not in sys.path:
+        sys.path.insert(0, extraction_dir)
+    import pdf_extraction  # noqa: E402
+
+    staging_dir = Path(staging_dir)
+    # pdf_extraction writes <output_dir>/raw/, and `staging_dir` is that raw/ directory.
+    pdf_extraction.extract_pdf_and_normalize(Path(source), staging_dir.parent)
+    return staging_dir / "extracted.md"
+
+
 def _run_conversion_pipeline(
     source: Path,
     plan: "contracts.ConversionPlan",
@@ -233,10 +253,10 @@ def _run_conversion_pipeline(
     plans.require_confirmed(plan)
 
     staging_dir = staging_root / "_staging" / "raw"
-    extracted_md_path = run_pandoc_extraction(source, staging_dir)
+    extracted_md_path = run_extraction(source, staging_dir)
     media_dir = staging_dir / "media"
 
-    text = extracted_md_path.read_text()
+    text = extracted_md_path.read_text(encoding="utf-8")
     text = _relativize_media_refs(text, staging_dir)
     text = apply_cleanup_pipeline(text)
 

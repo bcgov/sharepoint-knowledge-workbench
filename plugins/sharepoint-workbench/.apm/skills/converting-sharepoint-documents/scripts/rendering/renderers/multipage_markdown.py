@@ -276,11 +276,11 @@ class MultipageMarkdownRenderer:
             else:
                 page_content = body
             page_path = pages_dir / f"{chunk.metadata.chunk_id}.md"
-            page_path.write_text(page_content)
+            page_path.write_text(page_content, encoding="utf-8")
             output_files.append(str(page_path))
 
         index_path = output_dir / "index.md"
-        index_path.write_text(_build_index(ordered_chunks))
+        index_path.write_text(_build_index(ordered_chunks), encoding="utf-8")
         output_files.append(str(index_path))
 
         return contracts.RenderResult(

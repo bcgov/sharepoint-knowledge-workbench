@@ -142,7 +142,7 @@ def create_rendering_template(profile: str, fmt: str, output_path: "Path | str")
     )
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(content)
+    output_path.write_text(content, encoding="utf-8")
     _sidecar_path(output_path).write_text(
         json.dumps(template.to_metadata_dict(), indent=2, sort_keys=True)
     )

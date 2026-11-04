@@ -65,10 +65,13 @@ from pathlib import Path
 _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
+_EXTRACTION_DIR = str(_THIS_DIR.parent / "extraction")
+if _EXTRACTION_DIR not in sys.path:
+    sys.path.insert(0, _EXTRACTION_DIR)
 
 import identity_core as identity  # noqa: E402
-from pandoc_cleanup.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
-from pandoc_cleanup.images import fix_glued_images  # noqa: E402
+from pandoc.heading_emphasis import strip_whole_heading_emphasis  # noqa: E402
+from pandoc.images import fix_glued_images  # noqa: E402
 
 # Plugin-local heading walk (a copy of source-document-extraction's
 # heading_parsing.iter_heading_matches -- cross-plugin dependency

@@ -55,7 +55,7 @@ def build_publication_map(
 def write_publication_map(pub_map: contracts.PublicationMap, output_dir) -> Path:
     """Serialize the publication map to publication-map.json in the package directory."""
     output_path = Path(output_dir) / _FILENAME
-    output_path.write_text(json.dumps(pub_map.to_dict(), indent=2, sort_keys=True))
+    output_path.write_text(json.dumps(pub_map.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
     return output_path
 
 
