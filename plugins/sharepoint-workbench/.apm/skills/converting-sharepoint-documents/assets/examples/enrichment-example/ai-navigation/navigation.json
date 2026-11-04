@@ -1,0 +1,73 @@
+{
+  "content_type": "ai_generated_navigation",
+  "authoritative": false,
+  "source_document": "example-manual.pdf",
+  "source_sha256": "example-source-sha256",
+  "document_summary": "A short staff guide to taking leave and claiming expenses.",
+  "groups": [
+    {
+      "title": "Leave",
+      "summary": "Rules for leave.",
+      "topics": [
+        "topics/01-leave-requests-and-approval.md"
+      ]
+    },
+    {
+      "title": "Expenses",
+      "summary": "Rules for expense claims.",
+      "topics": [
+        "topics/02-expense-claims.md"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "from": "topics/02-expense-claims.md",
+      "to": "topics/01-leave-requests-and-approval.md",
+      "reason": "both depend on manager approval"
+    }
+  ],
+  "topics": [
+    {
+      "file": "topics/01-leave-requests-and-approval.md",
+      "title": "Leave requests and approval",
+      "start": 0,
+      "end": 259,
+      "source_pages": [
+        1,
+        2
+      ],
+      "uncertain": false,
+      "summary": "Explains how to request leave, who approves it and how much notice each type needs.",
+      "keywords": [
+        "leave",
+        "approval",
+        "notice"
+      ],
+      "synonyms": [
+        "vacation",
+        "time off"
+      ]
+    },
+    {
+      "file": "topics/02-expense-claims.md",
+      "title": "Expense claims",
+      "start": 259,
+      "end": 417,
+      "source_pages": [
+        3,
+        3
+      ],
+      "uncertain": true,
+      "summary": "Covers submitting expense claims, the signature rule and when payment arrives.",
+      "keywords": [
+        "expenses",
+        "reimbursement"
+      ],
+      "synonyms": [
+        "claims",
+        "refund"
+      ]
+    }
+  ]
+}
