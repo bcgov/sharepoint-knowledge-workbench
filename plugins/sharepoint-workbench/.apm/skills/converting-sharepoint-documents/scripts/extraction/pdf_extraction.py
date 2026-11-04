@@ -36,6 +36,7 @@ Key Functions Index:
     - extract_pdf_and_normalize()"""
 
 import hashlib
+import json
 import os
 import re
 import shutil
@@ -295,6 +296,7 @@ def _toc_like(page) -> bool:
 def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list):
     """Return (markdown_text, heading_pages). Outline headings are matched to page lines in order."""
     out, heading_pages, cursor, skipped, pending, last_table = [], [], 0, [], [], None
+    page_starts = {}
 
     def flush():
         nonlocal pending
@@ -309,6 +311,8 @@ def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list
         while cursor < len(outline) and outline[cursor][2] < pno:
             warnings.append(f"outline heading not found on page {outline[cursor][2]}: {outline[cursor][1][:50]}")
             cursor += 1
+        flush()  # paragraphs never span pages, so closing them here keeps each page's blocks together
+        page_starts[pno] = len(out)
         # y is offset per page so paragraph-gap logic never spans a page break
         tables = _page_tables(page)
         entries = [("line", t, x, y + pno * 10000) for t, x, y in _page_lines(page, noise, [b for b, _ in tables])]
@@ -364,7 +368,28 @@ def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list
         warnings.append(f"contents pages not converted: {skipped}")
     for _, title, page in outline[cursor:]:
         warnings.append(f"outline heading not found on page {page}: {title[:50]}")
-    return "\n\n".join(out) + "\n", heading_pages
+    return "\n\n".join(out) + "\n", heading_pages, _page_map(out, page_starts)
+
+
+def _page_map(blocks: list, page_starts: dict) -> list:
+    """[{page, start, end}] character ranges of extracted.md (blocks joined by a blank line) that each page contributed.
+
+    A table that continues onto the next page stays in the block where it began."""
+    offsets, pos = [], 0
+    for block in blocks:
+        offsets.append(pos)
+        pos += len(block) + 2
+    total = pos - 2 + 1 if blocks else 0
+    pages = sorted(p for p in page_starts)
+    result = []
+    for k, pno in enumerate(pages):
+        first = page_starts[pno]
+        last = page_starts[pages[k + 1]] if k + 1 < len(pages) else len(blocks)
+        if first >= len(blocks) or last <= first:
+            continue
+        end = offsets[last] if last < len(blocks) else total
+        result.append({"page": pno, "start": offsets[first], "end": end})
+    return result
 
 
 def extract_pdf_and_normalize(source: Path, output_dir: Path, ocr: bool = False) -> dict:
@@ -393,10 +418,11 @@ def extract_pdf_and_normalize(source: Path, output_dir: Path, ocr: bool = False)
         noise = _noise_lines(doc)
         outline, heading_source = _outline(doc, noise)
         images = _extract_images(doc, media_dir, warnings, ocr)
-        markdown_text, heading_pages = _build_markdown(doc, outline, noise, images, warnings)
+        markdown_text, heading_pages, page_map = _build_markdown(doc, outline, noise, images, warnings)
         no_text_layer = not any(page.get_text().strip() for page in doc)
 
     (raw_dir / "extracted.md").write_text(markdown_text, encoding="utf-8")
+    (raw_dir / "page_map.json").write_text(json.dumps({"pages": page_map}, indent=1), encoding="utf-8")
     media_files = sorted(str(p.relative_to(media_dir).as_posix()) for p in media_dir.rglob("*") if p.is_file())
     headings = parse_headings(markdown_text)
 
@@ -425,5 +451,6 @@ def extract_pdf_and_normalize(source: Path, output_dir: Path, ocr: bool = False)
     }
     if len(heading_pages) == len(headings):
         normalized["heading_pages"] = heading_pages
+    normalized["page_map"] = page_map
     validate_normalized_source_document(normalized)
     return normalized

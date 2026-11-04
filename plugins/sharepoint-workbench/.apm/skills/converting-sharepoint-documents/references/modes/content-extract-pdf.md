@@ -24,6 +24,7 @@ consumes unchanged.
   A table that continues on the next page is merged into one (repeated header row dropped). Cells with
   several lines use `<br>`. Merged cells (rowspan/colspan) come back empty and nested headers are not
   represented; borderless tables may be missed. Report these as limits, not as preserved.
+- `raw/page_map.json` (also `normalized.page_map`) maps each page to its character range in `extracted.md`, for page-level provenance.
 - Image alt text is the nearby `Figure/Chart/...` caption, else `Image on page N`. Pass `ocr=True` (needs tesseract,
   found on PATH, `$TESSERACT_CMD` or the default Windows install) to add a `> Text in image:` line after each
   image; OCR output can contain misread characters and skips images with too little text. Photos and diagrams

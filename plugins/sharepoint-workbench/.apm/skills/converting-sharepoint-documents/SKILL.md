@@ -43,6 +43,7 @@ editorial review.
 | `extract` | Extract DOCX text, tables, images, headings, defects, and statistics. | [mode](references/modes/content-extract-docx.md) |
 | `extract-pdf` | Extract a text-layer PDF (PyMuPDF) into the same contract, with heading page numbers. | [mode](references/modes/content-extract-pdf.md) |
 | `analyze` | Analyze document structure, heading hierarchy, boundaries, and conversion plan. | [mode](references/modes/content-analyze-document-structure.md) |
+| `enrich` | Optional: assess structure quality; AI navigation layer is opt-in and always flagged. | [mode](references/modes/content-enrich-navigation.md) |
 | `assemble` | Assemble a confirmed plan into a canonical structured content package. | [mode](references/modes/content-assemble-structured-content.md) |
 | `template-md` | Create and validate Markdown rendering templates. | [create](references/modes/content-create-markdown-rendering-template.md), [validate](references/modes/content-validate-rendering-template.md) |
 | `template-sp` | Create and validate SharePoint rendering templates. | [create](references/modes/content-create-sharepoint-rendering-template.md), [validate](references/modes/content-validate-rendering-template.md) |
