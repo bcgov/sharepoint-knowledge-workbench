@@ -42,6 +42,9 @@ result = render(package_dir, output_dir)
 1. Confirm `package_dir` is an accepted package and choose an `output_dir`.
 2. Call `render(package_dir, output_dir)`. It writes one page per chunk, a hierarchical path-aware index,
    copied and reference-rewritten media, and page-relative internal links.
+   Each page starts with a one-line breadcrumb (`> Document: <title> | Section: A > B`) so a page retrieved
+   alone still names its document and section. `MultipageMarkdownRenderer(context_mode=...)` accepts
+   `breadcrumb` (default), `front-matter` (YAML) or `none` (bare chunk content).
 3. On a PASS validation the render is atomically promoted to `output_dir / "rendered-output"`.
 4. Report `promoted`, `output_dir` and the validation report.
 

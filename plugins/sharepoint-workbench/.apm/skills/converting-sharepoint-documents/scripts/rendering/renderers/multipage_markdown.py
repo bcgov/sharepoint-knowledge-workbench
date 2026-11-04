@@ -107,6 +107,43 @@ _LINK_REF = re.compile(r"(?<!!)(\[[^\]]*\]\()([^)]+)(\))")
 
 _LOCAL_LINK_PREFIX = "chunks/"
 
+CONTEXT_MODES = ("breadcrumb", "front-matter", "none")
+DEFAULT_CONTEXT_MODE = "breadcrumb"
+
+
+def _document_title(package) -> str:
+    """Human-readable document title derived from the source file name (the manifest records no title)."""
+    stem = PurePosixPath(str(package.manifest.source.path).replace("\\", "/")).stem
+    return re.sub(r"[_\s]+", " ", stem).strip() or stem
+
+
+def _context_block(package, chunk, mode: str) -> str:
+    """Self-describing header so a page retrieved in isolation still says which document and section it is from.
+
+    `breadcrumb` is one visible line (it survives plain-text embedding); `front-matter` is YAML; `none`
+    leaves the page as the bare chunk content."""
+    if mode not in CONTEXT_MODES:
+        raise ValueError(f"unknown context mode {mode!r}; expected one of {CONTEXT_MODES}")
+    if mode == "none":
+        return ""
+    meta = chunk.metadata
+    title = _document_title(package)
+    path = list(meta.source_heading_path) or [meta.topic or meta.chunk_id]
+    if mode == "breadcrumb":
+        return f"> Document: {title} | Section: {' > '.join(path)}\n\n"
+    def esc(text: str) -> str:
+        return text.replace("\\", "\\\\").replace('"', '\\"')
+
+    lines = ["---", f'document: "{esc(title)}"', "section_path:"]
+    lines += [f'  - "{esc(p)}"' for p in path]
+    lines += [f"chunk_id: {meta.chunk_id}", "---", ""]
+    return "\n".join(lines) + "\n"
+
+
+def expected_page_content(package, chunk, known_chunk_ids: set, mode: str) -> str:
+    """Page text the renderer writes for `chunk` under context `mode`."""
+    return _context_block(package, chunk, mode) + _rewrite_local_links(chunk.content, known_chunk_ids)
+
 
 def _rewrite_local_links(content: str, known_chunk_ids: set) -> str:
     """Rewrite any `[text](chunks/<chunk_id>.md)`-shaped link target (the
@@ -184,6 +221,11 @@ class MultipageMarkdownRenderer:
     name = "multipage-markdown"
     supported_manifest_versions = frozenset({_canonical_contracts.MANIFEST_SCHEMA_VERSION})
 
+    def __init__(self, context_mode: str = DEFAULT_CONTEXT_MODE):
+        if context_mode not in CONTEXT_MODES:
+            raise ValueError(f"unknown context mode {context_mode!r}; expected one of {CONTEXT_MODES}")
+        self.context_mode = context_mode
+
     # Render canonical package chunks as linked Markdown pages and write the corresponding index and media references.
     def render(self, package, output_dir: Path, template: "Any | None" = None) -> "contracts.RenderResult":
         """Render canonical package chunks as linked Markdown pages and write the corresponding index and media references."""
@@ -221,7 +263,7 @@ class MultipageMarkdownRenderer:
 
         # One page per chunk, in render order.
         for chunk in ordered_chunks:
-            body = _rewrite_local_links(chunk.content, known_chunk_ids)
+            body = expected_page_content(package, chunk, known_chunk_ids, self.context_mode)
             if template is not None:
                 title = chunk.metadata.topic or chunk.metadata.title or chunk.metadata.chunk_id
                 tmpl_text = getattr(template, "content", str(template))
