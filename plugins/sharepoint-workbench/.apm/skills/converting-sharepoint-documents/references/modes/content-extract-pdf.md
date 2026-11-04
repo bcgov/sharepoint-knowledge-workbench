@@ -24,7 +24,10 @@ consumes unchanged.
   A table that continues on the next page is merged into one (repeated header row dropped). Cells with
   several lines use `<br>`. Merged cells (rowspan/colspan) come back empty and nested headers are not
   represented; borderless tables may be missed. Report these as limits, not as preserved.
-- Not yet handled by this mode: hyperlinks, image captions or text. Do not claim they were preserved.
+- Image alt text is the nearby `Figure/Chart/...` caption, else `Image on page N`. Pass `ocr=True` (needs tesseract,
+  found on PATH, `$TESSERACT_CMD` or the default Windows install) to add a `> Text in image:` line after each
+  image; OCR output can contain misread characters and skips images with too little text. Photos and diagrams
+  are not described. Not yet handled by this mode: hyperlinks. Do not claim they were preserved.
 
 ## Quick start
 
@@ -37,7 +40,7 @@ result = extract_pdf_and_normalize(source="intake/Manual.pdf", output_dir="analy
 ## Workflow
 
 1. Confirm the `.pdf` exists and choose an `output_dir`; `raw/extracted.md` and `raw/media/` are written there.
-2. Call `extract_pdf_and_normalize(source, output_dir)`.
+2. Call `extract_pdf_and_normalize(source, output_dir)` (add `ocr=True` to read text inside images).
 3. Report the contract plus PDF-only fields: `source_format`, `page_count`, `heading_source`,
    `heading_pages` (parallel to `headings`, absent if the counts disagree) and `warnings`.
 4. Hand the result to the analyze mode; do not interpret it here.

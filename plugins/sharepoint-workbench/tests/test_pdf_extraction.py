@@ -102,6 +102,40 @@ def test_no_text_layer_is_flagged(tmp_path):
     assert result["heading_source"] == "none"
 
 
+def _pdf_with_image(path, caption):
+    src = fitz.open()
+    sp = src.new_page(width=300, height=120)
+    sp.insert_text((10, 60), "Sentencing range chart 2024", fontsize=22)
+    png = sp.get_pixmap(dpi=150).tobytes("png")
+    doc = fitz.open()
+    page = doc.new_page()
+    page.insert_text((72, 60), "Intro text.", fontsize=11)
+    page.insert_image(fitz.Rect(72, 100, 372, 220), stream=png)
+    if caption:
+        page.insert_text((72, 240), caption, fontsize=10)
+    doc.save(path)
+    doc.close()
+
+
+def test_image_alt_uses_caption_else_page_fallback(tmp_path):
+    _pdf_with_image(tmp_path / "a.pdf", "Figure 3: Sentencing ranges")
+    _pdf_with_image(tmp_path / "b.pdf", None)
+    with_caption = pdf_extraction.extract_pdf_and_normalize(tmp_path / "a.pdf", tmp_path / "oa")
+    without = pdf_extraction.extract_pdf_and_normalize(tmp_path / "b.pdf", tmp_path / "ob")
+    assert "![Figure 3: Sentencing ranges](media/page001_img001.png)" in with_caption["markdown_text"]
+    assert "![Image on page 1](media/page001_img001.png)" in without["markdown_text"]
+
+
+def test_ocr_text_follows_image_only_when_requested(tmp_path):
+    if not pdf_extraction._find_tesseract():
+        pytest.skip("tesseract not installed")
+    _pdf_with_image(tmp_path / "a.pdf", None)
+    off = pdf_extraction.extract_pdf_and_normalize(tmp_path / "a.pdf", tmp_path / "off")
+    on = pdf_extraction.extract_pdf_and_normalize(tmp_path / "a.pdf", tmp_path / "on", ocr=True)
+    assert "Text in image" not in off["markdown_text"]
+    assert "> Text in image:" in on["markdown_text"] and "Sentencing" in on["markdown_text"]
+
+
 def test_missing_source_raises(tmp_path):
     with pytest.raises(FileNotFoundError):
         pdf_extraction.extract_pdf_and_normalize(tmp_path / "nope.pdf", tmp_path / "out")
