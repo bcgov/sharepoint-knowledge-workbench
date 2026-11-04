@@ -15,7 +15,7 @@ heuristic (`heading_source: "inferred"`, which a human must review). Running hea
 (lines repeated on many pages) are dropped, images are written to `raw/media/`, and the page each
 heading starts on is returned as `heading_pages` so later stages can cite source pages.
 
-Scope: text, headings, images, tables. Hyperlinks and image text are separate extraction steps.
+Scope: text, headings, images (alt text from captions, optional OCR), tables. Hyperlinks are a separate extraction step.
 Page rotation is honoured (text lines are mapped into rotated page space so they align with tables).
 Scanned PDFs (no text layer) are reported via `defect_signals.no_text_layer`; they need OCR first.
 
@@ -26,6 +26,9 @@ Key Functions Index:
     - _noise_lines()
     - _page_lines()
     - _paragraphs()
+    - _find_tesseract()
+    - _ocr_image()
+    - _caption_for()
     - _extract_images()
     - _infer_outline()
     - _outline()
@@ -33,7 +36,10 @@ Key Functions Index:
     - extract_pdf_and_normalize()"""
 
 import hashlib
+import os
 import re
+import shutil
+import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -157,9 +163,51 @@ def _paragraphs(lines: list) -> list:
     return parts
 
 
-def _extract_images(doc, media_dir: Path, warnings: list) -> dict:
-    """Write meaningful images to media_dir; skip icons and decorations repeated on many pages. Returns {page: [(name, y)]}."""
+_CAPTION = re.compile(r"^(figure|fig\.|chart|diagram|image|photo|exhibit|illustration)\s*[\w.-]*\b", re.I)
+
+
+def _find_tesseract():
+    """Path to the tesseract executable (PATH, $TESSERACT_CMD, or the default Windows install), else None."""
+    for cand in (shutil.which("tesseract"), os.environ.get("TESSERACT_CMD"), r"C:\Program Files\Tesseract-OCR\tesseract.exe"):
+        if cand and Path(cand).is_file():
+            return cand
+    return None
+
+
+def _ocr_image(tesseract: str, path: Path) -> str:
+    """Text read from an image by tesseract, whitespace-collapsed; '' when it finds too little to be real."""
+    try:
+        run = subprocess.run([tesseract, str(path), "stdout", "-l", "eng"], capture_output=True, text=True, encoding="utf-8", timeout=60)
+    except (OSError, subprocess.SubprocessError):
+        return ""
+    text = re.sub(r"\s+", " ", run.stdout or "").strip()
+    return text if len(re.findall(r"[A-Za-z0-9]", text)) >= 15 and len(text.split()) >= 3 else ""
+
+
+def _caption_for(page, rect) -> str:
+    """Caption line (Figure/Chart/... N ...) just below or above `rect`, else ''."""
+    best = ""
+    for block in page.get_text("blocks"):
+        x0, y0, x1, y1, text = block[:5]
+        text = " ".join(text.split())
+        if not _CAPTION.match(text) or x1 < rect.x0 or x0 > rect.x1:
+            continue
+        if -4 <= y0 - rect.y1 <= 60 or -4 <= rect.y0 - y1 <= 40:
+            best = text[:200]
+            break
+    return best
+
+
+def _extract_images(doc, media_dir: Path, warnings: list, ocr: bool = False) -> dict:
+    """Write meaningful images to media_dir; skip icons and decorations repeated on many pages.
+
+    Returns {page: [(name, y, alt, ocr_text)]}; alt is the nearby caption or 'Image on page N'."""
     fitz = _fitz()
+    tesseract = None
+    if ocr:
+        tesseract = _find_tesseract()
+        if not tesseract:
+            warnings.append("ocr requested but tesseract was not found; image text not extracted")
     placements = Counter()
     for page in doc:
         for info in page.get_images(full=True):
@@ -183,7 +231,9 @@ def _extract_images(doc, media_dir: Path, warnings: list) -> dict:
                 name = f"page{pno:03d}_img{i:03d}.{ext}"
                 media_dir.mkdir(parents=True, exist_ok=True)
                 (media_dir / name).write_bytes(blob)
-                result.setdefault(pno, []).append((name, rects[0].y0))
+                alt = _caption_for(page, rects[0]) or f"Image on page {pno}"
+                text = _ocr_image(tesseract, media_dir / name) if tesseract else ""
+                result.setdefault(pno, []).append((name, rects[0].y0, alt, text))
             except Exception as exc:  # one bad image must not fail the document
                 warnings.append(f"image page {pno} xref {xref} not extracted: {str(exc)[:60]}")
     return result
@@ -262,15 +312,19 @@ def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list
         # y is offset per page so paragraph-gap logic never spans a page break
         tables = _page_tables(page)
         entries = [("line", t, x, y + pno * 10000) for t, x, y in _page_lines(page, noise, [b for b, _ in tables])]
-        entries += [("img", n, 0, y + pno * 10000) for n, y in images.get(pno, [])]
+        entries += [("img", n, 0, y + pno * 10000, alt, ocr_text) for n, y, alt, ocr_text in images.get(pno, [])]
         entries += [("tbl", rows, 0, bbox[1] + pno * 10000) for bbox, rows in tables]
         entries.sort(key=lambda e: e[3])
         i = 0
         while i < len(entries):
-            kind, text, x, y = entries[i]
+            kind, text, x, y = entries[i][:4]
             if kind == "img":
                 flush()
-                out.append(f"![{Path(text).stem}](media/{text})")
+                alt, ocr_text = entries[i][4], entries[i][5]
+                alt = alt.replace("[", "(").replace("]", ")")
+                out.append(f"![{alt}](media/{text})")
+                if ocr_text:
+                    out.append(f"> Text in image: {ocr_text}")
                 i += 1
                 continue
             if kind == "tbl":
@@ -313,10 +367,13 @@ def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list
     return "\n\n".join(out) + "\n", heading_pages
 
 
-def extract_pdf_and_normalize(source: Path, output_dir: Path) -> dict:
+def extract_pdf_and_normalize(source: Path, output_dir: Path, ocr: bool = False) -> dict:
     """Extract a text-layer `source` PDF into `output_dir/raw/` (`extracted.md` + `media/`) and return a
     `normalized-source-document` v1 dict, plus PDF-only fields: `source_format`, `page_count`,
     `heading_source`, `heading_pages` (parallel to `headings`, omitted if the counts disagree) and `warnings`.
+
+    Image alt text is the nearby caption, else "Image on page N". With `ocr=True` and tesseract installed,
+    text found inside each image follows it as a `> Text in image:` line.
 
     Raises FileNotFoundError if `source` does not exist and `dependencies.MissingDependencyError`
     if PyMuPDF is not installed.
@@ -335,7 +392,7 @@ def extract_pdf_and_normalize(source: Path, output_dir: Path) -> dict:
         page_count = len(doc)
         noise = _noise_lines(doc)
         outline, heading_source = _outline(doc, noise)
-        images = _extract_images(doc, media_dir, warnings)
+        images = _extract_images(doc, media_dir, warnings, ocr)
         markdown_text, heading_pages = _build_markdown(doc, outline, noise, images, warnings)
         no_text_layer = not any(page.get_text().strip() for page in doc)
 
