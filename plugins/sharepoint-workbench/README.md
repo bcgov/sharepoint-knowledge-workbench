@@ -8,7 +8,7 @@ The unified, production-grade SharePoint Knowledge Workbench plugin. Provides 11
 |:---:|:---|:---|
 | 1 | [`setting-up-sharepoint-workbench`](skills/setting-up-sharepoint-workbench/SKILL.md) | Setup, connection profiles (`config.psd1`), Entra ID app registration requests. |
 | 2 | [`assessing-sharepoint-sites`](skills/assessing-sharepoint-sites/SKILL.md) | Read-only discovery: inventories, permissions, webparts, metadata, schema drift. |
-| 3 | [`converting-sharepoint-documents`](skills/converting-sharepoint-documents/SKILL.md) | Gated document compiler: DOCX/PDF ➡️ AST analysis ➡️ Markdown/SPO page render. |
+| 3 | [`converting-sharepoint-documents`](skills/converting-sharepoint-documents/SKILL.md) | Gated document compiler: DOCX/PDF ➡️ AST analysis ➡️ Markdown/SPO page render. Optional, flagged AI navigation layer (summaries, index) for weakly structured documents. |
 | 4 | [`developing-spfx-solutions`](skills/developing-spfx-solutions/SKILL.md) | SPFx developer toolchain: web parts, extensions, hosted workbench, sppkg deploy. |
 | 5 | [`managing-sharepoint-lists-and-libraries`](skills/managing-sharepoint-lists-and-libraries/SKILL.md) | Storage containers: lists, document libraries, views, list columns, settings, files. |
 | 6 | [`publishing-sharepoint-pages`](skills/publishing-sharepoint-pages/SKILL.md) | Web publishing: modern pages, HTML pages, markdown deployment, CKEditor 5 RTE formatting. |

@@ -31,7 +31,7 @@ examples:
 
 Implemented: the structure-quality assessment, overrides, page map, trust metadata, notice and validators (step 1),
 agent-mediated decomposition (step 2), and summaries, chapter/document roll-up, relations, the hierarchical index and
-approval-gated publication (step 3). **Not implemented yet:** the evaluation mode. Do not offer it until it lands.
+approval-gated publication (step 3), and the evaluation mode (step 4). All planned parts are implemented.
 
 ## Agent-mediated generation
 
@@ -93,3 +93,5 @@ Run `pytest plugins/sharepoint-workbench/tests/test_enrichment_foundations.py`.
 
 - `scripts/enrichment/structure_quality.py`, `scripts/enrichment/provenance.py`, `scripts/enrichment/decompose.py`, `scripts/enrichment/navigation.py`
 - [content-extract-pdf.md](content-extract-pdf.md) for `raw/page_map.json`
+- [enrichment-trust-model.md](../enrichment-trust-model.md): trust hierarchy, metadata and workflow
+- `scripts/enrichment/evaluation.py`: four-arm evaluation (`build_tasks`, `score_run`, `summarize`, `render_report`)
