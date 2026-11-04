@@ -20,8 +20,11 @@ consumes unchanged.
   markdown is empty. OCR them first and extract the searchable PDF.
 - `heading_source` is `outline` (PDF bookmarks, reliable), `inferred` (font-size/bold heuristic: a human
   must review the heading list before assembly) or `none` (no headings found; single-topic document).
-- Not yet handled by this mode: tables, hyperlinks, image captions or text. They are reported by their own
-  extraction steps; do not claim they were preserved.
+- Tables are detected with PyMuPDF `find_tables()` and written as GFM pipe tables (first row = header).
+  A table that continues on the next page is merged into one (repeated header row dropped). Cells with
+  several lines use `<br>`. Merged cells (rowspan/colspan) come back empty and nested headers are not
+  represented; borderless tables may be missed. Report these as limits, not as preserved.
+- Not yet handled by this mode: hyperlinks, image captions or text. Do not claim they were preserved.
 
 ## Quick start
 

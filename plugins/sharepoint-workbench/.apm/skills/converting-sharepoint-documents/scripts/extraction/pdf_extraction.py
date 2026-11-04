@@ -15,7 +15,8 @@ heuristic (`heading_source: "inferred"`, which a human must review). Running hea
 (lines repeated on many pages) are dropped, images are written to `raw/media/`, and the page each
 heading starts on is returned as `heading_pages` so later stages can cite source pages.
 
-Scope: text, headings, images. Tables, hyperlinks and image text are separate extraction steps.
+Scope: text, headings, images, tables. Hyperlinks and image text are separate extraction steps.
+Page rotation is honoured (text lines are mapped into rotated page space so they align with tables).
 Scanned PDFs (no text layer) are reported via `defect_signals.no_text_layer`; they need OCR first.
 
 Function Index:
@@ -82,16 +83,58 @@ def _noise_lines(doc) -> set:
     return {k for k, v in counts.items() if v >= threshold and len(k) < 120}
 
 
-def _page_lines(page, noise: set) -> list:
+def _page_lines(page, noise: set, exclude=()) -> list:
+    """Text lines as (text, x, y); lines whose centre falls inside an `exclude` rect (tables) are skipped."""
     out = []
     for block in page.get_text("dict")["blocks"]:
         if block.get("type") != 0:
             continue
         for line in block["lines"]:
             text = "".join(s["text"] for s in line["spans"]).strip()
-            if text and re.sub(r"\d+", "#", text) not in noise:
-                out.append((text, line["bbox"][0], line["bbox"][1]))
+            if not text or re.sub(r"\d+", "#", text) in noise:
+                continue
+            rect = _fitz().Rect(line["bbox"]) * page.rotation_matrix  # text is unrotated; tables/images are in rotated page space
+            x0, y0, x1, y1 = rect.x0, rect.y0, rect.x1, rect.y1
+            cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+            if any(r[0] <= cx <= r[2] and r[1] <= cy <= r[3] for r in exclude):
+                continue
+            out.append((text, x0, y0))
     return out
+
+
+def _cell(value) -> str:
+    lines = [" ".join(part.split()) for part in str(value or "").splitlines()]
+    return "<br>".join(line for line in lines if line).replace("|", "\\|")
+
+
+def _page_tables(page) -> list:
+    """Detected tables on a page as [(bbox, rows)] with rows a list of cell-text lists.
+
+    Candidates that look like layout rather than data (one row/column, mostly empty cells, empty
+    header) are dropped. Merged cells come back empty; rowspan/colspan are not represented.
+    """
+    try:
+        found = page.find_tables().tables
+    except Exception:  # a page PyMuPDF cannot analyse is treated as having no tables
+        return []
+    tables = []
+    for table in found:
+        rows = [[_cell(c) for c in row] for row in table.extract()]
+        if len(rows) < 2 or not rows or len(rows[0]) < 2:
+            continue
+        cells = [c for row in rows for c in row]
+        header_filled = sum(1 for c in rows[0] if c)
+        if sum(1 for c in cells if c) < 0.5 * len(cells) or header_filled < 0.5 * len(rows[0]):
+            continue
+        tables.append((tuple(table.bbox), rows))
+    return tables
+
+
+def _table_markdown(rows: list) -> str:
+    width = len(rows[0])
+    lines = ["| " + " | ".join(rows[0]) + " |", "| " + " | ".join(["---"] * width) + " |"]
+    lines += ["| " + " | ".join((row + [""] * width)[:width]) + " |" for row in rows[1:]]
+    return "\n".join(lines)
 
 
 def _paragraphs(lines: list) -> list:
@@ -201,7 +244,7 @@ def _toc_like(page) -> bool:
 
 def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list):
     """Return (markdown_text, heading_pages). Outline headings are matched to page lines in order."""
-    out, heading_pages, cursor, skipped, pending = [], [], 0, [], []
+    out, heading_pages, cursor, skipped, pending, last_table = [], [], 0, [], [], None
 
     def flush():
         nonlocal pending
@@ -217,8 +260,10 @@ def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list
             warnings.append(f"outline heading not found on page {outline[cursor][2]}: {outline[cursor][1][:50]}")
             cursor += 1
         # y is offset per page so paragraph-gap logic never spans a page break
-        entries = [("line", t, x, y + pno * 10000) for t, x, y in _page_lines(page, noise)]
+        tables = _page_tables(page)
+        entries = [("line", t, x, y + pno * 10000) for t, x, y in _page_lines(page, noise, [b for b, _ in tables])]
         entries += [("img", n, 0, y + pno * 10000) for n, y in images.get(pno, [])]
+        entries += [("tbl", rows, 0, bbox[1] + pno * 10000) for bbox, rows in tables]
         entries.sort(key=lambda e: e[3])
         i = 0
         while i < len(entries):
@@ -226,6 +271,18 @@ def _build_markdown(doc, outline: list, noise: set, images: dict, warnings: list
             if kind == "img":
                 flush()
                 out.append(f"![{Path(text).stem}](media/{text})")
+                i += 1
+                continue
+            if kind == "tbl":
+                flush()
+                if i == 0 and last_table and last_table[0] == len(out) - 1 and len(text[0]) == len(last_table[1][0]):
+                    # table continues from the previous page: append rows, dropping a repeated header row
+                    rows = text[1:] if text[0] == last_table[1][0] else text
+                    last_table[1].extend(rows)
+                    out[-1] = _table_markdown(last_table[1])
+                else:
+                    last_table = (len(out), [list(r) for r in text])
+                    out.append(_table_markdown(text))
                 i += 1
                 continue
             matched = None
