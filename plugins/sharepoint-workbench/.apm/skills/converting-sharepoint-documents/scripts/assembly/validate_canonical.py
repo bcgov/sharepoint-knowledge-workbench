@@ -113,10 +113,13 @@ from urllib.parse import unquote
 _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:
     sys.path.insert(0, str(_THIS_DIR))
+_EXTRACTION_DIR = str(_THIS_DIR.parent / "extraction")
+if _EXTRACTION_DIR not in sys.path:
+    sys.path.insert(0, _EXTRACTION_DIR)
 
 from canonical_schema import canonical_package as contracts  # noqa: E402
 import hashing  # noqa: E402
-from pandoc_cleanup import validate as pandoc_validate  # noqa: E402
+from pandoc import validate as pandoc_validate  # noqa: E402
 import publication_map  # noqa: E402
 import plan_verification as plans  # noqa: E402 -- plugin-local duplicate of document-structure-analysis's verify/require checks, see wave-4-structured-content-assembly-split-decision.md
 # Note: package.py is deliberately NOT imported here for path-safety reuse.
@@ -137,7 +140,7 @@ import plan_verification as plans  # noqa: E402 -- plugin-local duplicate of doc
 # underlying policy at the correct scope: an absolute path is always a
 # violation, and a '..'-containing relative path is a violation only when
 # it resolves OUTSIDE `package_dir` entirely.
-from pandoc_cleanup.toc import _BOOKMARK_ANCHOR_LINE, _TOC_LINK_LINE  # noqa: E402
+from pandoc.toc import _BOOKMARK_ANCHOR_LINE, _TOC_LINK_LINE  # noqa: E402
 
 
 # Construct a ValidationIssue from the specified severity, code, message, and optional artifact path.
@@ -287,7 +290,7 @@ def _load_manifest(package_dir: "Path"):
     if not manifest_path.exists():
         return None, [_error("manifest_missing", f"{manifest_path} does not exist")]
     try:
-        raw = json.loads(manifest_path.read_text())
+        raw = json.loads(manifest_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         return None, [_error("malformed_json", f"manifest.json is not valid JSON: {exc}", "manifest.json")]
     try:
@@ -303,7 +306,7 @@ def _load_manifest(package_dir: "Path"):
 def _load_chunk_meta(meta_path: "Path"):
     """Parse a chunk sidecar into ChunkMetadata and convert malformed JSON or schema data into validation issues."""
     try:
-        raw = json.loads(meta_path.read_text())
+        raw = json.loads(meta_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         return None, _error("malformed_json", f"{meta_path.name} is not valid JSON: {exc}", str(meta_path))
     try:
@@ -452,7 +455,7 @@ def _load_and_check_chunks(package_dir: "Path", manifest: "contracts.Manifest"):
             continue
         chunk_meta_by_id[chunk.chunk_id] = meta
 
-        content = content_path.read_text()
+        content = content_path.read_text(encoding="utf-8")
         issues.extend(_check_chunk_content(chunk, manifest, meta, content))
 
     return chunk_meta_by_id, issues
@@ -803,7 +806,7 @@ def _check_content_loss_and_duplication(
     for chunk in ordered_chunks:
         content_path = package_dir / chunk.content_file
         if content_path.exists():
-            pieces.append(content_path.read_text())
+            pieces.append(content_path.read_text(encoding="utf-8"))
     reconstructed = "\n".join(pieces)
 
     normalized_reconstructed = _normalize_for_comparison(reconstructed)
@@ -859,7 +862,7 @@ def _check_media_references(
         content_path = package_dir / chunk.content_file
         if not content_path.exists():
             continue
-        content = content_path.read_text()
+        content = content_path.read_text(encoding="utf-8")
 
         for match in _IMAGE_REF.finditer(content):
             raw_ref = match.group(1).strip()

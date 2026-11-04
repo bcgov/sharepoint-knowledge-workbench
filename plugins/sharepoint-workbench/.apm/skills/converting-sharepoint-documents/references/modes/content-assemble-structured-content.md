@@ -43,7 +43,8 @@ result = build_canonical_package(analysis_plan, source_dir, output_dir)
 
 ## Workflow
 
-1. Confirm you hold a confirmed plan and the directory with the source `.docx` it references.
+1. Confirm you hold a confirmed plan and the directory with the source `.docx` (or text-layer `.pdf`, extracted
+   with `pdf_extraction`) it references.
 2. Call `build_canonical_package(analysis_plan, source_dir, output_dir)`.
 3. Report `promoted`, `package_dir` and the validation report. A `grouped` plan also yields a
    validated `publication-map`.

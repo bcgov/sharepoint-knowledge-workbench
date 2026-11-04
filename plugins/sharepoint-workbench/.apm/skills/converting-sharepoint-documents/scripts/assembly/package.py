@@ -264,7 +264,7 @@ def _write_chunk_output(
     chunk_id = anchor.stable_key
     content_file = f"chunks/{chunk_id}.md"
     metadata_file = f"chunks/{chunk_id}.meta.json"
-    (chunks_dir / f"{chunk_id}.md").write_text(content)
+    (chunks_dir / f"{chunk_id}.md").write_text(content, encoding="utf-8")
 
     meta = contracts.ChunkMetadata(
         schema_version=contracts.CHUNK_METADATA_SCHEMA_VERSION,
@@ -342,7 +342,7 @@ def _write_grouped_topic(
     chunk_id = boundary.topic_id
     content_file = f"chunks/{chunk_id}.md"
     metadata_file = f"chunks/{chunk_id}.meta.json"
-    (chunks_dir / f"{chunk_id}.md").write_text(content)
+    (chunks_dir / f"{chunk_id}.md").write_text(content, encoding="utf-8")
 
     anchors_meta = [
         {
