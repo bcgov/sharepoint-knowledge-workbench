@@ -29,10 +29,9 @@ examples:
 
 ## Status
 
-Implemented: the structure-quality assessment, overrides, page map, trust metadata, notice and validators (step 1), and
-agent-mediated decomposition (step 2): consent gate, request/response files, retries, partial completion, verbatim topic
-files and staleness checks. **Not implemented yet:** summaries, indexes, relations, the example package and the
-evaluation mode. Do not offer those until they land.
+Implemented: the structure-quality assessment, overrides, page map, trust metadata, notice and validators (step 1),
+agent-mediated decomposition (step 2), and summaries, chapter/document roll-up, relations, the hierarchical index and
+approval-gated publication (step 3). **Not implemented yet:** the evaluation mode. Do not offer it until it lands.
 
 ## Agent-mediated generation
 
@@ -43,6 +42,15 @@ approved, reads each request and writes its JSON answer (`{"topics": [{"start", 
 slices to `ai-navigation/topics/`; `validate_topics` and `is_generation_stale` check the result. `generation.json`
 records model, prompt version, timestamp, source and extraction hashes. Consent is stored by `record_consent` in
 `enrichment-state.json`; `build_requests` refuses to run without it. The provider sees the document text.
+
+Summaries and index (`navigation.py`): `build_summary_requests` (one per topic: summary, keywords, synonyms; a summary
+may not copy more than 120 characters of source), then `build_rollup_request` (titles and summaries only, so it is
+cheap) for the document summary, chapters and relations; every topic must be in exactly one chapter. `write_navigation`
+writes `index.md`, `chapters/NN-*.md` and `navigation.json`, each with the notice and metadata; topics without
+summaries stay listed. `approve` records the human reviewer; `publish` copies to a separate folder only when approved,
+valid (notice, trust flags, pages, links) and not stale. Retrieval order for agents: `index.md`, chapter, topic,
+then the extraction and original PDF as the factual basis. A worked example is in
+`assets/examples/enrichment-example/` (regenerate with `scripts/enrichment/build_example.py`; wording is canned).
 
 ## Quick start
 
@@ -83,5 +91,5 @@ Run `pytest plugins/sharepoint-workbench/tests/test_enrichment_foundations.py`.
 
 ## References
 
-- `scripts/enrichment/structure_quality.py`, `scripts/enrichment/provenance.py`, `scripts/enrichment/decompose.py`
+- `scripts/enrichment/structure_quality.py`, `scripts/enrichment/provenance.py`, `scripts/enrichment/decompose.py`, `scripts/enrichment/navigation.py`
 - [content-extract-pdf.md](content-extract-pdf.md) for `raw/page_map.json`

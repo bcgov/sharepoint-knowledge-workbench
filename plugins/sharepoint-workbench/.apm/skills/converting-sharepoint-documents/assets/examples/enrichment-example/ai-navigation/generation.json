@@ -1,0 +1,115 @@
+{
+  "prompt_version": "decompose-v1",
+  "source_document": "example-manual.pdf",
+  "source_sha256": "example-source-sha256",
+  "extraction_sha256": "06fa110a2bfa1de0b6ac33e58a7d69115bcd106671a3a13f73ca122c2bf3a899",
+  "windows": {
+    "001": {
+      "window": [
+        0,
+        417
+      ],
+      "status": "done",
+      "attempts": 1,
+      "error": null
+    }
+  },
+  "topics": [
+    {
+      "window_id": "001",
+      "title": "Leave requests and approval",
+      "start": 0,
+      "end": 259,
+      "uncertain": false
+    },
+    {
+      "window_id": "001",
+      "title": "Expense claims",
+      "start": 259,
+      "end": 417,
+      "uncertain": true
+    }
+  ],
+  "model": "example-model",
+  "generation_timestamp": "2026-01-01T00:00:00+00:00",
+  "manifest": [
+    {
+      "file": "topics/01-leave-requests-and-approval.md",
+      "title": "Leave requests and approval",
+      "start": 0,
+      "end": 259,
+      "source_pages": [
+        1,
+        2
+      ],
+      "uncertain": false
+    },
+    {
+      "file": "topics/02-expense-claims.md",
+      "title": "Expense claims",
+      "start": 259,
+      "end": 417,
+      "source_pages": [
+        3,
+        3
+      ],
+      "uncertain": true
+    }
+  ],
+  "summaries": {
+    "topics/01-leave-requests-and-approval.md": {
+      "summary": "Explains how to request leave, who approves it and how much notice each type needs.",
+      "keywords": [
+        "leave",
+        "approval",
+        "notice"
+      ],
+      "synonyms": [
+        "vacation",
+        "time off"
+      ]
+    },
+    "topics/02-expense-claims.md": {
+      "summary": "Covers submitting expense claims, the signature rule and when payment arrives.",
+      "keywords": [
+        "expenses",
+        "reimbursement"
+      ],
+      "synonyms": [
+        "claims",
+        "refund"
+      ]
+    }
+  },
+  "rollup": {
+    "document_summary": "A short staff guide to taking leave and claiming expenses.",
+    "groups": [
+      {
+        "title": "Leave",
+        "summary": "Rules for leave.",
+        "topics": [
+          "topics/01-leave-requests-and-approval.md"
+        ]
+      },
+      {
+        "title": "Expenses",
+        "summary": "Rules for expense claims.",
+        "topics": [
+          "topics/02-expense-claims.md"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "from": "topics/02-expense-claims.md",
+        "to": "topics/01-leave-requests-and-approval.md",
+        "reason": "both depend on manager approval"
+      }
+    ]
+  },
+  "navigation_files": [
+    "chapters/01-leave.md",
+    "chapters/02-expenses.md",
+    "index.md"
+  ]
+}

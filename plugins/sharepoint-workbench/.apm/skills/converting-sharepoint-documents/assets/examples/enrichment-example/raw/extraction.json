@@ -1,0 +1,7 @@
+{
+  "content_type": "deterministic_extraction",
+  "trust_level": "authoritative_extraction",
+  "authoritative": true,
+  "source_document": "example-manual.pdf",
+  "source_sha256": "example-source-sha256"
+}
