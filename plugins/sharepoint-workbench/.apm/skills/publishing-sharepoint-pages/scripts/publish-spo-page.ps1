@@ -29,7 +29,7 @@ Get-SpoImageProportionalHeight, Get-SpoImageComponentUrl,
 ConvertTo-SpoPageHtml,
 New-SpoInlineImageHtml, Get-SpoInlineImageAlignment,
 Get-SpoInlineImageTableCellWidth, ConvertTo-SpoPageInlineImages,
-Test-SpoPublicationPackageAssets, Read-SpoConfiguration, Publish-SpoPage.
+Test-SpoPublicationPackageAssets, Assert-SpoRecoverableComponent, Read-SpoConfiguration, Publish-SpoPage.
 
 .EXAMPLE
 pwsh -File .\plugins\sp-migration\scripts\publication\publish-spo-page.ps1 `
@@ -482,7 +482,8 @@ function Get-SpoInlineImageAlignment {
         [Parameter(Mandatory = $true)][int]$ImageIndex
     )
 
-    $prefix = $Html.Substring(0, $ImageIndex)
+    # SharePoint stores ':' in rich-text styles as '&#58;'.
+    $prefix = $Html.Substring(0, $ImageIndex).Replace('&#58;', ':')
     $openElements = [System.Collections.Generic.List[object]]::new()
     $alignment = "Left"
     $tagMatches = [regex]::Matches(
@@ -547,7 +548,7 @@ function Get-SpoInlineImageDimensions {
     )
 
     $styleMatch = [regex]::Match($ImageTag, '(?i)\bstyle\s*=\s*["'']([^"'']*)["'']')
-    $style = if ($styleMatch.Success) { $styleMatch.Groups[1].Value } else { "" }
+    $style = if ($styleMatch.Success) { $styleMatch.Groups[1].Value.Replace('&#58;', ':') } else { "" }
     $getDimension = {
         param([string]$Name)
         $match = [regex]::Match($style, "(?i)\b$Name\s*:\s*(\d+)\s*px")
@@ -1091,6 +1092,29 @@ function Backup-SpoExistingPage {
     }
 }
 
+# Refuses partial-page recovery unless the page holds exactly one component that is the package's first one
+# with real content; an empty shell would otherwise be "recovered" and published as a blank page.
+function Assert-SpoRecoverableComponent {
+    [CmdletBinding()]
+    param(
+        [AllowEmptyCollection()][object[]]$ExistingComponents = @(),
+        [Parameter(Mandatory = $true)]$FirstPackageComponent
+    )
+
+    $existing = @($ExistingComponents | Where-Object { $null -ne $_ })
+    if ($existing.Count -ne 1) {
+        throw "Partial-page recovery requires exactly one existing component; found $($existing.Count)."
+    }
+    if ([string]$FirstPackageComponent.OutputType -ne "TextWebPart") { return }
+    $text = if ($existing[0].PSObject.Properties["Text"]) { [string]$existing[0].Text } else { $null }
+    $visible = if ($null -ne $text) {
+        [System.Net.WebUtility]::HtmlDecode([regex]::Replace($text, '(?s)<[^>]*>', '')).Replace([string][char]0xA0, ' ').Trim()
+    }
+    if ([string]::IsNullOrWhiteSpace($visible)) {
+        throw "Partial-page recovery refused: the existing component is not a text web part with content (empty shell). Republish with -Force to back up and overwrite."
+    }
+}
+
 function Publish-SpoPage {
     [CmdletBinding()]
     param(
@@ -1423,9 +1447,8 @@ function Publish-SpoPage {
 
     if ($RecoverPartialPage) {
         $existingComponents = @(Get-PnPPageComponent -Page $identity.CreateName -ErrorAction Stop)
-        if ($existingComponents.Count -ne 1) {
-            throw "Partial-page recovery requires exactly one existing component; found $($existingComponents.Count)."
-        }
+        Assert-SpoRecoverableComponent -ExistingComponents $existingComponents `
+            -FirstPackageComponent @($package.Components)[0]
         $page = $identity.CreateName
     } else {
         $pageLayout = if ($package.Target.PSObject.Properties["PageLayout"] -and

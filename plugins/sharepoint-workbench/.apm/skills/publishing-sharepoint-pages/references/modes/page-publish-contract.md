@@ -31,8 +31,10 @@ asset through PnP read operations.
 
 Dry-run is the default and performs no tenant I/O. Real writes require both
 `-Execute` and the exact `PUBLISH-SPO-PAGE` confirmation token, plus an
-explicit target configuration. Execution also requires ClientId, TenantId,
-and a durable `-OutputPath` for the publication receipt.
+explicit target configuration. Execution also requires ClientId and TenantId.
+The wave publisher additionally requires a durable `-OutputPath` for the
+publication receipt; the single-page `publish-spo-page.ps1` has no
+`-OutputPath` parameter, so check the published page itself.
 
 ## Single-page and wave workflows
 
@@ -165,8 +167,11 @@ position inside each Content Editor HTML payload are preserved.
 
 For the currently observed partial DEV page only, recovery requires the
 additional `-RecoverPartialPage` switch. Recovery refuses unless the existing
-page has exactly one component; it then adds the remaining package components
-in order before publishing and validating.
+page has exactly one component and that component is a text web part with
+visible content (when the package's first component is a text web part). An
+empty draft shell is refused; republish it with `-Force` (backup, then
+overwrite). Otherwise it adds the remaining package components in order before
+publishing and validating.
 
 This capability does not update inventory. After independent publication
 validation, hand the verified destination URL to `sp-page-inventory-agent`.

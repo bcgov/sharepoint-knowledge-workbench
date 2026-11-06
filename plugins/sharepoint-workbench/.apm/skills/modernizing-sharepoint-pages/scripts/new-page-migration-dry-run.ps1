@@ -16,6 +16,7 @@ maps each payload to an SPO text web part.
 - Optional image manifest produced by extract-page-images.ps1
 - Optional -LibraryPathMapPath (inventory/library-path-map.csv) with -SourceHost: rewrites
   SP2016 links to their planned SPO location (assume-migrated link policy)
+- Optional -NoBcDesignTokens: skips the BC design-token wrapper on text web parts
 - Optional -LeadingImageWebPartIds: web parts whose leading banner image becomes an
   Image web part reusing the already-migrated image (ExistingImageUrl, no upload)
 - -ConfigPath: config-spo-<env>.psd1; Connection.Environment is the target environment
@@ -66,7 +67,9 @@ param(
     [int]$PageHeaderZoneThemeIndex = 3,
     [string]$PageTitle,
     [string]$BreadcrumbSection,
-    [string]$BreadcrumbSectionUrl
+    [string]$BreadcrumbSectionUrl,
+    # Leaves the BC design-token wrapper (font, colour, 16px) off the text web parts.
+    [switch]$NoBcDesignTokens
 )
 
 Set-StrictMode -Version Latest
@@ -584,7 +587,9 @@ function ConvertTo-SpPageMappedLinks {
         [AllowEmptyString()][string]$PageUrl,
         [Parameter(Mandatory = $true)][string]$SourceHost,
         [string]$TargetSitePath,
-        [string]$RelativeBase
+        [string]$RelativeBase,
+        # Values already pointing at their final location (e.g. uploaded image assets) are left untouched.
+        [string[]]$PreservedValues = @()
     )
 
     $sourceHostName = ($SourceHost -replace "^[a-z]+://", "").Trim("/")
@@ -594,7 +599,8 @@ function ConvertTo-SpPageMappedLinks {
         param($match)
         $raw = $match.Groups["value"].Value
         $value = [System.Net.WebUtility]::HtmlDecode($raw).Trim()
-        if ($value -eq "" -or $value -match "^(#|mailto:|tel:|javascript:|data:)" -or $value -match "^/sites/") {
+        if ($value -eq "" -or $value -match "^(#|mailto:|tel:|javascript:|data:)" -or $value -match "^/sites/" -or
+            $PreservedValues -contains $value) {
             return $match.Value
         }
         $uri = $null
@@ -901,7 +907,8 @@ function New-SpPageWave1DryRun {
         [int]$PageHeaderZoneThemeIndex = 3,
         [string]$PageTitle,
         [string]$BreadcrumbSection,
-        [string]$BreadcrumbSectionUrl
+        [string]$BreadcrumbSectionUrl,
+        [switch]$NoBcDesignTokens
     )
 
     $useSpfx = $AccordionOutput -eq "Spfx"
@@ -1081,7 +1088,8 @@ function New-SpPageWave1DryRun {
             if ($pathMap.Count -gt 0) {
                 $mapped = ConvertTo-SpPageMappedLinks -Html $html -PathMap $pathMap -PageUrl $pageUrl `
                     -SourceHost $SourceHost -TargetSitePath $TargetSitePath `
-                    -RelativeBase $(if ($TargetSitePath) { if ([string]$page.SiteName -eq "Main") { "../" } else { "../../" } } else { "" })
+                    -RelativeBase $(if ($TargetSitePath) { if ([string]$page.SiteName -eq "Main") { "../" } else { "../../" } } else { "" }) `
+                    -PreservedValues @($webpartImages | ForEach-Object { [string]$_.DestinationRelativePath })
                 foreach ($link in @($mapped.Links)) {
                     $link | Add-Member -NotePropertyName SourceWebPartId -NotePropertyValue $webpartId
                     $linkRewrites.Add($link)
@@ -1213,7 +1221,8 @@ function New-SpPageWave1DryRun {
             }
             $isFirstPiece = $false
             if ([string]::IsNullOrWhiteSpace($html)) { continue }
-            $components.Add((& $newComponent "TextWebPart" (Set-SpPageBcDesignTokenStyles -Html (ConvertTo-SpPageBcAlert -Html $html)) $section))
+            $alerted = ConvertTo-SpPageBcAlert -Html $html
+            $components.Add((& $newComponent "TextWebPart" $(if ($NoBcDesignTokens) { $alerted } else { Set-SpPageBcDesignTokenStyles -Html $alerted }) $section))
         }
     }
     if ($hasAccordion -and -not $useSpfx -and $pageLayout -notin @("", "One-Column")) {
@@ -1338,5 +1347,6 @@ if ($MyInvocation.InvocationName -ne ".") {
         -PageHeaderZoneThemeIndex $PageHeaderZoneThemeIndex `
         -PageTitle $PageTitle `
         -BreadcrumbSection $BreadcrumbSection `
-        -BreadcrumbSectionUrl $BreadcrumbSectionUrl
+        -BreadcrumbSectionUrl $BreadcrumbSectionUrl `
+        -NoBcDesignTokens:$NoBcDesignTokens
 }
