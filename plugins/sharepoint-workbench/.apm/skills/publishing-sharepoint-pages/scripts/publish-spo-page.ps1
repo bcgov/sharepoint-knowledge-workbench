@@ -24,7 +24,7 @@ the page first unless -ExistingPageBackupAction NoBackup.
 - JSON execution plan, or JSON results after a gated tenant publication
 
 .FUNCTION INDEX
-Get-SpoPageIdentity, Get-SpoAssetServerRelativePath, Get-SpoImagePixelSize,
+Get-SpoPageIdentity, Get-SpoAssetServerRelativePath, Get-SpoSitePageFileRefQuery, Get-SpoImagePixelSize,
 Get-SpoImageProportionalHeight, Get-SpoImageComponentUrl,
 ConvertTo-SpoPageHtml,
 New-SpoInlineImageHtml, Get-SpoInlineImageAlignment,
@@ -135,6 +135,21 @@ function Get-SpoAssetServerRelativePath {
 
     $uri = [System.Uri]("$($SiteUrl.TrimEnd('/'))/$($AssetPath.TrimStart('/'))")
     return $uri.AbsolutePath
+}
+
+# Builds the recursive CAML query matching one Site Pages item by its stored FileRef.
+# AbsolutePath is percent-encoded ("Youth%20Court.aspx") but FileRef is stored decoded, and the
+# value sits inside XML, so it must be decoded and XML-escaped (e.g. "&" -> "&amp;").
+function Get-SpoSitePageFileRefQuery {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)][string]$SiteUrl,
+        [Parameter(Mandatory = $true)][string]$PageServerRelativeUrl
+    )
+
+    $fileRef = [System.Uri]::UnescapeDataString((Get-SpoAssetServerRelativePath -SiteUrl $SiteUrl -AssetPath $PageServerRelativeUrl))
+    $escaped = [System.Security.SecurityElement]::Escape($fileRef)
+    return "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileRef'/><Value Type='Text'>$escaped</Value></Eq></Where></Query></View>"
 }
 
 # Returns the server-relative URL an Image web part points at: an image already on the
@@ -1021,9 +1036,8 @@ function Backup-SpoExistingPage {
         # 3. Site Pages list item metadata + permission state. The query must be recursive (a
         # library query otherwise sees only the root folder) and match the full FileRef, since
         # the same filename can exist in several SitePages subfolders.
-        $pageFileRef = Get-SpoAssetServerRelativePath -SiteUrl $SiteUrl -AssetPath $PageServerRelativeUrl
         $listItem = Get-PnPListItem -List "Site Pages" -Query (
-            "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileRef'/><Value Type='Text'>$pageFileRef</Value></Eq></Where></Query></View>"
+            Get-SpoSitePageFileRefQuery -SiteUrl $SiteUrl -PageServerRelativeUrl $PageServerRelativeUrl
         ) -ErrorAction Stop | Select-Object -First 1
         if (-not $listItem) {
             throw "Backup could not locate the Site Pages list item for: $PageServerRelativeUrl"
@@ -1594,9 +1608,8 @@ function Publish-SpoPage {
     if ($pageHeader) {
         # PnP cannot set the title zone colour: convert the saved canvas to the Banner web part model.
         # SystemUpdate keeps the page published (no new version, no draft).
-        $pageFileRef = Get-SpoAssetServerRelativePath -SiteUrl $SiteUrl -AssetPath ([string]$package.Target.PageServerRelativeUrl)
         $pageItem = Get-PnPListItem -List "Site Pages" -Query (
-            "<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='FileRef'/><Value Type='Text'>$pageFileRef</Value></Eq></Where></Query></View>"
+            Get-SpoSitePageFileRefQuery -SiteUrl $SiteUrl -PageServerRelativeUrl ([string]$package.Target.PageServerRelativeUrl)
         ) -ErrorAction Stop | Select-Object -First 1
         if (-not $pageItem) {
             throw "Title banner step could not locate the Site Pages item for: $($package.Target.PageServerRelativeUrl)"

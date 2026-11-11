@@ -80,6 +80,19 @@ def test_inline_image_alignment_reads_encoded_colon():
     assert done.stdout.strip() == "Center"
 
 
+@pytest.mark.parametrize("page_path, expected_value", [
+    ("/SitePages/CourtAdmin/Youth Court.aspx", "/sites/X/SitePages/CourtAdmin/Youth Court.aspx"),
+    ("/SitePages/Incidents-&-Reporting.aspx", "/sites/X/SitePages/Incidents-&amp;-Reporting.aspx"),
+    ("/SitePages/Rules-(Child,-Family).aspx", "/sites/X/SitePages/Rules-(Child,-Family).aspx"),
+])
+def test_site_pages_fileref_query_uses_decoded_xml_escaped_path(page_path, expected_value):
+    done = run_publisher_snippet(
+        f"Get-SpoSitePageFileRefQuery -SiteUrl 'https://t.sharepoint.com/sites/X' -PageServerRelativeUrl '{page_path}'")
+    assert done.returncode == 0, done.stderr
+    assert f"<Value Type='Text'>{expected_value}</Value>" in done.stdout
+    assert "%20" not in done.stdout
+
+
 @pytest.mark.parametrize("existing, ok", [
     ("[pscustomobject]@{ Text = '' }", False),
     ("[pscustomobject]@{ Text = '<p>&#160;</p>' }", False),
