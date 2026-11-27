@@ -1,0 +1,64 @@
+/* Component styles built on the tokens in bc_tokens.css (use var(--...) only, no hard-coded colours or sizes).
+   Mirrors B.C. Design System components: Header, Subheader, Footer, Buttons, Callout / Inline alert, Accordion,
+   Tags, Breadcrumbs, tables. WCAG 2.1 AA: 4.5:1 text contrast, visible focus ring, skip link, aria-current. */
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;font-family:var(--bc-font);font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text);background:#fff}
+a{color:var(--link)}a:hover{color:var(--blue-hover)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.skip{position:absolute;left:-999px;background:#fff;color:var(--blue);padding:.5rem 1rem;z-index:10}.skip:focus{left:0}
+header.bc{background:var(--blue);border-bottom:2px solid var(--gold);color:var(--on-dark)}
+header.bc .in{max-width:80rem;margin:0 auto;padding:.75rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+header.bc a{color:var(--on-dark);text-decoration:none;font-weight:700;font-size:var(--fs-h5)}
+header.bc a:focus-visible{outline-color:var(--on-dark)}
+header.bc .org{font-size:var(--fs-small);font-weight:400;color:var(--on-dark2);margin-left:auto}
+.subheader{background:var(--bg-blue);border-bottom:1px solid var(--border)}
+.subheader .in{max-width:80rem;margin:0 auto;padding:.5rem 1rem;font-size:var(--fs-small);display:flex;gap:1.25rem;flex-wrap:wrap}
+.subheader a{text-decoration:none;font-weight:700}.subheader a:hover{text-decoration:underline}
+.layout{max-width:80rem;margin:0 auto;display:flex;gap:2rem;padding:1rem}
+nav.toc{width:17rem;flex:none;font-size:var(--fs-small);line-height:var(--lh-small)}
+nav.toc details{border-bottom:1px solid var(--border)}
+nav.toc summary{cursor:pointer;font-weight:700;padding:.6rem .25rem;color:var(--blue)}
+nav.toc a{display:block;padding:.35rem .5rem;text-decoration:none;border-left:4px solid transparent}
+nav.toc a.l3{padding-left:1.5rem}nav.toc a.l4{padding-left:2.5rem}
+nav.toc a:hover{background:var(--bg-hover)}
+nav.toc a[aria-current=page]{border-left-color:var(--gold);background:var(--bg-blue);font-weight:700}
+main{flex:1;min-width:0;max-width:52rem}
+.crumbs{font-size:var(--fs-small);line-height:var(--lh-small);color:var(--text2)}
+.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem}
+.crumbs li{margin:0;max-width:none}.crumbs li+li::before{content:"/";margin-right:.4rem}
+h1{font-size:var(--fs-h1);line-height:var(--lh-body);font-weight:700;color:var(--blue);margin:.5rem 0 .25rem}
+h2{font-size:var(--fs-h2);line-height:var(--lh-body);font-weight:700;color:var(--blue);margin:2rem 0 .5rem;border-bottom:2px solid var(--gold);padding-bottom:.25rem}
+h3{font-size:var(--fs-h3);line-height:var(--lh-body);font-weight:700;color:var(--blue)}
+h4{font-size:var(--fs-h4);line-height:var(--lh-body);font-weight:700;color:var(--blue)}
+h5{font-size:var(--fs-h5);line-height:var(--lh-body);font-weight:700;color:var(--blue)}
+h6{font-size:var(--fs-h6);line-height:var(--lh-body);font-weight:700;color:var(--blue)}
+p,li{max-width:46rem}li{margin:.25rem 0}
+.meta{font-size:var(--fs-small);line-height:var(--lh-small);color:var(--text2)}
+.source{font-size:var(--fs-small);line-height:var(--lh-small);color:var(--text2)}
+.tag{display:inline-block;background:var(--bg-blue);color:var(--text);border:1px solid var(--border);border-radius:1rem;padding:.1rem .6rem;margin:0 .35rem .35rem 0;font-size:var(--fs-label);line-height:var(--lh-small)}
+.tag.ok{background:var(--success-bg);border-color:var(--success-bd)}.tag.bad{background:var(--danger-bg);border-color:var(--danger-bd)}
+.callout{background:var(--info-bg);border-left:4px solid var(--info-bd);padding:.75rem 1rem;margin:1rem 0}
+.callout.warn{background:var(--warn-bg);border-left-color:var(--warn-bd)}
+.onpage{background:var(--bg-grey);border:1px solid var(--border);padding:.75rem 1rem;margin:1rem 0;font-size:var(--fs-small);line-height:var(--lh-small)}
+.onpage ul{margin:.25rem 0 0;padding-left:1.25rem}
+figure{margin:1rem 0}figure img{max-width:100%;height:auto;border:1px solid var(--border-med)}
+figcaption,.cap{font-size:var(--fs-label);line-height:var(--lh-small);color:var(--text2);margin:.25rem 0 1rem}
+.tw,.table-wrap{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-small);line-height:var(--lh-small)}
+caption{text-align:left}
+th,td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left;vertical-align:top}
+th{background:var(--blue);color:var(--on-dark)}tbody tr:nth-child(even){background:var(--bg-grey)}
+.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--border)}
+.btn{display:inline-block;background:var(--blue);color:var(--on-dark);padding:.5rem 1rem;border-radius:4px;text-decoration:none;font-weight:700;border:2px solid var(--blue)}
+.btn:hover{background:var(--blue-hover);border-color:var(--blue-hover);color:var(--on-dark)}.btn:active{background:var(--blue-pressed)}
+.btn.sec{background:#fff;color:var(--blue)}.btn.sec:hover{background:var(--bg-hover);color:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:1rem;list-style:none;margin:1rem 0;padding:0}
+.grid li{margin:0;max-width:none}
+.card{border:1px solid var(--border);border-top:4px solid var(--gold);border-radius:4px;padding:1rem;background:#fff;height:100%}
+.card a{font-weight:700;font-size:var(--fs-large)}.card p{margin:.25rem 0 0}
+footer.bc{background:var(--blue);border-top:2px solid var(--gold);color:var(--on-dark);margin-top:3rem}
+footer.bc .in{max-width:80rem;margin:0 auto;padding:1rem;font-size:var(--fs-small);line-height:var(--lh-small)}
+footer.bc a{color:var(--on-dark)}footer.bc a:focus-visible{outline-color:var(--on-dark)}
+@media(max-width:900px){.layout{display:block}nav.toc{width:auto;margin-bottom:1rem}h1{font-size:var(--fs-h3)}h2{font-size:var(--fs-h4)}h3{font-size:var(--fs-h5)}}
+@media print{header.bc .org,.subheader,nav.toc,.pn,.skip{display:none}.layout{display:block}a{color:#000}figure{break-inside:avoid}}
