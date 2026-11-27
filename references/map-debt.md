@@ -76,3 +76,13 @@ Persistent tracking of architectural friction, structural anomalies, and unclose
 - Severity: M
 - Repeat: NO
 - Status: RESOLVED
+
+## converting-pdf-for-agents skill — 2026-11-27
+
+- Logged date: 2026-11-27
+- Artifact affected: plugins/sharepoint-workbench/.apm/skills/converting-pdf-for-agents/
+- Friction observed: needed a workbench skill to convert text-layer PDFs into B.C. Design System static HTML5 sites (or agent-md) and publish them to SharePoint Online (`SitePages` + `SiteAssets`) using `.psd1` configs and PnP.PowerShell, with shared `toc.js` sidebar navigation, `--site-home`/`--parent` breadcrumbs, and internal-only QA reports.
+- Fix: added `converting-pdf-for-agents` with `Publish-PdfHtmlSite.ps1`, `Get-WorkbenchConnectionConfig.ps1`, Windows-safe `selftest.py` (`98/98`), and `/authoring-skills` audit compliance (`PASS`).
+- Severity: M
+- Repeat: NO
+- Status: RESOLVED

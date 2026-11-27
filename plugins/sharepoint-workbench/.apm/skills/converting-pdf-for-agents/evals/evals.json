@@ -1,0 +1,37 @@
+[
+  {
+    "id": "convert-pdf-to-bc-html",
+    "prompt": "Convert this CEIS manual PDF into a BC Design System static HTML site.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Skips asking the output format because HTML was requested.",
+      "Runs convert_pdf.py check and plan, confirms topics, then builds with --format html.",
+      "Validates output with check_links.py and reports validation.html / validation.json status PASS."
+    ]
+  },
+  {
+    "id": "convert-pdf-to-agent-md",
+    "prompt": "Split this policy PDF into knowledge pages and chunks.jsonl for my AI agents.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Maps format to --format agent-md.",
+      "Runs convert_pdf.py plan, confirms topics (or fast-paths strong structure), and runs build --format agent-md.",
+      "Delivers index.md, topic .md files with YAML front matter, images/, and chunks.jsonl."
+    ]
+  },
+  {
+    "id": "publish-html-site-with-psd1",
+    "prompt": "Publish the converted CEIS HTML site to SharePoint Online DEV using config-spo-dev.psd1.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Runs convert_pdf.py publish to generate the SitePages + SiteAssets mirror and publish-plan.json.",
+      "Runs Publish-PdfHtmlSite.ps1 in dry-run mode first with -ConfigPath config-spo-dev.psd1.",
+      "Requires explicit -Execute -ConfirmToken PUBLISH-PDF-HTML-SITE for live upload, then runs convert_pdf.py verify with online.json."
+    ]
+  },
+  {
+    "id": "non-pdf-docx-modern-page",
+    "prompt": "Convert this Word .docx manual into SharePoint modern canvas web parts.",
+    "should_trigger": false
+  }
+]

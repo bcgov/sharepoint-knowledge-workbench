@@ -1,0 +1,27 @@
+/* ==========================================================================================
+   B.C. Design System TOKENS: the ONE place to update when the design system changes.
+   Source: https://www2.gov.bc.ca/gov/content/digital/design-system (Colour and Typography pages)
+   Design tokens v5.1.0, component library 0.9.0 (as of Nov 2026). Re-check both pages and edit here only.
+   Loaded by scripts/render_outputs.py and scripts/build_html_fallback.py, which write it at the top of the
+   generated style.css, so every built site is self-contained and works offline.
+   NOT included: the B.C. logo / BC Mark. Add it from the official Visual Identity Program assets if required.
+   ========================================================================================== */
+:root{
+  /* typography: BC Sans (modified Noto Sans) is required on new gov digital services; weights 300/400/700 */
+  --bc-font:"BC Sans","Noto Sans",Verdana,Arial,sans-serif;
+  --fs-h1:2.25rem;--fs-h2:2rem;--fs-h3:1.75rem;--fs-h4:1.5rem;--fs-h5:1.25rem;--fs-h6:1.125rem;
+  --fs-large:1.125rem;--fs-body:1rem;--fs-small:.875rem;--fs-label:.75rem;
+  --lh-body:1.5;--lh-small:1.25;
+  /* text colours */
+  --text:#2D2D2D;--text2:#474543;--link:#255A90;--danger:#CE3E39;--on-dark:#FFFFFF;--on-dark2:#ECEAE8;--disabled:#9F9D9C;
+  /* surfaces */
+  --blue:#013366;--blue-hover:#1E5189;--blue-pressed:#01264C;--gold:#FCBA19;
+  --bg-grey:#FAF9F8;--bg-blue:#F1F8FE;--bg-hover:#EDEBE9;
+  /* borders and focus */
+  --border:#D8D8D8;--border-med:#898785;--border-dark:#353433;--focus:#2E5DD7;
+  /* status (info / danger / success / warning) */
+  --info-bg:#F7F9FC;--info-bd:#053662;--danger-bg:#F4E1E2;--danger-bd:#CE3E39;
+  --success-bg:#F6FFF8;--success-bd:#42814A;--warn-bg:#FEF1D8;--warn-bd:#F8BB47;
+  /* greyscale */
+  --gray10:#FAF9F8;--gray110:#252423;
+}
